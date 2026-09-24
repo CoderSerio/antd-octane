@@ -45,12 +45,29 @@ export type {
   CheckboxValue,
 } from "./checkbox";
 export { Checkbox } from "./checkbox";
+export type { CollapseItem, CollapseProps } from "./collapse";
+export { Collapse } from "./collapse";
+export type { DescriptionsItem, DescriptionsProps } from "./descriptions";
+export { Descriptions } from "./descriptions";
 export type { DividerProps } from "./divider";
 export { Divider } from "./divider";
+export type { EmptyProps } from "./empty";
+export { Empty } from "./empty";
 export type { FlexProps } from "./flex";
 export { Flex } from "./flex";
+export type {
+  Breakpoint,
+  ColProps,
+  ColSize,
+  Responsive,
+  RowProps,
+  Screens,
+} from "./grid";
+export { Col, Grid, Row } from "./grid";
 export type { InputChangeEvent, InputProps, InputRef } from "./input";
 export { Input } from "./input";
+export type { LayoutProps, SiderProps } from "./layout";
+export { Layout } from "./layout";
 export type {
   RadioChangeEvent,
   RadioGroupProps,
@@ -62,7 +79,13 @@ export type {
 export { Radio } from "./radio";
 export type { SpaceProps } from "./space";
 export { Space } from "./space";
+export type { StatisticProps } from "./statistic";
+export { Statistic } from "./statistic";
 export type { SwitchProps } from "./switch";
 export { Switch } from "./switch";
+export type { TabItem, TabsProps } from "./tabs";
+export { Tabs } from "./tabs";
 export type { CheckableTagProps, TagProps } from "./tag";
 export { Tag } from "./tag";
+export type { TimelineItem, TimelineProps } from "./timeline";
+export { Timeline } from "./timeline";

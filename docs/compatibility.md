@@ -74,3 +74,16 @@ Switch 支持受控/非受控、value 别名、文字、大小、加载、禁用
 - Avatar：图片、字符、图标、形状、预设/数字尺寸、gap、文字缩放、onError 回退与 nativeElement ref；支持尺寸及字体组件 token。暂不支持 Group、响应式 size 对象和元素形式 src。
 
 各组件文档页列出具体参数和主题变量。新增浏览器夹具比较普通、品牌、暗色、紧凑和组件级主题下的 1,235 项稳定样式值；它不覆盖完整属性、状态、动效或所有浏览器。
+
+## 响应式布局与内容组件
+
+- Grid：Row / Col 的 24 栅格、双轴和响应式 gutter、断点列宽/偏移/顺序、flex、Grid.useBreakpoint；共享并释放断点监听。暂不支持字符串 gutter、SSR 断点预计算和 Grid 组件 token。
+- Layout：Header / Content / Footer / Sider、自动识别侧栏、受控/非受控折叠、响应式断点、零宽触发器、主题 token。触发器固定在侧栏内部底部，区别于上游的视口固定定位；未承诺完整 DOM/ref 兼容。
+- Collapse：items、受控/非受控、手风琴、禁用、图标触发、extra、ghost、大小、延迟挂载/保留/销毁内容，以及头部和内容 token。暂不支持 Panel 旧语法和高度动画。
+- Tabs：items、受控/非受控、方向键/Home/End 焦点移动、Enter/Space 激活、位置、卡片、增删回调、内容保留/销毁及组件 token。超宽标签原生滚动；暂不支持 overflow 更多菜单、动画指示条、自定义 indicator/renderTabBar、TabPane 旧语法和 ref 契约。
+- Empty：默认/简洁图、自定义图片/描述/底部内容、图像透明度 token。内置 SVG 为独立绘制，不承诺上游插画一致。
+- Statistic：字符串/数字值、千分位、小数精度、前后缀、formatter、加载和字体 token。字符串大数保留精度；小数截取而非四舍五入。暂不支持 Countdown / Timer。
+- Timeline：items、状态颜色、自定义节点、标签、左右/交替、pending、reverse 和轨道/节点 token。暂不支持 Item 旧语法、完整动效及语义化样式配置。
+- Descriptions：items、响应式 column、span/filled、横向/纵向、有边框、大小、标题/extra 和组件 token。暂不支持 Item 旧语法、响应式 span、styles/classNames。
+
+浏览器夹具在默认、品牌、暗色、紧凑和组件覆盖主题下比较 1,330 项稳定样式值；不覆盖全部变体或完整像素一致性。真实文档检查覆盖面板/标签页输入保留、键盘操作、增删焦点、侧栏折叠、栅格断点和八页移动端溢出。

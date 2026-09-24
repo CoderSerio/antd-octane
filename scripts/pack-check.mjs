@@ -54,7 +54,7 @@ try {
     join(directory, "main.tsx"),
     `
 import { createRoot } from 'octane';
-import { Button, Input, Checkbox, Switch, Flex, Space, Divider, Radio, Tag, Alert, Card, Avatar, Badge, ConfigProvider, theme } from 'antd-octane';
+import { Button, Input, Checkbox, Switch, Flex, Space, Divider, Radio, Tag, Alert, Card, Avatar, Badge, Row, Col, Layout, Collapse, Tabs, Empty, Statistic, Timeline, Descriptions, ConfigProvider, theme } from 'antd-octane';
 import 'antd-octane/style.css';
 createRoot(document.getElementById('root')!).render(
   <ConfigProvider theme={{ algorithm: theme.darkAlgorithm, token: { colorPrimary: '#722ed1' } }}>
@@ -62,6 +62,12 @@ createRoot(document.getElementById('root')!).render(
     <Radio.Group options={[1, 2]} defaultValue={1} onChange={(event) => void event.target.value} />
     <Checkbox.Group options={[true, false]} onChange={(values) => void values.length} />
     <Card title="Packed card"><Card.Meta title="Metadata" /><Badge count={5}><Avatar>O</Avatar></Badge><Tag color="success">Ready</Tag><Alert message="Installed" /></Card>
+    <Layout><Layout.Header>Header</Layout.Header><Layout.Content>
+      <Row gutter={{ xs: 8, md: 16 }}><Col xs={24} md={12}><Statistic title="Count" value={1200} /></Col></Row>
+      <Collapse items={[{ key: 'one', label: 'Details', children: <Empty /> }]} />
+      <Tabs items={[{ key: 'one', label: 'Overview', children: <Timeline items={[{ children: 'Ready' }]} /> }]} />
+      <Descriptions column={{ xs: 1, md: 2 }} items={[{ key: 'one', label: 'Status', children: 'Ready' }]} />
+    </Layout.Content></Layout>
     <Button type="primary">Packed consumer</Button>
     <Input defaultValue="Packed input" onChange={(event) => void event.target.value} />
     <Checkbox defaultChecked onChange={(event) => void event.target.checked}>Packed checkbox</Checkbox>

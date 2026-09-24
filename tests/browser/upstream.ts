@@ -6,12 +6,21 @@ import {
   Button,
   Card,
   Checkbox,
+  Col,
+  Collapse,
   ConfigProvider,
+  Descriptions,
   Divider,
+  Empty,
   Input,
+  Layout,
   Radio,
+  Row,
+  Statistic,
   Switch,
+  Tabs,
   Tag,
+  Timeline,
   theme,
 } from "antd";
 import { createElement } from "react";
@@ -150,6 +159,82 @@ createRoot(root).render(
       "div",
       { "data-display": "avatar-large" },
       createElement(Avatar, { size: "large", shape: "square" }, "O"),
+    ),
+    createElement(
+      "div",
+      { "data-layout": "row" },
+      createElement(
+        Row,
+        { gutter: 16 },
+        createElement(Col, { span: 12 }, "A"),
+        createElement(Col, { span: 12 }, "B"),
+      ),
+    ),
+    createElement(
+      "div",
+      { "data-layout": "layout" },
+      createElement(
+        Layout,
+        null,
+        createElement(Layout.Header, null, "Header"),
+        createElement(Layout.Content, null, "Content"),
+        createElement(Layout.Footer, null, "Footer"),
+      ),
+    ),
+    createElement(
+      "div",
+      { "data-layout": "collapse" },
+      createElement(Collapse, {
+        defaultActiveKey: ["one"],
+        items: [
+          { key: "one", label: "Label", children: "Content" },
+          { key: "two", label: "Label 2", children: "Content 2" },
+        ],
+      }),
+    ),
+    createElement(
+      "div",
+      { "data-layout": "tabs" },
+      createElement(Tabs, {
+        items: [
+          { key: "one", label: "First", children: "Content" },
+          { key: "two", label: "Second", children: "Second content" },
+        ],
+      }),
+    ),
+    createElement(
+      "div",
+      { "data-layout": "empty" },
+      createElement(Empty, { image: Empty.PRESENTED_IMAGE_SIMPLE }),
+    ),
+    createElement(
+      "div",
+      { "data-layout": "statistic" },
+      createElement(Statistic, {
+        title: "Statistic",
+        value: 1234.56,
+        precision: 2,
+      }),
+    ),
+    createElement(
+      "div",
+      { "data-layout": "timeline" },
+      createElement(Timeline, {
+        items: [{ children: "First" }, { children: "Second" }],
+      }),
+    ),
+    createElement(
+      "div",
+      { "data-layout": "descriptions" },
+      createElement(Descriptions, {
+        bordered: true,
+        title: "Details",
+        items: [
+          { key: "a", label: "A", children: "One" },
+          { key: "b", label: "B", children: "Two" },
+          { key: "c", label: "C", children: "Three" },
+        ],
+      }),
     ),
   ),
 );

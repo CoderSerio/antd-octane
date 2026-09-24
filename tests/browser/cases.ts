@@ -28,6 +28,33 @@ export const brand: ThemeConfig = {
 export const component: ThemeConfig = {
   token: { colorPrimary: "#13a8a8" },
   components: {
+    Layout: {
+      headerBg: "#112233",
+      headerHeight: 72,
+      footerPadding: "18px 32px",
+    },
+    Collapse: {
+      headerBg: "#fffbe6",
+      headerPadding: "14px 20px",
+      contentPadding: "18px 20px",
+    },
+    Tabs: {
+      itemColor: "#123456",
+      itemSelectedColor: "#654321",
+      titleFontSize: 16,
+    },
+    Empty: { opacityImage: 0.6 },
+    Statistic: { titleFontSize: 16, contentFontSize: 28 },
+    Timeline: {
+      itemPaddingBottom: 28,
+      tailColor: "#123456",
+      dotBorderWidth: 3,
+    },
+    Descriptions: {
+      titleColor: "#123456",
+      labelBg: "#fffbe6",
+      itemPaddingBottom: 20,
+    },
     Radio: { radioSize: 20, dotSize: 10, buttonBg: "#fffbe6" },
     Tag: { defaultBg: "#fffbe6", defaultColor: "#ad6800" },
     Alert: { defaultPadding: "10px 18px", withDescriptionPadding: "18px 26px" },

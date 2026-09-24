@@ -5,19 +5,98 @@ import {
   Button,
   Card,
   Checkbox,
+  Col,
+  Collapse,
+  Descriptions,
   Divider,
+  Empty,
   Flex,
   Input,
+  Layout,
   Radio,
+  Row,
   Space,
+  Statistic,
   Switch,
+  Tabs,
   Tag,
+  Timeline,
 } from "antd-octane";
 import { usePageAnchor } from "../docs-ui";
 import { nav } from "../navigation";
 
 function Preview({ name }: { name: string }) {
   switch (name) {
+    case "grid":
+      return (
+        <Row gutter={8} style={{ width: "100%" }}>
+          <Col span={12}>
+            <Button block size="small">
+              12
+            </Button>
+          </Col>
+          <Col span={12}>
+            <Button block size="small">
+              12
+            </Button>
+          </Col>
+        </Row>
+      );
+    case "layout":
+      return (
+        <Layout style={{ width: 180 }}>
+          <Layout.Header
+            style={{
+              height: 28,
+              lineHeight: "28px",
+              paddingInline: 8,
+              color: "white",
+            }}
+          >
+            Header
+          </Layout.Header>
+          <Layout.Content style={{ padding: 12 }}>Content</Layout.Content>
+        </Layout>
+      );
+    case "collapse":
+      return (
+        <Collapse
+          style={{ width: "100%" }}
+          items={[{ key: "one", label: "折叠面板", children: "内容" }]}
+        />
+      );
+    case "tabs":
+      return (
+        <Tabs
+          items={[
+            { key: "one", label: "标签一", children: "内容一" },
+            { key: "two", label: "标签二", children: "内容二" },
+          ]}
+        />
+      );
+    case "empty":
+      return (
+        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} style={{ margin: 0 }} />
+      );
+    case "statistic":
+      return <Statistic title="统计数值" value={112893} />;
+    case "timeline":
+      return (
+        <Timeline
+          items={[{ children: "创建项目" }, { children: "开发中" }]}
+          style={{ marginTop: 16 }}
+        />
+      );
+    case "descriptions":
+      return (
+        <Descriptions
+          column={1}
+          items={[
+            { label: "名称", children: "Octane" },
+            { label: "状态", children: "开发中" },
+          ]}
+        />
+      );
     case "button":
       return (
         <>

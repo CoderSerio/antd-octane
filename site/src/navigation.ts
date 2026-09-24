@@ -132,6 +132,62 @@ export const nav = [
     group: "数据展示",
     keywords: "avatar 头像",
   },
+  {
+    id: "grid",
+    title: "Grid 栅格",
+    category: "components",
+    group: "布局",
+    keywords: "grid 栅格",
+  },
+  {
+    id: "layout",
+    title: "Layout 布局",
+    category: "components",
+    group: "布局",
+    keywords: "layout 布局",
+  },
+  {
+    id: "collapse",
+    title: "Collapse 折叠面板",
+    category: "components",
+    group: "数据展示",
+    keywords: "collapse 折叠面板",
+  },
+  {
+    id: "tabs",
+    title: "Tabs 标签页",
+    category: "components",
+    group: "数据展示",
+    keywords: "tabs 标签页",
+  },
+  {
+    id: "empty",
+    title: "Empty 空状态",
+    category: "components",
+    group: "数据展示",
+    keywords: "empty 空状态",
+  },
+  {
+    id: "statistic",
+    title: "Statistic 统计数值",
+    category: "components",
+    group: "数据展示",
+    keywords: "statistic 统计数值",
+  },
+  {
+    id: "timeline",
+    title: "Timeline 时间轴",
+    category: "components",
+    group: "数据展示",
+    keywords: "timeline 时间轴",
+  },
+  {
+    id: "descriptions",
+    title: "Descriptions 描述列表",
+    category: "components",
+    group: "数据展示",
+    keywords: "descriptions 描述列表",
+  },
 ];
 export const toc: Record<string, [string, string][]> = {
   overview: [
@@ -276,6 +332,63 @@ toc.avatar = [
   ["examples", "代码演示"],
   ["basic", "基本使用"],
   ["more", "组合与交互"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+
+toc.grid = [
+  ["examples", "代码演示"],
+  ["basic", "基础栅格"],
+  ["more", "响应式布局"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+toc.layout = [
+  ["examples", "代码演示"],
+  ["basic", "上下结构"],
+  ["more", "响应式侧栏"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+toc.collapse = [
+  ["examples", "代码演示"],
+  ["basic", "折叠与状态保留"],
+  ["more", "手风琴与独立操作"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+toc.tabs = [
+  ["examples", "代码演示"],
+  ["basic", "切换与键盘操作"],
+  ["more", "新增和关闭标签"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+toc.empty = [
+  ["examples", "代码演示"],
+  ["basic", "空状态"],
+  ["more", "简洁图与操作入口"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+toc.statistic = [
+  ["examples", "代码演示"],
+  ["basic", "数值与金额"],
+  ["more", "字符串精度"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+toc.timeline = [
+  ["examples", "代码演示"],
+  ["basic", "事件与状态"],
+  ["more", "交替布局与等待状态"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+toc.descriptions = [
+  ["examples", "代码演示"],
+  ["basic", "成组信息"],
+  ["more", "响应式与边框"],
   ["api", "API"],
   ["tokens", "主题与支持范围"],
 ];

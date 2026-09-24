@@ -40,6 +40,19 @@ export default function Compatibility({ section }: { section?: string }) {
             "已实现",
             "alpha",
           ],
+          ["Grid / Layout", "响应式栅格、布局与折叠侧栏", "已实现", "alpha"],
+          [
+            "Collapse / Tabs",
+            "面板切换、内容保留与键盘交互",
+            "已实现",
+            "alpha",
+          ],
+          [
+            "Empty / Statistic / Timeline / Descriptions",
+            "空状态、统计与信息展示",
+            "已实现",
+            "alpha",
+          ],
           ["ConfigProvider", "主题、尺寸、禁用与嵌套作用域", "已实现", "alpha"],
           ["Form / Table / Modal", "动态表单、表格及浮层", "未实现", "—"],
         ]}

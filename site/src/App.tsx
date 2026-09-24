@@ -10,6 +10,14 @@ type PageComponent = (props: {
 }) => import("octane").OctaneNode;
 const pages: Record<string, () => Promise<{ default: PageComponent }>> = {
   button: () => import("./pages/button"),
+  grid: () => import("./pages/grid"),
+  layout: () => import("./pages/layout"),
+  collapse: () => import("./pages/collapse"),
+  tabs: () => import("./pages/tabs"),
+  empty: () => import("./pages/empty"),
+  statistic: () => import("./pages/statistic"),
+  timeline: () => import("./pages/timeline"),
+  descriptions: () => import("./pages/descriptions"),
   radio: () => import("./pages/radio"),
   tag: () => import("./pages/tag"),
   alert: () => import("./pages/alert"),

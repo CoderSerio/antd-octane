@@ -7,12 +7,21 @@ import {
   Button,
   Card,
   Checkbox,
+  Col,
+  Collapse,
   ConfigProvider,
+  Descriptions,
   Divider,
+  Empty,
   Input,
+  Layout,
   Radio,
+  Row,
+  Statistic,
   Switch,
+  Tabs,
   Tag,
+  Timeline,
   theme,
 } from "../../packages/antd-octane/src";
 import {
@@ -104,6 +113,56 @@ createRoot(root).render(
       <Avatar size="large" shape="square">
         O
       </Avatar>
+    </div>
+    <div data-layout="row">
+      <Row gutter={16}>
+        <Col span={12}>A</Col>
+        <Col span={12}>B</Col>
+      </Row>
+    </div>
+    <div data-layout="layout">
+      <Layout>
+        <Layout.Header>Header</Layout.Header>
+        <Layout.Content>Content</Layout.Content>
+        <Layout.Footer>Footer</Layout.Footer>
+      </Layout>
+    </div>
+    <div data-layout="collapse">
+      <Collapse
+        defaultActiveKey={["one"]}
+        items={[
+          { key: "one", label: "Label", children: "Content" },
+          { key: "two", label: "Label 2", children: "Content 2" },
+        ]}
+      />
+    </div>
+    <div data-layout="tabs">
+      <Tabs
+        items={[
+          { key: "one", label: "First", children: "Content" },
+          { key: "two", label: "Second", children: "Second content" },
+        ]}
+      />
+    </div>
+    <div data-layout="empty">
+      <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+    </div>
+    <div data-layout="statistic">
+      <Statistic title="Statistic" value={1234.56} precision={2} />
+    </div>
+    <div data-layout="timeline">
+      <Timeline items={[{ children: "First" }, { children: "Second" }]} />
+    </div>
+    <div data-layout="descriptions">
+      <Descriptions
+        bordered
+        title="Details"
+        items={[
+          { key: "a", label: "A", children: "One" },
+          { key: "b", label: "B", children: "Two" },
+          { key: "c", label: "C", children: "Three" },
+        ]}
+      />
     </div>
   </ConfigProvider>,
 );

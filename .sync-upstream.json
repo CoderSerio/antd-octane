@@ -25,7 +25,15 @@
       "components/alert/style",
       "components/card/style",
       "components/badge/style",
-      "components/avatar/style"
+      "components/avatar/style",
+      "components/grid/style",
+      "components/layout/style",
+      "components/collapse/style",
+      "components/tabs/style",
+      "components/empty/style",
+      "components/statistic/style",
+      "components/timeline/style",
+      "components/descriptions/style"
     ],
     "destination": [
       "packages/antd-octane/src/button/tokens.ts",

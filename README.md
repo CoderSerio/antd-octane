@@ -23,7 +23,7 @@ pnpm preview     # 预览 site/dist
 
 ## 第一版包含什么
 
-- Octane 原生 `Button`、基础 `Input`、`Checkbox` 和 `ConfigProvider`。
+- Octane 原生组件：Button、基础 Input、Checkbox / Radio 选择组、Switch，及布局、信息展示组件；完整清单与未支持项见[兼容范围](docs/compatibility.md)。
 - antd v5 默认、暗色、紧凑主题算法，支持组合、自定义算法、token 覆盖和嵌套主题。
 - Button 常用类型、尺寸、禁用、加载、危险、幽灵、形状、链接和组件级主题。
 - 中文文档站：接入指南、API 与语法约定、组件示例与 API、源码展示和实时主题预览。

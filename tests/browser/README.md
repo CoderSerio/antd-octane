@@ -28,7 +28,7 @@ Build the site and open its production preview (currently `http://127.0.0.1:4174
 - At 390px, the menu collapses after navigation, the dialog fits, and the document has no horizontal overflow (code blocks scroll internally).
 - A fresh overview load requests only its page and shared modules. Expanding the first Button source requests exactly one additional source module.
 
-The current build has approximately 100 KB gzip of JavaScript for the overview, including shared modules, and 5.4 KB gzip of CSS. Pages, component implementations and example sources are split into separate chunks. These are build artifact sizes, not field performance scores. No runtime dependencies were added for navigation, code highlighting or search.
+The current build has approximately 105 KB gzip of JavaScript for the overview, including shared modules, and 9.4 KB gzip of CSS. Pages, component implementations and example sources are split into separate chunks. These are build artifact sizes, not field performance scores. No runtime dependencies were added for navigation, code highlighting or search.
 
 ## Input and Checkbox
 
@@ -39,3 +39,5 @@ Run it with the same `playwright-cli run-code` method as `compare.mjs`, substitu
 `compare-foundation.mjs` 对照 Switch 与 Divider 在五组主题下的 420 个根元素样式值。只覆盖夹具中的尺寸、颜色、字体和间距，不代表完整状态或子元素视觉一致。
 
 `compare-display.mjs` 对照 Radio、Tag、Alert、Card、Badge、Avatar 的常用形态，在五组主题下比较 1,235 个根元素和关键子元素样式值。组件级主题包含显式 token 覆盖。真实文档浏览器另检验选择组键盘/受控行为、标签取消关闭、头像缩放和提示移除。
+
+`compare-layout.mjs` 对照 Grid、Layout、Collapse、Tabs、Empty、Statistic、Timeline、Descriptions 在五组主题下的 1,330 项稳定样式值；组件级主题显式覆盖该批组件 token。`verify-layout.mjs` 检查生产文档的键盘操作、面板输入保留、增删焦点、响应式布局及八个页面的移动端溢出。

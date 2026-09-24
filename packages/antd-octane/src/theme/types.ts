@@ -73,6 +73,68 @@ export interface ThemeConfig {
     Button?: ButtonTheme;
     Input?: ComponentTheme<InputToken>;
     Checkbox?: ComponentTheme;
+    Layout?: ComponentTheme<{
+      bodyBg: string;
+      headerBg: string;
+      headerHeight: number;
+      headerPadding: string;
+      headerColor: string;
+      footerBg: string;
+      footerPadding: string;
+      siderBg: string;
+      triggerHeight: number;
+      triggerBg: string;
+      triggerColor: string;
+      lightSiderBg: string;
+      lightTriggerBg: string;
+      lightTriggerColor: string;
+    }>;
+    Collapse?: ComponentTheme<{
+      headerBg: string;
+      headerPadding: string;
+      contentBg: string;
+      contentPadding: string;
+      borderlessContentBg: string;
+      borderlessContentPadding: string;
+    }>;
+    Tabs?: ComponentTheme<{
+      horizontalMargin: string;
+      horizontalItemGutter: number;
+      itemColor: string;
+      itemSelectedColor: string;
+      itemHoverColor: string;
+      itemActiveColor: string;
+      inkBarColor: string;
+      titleFontSize: number;
+      titleFontSizeSM: number;
+      titleFontSizeLG: number;
+      horizontalItemPadding: string;
+      horizontalItemPaddingSM: string;
+      horizontalItemPaddingLG: string;
+      cardBg: string;
+      cardPadding: string;
+    }>;
+    Empty?: ComponentTheme;
+    Statistic?: ComponentTheme<{
+      titleFontSize: number;
+      contentFontSize: number;
+    }>;
+    Timeline?: ComponentTheme<{
+      tailColor: string;
+      tailWidth: number;
+      dotBorderWidth: number;
+      dotBg: string;
+      itemPaddingBottom: number;
+    }>;
+    Descriptions?: ComponentTheme<{
+      labelColor: string;
+      labelBg: string;
+      contentColor: string;
+      titleColor: string;
+      titleMarginBottom: number;
+      itemPaddingBottom: number;
+      itemPaddingEnd: number;
+    }>;
     Radio?: ComponentTheme<{
       radioSize: number;
       dotSize: number;
