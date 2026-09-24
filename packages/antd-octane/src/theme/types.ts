@@ -73,6 +73,22 @@ export interface ThemeConfig {
     Button?: ButtonTheme;
     Input?: ComponentTheme<InputToken>;
     Checkbox?: ComponentTheme;
+    Divider?: ComponentTheme<{
+      textPaddingInline: string | number;
+      orientationMargin: number;
+      verticalMarginInline: number;
+    }>;
+    Switch?: ComponentTheme<{
+      trackHeight: number;
+      trackHeightSM: number;
+      trackMinWidth: number;
+      trackMinWidthSM: number;
+      trackPadding: number;
+      handleSize: number;
+      handleSizeSM: number;
+      handleBg: string;
+      handleShadow: string;
+    }>;
   };
   inherit?: boolean;
 }

@@ -1,4 +1,4 @@
-import { Button, Checkbox, Input } from "antd-octane";
+import { Button, Checkbox, Input, Switch } from "antd-octane";
 import { usePageAnchor } from "../docs-ui";
 export default function ComponentsPage({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -24,8 +24,25 @@ export default function ComponentsPage({ section }: { section?: string }) {
           </a>
         </section>
       </div>
+      <h2 id="layout" tabIndex={-1}>
+        布局 <small className="count">3</small>
+      </h2>
+      <div className="component-catalog">
+        {[
+          ["flex", "Flex 弹性布局"],
+          ["space", "Space 间距"],
+          ["divider", "Divider 分割线"],
+        ].map(([id, label]) => (
+          <section className="component-card" key={id}>
+            <a href={`#${id}`}>
+              <strong>{label}</strong>
+              <span>查看文档 →</span>
+            </a>
+          </section>
+        ))}
+      </div>
       <h2 id="entry" tabIndex={-1}>
-        数据录入 <small className="count">2</small>
+        数据录入 <small className="count">3</small>
       </h2>
       <div className="component-catalog">
         <section className="component-card">
@@ -43,6 +60,17 @@ export default function ComponentsPage({ section }: { section?: string }) {
           </div>
           <a href="#checkbox">
             <strong>Checkbox 多选框</strong>
+            <span>查看文档 →</span>
+          </a>
+        </section>
+      </div>
+      <div className="component-catalog">
+        <section className="component-card">
+          <div className="component-preview">
+            <Switch aria-label="预览开关" defaultChecked />
+          </div>
+          <a href="#switch">
+            <strong>Switch 开关</strong>
             <span>查看文档 →</span>
           </a>
         </section>

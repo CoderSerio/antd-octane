@@ -20,6 +20,13 @@ export default function Compatibility({ section }: { section?: string }) {
             "alpha",
           ],
           ["Input", "基础文本、尺寸、状态、受控输入与 ref", "已实现", "alpha"],
+          ["Switch", "状态、键盘、加载、大小与 ref", "已实现", "alpha"],
+          [
+            "Flex / Space / Divider",
+            "基础布局、间距与分割线",
+            "已实现",
+            "alpha",
+          ],
           ["Checkbox", "受控、非受控、禁用、中间态与 ref", "已实现", "alpha"],
           ["ConfigProvider", "主题、尺寸、禁用与嵌套作用域", "已实现", "alpha"],
           ["Form / Table / Modal", "动态表单、表格及浮层", "未实现", "—"],

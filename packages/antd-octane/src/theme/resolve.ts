@@ -41,13 +41,20 @@ export function mergeTheme(
     ...base,
     ...local,
     token: { ...base.token, ...local.token },
-    components: {
-      ...base.components,
-      ...local.components,
-      Button: { ...base.components?.Button, ...local.components?.Button },
-      Input: { ...base.components?.Input, ...local.components?.Input },
-      Checkbox: { ...base.components?.Checkbox, ...local.components?.Checkbox },
-    },
+    components: Object.fromEntries(
+      [
+        ...new Set([
+          ...Object.keys(base.components ?? {}),
+          ...Object.keys(local.components ?? {}),
+        ]),
+      ].map((key) => {
+        const name = key as keyof NonNullable<ThemeConfig["components"]>;
+        return [
+          name,
+          { ...base.components?.[name], ...local.components?.[name] },
+        ];
+      }),
+    ),
   };
 }
 

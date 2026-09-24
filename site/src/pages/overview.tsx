@@ -38,7 +38,7 @@ export default function Overview({ section }: { section?: string }) {
       </h2>
       <p>
         0.1.0-alpha.0 为本地开发预览，尚未发布 npm 包。当前实现
-        Button、Input、Checkbox 与
+        Button、Input、Checkbox、Switch、Flex、Space、Divider 与
         ConfigProvider，按组件列出支持范围和已知差异。
       </p>
       <div className="demo-row">

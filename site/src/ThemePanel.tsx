@@ -1,4 +1,4 @@
-import { Button, theme } from "antd-octane";
+import { Button, Switch, theme } from "antd-octane";
 import type { ShellProps } from "./App";
 export function ThemePanel(p: ShellProps) {
   const { token } = theme.useToken();
@@ -63,26 +63,14 @@ export function ThemePanel(p: ShellProps) {
           p.setRadius(Number((event.currentTarget as HTMLInputElement).value))
         }
       />
-      <label className="check-control">
-        <span>暗色模式</span>
-        <input
-          type="checkbox"
-          checked={p.dark}
-          onChange={(event) =>
-            p.setDark((event.currentTarget as HTMLInputElement).checked)
-          }
-        />
-      </label>
-      <label className="check-control">
-        <span>紧凑模式</span>
-        <input
-          type="checkbox"
-          checked={p.compact}
-          onChange={(event) =>
-            p.setCompact((event.currentTarget as HTMLInputElement).checked)
-          }
-        />
-      </label>
+      <div className="check-control">
+        <label htmlFor="site-dark">暗色模式</label>
+        <Switch id="site-dark" checked={p.dark} onChange={p.setDark} />
+      </div>
+      <div className="check-control">
+        <label htmlFor="site-compact">紧凑模式</label>
+        <Switch id="site-compact" checked={p.compact} onChange={p.setCompact} />
+      </div>
       <div className="token-preview">
         <span>派生 Token</span>
         <div>

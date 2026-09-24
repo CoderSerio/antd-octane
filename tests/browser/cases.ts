@@ -69,3 +69,14 @@ export const checkboxCases = [
     props: { disabled: true, indeterminate: true },
   },
 ];
+
+export const switchCases: {
+  id: string;
+  props: import("../../packages/antd-octane/src").SwitchProps;
+}[] = [
+  { id: "switch-off", props: {} },
+  { id: "switch-on", props: { checked: true } },
+  { id: "switch-small", props: { size: "small", checked: true } },
+  { id: "switch-disabled", props: { disabled: true, checked: true } },
+  { id: "switch-loading", props: { loading: true } },
+];

@@ -17,7 +17,9 @@
     "source": [
       "components/button/style",
       "components/input/style",
-      "components/checkbox/style"
+      "components/checkbox/style",
+      "components/switch/style",
+      "components/divider/style"
     ],
     "destination": [
       "packages/antd-octane/src/button/tokens.ts",

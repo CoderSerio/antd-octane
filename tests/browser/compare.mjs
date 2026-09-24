@@ -13,7 +13,7 @@ export default async function compare(page) {
           "* { transition: none !important; animation: none !important; }",
       });
       await page.mouse.move(1000, 1);
-      const values = await page.locator("button").evaluateAll((nodes) =>
+      const values = await page.locator("button.ant-btn").evaluateAll((nodes) =>
         Object.fromEntries(
           nodes.map((el) => {
             const style = getComputedStyle(el);

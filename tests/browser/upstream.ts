@@ -1,8 +1,23 @@
-import type { ButtonProps, InputProps } from "antd";
-import { Button, Checkbox, ConfigProvider, Input, theme } from "antd";
+import type { ButtonProps, InputProps, SwitchProps } from "antd";
+import {
+  Button,
+  Checkbox,
+  ConfigProvider,
+  Divider,
+  Input,
+  Switch,
+  theme,
+} from "antd";
 import { createElement } from "react";
 import { createRoot } from "react-dom/client";
-import { brand, cases, checkboxCases, component, inputCases } from "./cases";
+import {
+  brand,
+  cases,
+  checkboxCases,
+  component,
+  inputCases,
+  switchCases,
+} from "./cases";
 
 const name = new URLSearchParams(location.search).get("theme");
 const config =
@@ -45,6 +60,22 @@ createRoot(root).render(
         { key: id, style: { padding: 12 } },
         createElement(Checkbox, { ...props, id }, "Checkbox"),
       ),
+    ),
+    switchCases.map(({ id, props }) =>
+      createElement(
+        "div",
+        { key: id, style: { padding: 12 } },
+        createElement(Switch, { ...(props as SwitchProps), id }),
+      ),
+    ),
+    createElement(Divider, {
+      className: "fixture-divider",
+      ...{ id: "divider-default" },
+    }),
+    createElement(
+      Divider,
+      { className: "fixture-divider", ...{ id: "divider-text" } },
+      "Title",
     ),
   ),
 );

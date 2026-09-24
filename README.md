@@ -71,4 +71,6 @@ export function App() {
 - [工程与文档实施约定](docs/project-blueprint.md)：工程结构、文档质量与扩展顺序。
 - [Alpha 检查清单](docs/v0.1.0-alpha-checklist.md)：已完成与待验证项。
 
-当前新增基础 Input、Checkbox；支持范围以 [兼容清单](docs/compatibility.md) 为准。运行本地文档站可查看示例、源码和 API。
+当前提供 Button、基础 Input / Checkbox、Switch、Flex、Space、Divider；支持范围以 [兼容清单](docs/compatibility.md) 为准。运行本地文档站可查看示例、源码和 API。
+
+更多组件的实施顺序与进度见 [组件扩展清单](docs/component-roadmap.md)。

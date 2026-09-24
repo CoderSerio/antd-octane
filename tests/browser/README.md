@@ -35,3 +35,5 @@ The current build has approximately 100 KB gzip of JavaScript for the overview, 
 `compare-inputs.mjs` uses the same separate renderer documents and five themes. It compares six Input cases (default, small, large, error, warning, disabled) and six Checkbox cases (default, checked, indeterminate and their disabled states). Base, hover and available focus states include checkbox pseudo-element dimensions/colors. The current fixture performs 1,760 property comparisons; expect `differences: []`.
 
 Run it with the same `playwright-cli run-code` method as `compare.mjs`, substituting `compare-inputs.mjs`. The scope is deliberately limited: no claim of full pixel, motion, browser or accessibility parity.
+
+`compare-foundation.mjs` 对照 Switch 与 Divider 在五组主题下的 420 个根元素样式值。只覆盖夹具中的尺寸、颜色、字体和间距，不代表完整状态或子元素视觉一致。

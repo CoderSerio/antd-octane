@@ -4,10 +4,19 @@ import {
   Button,
   Checkbox,
   ConfigProvider,
+  Divider,
   Input,
+  Switch,
   theme,
 } from "../../packages/antd-octane/src";
-import { brand, cases, checkboxCases, component, inputCases } from "./cases";
+import {
+  brand,
+  cases,
+  checkboxCases,
+  component,
+  inputCases,
+  switchCases,
+} from "./cases";
 
 const name = new URLSearchParams(location.search).get("theme");
 const config =
@@ -43,5 +52,12 @@ createRoot(root).render(
         </Checkbox>
       </div>
     ))}
+    {switchCases.map(({ id, props }) => (
+      <div key={id} style={{ padding: 12 }}>
+        <Switch {...props} id={id} />
+      </div>
+    ))}
+    <Divider id="divider-default" />
+    <Divider id="divider-text">Title</Divider>
   </ConfigProvider>,
 );

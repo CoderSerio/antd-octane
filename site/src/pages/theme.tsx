@@ -1,31 +1,79 @@
 import { NestedDemo } from "../demos/nested";
+import { ThemeAlgorithmsDemo } from "../demos/theme-algorithms";
+import { ThemeBrandDemo } from "../demos/theme-brand";
+import { ThemeComponentsDemo } from "../demos/theme-components";
 import { Code, Demo, usePageAnchor } from "../docs-ui";
 export default function ThemePage({ section }: { section?: string }) {
   usePageAnchor(section);
   return (
     <>
-      <div className="eyebrow">GUIDE / THEMING</div>
       <h1>定制主题</h1>
-      <p className="lead">从已有的 theme 配置出发，而不是重新调一遍颜色。</p>
+      <p className="lead">通过 Design Token 定制品牌色、圆角和组件样式。</p>
       <p className="intro">
         第一版复用 antd 5.29.3 的 seed / map / alias 算法。纯 token
         配置保持相同结构，算法导入改为来自 antd-octane。
+      </p>
+      <h2 id="configure" tabIndex={-1}>
+        配置主题
+      </h2>
+      <p>
+        在 ConfigProvider 中传入
+        theme，可将配置应用于其内部组件。主题在运行时更新，支持多个作用域同时存在。
       </p>
       <Code
         source={
           'import { ConfigProvider, theme } from "antd-octane";\n\nconst preset = {\n  algorithm: [theme.darkAlgorithm, theme.compactAlgorithm],\n  token: { colorPrimary: "#722ed1", borderRadius: 8 },\n  components: { Button: { fontWeight: 600 } },\n};\n\n<ConfigProvider theme={preset}>...</ConfigProvider>'
         }
       />
-      <h2 id="contract" tabIndex={-1}>
-        已验证的契约
+      <h3 id="brand" tabIndex={-1}>
+        修改主题变量
+      </h3>
+      <p>
+        colorPrimary、borderRadius
+        等基础变量会参与派生计算。原有配置可按支持清单逐项迁移。
+      </p>
+      <Demo
+        title="品牌色与圆角"
+        description="局部配置绿色主色与 8px 圆角。"
+        source={() => import("../demos/theme-brand.tsx?raw")}
+      >
+        <ThemeBrandDemo />
+      </Demo>
+      <h3 id="algorithms" tabIndex={-1}>
+        使用预设算法
+      </h3>
+      <p>
+        提供默认、暗色和紧凑三套算法。algorithm
+        支持数组，按顺序组合；这里的开关只改变演示区域。
+      </p>
+      <Demo
+        title="预设算法"
+        description="可组合暗色与紧凑算法。"
+        source={() => import("../demos/theme-algorithms.tsx?raw")}
+      >
+        <ThemeAlgorithmsDemo />
+      </Demo>
+      <h3 id="component-token" tabIndex={-1}>
+        修改组件变量
+      </h3>
+      <p>
+        components 按组件名配置变量。algorithm: true
+        启用该组件的派生计算；未启用时仅覆盖指定值。
+      </p>
+      <Demo
+        title="组件级主题"
+        description="按钮和输入框各自消费组件变量。"
+        source={() => import("../demos/theme-components.tsx?raw")}
+      >
+        <ThemeComponentsDemo />
+      </Demo>
+      <h2 id="nested" tabIndex={-1}>
+        局部主题与动态切换
       </h2>
-      <ul className="prose-list">
-        <li>默认、暗色、紧凑及组合算法的全量全局 token 与固定上游版本对照。</li>
-        <li>
-          全局 token 覆盖、算法回调和 Button / Input / Checkbox 组件级配置。
-        </li>
-        <li>嵌套继承、独立主题，以及运行时切换。</li>
-      </ul>
+      <p>
+        嵌套 ConfigProvider 默认继承父主题；inherit: false 从默认主题开始。通过
+        Octane 状态更新 theme 对象即可动态切换。
+      </p>
       <Demo
         title="局部主题不会改变外部按钮"
         description="打开顶部的主题实验室，可以观察继承与独立作用域的区别。"

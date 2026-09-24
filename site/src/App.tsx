@@ -10,6 +10,10 @@ type PageComponent = (props: {
 }) => import("octane").OctaneNode;
 const pages: Record<string, () => Promise<{ default: PageComponent }>> = {
   button: () => import("./pages/button"),
+  flex: () => import("./pages/flex"),
+  space: () => import("./pages/space"),
+  divider: () => import("./pages/divider"),
+  switch: () => import("./pages/switch"),
   input: () => import("./pages/input"),
   checkbox: () => import("./pages/checkbox"),
   overview: () => import("./pages/overview"),
@@ -332,7 +336,20 @@ function Shell(p: ShellProps) {
         >
           <nav aria-label="文档导航">
             {(isComponents
-              ? ["组件", "通用", "数据录入"]
+              ? [
+                  "组件",
+                  "通用",
+                  "布局",
+                  "导航",
+                  "数据录入",
+                  "数据展示",
+                  "反馈",
+                ].filter((group) =>
+                  nav.some(
+                    (item) =>
+                      item.category === "components" && item.group === group,
+                  ),
+                )
               : ["开始", "进阶使用", "其他"]
             ).map((group) => (
               <div className="nav-group" key={group}>

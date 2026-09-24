@@ -52,3 +52,13 @@
 2026-09-25 浏览器对照：默认、品牌色、暗色、紧凑、组件覆盖共五组主题，16 种按钮场景的基础、hover、active 样式共 1,440 项比较通过。此检查只覆盖夹具列出的 CSS 属性，不表示像素级或全量组件兼容。可通过 `pnpm dev:compare` 和 [浏览器夹具](../tests/browser/README.md) 复核。
 
 新增 Input / Checkbox 浏览器夹具覆盖五组主题、各六种基础场景及 hover/focus 状态，包含 Checkbox 标记伪元素，共 1,760 项属性比较通过。夹具外的 API、动效、像素级完整对照及其他浏览器仍待验证。
+
+## 布局与 Switch
+
+Flex 支持 vertical、wrap、justify、align、flex、gap；Space 支持 direction、size 数值/预设/双轴、align、wrap、split。暂不支持 Flex.component、Space.Compact 和语义化 styles/classNames。两者预设间距随全局 padding token 调整。
+
+Divider 支持水平/垂直、文字、orientation、orientationMargin、plain、dashed；组件变量 textPaddingInline、orientationMargin、verticalMarginInline。暂不支持 size、variant 与新版标题位置 API。
+
+Switch 支持受控/非受控、value 别名、文字、大小、加载、禁用、原生 button ref，以及键盘操作。事件为原生事件。支持轨道/滑块尺寸、背景、阴影 token，暂不支持 innerMargin 系列 token、wave 和完整按压动效。
+
+完整扩展顺序见 [组件路线图](component-roadmap.md)，其中待办不代表已支持。

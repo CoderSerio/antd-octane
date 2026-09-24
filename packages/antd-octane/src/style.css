@@ -482,3 +482,148 @@
     }
   }
 }
+
+@layer antd {
+  :where(.ant-divider) {
+    box-sizing: border-box;
+    color: var(--ao-divider-text);
+    font-family: var(--ao-divider-font);
+    font-size: var(--ao-divider-font-size);
+    line-height: var(--ao-divider-line-height);
+    border: 0;
+    border-block-start: var(--ao-divider-width) var(--ao-divider-style)
+      var(--ao-divider-color);
+  }
+  :where(.ant-divider-horizontal) {
+    display: flex;
+    clear: both;
+    width: 100%;
+    min-width: 100%;
+    margin: var(--ao-divider-margin) 0;
+  }
+  :where(.ant-divider-vertical) {
+    position: relative;
+    top: -0.06em;
+    display: inline-block;
+    height: 0.9em;
+    margin-inline: var(--ao-divider-vertical-margin);
+    vertical-align: middle;
+    border-block-start: 0;
+    border-inline-start: var(--ao-divider-width) var(--ao-divider-style)
+      var(--ao-divider-color);
+  }
+  :where(.ant-divider-with-text) {
+    align-items: center;
+    white-space: nowrap;
+    text-align: center;
+    border-block-start: 0;
+    font-weight: var(--ao-divider-weight);
+    border-block-start-color: var(--ao-divider-color);
+  }
+  :where(.ant-divider-with-text)::before,
+  :where(.ant-divider-with-text)::after {
+    content: "";
+    position: relative;
+    width: 50%;
+    border-block-start: var(--ao-divider-width) var(--ao-divider-style)
+      var(--ao-divider-color);
+  }
+  :where(.ant-divider-with-text-left)::before,
+  :where(.ant-divider-with-text-right)::after {
+    width: var(--ao-divider-edge);
+  }
+  :where(.ant-divider-with-text-left)::after,
+  :where(.ant-divider-with-text-right)::before {
+    flex: 1;
+  }
+  :where(.ant-divider-inner-text) {
+    display: inline-block;
+    padding-inline: var(--ao-divider-padding);
+  }
+  :where(.ant-switch) {
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    min-width: var(--ao-switch-width);
+    height: var(--ao-switch-height);
+    padding: 0;
+    border: 0;
+    border-radius: 100px;
+    background: var(--ao-switch-bg);
+    color: var(--ao-switch-text);
+    font-family: var(--ao-switch-font);
+    font-size: var(--ao-switch-font-size);
+    line-height: var(--ao-switch-height);
+    vertical-align: middle;
+    cursor: pointer;
+    transition: background var(--ao-switch-duration);
+  }
+  :where(.ant-switch:not(:disabled):hover) {
+    background: var(--ao-switch-hover);
+  }
+  :where(.ant-switch-checked) {
+    background: var(--ao-switch-primary);
+  }
+  :where(.ant-switch-checked:not(:disabled):hover) {
+    background: var(--ao-switch-primary-hover);
+  }
+  :where(.ant-switch:focus-visible) {
+    outline: 3px solid var(--ao-switch-focus);
+    outline-offset: 1px;
+  }
+  :where(.ant-switch-disabled) {
+    cursor: not-allowed;
+    opacity: var(--ao-switch-opacity);
+  }
+  :where(.ant-switch-handle) {
+    position: absolute;
+    inset-block-start: var(--ao-switch-padding);
+    inset-inline-start: var(--ao-switch-padding);
+    width: var(--ao-switch-handle);
+    height: var(--ao-switch-handle);
+    border-radius: 50%;
+    background: var(--ao-switch-handle-bg);
+    box-shadow: var(--ao-switch-shadow);
+    transition: inset-inline-start var(--ao-switch-duration);
+  }
+  :where(.ant-switch-checked .ant-switch-handle) {
+    inset-inline-start: calc(
+      100% -
+      var(--ao-switch-padding) -
+      var(--ao-switch-handle)
+    );
+  }
+  :where(.ant-switch-inner) {
+    color: var(--ao-switch-color);
+    font-size: var(--ao-switch-inner-font);
+    display: block;
+    padding-inline: calc(
+        var(--ao-switch-handle) +
+        var(--ao-switch-padding) +
+        4px
+      )
+      7px;
+  }
+  :where(.ant-switch-checked .ant-switch-inner) {
+    padding-inline: 7px
+      calc(var(--ao-switch-handle) + var(--ao-switch-padding) + 4px);
+  }
+  :where(.ant-switch-loading-icon) {
+    display: block;
+    box-sizing: border-box;
+    position: absolute;
+    inset: 3px;
+    border: 1px solid var(--ao-switch-primary);
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: ao-spin 0.8s linear infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :where(.ant-switch, .ant-switch-handle) {
+      transition: none;
+    }
+    :where(.ant-switch-loading-icon) {
+      animation: none;
+    }
+  }
+}

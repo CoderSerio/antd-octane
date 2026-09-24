@@ -49,6 +49,34 @@ export const nav = [
     keywords: "button 按钮",
   },
   {
+    id: "flex",
+    title: "Flex 弹性布局",
+    category: "components",
+    group: "布局",
+    keywords: "flex 弹性布局",
+  },
+  {
+    id: "space",
+    title: "Space 间距",
+    category: "components",
+    group: "布局",
+    keywords: "space 间距",
+  },
+  {
+    id: "divider",
+    title: "Divider 分割线",
+    category: "components",
+    group: "布局",
+    keywords: "divider 分割线",
+  },
+  {
+    id: "switch",
+    title: "Switch 开关",
+    category: "components",
+    group: "数据录入",
+    keywords: "switch 开关",
+  },
+  {
     id: "input",
     title: "Input 输入框",
     category: "components",
@@ -77,12 +105,17 @@ export const toc: Record<string, [string, string][]> = {
     ["build", "构建与验证"],
   ],
   theme: [
-    ["contract", "已验证的契约"],
+    ["configure", "配置主题"],
+    ["brand", "修改主题变量"],
+    ["algorithms", "使用预设算法"],
+    ["component-token", "修改组件变量"],
+    ["nested", "局部主题与动态切换"],
     ["styling", "Tailwind CSS 与 StyleX"],
     ["limitations", "迁移边界"],
   ],
   components: [
     ["general", "通用"],
+    ["layout", "布局"],
     ["entry", "数据录入"],
     ["configuration", "主题与配置"],
   ],
@@ -131,3 +164,24 @@ export const toc: Record<string, [string, string][]> = {
     ["limitations", "已知差异"],
   ],
 };
+
+toc.flex = [
+  ["examples", "代码演示"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+toc.space = [
+  ["examples", "代码演示"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+toc.divider = [
+  ["examples", "代码演示"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+toc.switch = [
+  ["examples", "代码演示"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];

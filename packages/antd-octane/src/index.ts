@@ -34,5 +34,13 @@ export type {
   CheckboxRef,
 } from "./checkbox";
 export { Checkbox } from "./checkbox";
+export type { DividerProps } from "./divider";
+export { Divider } from "./divider";
+export type { FlexProps } from "./flex";
+export { Flex } from "./flex";
 export type { InputChangeEvent, InputProps, InputRef } from "./input";
 export { Input } from "./input";
+export type { SpaceProps } from "./space";
+export { Space } from "./space";
+export type { SwitchProps } from "./switch";
+export { Switch } from "./switch";
