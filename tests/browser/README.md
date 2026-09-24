@@ -17,3 +17,15 @@ playwright-cli --session antd-compare run-code "$(node --input-type=module -e 'i
 ```
 
 Expect `differences: []`. This is a limited style comparison, not a full visual or accessibility certification. Browser checks also cover the real document site's theme controls, nested scopes, loading behavior, code expansion, navigation and mobile overflow.
+
+## Documentation layout checks
+
+Build the site and open its production preview (currently `http://127.0.0.1:4174/`). Check:
+
+- The top-level development/components navigation switches the left menu, and local search opens a matching page.
+- Direct links such as `#start/usage` and Button's API anchor scroll to visible content; back/forward restores the route.
+- The theme dialog traps focus, closes with Escape, and returns focus to its trigger. Brand, dark and compact settings still update demos.
+- At 390px, the menu collapses after navigation, the dialog fits, and the document has no horizontal overflow (code blocks scroll internally).
+- A fresh overview load requests only its page and shared modules. Expanding the first Button source requests exactly one additional source module.
+
+The September 25 layout build has approximately 95 KB gzip of JavaScript for the overview and 97 KB for Button, including shared modules; CSS is approximately 4.3 KB gzip. These are build artifact sizes, not field performance scores. The previous unsplit site was approximately 94 KB gzip of JavaScript. Page splitting limits future growth; it is not evidence of a large speedup today. No runtime dependencies were added for navigation or search.
