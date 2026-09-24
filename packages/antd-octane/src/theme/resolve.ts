@@ -1,6 +1,6 @@
 import type {
   AliasToken,
-  ButtonTheme,
+  ComponentTheme,
   MappingAlgorithm,
   MapToken,
   SeedToken,
@@ -45,6 +45,8 @@ export function mergeTheme(
       ...base.components,
       ...local.components,
       Button: { ...base.components?.Button, ...local.components?.Button },
+      Input: { ...base.components?.Input, ...local.components?.Input },
+      Checkbox: { ...base.components?.Checkbox, ...local.components?.Checkbox },
     },
   };
 }
@@ -53,8 +55,15 @@ export function resolveButtonAlias(
   config: ThemeConfig,
   global: AliasToken,
 ): AliasToken {
-  const { algorithm, ...overrides }: ButtonTheme =
-    config.components?.Button ?? {};
+  return resolveComponentAlias(config, global, "Button");
+}
+export function resolveComponentAlias(
+  config: ThemeConfig,
+  global: AliasToken,
+  name: keyof NonNullable<ThemeConfig["components"]>,
+): AliasToken {
+  const { algorithm, ...overrides }: ComponentTheme =
+    config.components?.[name] ?? {};
   if (algorithm) {
     return getDesignToken({
       token: { ...config.token, ...overrides },

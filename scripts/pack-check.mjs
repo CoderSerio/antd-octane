@@ -54,11 +54,13 @@ try {
     join(directory, "main.tsx"),
     `
 import { createRoot } from 'octane';
-import { Button, ConfigProvider, theme } from 'antd-octane';
+import { Button, Input, Checkbox, ConfigProvider, theme } from 'antd-octane';
 import 'antd-octane/style.css';
 createRoot(document.getElementById('root')!).render(
   <ConfigProvider theme={{ algorithm: theme.darkAlgorithm, token: { colorPrimary: '#722ed1' } }}>
     <Button type="primary">Packed consumer</Button>
+    <Input defaultValue="Packed input" onChange={(event) => void event.target.value} />
+    <Checkbox defaultChecked onChange={(event) => void event.target.checked}>Packed checkbox</Checkbox>
   </ConfigProvider>
 );
 `,

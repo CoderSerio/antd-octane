@@ -109,9 +109,18 @@ export function ThemePanel(p: ShellProps) {
       >
         重置主题
       </Button>
-      <a className="panel-link" href="#theme">
+      <button
+        className="panel-link"
+        type="button"
+        onClick={() => {
+          (
+            document.getElementById("theme-dialog") as HTMLDialogElement
+          ).close();
+          window.location.hash = "theme";
+        }}
+      >
         了解主题迁移 →
-      </a>
+      </button>
     </div>
   );
 }

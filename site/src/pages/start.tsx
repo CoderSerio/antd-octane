@@ -17,8 +17,29 @@ export default function StartPage({ section }: { section?: string }) {
         启动文档站
       </h2>
       <Code
+        language="bash"
         source={
           "git clone https://github.com/CoderSerio/antd-octane.git\ncd antd-octane\npnpm install\npnpm dev"
+        }
+      />
+      <h2 id="integration" tabIndex={-1}>
+        接入现有 Octane 项目
+      </h2>
+      <p>尚未发布到 npm，可先构建并打包，再从本地 tarball 安装。</p>
+      <Code
+        language="bash"
+        source={
+          "# 在本仓库内\npnpm build:lib\npnpm --filter antd-octane pack --pack-destination /tmp\n\n# 在你的 Octane 项目内\npnpm add /tmp/antd-octane-0.1.0-alpha.0.tgz octane@0.4.3"
+        }
+      />
+      <p>
+        Vite 配置需要启用 Octane 编译插件。TypeScript 使用 jsxImportSource:
+        "octane"。
+      </p>
+      <Code
+        language="ts"
+        source={
+          'import { defineConfig } from "vite";\nimport { octane } from "octane/compiler/vite";\n\nexport default defineConfig({ plugins: [octane()] });'
         }
       />
       <h2 id="usage" tabIndex={-1}>
@@ -34,6 +55,7 @@ export default function StartPage({ section }: { section?: string }) {
         构建与验证
       </h2>
       <Code
+        language="bash"
         source={
           "pnpm check        # 格式、类型、测试、构建\npnpm preview      # 预览静态站点\npnpm pack:check   # 打包并在独立目录验证消费"
         }

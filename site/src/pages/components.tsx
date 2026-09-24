@@ -1,4 +1,4 @@
-import { Button } from "antd-octane";
+import { Button, Checkbox, Input } from "antd-octane";
 import { usePageAnchor } from "../docs-ui";
 export default function ComponentsPage({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -12,20 +12,45 @@ export default function ComponentsPage({ section }: { section?: string }) {
       <h2 id="general" tabIndex={-1}>
         通用 <small className="count">1</small>
       </h2>
-      <section className="component-card">
-        <div className="component-preview">
-          <Button type="primary">Primary</Button>
-          <Button>Default</Button>
-        </div>
-        <a href="#button">
-          <strong>Button 按钮</strong>
-          <span>查看文档 →</span>
-        </a>
-      </section>
+      <div className="component-catalog">
+        <section className="component-card">
+          <div className="component-preview">
+            <Button type="primary">Primary</Button>
+            <Button>Default</Button>
+          </div>
+          <a href="#button">
+            <strong>Button 按钮</strong>
+            <span>查看文档 →</span>
+          </a>
+        </section>
+      </div>
+      <h2 id="entry" tabIndex={-1}>
+        数据录入 <small className="count">2</small>
+      </h2>
+      <div className="component-catalog">
+        <section className="component-card">
+          <div className="component-preview">
+            <Input placeholder="请输入内容" aria-label="组件预览输入" />
+          </div>
+          <a href="#input">
+            <strong>Input 输入框</strong>
+            <span>查看文档 →</span>
+          </a>
+        </section>
+        <section className="component-card">
+          <div className="component-preview">
+            <Checkbox defaultChecked>Checkbox</Checkbox>
+          </div>
+          <a href="#checkbox">
+            <strong>Checkbox 多选框</strong>
+            <span>查看文档 →</span>
+          </a>
+        </section>
+      </div>
       <h2 id="configuration" tabIndex={-1}>
         主题与配置
       </h2>
-      <p>ConfigProvider 提供全局主题、嵌套继承和 Button 组件级覆盖。</p>
+      <p>ConfigProvider 提供全局主题、嵌套继承和组件级覆盖。</p>
       <a className="text-link" href="#theme">
         查看主题配置与兼容边界 →
       </a>

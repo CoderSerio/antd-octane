@@ -45,9 +45,34 @@ export interface ButtonToken {
 export type ButtonTheme = Partial<AliasToken & ButtonToken> & {
   algorithm?: boolean | MappingAlgorithm | MappingAlgorithm[];
 };
+export interface InputToken {
+  paddingBlock: number;
+  paddingBlockSM: number;
+  paddingBlockLG: number;
+  paddingInline: number;
+  paddingInlineSM: number;
+  paddingInlineLG: number;
+  activeBorderColor: string;
+  hoverBorderColor: string;
+  activeShadow: string;
+  errorActiveShadow: string;
+  warningActiveShadow: string;
+  hoverBg: string;
+  activeBg: string;
+  inputFontSize: number;
+  inputFontSizeSM: number;
+  inputFontSizeLG: number;
+}
+export type ComponentTheme<T = object> = Partial<AliasToken & T> & {
+  algorithm?: boolean | MappingAlgorithm | MappingAlgorithm[];
+};
 export interface ThemeConfig {
   token?: Partial<AliasToken>;
   algorithm?: MappingAlgorithm | MappingAlgorithm[];
-  components?: { Button?: ButtonTheme };
+  components?: {
+    Button?: ButtonTheme;
+    Input?: ComponentTheme<InputToken>;
+    Checkbox?: ComponentTheme;
+  };
   inherit?: boolean;
 }

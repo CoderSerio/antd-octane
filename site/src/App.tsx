@@ -1,6 +1,7 @@
 import type { ThemeConfig } from "antd-octane";
 import { ConfigProvider, theme } from "antd-octane";
 import { useEffect, useMemo, useState } from "octane";
+import { Icon } from "./icons";
 import { nav, toc } from "./navigation";
 import { ThemePanel } from "./ThemePanel";
 
@@ -9,10 +10,14 @@ type PageComponent = (props: {
 }) => import("octane").OctaneNode;
 const pages: Record<string, () => Promise<{ default: PageComponent }>> = {
   button: () => import("./pages/button"),
+  input: () => import("./pages/input"),
+  checkbox: () => import("./pages/checkbox"),
   overview: () => import("./pages/overview"),
   start: () => import("./pages/start"),
   theme: () => import("./pages/theme"),
   components: () => import("./pages/components"),
+  "api-conventions": () => import("./pages/api-conventions"),
+  compatibility: () => import("./pages/compatibility"),
 };
 function RouteContent({ page, section }: { page: string; section?: string }) {
   const [loaded, setLoaded] = useState<{
@@ -109,6 +114,7 @@ function Shell(p: ShellProps) {
   );
   const [menuOpen, setMenuOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const [activeAnchor, setActiveAnchor] = useState("");
   const [page, section] = route.split("/");
   const current = nav.find((item) => item.id === page);
   const isComponents = current?.category === "components";
@@ -146,6 +152,35 @@ function Shell(p: ShellProps) {
   useEffect(() => {
     document.title = `${current?.title ?? "页面不存在"} · Ant Design for Octane`;
   }, [current]);
+  useEffect(() => {
+    let observer: IntersectionObserver | undefined;
+    const setup = () => {
+      observer?.disconnect();
+      const headings = (Object.hasOwn(toc, page) ? toc[page] : [])
+        .map(([id]) => document.getElementById(id))
+        .filter((node): node is HTMLElement => node !== null);
+      const update = () => {
+        const above = headings.filter(
+          (node) => node.getBoundingClientRect().top <= 160,
+        );
+        setActiveAnchor((above.at(-1) ?? headings[0])?.id ?? "");
+      };
+      observer = new IntersectionObserver(update, {
+        rootMargin: "-80px 0px -60% 0px",
+      });
+      for (const node of headings) observer.observe(node);
+      update();
+    };
+    setup();
+    window.addEventListener("docs:ready", setup);
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener("docs:ready", setup);
+    };
+  }, [page]);
+  const pageIndex = nav.findIndex((item) => item.id === page);
+  const previous = pageIndex > 0 ? nav[pageIndex - 1] : undefined;
+  const next = pageIndex >= 0 ? nav[pageIndex + 1] : undefined;
   return (
     <div
       className="site-root"
@@ -162,7 +197,19 @@ function Shell(p: ShellProps) {
       <header className="header">
         <a href="#overview" className="brand">
           <span className="brand-mark">
-            a<span>°</span>
+            <svg viewBox="0 0 36 36" fill="none" aria-hidden="true">
+              <path
+                d="M18 2 32 10v16L18 34 4 26V10Z"
+                stroke="currentColor"
+                strokeWidth="2.5"
+              />
+              <path
+                d="m4 10 14 8 14-8M18 18v16M11 14V6m14 8V6"
+                stroke="currentColor"
+                strokeWidth="2"
+              />
+              <circle cx="18" cy="18" r="3" fill="currentColor" />
+            </svg>
           </span>
           <span>
             Ant Design <b>for Octane</b>
@@ -179,7 +226,7 @@ function Shell(p: ShellProps) {
             }
           }}
         >
-          <span aria-hidden="true">⌕</span>
+          <Icon name="search" />
           <input
             id="doc-search"
             type="search"
@@ -235,13 +282,16 @@ function Shell(p: ShellProps) {
           <button
             type="button"
             className="theme-entry"
+            aria-label="主题实验室"
+            title="主题实验室"
             onClick={() =>
               (
                 document.getElementById("theme-dialog") as HTMLDialogElement
               ).showModal()
             }
           >
-            主题实验室
+            <Icon name="theme" />
+            <span>主题实验室</span>
           </button>
           <button
             type="button"
@@ -250,15 +300,17 @@ function Shell(p: ShellProps) {
             aria-pressed={p.dark}
             onClick={() => p.setDark(!p.dark)}
           >
-            {p.dark ? "☀" : "☾"}
+            <Icon name={p.dark ? "sun" : "moon"} />
           </button>
           <a
             className="github-link"
+            aria-label="GitHub 仓库"
+            title="GitHub 仓库"
             href="https://github.com/CoderSerio/antd-octane"
             target="_blank"
             rel="noreferrer"
           >
-            GitHub ↗
+            <Icon name="github" />
           </a>
         </div>
       </header>
@@ -279,31 +331,33 @@ function Shell(p: ShellProps) {
           className={`sidebar ${menuOpen ? "is-open" : ""}`}
         >
           <nav aria-label="文档导航">
-            {(isComponents ? ["组件", "通用"] : ["开始", "进阶使用"]).map(
-              (group) => (
-                <div className="nav-group" key={group}>
-                  <div className="nav-group-title">{group}</div>
-                  {nav
-                    .filter((item) => item.group === group)
-                    .map((item) => (
-                      <a
-                        key={item.id}
-                        href={`#${item.id}`}
-                        className={page === item.id ? "active" : ""}
-                        aria-current={page === item.id ? "page" : undefined}
-                        onClick={() => setMenuOpen(false)}
-                      >
-                        {item.title}
-                        {item.id === "button" && <small>Alpha</small>}
-                      </a>
-                    ))}
-                </div>
-              ),
-            )}
+            {(isComponents
+              ? ["组件", "通用", "数据录入"]
+              : ["开始", "进阶使用", "其他"]
+            ).map((group) => (
+              <div className="nav-group" key={group}>
+                <div className="nav-group-title">{group}</div>
+                {nav
+                  .filter((item) => item.group === group)
+                  .map((item) => (
+                    <a
+                      key={item.id}
+                      href={`#${item.id}`}
+                      className={page === item.id ? "active" : ""}
+                      aria-current={page === item.id ? "page" : undefined}
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      {item.title}
+                      {item.category === "components" &&
+                        item.id !== "components" && <small>Alpha</small>}
+                    </a>
+                  ))}
+              </div>
+            ))}
           </nav>
           <div className="sidebar-note">
             <span className="status-dot" />
-            0.1 开发预览<p>已实现 Button 与主题基础。</p>
+            0.1 开发预览<p>按组件验证，公开兼容边界。</p>
             <a href="https://github.com/CoderSerio/antd-octane/blob/main/docs/RFC-0001-antd-for-octane.md">
               阅读 RFC ↗
             </a>
@@ -311,6 +365,22 @@ function Shell(p: ShellProps) {
         </aside>
         <main id="main-content" className="main" tabIndex={-1}>
           <RouteContent page={page} section={section} />
+          {current && (
+            <nav className="page-turning" aria-label="文档翻页">
+              {previous && (
+                <a href={`#${previous.id}`}>
+                  <small>上一篇</small>
+                  <span>← {previous.title}</span>
+                </a>
+              )}
+              {next && (
+                <a className="next-page" href={`#${next.id}`}>
+                  <small>下一篇</small>
+                  <span>{next.title} →</span>
+                </a>
+              )}
+            </nav>
+          )}
           <footer>
             Ant Design for Octane <span>独立社区探索 · MIT</span>
           </footer>
@@ -322,7 +392,21 @@ function Shell(p: ShellProps) {
               <a
                 key={id}
                 href={`#${page}/${id}`}
-                aria-current={section === id ? "location" : undefined}
+                className={
+                  [
+                    "basic",
+                    "sizes",
+                    "states",
+                    "nested",
+                    "component",
+                    "controlled",
+                    "all",
+                    "refs",
+                  ].includes(id)
+                    ? "sub-anchor"
+                    : undefined
+                }
+                aria-current={activeAnchor === id ? "location" : undefined}
               >
                 {title}
               </a>

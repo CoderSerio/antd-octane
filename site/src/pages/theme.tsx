@@ -5,7 +5,7 @@ export default function ThemePage({ section }: { section?: string }) {
   return (
     <>
       <div className="eyebrow">GUIDE / THEMING</div>
-      <h1>让主题延续</h1>
+      <h1>定制主题</h1>
       <p className="lead">从已有的 theme 配置出发，而不是重新调一遍颜色。</p>
       <p className="intro">
         第一版复用 antd 5.29.3 的 seed / map / alias 算法。纯 token
@@ -21,7 +21,9 @@ export default function ThemePage({ section }: { section?: string }) {
       </h2>
       <ul className="prose-list">
         <li>默认、暗色、紧凑及组合算法的全量全局 token 与固定上游版本对照。</li>
-        <li>全局 token 覆盖、算法回调和 Button 组件级配置。</li>
+        <li>
+          全局 token 覆盖、算法回调和 Button / Input / Checkbox 组件级配置。
+        </li>
         <li>嵌套继承、独立主题，以及运行时切换。</li>
       </ul>
       <Demo
@@ -40,6 +42,7 @@ export default function ThemePage({ section }: { section?: string }) {
         的完整工具链消费测试尚未完成，暂不宣称已兼容。
       </p>
       <Code
+        language="css"
         source={
           "/* 使用 Tailwind v4 时，建议的层级顺序 */\n@layer theme, base, antd, components, utilities;"
         }

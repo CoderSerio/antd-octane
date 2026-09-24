@@ -1,58 +1,68 @@
-import { BasicDemo } from "../demos/basic";
 import { usePageAnchor } from "../docs-ui";
 export default function Overview({ section }: { section?: string }) {
   usePageAnchor(section);
   return (
     <>
-      <div className="eyebrow">ANT DESIGN × OCTANE</div>
-      <h1>
-        熟悉的设计，
-        <br />
-        新的运行方式。
-      </h1>
-      <p className="lead">将 Ant Design 的组件 API 与主题体系带到 Octane。</p>
-      <div className="hero-demo">
-        <BasicDemo />
-      </div>
-      <div className="feature-grid">
-        <article>
-          <span>01</span>
-          <h3>熟悉的 API</h3>
-          <p>从 Button 开始，逐项验证业务属性与交互行为。</p>
-        </article>
-        <article>
-          <span>02</span>
-          <h3>主题可以延续</h3>
-          <p>复用 v5 token 派生算法，验证已有主题配置。</p>
-        </article>
-        <article>
-          <span>03</span>
-          <h3>Octane 原生</h3>
-          <p>由 Octane 编译和渲染，组件运行时不依赖 React。</p>
-        </article>
-      </div>
+      <h1>Ant Design for Octane</h1>
+      <p className="lead">
+        基于 Octane 的 Ant Design 组件库，让熟悉的设计与开发体验得以延续。
+      </p>
+      <p>
+        面向从 antd 转向 Octane 的开发者，逐项对齐组件
+        API、交互与主题配置。组件运行时由 Octane 原生实现。
+      </p>
+      <h2 id="features" tabIndex={-1}>
+        特性
+      </h2>
+      <ul className="prose-list">
+        <li>熟悉的组件名称与业务 API，减少重新学习的成本。</li>
+        <li>
+          延续 Ant Design v5 的主题 token，支持品牌色、暗色、紧凑与嵌套配置。
+        </li>
+        <li>TypeScript 类型、可运行示例与明确的兼容边界。</li>
+        <li>静态 CSS 与命名 layer，不要求引入额外的样式框架。</li>
+      </ul>
+      <h2 id="environment" tabIndex={-1}>
+        支持环境
+      </h2>
+      <p>
+        当前使用 Octane 0.4.3 与 Ant Design 5.29.3 作为验证基线。开发环境要求
+        Node.js ≥ 22.22.2、pnpm 10.29.2。
+      </p>
+      <p>
+        目前主要在 Chromium
+        中验证浏览器交互；SSR、其他浏览器及辅助技术的完整验证仍待补充。
+      </p>
       <h2 id="progress" tabIndex={-1}>
         当前进度
       </h2>
       <p>
-        这是 0.1.0-alpha.0 的开发原型，尚未发布 npm 包。已提供
-        ConfigProvider、Button、主题算法及本地文档站。
+        0.1.0-alpha.0 为本地开发预览，尚未发布 npm 包。当前实现
+        Button、Input、Checkbox 与
+        ConfigProvider，按组件列出支持范围和已知差异。
       </p>
       <div className="demo-row">
         <a className="text-link" href="#start">
-          本地运行 →
+          快速开始 →
         </a>
-        <a className="text-link" href="#button">
-          查看 Button →
+        <a className="text-link" href="#components">
+          浏览组件 →
+        </a>
+        <a className="text-link" href="#compatibility">
+          兼容清单 →
         </a>
       </div>
-      <div className="notice">
-        <strong>独立社区项目</strong>
-        <p>
-          不代表 Ant Design 或 Octane 的官方立场。不承诺仅替换 import
-          即可迁移整个应用。
-        </p>
-      </div>
+      <h2 id="contribute" tabIndex={-1}>
+        参与贡献
+      </h2>
+      <p>
+        欢迎通过 Issue
+        提交可复现问题，或从一个示例、测试和文档修正开始。新增组件需要同时补齐类型、行为测试、主题和使用文档。
+      </p>
+      <p>
+        本项目为独立社区探索，不代表 Ant Design 或 Octane 官方。不承诺仅替换
+        import 即可迁移整个应用。
+      </p>
     </>
   );
 }

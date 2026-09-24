@@ -23,10 +23,10 @@ pnpm preview     # 预览 site/dist
 
 ## 第一版包含什么
 
-- Octane 原生 `Button` 和 `ConfigProvider`。
+- Octane 原生 `Button`、基础 `Input`、`Checkbox` 和 `ConfigProvider`。
 - antd v5 默认、暗色、紧凑主题算法，支持组合、自定义算法、token 覆盖和嵌套主题。
 - Button 常用类型、尺寸、禁用、加载、危险、幽灵、形状、链接和组件级主题。
-- 中文文档站：项目介绍、快速开始、Button API、源码展示和实时主题预览。
+- 中文文档站：接入指南、API 与语法约定、组件示例与 API、源码展示和实时主题预览。
 
 固定基线：Octane **0.4.3**、Ant Design **5.29.3**。全局 token 通过原版 antd 对照测试；这不代表所有组件与样式能力已兼容。详见[支持范围](docs/compatibility.md)。
 
@@ -64,3 +64,11 @@ export function App() {
 - [上游来源与第三方许可](packages/antd-octane/THIRD_PARTY_NOTICES.md)
 
 本项目采用 [MIT](LICENSE)。主题纯算法参考并移植自 Ant Design，保留原始许可。鸣谢 [Ant Design](https://github.com/ant-design/ant-design)、[Octane](https://github.com/octanejs/octane) 与 [Antdv Next](https://github.com/antdv-next/antdv-next)。
+
+## 开发文档
+
+- [API 与语法决策](docs/api-decisions.md)：受控值、事件、ref、主题与后续 API。
+- [工程与文档实施约定](docs/project-blueprint.md)：工程结构、文档质量与扩展顺序。
+- [Alpha 检查清单](docs/v0.1.0-alpha-checklist.md)：已完成与待验证项。
+
+当前新增基础 Input、Checkbox；支持范围以 [兼容清单](docs/compatibility.md) 为准。运行本地文档站可查看示例、源码和 API。

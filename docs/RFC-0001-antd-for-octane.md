@@ -115,3 +115,9 @@
 参考 [Ant Design](https://ant.design/components/button-cn/) 和 [Antdv Next](https://www.antdv-next.com/components/button-cn) 的文档结构：顶部区分研发与组件，左侧展示当前栏目的分组菜单，右侧提供页内目录。首版只列出已有文档与组件，不展示未实现的组件占位。主题实验室从顶部打开，保留示例的主要阅读空间；移动端使用可折叠导航。
 
 文档路由按页加载，示例源码展开时再请求。搜索先使用本地标题和关键词，不引入在线编辑器、远程字体或第三方搜索服务。主题调节直接复用组件库的 ConfigProvider。后续增加组件时，检查生产构建的首屏请求和交互，避免所有示例进入公共入口。官网的主观卡顿感不作为本项目性能优势的证据，具体原因需要单独测量。
+
+## 9. 实施记录入口
+
+早期 API 讨论已整理为独立的 [API 决策](api-decisions.md)，逐项保留 ref、受控值、输入事件、Form.rules、命令式 API、主题与 render 回调的结论和验证状态。Octane 0.4.3 使用 Hooks 与 `.current`；旧稿中基于 signal 模型的语法假设不作为实现契约。
+
+工程和文档质量要求见 [实施约定](project-blueprint.md)，首版剩余事项见 [alpha 清单](v0.1.0-alpha-checklist.md)。基础 Input、Checkbox 的实现和差异已加入 [兼容清单](compatibility.md)。

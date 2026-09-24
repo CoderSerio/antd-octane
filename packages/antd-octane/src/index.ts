@@ -13,6 +13,8 @@ export { ConfigProvider } from "./config-provider";
 export type {
   AliasToken,
   ButtonToken,
+  ComponentTheme,
+  InputToken,
   MappingAlgorithm,
   MapToken,
   SeedToken,
@@ -25,3 +27,12 @@ export const theme = {
   getDesignToken,
   useToken,
 };
+
+export type {
+  CheckboxChangeEvent,
+  CheckboxProps,
+  CheckboxRef,
+} from "./checkbox";
+export { Checkbox } from "./checkbox";
+export type { InputChangeEvent, InputProps, InputRef } from "./input";
+export { Input } from "./input";

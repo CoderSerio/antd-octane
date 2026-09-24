@@ -1,0 +1,54 @@
+import { ApiTable, usePageAnchor } from "../docs-ui";
+export default function Compatibility({ section }: { section?: string }) {
+  usePageAnchor(section);
+  return (
+    <>
+      <h1>兼容与迁移</h1>
+      <p className="lead">
+        验证基线为 Ant Design 5.29.3、Octane
+        0.4.3。以下为支持子集，不代表完整兼容。
+      </p>
+      <h2 id="matrix" tabIndex={-1}>
+        支持矩阵
+      </h2>
+      <ApiTable
+        rows={[
+          [
+            "Button",
+            "常用类型、尺寸、状态、图标、链接与 ref",
+            "已实现",
+            "alpha",
+          ],
+          ["Input", "基础文本、尺寸、状态、受控输入与 ref", "已实现", "alpha"],
+          ["Checkbox", "受控、非受控、禁用、中间态与 ref", "已实现", "alpha"],
+          ["ConfigProvider", "主题、尺寸、禁用与嵌套作用域", "已实现", "alpha"],
+          ["Form / Table / Modal", "动态表单、表格及浮层", "未实现", "—"],
+        ]}
+      />
+      <h2 id="migration" tabIndex={-1}>
+        迁移检查
+      </h2>
+      <ol className="prose-list">
+        <li>将组件与主题算法导入改为 antd-octane，并显式引入 style.css。</li>
+        <li>状态与 ref 从 octane 导入，使用 useState 和 ref.current。</li>
+        <li>
+          只迁移支持范围内的 theme.token 与组件
+          token；先验证暗色、紧凑和局部覆盖。
+        </li>
+        <li>检查依赖 SyntheticEvent、深层 DOM 选择器或 React 插件的代码。</li>
+      </ol>
+      <h2 id="pending" tabIndex={-1}>
+        待验证能力
+      </h2>
+      <p>
+        SSR、prefixCls、cssVar、hashed、StyleProvider、Tailwind / StyleX
+        完整消费、浮层和表单集成尚未完成。Input 的前后缀、清除、密码、搜索与
+        TextArea，Checkbox.Group 均未提供。
+      </p>
+      <p>
+        Button
+        已完成一组固定上游样式对照；新增组件不据此自动获得相同的验证结论。
+      </p>
+    </>
+  );
+}

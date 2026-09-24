@@ -1,7 +1,13 @@
 import "../../packages/antd-octane/src/style.css";
 import { createRoot } from "octane";
-import { Button, ConfigProvider, theme } from "../../packages/antd-octane/src";
-import { brand, cases, component } from "./cases";
+import {
+  Button,
+  Checkbox,
+  ConfigProvider,
+  Input,
+  theme,
+} from "../../packages/antd-octane/src";
+import { brand, cases, checkboxCases, component, inputCases } from "./cases";
 
 const name = new URLSearchParams(location.search).get("theme");
 const config =
@@ -23,6 +29,18 @@ createRoot(root).render(
         <Button {...props} id={id}>
           Button
         </Button>
+      </div>
+    ))}
+    {inputCases.map(({ id, props }) => (
+      <div key={id} style={{ padding: 12, width: 280 }}>
+        <Input {...props} id={id} defaultValue="Input" />
+      </div>
+    ))}
+    {checkboxCases.map(({ id, props }) => (
+      <div key={id} style={{ padding: 12 }}>
+        <Checkbox {...props} id={id}>
+          Checkbox
+        </Checkbox>
       </div>
     ))}
   </ConfigProvider>,

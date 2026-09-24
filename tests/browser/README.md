@@ -28,4 +28,10 @@ Build the site and open its production preview (currently `http://127.0.0.1:4174
 - At 390px, the menu collapses after navigation, the dialog fits, and the document has no horizontal overflow (code blocks scroll internally).
 - A fresh overview load requests only its page and shared modules. Expanding the first Button source requests exactly one additional source module.
 
-The September 25 layout build has approximately 95 KB gzip of JavaScript for the overview and 97 KB for Button, including shared modules; CSS is approximately 4.3 KB gzip. These are build artifact sizes, not field performance scores. The previous unsplit site was approximately 94 KB gzip of JavaScript. Page splitting limits future growth; it is not evidence of a large speedup today. No runtime dependencies were added for navigation or search.
+The current build has approximately 100 KB gzip of JavaScript for the overview, including shared modules, and 5.4 KB gzip of CSS. Pages, component implementations and example sources are split into separate chunks. These are build artifact sizes, not field performance scores. No runtime dependencies were added for navigation, code highlighting or search.
+
+## Input and Checkbox
+
+`compare-inputs.mjs` uses the same separate renderer documents and five themes. It compares six Input cases (default, small, large, error, warning, disabled) and six Checkbox cases (default, checked, indeterminate and their disabled states). Base, hover and available focus states include checkbox pseudo-element dimensions/colors. The current fixture performs 1,760 property comparisons; expect `differences: []`.
+
+Run it with the same `playwright-cli run-code` method as `compare.mjs`, substituting `compare-inputs.mjs`. The scope is deliberately limited: no claim of full pixel, motion, browser or accessibility parity.

@@ -28,6 +28,12 @@ export const brand: ThemeConfig = {
 export const component: ThemeConfig = {
   token: { colorPrimary: "#13a8a8" },
   components: {
+    Input: {
+      activeBorderColor: "#123456",
+      inputFontSize: 15,
+      paddingInline: 18,
+    },
+    Checkbox: { colorPrimary: "#654321", controlInteractiveSize: 20 },
     Button: {
       primaryColor: "#112233",
       fontWeight: 600,
@@ -37,3 +43,29 @@ export const component: ThemeConfig = {
     },
   },
 };
+
+export const inputCases: {
+  id: string;
+  props: import("../../packages/antd-octane/src").InputProps;
+}[] = [
+  { id: "input-default", props: {} },
+  { id: "input-small", props: { size: "small" } },
+  { id: "input-large", props: { size: "large" } },
+  { id: "input-error", props: { status: "error" } },
+  { id: "input-warning", props: { status: "warning" } },
+  { id: "input-disabled", props: { disabled: true } },
+];
+export const checkboxCases = [
+  { id: "check-default", props: {} },
+  { id: "check-checked", props: { defaultChecked: true } },
+  { id: "check-mixed", props: { indeterminate: true } },
+  { id: "check-disabled", props: { disabled: true } },
+  {
+    id: "check-disabled-checked",
+    props: { disabled: true, defaultChecked: true },
+  },
+  {
+    id: "check-disabled-mixed",
+    props: { disabled: true, indeterminate: true },
+  },
+];
