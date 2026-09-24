@@ -1,0 +1,14 @@
+{
+  "ant-design": {
+    "version": "5.29.3",
+    "commit": "14f397749dca177e5495dc9d1c2f7debfb639545",
+    "source": "components/theme",
+    "destination": "packages/antd-octane/src/theme/vendor",
+    "notes": "Pure theme algorithms and types; framework-specific type imports adapted. See THIRD_PARTY_NOTICES.md."
+  },
+  "octane": {
+    "version": "0.4.3",
+    "source": "npm",
+    "notes": "Pinned compiler and runtime; no source vendored."
+  }
+}

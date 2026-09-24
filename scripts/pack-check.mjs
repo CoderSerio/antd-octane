@@ -1,0 +1,106 @@
+import { execFileSync } from "node:child_process";
+import {
+  mkdtempSync,
+  readdirSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
+import { tmpdir } from "node:os";
+import { join, resolve } from "node:path";
+
+const root = resolve(import.meta.dirname, "..");
+const directory = mkdtempSync(join(tmpdir(), "antd-octane-consumer-"));
+const run = (args, cwd = directory) =>
+  execFileSync("pnpm", args, { cwd, stdio: "inherit" });
+try {
+  run(
+    ["pack", "--pack-destination", directory],
+    join(root, "packages/antd-octane"),
+  );
+  const archive = readdirSync(directory).find((name) => name.endsWith(".tgz"));
+  if (!archive) throw new Error("Package archive missing");
+  const versions = JSON.parse(
+    readFileSync(join(root, "package.json"), "utf8"),
+  ).devDependencies;
+  writeFileSync(
+    join(directory, "package.json"),
+    JSON.stringify(
+      {
+        name: "antd-octane-consumer-check",
+        private: true,
+        type: "module",
+        dependencies: {
+          "antd-octane": `file:./${archive}`,
+          octane: versions.octane,
+        },
+        devDependencies: {
+          vite: versions.vite,
+          typescript: versions.typescript,
+          "@types/node": versions["@types/node"],
+        },
+      },
+      null,
+      2,
+    ),
+  );
+  writeFileSync(join(directory, ".npmrc"), "auto-install-peers=false\n");
+  run(["install", "--offline", "--ignore-scripts"]);
+  writeFileSync(
+    join(directory, "index.html"),
+    '<div id="root"></div><script type="module" src="/main.tsx"></script>',
+  );
+  writeFileSync(
+    join(directory, "main.tsx"),
+    `
+import { createRoot } from 'octane';
+import { Button, ConfigProvider, theme } from 'antd-octane';
+import 'antd-octane/style.css';
+createRoot(document.getElementById('root')!).render(
+  <ConfigProvider theme={{ algorithm: theme.darkAlgorithm, token: { colorPrimary: '#722ed1' } }}>
+    <Button type="primary">Packed consumer</Button>
+  </ConfigProvider>
+);
+`,
+  );
+  writeFileSync(
+    join(directory, "tsconfig.json"),
+    JSON.stringify({
+      compilerOptions: {
+        target: "ES2022",
+        module: "ESNext",
+        moduleResolution: "Bundler",
+        strict: true,
+        skipLibCheck: true,
+        jsx: "react-jsx",
+        jsxImportSource: "octane",
+        noEmit: true,
+      },
+      include: ["main.tsx"],
+    }),
+  );
+  writeFileSync(
+    join(directory, "vite.config.ts"),
+    `import { defineConfig } from 'vite';
+import { octane } from 'octane/compiler/vite';
+export default defineConfig({ plugins: [octane()], build: { target: 'es2022' } });`,
+  );
+  run(["exec", "tsc", "--noEmit"]);
+  run(["exec", "vite", "build"]);
+  const manifest = JSON.parse(
+    readFileSync(
+      join(directory, "node_modules/antd-octane/package.json"),
+      "utf8",
+    ),
+  );
+  if (manifest.dependencies?.react || manifest.dependencies?.antd)
+    throw new Error("Unexpected React runtime dependency");
+  console.log(
+    "Packed consumer typecheck and production build passed; no workspace source aliases.",
+  );
+  if (process.env.KEEP_CONSUMER)
+    console.log(`Consumer retained at ${directory}`);
+} finally {
+  if (!process.env.KEEP_CONSUMER)
+    rmSync(directory, { recursive: true, force: true });
+}

@@ -1,0 +1,286 @@
+@layer antd {
+  :where(.ant-btn) {
+    box-sizing: border-box;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--ao-btn-gap);
+    height: var(--ao-btn-height);
+    padding: 0 var(--ao-btn-padding);
+    border: var(--ao-btn-line-width) var(--ao-btn-line-type)
+      var(--ao-btn-border);
+    border-radius: var(--ao-btn-radius);
+    color: var(--ao-btn-color);
+    background: var(--ao-btn-bg);
+    box-shadow: var(--ao-btn-shadow);
+    font-family: var(--ao-btn-font);
+    font-size: var(--ao-btn-font-size);
+    font-weight: var(--ao-btn-weight);
+    line-height: normal;
+    white-space: nowrap;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    user-select: none;
+    transition:
+      color var(--ao-btn-duration),
+      background var(--ao-btn-duration),
+      border-color var(--ao-btn-duration),
+      box-shadow var(--ao-btn-duration);
+  }
+  :where(.ant-btn):not(:disabled):not([aria-disabled="true"]):hover {
+    color: var(--ao-btn-hover-color);
+    background: var(--ao-btn-hover-bg);
+    border-color: var(--ao-btn-hover-border);
+  }
+  :where(.ant-btn):not(:disabled):not([aria-disabled="true"]):active {
+    color: var(--ao-btn-active-color);
+    background: var(--ao-btn-active-bg);
+    border-color: var(--ao-btn-active-border);
+  }
+  :where(.ant-btn):focus-visible {
+    outline: var(--ao-btn-focus-width) solid var(--ao-btn-focus-color);
+    outline-offset: 1px;
+  }
+  :where(.ant-btn-small) {
+    height: var(--ao-btn-height-sm);
+    padding-inline: var(--ao-btn-padding-sm);
+    border-radius: var(--ao-btn-radius-sm);
+    font-size: var(--ao-btn-font-size-sm);
+  }
+  :where(.ant-btn-large) {
+    height: var(--ao-btn-height-lg);
+    padding-inline: var(--ao-btn-padding-lg);
+    border-radius: var(--ao-btn-radius-lg);
+    font-size: var(--ao-btn-font-size-lg);
+  }
+  :where(.ant-btn-primary) {
+    color: var(--ao-btn-primary-color);
+    background: var(--ao-btn-primary);
+    border-color: transparent;
+    box-shadow: var(--ao-btn-primary-shadow);
+  }
+  :where(.ant-btn-primary):not(:disabled):not([aria-disabled="true"]):hover {
+    color: var(--ao-btn-primary-color);
+    background: var(--ao-btn-primary-hover);
+    border-color: transparent;
+  }
+  :where(.ant-btn-primary):not(:disabled):not([aria-disabled="true"]):active {
+    color: var(--ao-btn-primary-color);
+    background: var(--ao-btn-primary-active);
+    border-color: transparent;
+  }
+  :where(.ant-btn-dashed) {
+    border-style: dashed;
+  }
+  :where(.ant-btn-text, .ant-btn-link) {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+  }
+  :where(.ant-btn-text) {
+    color: var(--ao-btn-text-color);
+  }
+  :where(.ant-btn-text):not(:disabled):not([aria-disabled="true"]):hover {
+    color: var(--ao-btn-text-hover-color);
+    background: var(--ao-btn-text-hover-bg);
+    border-color: transparent;
+  }
+  :where(.ant-btn-text):not(:disabled):not([aria-disabled="true"]):active {
+    color: var(--ao-btn-text-active-color);
+    background: var(--ao-btn-text-active-bg);
+    border-color: transparent;
+  }
+  :where(.ant-btn-link) {
+    color: var(--ao-btn-link);
+  }
+  :where(.ant-btn-link):not(:disabled):not([aria-disabled="true"]):hover {
+    color: var(--ao-btn-link-hover);
+    background: var(--ao-btn-link-hover-bg);
+    border-color: transparent;
+  }
+  :where(.ant-btn-link):not(:disabled):not([aria-disabled="true"]):active {
+    color: var(--ao-btn-link-active);
+    background: transparent;
+    border-color: transparent;
+  }
+  :where(.ant-btn-dangerous) {
+    color: var(--ao-btn-error);
+    border-color: var(--ao-btn-error);
+  }
+  :where(.ant-btn-dangerous):not(:disabled):not([aria-disabled="true"]):hover {
+    color: var(--ao-btn-error-hover);
+    border-color: var(--ao-btn-error-border-hover);
+  }
+  :where(.ant-btn-dangerous):not(:disabled):not([aria-disabled="true"]):active {
+    color: var(--ao-btn-error-active);
+    border-color: var(--ao-btn-error-active);
+  }
+  :where(.ant-btn-primary.ant-btn-dangerous) {
+    color: var(--ao-btn-danger-color);
+    background: var(--ao-btn-error);
+    border-color: transparent;
+    box-shadow: var(--ao-btn-danger-shadow);
+  }
+  :where(.ant-btn-primary.ant-btn-dangerous):not(:disabled):not(
+      [aria-disabled="true"]
+    ):hover {
+    color: var(--ao-btn-primary-color);
+    background: var(--ao-btn-error-hover);
+    border-color: transparent;
+  }
+  :where(.ant-btn-primary.ant-btn-dangerous):not(:disabled):not(
+      [aria-disabled="true"]
+    ):active {
+    color: var(--ao-btn-primary-color);
+    background: var(--ao-btn-error-active);
+    border-color: transparent;
+  }
+  :where(.ant-btn-text.ant-btn-dangerous, .ant-btn-link.ant-btn-dangerous) {
+    border-color: transparent;
+  }
+  :where(.ant-btn-text.ant-btn-dangerous, .ant-btn-link.ant-btn-dangerous):not(
+      :disabled
+    ):not([aria-disabled="true"]):hover {
+    border-color: transparent;
+    background: var(--ao-btn-error-bg);
+  }
+  :where(.ant-btn-link.ant-btn-dangerous):not(:disabled):not(
+      [aria-disabled="true"]
+    ):hover,
+  :where(.ant-btn-link.ant-btn-dangerous):not(:disabled):not(
+      [aria-disabled="true"]
+    ):active {
+    background: transparent;
+    border-color: transparent;
+  }
+  :where(.ant-btn-text.ant-btn-dangerous):not(:disabled):not(
+      [aria-disabled="true"]
+    ):active {
+    background: var(--ao-btn-error-bg-active);
+    color: var(--ao-btn-error-hover);
+    border-color: transparent;
+  }
+  :where(.ant-btn-background-ghost) {
+    color: var(--ao-btn-ghost-color);
+    background: var(--ao-btn-ghost-bg);
+    border-color: var(--ao-btn-ghost-border);
+    box-shadow: none;
+  }
+  :where(.ant-btn-primary.ant-btn-background-ghost) {
+    color: var(--ao-btn-primary);
+    border-color: var(--ao-btn-primary);
+  }
+  :where(.ant-btn-background-ghost):not(:disabled):not(
+      [aria-disabled="true"]
+    ):hover {
+    background: transparent;
+    color: var(--ao-btn-primary-hover);
+    border-color: var(--ao-btn-primary-hover);
+  }
+  :where(.ant-btn-background-ghost):not(:disabled):not(
+      [aria-disabled="true"]
+    ):active {
+    background: transparent;
+    color: var(--ao-btn-primary-active);
+    border-color: var(--ao-btn-primary-active);
+  }
+  :where(.ant-btn-dangerous.ant-btn-background-ghost) {
+    color: var(--ao-btn-error);
+    border-color: var(--ao-btn-error);
+  }
+  :where(.ant-btn-dangerous.ant-btn-background-ghost):not(:disabled):not(
+      [aria-disabled="true"]
+    ):hover {
+    color: var(--ao-btn-error-hover);
+    border-color: var(--ao-btn-error-hover);
+  }
+  :where(.ant-btn-dangerous.ant-btn-background-ghost):not(:disabled):not(
+      [aria-disabled="true"]
+    ):active {
+    color: var(--ao-btn-error-active);
+    border-color: var(--ao-btn-error-active);
+  }
+  :where(.ant-btn-round) {
+    border-radius: var(--ao-btn-height);
+  }
+  :where(.ant-btn-round.ant-btn-small) {
+    border-radius: var(--ao-btn-height-sm);
+  }
+  :where(.ant-btn-round.ant-btn-large) {
+    border-radius: var(--ao-btn-height-lg);
+  }
+  :where(.ant-btn-circle) {
+    border-radius: 50%;
+    aspect-ratio: 1;
+    padding: 0;
+    min-width: var(--ao-btn-height);
+  }
+  :where(.ant-btn-circle.ant-btn-small) {
+    min-width: var(--ao-btn-height-sm);
+  }
+  :where(.ant-btn-circle.ant-btn-large) {
+    min-width: var(--ao-btn-height-lg);
+  }
+  :where(.ant-btn-icon-only) {
+    width: var(--ao-btn-height);
+    padding-inline: 0;
+  }
+  :where(.ant-btn-icon-only.ant-btn-small) {
+    width: var(--ao-btn-height-sm);
+  }
+  :where(.ant-btn-icon-only.ant-btn-large) {
+    width: var(--ao-btn-height-lg);
+  }
+  :where(.ant-btn-block) {
+    display: flex;
+    width: 100%;
+  }
+  :where(.ant-btn-loading) {
+    opacity: var(--ao-btn-loading-opacity);
+    cursor: default;
+  }
+  :where(.ant-btn):disabled,
+  :where(.ant-btn)[aria-disabled="true"] {
+    cursor: not-allowed;
+    color: var(--ao-btn-disabled-color);
+    background: var(--ao-btn-disabled-bg);
+    border-color: var(--ao-btn-disabled-border);
+    box-shadow: none;
+  }
+  :where(.ant-btn-text, .ant-btn-link):disabled,
+  :where(.ant-btn-text, .ant-btn-link)[aria-disabled="true"] {
+    background: transparent;
+    border-color: transparent;
+  }
+  :where(.ant-btn-background-ghost):disabled,
+  :where(.ant-btn-background-ghost)[aria-disabled="true"] {
+    background: var(--ao-btn-ghost-bg);
+  }
+  :where(.ant-btn-icon) {
+    display: inline-flex;
+    align-items: center;
+  }
+  :where(.ao-btn-spinner) {
+    width: 1em;
+    height: 1em;
+    border: 1.5px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: ao-spin 0.8s linear infinite;
+  }
+  @keyframes ao-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :where(.ant-btn) {
+      transition: none;
+    }
+    :where(.ao-btn-spinner) {
+      animation: none;
+    }
+  }
+}

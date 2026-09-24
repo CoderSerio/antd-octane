@@ -1,0 +1,30 @@
+{
+  "name": "antd-octane",
+  "version": "0.1.0-alpha.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "files": [
+    "dist",
+    "LICENSE",
+    "THIRD_PARTY_NOTICES.md"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/antd-octane.js"
+    },
+    "./style.css": "./dist/antd-octane.css"
+  },
+  "peerDependencies": {
+    "octane": "0.4.3"
+  },
+  "dependencies": {
+    "@ant-design/colors": "^7.2.1",
+    "@ant-design/fast-color": "^2.0.6",
+    "csstype": "^3.1.3"
+  }
+}
