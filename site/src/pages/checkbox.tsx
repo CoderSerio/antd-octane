@@ -1,6 +1,7 @@
 import { CheckboxAllDemo } from "../demos/checkbox-all";
 import { CheckboxBasicDemo } from "../demos/checkbox-basic";
 import { CheckboxControlledDemo } from "../demos/checkbox-controlled";
+import { BasicDemo as GroupDemo } from "../demos/checkbox-group-basic";
 import { CheckboxStatesDemo } from "../demos/checkbox-states";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function CheckboxPage({ section }: { section?: string }) {
@@ -59,6 +60,40 @@ export default function CheckboxPage({ section }: { section?: string }) {
           <CheckboxAllDemo />
         </Demo>
       </div>
+      <h2 id="group" tabIndex={-1}>
+        Checkbox.Group
+      </h2>
+      <Demo
+        title="多选组合"
+        description="通过 options 或 Checkbox 子项创建选择组，保留原始值类型。"
+        source={() => import("../demos/checkbox-group-basic.tsx?raw")}
+      >
+        <GroupDemo />
+      </Demo>
+      <ApiTable
+        rows={[
+          [
+            "value / defaultValue",
+            "受控值 / 初始值",
+            "(string | number | boolean)[]",
+            "— / []",
+          ],
+          [
+            "options / children",
+            "选项数组或子项",
+            "Option[] / OctaneNode",
+            "—",
+          ],
+          ["onChange", "返回当前已挂载选项顺序的值", "(values) => void", "—"],
+          [
+            "disabled / name",
+            "禁用和原生表单名称",
+            "boolean / string",
+            "false / —",
+          ],
+          ["skipGroup", "Checkbox 单项脱离所在组", "boolean", "false"],
+        ]}
+      />
       <h2 id="api" tabIndex={-1}>
         API
       </h2>
@@ -101,8 +136,7 @@ export default function CheckboxPage({ section }: { section?: string }) {
           已知差异
         </strong>
         <p>
-          尚未提供 Checkbox.Group、options 或 Form.Item 集成，未实现上游 wave
-          动效。回调提供
+          尚未提供 Form.Item 集成，未实现上游 wave 动效。回调提供
           target.checked、target.value、nativeEvent、preventDefault 与
           stopPropagation，不提供 React SyntheticEvent。
         </p>

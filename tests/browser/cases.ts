@@ -28,6 +28,12 @@ export const brand: ThemeConfig = {
 export const component: ThemeConfig = {
   token: { colorPrimary: "#13a8a8" },
   components: {
+    Radio: { radioSize: 20, dotSize: 10, buttonBg: "#fffbe6" },
+    Tag: { defaultBg: "#fffbe6", defaultColor: "#ad6800" },
+    Alert: { defaultPadding: "10px 18px", withDescriptionPadding: "18px 26px" },
+    Card: { headerFontSize: 18, headerHeight: 64, bodyPadding: 20 },
+    Badge: { indicatorHeight: 24, textFontSize: 14 },
+    Avatar: { containerSize: 36, containerSizeLG: 48 },
     Input: {
       activeBorderColor: "#123456",
       inputFontSize: 15,

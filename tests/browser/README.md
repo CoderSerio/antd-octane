@@ -37,3 +37,5 @@ The current build has approximately 100 KB gzip of JavaScript for the overview, 
 Run it with the same `playwright-cli run-code` method as `compare.mjs`, substituting `compare-inputs.mjs`. The scope is deliberately limited: no claim of full pixel, motion, browser or accessibility parity.
 
 `compare-foundation.mjs` 对照 Switch 与 Divider 在五组主题下的 420 个根元素样式值。只覆盖夹具中的尺寸、颜色、字体和间距，不代表完整状态或子元素视觉一致。
+
+`compare-display.mjs` 对照 Radio、Tag、Alert、Card、Badge、Avatar 的常用形态，在五组主题下比较 1,235 个根元素和关键子元素样式值。组件级主题包含显式 token 覆盖。真实文档浏览器另检验选择组键盘/受控行为、标签取消关闭、头像缩放和提示移除。

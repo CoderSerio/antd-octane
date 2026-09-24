@@ -1,12 +1,18 @@
 import "../../packages/antd-octane/src/style.css";
 import { createRoot } from "octane";
 import {
+  Alert,
+  Avatar,
+  Badge,
   Button,
+  Card,
   Checkbox,
   ConfigProvider,
   Divider,
   Input,
+  Radio,
   Switch,
+  Tag,
   theme,
 } from "../../packages/antd-octane/src";
 import {
@@ -59,5 +65,45 @@ createRoot(root).render(
     ))}
     <Divider id="divider-default" />
     <Divider id="divider-text">Title</Divider>
+    <div data-display="radio">
+      <Radio checked>Radio</Radio>
+    </div>
+    <div data-display="radio-button">
+      <Radio.Group defaultValue="a" optionType="button" options={["a", "b"]} />
+    </div>
+    <div data-display="tag">
+      <Tag>Tag</Tag>
+    </div>
+    <div data-display="tag-success">
+      <Tag color="success">Success</Tag>
+    </div>
+    <div data-display="tag-blue">
+      <Tag color="blue">Blue</Tag>
+    </div>
+    <div data-display="alert">
+      <Alert message="Message" type="success" />
+    </div>
+    <div data-display="alert-description">
+      <Alert message="Message" description="Description" showIcon />
+    </div>
+    <div data-display="card">
+      <Card title="Title">Body</Card>
+    </div>
+    <div data-display="card-small">
+      <Card title="Title" size="small">
+        Body
+      </Card>
+    </div>
+    <div data-display="badge">
+      <Badge count={5} />
+    </div>
+    <div data-display="avatar">
+      <Avatar>O</Avatar>
+    </div>
+    <div data-display="avatar-large">
+      <Avatar size="large" shape="square">
+        O
+      </Avatar>
+    </div>
   </ConfigProvider>,
 );

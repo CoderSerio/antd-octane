@@ -41,14 +41,14 @@
     color: inherit;
     text-decoration: none;
   }
-  button:not(.ant-btn):not(.ant-switch),
-  input:not(.ant-input):not(.ant-checkbox-input) {
+  button:not([class*="ant-"]),
+  input:not([class*="ant-"]) {
     font: inherit;
   }
   :where(
       a:not(.ant-btn),
-      button:not(.ant-btn):not(.ant-switch),
-      input:not(.ant-input):not(.ant-checkbox-input),
+      button:not([class*="ant-"]),
+      input:not([class*="ant-"]),
       summary
     ):focus-visible {
     outline: 2px solid var(--accent, #1677ff);

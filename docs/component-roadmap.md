@@ -19,5 +19,6 @@ Form、Table、日期/时间选择、Tree/TreeSelect/Cascader、Select/AutoCompl
 
 - 已验证基础版：Button、Input、Checkbox、ConfigProvider。
 - 已实现并完成首轮验证：Flex、Space、Divider、Switch；主题页补齐品牌色、预设算法、组件级和嵌套主题演示，主题面板使用 Switch。
-- 下一批：Radio / Checkbox.Group、Tag、Alert、Card、Badge、Avatar 等常规交互与展示组件。
+- 已实现并完成首轮验证：Radio / Checkbox.Group、Tag / CheckableTag、Alert、Card / Meta、Badge、Avatar；各组件的未支持能力见文档。
+- 下一批：Grid / Layout、Typography、Collapse、Descriptions、Empty、List、Statistic、Timeline，以及 Tabs 等常规交互。
 - 其余条目待实现，不视为已支持。

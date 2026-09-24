@@ -31,7 +31,7 @@
 
 支持 `checked/defaultChecked`、`indeterminate`、`disabled`、原生属性、标签 children、`className/style` 与 ref（`input/nativeElement/focus/blur`）。onChange 具有 `target.checked/value`、`nativeEvent`、`preventDefault` 和 `stopPropagation`，不是完整 SyntheticEvent。中间态使用原生 indeterminate 属性与视觉样式。
 
-支持通过 components.Checkbox 覆盖相关全局 token、指定算法及继承主题。暂不提供 Checkbox.Group、options、Form.Item 集成、wave 动效或任意 DOM 结构兼容。
+支持通过 components.Checkbox 覆盖相关全局 token、指定算法及继承主题。支持 Checkbox.Group 的 options / 子项、受控值、禁用、name 和 skipGroup。暂不提供 Form.Item 集成、wave 动效或任意 DOM 结构兼容。
 
 ## 样式与包
 
@@ -62,3 +62,15 @@ Divider 支持水平/垂直、文字、orientation、orientationMargin、plain�
 Switch 支持受控/非受控、value 别名、文字、大小、加载、禁用、原生 button ref，以及键盘操作。事件为原生事件。支持轨道/滑块尺寸、背景、阴影 token，暂不支持 innerMargin 系列 token、wave 和完整按压动效。
 
 完整扩展顺序见 [组件路线图](component-roadmap.md)，其中待办不代表已支持。
+
+## 选择与信息展示
+
+- Radio：普通 / 按钮、Group options / 子项、受控 / 非受控、值类型保留、原生 name 与方向键、禁用、大小、block 和 ref。支持组件尺寸、圆点、按钮背景/颜色/间距 token；暂不支持 Form、wireframe、完整动效和语义化 styles/classNames。
+- Checkbox.Group：值支持 string / number / boolean，受控 / 非受控、options / 子项、disabled、name、skipGroup。回调按当前挂载选项的 DOM 顺序返回值，移除选项不继续返回。
+- Tag：预设色、状态色、自定义 CSS 颜色、边框、图标、可取消关闭和受控 CheckableTag；defaultBg/defaultColor 及 alias token。暂不支持 inverse、closable 对象、visible、关闭动画。
+- Alert：四种状态、描述、图标、banner、action、关闭和 afterClose、nativeElement ref；支持三个组件 token。默认 SVG 为本库绘制。暂不支持 ErrorBoundary、closable 对象、关闭动画。
+- Card：标题、extra、cover、actions、加载占位、大小、边框、hoverable、Meta、headStyle/bodyStyle 和 header/body/cover/actions 的 styles/classNames；支持头部/内容间距等组件 token。暂不支持 Grid、tabList 和完整 inner 变体。
+- Badge：数量、溢出、零值、dot、status/text、CSS color、大小、offset；style 作用于指示器，支持计数与状态尺寸等组件 token。暂不支持 Ribbon、数字滚动动画和预设颜色名映射。
+- Avatar：图片、字符、图标、形状、预设/数字尺寸、gap、文字缩放、onError 回退与 nativeElement ref；支持尺寸及字体组件 token。暂不支持 Group、响应式 size 对象和元素形式 src。
+
+各组件文档页列出具体参数和主题变量。新增浏览器夹具比较普通、品牌、暗色、紧凑和组件级主题下的 1,235 项稳定样式值；它不覆盖完整属性、状态、动效或所有浏览器。

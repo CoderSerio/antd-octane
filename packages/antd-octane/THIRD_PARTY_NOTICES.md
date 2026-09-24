@@ -35,3 +35,5 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 Switch and Divider supported token defaults and style behavior are also adapted from the same Ant Design 5.29.3 MIT-licensed baseline.
+
+Radio, Tag, Alert, Card, Badge and Avatar supported token defaults and style behavior are adapted from the same Ant Design 5.29.3 MIT-licensed baseline. Radio and Checkbox group API behavior was referenced during the independent Octane implementation. Alert status SVGs are authored here.

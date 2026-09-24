@@ -10,6 +10,12 @@ type PageComponent = (props: {
 }) => import("octane").OctaneNode;
 const pages: Record<string, () => Promise<{ default: PageComponent }>> = {
   button: () => import("./pages/button"),
+  radio: () => import("./pages/radio"),
+  tag: () => import("./pages/tag"),
+  alert: () => import("./pages/alert"),
+  card: () => import("./pages/card"),
+  badge: () => import("./pages/badge"),
+  avatar: () => import("./pages/avatar"),
   flex: () => import("./pages/flex"),
   space: () => import("./pages/space"),
   divider: () => import("./pages/divider"),

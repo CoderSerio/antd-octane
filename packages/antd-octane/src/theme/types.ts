@@ -73,6 +73,60 @@ export interface ThemeConfig {
     Button?: ButtonTheme;
     Input?: ComponentTheme<InputToken>;
     Checkbox?: ComponentTheme;
+    Radio?: ComponentTheme<{
+      radioSize: number;
+      dotSize: number;
+      dotColorDisabled: string;
+      buttonBg: string;
+      buttonCheckedBg: string;
+      buttonColor: string;
+      buttonSolidCheckedColor: string;
+      buttonSolidCheckedBg: string;
+      buttonSolidCheckedHoverBg: string;
+      buttonSolidCheckedActiveBg: string;
+      buttonPaddingInline: number;
+      wrapperMarginInlineEnd: number;
+    }>;
+    Tag?: ComponentTheme<{ defaultBg: string; defaultColor: string }>;
+    Alert?: ComponentTheme<{
+      withDescriptionIconSize: number;
+      defaultPadding: string;
+      withDescriptionPadding: string;
+    }>;
+    Card?: ComponentTheme<{
+      headerBg: string;
+      headerFontSize: number;
+      headerFontSizeSM: number;
+      headerHeight: number;
+      headerHeightSM: number;
+      actionsBg: string;
+      extraColor: string;
+      bodyPadding: number;
+      bodyPaddingSM: number;
+      headerPadding: number;
+      headerPaddingSM: number;
+    }>;
+    Badge?: ComponentTheme<{
+      indicatorZIndex: string | number;
+      indicatorHeight: number;
+      indicatorHeightSM: number;
+      dotSize: number;
+      textFontSize: number;
+      textFontSizeSM: number;
+      textFontWeight: CSSProperties["fontWeight"];
+      statusSize: number;
+    }>;
+    Avatar?: ComponentTheme<{
+      containerSize: number;
+      containerSizeLG: number;
+      containerSizeSM: number;
+      textFontSize: number;
+      textFontSizeLG: number;
+      textFontSizeSM: number;
+      iconFontSize: number;
+      iconFontSizeLG: number;
+      iconFontSizeSM: number;
+    }>;
     Divider?: ComponentTheme<{
       textPaddingInline: string | number;
       orientationMargin: number;

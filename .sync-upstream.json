@@ -19,7 +19,13 @@
       "components/input/style",
       "components/checkbox/style",
       "components/switch/style",
-      "components/divider/style"
+      "components/divider/style",
+      "components/radio/style",
+      "components/tag/style",
+      "components/alert/style",
+      "components/card/style",
+      "components/badge/style",
+      "components/avatar/style"
     ],
     "destination": [
       "packages/antd-octane/src/button/tokens.ts",

@@ -90,6 +90,48 @@ export const nav = [
     group: "数据录入",
     keywords: "checkbox check 多选 表单",
   },
+  {
+    id: "radio",
+    title: "Radio 单选框",
+    category: "components",
+    group: "数据录入",
+    keywords: "radio 单选框",
+  },
+  {
+    id: "tag",
+    title: "Tag 标签",
+    category: "components",
+    group: "数据展示",
+    keywords: "tag 标签",
+  },
+  {
+    id: "alert",
+    title: "Alert 警告提示",
+    category: "components",
+    group: "反馈",
+    keywords: "alert 警告提示",
+  },
+  {
+    id: "card",
+    title: "Card 卡片",
+    category: "components",
+    group: "数据展示",
+    keywords: "card 卡片",
+  },
+  {
+    id: "badge",
+    title: "Badge 徽标数",
+    category: "components",
+    group: "数据展示",
+    keywords: "badge 徽标数",
+  },
+  {
+    id: "avatar",
+    title: "Avatar 头像",
+    category: "components",
+    group: "数据展示",
+    keywords: "avatar 头像",
+  },
 ];
 export const toc: Record<string, [string, string][]> = {
   overview: [
@@ -117,6 +159,8 @@ export const toc: Record<string, [string, string][]> = {
     ["general", "通用"],
     ["layout", "布局"],
     ["entry", "数据录入"],
+    ["display", "数据展示"],
+    ["feedback", "反馈"],
     ["configuration", "主题与配置"],
   ],
   "api-conventions": [
@@ -142,6 +186,7 @@ export const toc: Record<string, [string, string][]> = {
     ["limitations", "已知差异"],
   ],
   checkbox: [
+    ["group", "多选组合"],
     ["when", "何时使用"],
     ["examples", "代码演示"],
     ["basic", "基本使用"],
@@ -182,6 +227,55 @@ toc.divider = [
 ];
 toc.switch = [
   ["examples", "代码演示"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+
+toc.radio = [
+  ["when", "何时使用"],
+  ["examples", "代码演示"],
+  ["basic", "基本使用"],
+  ["more", "组合与交互"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+toc.tag = [
+  ["when", "何时使用"],
+  ["examples", "代码演示"],
+  ["basic", "基本使用"],
+  ["more", "组合与交互"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+toc.alert = [
+  ["when", "何时使用"],
+  ["examples", "代码演示"],
+  ["basic", "基本使用"],
+  ["more", "组合与交互"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+toc.card = [
+  ["when", "何时使用"],
+  ["examples", "代码演示"],
+  ["basic", "基本使用"],
+  ["more", "组合与交互"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+toc.badge = [
+  ["when", "何时使用"],
+  ["examples", "代码演示"],
+  ["basic", "基本使用"],
+  ["more", "组合与交互"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+toc.avatar = [
+  ["when", "何时使用"],
+  ["examples", "代码演示"],
+  ["basic", "基本使用"],
+  ["more", "组合与交互"],
   ["api", "API"],
   ["tokens", "主题与支持范围"],
 ];

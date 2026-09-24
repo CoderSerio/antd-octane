@@ -20,6 +20,13 @@ export default function Compatibility({ section }: { section?: string }) {
             "alpha",
           ],
           ["Input", "基础文本、尺寸、状态、受控输入与 ref", "已实现", "alpha"],
+          ["Radio", "单选、选择组、按钮样式与键盘", "已实现", "alpha"],
+          [
+            "Tag / Alert / Card / Badge / Avatar",
+            "常用展示与交互；详见各组件页面",
+            "已实现",
+            "alpha",
+          ],
           ["Switch", "状态、键盘、加载、大小与 ref", "已实现", "alpha"],
           [
             "Flex / Space / Divider",
@@ -27,7 +34,12 @@ export default function Compatibility({ section }: { section?: string }) {
             "已实现",
             "alpha",
           ],
-          ["Checkbox", "受控、非受控、禁用、中间态与 ref", "已实现", "alpha"],
+          [
+            "Checkbox",
+            "受控、非受控、禁用、中间态、ref 与 Group",
+            "已实现",
+            "alpha",
+          ],
           ["ConfigProvider", "主题、尺寸、禁用与嵌套作用域", "已实现", "alpha"],
           ["Form / Table / Modal", "动态表单、表格及浮层", "未实现", "—"],
         ]}
@@ -50,7 +62,7 @@ export default function Compatibility({ section }: { section?: string }) {
       <p>
         SSR、prefixCls、cssVar、hashed、StyleProvider、Tailwind / StyleX
         完整消费、浮层和表单集成尚未完成。Input 的前后缀、清除、密码、搜索与
-        TextArea，Checkbox.Group 均未提供。
+        TextArea，复杂输入组件仍未提供。
       </p>
       <p>
         Button
