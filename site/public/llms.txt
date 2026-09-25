@@ -1,6 +1,6 @@
 # Ant Design for Octane
 
-> Octane 0.4.3 原生的 Ant Design 风格组件库；以 Ant Design 5.29.3 为参考，非全量兼容。当前 private 开发预览，尚未发布 npm。
+> Octane 0.4.3 原生的 Ant Design 风格组件库；以 Ant Design 5.29.3 为参考，非全量兼容。当前 alpha 开发预览，尚未发布 npm。
 
 ## 文本指南
 

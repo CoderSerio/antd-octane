@@ -4,7 +4,7 @@
 
 ## 先确认项目身份
 
-- 包名 `antd-octane`，版本 `0.1.0-alpha.0`，当前 `private: true`，尚未发布 npm。不要生成直接从 npm 安装本包的命令。
+- 包名 `antd-octane`，版本 `0.1.0-alpha.0`，已准备 alpha 发布配置，尚未发布 npm。不要生成直接从 npm 安装本包的命令。
 - 运行时是 **Octane 0.4.3 原生组件**，不是 React 包装。Hooks、JSX、根节点创建和类型来自 `octane`；不要引入 `react`、`react-dom` 或 `@ant-design/icons` 来替代本库实现。
 - Ant Design **5.29.3** 是开发对照基线，不代表 API、内部 DOM、样式或行为完全兼容。不承诺仅替换 import 即可迁移。
 - 当前支持 ESM 浏览器消费；SSR、其他浏览器和辅助技术的完整验证尚未完成。没有已发布的专用 CLI 或 MCP 服务。
