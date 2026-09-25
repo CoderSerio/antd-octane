@@ -2,7 +2,7 @@
 
 面向 [Octane](https://github.com/octanejs/octane) 的 Ant Design 组件库，沿用熟悉的组件 API、交互与主题配置。
 
-**当前为 `0.1.0-alpha.0` 开发原型，尚未发布 npm 包。** 独立社区项目，不代表 Ant Design 或 Octane 的官方立场。
+**已发布 `0.1.0-alpha.0`，通过 npm 的 `alpha` 标签安装。当前为开发预览，API 可能调整。** 独立社区项目，不代表 Ant Design 或 Octane 的官方立场。
 
 ## 本地运行
 
@@ -44,7 +44,13 @@ docs/                 RFC、兼容范围与设计说明
 
 文档站构建产物为 `site/dist`，可部署到静态托管服务。当前不自动部署；CI 会生成站点产物供下载。
 
-## 使用构建产物
+## 安装与使用
+
+```bash
+pnpm add antd-octane@alpha octane@0.4.3
+```
+
+复现首个版本时使用 `antd-octane@0.1.0-alpha.0`。Vite / TypeScript 配置见 [接入指南](docs/agent-guide.md)。
 
 ```tsx
 import { Button, ConfigProvider } from "antd-octane";

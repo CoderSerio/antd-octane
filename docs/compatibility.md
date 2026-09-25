@@ -1,6 +1,6 @@
 # 第一版支持范围
 
-状态：开发原型，未发布 npm。固定基线为 Octane 0.4.3、Ant Design 5.29.3。
+状态：`0.1.0-alpha.0` 已发布 npm，使用 `antd-octane@alpha` 安装；当前仍为开发预览。固定基线为 Octane 0.4.3、Ant Design 5.29.3。
 
 ## 主题
 

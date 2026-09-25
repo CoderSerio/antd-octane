@@ -22,8 +22,8 @@ export default function TailwindPage({ section }: { section?: string }) {
         安装与编译
       </h2>
       <p>
-        先按<a href="#start">快速开始</a>安装本地组件包。主包尚未发布到
-        npm；以下命令只安装 Tailwind 的开发依赖。
+        先按<a href="#start">快速开始</a>安装 antd-octane@alpha 与
+        octane@0.4.3；以下命令安装 Tailwind 的开发依赖。
       </p>
       <Code
         language="bash"

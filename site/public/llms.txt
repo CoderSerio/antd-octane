@@ -1,10 +1,10 @@
 # Ant Design for Octane
 
-> Octane 0.4.3 原生的 Ant Design 风格组件库；以 Ant Design 5.29.3 为参考，非全量兼容。当前 alpha 开发预览，尚未发布 npm。
+> Octane 0.4.3 原生的 Ant Design 风格组件库；以 Ant Design 5.29.3 为参考，非全量兼容。当前 alpha 开发预览；npm 已发布 0.1.0-alpha.0，使用 antd-octane@alpha 安装。
 
 ## 文本指南
 
-- [Agent 接入指南](agent-guide.md): 安装本地 tarball、Vite/JSX 配置、主题和真实 API 边界；优先读取。
+- [Agent 接入指南](agent-guide.md): npm alpha 安装、Vite/JSX 配置、主题和真实 API 边界；优先读取。
 
 - [兼容清单](compatibility.md): 当前实现与上游差异的纯文本说明。
 

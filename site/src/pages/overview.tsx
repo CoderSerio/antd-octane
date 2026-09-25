@@ -37,7 +37,7 @@ export default function Overview({ section }: { section?: string }) {
         当前进度
       </h2>
       <p>
-        0.1.0-alpha.0 为本地开发预览，尚未发布 npm 包。当前实现
+        0.1.0-alpha.0 已发布 npm，使用 alpha 标签安装。当前实现
         基础输入、布局、选择与信息展示组件，以及
         ConfigProvider，按组件列出支持范围和已知差异。
       </p>
