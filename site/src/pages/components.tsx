@@ -1,10 +1,13 @@
 import {
+  Affix,
   Alert,
+  Anchor,
   Avatar,
   Badge,
   Breadcrumb,
   Button,
   Card,
+  Carousel,
   Checkbox,
   Col,
   Collapse,
@@ -12,6 +15,7 @@ import {
   Divider,
   Empty,
   Flex,
+  FloatButton,
   Input,
   InputNumber,
   Layout,
@@ -19,6 +23,7 @@ import {
   Pagination,
   Popover,
   Progress,
+  QRCode,
   Radio,
   Rate,
   Result,
@@ -28,6 +33,7 @@ import {
   Slider,
   Space,
   Spin,
+  Splitter,
   Statistic,
   Steps,
   Switch,
@@ -36,20 +42,99 @@ import {
   Timeline,
   Tooltip,
   Typography,
+  Watermark,
 } from "antd-octane";
 import { componentCoverage, upstreamGroups } from "../component-coverage";
+import { BasicDemo as PreviewApp } from "../demos/app-basic";
 import { BasicDemo as PreviewDrawer } from "../demos/drawer-basic";
 import { BasicDemo as PreviewDropdown } from "../demos/dropdown-basic";
+import { BasicDemo as PreviewIcon } from "../demos/icon-basic";
+import { BasicDemo as PreviewImage } from "../demos/image-basic";
 import { BasicDemo as PreviewMenu } from "../demos/menu-basic";
 import { BasicDemo as PreviewMessage } from "../demos/message-basic";
 import { BasicDemo as PreviewModal } from "../demos/modal-basic";
 import { BasicDemo as PreviewNotification } from "../demos/notification-basic";
 import { BasicDemo as PreviewPopconfirm } from "../demos/popconfirm-basic";
+import { BasicDemo as PreviewTour } from "../demos/tour-basic";
 import { usePageAnchor } from "../docs-ui";
 import { nav } from "../navigation";
 
 function Preview({ name }: { name: string }) {
   switch (name) {
+    case "tour":
+      return <PreviewTour />;
+    case "qr-code":
+      return <QRCode value="https://ant.design" type="svg" size={120} />;
+    case "affix":
+      return (
+        <Affix offsetTop={8}>
+          <Button>固定操作</Button>
+        </Affix>
+      );
+    case "anchor":
+      return (
+        <Anchor
+          affix={false}
+          items={[
+            { key: "intro", href: "#components", title: "组件总览" },
+            {
+              key: "coverage",
+              href: "#components/coverage",
+              title: "覆盖清单",
+            },
+          ]}
+        />
+      );
+    case "float-button":
+      return (
+        <div style={{ display: "flex", gap: 16 }}>
+          <FloatButton style={{ position: "relative", inset: "auto" }} />
+          <FloatButton
+            type="primary"
+            icon="+"
+            style={{ position: "relative", inset: "auto" }}
+          />
+        </div>
+      );
+    case "image":
+      return <PreviewImage />;
+    case "carousel":
+      return (
+        <Carousel style={{ width: "100%" }}>
+          {[1, 2, 3].map((n) => (
+            <div
+              key={n}
+              style={{
+                height: 100,
+                display: "grid",
+                placeItems: "center",
+                background: "#364d79",
+                color: "white",
+              }}
+            >
+              {n}
+            </div>
+          ))}
+        </Carousel>
+      );
+    case "splitter":
+      return (
+        <Splitter style={{ width: "100%", height: 100 }}>
+          <Splitter.Panel style={{ padding: 12 }}>目录</Splitter.Panel>
+          <Splitter.Panel style={{ padding: 12 }}>内容</Splitter.Panel>
+        </Splitter>
+      );
+    case "watermark":
+      return (
+        <Watermark content="Octane" gap={[24, 24]} style={{ width: "100%" }}>
+          <div style={{ height: 100 }} />
+        </Watermark>
+      );
+    case "app":
+      return <PreviewApp />;
+    case "icon":
+      return <PreviewIcon />;
+
     case "modal":
       return <PreviewModal />;
     case "drawer":
@@ -299,6 +384,7 @@ export default function ComponentsPage({ section }: { section?: string }) {
         ["entry", "数据录入"],
         ["display", "数据展示"],
         ["feedback", "反馈"],
+        ["other", "其他"],
       ].map(([id, group]) => {
         const items = nav.filter(
           (item) => item.category === "components" && item.group === group,

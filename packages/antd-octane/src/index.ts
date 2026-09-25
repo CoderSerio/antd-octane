@@ -29,8 +29,14 @@ export const theme = {
 };
 
 export type { FloatingProps, Placement, Trigger } from "./_util/floating";
+export type { AffixProps, AffixRef } from "./affix";
+export { Affix } from "./affix";
 export type { AlertProps, AlertRef } from "./alert";
 export { Alert } from "./alert";
+export type { AnchorItem, AnchorProps } from "./anchor";
+export { Anchor } from "./anchor";
+export type { AppContextValue, AppProps } from "./app";
+export { App } from "./app";
 export type { AvatarProps, AvatarRef } from "./avatar";
 export { Avatar } from "./avatar";
 export type { BadgeProps } from "./badge";
@@ -39,6 +45,8 @@ export type { BreadcrumbItem, BreadcrumbProps } from "./breadcrumb";
 export { Breadcrumb } from "./breadcrumb";
 export type { CardMetaProps, CardProps } from "./card";
 export { Card } from "./card";
+export type { CarouselProps, CarouselRef } from "./carousel";
+export { Carousel } from "./carousel";
 export type {
   CheckboxChangeEvent,
   CheckboxGroupProps,
@@ -63,6 +71,12 @@ export { Empty } from "./empty";
 export type { FlexProps } from "./flex";
 export { Flex } from "./flex";
 export type {
+  BackTopProps,
+  FloatButtonGroupProps,
+  FloatButtonProps,
+} from "./float-button";
+export { FloatButton } from "./float-button";
+export type {
   Breakpoint,
   ColProps,
   ColSize,
@@ -71,6 +85,14 @@ export type {
   Screens,
 } from "./grid";
 export { Col, Grid, Row } from "./grid";
+export type { IconDefinition, IconNode, IconProps } from "./icon";
+export { createIcon, Icon } from "./icon";
+export type {
+  ImagePreviewConfig,
+  ImagePreviewGroupProps,
+  ImageProps,
+} from "./image";
+export { Image } from "./image";
 export type {
   InputChangeEvent,
   InputProps,
@@ -114,6 +136,8 @@ export type { PopoverProps } from "./popover";
 export { Popover } from "./popover";
 export type { ProgressGradient, ProgressProps } from "./progress";
 export { Progress } from "./progress";
+export type { QRCodeProps } from "./qr-code";
+export { QRCode } from "./qr-code";
 export type {
   RadioChangeEvent,
   RadioGroupProps,
@@ -141,6 +165,8 @@ export type { SpaceProps } from "./space";
 export { Space } from "./space";
 export type { SpinProps } from "./spin";
 export { Spin } from "./spin";
+export type { PanelProps, SplitterProps } from "./splitter";
+export { Splitter } from "./splitter";
 export type { StatisticProps } from "./statistic";
 export { Statistic } from "./statistic";
 export type { StepItem, StepStatus, StepsProps } from "./steps";
@@ -155,6 +181,8 @@ export type { TimelineItem, TimelineProps } from "./timeline";
 export { Timeline } from "./timeline";
 export type { TooltipProps } from "./tooltip";
 export { Tooltip } from "./tooltip";
+export type { TourProps, TourStepProps } from "./tour";
+export { Tour } from "./tour";
 export type {
   CopyConfig,
   EditConfig,
@@ -164,3 +192,5 @@ export type {
   TypographyProps,
 } from "./typography";
 export { Typography } from "./typography";
+export type { WatermarkProps } from "./watermark";
+export { Watermark } from "./watermark";

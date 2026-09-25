@@ -1,0 +1,257 @@
+@layer antd {
+  :where(.ant-image) {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    max-width: 100%;
+  }
+  :where(.ant-image-img) {
+    vertical-align: middle;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  :where(.ant-image-mask) {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    border: 0;
+    padding: 0;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font: inherit;
+    opacity: 0;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  :where(.ant-image:hover .ant-image-mask, .ant-image-mask:focus-visible) {
+    opacity: 1;
+  }
+  :where(.ant-image-placeholder) {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: #f5f5f5;
+  }
+  :where(.ant-image-preview-root) {
+    position: fixed;
+    inset: 0;
+    z-index: var(--ao-dialog-z);
+    color: var(--ao-image-operation);
+    font-family: var(--ao-font);
+  }
+  :where(.ant-image-preview-root[hidden]) {
+    display: none;
+  }
+  :where(.ant-image-preview) {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    outline: 0;
+  }
+  :where(.ant-image-preview-content) {
+    height: 100%;
+  }
+  :where(.ant-image-preview-stage) {
+    position: absolute;
+    inset: 64px 64px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: auto;
+  }
+  :where(.ant-image-preview-img) {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: transform 0.2s;
+  }
+  :where(.ant-image-preview-toolbar) {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    height: 56px;
+    padding-inline: 20px;
+    background: var(--ao-image-operation-bg);
+    z-index: 1;
+  }
+  :where(.ant-image-preview button) {
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--ao-image-operation);
+    font-size: var(--ao-image-operation-size);
+    padding: 8px;
+    min-width: 36px;
+    cursor: pointer;
+  }
+  :where(.ant-image-preview button.ant-image-preview-zoom) {
+    font-size: var(--ao-image-zoom-size);
+  }
+  :where(.ant-image-preview button:hover) {
+    color: var(--ao-image-operation-hover);
+  }
+  :where(.ant-image-preview button:disabled) {
+    color: var(--ao-image-operation-disabled);
+    cursor: not-allowed;
+  }
+  :where(.ant-image-preview button:focus-visible) {
+    outline: 2px solid var(--ao-focus);
+    outline-offset: 2px;
+  }
+  :where(.ant-image-preview-prev, .ant-image-preview-next) {
+    position: absolute;
+    top: 50%;
+    z-index: 1;
+  }
+  :where(.ant-image-preview-prev) {
+    left: 8px;
+  }
+  :where(.ant-image-preview-next) {
+    right: 8px;
+  }
+  :where(.ant-image-preview-count) {
+    position: absolute;
+    bottom: 16px;
+    inset-inline: 0;
+    text-align: center;
+  }
+  :where(.ant-carousel) {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+  }
+  :where(.slick-list) {
+    overflow: hidden;
+    position: relative;
+  }
+  :where(.slick-track) {
+    display: flex;
+    transition-property: transform;
+    transition-timing-function: ease;
+  }
+  :where(.slick-slide) {
+    flex: 0 0 100%;
+    min-width: 0;
+  }
+  :where(.ant-carousel-vertical .slick-list) {
+    height: 100%;
+  }
+  :where(.ant-carousel-vertical .slick-track) {
+    height: 100%;
+    flex-direction: column;
+  }
+  :where(.ant-carousel-vertical .slick-slide) {
+    height: 100%;
+    min-height: 0;
+  }
+  :where(.slick-dots) {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    gap: var(--ao-carousel-dot-gap);
+    inset-inline: 0;
+    bottom: 12px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  :where(.slick-dots button) {
+    display: block;
+    width: var(--ao-carousel-dot-width);
+    height: var(--ao-carousel-dot-height);
+    padding: 0;
+    border: 0;
+    border-radius: var(--ao-carousel-dot-height);
+    font-size: 0;
+    background: var(--ao-bg);
+    opacity: 0.2;
+    cursor: pointer;
+  }
+  :where(.slick-dots .slick-active button) {
+    width: var(--ao-carousel-dot-active-width);
+    opacity: 1;
+  }
+  :where(.slick-dots button:focus-visible) {
+    outline: 2px solid var(--ao-focus);
+    outline-offset: 4px;
+  }
+  :where(.slick-prev, .slick-next) {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    border: 0;
+    background: transparent;
+    color: #fff;
+    font-size: calc(var(--ao-carousel-arrow-size) * 2);
+    line-height: 1;
+    cursor: pointer;
+  }
+  :where(.slick-prev) {
+    left: var(--ao-carousel-arrow-offset);
+  }
+  :where(.slick-next) {
+    right: var(--ao-carousel-arrow-offset);
+  }
+  :where(.slick-prev:disabled, .slick-next:disabled) {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+  :where(.ant-carousel-dots-top .slick-dots) {
+    bottom: auto;
+    top: 12px;
+  }
+  :where(
+      .ant-carousel-dots-left .slick-dots,
+      .ant-carousel-dots-right .slick-dots
+    ) {
+    inset-block: 0;
+    inset-inline: auto;
+    flex-direction: column;
+  }
+  :where(.ant-carousel-dots-left .slick-dots) {
+    left: 12px;
+  }
+  :where(.ant-carousel-dots-right .slick-dots) {
+    right: 12px;
+  }
+  :where(
+      .ant-carousel-dots-left .slick-dots button,
+      .ant-carousel-dots-right .slick-dots button
+    ) {
+    width: var(--ao-carousel-dot-height);
+    height: var(--ao-carousel-dot-width);
+  }
+  :where(
+      .ant-carousel-dots-left .slick-dots .slick-active button,
+      .ant-carousel-dots-right .slick-dots .slick-active button
+    ) {
+    height: var(--ao-carousel-dot-active-width);
+  }
+  :where(.ant-carousel-pause) {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    border: 0;
+    border-radius: 4px;
+    padding: 4px 8px;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    cursor: pointer;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :where(.ant-image-mask, .ant-image-preview-img, .slick-track) {
+      transition: none;
+    }
+  }
+}

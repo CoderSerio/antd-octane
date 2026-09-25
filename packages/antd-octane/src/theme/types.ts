@@ -70,6 +70,42 @@ export interface ThemeConfig {
   token?: Partial<AliasToken>;
   algorithm?: MappingAlgorithm | MappingAlgorithm[];
   components?: {
+    QRCode?: ComponentTheme;
+    Tour?: ComponentTheme<{
+      zIndexPopup: number;
+      closeBtnSize: number;
+      primaryPrevBtnBg: string;
+      primaryNextBtnHoverBg: string;
+    }>;
+    Anchor?: ComponentTheme<{
+      linkPaddingBlock: number;
+      linkPaddingInlineStart: number;
+    }>;
+    Affix?: ComponentTheme<{ zIndexPopup: number }>;
+    FloatButton?: ComponentTheme;
+    Image?: ComponentTheme<{
+      previewOperationColor: string;
+      previewOperationColorDisabled: string;
+      previewOperationHoverColor: string;
+      previewOperationSize: number;
+      previewOperationSizeZoom: number;
+      previewOperationBg: string;
+    }>;
+    Carousel?: ComponentTheme<{
+      dotWidth: number;
+      dotHeight: number;
+      dotActiveWidth: number;
+      dotGap: number;
+      arrowSize: number;
+      arrowOffset: number;
+    }>;
+    Splitter?: ComponentTheme<{
+      splitBarSize: number;
+      splitTriggerSize: number;
+      splitBarDraggableSize: number;
+      resizeSpinnerSize: number;
+    }>;
+
     Popconfirm?: ComponentTheme<{ zIndexPopup: number }>;
     Menu?: ComponentTheme<{
       itemColor: string;

@@ -54,8 +54,12 @@ try {
     join(directory, "main.tsx"),
     `
 import { createRoot } from 'octane';
-import { Modal, Drawer, Menu, Dropdown, Popconfirm, message, notification, Button, InputNumber, Slider, Input, Checkbox, Switch, Flex, Space, Divider, Radio, Tag, Alert, Card, Avatar, Badge, Spin, Skeleton, Progress, Result, Typography, List, Row, Col, Layout, Collapse, Tabs, Empty, Statistic, Timeline, Descriptions, Segmented, Rate, Breadcrumb, Steps, Pagination, Tooltip, Popover, ConfigProvider, theme } from 'antd-octane';
+import { Affix, Anchor, FloatButton, Image, Carousel, Splitter, Watermark, App, Icon, QRCode, Tour, Modal, Drawer, Menu, Dropdown, Popconfirm, message, notification, Button, InputNumber, Slider, Input, Checkbox, Switch, Flex, Space, Divider, Radio, Tag, Alert, Card, Avatar, Badge, Spin, Skeleton, Progress, Result, Typography, List, Row, Col, Layout, Collapse, Tabs, Empty, Statistic, Timeline, Descriptions, Segmented, Rate, Breadcrumb, Steps, Pagination, Tooltip, Popover, ConfigProvider, theme } from 'antd-octane';
 import 'antd-octane/style.css';
+function AppConsumer() {
+  const {message} = App.useApp();
+  return <Button onClick={() => message.success('Ready')}>App message</Button>;
+}
 function NoticeConsumer() {
   const [messages, messageHolder] = message.useMessage();
   const [notifications, notificationHolder] = notification.useNotification();
@@ -96,6 +100,17 @@ createRoot(document.getElementById('root')!).render(
     <Menu items={[{key:'one',label:'One'}]} />
     <Dropdown menu={{items:[{key:'one',label:'One'}]}}><Button>Menu</Button></Dropdown>
     <Popconfirm title="Save?"><Button>Confirm</Button></Popconfirm>
+    <Affix offsetTop={8}><Button>Affix</Button></Affix>
+    <Anchor items={[{key:'first',href:'#first',title:'First'}]} />
+    <FloatButton.Group><FloatButton description="Help" /></FloatButton.Group>
+    <Image.PreviewGroup><Image src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E" /></Image.PreviewGroup>
+    <Carousel><div>One</div><div>Two</div></Carousel>
+    <Splitter><Splitter.Panel>One</Splitter.Panel><Splitter.Panel>Two</Splitter.Panel></Splitter>
+    <Watermark content="Packed">Content</Watermark>
+    <App><AppConsumer /></App>
+    <Icon viewBox="0 0 24 24"><path d="M2 12h20" /></Icon>
+    <QRCode value="Packed" /><QRCode type="svg" value="Packed SVG" />
+    <Tour open={false} steps={[{title:'Packed tour',description:'Ready'}]} />
     <NoticeConsumer />
     <Button type="primary">Packed consumer</Button>
     <Input defaultValue="Packed input" onChange={(event) => void event.target.value} />

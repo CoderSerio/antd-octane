@@ -1,0 +1,15 @@
+@layer antd {
+  @keyframes ao-icon-rotate {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  :where(.ao-icon-spin) {
+    animation: ao-icon-rotate 1s linear infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :where(.ao-icon-spin) {
+      animation: none;
+    }
+  }
+}

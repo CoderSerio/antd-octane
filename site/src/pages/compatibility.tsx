@@ -14,6 +14,30 @@ export default function Compatibility({ section }: { section?: string }) {
       <ApiTable
         rows={[
           [
+            "Affix / Anchor / FloatButton / Tour",
+            "定位、滚动、引导和键盘；不含所有变换/裁剪场景",
+            "基础实现",
+            "alpha",
+          ],
+          [
+            "Image / Carousel",
+            "预览、分组、缩放、轮播与暂停；不含完整高级工具栏或 slick 接口",
+            "基础实现",
+            "alpha",
+          ],
+          [
+            "Splitter / Watermark",
+            "拖拽与键盘尺寸调整、Canvas 水印；不含折叠/防篡改保障",
+            "基础实现",
+            "alpha",
+          ],
+          [
+            "App / Icon / QRCode",
+            "消息上下文、SVG 数据适配、真实二维码；非完整上游 API",
+            "基础实现",
+            "alpha",
+          ],
+          [
             "Message / Notification",
             "hook、contextHolder、计时器、更新和关闭；不含静态API/堆叠",
             "基础实现",

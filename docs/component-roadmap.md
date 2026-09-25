@@ -24,9 +24,10 @@ Form、Table、ColorPicker、日期/时间选择、Tree/TreeSelect/Cascader、Se
 - 已实现：Typography（复制/编辑/省略）与 List（Meta/操作/响应式网格），验证基础样式与交互，具体差异见兼容清单。
 - 已实现：Spin、Skeleton、Progress、Result；List 复用 Spin 加载层，Card 复用 Skeleton 占位。完整 API 与插画差异见兼容清单，验证范围以实际夹具为准。
 - 已实现：Segmented、Rate、Breadcrumb、Steps、Pagination、Tooltip、Popover；List 接入内置分页，提示浮层共享 Octane portal 与定位逻辑。基础能力与未支持属性见兼容清单。
-- 已实现：Input 前后缀/清除/Password/Search/TextArea、InputNumber、Slider。按 5.x 目录有 44 项基础实现（包含 ConfigProvider），该数量不是功能完成比例。后续继续补浮层与导航组件，已有组件的 API 缺口也需逐项完善。
+- 已实现：Input 前后缀/清除/Password/Search/TextArea、InputNumber、Slider。按 5.x 目录有 55 项基础实现（包含 ConfigProvider），该数量不是功能完成比例。后续继续完善专项组件，已有组件的 API 缺口也需逐项完善。
 - 已实现基础子集：Message、Notification、Modal、Drawer、Menu、Dropdown、Popconfirm；完成门户、焦点与事件组合验证，静态调用、完整动效及高级菜单能力仍需完善。
-- 其余条目待实现，不视为已支持。
+- 已实现基础子集：Affix、Anchor、FloatButton、Image、Carousel、Splitter、Watermark、App、Icon、QRCode、Tour；提供交互示例与主题入口，具体高级能力的缺口见兼容清单。
+- 其余专项、Transfer 与 Calendar 仍待实现；Util 仅保留上游目录记录，未定义可用公共 API。
 
 ## 5.x 完整目录核对
 

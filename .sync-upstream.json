@@ -55,7 +55,16 @@
       "components/dropdown/style",
       "components/message/style",
       "components/notification/style",
-      "components/popconfirm/style"
+      "components/popconfirm/style",
+      "components/affix/style",
+      "components/anchor/style",
+      "components/float-button/style",
+      "components/image/style",
+      "components/carousel/style",
+      "components/splitter/style",
+      "components/watermark/style",
+      "components/qr-code/style",
+      "components/tour/style"
     ],
     "destination": [
       "packages/antd-octane/src/button/tokens.ts",
@@ -93,8 +102,28 @@
       "packages/antd-octane/src/dialog.css",
       "packages/antd-octane/src/menu.css",
       "packages/antd-octane/src/notice.css",
-      "packages/antd-octane/src/popconfirm.css"
+      "packages/antd-octane/src/popconfirm.css",
+      "packages/antd-octane/src/affix/index.tsx",
+      "packages/antd-octane/src/anchor/index.tsx",
+      "packages/antd-octane/src/float-button/index.tsx",
+      "packages/antd-octane/src/image/index.tsx",
+      "packages/antd-octane/src/carousel/index.tsx",
+      "packages/antd-octane/src/splitter/index.tsx",
+      "packages/antd-octane/src/watermark/index.tsx",
+      "packages/antd-octane/src/qr-code/index.tsx",
+      "packages/antd-octane/src/tour/index.tsx",
+      "packages/antd-octane/src/positioning.css",
+      "packages/antd-octane/src/media.css",
+      "packages/antd-octane/src/surfaces.css",
+      "packages/antd-octane/src/tour.css"
     ],
     "notes": "Supported defaults and state styles adapted to static CSS variables; see THIRD_PARTY_NOTICES.md and docs/compatibility.md."
+  },
+  "qr-code-generator": {
+    "source": "https://github.com/nayuki/QR-Code-generator",
+    "commit": "3c6d0b3cefb4e049dc337e82237c9644399716a8",
+    "path": "typescript-javascript/qrcodegen.ts",
+    "destination": "packages/antd-octane/src/qr-code/vendor/qrcodegen.ts",
+    "changes": "Export the three merged qrcodegen namespace declarations for ES module consumption. Algorithm bodies and original MIT notice preserved."
   }
 }

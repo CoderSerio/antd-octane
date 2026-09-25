@@ -9,6 +9,17 @@ type PageComponent = (props: {
   section?: string;
 }) => import("octane").OctaneNode;
 const pages: Record<string, () => Promise<{ default: PageComponent }>> = {
+  tour: () => import("./pages/tour"),
+  affix: () => import("./pages/affix"),
+  anchor: () => import("./pages/anchor"),
+  "float-button": () => import("./pages/float-button"),
+  image: () => import("./pages/image"),
+  carousel: () => import("./pages/carousel"),
+  splitter: () => import("./pages/splitter"),
+  watermark: () => import("./pages/watermark"),
+  app: () => import("./pages/app"),
+  icon: () => import("./pages/icon"),
+
   message: () => import("./pages/message"),
   notification: () => import("./pages/notification"),
   modal: () => import("./pages/modal"),
@@ -17,6 +28,7 @@ const pages: Record<string, () => Promise<{ default: PageComponent }>> = {
   dropdown: () => import("./pages/dropdown"),
   popconfirm: () => import("./pages/popconfirm"),
 
+  "qr-code": () => import("./pages/qr-code"),
   "input-number": () => import("./pages/input-number"),
   slider: () => import("./pages/slider"),
   typography: () => import("./pages/typography"),
@@ -381,6 +393,7 @@ function Shell(p: ShellProps) {
                   "数据录入",
                   "数据展示",
                   "反馈",
+                  "其他",
                 ].filter((group) =>
                   nav.some(
                     (item) =>

@@ -342,6 +342,83 @@ export const nav = [
     group: "反馈",
     keywords: "Popconfirm 气泡确认框",
   },
+  {
+    id: "affix",
+    title: "Affix 固钉",
+    category: "components",
+    group: "其他",
+    keywords: "Affix 固钉",
+  },
+  {
+    id: "anchor",
+    title: "Anchor 锚点",
+    category: "components",
+    group: "导航",
+    keywords: "Anchor 锚点",
+  },
+  {
+    id: "float-button",
+    title: "FloatButton 悬浮按钮",
+    category: "components",
+    group: "通用",
+    keywords: "FloatButton 悬浮按钮",
+  },
+  {
+    id: "image",
+    title: "Image 图片",
+    category: "components",
+    group: "数据展示",
+    keywords: "Image 图片",
+  },
+  {
+    id: "carousel",
+    title: "Carousel 走马灯",
+    category: "components",
+    group: "数据展示",
+    keywords: "Carousel 走马灯",
+  },
+  {
+    id: "splitter",
+    title: "Splitter 分隔面板",
+    category: "components",
+    group: "布局",
+    keywords: "Splitter 分隔面板",
+  },
+  {
+    id: "watermark",
+    title: "Watermark 水印",
+    category: "components",
+    group: "反馈",
+    keywords: "Watermark 水印",
+  },
+  {
+    id: "app",
+    title: "App 包裹组件",
+    category: "components",
+    group: "其他",
+    keywords: "App 包裹组件",
+  },
+  {
+    id: "icon",
+    title: "Icon 图标",
+    category: "components",
+    group: "通用",
+    keywords: "Icon 图标",
+  },
+  {
+    id: "tour",
+    title: "Tour 漫游式引导",
+    category: "components",
+    group: "数据展示",
+    keywords: "Tour 漫游式引导",
+  },
+  {
+    id: "qr-code",
+    title: "QRCode 二维码",
+    category: "components",
+    group: "数据展示",
+    keywords: "QRCode 二维码",
+  },
 ];
 export const toc: Record<string, [string, string][]> = {
   overview: [
@@ -372,6 +449,7 @@ export const toc: Record<string, [string, string][]> = {
     ["entry", "数据录入"],
     ["display", "数据展示"],
     ["feedback", "反馈"],
+    ["other", "其他"],
     ["coverage", "完整覆盖清单"],
     ["configuration", "主题与配置"],
   ],
@@ -717,6 +795,85 @@ toc.popconfirm = [
   ["examples", "代码演示"],
   ["basic", "基本用法"],
   ["more", "交互与状态"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+
+toc.affix = [
+  ["examples", "代码演示"],
+  ["basic", "基本用法"],
+  ["more", "交互与状态"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+toc.anchor = [
+  ["examples", "代码演示"],
+  ["basic", "基本用法"],
+  ["more", "交互与状态"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+toc["float-button"] = [
+  ["examples", "代码演示"],
+  ["basic", "基本用法"],
+  ["more", "交互与状态"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+toc.image = [
+  ["examples", "代码演示"],
+  ["basic", "基本用法"],
+  ["more", "交互与状态"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+toc.carousel = [
+  ["examples", "代码演示"],
+  ["basic", "基本用法"],
+  ["more", "交互与状态"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+toc.splitter = [
+  ["examples", "代码演示"],
+  ["basic", "基本用法"],
+  ["more", "交互与状态"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+toc.watermark = [
+  ["examples", "代码演示"],
+  ["basic", "基本用法"],
+  ["more", "交互与状态"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+toc.app = [
+  ["examples", "代码演示"],
+  ["basic", "基本用法"],
+  ["more", "交互与状态"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+toc.icon = [
+  ["examples", "代码演示"],
+  ["basic", "基本用法"],
+  ["more", "交互与状态"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+
+toc["qr-code"] = [
+  ["examples", "代码演示"],
+  ["basic", "内容与渲染方式"],
+  ["more", "状态与颜色"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+
+toc.tour = [
+  ["examples", "代码演示"],
+  ["basic", "基本用法"],
   ["api", "API"],
   ["tokens", "主题与支持范围"],
 ];

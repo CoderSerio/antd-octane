@@ -49,3 +49,36 @@ Segmented, Rate, Breadcrumb, Steps, Pagination, Tooltip and Popover supported to
 InputNumber, Slider and extended Input supported token defaults and visual rules are adapted from the same Ant Design 5.29.3 MIT-licensed baseline. Numeric editing, pointer/keyboard interaction and native input extensions are implemented independently for Octane.
 
 Modal, Drawer, Menu, Dropdown, Message, Notification and Popconfirm supported token defaults and visual rules are adapted from the same Ant Design 5.29.3 MIT baseline. Native Octane dialog management, notice lifecycle, menus and confirmation interactions are independently implemented; no React overlay runtime is vendored.
+
+## QR encoding algorithm
+
+`src/qr-code/vendor/qrcodegen.ts` is vendored from Project Nayuki, commit `3c6d0b3cefb4e049dc337e82237c9644399716a8`, `typescript-javascript/qrcodegen.ts`. Only the namespace was exported for ES module consumption. No React QR runtime is used.
+
+```text
+/*
+ * QR Code generator library (TypeScript)
+ *
+ * Copyright (c) Project Nayuki. (MIT License)
+ * https://www.nayuki.io/page/qr-code-generator-library
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ * the Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ * - The above copyright notice and this permission notice shall be included in
+ *   all copies or substantial portions of the Software.
+ * - The Software is provided "as is", without warranty of any kind, express or
+ *   implied, including but not limited to the warranties of merchantability,
+ *   fitness for a particular purpose and noninfringement. In no event shall the
+ *   authors or copyright holders be liable for any claim, damages or other
+ *   liability, whether in an action of contract, tort or otherwise, arising from,
+ *   out of or in connection with the Software or the use or other dealings in the
+ *   Software.
+ */
+```
+
+## Additional component styles
+
+Affix, Anchor, FloatButton, Image, Carousel, Splitter, Watermark, QRCode and Tour defaults and styles reference Ant Design 5.29.3 (MIT, copyright Ant Design), under the Ant Design license reproduced above. Implementations use the Octane runtime. Source paths and the pinned revision are recorded in `.sync-upstream.json`. Icon demo paths are independently authored; no full upstream icon collection is bundled.

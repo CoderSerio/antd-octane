@@ -55,3 +55,9 @@ Run it with the same `playwright-cli run-code` method as `compare.mjs`, substitu
 `compare-entry.mjs` 比较 InputNumber 三种尺寸、Slider 轨道、Input 前后缀和 TextArea 在五种主题下的 660 项稳定样式；组件主题包含显式 token 覆盖。`verify-entry.mjs` 验证数值精度、格式化、边界、滑块键盘与拖动。`verify-input-extended.mjs` 检验密码切换、搜索、输入法抑制、清除和 TextArea 实际自动高度，并检查移动端溢出。
 
 `compare-overlays.mjs` 比较 Modal、Drawer、Menu、Popconfirm、Message、Notification 五组主题下的 450 项稳定样式。`verify-dialogs.mjs` 覆盖焦点、滚动锁与 Dropdown 组合；`verify-menu.mjs` 检查菜单键盘和三种触发方式；`verify-notices.mjs` 检查通知计时器、更新、主题与六个位置；`verify-popconfirm.mjs` 检查同步/异步确认与移动端定位。
+
+## 定位、媒体与内容表面
+
+生产文档站启动后，分别运行 `verify-positioning.mjs`、`verify-media.mjs`、`verify-surfaces.mjs`、`verify-app-icon-qr.mjs`、`verify-tour.mjs`。覆盖滚动定位/回顶、图片预览焦点和滚动恢复、轮播键盘/滑动/暂停、Splitter 指针与键盘、实际 Canvas 水印与二维码绘制、App 上下文消息、SVG 图标及 Tour 步骤与关闭。脚本包含窄屏布局检查；不表示全量上游兼容。
+
+`compare-media.mjs` 使用独立 `media-theme.html` 夹具比较五组主题下 Image / Carousel 的 75 项稳定样式。轮播活动指示器按上游伪元素与本库按钮的可见前景比较，不将不同 DOM 结构视作功能差异。
