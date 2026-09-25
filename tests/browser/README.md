@@ -28,7 +28,7 @@ Build the site and open its production preview (currently `http://127.0.0.1:4174
 - At 390px, the menu collapses after navigation, the dialog fits, and the document has no horizontal overflow (code blocks scroll internally).
 - A fresh overview load requests only its page and shared modules. Expanding the first Button source requests exactly one additional source module.
 
-The current build has approximately 105 KB gzip of JavaScript for the overview, including shared modules, and 9.4 KB gzip of CSS. Pages, component implementations and example sources are split into separate chunks. These are build artifact sizes, not field performance scores. No runtime dependencies were added for navigation, code highlighting or search.
+Use the current build output to track gzip sizes as component coverage grows. Pages, component implementations and example sources are split into separate chunks. These are build artifact sizes, not field performance scores. No runtime dependencies were added for navigation, code highlighting or search.
 
 ## Input and Checkbox
 
@@ -43,3 +43,7 @@ Run it with the same `playwright-cli run-code` method as `compare.mjs`, substitu
 `compare-layout.mjs` 对照 Grid、Layout、Collapse、Tabs、Empty、Statistic、Timeline、Descriptions 在五组主题下的 1,330 项稳定样式值；组件级主题显式覆盖该批组件 token。`verify-layout.mjs` 检查生产文档的键盘操作、面板输入保留、增删焦点、响应式布局及八个页面的移动端溢出。
 
 `compare-content.mjs` 比较 Typography 与 List 五组主题下的 770 项样式值；`verify-content.mjs` 验证文档里的编辑保存/取消/焦点、复制文本、展开收起、列表操作和响应式网格。复制测试用可观察的 Clipboard stub，不验证浏览器权限弹窗。
+
+`verify-sidebar.mjs` 在 1440、1100、900、720、390px 验证导航行高、完整单行名称、无横向溢出及移动端点击后收起。侧栏采用两站共同的 40px 菜单行高，窄桌面保留 256px 宽度；开发阶段统一放在页头和侧栏底部，避免重复状态标记挤压名称。
+
+`compare-feedback.mjs` 对照 Spin、Skeleton、Progress、Result 五组主题下的 770 项基础尺寸、文字与间距值（含显式组件 token）；不覆盖全部形态、插画或动画。`verify-feedback.mjs` 检查实际文档的加载切换、骨架切换、进度增减、结果状态、窄屏溢出和暗色/紧凑主题。

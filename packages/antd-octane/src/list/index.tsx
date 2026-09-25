@@ -4,6 +4,7 @@ import type { Breakpoint } from "../_util/responsive";
 import { responsiveValue, useBreakpoint } from "../_util/responsive";
 import { useComponentTokens } from "../_util/tokens";
 import { Empty } from "../empty";
+import { Spin, type SpinProps } from "../spin";
 export interface ListProps<T>
   extends Omit<HTMLAttributes<HTMLDivElement>, "children"> {
   children?: OctaneNode;
@@ -17,7 +18,7 @@ export interface ListProps<T>
   split?: boolean;
   size?: "small" | "default" | "large";
   itemLayout?: "horizontal" | "vertical";
-  loading?: boolean;
+  loading?: boolean | SpinProps;
   locale?: { emptyText?: OctaneNode };
   grid?: { gutter?: number; column?: number } & Partial<
     Record<Breakpoint, number>
@@ -67,15 +68,20 @@ function InternalList<T>({
         ? (c?.itemPaddingLG ??
           `${t.paddingContentVerticalLG}px ${t.paddingContentHorizontalLG}px`)
         : (c?.itemPadding ?? `${t.paddingContentVertical}px 0`);
+  const spinProps =
+    typeof loading === "object"
+      ? { spinning: true, ...loading }
+      : { spinning: loading };
   const empty = dataSource
     ? dataSource.length === 0
     : children === undefined || children === null;
   return (
     <div
       {...rest}
-      aria-busy={loading}
+      aria-busy={spinProps.spinning}
       className={[
         "ant-list",
+        spinProps.spinning && "ant-list-loading",
         size !== "default" && "ant-list-sized",
         footer !== undefined && "ant-list-has-footer",
         bordered && "ant-list-bordered",
@@ -87,6 +93,7 @@ function InternalList<T>({
       style={{
         ...base,
         "--ao-list-padding": padding,
+        "--ao-list-loading-height": `${t.controlHeight}px`,
         "--ao-list-head-padding":
           size === "default" ? `${t.paddingSM}px 0` : padding,
         "--ao-list-inner-radius": `${Math.max(0, t.borderRadiusLG - t.lineWidth)}px`,
@@ -108,42 +115,39 @@ function InternalList<T>({
       }}
     >
       {header !== undefined && <div className="ant-list-header">{header}</div>}
-      {loading && (
-        <div className="ant-list-loading" role="status">
-          加载中…
-        </div>
-      )}
-      {empty ? (
-        !loading && (
-          <div className="ant-list-empty-text">
-            {locale?.emptyText ?? (
-              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-            )}
-          </div>
-        )
-      ) : (
-        <ul className="ant-list-items">
-          {dataSource
-            ? dataSource.map((item, index) => (
-                <Fragment
-                  key={
-                    typeof rowKey === "function"
-                      ? rowKey(item)
-                      : rowKey
-                        ? String(item[rowKey])
-                        : index
-                  }
-                >
-                  {renderItem ? (
-                    renderItem(item, index)
-                  ) : (
-                    <Item>{String(item)}</Item>
-                  )}
-                </Fragment>
-              ))
-            : children}
-        </ul>
-      )}
+      <Spin {...spinProps}>
+        {empty ? (
+          !spinProps.spinning && (
+            <div className="ant-list-empty-text">
+              {locale?.emptyText ?? (
+                <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+              )}
+            </div>
+          )
+        ) : (
+          <ul className="ant-list-items">
+            {dataSource
+              ? dataSource.map((item, index) => (
+                  <Fragment
+                    key={
+                      typeof rowKey === "function"
+                        ? rowKey(item)
+                        : rowKey
+                          ? String(item[rowKey])
+                          : index
+                    }
+                  >
+                    {renderItem ? (
+                      renderItem(item, index)
+                    ) : (
+                      <Item>{String(item)}</Item>
+                    )}
+                  </Fragment>
+                ))
+              : children}
+          </ul>
+        )}
+      </Spin>
       {loadMore}
       {footer !== undefined && <div className="ant-list-footer">{footer}</div>}
     </div>

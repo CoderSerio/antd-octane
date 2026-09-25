@@ -35,13 +35,23 @@
       "components/timeline/style",
       "components/descriptions/style",
       "components/typography/style",
-      "components/list/style"
+      "components/list/style",
+      "components/spin/style",
+      "components/skeleton/style",
+      "components/progress/style",
+      "components/result/style"
     ],
     "destination": [
       "packages/antd-octane/src/button/tokens.ts",
       "packages/antd-octane/src/input/tokens.ts",
       "packages/antd-octane/src/checkbox/index.tsx",
-      "packages/antd-octane/src/style.css"
+      "packages/antd-octane/src/style.css",
+      "packages/antd-octane/src/loading.css",
+      "packages/antd-octane/src/feedback.css",
+      "packages/antd-octane/src/spin/index.tsx",
+      "packages/antd-octane/src/skeleton/index.tsx",
+      "packages/antd-octane/src/progress/index.tsx",
+      "packages/antd-octane/src/result/index.tsx"
     ],
     "notes": "Supported defaults and state styles adapted to static CSS variables; see THIRD_PARTY_NOTICES.md and docs/compatibility.md."
   }

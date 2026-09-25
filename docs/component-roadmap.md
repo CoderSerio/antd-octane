@@ -22,5 +22,6 @@ Form、Table、日期/时间选择、Tree/TreeSelect/Cascader、Select/AutoCompl
 - 已实现并完成首轮验证：Radio / Checkbox.Group、Tag / CheckableTag、Alert、Card / Meta、Badge、Avatar；各组件的未支持能力见文档。
 - 已实现并完成首轮验证：Grid / Layout、Collapse、Tabs、Empty、Statistic、Timeline、Descriptions；包括响应式布局、面板保留/销毁和标签页键盘操作。
 - 已实现：Typography（复制/编辑/省略）与 List（Meta/操作/响应式网格），验证基础样式与交互，具体差异见兼容清单。
+- 已实现：Spin、Skeleton、Progress、Result；List 复用 Spin 加载层，Card 复用 Skeleton 占位。完整 API 与插画差异见兼容清单，验证范围以实际夹具为准。
 - 下一批：其余常规交互和共享浮层基础设施。
 - 其余条目待实现，不视为已支持。

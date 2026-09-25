@@ -28,6 +28,24 @@ export const brand: ThemeConfig = {
 export const component: ThemeConfig = {
   token: { colorPrimary: "#13a8a8" },
   components: {
+    Spin: { dotSize: 26 },
+    Skeleton: {
+      titleHeight: 20,
+      paragraphLiHeight: 18,
+      gradientFromColor: "#e6f7ff",
+      gradientToColor: "#bae7ff",
+    },
+    Progress: {
+      defaultColor: "#722ed1",
+      remainingColor: "#f0e6ff",
+      lineBorderRadius: 4,
+    },
+    Result: {
+      titleFontSize: 28,
+      subtitleFontSize: 16,
+      iconFontSize: 64,
+      extraMargin: "20px 0 0",
+    },
     Typography: { titleMarginBottom: "0.8em", colorText: "#123456" },
     List: {
       headerBg: "#fffbe6",

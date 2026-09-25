@@ -14,9 +14,13 @@ import {
   Input,
   Layout,
   List,
+  Progress,
   Radio,
+  Result,
   Row,
+  Skeleton,
   Space,
+  Spin,
   Statistic,
   Switch,
   Tabs,
@@ -29,6 +33,23 @@ import { nav } from "../navigation";
 
 function Preview({ name }: { name: string }) {
   switch (name) {
+    case "spin":
+      return <Spin />;
+    case "skeleton":
+      return (
+        <Skeleton
+          title={{ width: "50%" }}
+          paragraph={{ rows: 2 }}
+          style={{ width: "100%" }}
+        />
+      );
+    case "progress":
+      return <Progress percent={65} style={{ width: "100%" }} />;
+    case "result":
+      return (
+        <Result status="success" title="操作成功" style={{ padding: 0 }} />
+      );
+
     case "typography":
       return (
         <div>

@@ -1,6 +1,7 @@
 import type { CSSProperties, HTMLAttributes, OctaneNode } from "octane";
 import { useComponentTokens } from "../_util/tokens";
 import { useConfig } from "../config-provider";
+import { Skeleton } from "../skeleton";
 export interface CardProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
   title?: OctaneNode;
@@ -97,11 +98,7 @@ function InternalCard({
         style={{ ...bodyStyle, ...styles?.body }}
       >
         {loading ? (
-          <div className="ant-card-loading" role="status" aria-label="正在加载">
-            <span />
-            <span />
-            <span />
-          </div>
+          <Skeleton active paragraph={{ rows: 4 }} title={false} />
         ) : (
           children
         )}

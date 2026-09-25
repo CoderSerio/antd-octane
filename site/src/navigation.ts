@@ -112,6 +112,34 @@ export const nav = [
     keywords: "tag 标签",
   },
   {
+    id: "spin",
+    title: "Spin 加载中",
+    category: "components",
+    group: "反馈",
+    keywords: "spin Spin 加载中",
+  },
+  {
+    id: "skeleton",
+    title: "Skeleton 骨架屏",
+    category: "components",
+    group: "反馈",
+    keywords: "skeleton Skeleton 骨架屏",
+  },
+  {
+    id: "progress",
+    title: "Progress 进度条",
+    category: "components",
+    group: "反馈",
+    keywords: "progress Progress 进度条",
+  },
+  {
+    id: "result",
+    title: "Result 结果",
+    category: "components",
+    group: "反馈",
+    keywords: "result Result 结果",
+  },
+  {
     id: "alert",
     title: "Alert 警告提示",
     category: "components",
@@ -418,6 +446,38 @@ toc.list = [
   ["examples", "代码演示"],
   ["basic", "带操作的列表"],
   ["more", "响应式网格与空状态"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+
+toc.spin = [
+  ["examples", "代码演示"],
+  ["basic", "三种尺寸"],
+  ["more", "局部加载与延迟"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+
+toc.skeleton = [
+  ["examples", "代码演示"],
+  ["basic", "内容占位"],
+  ["more", "独立占位组件"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+
+toc.progress = [
+  ["examples", "代码演示"],
+  ["basic", "进度与状态"],
+  ["more", "圆形、仪表盘与步骤"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+
+toc.result = [
+  ["examples", "代码演示"],
+  ["basic", "成功与后续操作"],
+  ["more", "异常页面"],
   ["api", "API"],
   ["tokens", "主题与支持范围"],
 ];

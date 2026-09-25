@@ -70,7 +70,7 @@ export default function Page({ section }: { section?: string }) {
           [
             "loading / locale.emptyText",
             "加载状态和空内容",
-            "boolean / OctaneNode",
+            "boolean | SpinProps / OctaneNode",
             "false / 默认空状态",
           ],
           [
@@ -92,9 +92,10 @@ export default function Page({ section }: { section?: string }) {
       </h2>
       <p>
         支持列表间距、背景、Meta 文字和间距 token。网格以 CSS Grid
-        实现，使用主题断点。暂不支持内置 pagination、SpinProps 形式
-        loading、虚拟列表、Item 的 colStyle 和完整 styles/classNames；可通过
-        loadMore 提供实际的数据加载入口。
+        实现，使用主题断点。loading 接受布尔值或
+        SpinProps，可设置延迟与提示。暂不支持内置 pagination、虚拟列表、Item 的
+        colStyle 和完整 styles/classNames；可通过 loadMore
+        提供实际的数据加载入口。
       </p>
     </>
   );

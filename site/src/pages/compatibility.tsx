@@ -59,6 +59,18 @@ export default function Compatibility({ section }: { section?: string }) {
             "已实现",
             "alpha",
           ],
+          [
+            "Spin / Skeleton",
+            "延迟加载、局部加载与内容占位",
+            "已实现",
+            "alpha",
+          ],
+          [
+            "Progress / Result",
+            "进度状态、结果展示与后续操作",
+            "已实现",
+            "alpha",
+          ],
           ["ConfigProvider", "主题、尺寸、禁用与嵌套作用域", "已实现", "alpha"],
           ["Form / Table / Modal", "动态表单、表格及浮层", "未实现", "—"],
         ]}
@@ -82,6 +94,12 @@ export default function Compatibility({ section }: { section?: string }) {
         SSR、prefixCls、cssVar、hashed、StyleProvider、Tailwind / StyleX
         完整消费、浮层和表单集成尚未完成。Input 的前后缀、清除、密码、搜索与
         TextArea，复杂输入组件仍未提供。
+      </p>
+      <p>
+        Spin 暂不支持自动进度，fullscreen 尚未接入共享 portal；Progress
+        暂不支持圆形分段、percentPosition 与逐段颜色数组。Result
+        的状态图示独立绘制，不提供上游完整插画。具体参数与 token
+        以各组件页面为准。
       </p>
       <p>
         Button

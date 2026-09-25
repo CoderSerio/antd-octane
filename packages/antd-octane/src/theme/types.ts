@@ -70,6 +70,19 @@ export interface ThemeConfig {
   token?: Partial<AliasToken>;
   algorithm?: MappingAlgorithm | MappingAlgorithm[];
   components?: {
+    Progress?: ComponentTheme<{
+      defaultColor: string;
+      remainingColor: string;
+      circleTextColor: string;
+      circleTextFontSize: string;
+      lineBorderRadius: number;
+    }>;
+    Result?: ComponentTheme<{
+      titleFontSize: number;
+      subtitleFontSize: number;
+      iconFontSize: number;
+      extraMargin: string;
+    }>;
     Button?: ButtonTheme;
     Input?: ComponentTheme<InputToken>;
     Checkbox?: ComponentTheme;
@@ -192,6 +205,22 @@ export interface ThemeConfig {
     Typography?: ComponentTheme<{
       titleMarginTop: string | number;
       titleMarginBottom: string | number;
+    }>;
+    Spin?: ComponentTheme<{
+      dotSize: number;
+      dotSizeSM: number;
+      dotSizeLG: number;
+      contentHeight: number;
+    }>;
+    Skeleton?: ComponentTheme<{
+      gradientFromColor: string;
+      gradientToColor: string;
+      color: string;
+      colorGradientEnd: string;
+      titleHeight: number;
+      blockRadius: number;
+      paragraphMarginTop: number;
+      paragraphLiHeight: number;
     }>;
     List?: ComponentTheme<{
       contentWidth: number;

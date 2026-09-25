@@ -21,7 +21,7 @@
     --muted: #00000073;
     --line: #0505050f;
     --code-bg: #f5f5f5;
-    --sidebar-width: clamp(240px, 20vw, 320px);
+    --sidebar-width: clamp(256px, 20vw, 320px);
     min-height: 100vh;
     background: var(--bg);
     color: var(--text);
@@ -237,18 +237,17 @@
     height: calc(100vh - 64px);
     overflow-y: auto;
     scrollbar-width: thin;
-    padding: 28px 8px 48px;
+    padding: 24px 4px 48px;
     border-right: 1px solid var(--line);
   }
   .sidebar nav {
     display: flex;
     flex-direction: column;
-    gap: 24px;
   }
   .nav-group-title {
-    margin: 12px 24px;
-    padding: 0 0 16px;
-    border-bottom: 1px solid var(--line);
+    margin: 16px 0;
+    padding: 8px 24px;
+    line-height: 22px;
     color: var(--muted);
     font-size: 14px;
   }
@@ -258,15 +257,18 @@
   .sidebar :where(nav) a {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     height: 40px;
-    padding: 0 24px;
-    border-radius: 6px;
+    line-height: 40px;
+    padding: 0 16px 0 24px;
+    border-radius: 8px;
     margin: 4px 0;
+    white-space: nowrap;
   }
-  .sidebar :where(nav) small {
-    color: var(--muted);
-    font-size: 11px;
+  .nav-item-label {
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .sidebar :where(nav) a:hover {
     background: var(--subtle);
@@ -853,7 +855,7 @@
   }
   @media (max-width: 1200px) {
     .site-root {
-      --sidebar-width: 220px;
+      --sidebar-width: 256px;
     }
     .header {
       gap: 20px;

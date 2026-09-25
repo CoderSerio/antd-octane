@@ -16,8 +16,12 @@ import {
   Input,
   Layout,
   List,
+  Progress,
   Radio,
+  Result,
   Row,
+  Skeleton,
+  Spin,
   Statistic,
   Switch,
   Tabs,
@@ -50,6 +54,23 @@ const root = document.getElementById("root");
 if (!root) throw new Error("Missing fixture root");
 createRoot(root).render(
   <ConfigProvider theme={config}>
+    <div data-feedback="spin">
+      <Spin />
+    </div>
+    <div data-feedback="skeleton">
+      <Skeleton />
+    </div>
+    <div data-feedback="progress">
+      <Progress percent={40} />
+    </div>
+    <div data-feedback="result">
+      <Result
+        status="success"
+        title="Completed"
+        subTitle="Saved successfully"
+      />
+    </div>
+
     <div data-content="text">
       <Typography.Text>Text</Typography.Text>
     </div>

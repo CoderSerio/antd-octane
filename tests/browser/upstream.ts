@@ -15,8 +15,12 @@ import {
   Input,
   Layout,
   List,
+  Progress,
   Radio,
+  Result,
   Row,
+  Skeleton,
+  Spin,
   Statistic,
   Switch,
   Tabs,
@@ -53,6 +57,27 @@ createRoot(root).render(
   createElement(
     ConfigProvider,
     { theme: config },
+    createElement("div", { "data-feedback": "spin" }, createElement(Spin)),
+    createElement(
+      "div",
+      { "data-feedback": "skeleton" },
+      createElement(Skeleton),
+    ),
+    createElement(
+      "div",
+      { "data-feedback": "progress" },
+      createElement(Progress, { percent: 40 }),
+    ),
+    createElement(
+      "div",
+      { "data-feedback": "result" },
+      createElement(Result, {
+        status: "success",
+        title: "Completed",
+        subTitle: "Saved successfully",
+      }),
+    ),
+
     createElement(
       "div",
       { "data-content": "text" },

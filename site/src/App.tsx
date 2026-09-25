@@ -11,6 +11,10 @@ type PageComponent = (props: {
 const pages: Record<string, () => Promise<{ default: PageComponent }>> = {
   typography: () => import("./pages/typography"),
   list: () => import("./pages/list"),
+  spin: () => import("./pages/spin"),
+  skeleton: () => import("./pages/skeleton"),
+  progress: () => import("./pages/progress"),
+  result: () => import("./pages/result"),
   button: () => import("./pages/button"),
   grid: () => import("./pages/grid"),
   layout: () => import("./pages/layout"),
@@ -380,9 +384,9 @@ function Shell(p: ShellProps) {
                       aria-current={page === item.id ? "page" : undefined}
                       onClick={() => setMenuOpen(false)}
                     >
-                      {item.title}
-                      {item.category === "components" &&
-                        item.id !== "components" && <small>Alpha</small>}
+                      <span className="nav-item-label" title={item.title}>
+                        {item.title}
+                      </span>
                     </a>
                   ))}
               </div>

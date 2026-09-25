@@ -192,7 +192,9 @@ it("shows custom empty content, suppresses it while loading, keeps header and fo
   await act(() =>
     root?.render(<List dataSource={[]} loading header="头部" footer="尾部" />),
   );
-  expect(container.textContent).toContain("加载中");
+  expect(
+    container.querySelector('[role="status"]')?.getAttribute("aria-busy"),
+  ).toBe("true");
   expect(container.textContent).not.toContain("暂无数据");
   expect(container.querySelector(".ant-list")?.getAttribute("aria-busy")).toBe(
     "true",

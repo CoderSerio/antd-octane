@@ -1,3 +1,6 @@
+@import "./loading.css";
+@import "./feedback.css";
+
 @layer antd {
   :where(.ant-btn) {
     box-sizing: border-box;
@@ -1012,16 +1015,6 @@
   }
   :where(.ant-card-meta-description) {
     color: var(--ao-muted);
-  }
-  :where(.ant-card-loading > span) {
-    display: block;
-    height: 16px;
-    background: var(--ao-border);
-    border-radius: 4px;
-    margin-block: 12px;
-  }
-  :where(.ant-card-loading > span:last-child) {
-    width: 60%;
   }
   :where(.ant-badge) {
     position: relative;

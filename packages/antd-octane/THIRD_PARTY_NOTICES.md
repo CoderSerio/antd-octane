@@ -41,3 +41,5 @@ Radio, Tag, Alert, Card, Badge and Avatar supported token defaults and style beh
 Grid, Layout, Collapse, Tabs, Empty, Statistic, Timeline and Descriptions supported token defaults and style rules are adapted from Ant Design 5.29.3 under the MIT license above. Interaction logic is implemented natively in Octane. Empty illustrations are independently authored SVGs, not copies of Ant Design illustrations.
 
 Typography and List supported token defaults and styles are adapted from Ant Design 5.29.3 under the MIT license above; copying, editing, list rendering and responsive grid are independently implemented for Octane.
+
+Spin, Skeleton, Progress and Result supported token defaults and visual rules in `src/loading.css`, `src/feedback.css` and their component modules are adapted from the same Ant Design 5.29.3 MIT-licensed baseline. Loading lifecycle and progress geometry are implemented natively for Octane. Skeleton image placeholders and Result status symbols are independently authored; HTTP status results use numeric artwork instead of Ant Design illustrations.

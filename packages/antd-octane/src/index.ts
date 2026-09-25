@@ -70,6 +70,8 @@ export type { LayoutProps, SiderProps } from "./layout";
 export { Layout } from "./layout";
 export type { ListItemMetaProps, ListItemProps, ListProps } from "./list";
 export { List } from "./list";
+export type { ProgressGradient, ProgressProps } from "./progress";
+export { Progress } from "./progress";
 export type {
   RadioChangeEvent,
   RadioGroupProps,
@@ -79,8 +81,14 @@ export type {
   RadioValue,
 } from "./radio";
 export { Radio } from "./radio";
+export type { ResultProps } from "./result";
+export { Result } from "./result";
+export type { SkeletonElementProps, SkeletonProps } from "./skeleton";
+export { Skeleton } from "./skeleton";
 export type { SpaceProps } from "./space";
 export { Space } from "./space";
+export type { SpinProps } from "./spin";
+export { Spin } from "./spin";
 export type { StatisticProps } from "./statistic";
 export { Statistic } from "./statistic";
 export type { SwitchProps } from "./switch";
