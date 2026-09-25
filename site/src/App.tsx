@@ -9,6 +9,14 @@ type PageComponent = (props: {
   section?: string;
 }) => import("octane").OctaneNode;
 const pages: Record<string, () => Promise<{ default: PageComponent }>> = {
+  message: () => import("./pages/message"),
+  notification: () => import("./pages/notification"),
+  modal: () => import("./pages/modal"),
+  drawer: () => import("./pages/drawer"),
+  menu: () => import("./pages/menu"),
+  dropdown: () => import("./pages/dropdown"),
+  popconfirm: () => import("./pages/popconfirm"),
+
   "input-number": () => import("./pages/input-number"),
   slider: () => import("./pages/slider"),
   typography: () => import("./pages/typography"),

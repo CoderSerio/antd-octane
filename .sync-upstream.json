@@ -48,7 +48,14 @@
       "components/tooltip/style",
       "components/popover/style",
       "components/input-number/style",
-      "components/slider/style"
+      "components/slider/style",
+      "components/modal/style",
+      "components/drawer/style",
+      "components/menu/style",
+      "components/dropdown/style",
+      "components/message/style",
+      "components/notification/style",
+      "components/popconfirm/style"
     ],
     "destination": [
       "packages/antd-octane/src/button/tokens.ts",
@@ -75,7 +82,18 @@
       "packages/antd-octane/src/input-number.css",
       "packages/antd-octane/src/slider/index.tsx",
       "packages/antd-octane/src/slider.css",
-      "packages/antd-octane/src/input-extended.css"
+      "packages/antd-octane/src/input-extended.css",
+      "packages/antd-octane/src/modal/index.tsx",
+      "packages/antd-octane/src/drawer/index.tsx",
+      "packages/antd-octane/src/menu/index.tsx",
+      "packages/antd-octane/src/dropdown/index.tsx",
+      "packages/antd-octane/src/message/index.tsx",
+      "packages/antd-octane/src/notification/index.tsx",
+      "packages/antd-octane/src/popconfirm/index.tsx",
+      "packages/antd-octane/src/dialog.css",
+      "packages/antd-octane/src/menu.css",
+      "packages/antd-octane/src/notice.css",
+      "packages/antd-octane/src/popconfirm.css"
     ],
     "notes": "Supported defaults and state styles adapted to static CSS variables; see THIRD_PARTY_NOTICES.md and docs/compatibility.md."
   }

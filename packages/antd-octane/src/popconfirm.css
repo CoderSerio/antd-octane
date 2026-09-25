@@ -1,0 +1,30 @@
+@layer antd {
+  :where(.ant-popconfirm-message) {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--ao-confirm-gap);
+  }
+  :where(.ant-popconfirm-message-icon) {
+    color: var(--ao-confirm-icon);
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    min-height: 22px;
+  }
+  :where(.ant-popconfirm-title) {
+    font-weight: var(--ao-confirm-weight);
+    color: var(--ao-confirm-heading);
+  }
+  :where(.ant-popconfirm-title:only-child) {
+    font-weight: normal;
+  }
+  :where(.ant-popconfirm-description) {
+    margin-top: var(--ao-confirm-description-gap);
+  }
+  :where(.ant-popconfirm-buttons) {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--ao-confirm-gap);
+    margin-top: var(--ao-confirm-gap);
+  }
+}

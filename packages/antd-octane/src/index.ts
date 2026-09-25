@@ -54,6 +54,10 @@ export type { DescriptionsItem, DescriptionsProps } from "./descriptions";
 export { Descriptions } from "./descriptions";
 export type { DividerProps } from "./divider";
 export { Divider } from "./divider";
+export type { DrawerProps } from "./drawer";
+export { Drawer } from "./drawer";
+export type { DropdownProps } from "./dropdown";
+export { Dropdown } from "./dropdown";
 export type { EmptyProps } from "./empty";
 export { Empty } from "./empty";
 export type { FlexProps } from "./flex";
@@ -84,8 +88,28 @@ export type { LayoutProps, SiderProps } from "./layout";
 export { Layout } from "./layout";
 export type { ListItemMetaProps, ListItemProps, ListProps } from "./list";
 export { List } from "./list";
+export type { MenuInfo, MenuItem, MenuProps } from "./menu";
+export { Menu } from "./menu";
+export type {
+  MessageArgs,
+  MessageConfig,
+  MessageInstance,
+  MessageType,
+} from "./message";
+export { message, useMessage } from "./message";
+export type { ModalProps } from "./modal";
+export { Modal } from "./modal";
+export type {
+  NotificationArgs,
+  NotificationConfig,
+  NotificationInstance,
+  NotificationPlacement,
+} from "./notification";
+export { notification, useNotification } from "./notification";
 export type { PaginationProps } from "./pagination";
 export { Pagination } from "./pagination";
+export type { PopconfirmProps } from "./popconfirm";
+export { Popconfirm } from "./popconfirm";
 export type { PopoverProps } from "./popover";
 export { Popover } from "./popover";
 export type { ProgressGradient, ProgressProps } from "./progress";

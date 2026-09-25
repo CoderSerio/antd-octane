@@ -1,5 +1,5 @@
 import "../../packages/antd-octane/src/style.css";
-import { createRoot } from "octane";
+import { createRoot, useEffect } from "octane";
 import {
   Alert,
   Avatar,
@@ -13,12 +13,18 @@ import {
   ConfigProvider,
   Descriptions,
   Divider,
+  Drawer,
   Empty,
   Input,
   InputNumber,
   Layout,
   List,
+  Menu,
+  Modal,
+  message,
+  notification,
   Pagination,
+  Popconfirm,
   Progress,
   Radio,
   Rate,
@@ -46,6 +52,47 @@ import {
   switchCases,
 } from "./cases";
 
+function OverlayFixture() {
+  const [msg, msgHolder] = message.useMessage();
+  const [notice, noticeHolder] = notification.useNotification();
+  useEffect(() => {
+    msg.open({ key: "fixture", content: "Message content", duration: 0 });
+    notice.open({
+      key: "fixture",
+      message: "Notification title",
+      description: "Notification content",
+      duration: 0,
+    });
+    return () => {
+      msg.destroy();
+      notice.destroy();
+    };
+  }, [msg, notice]);
+  return (
+    <>
+      {msgHolder}
+      {noticeHolder}
+      <div data-overlays="menu">
+        <Menu
+          items={[
+            { key: "one", label: "First" },
+            { key: "two", label: "Second" },
+          ]}
+          defaultSelectedKeys={["one"]}
+        />
+      </div>
+      <Modal open title="Dialog title" footer={null}>
+        Dialog content
+      </Modal>
+      <Drawer open title="Drawer title" autoFocus={false}>
+        Drawer content
+      </Drawer>
+      <Popconfirm open title="Confirm title" description="Confirm content">
+        <button type="button">Confirm</button>
+      </Popconfirm>
+    </>
+  );
+}
 const name = new URLSearchParams(location.search).get("theme");
 const config =
   name === "dark"
@@ -61,6 +108,7 @@ const root = document.getElementById("root");
 if (!root) throw new Error("Missing fixture root");
 createRoot(root).render(
   <ConfigProvider theme={config}>
+    {new URLSearchParams(location.search).has("overlays") && <OverlayFixture />}
     <div data-entry="number">
       <InputNumber defaultValue={3} />
     </div>

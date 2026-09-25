@@ -129,3 +129,19 @@ Tooltip 与 Popover 共享 Octane 原生 portal，保留 ConfigProvider 与业�
 - Slider：单值/双值范围、受控/非受控、min/max/step、marks/dots、方向、禁用、键盘及指针操作；双柄不交叉。提示为组件内小标签，未提供完整 Tooltip portal/边界翻转。暂不支持可编辑多柄、轨道整体拖动、完整 ref 与语义 styles/classNames。
 
 这两项提供基础 token 支持，具体字段和未支持能力以各组件页面为准；不承诺完整上游 API 或内部 DOM 兼容。
+
+## Message / Notification
+
+提供 `message.useMessage` 与 `notification.useNotification`（以及同名独立 hook），返回 api 和需渲染的 contextHolder。原生 portal 保留 holder 所在位置的主题与业务 context；支持类型、同 key 更新、自动/手动关闭、最大数量、倒计时暂停和卸载清理。Message 返回可调用关闭且可等待的 handle，Notification 支持六种位置、标题/描述/操作按钮。暂不提供静态调用、全局 config、通知堆叠、进度条和完整动画。
+
+## Modal / Drawer
+
+提供受控 open、标题/内容/底部、关闭回调、键盘 Escape、遮罩、焦点循环与恢复、嵌套滚动锁、原生 portal、内容保留或销毁。Modal 支持确认按钮 loading，Drawer 支持四个方向。暂不提供静态方法、useModal、完整动画、Drawer push/resizable 或完整上游语义样式契约。自定义挂载容器不意味着任意变换/裁剪祖先下均兼容。
+
+## Menu / Dropdown / Popconfirm
+
+- Menu：items、分组/分割线、禁用、选择/多选、展开键、受控与非受控、方向键焦点。子菜单当前在同一菜单树内展开；不提供完整浮层子菜单、水平溢出收纳、inlineCollapsed 或暗色 Menu 独立预设。
+- Dropdown：menu、click/hover/contextMenu、位置、受控打开、选择后关闭、外部关闭与键盘焦点；使用原生 portal。未提供 Dropdown.Button、popupRender 或完整 overlay 旧 API。
+- Popconfirm：标题/说明、确认/取消、按钮自定义、禁用、受控打开和 Promise 确认。Promise 拒绝时保留浮层，错误展示由调用方处理；等待期间仍允许 Escape 或外部点击关闭。定位限制同 Tooltip；不提供完整语义样式、ref 或动画契约。
+
+组件数量只表示有基础实现；每个组件的完整能力仍须按页面支持边界核对。

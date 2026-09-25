@@ -14,6 +14,24 @@ export default function Compatibility({ section }: { section?: string }) {
       <ApiTable
         rows={[
           [
+            "Message / Notification",
+            "hook、contextHolder、计时器、更新和关闭；不含静态API/堆叠",
+            "基础实现",
+            "alpha",
+          ],
+          [
+            "Modal / Drawer",
+            "受控浮层、焦点管理、滚动锁；不含静态API/动画",
+            "基础实现",
+            "alpha",
+          ],
+          [
+            "Menu / Dropdown / Popconfirm",
+            "菜单、触发与确认交互；详见各组件边界",
+            "基础实现",
+            "alpha",
+          ],
+          [
             "InputNumber / Slider",
             "数值输入、精度、范围、键盘和指针操作；支持子集",
             "已实现",
@@ -116,7 +134,7 @@ export default function Compatibility({ section }: { section?: string }) {
       </h2>
       <p>
         SSR、prefixCls、cssVar、hashed、StyleProvider、Tailwind / StyleX
-        完整消费、模态浮层和表单集成尚未完成。Input.OTP、完整计数与
+        完整消费、模态静态方法和表单集成尚未完成。Input.OTP、完整计数与
         variant，以及 Select、日期选择等复杂输入组件仍未提供。
       </p>
       <p>

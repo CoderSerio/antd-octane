@@ -71,6 +71,6 @@ export function App() {
 - [工程与文档实施约定](docs/project-blueprint.md)：工程结构、文档质量与扩展顺序。
 - [Alpha 检查清单](docs/v0.1.0-alpha-checklist.md)：已完成与待验证项。
 
-当前已提供 37 项基础实现（按 antd 5.x 文档目录计，包含 ConfigProvider），覆盖基础输入、布局、展示、反馈、分页与提示浮层。文档站组件总览列出完整 70 项目录和各项状态；基础实现不代表完整 API 兼容，具体边界见 [兼容清单](docs/compatibility.md)。
+当前已提供 44 项基础实现（按 antd 5.x 文档目录计，包含 ConfigProvider），覆盖基础输入、布局、展示、反馈、分页与提示浮层。文档站组件总览列出完整 70 项目录和各项状态；基础实现不代表完整 API 兼容，具体边界见 [兼容清单](docs/compatibility.md)。
 
 更多组件的实施顺序与进度见 [组件扩展清单](docs/component-roadmap.md)。

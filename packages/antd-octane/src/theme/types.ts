@@ -70,6 +70,49 @@ export interface ThemeConfig {
   token?: Partial<AliasToken>;
   algorithm?: MappingAlgorithm | MappingAlgorithm[];
   components?: {
+    Popconfirm?: ComponentTheme<{ zIndexPopup: number }>;
+    Menu?: ComponentTheme<{
+      itemColor: string;
+      itemBg: string;
+      itemHoverColor: string;
+      itemHoverBg: string;
+      itemSelectedColor: string;
+      itemSelectedBg: string;
+      itemDisabledColor: string;
+      itemHeight: number;
+      itemMarginInline: number;
+      itemMarginBlock: number;
+      itemBorderRadius: number;
+      subMenuItemBg: string;
+      groupTitleColor: string;
+      iconSize: number;
+      dangerItemColor: string;
+    }>;
+    Dropdown?: ComponentTheme<{
+      paddingBlock: number;
+      controlItemBgActive: string;
+      zIndexPopup: number;
+    }>;
+    Modal?: ComponentTheme<{
+      contentBg: string;
+      headerBg: string;
+      titleColor: string;
+      titleFontSize: number;
+      titleLineHeight: number;
+      footerBg: string;
+    }>;
+    Drawer?: ComponentTheme<{
+      footerPaddingBlock: number;
+      footerPaddingInline: number;
+      zIndexPopup: number;
+    }>;
+    Message?: ComponentTheme<{
+      contentBg: string;
+      contentPadding: string | number;
+      zIndexPopup: number;
+    }>;
+    Notification?: ComponentTheme<{ width: number; zIndexPopup: number }>;
+
     InputNumber?: ComponentTheme<
       InputToken & {
         controlWidth: number;

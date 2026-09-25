@@ -54,8 +54,13 @@ try {
     join(directory, "main.tsx"),
     `
 import { createRoot } from 'octane';
-import { Button, InputNumber, Slider, Input, Checkbox, Switch, Flex, Space, Divider, Radio, Tag, Alert, Card, Avatar, Badge, Spin, Skeleton, Progress, Result, Typography, List, Row, Col, Layout, Collapse, Tabs, Empty, Statistic, Timeline, Descriptions, Segmented, Rate, Breadcrumb, Steps, Pagination, Tooltip, Popover, ConfigProvider, theme } from 'antd-octane';
+import { Modal, Drawer, Menu, Dropdown, Popconfirm, message, notification, Button, InputNumber, Slider, Input, Checkbox, Switch, Flex, Space, Divider, Radio, Tag, Alert, Card, Avatar, Badge, Spin, Skeleton, Progress, Result, Typography, List, Row, Col, Layout, Collapse, Tabs, Empty, Statistic, Timeline, Descriptions, Segmented, Rate, Breadcrumb, Steps, Pagination, Tooltip, Popover, ConfigProvider, theme } from 'antd-octane';
 import 'antd-octane/style.css';
+function NoticeConsumer() {
+  const [messages, messageHolder] = message.useMessage();
+  const [notifications, notificationHolder] = notification.useNotification();
+  return <>{messageHolder}{notificationHolder}<Button onClick={() => {messages.success('Saved'); notifications.info({message:'Packed',description:'Ready'});}}>Notify</Button></>;
+}
 createRoot(document.getElementById('root')!).render(
   <ConfigProvider theme={{ algorithm: theme.darkAlgorithm, token: { colorPrimary: '#722ed1' } }}>
     <Flex gap="small"><Space><Switch defaultChecked /></Space><Divider type="vertical" /></Flex>
@@ -86,6 +91,12 @@ createRoot(document.getElementById('root')!).render(
     <Input.Password defaultValue="secret" />
     <Input.TextArea autoSize={{ minRows: 2, maxRows: 4 }} />
     <Input.Search allowClear onSearch={(value) => void value} />
+    <Modal open={false} title="Packed modal">Content</Modal>
+    <Drawer open={false} title="Packed drawer">Content</Drawer>
+    <Menu items={[{key:'one',label:'One'}]} />
+    <Dropdown menu={{items:[{key:'one',label:'One'}]}}><Button>Menu</Button></Dropdown>
+    <Popconfirm title="Save?"><Button>Confirm</Button></Popconfirm>
+    <NoticeConsumer />
     <Button type="primary">Packed consumer</Button>
     <Input defaultValue="Packed input" onChange={(event) => void event.target.value} />
     <Checkbox defaultChecked onChange={(event) => void event.target.checked}>Packed checkbox</Checkbox>

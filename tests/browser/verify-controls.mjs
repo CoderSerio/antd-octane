@@ -152,8 +152,8 @@ export default async function verify(page) {
   };
   assert(coverage.entries === 70, `Coverage expected70 got${coverage.entries}`);
   assert(
-    coverage.implemented === 37,
-    `Coverage implemented expected37 got${coverage.implemented}`,
+    coverage.implemented === 44,
+    `Coverage implemented expected44 got${coverage.implemented}`,
   );
 
   const mobilePages = [

@@ -28,6 +28,13 @@ export const brand: ThemeConfig = {
 export const component: ThemeConfig = {
   token: { colorPrimary: "#13a8a8" },
   components: {
+    Modal: { contentBg: "#fffbe6", titleFontSize: 18 },
+    Drawer: { footerPaddingBlock: 12, footerPaddingInline: 20 },
+    Message: { contentBg: "#fff1b8", contentPadding: "12px 18px" },
+    Notification: { width: 400 },
+    Menu: { itemHeight: 44, itemBorderRadius: 4, itemSelectedBg: "#fff1b8" },
+    Popconfirm: { zIndexPopup: 1200 },
+
     InputNumber: {
       controlWidth: 110,
       handleWidth: 24,

@@ -47,3 +47,5 @@ Spin, Skeleton, Progress and Result supported token defaults and visual rules in
 Segmented, Rate, Breadcrumb, Steps, Pagination, Tooltip and Popover supported token defaults and visual rules in `src/choice.css`, `src/navigation.css`, `src/floating.css` and their component modules are adapted from the same Ant Design 5.29.3 MIT-licensed baseline. Selection, navigation, focus/trigger handling and floating geometry are independently implemented for Octane. Floating content uses Octane's native portal and does not vendor React trigger or positioning runtimes.
 
 InputNumber, Slider and extended Input supported token defaults and visual rules are adapted from the same Ant Design 5.29.3 MIT-licensed baseline. Numeric editing, pointer/keyboard interaction and native input extensions are implemented independently for Octane.
+
+Modal, Drawer, Menu, Dropdown, Message, Notification and Popconfirm supported token defaults and visual rules are adapted from the same Ant Design 5.29.3 MIT baseline. Native Octane dialog management, notice lifecycle, menus and confirmation interactions are independently implemented; no React overlay runtime is vendored.

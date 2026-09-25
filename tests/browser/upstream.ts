@@ -12,12 +12,18 @@ import {
   ConfigProvider,
   Descriptions,
   Divider,
+  Drawer,
   Empty,
   Input,
   InputNumber,
   Layout,
   List,
+  Menu,
+  Modal,
+  message,
+  notification,
   Pagination,
+  Popconfirm,
   Progress,
   Radio,
   Rate,
@@ -36,7 +42,7 @@ import {
   Typography,
   theme,
 } from "antd";
-import { createElement } from "react";
+import { createElement, useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import {
   brand,
@@ -47,6 +53,60 @@ import {
   switchCases,
 } from "./cases";
 
+function OverlayFixture() {
+  const [msg, msgHolder] = message.useMessage();
+  const [notice, noticeHolder] = notification.useNotification();
+  useEffect(() => {
+    msg.open({ key: "fixture", content: "Message content", duration: 0 });
+    notice.open({
+      key: "fixture",
+      message: "Notification title",
+      description: "Notification content",
+      duration: 0,
+    });
+    return () => {
+      msg.destroy();
+      notice.destroy();
+    };
+  }, [msg, notice]);
+  return createElement(
+    "div",
+    {},
+    msgHolder,
+    noticeHolder,
+    createElement(
+      "div",
+      { "data-overlays": "menu" },
+      createElement(Menu, {
+        items: [
+          { key: "one", label: "First" },
+          { key: "two", label: "Second" },
+        ],
+        defaultSelectedKeys: ["one"],
+      }),
+    ),
+    createElement(
+      Modal,
+      {
+        open: true,
+        title: "Dialog title",
+        footer: null,
+        focusTriggerAfterClose: false,
+      },
+      "Dialog content",
+    ),
+    createElement(
+      Drawer,
+      { open: true, title: "Drawer title", autoFocus: false },
+      "Drawer content",
+    ),
+    createElement(
+      Popconfirm,
+      { open: true, title: "Confirm title", description: "Confirm content" },
+      createElement("button", { type: "button" }, "Confirm"),
+    ),
+  );
+}
 const name = new URLSearchParams(location.search).get("theme");
 const config =
   name === "dark"
@@ -64,6 +124,9 @@ createRoot(root).render(
   createElement(
     ConfigProvider,
     { theme: config },
+    new URLSearchParams(location.search).has("overlays")
+      ? createElement(OverlayFixture)
+      : null,
     createElement(
       "div",
       { "data-entry": "number" },

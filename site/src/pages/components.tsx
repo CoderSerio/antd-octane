@@ -38,11 +38,33 @@ import {
   Typography,
 } from "antd-octane";
 import { componentCoverage, upstreamGroups } from "../component-coverage";
+import { BasicDemo as PreviewDrawer } from "../demos/drawer-basic";
+import { BasicDemo as PreviewDropdown } from "../demos/dropdown-basic";
+import { BasicDemo as PreviewMenu } from "../demos/menu-basic";
+import { BasicDemo as PreviewMessage } from "../demos/message-basic";
+import { BasicDemo as PreviewModal } from "../demos/modal-basic";
+import { BasicDemo as PreviewNotification } from "../demos/notification-basic";
+import { BasicDemo as PreviewPopconfirm } from "../demos/popconfirm-basic";
 import { usePageAnchor } from "../docs-ui";
 import { nav } from "../navigation";
 
 function Preview({ name }: { name: string }) {
   switch (name) {
+    case "modal":
+      return <PreviewModal />;
+    case "drawer":
+      return <PreviewDrawer />;
+    case "message":
+      return <PreviewMessage />;
+    case "notification":
+      return <PreviewNotification />;
+    case "menu":
+      return <PreviewMenu />;
+    case "dropdown":
+      return <PreviewDropdown />;
+    case "popconfirm":
+      return <PreviewPopconfirm />;
+
     case "input-number":
       return <InputNumber defaultValue={3} min={0} max={10} />;
     case "slider":

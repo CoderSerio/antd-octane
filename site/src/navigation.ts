@@ -293,6 +293,55 @@ export const nav = [
     group: "数据展示",
     keywords: "descriptions 描述列表",
   },
+  {
+    id: "message",
+    title: "Message 全局提示",
+    category: "components",
+    group: "反馈",
+    keywords: "Message 全局提示",
+  },
+  {
+    id: "notification",
+    title: "Notification 通知提醒框",
+    category: "components",
+    group: "反馈",
+    keywords: "Notification 通知提醒框",
+  },
+  {
+    id: "modal",
+    title: "Modal 对话框",
+    category: "components",
+    group: "反馈",
+    keywords: "Modal 对话框",
+  },
+  {
+    id: "drawer",
+    title: "Drawer 抽屉",
+    category: "components",
+    group: "反馈",
+    keywords: "Drawer 抽屉",
+  },
+  {
+    id: "menu",
+    title: "Menu 导航菜单",
+    category: "components",
+    group: "导航",
+    keywords: "Menu 导航菜单",
+  },
+  {
+    id: "dropdown",
+    title: "Dropdown 下拉菜单",
+    category: "components",
+    group: "导航",
+    keywords: "Dropdown 下拉菜单",
+  },
+  {
+    id: "popconfirm",
+    title: "Popconfirm 气泡确认框",
+    category: "components",
+    group: "反馈",
+    keywords: "Popconfirm 气泡确认框",
+  },
 ];
 export const toc: Record<string, [string, string][]> = {
   overview: [
@@ -618,6 +667,56 @@ toc.slider = [
   ["examples", "代码演示"],
   ["basic", "受控值"],
   ["more", "范围与方向"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+
+toc.message = [
+  ["examples", "代码演示"],
+  ["basic", "基本用法"],
+  ["more", "交互与状态"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+toc.notification = [
+  ["examples", "代码演示"],
+  ["basic", "基本用法"],
+  ["more", "交互与状态"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+toc.modal = [
+  ["examples", "代码演示"],
+  ["basic", "基本用法"],
+  ["more", "交互与状态"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+toc.drawer = [
+  ["examples", "代码演示"],
+  ["basic", "基本用法"],
+  ["more", "交互与状态"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+toc.menu = [
+  ["examples", "代码演示"],
+  ["basic", "基本用法"],
+  ["more", "交互与状态"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+toc.dropdown = [
+  ["examples", "代码演示"],
+  ["basic", "基本用法"],
+  ["more", "交互与状态"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+toc.popconfirm = [
+  ["examples", "代码演示"],
+  ["basic", "基本用法"],
+  ["more", "交互与状态"],
   ["api", "API"],
   ["tokens", "主题与支持范围"],
 ];
