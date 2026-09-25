@@ -189,6 +189,23 @@ export interface ThemeConfig {
       iconFontSizeLG: number;
       iconFontSizeSM: number;
     }>;
+    Typography?: ComponentTheme<{
+      titleMarginTop: string | number;
+      titleMarginBottom: string | number;
+    }>;
+    List?: ComponentTheme<{
+      contentWidth: number;
+      itemPadding: string;
+      itemPaddingSM: string;
+      itemPaddingLG: string;
+      headerBg: string;
+      footerBg: string;
+      emptyTextPadding: number;
+      metaMarginBottom: number;
+      avatarMarginRight: number;
+      titleMarginBottom: number;
+      descriptionFontSize: number;
+    }>;
     Divider?: ComponentTheme<{
       textPaddingInline: string | number;
       orientationMargin: number;

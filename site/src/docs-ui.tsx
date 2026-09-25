@@ -191,7 +191,13 @@ export function DocMeta({ name }: { name: string }) {
 }
 export function ApiTable({ rows }: { rows: string[][] }) {
   return (
-    <div className="table-scroll">
+    // Keyboard users can scroll the table without moving the entire page.
+    <section
+      className="table-scroll"
+      aria-label="API 参数表，可横向滚动"
+      // biome-ignore lint/a11y/noNoninteractiveTabindex: scrollable API region needs keyboard access.
+      tabIndex={0}
+    >
       <table>
         <thead>
           <tr>
@@ -216,7 +222,7 @@ export function ApiTable({ rows }: { rows: string[][] }) {
           ))}
         </tbody>
       </table>
-    </div>
+    </section>
   );
 }
 

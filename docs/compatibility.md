@@ -87,3 +87,10 @@ Switch 支持受控/非受控、value 别名、文字、大小、加载、禁用
 - Descriptions：items、响应式 column、span/filled、横向/纵向、有边框、大小、标题/extra 和组件 token。暂不支持 Item 旧语法、响应式 span、styles/classNames。
 
 浏览器夹具在默认、品牌、暗色、紧凑和组件覆盖主题下比较 1,330 项稳定样式值；不覆盖全部变体或完整像素一致性。真实文档检查覆盖面板/标签页输入保留、键盘操作、增删焦点、侧栏折叠、栅格断点和八页移动端溢出。
+
+## 文字与列表
+
+- Typography：Text / Paragraph / Title / Link、文字类型和修饰、禁用链接、复制、受控/非受控编辑状态、编辑提交/取消及焦点恢复、CSS 多行省略、受控/非受控展开。titleMarginTop/titleMarginBottom 与相关全局 token。编辑后的值由 onChange 调用方保存；复制依赖 Clipboard API，失败有状态反馈。暂不支持 tooltip、symbol、可定制操作图标、自动行高和完整 ref 契约。展开入口不做溢出测量，配置后始终显示；后缀和操作按钮在省略区外，不承诺复杂富文本的上游截断算法。
+- List：dataSource / renderItem / rowKey、Item / Meta、actions / extra、header/footer/loadMore、尺寸、分割线、边框、空状态、基础加载状态和响应式 grid。组件间距、背景、Meta 文字 token。暂不支持内置 pagination、SpinProps loading、虚拟列表、colStyle 和 styles/classNames；分页待 Pagination 接入，加载动画待共享 Spin 接入。
+
+文字与列表的五组主题夹具比较 770 项稳定样式值；覆盖基础文字、三级标题、段落、有边框列表/Meta 与小尺寸条目，不等于完整视觉或全部变体兼容。

@@ -15,6 +15,7 @@ import {
   Empty,
   Input,
   Layout,
+  List,
   Radio,
   Row,
   Statistic,
@@ -22,6 +23,7 @@ import {
   Tabs,
   Tag,
   Timeline,
+  Typography,
   theme,
 } from "../../packages/antd-octane/src";
 import {
@@ -48,6 +50,37 @@ const root = document.getElementById("root");
 if (!root) throw new Error("Missing fixture root");
 createRoot(root).render(
   <ConfigProvider theme={config}>
+    <div data-content="text">
+      <Typography.Text>Text</Typography.Text>
+    </div>
+    <div data-content="heading">
+      <Typography.Title level={3}>Heading</Typography.Title>
+    </div>
+    <div data-content="paragraph">
+      <Typography.Paragraph>Paragraph</Typography.Paragraph>
+    </div>
+    <div data-content="list">
+      <List
+        bordered
+        header="Header"
+        footer="Footer"
+        dataSource={["First", "Second"]}
+        renderItem={(item) => (
+          <List.Item>
+            <List.Item.Meta title={item} description="Description" />
+          </List.Item>
+        )}
+      />
+    </div>
+    <div data-content="small">
+      <List
+        bordered
+        size="small"
+        dataSource={["Small"]}
+        renderItem={(item) => <List.Item>{item}</List.Item>}
+      />
+    </div>
+
     {cases.map(({ id, props }) => (
       <div key={id} style={{ padding: 12 }}>
         <Button {...props} id={id}>

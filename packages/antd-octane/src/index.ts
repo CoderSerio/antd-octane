@@ -68,6 +68,8 @@ export type { InputChangeEvent, InputProps, InputRef } from "./input";
 export { Input } from "./input";
 export type { LayoutProps, SiderProps } from "./layout";
 export { Layout } from "./layout";
+export type { ListItemMetaProps, ListItemProps, ListProps } from "./list";
+export { List } from "./list";
 export type {
   RadioChangeEvent,
   RadioGroupProps,
@@ -89,3 +91,12 @@ export type { CheckableTagProps, TagProps } from "./tag";
 export { Tag } from "./tag";
 export type { TimelineItem, TimelineProps } from "./timeline";
 export { Timeline } from "./timeline";
+export type {
+  CopyConfig,
+  EditConfig,
+  EllipsisConfig,
+  LinkProps,
+  TitleProps,
+  TypographyProps,
+} from "./typography";
+export { Typography } from "./typography";

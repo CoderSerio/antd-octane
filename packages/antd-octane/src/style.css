@@ -1766,3 +1766,237 @@
     }
   }
 }
+
+@layer antd {
+  :where(.ant-typography) {
+    color: var(--ao-type-color);
+    font-family: var(--ao-font);
+    font-size: var(--ao-type-size);
+    line-height: var(--ao-type-line);
+    word-break: break-word;
+  }
+  :where(div.ant-typography) {
+    margin-block: 0 1em;
+  }
+  :where(.ant-typography-title) {
+    margin-block-end: var(--ao-type-bottom);
+    font-weight: var(--ao-type-weight);
+  }
+  :where(.ant-typography + .ant-typography-title) {
+    margin-block-start: var(--ao-type-top);
+  }
+  :where(a.ant-typography) {
+    text-decoration: none;
+    cursor: pointer;
+  }
+  :where(a.ant-typography:hover) {
+    color: var(--ao-type-hover);
+  }
+  :where(.ant-typography-disabled, a.ant-typography-disabled:hover) {
+    color: var(--ao-type-color);
+    cursor: not-allowed;
+    user-select: none;
+  }
+  :where(.ant-typography strong) {
+    font-weight: var(--ao-type-weight);
+  }
+  :where(.ant-typography mark) {
+    padding: 0;
+    background: #ffe58f;
+  }
+  :where(.ant-typography code, .ant-typography kbd) {
+    margin: 0 0.2em;
+    padding: 0.2em 0.4em 0.1em;
+    font-size: 85%;
+    font-family: var(--ao-type-code);
+    background: rgba(150, 150, 150, 0.1);
+    border: 1px solid rgba(100, 100, 100, 0.2);
+    border-radius: 3px;
+  }
+  :where(.ant-typography kbd) {
+    padding-block-start: 0.15em;
+    font-size: 90%;
+    border-bottom-width: 2px;
+    background: rgba(150, 150, 150, 0.06);
+  }
+  :where(.ant-typography-clamp) {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  :where(.ant-typography-expand, .ant-typography-edit, .ant-typography-copy) {
+    margin-inline-start: 4px;
+    padding: 0;
+    border: 0;
+    color: var(--ao-primary);
+    background: transparent;
+    font: inherit;
+    cursor: pointer;
+  }
+  :where(.ant-typography button:hover) {
+    color: var(--ao-type-hover);
+  }
+  :where(.ant-typography button:focus-visible) {
+    outline: 2px solid var(--ao-focus);
+    outline-offset: 2px;
+  }
+  :where(.ant-typography button:disabled) {
+    color: var(--ao-muted);
+    cursor: not-allowed;
+  }
+  :where(.ant-typography-copy-status) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  :where(.ant-typography textarea) {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 2.5em;
+    padding: 4px 8px;
+    border: 1px solid var(--ao-primary);
+    border-radius: 4px;
+    color: var(--ao-text);
+    background: var(--ao-bg);
+    font: inherit;
+    resize: vertical;
+    outline: 2px solid var(--ao-focus);
+  }
+  :where(.ant-list) {
+    box-sizing: border-box;
+    position: relative;
+    color: var(--ao-text);
+    font-family: var(--ao-font);
+    font-size: var(--ao-font-size);
+    line-height: var(--ao-line);
+  }
+  :where(.ant-list-bordered) {
+    border: 1px solid var(--ao-list-border);
+    border-radius: var(--ao-radius);
+  }
+  :where(.ant-list-header, .ant-list-footer, .ant-list-item) {
+    padding: var(--ao-list-padding);
+  }
+  :where(.ant-list-header, .ant-list-footer) {
+    box-sizing: border-box;
+    padding: var(--ao-list-head-padding);
+  }
+  :where(
+      .ant-list-bordered:not(.ant-list-sized) .ant-list-header,
+      .ant-list-bordered:not(.ant-list-sized) .ant-list-footer,
+      .ant-list-bordered:not(.ant-list-sized) .ant-list-item
+    ) {
+    padding-inline: var(--ao-list-inline);
+  }
+  :where(.ant-list-header) {
+    background: var(--ao-list-header);
+    border-radius: var(--ao-list-inner-radius) var(--ao-list-inner-radius) 0 0;
+  }
+  :where(.ant-list-footer) {
+    background: var(--ao-list-footer);
+    border-radius: 0 0 var(--ao-list-inner-radius) var(--ao-list-inner-radius);
+  }
+  :where(.ant-list-items, .ant-list-item-action) {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  :where(.ant-list-item) {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+  }
+  :where(.ant-list-item-main) {
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  :where(
+      .ant-list-split .ant-list-item:not(:last-child),
+      .ant-list-split .ant-list-header
+    ) {
+    border-bottom: 1px solid var(--ao-border);
+  }
+  :where(.ant-list-split.ant-list-has-footer .ant-list-item:last-child) {
+    border-bottom: 1px solid var(--ao-border);
+  }
+  :where(.ant-list-item-meta) {
+    display: flex;
+    align-items: flex-start;
+    min-width: 0;
+  }
+  :where(.ant-list-item-meta-avatar) {
+    margin-inline-end: var(--ao-list-avatar);
+  }
+  :where(.ant-list-item-meta-content) {
+    flex: 1;
+    min-width: 0;
+  }
+  :where(.ant-list-item-meta-title) {
+    margin: 0 0 4px;
+    color: var(--ao-list-heading);
+    font-size: var(--ao-font-size);
+    font-weight: 500;
+    line-height: var(--ao-line);
+  }
+  :where(.ant-list-item-meta-description) {
+    color: var(--ao-muted);
+    font-size: var(--ao-list-description);
+    line-height: var(--ao-line);
+  }
+  :where(.ant-list-item-action) {
+    display: flex;
+    flex-wrap: wrap;
+    flex: none;
+    gap: 16px;
+    color: var(--ao-muted);
+  }
+  :where(.ant-list-item-extra) {
+    flex: none;
+  }
+  :where(.ant-list-vertical .ant-list-item) {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  :where(.ant-list-vertical .ant-list-item-main) {
+    flex-basis: 65%;
+    min-width: min(100%, var(--ao-list-content-width));
+  }
+  :where(.ant-list-vertical .ant-list-item-action) {
+    order: 1;
+    flex-basis: 100%;
+  }
+  :where(.ant-list-vertical .ant-list-item-meta) {
+    margin-bottom: var(--ao-list-meta);
+  }
+  :where(.ant-list-vertical .ant-list-item-meta-title) {
+    margin-bottom: var(--ao-list-title);
+    font-size: var(--ao-list-heading-size);
+  }
+  :where(.ant-list-empty-text, .ant-list-loading) {
+    padding: var(--ao-list-empty);
+    text-align: center;
+    color: var(--ao-muted);
+  }
+  :where(.ant-list-grid .ant-list-items) {
+    display: grid;
+    grid-template-columns: repeat(var(--ao-list-columns), minmax(0, 1fr));
+    gap: var(--ao-list-gutter);
+  }
+  :where(.ant-list-grid .ant-list-item) {
+    display: block;
+    border: 0;
+  }
+  @media (max-width: 575px) {
+    :where(.ant-list-item) {
+      flex-wrap: wrap;
+    }
+    :where(.ant-list-item-extra) {
+      max-width: 100%;
+    }
+  }
+}

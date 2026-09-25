@@ -49,6 +49,13 @@ export const nav = [
     keywords: "button 按钮",
   },
   {
+    id: "typography",
+    title: "Typography 排版",
+    category: "components",
+    group: "通用",
+    keywords: "typography 标题 文本 复制 编辑",
+  },
+  {
     id: "flex",
     title: "Flex 弹性布局",
     category: "components",
@@ -110,6 +117,13 @@ export const nav = [
     category: "components",
     group: "反馈",
     keywords: "alert 警告提示",
+  },
+  {
+    id: "list",
+    title: "List 列表",
+    category: "components",
+    group: "数据展示",
+    keywords: "list 列表 网格",
   },
   {
     id: "card",
@@ -389,6 +403,21 @@ toc.descriptions = [
   ["examples", "代码演示"],
   ["basic", "成组信息"],
   ["more", "响应式与边框"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+
+toc.typography = [
+  ["examples", "代码演示"],
+  ["basic", "文字层级与修饰"],
+  ["more", "编辑、复制与省略"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+toc.list = [
+  ["examples", "代码演示"],
+  ["basic", "带操作的列表"],
+  ["more", "响应式网格与空状态"],
   ["api", "API"],
   ["tokens", "主题与支持范围"],
 ];

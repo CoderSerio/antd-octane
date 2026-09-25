@@ -14,6 +14,7 @@ import {
   Empty,
   Input,
   Layout,
+  List,
   Radio,
   Row,
   Statistic,
@@ -21,6 +22,7 @@ import {
   Tabs,
   Tag,
   Timeline,
+  Typography,
   theme,
 } from "antd";
 import { createElement } from "react";
@@ -51,6 +53,51 @@ createRoot(root).render(
   createElement(
     ConfigProvider,
     { theme: config },
+    createElement(
+      "div",
+      { "data-content": "text" },
+      createElement(Typography.Text, null, "Text"),
+    ),
+    createElement(
+      "div",
+      { "data-content": "heading" },
+      createElement(Typography.Title, { level: 3 }, "Heading"),
+    ),
+    createElement(
+      "div",
+      { "data-content": "paragraph" },
+      createElement(Typography.Paragraph, null, "Paragraph"),
+    ),
+    createElement(
+      "div",
+      { "data-content": "list" },
+      createElement(List, {
+        bordered: true,
+        header: "Header",
+        footer: "Footer",
+        dataSource: ["First", "Second"],
+        renderItem: (item) =>
+          createElement(
+            List.Item,
+            null,
+            createElement(List.Item.Meta, {
+              title: String(item),
+              description: "Description",
+            }),
+          ),
+      }),
+    ),
+    createElement(
+      "div",
+      { "data-content": "small" },
+      createElement(List, {
+        bordered: true,
+        size: "small",
+        dataSource: ["Small"],
+        renderItem: (item) => createElement(List.Item, null, String(item)),
+      }),
+    ),
+
     cases.map(({ id, props }) =>
       createElement(
         "div",

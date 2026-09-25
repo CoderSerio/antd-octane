@@ -33,7 +33,9 @@
       "components/empty/style",
       "components/statistic/style",
       "components/timeline/style",
-      "components/descriptions/style"
+      "components/descriptions/style",
+      "components/typography/style",
+      "components/list/style"
     ],
     "destination": [
       "packages/antd-octane/src/button/tokens.ts",

@@ -1,9 +1,9 @@
 import { useConfig } from "../config-provider";
 import { resolveComponentAlias } from "../theme/resolve";
 import type { ThemeConfig } from "../theme/types";
-export function useComponentTokens(
-  name: keyof NonNullable<ThemeConfig["components"]>,
-) {
+export function useComponentTokens<
+  K extends keyof NonNullable<ThemeConfig["components"]>,
+>(name: K) {
   const config = useConfig();
   const token = resolveComponentAlias(config.theme, config.token, name);
   return {

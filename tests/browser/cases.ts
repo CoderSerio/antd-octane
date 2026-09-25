@@ -28,6 +28,14 @@ export const brand: ThemeConfig = {
 export const component: ThemeConfig = {
   token: { colorPrimary: "#13a8a8" },
   components: {
+    Typography: { titleMarginBottom: "0.8em", colorText: "#123456" },
+    List: {
+      headerBg: "#fffbe6",
+      footerBg: "#e6f7ff",
+      itemPadding: "14px 0",
+      itemPaddingSM: "10px 20px",
+      descriptionFontSize: 15,
+    },
     Layout: {
       headerBg: "#112233",
       headerHeight: 72,

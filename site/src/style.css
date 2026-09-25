@@ -541,6 +541,7 @@
   }
   .table-scroll table {
     width: 100%;
+    min-width: 760px;
     border-collapse: collapse;
     font-size: 13px;
     text-align: left;
@@ -561,6 +562,19 @@
     color: var(--text);
     font-weight: 500;
     white-space: nowrap;
+  }
+  .table-scroll th:nth-child(2) {
+    min-width: 180px;
+  }
+  .table-scroll th:nth-child(3) {
+    min-width: 160px;
+  }
+  .table-scroll th:last-child {
+    min-width: 80px;
+  }
+  .table-scroll:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
   }
   .table-scroll td:nth-child(3) {
     color: #c41d7f;

@@ -53,6 +53,12 @@ export default function Compatibility({ section }: { section?: string }) {
             "已实现",
             "alpha",
           ],
+          [
+            "Typography / List",
+            "文字编辑、复制、列表及响应式网格",
+            "已实现",
+            "alpha",
+          ],
           ["ConfigProvider", "主题、尺寸、禁用与嵌套作用域", "已实现", "alpha"],
           ["Form / Table / Modal", "动态表单、表格及浮层", "未实现", "—"],
         ]}

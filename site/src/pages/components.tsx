@@ -13,6 +13,7 @@ import {
   Flex,
   Input,
   Layout,
+  List,
   Radio,
   Row,
   Space,
@@ -21,12 +22,24 @@ import {
   Tabs,
   Tag,
   Timeline,
+  Typography,
 } from "antd-octane";
 import { usePageAnchor } from "../docs-ui";
 import { nav } from "../navigation";
 
 function Preview({ name }: { name: string }) {
   switch (name) {
+    case "typography":
+      return (
+        <div>
+          <Typography.Title level={4}>文字的层次</Typography.Title>
+          <Typography.Text type="secondary">清晰表达内容</Typography.Text>
+        </div>
+      );
+    case "list":
+      return (
+        <List dataSource={["项目介绍", "快速开始"]} style={{ width: "100%" }} />
+      );
     case "grid":
       return (
         <Row gutter={8} style={{ width: "100%" }}>
