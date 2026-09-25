@@ -46,7 +46,9 @@
       "components/steps/style",
       "components/pagination/style",
       "components/tooltip/style",
-      "components/popover/style"
+      "components/popover/style",
+      "components/input-number/style",
+      "components/slider/style"
     ],
     "destination": [
       "packages/antd-octane/src/button/tokens.ts",
@@ -68,7 +70,12 @@
       "packages/antd-octane/src/steps/index.tsx",
       "packages/antd-octane/src/pagination/index.tsx",
       "packages/antd-octane/src/tooltip/index.tsx",
-      "packages/antd-octane/src/popover/index.tsx"
+      "packages/antd-octane/src/popover/index.tsx",
+      "packages/antd-octane/src/input-number/index.tsx",
+      "packages/antd-octane/src/input-number.css",
+      "packages/antd-octane/src/slider/index.tsx",
+      "packages/antd-octane/src/slider.css",
+      "packages/antd-octane/src/input-extended.css"
     ],
     "notes": "Supported defaults and state styles adapted to static CSS variables; see THIRD_PARTY_NOTICES.md and docs/compatibility.md."
   }

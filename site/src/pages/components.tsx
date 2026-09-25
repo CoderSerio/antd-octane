@@ -13,6 +13,7 @@ import {
   Empty,
   Flex,
   Input,
+  InputNumber,
   Layout,
   List,
   Pagination,
@@ -24,6 +25,7 @@ import {
   Row,
   Segmented,
   Skeleton,
+  Slider,
   Space,
   Spin,
   Statistic,
@@ -41,6 +43,14 @@ import { nav } from "../navigation";
 
 function Preview({ name }: { name: string }) {
   switch (name) {
+    case "input-number":
+      return <InputNumber defaultValue={3} min={0} max={10} />;
+    case "slider":
+      return (
+        <div style={{ width: "100%", padding: "0 16px" }}>
+          <Slider defaultValue={40} />
+        </div>
+      );
     case "segmented":
       return <Segmented options={["日", "周", "月"]} defaultValue="周" />;
     case "rate":
@@ -296,7 +306,8 @@ export default function ComponentsPage({ section }: { section?: string }) {
         完整覆盖清单
       </h2>
       <p>
-        基础版表示已有实现，不等于完整兼容。点击本库文档检查具体支持范围；尚未实现的项目只链接上游参考。
+        基础版仅表示已有部分能力，不代表完整
+        API、子组件、交互或主题兼容；目录覆盖数量不是功能完成百分比。点击本库文档检查具体支持范围；尚未实现的项目只链接上游参考。
       </p>
       {upstreamGroups.map(([group]) => (
         <section key={group} className="coverage-group">

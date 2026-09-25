@@ -67,8 +67,19 @@ export type {
   Screens,
 } from "./grid";
 export { Col, Grid, Row } from "./grid";
-export type { InputChangeEvent, InputProps, InputRef } from "./input";
+export type {
+  InputChangeEvent,
+  InputProps,
+  InputRef,
+  PasswordProps,
+  SearchProps,
+  TextAreaChangeEvent,
+  TextAreaProps,
+  TextAreaRef,
+} from "./input";
 export { Input } from "./input";
+export type { InputNumberProps, InputNumberRef } from "./input-number";
+export { InputNumber } from "./input-number";
 export type { LayoutProps, SiderProps } from "./layout";
 export { Layout } from "./layout";
 export type { ListItemMetaProps, ListItemProps, ListProps } from "./list";
@@ -100,6 +111,8 @@ export type {
 export { Segmented } from "./segmented";
 export type { SkeletonElementProps, SkeletonProps } from "./skeleton";
 export { Skeleton } from "./skeleton";
+export type { SliderMark, SliderProps, SliderValue } from "./slider";
+export { Slider } from "./slider";
 export type { SpaceProps } from "./space";
 export { Space } from "./space";
 export type { SpinProps } from "./spin";

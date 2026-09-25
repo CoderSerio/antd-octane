@@ -1,3 +1,6 @@
+@import "./input-extended.css";
+@import "./input-number.css";
+@import "./slider.css";
 @import "./choice.css";
 @import "./navigation.css";
 @import "./floating.css";

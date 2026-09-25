@@ -24,7 +24,7 @@ Form、Table、ColorPicker、日期/时间选择、Tree/TreeSelect/Cascader、Se
 - 已实现：Typography（复制/编辑/省略）与 List（Meta/操作/响应式网格），验证基础样式与交互，具体差异见兼容清单。
 - 已实现：Spin、Skeleton、Progress、Result；List 复用 Spin 加载层，Card 复用 Skeleton 占位。完整 API 与插画差异见兼容清单，验证范围以实际夹具为准。
 - 已实现：Segmented、Rate、Breadcrumb、Steps、Pagination、Tooltip、Popover；List 接入内置分页，提示浮层共享 Octane portal 与定位逻辑。基础能力与未支持属性见兼容清单。
-- 当前按 5.x 文档目录计有 35 / 70 项基础实现（包含 ConfigProvider）。下一批补齐 Input 子组件、Slider / InputNumber，再逐步扩展浮层和导航组件。
+- 已实现：Input 前后缀/清除/Password/Search/TextArea、InputNumber、Slider。按 5.x 目录有 37 项基础实现（包含 ConfigProvider），该数量不是功能完成比例。后续继续补浮层与导航组件，已有组件的 API 缺口也需逐项完善。
 - 其余条目待实现，不视为已支持。
 
 ## 5.x 完整目录核对

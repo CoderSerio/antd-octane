@@ -1,5 +1,11 @@
 import { InputBasicDemo } from "../demos/input-basic";
 import { InputControlledDemo } from "../demos/input-controlled";
+import {
+  InputAffixDemo,
+  InputPasswordDemo,
+  InputSearchDemo,
+  InputTextAreaDemo,
+} from "../demos/input-extended";
 import { InputRefDemo } from "../demos/input-ref";
 import { InputSizesDemo } from "../demos/input-sizes";
 import { InputStatesDemo } from "../demos/input-states";
@@ -68,6 +74,38 @@ export default function InputPage({ section }: { section?: string }) {
         >
           <InputRefDemo />
         </Demo>
+        <Demo
+          id="affix"
+          title="前后缀与清除"
+          description="在框内补充单位，或在框外组合域名标签。清除按钮保留输入焦点。"
+          source={() => import("../demos/input-extended.tsx?raw")}
+        >
+          <InputAffixDemo />
+        </Demo>
+        <Demo
+          id="password"
+          title="密码输入"
+          description="点击眼睛切换密码可见状态，不改变输入值。"
+          source={() => import("../demos/input-extended.tsx?raw")}
+        >
+          <InputPasswordDemo />
+        </Demo>
+        <Demo
+          id="search"
+          title="搜索框"
+          description="点击搜索或按 Enter 确认；输入法组合时不会误触发搜索。"
+          source={() => import("../demos/input-extended.tsx?raw")}
+        >
+          <InputSearchDemo />
+        </Demo>
+        <Demo
+          id="textarea"
+          title="自动高度文本域"
+          description="根据内容和宽度调整高度，达到最大行数后在框内滚动。"
+          source={() => import("../demos/input-extended.tsx?raw")}
+        >
+          <InputTextAreaDemo />
+        </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>
         API
@@ -80,6 +118,50 @@ export default function InputPage({ section }: { section?: string }) {
             "输入框尺寸，可继承 ConfigProvider",
             "small | middle | large",
             "middle",
+          ],
+          ["prefix / suffix", "框内前后缀", "OctaneNode", "—"],
+          ["addonBefore / addonAfter", "框外组合标签", "OctaneNode", "—"],
+          [
+            "allowClear / onClear",
+            "清除按钮及回调；只读或禁用时隐藏",
+            "boolean | { clearIcon? } / () => void",
+            "false / —",
+          ],
+          [
+            "Password.visibilityToggle",
+            "切换可见状态或受控配置",
+            "boolean | { visible?, onVisibleChange? }",
+            "true",
+          ],
+          [
+            "Password.iconRender",
+            "自定义可见切换图标",
+            "(visible) => OctaneNode",
+            "眼睛图标",
+          ],
+          [
+            "Search.enterButton / loading",
+            "搜索按钮内容 / 加载状态",
+            "boolean | OctaneNode / boolean",
+            "false / false",
+          ],
+          [
+            "Search.onSearch",
+            "搜索或清除回调",
+            "(value, event, { source: input | clear }) => void",
+            "—",
+          ],
+          [
+            "TextArea.autoSize",
+            "自动高度及行数范围",
+            "boolean | { minRows?, maxRows? }",
+            "false",
+          ],
+          [
+            "TextArea.ref",
+            "nativeElement、resizableTextArea.textArea、focus/blur/select",
+            "Ref<TextAreaRef>",
+            "—",
           ],
           ["status", "校验状态", "error | warning", "—"],
           ["disabled / readOnly", "禁用 / 只读", "boolean", "false"],
@@ -122,9 +204,13 @@ export default function InputPage({ section }: { section?: string }) {
           已知差异
         </strong>
         <p>
-          目前只提供基础 Input。尚不支持
-          prefix、suffix、allowClear、addonBefore/After、variant、showCount、Search、Password、TextArea、OTP
-          和 Form 集成。事件为原生事件，不提供 SyntheticEvent。
+          尚不支持 variant、showCount/count、OTP、Form 集成、Password 的 hover
+          action 和语义 styles/classNames。Search.enterButton
+          的节点作为按钮内容，不支持传入嵌套按钮。 autoSize 基于原生
+          scrollHeight，暂不支持 onResize 或隐藏容器的预测量。
+          改变前后缀/组合结构可能重建输入节点；需要保留焦点时请保留相应包裹结构。
+          事件采用原生 Event；清除生成 input 事件，Search 的清除回调为 source:
+          clear。 TextArea.ref 与 InputRef 不同，详见上表。
         </p>
       </div>
     </>

@@ -1,0 +1,128 @@
+@layer antd {
+  :where(.ant-input-number) {
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    width: var(--ao-num-width);
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    color: var(--ao-text);
+    font: var(--ao-num-font) / var(--ao-num-line) var(--ao-font);
+    background: var(--ao-bg);
+    border: var(--ao-num-line-width) solid var(--ao-num-border);
+    border-radius: var(--ao-num-radius);
+    transition:
+      border-color var(--ao-num-motion),
+      box-shadow var(--ao-num-motion),
+      background var(--ao-num-motion);
+  }
+  :where(.ant-input-number:not(.ant-input-number-disabled):hover) {
+    border-color: var(--ao-num-hover);
+    background: var(--ao-num-hover-bg);
+  }
+  :where(.ant-input-number:not(.ant-input-number-disabled):focus-within) {
+    border-color: var(--ao-num-active);
+    box-shadow: var(--ao-num-shadow);
+    background: var(--ao-num-active-bg);
+    outline: 0;
+  }
+  :where(.ant-input-number-input-wrap) {
+    min-height: calc(var(--ao-num-font) * var(--ao-num-line));
+    overflow: hidden;
+    border-radius: inherit;
+  }
+  :where(.ant-input-number-input) {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: var(--ao-num-pb) var(--ao-num-pi);
+    color: inherit;
+    font: inherit;
+    line-height: var(--ao-num-input-line);
+    height: var(--ao-num-input-height);
+    text-align: start;
+    background: transparent;
+    border: 0;
+    border-radius: var(--ao-num-input-radius);
+    outline: 0;
+  }
+  :where(.ant-input-number-out-of-range .ant-input-number-input) {
+    color: var(--ao-num-error);
+  }
+  :where(.ant-input-number-input::placeholder) {
+    color: var(--ao-num-placeholder);
+    opacity: 1;
+  }
+  :where(.ant-input-number-disabled) {
+    color: var(--ao-num-disabled);
+    background: var(--ao-num-disabled-bg);
+    cursor: not-allowed;
+  }
+  :where(.ant-input-number-disabled .ant-input-number-input) {
+    cursor: not-allowed;
+  }
+  :where(.ant-input-number-handler-wrap) {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-end: 0;
+    display: flex;
+    flex-direction: column;
+    width: var(--ao-num-handle-width);
+    background: var(--ao-num-handle-bg);
+    border-inline-start: var(--ao-num-line-width) solid
+      var(--ao-num-handle-border);
+    border-start-end-radius: inherit;
+    border-end-end-radius: inherit;
+    opacity: var(--ao-num-handle-opacity);
+    transition: opacity var(--ao-num-motion);
+    overflow: hidden;
+  }
+  :where(
+      .ant-input-number:hover .ant-input-number-handler-wrap,
+      .ant-input-number:focus-within .ant-input-number-handler-wrap
+    ) {
+    opacity: 1;
+  }
+  :where(.ant-input-number-handler) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    flex: 1;
+    min-height: 0;
+    padding: 0;
+    color: var(--ao-muted);
+    font-size: var(--ao-num-handle-font);
+    background: none;
+    border: 0;
+    cursor: pointer;
+  }
+  :where(.ant-input-number-handler-down) {
+    border-top: var(--ao-num-line-width) solid var(--ao-num-handle-border);
+  }
+  :where(.ant-input-number-handler:not(:disabled):hover) {
+    color: var(--ao-num-handle-hover);
+    background: var(--ao-num-handle-active);
+  }
+  :where(.ant-input-number-handler:disabled) {
+    color: var(--ao-num-disabled);
+    cursor: not-allowed;
+  }
+  :where(
+      .ant-input-number-borderless,
+      .ant-input-number-borderless:hover,
+      .ant-input-number-borderless:focus-within
+    ) {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :where(.ant-input-number, .ant-input-number-handler-wrap) {
+      transition: none;
+    }
+  }
+}

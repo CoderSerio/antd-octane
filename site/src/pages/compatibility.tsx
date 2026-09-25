@@ -14,12 +14,23 @@ export default function Compatibility({ section }: { section?: string }) {
       <ApiTable
         rows={[
           [
+            "InputNumber / Slider",
+            "数值输入、精度、范围、键盘和指针操作；支持子集",
+            "已实现",
+            "alpha",
+          ],
+          [
             "Button",
             "常用类型、尺寸、状态、图标、链接与 ref",
             "已实现",
             "alpha",
           ],
-          ["Input", "基础文本、尺寸、状态、受控输入与 ref", "已实现", "alpha"],
+          [
+            "Input",
+            "基础输入、前后缀/清除、Password/Search/TextArea 与 ref",
+            "已实现",
+            "alpha",
+          ],
           ["Radio", "单选、选择组、按钮样式与键盘", "已实现", "alpha"],
           [
             "Tag / Alert / Card / Badge / Avatar",
@@ -105,8 +116,8 @@ export default function Compatibility({ section }: { section?: string }) {
       </h2>
       <p>
         SSR、prefixCls、cssVar、hashed、StyleProvider、Tailwind / StyleX
-        完整消费、模态浮层和表单集成尚未完成。Input 的前后缀、清除、密码、搜索与
-        TextArea，复杂输入组件仍未提供。
+        完整消费、模态浮层和表单集成尚未完成。Input.OTP、完整计数与
+        variant，以及 Select、日期选择等复杂输入组件仍未提供。
       </p>
       <p>
         Spin 暂不支持自动进度，fullscreen 尚未接入共享 portal；Progress

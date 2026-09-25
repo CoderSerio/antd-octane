@@ -54,7 +54,7 @@ try {
     join(directory, "main.tsx"),
     `
 import { createRoot } from 'octane';
-import { Button, Input, Checkbox, Switch, Flex, Space, Divider, Radio, Tag, Alert, Card, Avatar, Badge, Spin, Skeleton, Progress, Result, Typography, List, Row, Col, Layout, Collapse, Tabs, Empty, Statistic, Timeline, Descriptions, Segmented, Rate, Breadcrumb, Steps, Pagination, Tooltip, Popover, ConfigProvider, theme } from 'antd-octane';
+import { Button, InputNumber, Slider, Input, Checkbox, Switch, Flex, Space, Divider, Radio, Tag, Alert, Card, Avatar, Badge, Spin, Skeleton, Progress, Result, Typography, List, Row, Col, Layout, Collapse, Tabs, Empty, Statistic, Timeline, Descriptions, Segmented, Rate, Breadcrumb, Steps, Pagination, Tooltip, Popover, ConfigProvider, theme } from 'antd-octane';
 import 'antd-octane/style.css';
 createRoot(document.getElementById('root')!).render(
   <ConfigProvider theme={{ algorithm: theme.darkAlgorithm, token: { colorPrimary: '#722ed1' } }}>
@@ -81,6 +81,11 @@ createRoot(document.getElementById('root')!).render(
     <Pagination total={50} onChange={(page, size) => void [page, size]} />
     <Tooltip title="Packed tooltip"><Button>Tooltip trigger</Button></Tooltip>
     <Popover title="Packed popover" content="Details" trigger="click"><Button>Popover trigger</Button></Popover>
+    <InputNumber defaultValue={1.5} step={0.1} onChange={(value) => void value} />
+    <Slider range defaultValue={[20, 50]} onChange={(value) => void value} />
+    <Input.Password defaultValue="secret" />
+    <Input.TextArea autoSize={{ minRows: 2, maxRows: 4 }} />
+    <Input.Search allowClear onSearch={(value) => void value} />
     <Button type="primary">Packed consumer</Button>
     <Input defaultValue="Packed input" onChange={(event) => void event.target.value} />
     <Checkbox defaultChecked onChange={(event) => void event.target.checked}>Packed checkbox</Checkbox>

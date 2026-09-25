@@ -25,7 +25,7 @@
 
 组件 token 以 `InputToken` 为准：paddingBlock/Inline 与 SM/LG 变体、inputFontSize 与 SM/LG 变体、activeBorderColor、hoverBorderColor、activeShadow、errorActiveShadow、warningActiveShadow、hoverBg、activeBg。支持全局和组件算法以及嵌套覆盖。
 
-暂不支持 prefix/suffix、allowClear、addonBefore/After、variant、showCount、Input.Search/Password/TextArea/OTP、Form 集成、带 cursor 选项的 focus。onChange 提供原生事件而非 SyntheticEvent；输入法 Enter 被抑制，组合中的 input 事件仍传给调用方。
+支持 prefix/suffix、allowClear、addonBefore/After、Input.Password 可见切换、Input.Search 与 Input.TextArea 基础 autoSize。暂不支持 variant、showCount/count、Input.OTP、Form 集成、带 cursor 选项的 focus、Password hover action。TextArea autoSize 基于 scrollHeight，暂不提供隐藏容器预测量与 onResize；Search.enterButton 自定义节点仅作为按钮内容，不应嵌套按钮。onChange 提供原生事件而非 SyntheticEvent；输入法 Enter 被抑制，组合中的 input 事件仍传给调用方。
 
 ## Checkbox
 
@@ -122,3 +122,10 @@ Tooltip 与 Popover 共享 Octane 原生 portal，保留 ConfigProvider 与业�
 - Popover：title / content 节点/函数、CSS color、Popover.zIndexPopup / titleMinWidth / innerPadding 与相关全局 token。
 
 触发内容增加 inline-flex span 包裹，子元素原有事件保留。应提供单个可聚焦触发元素；键盘提示需包含 focus 触发。默认挂载 body 并采用固定定位，自定义容器需设置定位样式；暂不处理自定义容器任意 transform 缩放或裁剪祖先。暂不支持 arrow 对象、align、fresh、旧 visible 系列属性、动画生命周期、语义化 styles/classNames、完整 ref 契约和上游预设颜色别名。内容始终随状态更新，基础箭头不表示完整上游动效或像素一致。
+
+## InputNumber 与 Slider
+
+- InputNumber：数值模式受控/非受控、min/max、step、precision、formatter/parser、步进按钮、键盘、禁用/只读、状态/尺寸及 ref。编辑时保留中间文本，失焦规范化；十进制步进避免常见浮点累加误差，但不提供 stringMode 任意精度。暂不支持 variant、前后缀、滚轮、长按步进、自定义控制按钮或修饰键倍率。
+- Slider：单值/双值范围、受控/非受控、min/max/step、marks/dots、方向、禁用、键盘及指针操作；双柄不交叉。提示为组件内小标签，未提供完整 Tooltip portal/边界翻转。暂不支持可编辑多柄、轨道整体拖动、完整 ref 与语义 styles/classNames。
+
+这两项提供基础 token 支持，具体字段和未支持能力以各组件页面为准；不承诺完整上游 API 或内部 DOM 兼容。

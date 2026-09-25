@@ -51,3 +51,5 @@ Run it with the same `playwright-cli run-code` method as `compare.mjs`, substitu
 `compare-controls.mjs` 对照 Segmented、Rate、Breadcrumb、Pagination、Steps 五组主题下的 770 项稳定样式。Pagination 的内容内边距对应上游链接节点，容器属性对应上游页码项，避免不同 DOM 结构导致错误结论。
 
 `verify-controls.mjs` 验证这一批组件的真实交互、List 内置分页、完整目录及移动端溢出。`verify-floating.mjs` 验证 Tooltip / Popover 的悬停、聚焦、Escape、内外点击和受控关闭；十二方位在桌面和手机宽度下检查视口边界。这些检查不代表完整动效或所有 API 兼容。
+
+`compare-entry.mjs` 比较 InputNumber 三种尺寸、Slider 轨道、Input 前后缀和 TextArea 在五种主题下的 660 项稳定样式；组件主题包含显式 token 覆盖。`verify-entry.mjs` 验证数值精度、格式化、边界、滑块键盘与拖动。`verify-input-extended.mjs` 检验密码切换、搜索、输入法抑制、清除和 TextArea 实际自动高度，并检查移动端溢出。

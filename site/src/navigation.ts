@@ -91,6 +91,20 @@ export const nav = [
     keywords: "input text 输入 表单",
   },
   {
+    id: "input-number",
+    title: "InputNumber 数字输入框",
+    category: "components",
+    group: "数据录入",
+    keywords: "number 数字输入框 步进",
+  },
+  {
+    id: "slider",
+    title: "Slider 滑动输入条",
+    category: "components",
+    group: "数据录入",
+    keywords: "slider 滑动输入条 范围",
+  },
+  {
     id: "checkbox",
     title: "Checkbox 多选框",
     category: "components",
@@ -330,6 +344,10 @@ export const toc: Record<string, [string, string][]> = {
     ["controlled", "受控输入"],
     ["states", "状态"],
     ["refs", "聚焦与选择"],
+    ["affix", "前后缀与清除"],
+    ["password", "密码输入"],
+    ["search", "搜索框"],
+    ["textarea", "自动高度文本域"],
     ["api", "API"],
     ["tokens", "主题变量"],
     ["limitations", "已知差异"],
@@ -585,6 +603,21 @@ toc.popover = [
   ["examples", "代码演示"],
   ["basic", "多种触发方式"],
   ["more", "受控显示与操作"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+
+toc["input-number"] = [
+  ["examples", "代码演示"],
+  ["basic", "尺寸与状态"],
+  ["more", "精度与格式化"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+toc.slider = [
+  ["examples", "代码演示"],
+  ["basic", "受控值"],
+  ["more", "范围与方向"],
   ["api", "API"],
   ["tokens", "主题与支持范围"],
 ];

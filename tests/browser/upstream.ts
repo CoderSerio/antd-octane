@@ -14,6 +14,7 @@ import {
   Divider,
   Empty,
   Input,
+  InputNumber,
   Layout,
   List,
   Pagination,
@@ -24,6 +25,7 @@ import {
   Row,
   Segmented,
   Skeleton,
+  Slider,
   Spin,
   Statistic,
   Steps,
@@ -62,6 +64,37 @@ createRoot(root).render(
   createElement(
     ConfigProvider,
     { theme: config },
+    createElement(
+      "div",
+      { "data-entry": "number" },
+      createElement(InputNumber, { defaultValue: 3 }),
+    ),
+    createElement(
+      "div",
+      { "data-entry": "number-small" },
+      createElement(InputNumber, { size: "small", defaultValue: 3 }),
+    ),
+    createElement(
+      "div",
+      { "data-entry": "number-large" },
+      createElement(InputNumber, { size: "large", defaultValue: 3 }),
+    ),
+    createElement(
+      "div",
+      { "data-entry": "slider", style: { width: 300 } },
+      createElement(Slider, { defaultValue: 40 }),
+    ),
+    createElement(
+      "div",
+      { "data-entry": "affix" },
+      createElement(Input, { prefix: "$", suffix: "USD", defaultValue: "10" }),
+    ),
+    createElement(
+      "div",
+      { "data-entry": "textarea" },
+      createElement(Input.TextArea, { defaultValue: "Text", rows: 2 }),
+    ),
+
     createElement(
       "div",
       { "data-controls": "segmented" },

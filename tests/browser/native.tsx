@@ -15,6 +15,7 @@ import {
   Divider,
   Empty,
   Input,
+  InputNumber,
   Layout,
   List,
   Pagination,
@@ -25,6 +26,7 @@ import {
   Row,
   Segmented,
   Skeleton,
+  Slider,
   Spin,
   Statistic,
   Steps,
@@ -59,6 +61,25 @@ const root = document.getElementById("root");
 if (!root) throw new Error("Missing fixture root");
 createRoot(root).render(
   <ConfigProvider theme={config}>
+    <div data-entry="number">
+      <InputNumber defaultValue={3} />
+    </div>
+    <div data-entry="number-small">
+      <InputNumber size="small" defaultValue={3} />
+    </div>
+    <div data-entry="number-large">
+      <InputNumber size="large" defaultValue={3} />
+    </div>
+    <div data-entry="slider" style={{ width: 300 }}>
+      <Slider defaultValue={40} />
+    </div>
+    <div data-entry="affix">
+      <Input prefix="$" suffix="USD" defaultValue="10" />
+    </div>
+    <div data-entry="textarea">
+      <Input.TextArea defaultValue="Text" rows={2} />
+    </div>
+
     <div data-controls="segmented">
       <Segmented options={["Day", "Week", "Month"]} defaultValue="Week" />
     </div>

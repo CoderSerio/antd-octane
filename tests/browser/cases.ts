@@ -28,6 +28,17 @@ export const brand: ThemeConfig = {
 export const component: ThemeConfig = {
   token: { colorPrimary: "#13a8a8" },
   components: {
+    InputNumber: {
+      controlWidth: 110,
+      handleWidth: 24,
+      activeBorderColor: "#722ed1",
+    },
+    Slider: {
+      railSize: 6,
+      railBg: "#fff1b8",
+      trackBg: "#722ed1",
+      handleSize: 12,
+    },
     Segmented: {
       trackBg: "#fffbe6",
       itemSelectedBg: "#fff1b8",

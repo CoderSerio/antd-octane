@@ -70,6 +70,38 @@ export interface ThemeConfig {
   token?: Partial<AliasToken>;
   algorithm?: MappingAlgorithm | MappingAlgorithm[];
   components?: {
+    InputNumber?: ComponentTheme<
+      InputToken & {
+        controlWidth: number;
+        handleWidth: number;
+        handleFontSize: number;
+        handleVisible: true | "auto";
+        handleActiveBg: string;
+        handleBg: string;
+        handleHoverColor: string;
+        handleBorderColor: string;
+      }
+    >;
+    Slider?: ComponentTheme<{
+      controlSize: number;
+      railSize: number;
+      handleSize: number;
+      handleSizeHover: number;
+      handleLineWidth: number;
+      handleLineWidthHover: number;
+      railBg: string;
+      railHoverBg: string;
+      trackBg: string;
+      trackHoverBg: string;
+      handleColor: string;
+      handleActiveColor: string;
+      handleActiveOutlineColor: string;
+      handleColorDisabled: string;
+      dotSize: number;
+      dotBorderColor: string;
+      dotActiveBorderColor: string;
+      trackBgDisabled: string;
+    }>;
     Tooltip?: ComponentTheme<{ zIndexPopup: number }>;
     Popover?: ComponentTheme<{
       zIndexPopup: number;

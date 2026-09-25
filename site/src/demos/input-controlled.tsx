@@ -7,6 +7,7 @@ export function InputControlledDemo() {
     <div className="input-examples">
       <Input
         value={value}
+        allowClear
         onChange={(event) => setValue(event.target.value)}
         onPressEnter={() => setSubmitted(value)}
         placeholder="输入后按 Enter"
