@@ -63,3 +63,7 @@ Run it with the same `playwright-cli run-code` method as `compare.mjs`, substitu
 `compare-media.mjs` 使用独立 `media-theme.html` 夹具比较五组主题下 Image / Carousel 的 75 项稳定样式。轮播活动指示器按上游伪元素与本库按钮的可见前景比较，不将不同 DOM 结构视作功能差异。
 
 `verify-home.mjs` 检查独立首页默认入口、文档/Logo 往返、搜索、局部主题与真实组件交互，并验证 1440 / 768 / 390 像素布局。
+
+## Tailwind CSS v4 独立消费
+
+`pnpm tailwind:check` 构建库，在临时项目安装 tarball 和固定的 Tailwind 4.3.3 / @tailwindcss/vite 4.3.3，再验证 TypeScript 与生产构建。此命令需要联网安装开发依赖，不修改工作区依赖。设置 `KEEP_TAILWIND_CONSUMER=1` 保留临时项目，按输出路径启动 `pnpm exec vite preview`（配置端口 4176），然后运行 `verify-tailwind.mjs`。浏览器检查 Preflight 下的默认 Button、工具类尺寸与布局、主题切换以及应用侧 token 映射；不代表全量组件或 SSR 兼容。

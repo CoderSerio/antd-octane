@@ -86,8 +86,12 @@ export default function ThemePage({ section }: { section?: string }) {
       </h2>
       <p>
         组件库不要求安装这两种工具。样式放在 antd CSS layer 中，保留 className /
-        style 扩展入口。Tailwind 与 StyleX
-        的完整工具链消费测试尚未完成，暂不宣称已兼容。
+        style 扩展入口。Tailwind 与 StyleX 的支持范围需要分别验证。Tailwind v4
+        的接入、层级和主题映射详见专页；StyleX 尚未完成工具链消费测试。
+      </p>
+      <p>
+        <a href="#tailwindcss">Tailwind CSS 接入指南 →</a> ·{" "}
+        <a href="#for-agents">给 Agent 的指南 →</a>
       </p>
       <Code
         language="css"

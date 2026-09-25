@@ -79,7 +79,7 @@ export default async function verify(page) {
       await page.evaluate(
         () => document.documentElement.scrollWidth <= innerWidth,
       ),
-      "Page overflows " + width,
+      `Page overflows ${width}`,
     );
     await page.screenshot({
       path: `/tmp/octane-home-${width}.png`,

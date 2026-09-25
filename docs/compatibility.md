@@ -39,7 +39,7 @@
 
 组件使用静态 CSS，派生值通过 `--ao-btn-*`、`--ao-input-*`、`--ao-check-*` 局部变量传递。ConfigProvider 不创建额外 DOM，不在全局插入动态 style 标签。构建产物需要显式导入 `antd-octane/style.css`；仅支持 ESM 浏览器消费。SSR 不在本次支持范围。
 
-组件 CSS 位于 `@layer antd`。用户可以通过普通 `className` 和 `style` 扩展，不依赖 Tailwind CSS 或 StyleX；二者完整工具链的消费验证仍待后续完成。请勿把 StyleX 原始样式对象当作 DOM style 对象传入。
+组件 CSS 位于 `@layer antd`。用户可以通过普通 `className` 和 `style` 扩展，不依赖 Tailwind CSS 或 StyleX；已验证 Tailwind CSS / @tailwindcss/vite 4.3.3 + Octane 0.4.3 + Vite 8.3.1 的独立打包消费，以及 Button 的 Preflight、工具类覆盖、布局、默认/品牌/暗色/紧凑主题与应用侧 token 映射；不代表全量组件兼容。StyleX、Tailwind v3 和 SSR 组合尚未验证。请勿把 StyleX 原始样式对象当作 DOM style 对象传入。
 
 ## 验证方式
 

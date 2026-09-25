@@ -43,9 +43,11 @@ export default function ApiConventions({ section }: { section?: string }) {
         后续 API 的边界
       </h2>
       <p>
-        Form.rules 计划保留数组；Modal.confirm 与 hook/holder
-        双入口仍是后续方向。Table 的 render
-        回调需要单独验证闭包和更新行为，目前未实现这些组件。
+        Form 与 Table 仍待专项实现，Form.rules 与 Table render
+        的适配需另行验证。Modal 已提供声明式
+        open/onOk/onCancel；Modal.confirm、Modal.useModal
+        尚未支持。消息与通知可使用 hook/holder 或 App.useApp()
+        实例，不能照搬全局静态调用。
       </p>
       <div className="notice">
         <strong>早期讨论的修正</strong>

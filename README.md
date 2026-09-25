@@ -27,6 +27,7 @@ pnpm preview     # 预览 site/dist
 - antd v5 默认、暗色、紧凑主题算法，支持组合、自定义算法、token 覆盖和嵌套主题。
 - Button 常用类型、尺寸、禁用、加载、危险、幽灵、形状、链接和组件级主题。
 - 独立中文首页：品牌介绍、快速入口与可交互主题展示；根地址及 `#home` 进入首页，原有文档深链接保留。
+- Agent 接入：站点 `#for-agents`、`llms.txt` 和由同一 Markdown 源生成的 `agent-guide.md`；说明真实 API、安装与验证边界。
 - 中文文档站：接入指南、API 与语法约定、组件示例与 API、源码展示和实时主题预览。
 
 固定基线：Octane **0.4.3**、Ant Design **5.29.3**。全局 token 通过原版 antd 对照测试；这不代表所有组件与样式能力已兼容。详见[支持范围](docs/compatibility.md)。

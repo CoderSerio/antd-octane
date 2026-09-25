@@ -18,7 +18,8 @@
     "test": "vitest run",
     "check": "pnpm lint && pnpm type-check && pnpm test && pnpm build",
     "pack:check": "node scripts/pack-check.mjs",
-    "dev:compare": "vite --config tests/browser/vite.config.ts"
+    "dev:compare": "vite --config tests/browser/vite.config.ts",
+    "tailwind:check": "pnpm build:lib && node scripts/tailwind-check.mjs"
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.8",

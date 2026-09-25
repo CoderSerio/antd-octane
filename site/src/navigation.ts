@@ -21,6 +21,20 @@ export const nav = [
     keywords: "theme token ConfigProvider Tailwind StyleX 暗色",
   },
   {
+    id: "tailwindcss",
+    title: "Tailwind CSS",
+    category: "guide",
+    group: "进阶使用",
+    keywords: "tailwind layers 样式 工具类",
+  },
+  {
+    id: "for-agents",
+    title: "给 Agent 的指南",
+    category: "guide",
+    group: "进阶使用",
+    keywords: "AI Agent llms CLI MCP 安装 代码生成",
+  },
+  {
     id: "api-conventions",
     title: "API 与语法约定",
     category: "guide",
@@ -876,4 +890,20 @@ toc.tour = [
   ["basic", "基本用法"],
   ["api", "API"],
   ["tokens", "主题与支持范围"],
+];
+
+toc.tailwindcss = [
+  ["setup", "安装与编译"],
+  ["layers", "样式层级"],
+  ["usage", "布局工具类"],
+  ["tokens", "主题映射"],
+  ["agents", "Agent 接入约束"],
+  ["references", "参考与范围"],
+];
+
+toc["for-agents"] = [
+  ["baseline", "先确认基线"],
+  ["context", "Agent 上下文"],
+  ["usage", "状态与反馈"],
+  ["boundaries", "API 边界"],
 ];
