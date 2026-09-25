@@ -1,3 +1,6 @@
+@import "./choice.css";
+@import "./navigation.css";
+@import "./floating.css";
 @import "./loading.css";
 @import "./feedback.css";
 
@@ -1991,5 +1994,16 @@
     :where(.ant-list-item-extra) {
       max-width: 100%;
     }
+  }
+}
+
+@layer antd {
+  :where(.ant-list-pagination) {
+    display: flex;
+    justify-content: flex-end;
+    margin: 24px 0;
+  }
+  :where(.ant-list-bordered .ant-list-pagination) {
+    margin-inline: var(--ao-list-inline);
   }
 }

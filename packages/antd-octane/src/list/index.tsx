@@ -1,9 +1,10 @@
 import type { CSSProperties, HTMLAttributes, OctaneNode } from "octane";
-import { Fragment } from "octane";
+import { Fragment, useState } from "octane";
 import type { Breakpoint } from "../_util/responsive";
 import { responsiveValue, useBreakpoint } from "../_util/responsive";
 import { useComponentTokens } from "../_util/tokens";
 import { Empty } from "../empty";
+import { Pagination, type PaginationProps } from "../pagination";
 import { Spin, type SpinProps } from "../spin";
 export interface ListProps<T>
   extends Omit<HTMLAttributes<HTMLDivElement>, "children"> {
@@ -14,6 +15,9 @@ export interface ListProps<T>
   header?: OctaneNode;
   footer?: OctaneNode;
   loadMore?: OctaneNode;
+  pagination?:
+    | false
+    | (PaginationProps & { position?: "top" | "bottom" | "both" });
   bordered?: boolean;
   split?: boolean;
   size?: "small" | "default" | "large";
@@ -33,6 +37,7 @@ function InternalList<T>({
   header,
   footer,
   loadMore,
+  pagination = false,
   bordered = false,
   split = true,
   size = "default",
@@ -46,6 +51,39 @@ function InternalList<T>({
 }: ListProps<T>) {
   const { token: t, component: c, base } = useComponentTokens("List");
   const screens = useBreakpoint(!!grid);
+  const options = pagination || {};
+  const [page, setPage] = useState(options.defaultCurrent ?? 1);
+  const [pageSize, setPageSize] = useState(options.defaultPageSize ?? 10);
+  const positive = (value: number, fallback: number) =>
+    Number.isFinite(value) && value >= 1 ? Math.floor(value) : fallback;
+  const sizeValue = positive(options.pageSize ?? pageSize, 10);
+  const total = options.total ?? dataSource?.length ?? 0;
+  const currentPage = Math.min(
+    positive(options.current ?? page, 1),
+    Math.max(1, Math.ceil(total / sizeValue)),
+  );
+  const visibleData =
+    pagination && dataSource && dataSource.length > sizeValue
+      ? dataSource.slice((currentPage - 1) * sizeValue, currentPage * sizeValue)
+      : dataSource;
+  const { position: paginationPosition = "bottom", ...paginationOptions } =
+    options;
+  const pager = () => (
+    <div className="ant-list-pagination">
+      <Pagination
+        {...paginationOptions}
+        total={total}
+        current={currentPage}
+        pageSize={sizeValue}
+        onChange={(next, nextSize) => {
+          if (options.current === undefined) setPage(next);
+          if (options.pageSize === undefined) setPageSize(nextSize);
+          options.onChange?.(next, nextSize);
+        }}
+      />
+    </div>
+  );
+
   const columns = Math.max(
     1,
     grid
@@ -115,6 +153,7 @@ function InternalList<T>({
       }}
     >
       {header !== undefined && <div className="ant-list-header">{header}</div>}
+      {pagination && paginationPosition !== "bottom" && pager()}
       <Spin {...spinProps}>
         {empty ? (
           !spinProps.spinning && (
@@ -126,8 +165,8 @@ function InternalList<T>({
           )
         ) : (
           <ul className="ant-list-items">
-            {dataSource
-              ? dataSource.map((item, index) => (
+            {visibleData
+              ? visibleData.map((item, index) => (
                   <Fragment
                     key={
                       typeof rowKey === "function"
@@ -149,6 +188,7 @@ function InternalList<T>({
         )}
       </Spin>
       {loadMore}
+      {pagination && paginationPosition !== "top" && pager()}
       {footer !== undefined && <div className="ant-list-footer">{footer}</div>}
     </div>
   );

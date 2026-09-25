@@ -2,6 +2,7 @@ import {
   Alert,
   Avatar,
   Badge,
+  Breadcrumb,
   Button,
   Card,
   Checkbox,
@@ -14,25 +15,65 @@ import {
   Input,
   Layout,
   List,
+  Pagination,
+  Popover,
   Progress,
   Radio,
+  Rate,
   Result,
   Row,
+  Segmented,
   Skeleton,
   Space,
   Spin,
   Statistic,
+  Steps,
   Switch,
   Tabs,
   Tag,
   Timeline,
+  Tooltip,
   Typography,
 } from "antd-octane";
+import { componentCoverage, upstreamGroups } from "../component-coverage";
 import { usePageAnchor } from "../docs-ui";
 import { nav } from "../navigation";
 
 function Preview({ name }: { name: string }) {
   switch (name) {
+    case "segmented":
+      return <Segmented options={["日", "周", "月"]} defaultValue="周" />;
+    case "rate":
+      return <Rate defaultValue={3} />;
+    case "breadcrumb":
+      return (
+        <Breadcrumb
+          items={[{ title: "首页" }, { title: "应用" }, { title: "详情" }]}
+        />
+      );
+    case "pagination":
+      return <Pagination total={50} simple />;
+    case "steps":
+      return (
+        <Steps
+          size="small"
+          current={1}
+          items={[{ title: "开始" }, { title: "进行中" }]}
+        />
+      );
+    case "tooltip":
+      return (
+        <Tooltip title="提示内容">
+          <Button>悬停查看提示</Button>
+        </Tooltip>
+      );
+    case "popover":
+      return (
+        <Popover title="标题" content="补充说明">
+          <Button>查看说明</Button>
+        </Popover>
+      );
+
     case "spin":
       return <Spin />;
     case "skeleton":
@@ -211,11 +252,18 @@ export default function ComponentsPage({ section }: { section?: string }) {
       <h1>组件总览</h1>
       <p className="lead">熟悉的组件、交互与主题配置。</p>
       <p className="intro">
-        当前为开发预览。每个组件页提供可运行示例、API 和支持范围。
+        当前为开发预览。每个组件页提供可运行示例、API 和支持范围。 按 Ant Design
+        5.x 的 {componentCoverage.length} 个文档条目核对， 当前{" "}
+        {componentCoverage.filter((item) => item.implemented).length}{" "}
+        项已有基础实现，仍有{" "}
+        {componentCoverage.filter((item) => !item.implemented).length}{" "}
+        项待推进。
+        <a href="#components/coverage">查看完整覆盖清单 →</a>
       </p>
       {[
         ["general", "通用"],
         ["layout", "布局"],
+        ["navigation", "导航"],
         ["entry", "数据录入"],
         ["display", "数据展示"],
         ["feedback", "反馈"],
@@ -244,6 +292,38 @@ export default function ComponentsPage({ section }: { section?: string }) {
           </section>
         );
       })}
+      <h2 id="coverage" tabIndex={-1}>
+        完整覆盖清单
+      </h2>
+      <p>
+        基础版表示已有实现，不等于完整兼容。点击本库文档检查具体支持范围；尚未实现的项目只链接上游参考。
+      </p>
+      {upstreamGroups.map(([group]) => (
+        <section key={group} className="coverage-group">
+          <h3>{group}</h3>
+          <ul className="coverage-list">
+            {componentCoverage
+              .filter((item) => item.group === group)
+              .map((item) => (
+                <li key={item.name}>
+                  <a
+                    href={item.href ?? item.upstream}
+                    target={item.href ? undefined : "_blank"}
+                    rel={item.href ? undefined : "noreferrer"}
+                  >
+                    {item.name}
+                    {!item.implemented && " ↗"}
+                  </a>
+                  <span
+                    className={item.implemented ? "coverage-ready" : undefined}
+                  >
+                    {item.status}
+                  </span>
+                </li>
+              ))}
+          </ul>
+        </section>
+      ))}
       <h2 id="configuration" tabIndex={-1}>
         主题与配置
       </h2>

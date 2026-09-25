@@ -91,7 +91,7 @@ Switch 支持受控/非受控、value 别名、文字、大小、加载、禁用
 ## 文字与列表
 
 - Typography：Text / Paragraph / Title / Link、文字类型和修饰、禁用链接、复制、受控/非受控编辑状态、编辑提交/取消及焦点恢复、CSS 多行省略、受控/非受控展开。titleMarginTop/titleMarginBottom 与相关全局 token。编辑后的值由 onChange 调用方保存；复制依赖 Clipboard API，失败有状态反馈。暂不支持 tooltip、symbol、可定制操作图标、自动行高和完整 ref 契约。展开入口不做溢出测量，配置后始终显示；后缀和操作按钮在省略区外，不承诺复杂富文本的上游截断算法。
-- List：dataSource / renderItem / rowKey、Item / Meta、actions / extra、header/footer/loadMore、尺寸、分割线、边框、空状态、布尔或 SpinProps 加载状态和响应式 grid。组件间距、背景、Meta 文字 token。暂不支持内置 pagination、虚拟列表、colStyle 和 styles/classNames；分页待 Pagination 接入。加载状态复用 Spin；Card 的加载占位复用 Skeleton。
+- List：dataSource / renderItem / rowKey、Item / Meta、actions / extra、header/footer/loadMore、尺寸、分割线、边框、空状态、布尔或 SpinProps 加载状态和响应式 grid。组件间距、背景、Meta 文字 token。支持内置 pagination 与 top / bottom / both 位置，本地 dataSource 分页及受控 total / current / pageSize 的服务端分页；暂不支持虚拟列表、colStyle 和 styles/classNames。加载状态复用 Spin；Card 的加载占位复用 Skeleton。
 
 文字与列表的五组主题夹具比较 770 项稳定样式值；覆盖基础文字、三级标题、段落、有边框列表/Meta 与小尺寸条目，不等于完整视觉或全部变体兼容。
 
@@ -104,3 +104,21 @@ Switch 支持受控/非受控、value 别名、文字、大小、加载、禁用
 - Result：七种状态、title / subTitle、icon、extra 与补充内容，以及 titleFontSize / subtitleFontSize / iconFontSize / extraMargin token。状态 SVG 为独立绘制；403 / 404 / 500 使用简洁数字图示，未移植上游完整插画，自定义 icon 可替换图示。
 
 以上为已实现范围。交互、主题与浏览器对照的实际覆盖以测试夹具及组件页面为准；不据此推导完整像素、全部变体或其他浏览器兼容性。
+
+
+## 常规选择与导航
+
+- Segmented：字符串/数字 options、标签/图标、受控/非受控、大小、禁用、block、vertical、round、原生 radio name、方向键及 Home / End。支持轨道与条目背景/颜色 token；暂不支持滑块平移动画和 prefixCls。
+- Rate：受控/非受控、数量、半星、清除、禁用、自定义字符、hover 回调和键盘调整。使用 slider 语义，支持 starColor / starSize / starHoverScale / starBg。tooltips 为原生 title；暂不支持命令式 ref、autoFocus、RTL 反向选择。
+- Breadcrumb：items、链接与原生点击、条目/全局分隔符，支持文字/链接/分隔符颜色与间距 token。暂不支持菜单、旧 routes / children 和 itemRender。
+- Steps：items、current / initial、状态、标题/描述/自定义图标、大小、方向、标签位置、窄屏转纵向与点击回调。支持 iconSize / iconSizeSM / descriptionMaxWidth。暂不支持 progressDot、导航式 / inline、percent、旧 Step 子组件。
+- Pagination：受控/非受控页码和条数、简洁/小尺寸、前后跳转、条数切换、快速跳页、总数文案、自定义按钮内容、禁用与单页隐藏。支持 itemSize / itemSizeSM / itemBg / itemActiveBg。条数选择为原生 select；暂不支持 locale、align、响应式精简、showQuickJumper 对象。itemRender 仅替换按钮内容，不应嵌套按钮或链接。List 已接入内置分页，可配置顶部、底部或两侧显示。
+
+## 文字提示与气泡卡片
+
+Tooltip 与 Popover 共享 Octane 原生 portal，保留 ConfigProvider 与业务 context。支持受控/非受控、hover / focus / click / contextMenu 及组合触发、延迟、Escape、外部指针点击关闭、十二种位置、视口边缘翻转/位移、滚动/尺寸变化重定位、基础箭头、销毁或保留内容与自定义容器。Tooltip 使用唯一 tooltip id 关联触发元素；Popover 是非模态浮层，内容可以选择，不进行焦点锁定。
+
+- Tooltip：title 节点/函数、CSS color、Tooltip.zIndexPopup 与相关全局颜色/字体/间距/圆角/阴影。
+- Popover：title / content 节点/函数、CSS color、Popover.zIndexPopup / titleMinWidth / innerPadding 与相关全局 token。
+
+触发内容增加 inline-flex span 包裹，子元素原有事件保留。应提供单个可聚焦触发元素；键盘提示需包含 focus 触发。默认挂载 body 并采用固定定位，自定义容器需设置定位样式；暂不处理自定义容器任意 transform 缩放或裁剪祖先。暂不支持 arrow 对象、align、fresh、旧 visible 系列属性、动画生命周期、语义化 styles/classNames、完整 ref 契约和上游预设颜色别名。内容始终随状态更新，基础箭头不表示完整上游动效或像素一致。

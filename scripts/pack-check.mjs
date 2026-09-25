@@ -54,7 +54,7 @@ try {
     join(directory, "main.tsx"),
     `
 import { createRoot } from 'octane';
-import { Button, Input, Checkbox, Switch, Flex, Space, Divider, Radio, Tag, Alert, Card, Avatar, Badge, Spin, Skeleton, Progress, Result, Typography, List, Row, Col, Layout, Collapse, Tabs, Empty, Statistic, Timeline, Descriptions, ConfigProvider, theme } from 'antd-octane';
+import { Button, Input, Checkbox, Switch, Flex, Space, Divider, Radio, Tag, Alert, Card, Avatar, Badge, Spin, Skeleton, Progress, Result, Typography, List, Row, Col, Layout, Collapse, Tabs, Empty, Statistic, Timeline, Descriptions, Segmented, Rate, Breadcrumb, Steps, Pagination, Tooltip, Popover, ConfigProvider, theme } from 'antd-octane';
 import 'antd-octane/style.css';
 createRoot(document.getElementById('root')!).render(
   <ConfigProvider theme={{ algorithm: theme.darkAlgorithm, token: { colorPrimary: '#722ed1' } }}>
@@ -73,7 +73,14 @@ createRoot(document.getElementById('root')!).render(
     <Result status="success" title="Packed feedback" />
     <Typography.Title level={3}>Packed content</Typography.Title>
     <Typography.Paragraph copyable editable={{ onChange: (text) => void text }}>Edit me</Typography.Paragraph>
-    <List rowKey="id" dataSource={[{ id: 1, title: 'Packed list' }]} renderItem={(item) => <List.Item><List.Item.Meta title={item.title} /></List.Item>} />
+    <List pagination={{ pageSize: 2 }} rowKey="id" dataSource={[{ id: 1, title: 'Packed list' }]} renderItem={(item) => <List.Item><List.Item.Meta title={item.title} /></List.Item>} />
+    <Segmented options={['Day', 'Week']} onChange={(value) => void value} />
+    <Rate allowHalf defaultValue={2.5} onChange={(value) => void value} />
+    <Breadcrumb items={[{ title: 'Home', href: '/' }, { title: 'Packed' }]} />
+    <Steps current={1} items={[{ title: 'Start' }, { title: 'Ready' }]} />
+    <Pagination total={50} onChange={(page, size) => void [page, size]} />
+    <Tooltip title="Packed tooltip"><Button>Tooltip trigger</Button></Tooltip>
+    <Popover title="Packed popover" content="Details" trigger="click"><Button>Popover trigger</Button></Popover>
     <Button type="primary">Packed consumer</Button>
     <Input defaultValue="Packed input" onChange={(event) => void event.target.value} />
     <Checkbox defaultChecked onChange={(event) => void event.target.checked}>Packed checkbox</Checkbox>

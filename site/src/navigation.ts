@@ -196,6 +196,55 @@ export const nav = [
     keywords: "collapse 折叠面板",
   },
   {
+    id: "segmented",
+    title: "Segmented 分段控制器",
+    category: "components",
+    group: "数据展示",
+    keywords: "Segmented 分段控制器",
+  },
+  {
+    id: "rate",
+    title: "Rate 评分",
+    category: "components",
+    group: "数据录入",
+    keywords: "Rate 评分",
+  },
+  {
+    id: "breadcrumb",
+    title: "Breadcrumb 面包屑",
+    category: "components",
+    group: "导航",
+    keywords: "Breadcrumb 面包屑",
+  },
+  {
+    id: "pagination",
+    title: "Pagination 分页",
+    category: "components",
+    group: "导航",
+    keywords: "Pagination 分页",
+  },
+  {
+    id: "steps",
+    title: "Steps 步骤条",
+    category: "components",
+    group: "导航",
+    keywords: "Steps 步骤条",
+  },
+  {
+    id: "tooltip",
+    title: "Tooltip 文字提示",
+    category: "components",
+    group: "数据展示",
+    keywords: "Tooltip 文字提示",
+  },
+  {
+    id: "popover",
+    title: "Popover 气泡卡片",
+    category: "components",
+    group: "数据展示",
+    keywords: "Popover 气泡卡片",
+  },
+  {
     id: "tabs",
     title: "Tabs 标签页",
     category: "components",
@@ -256,9 +305,11 @@ export const toc: Record<string, [string, string][]> = {
   components: [
     ["general", "通用"],
     ["layout", "布局"],
+    ["navigation", "导航"],
     ["entry", "数据录入"],
     ["display", "数据展示"],
     ["feedback", "反馈"],
+    ["coverage", "完整覆盖清单"],
     ["configuration", "主题与配置"],
   ],
   "api-conventions": [
@@ -478,6 +529,62 @@ toc.result = [
   ["examples", "代码演示"],
   ["basic", "成功与后续操作"],
   ["more", "异常页面"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+
+toc.segmented = [
+  ["examples", "代码演示"],
+  ["basic", "基本用法与尺寸"],
+  ["more", "受控值与布局"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+
+toc.rate = [
+  ["examples", "代码演示"],
+  ["basic", "基本、半星与只读"],
+  ["more", "受控评分与自定义字符"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+
+toc.breadcrumb = [
+  ["examples", "代码演示"],
+  ["basic", "层级导航"],
+  ["more", "自定义分隔符"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+
+toc.pagination = [
+  ["examples", "代码演示"],
+  ["basic", "受控分页"],
+  ["more", "小尺寸与简洁模式"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+
+toc.steps = [
+  ["examples", "代码演示"],
+  ["basic", "顺序流程"],
+  ["more", "可点击的纵向步骤"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+
+toc.tooltip = [
+  ["examples", "代码演示"],
+  ["basic", "基本提示"],
+  ["more", "十二种位置"],
+  ["api", "API"],
+  ["tokens", "主题与支持范围"],
+];
+
+toc.popover = [
+  ["examples", "代码演示"],
+  ["basic", "多种触发方式"],
+  ["more", "受控显示与操作"],
   ["api", "API"],
   ["tokens", "主题与支持范围"],
 ];

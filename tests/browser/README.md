@@ -47,3 +47,7 @@ Run it with the same `playwright-cli run-code` method as `compare.mjs`, substitu
 `verify-sidebar.mjs` 在 1440、1100、900、720、390px 验证导航行高、完整单行名称、无横向溢出及移动端点击后收起。侧栏采用两站共同的 40px 菜单行高，窄桌面保留 256px 宽度；开发阶段统一放在页头和侧栏底部，避免重复状态标记挤压名称。
 
 `compare-feedback.mjs` 对照 Spin、Skeleton、Progress、Result 五组主题下的 770 项基础尺寸、文字与间距值（含显式组件 token）；不覆盖全部形态、插画或动画。`verify-feedback.mjs` 检查实际文档的加载切换、骨架切换、进度增减、结果状态、窄屏溢出和暗色/紧凑主题。
+
+`compare-controls.mjs` 对照 Segmented、Rate、Breadcrumb、Pagination、Steps 五组主题下的 770 项稳定样式。Pagination 的内容内边距对应上游链接节点，容器属性对应上游页码项，避免不同 DOM 结构导致错误结论。
+
+`verify-controls.mjs` 验证这一批组件的真实交互、List 内置分页、完整目录及移动端溢出。`verify-floating.mjs` 验证 Tooltip / Popover 的悬停、聚焦、Escape、内外点击和受控关闭；十二方位在桌面和手机宽度下检查视口边界。这些检查不代表完整动效或所有 API 兼容。

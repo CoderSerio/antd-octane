@@ -4,6 +4,7 @@ import {
   Alert,
   Avatar,
   Badge,
+  Breadcrumb,
   Button,
   Card,
   Checkbox,
@@ -16,13 +17,17 @@ import {
   Input,
   Layout,
   List,
+  Pagination,
   Progress,
   Radio,
+  Rate,
   Result,
   Row,
+  Segmented,
   Skeleton,
   Spin,
   Statistic,
+  Steps,
   Switch,
   Tabs,
   Tag,
@@ -54,6 +59,31 @@ const root = document.getElementById("root");
 if (!root) throw new Error("Missing fixture root");
 createRoot(root).render(
   <ConfigProvider theme={config}>
+    <div data-controls="segmented">
+      <Segmented options={["Day", "Week", "Month"]} defaultValue="Week" />
+    </div>
+    <div data-controls="rate">
+      <Rate defaultValue={3} />
+    </div>
+    <div data-controls="breadcrumb">
+      <Breadcrumb
+        items={[
+          { title: "Home", href: "#" },
+          { title: "App" },
+          { title: "Details" },
+        ]}
+      />
+    </div>
+    <div data-controls="pagination">
+      <Pagination total={50} defaultCurrent={2} />
+    </div>
+    <div data-controls="steps">
+      <Steps
+        current={1}
+        items={[{ title: "First" }, { title: "Second" }, { title: "Last" }]}
+      />
+    </div>
+
     <div data-feedback="spin">
       <Spin />
     </div>

@@ -28,12 +28,15 @@ export const theme = {
   useToken,
 };
 
+export type { FloatingProps, Placement, Trigger } from "./_util/floating";
 export type { AlertProps, AlertRef } from "./alert";
 export { Alert } from "./alert";
 export type { AvatarProps, AvatarRef } from "./avatar";
 export { Avatar } from "./avatar";
 export type { BadgeProps } from "./badge";
 export { Badge } from "./badge";
+export type { BreadcrumbItem, BreadcrumbProps } from "./breadcrumb";
+export { Breadcrumb } from "./breadcrumb";
 export type { CardMetaProps, CardProps } from "./card";
 export { Card } from "./card";
 export type {
@@ -70,6 +73,10 @@ export type { LayoutProps, SiderProps } from "./layout";
 export { Layout } from "./layout";
 export type { ListItemMetaProps, ListItemProps, ListProps } from "./list";
 export { List } from "./list";
+export type { PaginationProps } from "./pagination";
+export { Pagination } from "./pagination";
+export type { PopoverProps } from "./popover";
+export { Popover } from "./popover";
 export type { ProgressGradient, ProgressProps } from "./progress";
 export { Progress } from "./progress";
 export type {
@@ -81,8 +88,16 @@ export type {
   RadioValue,
 } from "./radio";
 export { Radio } from "./radio";
+export type { RateProps } from "./rate";
+export { Rate } from "./rate";
 export type { ResultProps } from "./result";
 export { Result } from "./result";
+export type {
+  SegmentedOption,
+  SegmentedProps,
+  SegmentedValue,
+} from "./segmented";
+export { Segmented } from "./segmented";
 export type { SkeletonElementProps, SkeletonProps } from "./skeleton";
 export { Skeleton } from "./skeleton";
 export type { SpaceProps } from "./space";
@@ -91,6 +106,8 @@ export type { SpinProps } from "./spin";
 export { Spin } from "./spin";
 export type { StatisticProps } from "./statistic";
 export { Statistic } from "./statistic";
+export type { StepItem, StepStatus, StepsProps } from "./steps";
+export { Steps } from "./steps";
 export type { SwitchProps } from "./switch";
 export { Switch } from "./switch";
 export type { TabItem, TabsProps } from "./tabs";
@@ -99,6 +116,8 @@ export type { CheckableTagProps, TagProps } from "./tag";
 export { Tag } from "./tag";
 export type { TimelineItem, TimelineProps } from "./timeline";
 export { Timeline } from "./timeline";
+export type { TooltipProps } from "./tooltip";
+export { Tooltip } from "./tooltip";
 export type {
   CopyConfig,
   EditConfig,

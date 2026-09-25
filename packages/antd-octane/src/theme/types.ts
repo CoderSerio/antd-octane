@@ -70,6 +70,12 @@ export interface ThemeConfig {
   token?: Partial<AliasToken>;
   algorithm?: MappingAlgorithm | MappingAlgorithm[];
   components?: {
+    Tooltip?: ComponentTheme<{ zIndexPopup: number }>;
+    Popover?: ComponentTheme<{
+      zIndexPopup: number;
+      titleMinWidth: number;
+      innerPadding: number | string;
+    }>;
     Progress?: ComponentTheme<{
       defaultColor: string;
       remainingColor: string;
@@ -82,6 +88,25 @@ export interface ThemeConfig {
       subtitleFontSize: number;
       iconFontSize: number;
       extraMargin: string;
+    }>;
+    Breadcrumb?: ComponentTheme<{
+      itemColor: string;
+      lastItemColor: string;
+      linkColor: string;
+      linkHoverColor: string;
+      separatorColor: string;
+      separatorMargin: number;
+    }>;
+    Steps?: ComponentTheme<{
+      iconSize: number;
+      iconSizeSM: number;
+      descriptionMaxWidth: number;
+    }>;
+    Pagination?: ComponentTheme<{
+      itemSize: number;
+      itemSizeSM: number;
+      itemBg: string;
+      itemActiveBg: string;
     }>;
     Button?: ButtonTheme;
     Input?: ComponentTheme<InputToken>;
@@ -205,6 +230,22 @@ export interface ThemeConfig {
     Typography?: ComponentTheme<{
       titleMarginTop: string | number;
       titleMarginBottom: string | number;
+    }>;
+    Segmented?: ComponentTheme<{
+      trackPadding: number;
+      trackBg: string;
+      itemColor: string;
+      itemHoverColor: string;
+      itemHoverBg: string;
+      itemSelectedBg: string;
+      itemActiveBg: string;
+      itemSelectedColor: string;
+    }>;
+    Rate?: ComponentTheme<{
+      starColor: string;
+      starSize: number;
+      starHoverScale: string;
+      starBg: string;
     }>;
     Spin?: ComponentTheme<{
       dotSize: number;

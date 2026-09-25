@@ -1,5 +1,6 @@
 import type { OctaneNode } from "octane";
 import { useEffect, useState } from "octane";
+import { upstreamSlug } from "./component-coverage";
 import { Icon } from "./icons";
 
 function Highlight({ source }: { source: string }) {
@@ -179,7 +180,7 @@ export function DocMeta({ name }: { name: string }) {
       <div>
         <a href="#api-conventions">API 与语法约定</a>
         <a
-          href={`https://ant.design/components/${name.toLowerCase()}-cn/`}
+          href={`https://5x.ant.design/components/${upstreamSlug(name)}-cn/`}
           target="_blank"
           rel="noreferrer"
         >

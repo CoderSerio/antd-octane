@@ -24,6 +24,7 @@ export function BasicDemo() {
     <List
       style={{ width: "100%" }}
       header="迁移清单"
+      pagination={{ pageSize: 2, showSizeChanger: false }}
       bordered
       dataSource={entries}
       rowKey="id"

@@ -1,0 +1,80 @@
+@layer antd {
+  :where(.ao-floating-trigger) {
+    display: inline-flex;
+    max-width: 100%;
+    vertical-align: middle;
+  }
+  :where(.ant-tooltip, .ant-popover) {
+    box-sizing: border-box;
+    width: max-content;
+    max-width: calc(100vw - 16px);
+    font: var(--ao-font-size) / var(--ao-line) var(--ao-font);
+    color: var(--ao-popup-color);
+    text-align: start;
+    white-space: normal;
+  }
+  :where(.ant-tooltip) {
+    max-width: min(250px, calc(100vw - 16px));
+  }
+  :where(.ant-tooltip[hidden], .ant-popover[hidden]) {
+    display: none;
+  }
+  :where(.ant-tooltip-inner, .ant-popover-inner) {
+    position: relative;
+    box-sizing: border-box;
+    border-radius: var(--ao-popup-radius);
+    padding: var(--ao-popup-padding);
+    background: var(--ao-popup-bg);
+    box-shadow: var(--ao-popup-shadow);
+    overflow-wrap: break-word;
+  }
+  :where(.ant-tooltip-inner) {
+    min-height: var(--ao-popup-minheight);
+    min-width: 32px;
+  }
+  :where(.ant-popover) {
+    user-select: text;
+  }
+  :where(.ant-popover-title) {
+    min-width: min(var(--ao-popup-title-width), calc(100vw - 64px));
+    margin-bottom: var(--ao-popup-title-gap);
+    color: var(--ao-popup-title-color);
+    font-weight: var(--ao-popup-title-weight);
+  }
+  :where(.ant-tooltip-arrow, .ant-popover-arrow) {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: var(--ao-popup-bg);
+    transform: rotate(45deg);
+    pointer-events: none;
+  }
+  :where(
+      [data-side="top"] > .ant-tooltip-arrow,
+      [data-side="top"] > .ant-popover-arrow
+    ) {
+    bottom: -4px;
+    left: calc(var(--ao-arrow-x) - 4px);
+  }
+  :where(
+      [data-side="bottom"] > .ant-tooltip-arrow,
+      [data-side="bottom"] > .ant-popover-arrow
+    ) {
+    top: -4px;
+    left: calc(var(--ao-arrow-x) - 4px);
+  }
+  :where(
+      [data-side="left"] > .ant-tooltip-arrow,
+      [data-side="left"] > .ant-popover-arrow
+    ) {
+    right: -4px;
+    top: calc(var(--ao-arrow-y) - 4px);
+  }
+  :where(
+      [data-side="right"] > .ant-tooltip-arrow,
+      [data-side="right"] > .ant-popover-arrow
+    ) {
+    left: -4px;
+    top: calc(var(--ao-arrow-y) - 4px);
+  }
+}

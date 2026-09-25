@@ -39,7 +39,14 @@
       "components/spin/style",
       "components/skeleton/style",
       "components/progress/style",
-      "components/result/style"
+      "components/result/style",
+      "components/segmented/style",
+      "components/rate/style",
+      "components/breadcrumb/style",
+      "components/steps/style",
+      "components/pagination/style",
+      "components/tooltip/style",
+      "components/popover/style"
     ],
     "destination": [
       "packages/antd-octane/src/button/tokens.ts",
@@ -51,7 +58,17 @@
       "packages/antd-octane/src/spin/index.tsx",
       "packages/antd-octane/src/skeleton/index.tsx",
       "packages/antd-octane/src/progress/index.tsx",
-      "packages/antd-octane/src/result/index.tsx"
+      "packages/antd-octane/src/result/index.tsx",
+      "packages/antd-octane/src/choice.css",
+      "packages/antd-octane/src/navigation.css",
+      "packages/antd-octane/src/floating.css",
+      "packages/antd-octane/src/segmented/index.tsx",
+      "packages/antd-octane/src/rate/index.tsx",
+      "packages/antd-octane/src/breadcrumb/index.tsx",
+      "packages/antd-octane/src/steps/index.tsx",
+      "packages/antd-octane/src/pagination/index.tsx",
+      "packages/antd-octane/src/tooltip/index.tsx",
+      "packages/antd-octane/src/popover/index.tsx"
     ],
     "notes": "Supported defaults and state styles adapted to static CSS variables; see THIRD_PARTY_NOTICES.md and docs/compatibility.md."
   }

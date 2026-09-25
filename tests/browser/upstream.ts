@@ -3,6 +3,7 @@ import {
   Alert,
   Avatar,
   Badge,
+  Breadcrumb,
   Button,
   Card,
   Checkbox,
@@ -15,13 +16,17 @@ import {
   Input,
   Layout,
   List,
+  Pagination,
   Progress,
   Radio,
+  Rate,
   Result,
   Row,
+  Segmented,
   Skeleton,
   Spin,
   Statistic,
+  Steps,
   Switch,
   Tabs,
   Tag,
@@ -57,6 +62,44 @@ createRoot(root).render(
   createElement(
     ConfigProvider,
     { theme: config },
+    createElement(
+      "div",
+      { "data-controls": "segmented" },
+      createElement(Segmented, {
+        options: ["Day", "Week", "Month"],
+        defaultValue: "Week",
+      }),
+    ),
+    createElement(
+      "div",
+      { "data-controls": "rate" },
+      createElement(Rate, { defaultValue: 3 }),
+    ),
+    createElement(
+      "div",
+      { "data-controls": "breadcrumb" },
+      createElement(Breadcrumb, {
+        items: [
+          { title: "Home", href: "#" },
+          { title: "App" },
+          { title: "Details" },
+        ],
+      }),
+    ),
+    createElement(
+      "div",
+      { "data-controls": "pagination" },
+      createElement(Pagination, { total: 50, defaultCurrent: 2 }),
+    ),
+    createElement(
+      "div",
+      { "data-controls": "steps" },
+      createElement(Steps, {
+        current: 1,
+        items: [{ title: "First" }, { title: "Second" }, { title: "Last" }],
+      }),
+    ),
+
     createElement("div", { "data-feedback": "spin" }, createElement(Spin)),
     createElement(
       "div",

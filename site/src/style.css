@@ -1004,4 +1004,28 @@
       scroll-behavior: auto;
     }
   }
+
+  .coverage-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+    gap: 0 32px;
+  }
+  .coverage-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    border-bottom: 1px solid var(--line);
+    padding: 12px 0;
+  }
+  .coverage-list li > span {
+    color: var(--muted);
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .coverage-list li > .coverage-ready {
+    color: var(--accent);
+  }
 }

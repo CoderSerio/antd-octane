@@ -28,6 +28,15 @@ export const brand: ThemeConfig = {
 export const component: ThemeConfig = {
   token: { colorPrimary: "#13a8a8" },
   components: {
+    Segmented: {
+      trackBg: "#fffbe6",
+      itemSelectedBg: "#fff1b8",
+      trackPadding: 4,
+    },
+    Rate: { starColor: "#722ed1", starSize: 24 },
+    Breadcrumb: { separatorMargin: 12, separatorColor: "#722ed1" },
+    Pagination: { itemSize: 36, itemBg: "#fffbe6", itemActiveBg: "#fff1b8" },
+    Steps: { iconSize: 36 },
     Spin: { dotSize: 26 },
     Skeleton: {
       titleHeight: 20,

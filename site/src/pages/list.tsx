@@ -37,6 +37,12 @@ export default function Page({ section }: { section?: string }) {
       <ApiTable
         rows={[
           [
+            "pagination",
+            "本地数据分页或受控服务端分页；position 指定上下位置",
+            "false | PaginationProps & { position?: top | bottom | both }",
+            "false",
+          ],
+          [
             "dataSource / renderItem",
             "数据和条目渲染回调",
             "T[] / (item, index) => OctaneNode",
@@ -93,8 +99,9 @@ export default function Page({ section }: { section?: string }) {
       <p>
         支持列表间距、背景、Meta 文字和间距 token。网格以 CSS Grid
         实现，使用主题断点。loading 接受布尔值或
-        SpinProps，可设置延迟与提示。暂不支持内置 pagination、虚拟列表、Item 的
-        colStyle 和完整 styles/classNames；可通过 loadMore
+        SpinProps，可设置延迟与提示。已接入 Pagination；数据多于 pageSize
+        时在本地切片，服务端分页可传入当前页数据和 total。暂不支持虚拟列表、Item
+        的 colStyle 和完整 styles/classNames；可通过 loadMore
         提供实际的数据加载入口。
       </p>
     </>
