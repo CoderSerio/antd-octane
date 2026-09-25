@@ -9,6 +9,7 @@ type PageComponent = (props: {
   section?: string;
 }) => import("octane").OctaneNode;
 const pages: Record<string, () => Promise<{ default: PageComponent }>> = {
+  home: () => import("./pages/home"),
   tour: () => import("./pages/tour"),
   affix: () => import("./pages/affix"),
   anchor: () => import("./pages/anchor"),
@@ -162,13 +163,12 @@ export interface ShellProps {
 }
 
 function Shell(p: ShellProps) {
-  const [route, setRoute] = useState(
-    window.location.hash.slice(1) || "overview",
-  );
+  const [route, setRoute] = useState(window.location.hash.slice(1) || "home");
   const [menuOpen, setMenuOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [activeAnchor, setActiveAnchor] = useState("");
   const [page, section] = route.split("/");
+  const isHome = page === "home";
   const current = nav.find((item) => item.id === page);
   const isComponents = current?.category === "components";
   const results = nav.filter((item) =>
@@ -178,7 +178,7 @@ function Shell(p: ShellProps) {
   );
   useEffect(() => {
     const update = () => {
-      setRoute(window.location.hash.slice(1) || "overview");
+      setRoute(window.location.hash.slice(1) || "home");
       setMenuOpen(false);
       (
         document.getElementById("theme-dialog") as HTMLDialogElement | null
@@ -203,8 +203,10 @@ function Shell(p: ShellProps) {
     };
   }, []);
   useEffect(() => {
-    document.title = `${current?.title ?? "页面不存在"} · Ant Design for Octane`;
-  }, [current]);
+    document.title = isHome
+      ? "Ant Design for Octane · 熟悉的设计，原生的体验"
+      : `${current?.title ?? "页面不存在"} · Ant Design for Octane`;
+  }, [current, isHome]);
   useEffect(() => {
     let observer: IntersectionObserver | undefined;
     const setup = () => {
@@ -248,7 +250,11 @@ function Shell(p: ShellProps) {
         跳到内容
       </button>
       <header className="header">
-        <a href="#overview" className="brand">
+        <a
+          href="#home"
+          className="brand"
+          aria-label="Ant Design for Octane 首页"
+        >
           <span className="brand-mark">
             <svg viewBox="0 0 36 36" fill="none" aria-hidden="true">
               <path
@@ -317,8 +323,10 @@ function Shell(p: ShellProps) {
         <nav className="top-nav" aria-label="主导航">
           <a
             href="#overview"
-            className={!isComponents ? "selected" : ""}
-            aria-current={!isComponents && current ? "true" : undefined}
+            className={!isHome && !isComponents ? "selected" : ""}
+            aria-current={
+              !isHome && !isComponents && current ? "true" : undefined
+            }
           >
             研发
           </a>
@@ -367,128 +375,141 @@ function Shell(p: ShellProps) {
           </a>
         </div>
       </header>
-      <div className="mobile-toolbar">
-        <button
-          type="button"
-          aria-expanded={menuOpen}
-          aria-controls="doc-sidebar"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          ☰ 文档导航
-        </button>
-        <span>{current?.title}</span>
-      </div>
-      <div className="workspace">
-        <aside
-          id="doc-sidebar"
-          className={`sidebar ${menuOpen ? "is-open" : ""}`}
-        >
-          <nav aria-label="文档导航">
-            {(isComponents
-              ? [
-                  "组件",
-                  "通用",
-                  "布局",
-                  "导航",
-                  "数据录入",
-                  "数据展示",
-                  "反馈",
-                  "其他",
-                ].filter((group) =>
-                  nav.some(
-                    (item) =>
-                      item.category === "components" && item.group === group,
-                  ),
-                )
-              : ["开始", "进阶使用", "其他"]
-            ).map((group) => (
-              <div className="nav-group" key={group}>
-                <div className="nav-group-title">{group}</div>
-                {nav
-                  .filter((item) => item.group === group)
-                  .map((item) => (
-                    <a
-                      key={item.id}
-                      href={`#${item.id}`}
-                      className={page === item.id ? "active" : ""}
-                      aria-current={page === item.id ? "page" : undefined}
-                      onClick={() => setMenuOpen(false)}
-                    >
-                      <span className="nav-item-label" title={item.title}>
-                        {item.title}
-                      </span>
-                    </a>
-                  ))}
-              </div>
-            ))}
-          </nav>
-          <div className="sidebar-note">
-            <span className="status-dot" />
-            0.1 开发预览<p>按组件验证，公开兼容边界。</p>
-            <a href="https://github.com/CoderSerio/antd-octane/blob/main/docs/RFC-0001-antd-for-octane.md">
-              阅读 RFC ↗
-            </a>
-          </div>
-        </aside>
-        <main id="main-content" className="main" tabIndex={-1}>
+      {isHome ? (
+        <main id="main-content" className="home-main" tabIndex={-1}>
           <RouteContent page={page} section={section} />
-          {current && (
-            <nav className="page-turning" aria-label="文档翻页">
-              {previous && (
-                <a href={`#${previous.id}`}>
-                  <small>上一篇</small>
-                  <span>← {previous.title}</span>
-                </a>
-              )}
-              {next && (
-                <a className="next-page" href={`#${next.id}`}>
-                  <small>下一篇</small>
-                  <span>{next.title} →</span>
-                </a>
-              )}
-            </nav>
-          )}
-          <footer>
-            Ant Design for Octane <span>独立社区探索 · MIT</span>
-          </footer>
         </main>
-        <aside className="page-toc" aria-label="页内目录">
-          <span>本页内容</span>
-          <nav>
-            {(Object.hasOwn(toc, page) ? toc[page] : []).map(([id, title]) => (
+      ) : (
+        <>
+          <div className="mobile-toolbar">
+            <button
+              type="button"
+              aria-expanded={menuOpen}
+              aria-controls="doc-sidebar"
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              ☰ 文档导航
+            </button>
+            <span>{current?.title}</span>
+          </div>
+          <div className="workspace">
+            <aside
+              id="doc-sidebar"
+              className={`sidebar ${menuOpen ? "is-open" : ""}`}
+            >
+              <nav aria-label="文档导航">
+                {(isComponents
+                  ? [
+                      "组件",
+                      "通用",
+                      "布局",
+                      "导航",
+                      "数据录入",
+                      "数据展示",
+                      "反馈",
+                      "其他",
+                    ].filter((group) =>
+                      nav.some(
+                        (item) =>
+                          item.category === "components" &&
+                          item.group === group,
+                      ),
+                    )
+                  : ["开始", "进阶使用", "其他"]
+                ).map((group) => (
+                  <div className="nav-group" key={group}>
+                    <div className="nav-group-title">{group}</div>
+                    {nav
+                      .filter((item) => item.group === group)
+                      .map((item) => (
+                        <a
+                          key={item.id}
+                          href={`#${item.id}`}
+                          className={page === item.id ? "active" : ""}
+                          aria-current={page === item.id ? "page" : undefined}
+                          onClick={() => setMenuOpen(false)}
+                        >
+                          <span className="nav-item-label" title={item.title}>
+                            {item.title}
+                          </span>
+                        </a>
+                      ))}
+                  </div>
+                ))}
+              </nav>
+              <div className="sidebar-note">
+                <span className="status-dot" />
+                0.1 开发预览<p>按组件验证，公开兼容边界。</p>
+                <a href="https://github.com/CoderSerio/antd-octane/blob/main/docs/RFC-0001-antd-for-octane.md">
+                  阅读 RFC ↗
+                </a>
+              </div>
+            </aside>
+            <main id="main-content" className="main" tabIndex={-1}>
+              <RouteContent page={page} section={section} />
+              {current && (
+                <nav className="page-turning" aria-label="文档翻页">
+                  {previous && (
+                    <a href={`#${previous.id}`}>
+                      <small>上一篇</small>
+                      <span>← {previous.title}</span>
+                    </a>
+                  )}
+                  {next && (
+                    <a className="next-page" href={`#${next.id}`}>
+                      <small>下一篇</small>
+                      <span>{next.title} →</span>
+                    </a>
+                  )}
+                </nav>
+              )}
+              <footer>
+                Ant Design for Octane <span>独立社区探索 · MIT</span>
+              </footer>
+            </main>
+            <aside className="page-toc" aria-label="页内目录">
+              <span>本页内容</span>
+              <nav>
+                {(Object.hasOwn(toc, page) ? toc[page] : []).map(
+                  ([id, title]) => (
+                    <a
+                      key={id}
+                      href={`#${page}/${id}`}
+                      className={
+                        [
+                          "basic",
+                          "sizes",
+                          "states",
+                          "nested",
+                          "component",
+                          "controlled",
+                          "all",
+                          "refs",
+                        ].includes(id)
+                          ? "sub-anchor"
+                          : undefined
+                      }
+                      aria-current={
+                        activeAnchor === id ? "location" : undefined
+                      }
+                    >
+                      {title}
+                    </a>
+                  ),
+                )}
+              </nav>
               <a
-                key={id}
-                href={`#${page}/${id}`}
-                className={
-                  [
-                    "basic",
-                    "sizes",
-                    "states",
-                    "nested",
-                    "component",
-                    "controlled",
-                    "all",
-                    "refs",
-                  ].includes(id)
-                    ? "sub-anchor"
-                    : undefined
-                }
-                aria-current={activeAnchor === id ? "location" : undefined}
+                className="toc-help"
+                href="https://github.com/CoderSerio/antd-octane/issues"
+                target="_blank"
+                rel="noreferrer"
               >
-                {title}
+                反馈问题 ↗
               </a>
-            ))}
-          </nav>
-          <a
-            className="toc-help"
-            href="https://github.com/CoderSerio/antd-octane/issues"
-            target="_blank"
-            rel="noreferrer"
-          >
-            反馈问题 ↗
-          </a>
-        </aside>
-      </div>
+            </aside>
+          </div>
+        </>
+      )}
       <dialog id="theme-dialog" aria-labelledby="theme-title">
         <ThemePanel {...p} />
       </dialog>

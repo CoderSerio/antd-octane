@@ -61,3 +61,5 @@ Run it with the same `playwright-cli run-code` method as `compare.mjs`, substitu
 生产文档站启动后，分别运行 `verify-positioning.mjs`、`verify-media.mjs`、`verify-surfaces.mjs`、`verify-app-icon-qr.mjs`、`verify-tour.mjs`。覆盖滚动定位/回顶、图片预览焦点和滚动恢复、轮播键盘/滑动/暂停、Splitter 指针与键盘、实际 Canvas 水印与二维码绘制、App 上下文消息、SVG 图标及 Tour 步骤与关闭。脚本包含窄屏布局检查；不表示全量上游兼容。
 
 `compare-media.mjs` 使用独立 `media-theme.html` 夹具比较五组主题下 Image / Carousel 的 75 项稳定样式。轮播活动指示器按上游伪元素与本库按钮的可见前景比较，不将不同 DOM 结构视作功能差异。
+
+`verify-home.mjs` 检查独立首页默认入口、文档/Logo 往返、搜索、局部主题与真实组件交互，并验证 1440 / 768 / 390 像素布局。
