@@ -58,6 +58,11 @@ export default function Overview({ section }: { section?: string }) {
       <p>
         欢迎通过 Issue
         提交可复现问题，或从一个示例、测试和文档修正开始。新增组件需要同时补齐类型、行为测试、主题和使用文档。
+        本地开发步骤见{" "}
+        <a className="text-link" href="#contributing">
+          参与贡献
+        </a>
+        。
       </p>
       <p>
         本项目为独立社区探索，不代表 Ant Design 或 Octane 官方。不承诺仅替换

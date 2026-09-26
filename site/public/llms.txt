@@ -4,7 +4,7 @@
 
 ## 文档页面
 
-以下链接相对于站点入口，支持部署子目录。# 路由需要执行 JavaScript；纯文本工具可读取下方公开页面源码，并核对已安装包的类型声明。
+以下链接相对于站点入口，支持部署子目录。Hash 路由需要执行 JavaScript；纯文本工具可读取下方公开页面源码，并核对已安装包的类型声明。
 
 - [面向 AI Agent](./#for-agents): 使用说明。
 - [快速开始](./#start): npm 安装、Vite/TypeScript 配置、完整应用入口与运行检查。
@@ -13,6 +13,7 @@
 - [Tailwind CSS](./#tailwindcss): 样式层与接入说明。
 - [定制主题](./#theme): token 与算法。
 - [组件总览](./#components): 查找所需组件，再阅读该组件 API 和支持范围。
+- [参与贡献](./#contributing): 本地开发与仓库验证。
 - [App](./#app): 上下文消息与通知实例；不提供 modal 实例。
 - [Modal](./#modal): 声明式弹窗；没有 confirm/useModal。
 

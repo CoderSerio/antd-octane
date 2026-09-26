@@ -118,9 +118,12 @@ function Shell(p: ShellProps) {
       window.removeEventListener("docs:ready", setup);
     };
   }, [page]);
-  const pageIndex = nav.findIndex((item) => item.id === page);
-  const previous = pageIndex > 0 ? nav[pageIndex - 1] : undefined;
-  const next = pageIndex >= 0 ? nav[pageIndex + 1] : undefined;
+  const pagesInCategory = nav.filter(
+    (item) => item.category === current?.category,
+  );
+  const pageIndex = pagesInCategory.findIndex((item) => item.id === page);
+  const previous = pageIndex > 0 ? pagesInCategory[pageIndex - 1] : undefined;
+  const next = pageIndex >= 0 ? pagesInCategory[pageIndex + 1] : undefined;
   return (
     <div
       className="site-root"
@@ -147,8 +150,11 @@ function Shell(p: ShellProps) {
             height="32"
             alt=""
           />
-          <span>
-            Ant Design <b>for Octane</b>
+          <span className="brand-name">
+            <span>Ant Design</span>
+            <b>
+              for <strong>Octane</strong>
+            </b>
           </span>
         </a>
         <form
@@ -292,12 +298,17 @@ function Shell(p: ShellProps) {
                           item.group === group,
                       ),
                     )
-                  : ["开始", "进阶使用", "其他"]
+                  : ["快速上手", "AI", "进阶使用", "迁移", "其他"]
                 ).map((group) => (
                   <div className="nav-group" key={group}>
                     <div className="nav-group-title">{group}</div>
                     {nav
-                      .filter((item) => item.group === group)
+                      .filter(
+                        (item) =>
+                          item.category ===
+                            (isComponents ? "components" : "guide") &&
+                          item.group === group,
+                      )
                       .map((item) => (
                         <a
                           key={item.id}

@@ -6,7 +6,7 @@ export default function StartPage({ section }: { section?: string }) {
       <div className="eyebrow">GUIDE / GETTING STARTED</div>
       <h1>快速开始</h1>
       <p className="lead">
-        从安装到第一个按钮，在 Octane 项目中使用 Ant Design。
+        从安装到第一个按钮，在 Octane 项目中使用 Ant Design 风格组件。
       </p>
       <div className="notice">
         <strong>Alpha 开发预览</strong>
@@ -87,32 +87,10 @@ export default function StartPage({ section }: { section?: string }) {
         </a>
         。 Form、Table 等尚未实现的组件请先查阅组件总览，不能直接照搬上游示例。
       </p>
-      <h2 id="install" tabIndex={-1}>
-        开发本库与文档站
-      </h2>
-      <p>如需贡献代码或修改文档，先克隆仓库，再使用 pnpm 10.29.2 安装依赖：</p>
-      <Code
-        language="bash"
-        source={
-          "git clone --branch main https://github.com/CoderSerio/antd-octane.git\ncd antd-octane\npnpm install\npnpm dev"
-        }
-      />
-      <h2 id="build" tabIndex={-1}>
-        仓库构建与验证
-      </h2>
-      <Code
-        language="bash"
-        source={
-          "pnpm check        # 格式、类型、测试、构建\npnpm preview      # 预览静态站点\npnpm pack:check   # 打包并在独立目录验证消费"
-        }
-      />
       <p>
-        分支、PR 和浏览器验证要求见{" "}
-        <a
-          className="text-link"
-          href="https://github.com/CoderSerio/antd-octane/blob/main/CONTRIBUTE.md"
-        >
-          贡献指南
+        想修改组件库或文档站？参阅{" "}
+        <a className="text-link" href="#contributing">
+          参与贡献
         </a>
         。
       </p>
