@@ -7,11 +7,7 @@ export default function ForAgents({ section }: { section?: string }) {
       <h1>面向 AI Agent</h1>
       <p className="lead">让生成的代码建立在当前实现上。</p>
       <p>
-        把{" "}
-        <a className="text-link" href="./agent-guide.md">
-          Agent 接入指南（Markdown）
-        </a>
-        交给编程助手；
+        将本页和所需组件页面交给编程助手；
         <a className="text-link" href="./llms.txt">
           llms.txt
         </a>
@@ -31,7 +27,7 @@ export default function ForAgents({ section }: { section?: string }) {
       <div className="code-wrap">
         <pre style={{ whiteSpace: "pre-wrap" }}>
           <code>{`请使用 antd-octane 当前构建实现此界面。
-先读取本站提供的 agent-guide.md、compatibility.md，以及所需组件页面的 API 和支持范围。
+先读取本站快速开始、兼容与迁移，以及所需组件页面的 API 和支持范围。
 这是 Octane 0.4.3 原生组件库，Hooks 与 JSX 来自 octane。
 安装 antd-octane@alpha 和 octane@0.4.3，显式导入 antd-octane/style.css；配置 Octane Vite 插件。
 以当前包导出和 TypeScript 声明为准，不从 React antd 推断未实现的 API。
@@ -39,7 +35,8 @@ export default function ForAgents({ section }: { section?: string }) {
         </pre>
       </div>
       <p>
-        页面使用 hash 路由，需要 JavaScript。纯文本工具可直接读取 Markdown；
+        页面使用 hash 路由，需要 JavaScript。纯文本工具可读取 llms.txt
+        列出的公开页面源码；
         仓库源码与已安装版本不一致时，应以正在消费的包声明为准。
       </p>
       <h2 id="usage" tabIndex={-1}>
@@ -105,7 +102,7 @@ export default function Example() {
         <a className="text-link" href="#api-conventions">
           API 与语法约定
         </a>
-        。 Markdown 指南包含完整接入代码和验证步骤。
+        。完整接入代码和验证步骤见快速开始。
       </p>
     </>
   );

@@ -516,7 +516,10 @@ export const toc: Record<string, [string, string][]> = {
     ["nested", "嵌套主题"],
     ["component", "组件级覆盖"],
     ["api", "API"],
+    ["refs", "事件与 ref"],
+    ["tokens", "主题变量"],
     ["limitations", "已知差异"],
+    ["faq", "常见问题"],
   ],
 };
 
