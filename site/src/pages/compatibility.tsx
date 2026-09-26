@@ -12,6 +12,8 @@ export default function Compatibility({ section }: { section?: string }) {
         支持矩阵
       </h2>
       <ApiTable
+        headers={["组件", "支持范围", "状态", "版本"]}
+        label="组件兼容矩阵，可横向滚动"
         rows={[
           [
             "Affix / Anchor / FloatButton / Tour",
@@ -58,87 +60,97 @@ export default function Compatibility({ section }: { section?: string }) {
           [
             "InputNumber / Slider",
             "数值输入、精度、范围、键盘和指针操作；支持子集",
-            "已实现",
+            "基础实现",
             "alpha",
           ],
           [
             "Button",
             "常用类型、尺寸、状态、图标、链接与 ref",
-            "已实现",
+            "基础实现",
             "alpha",
           ],
           [
             "Input",
             "基础输入、前后缀/清除、Password/Search/TextArea 与 ref",
-            "已实现",
+            "基础实现",
             "alpha",
           ],
-          ["Radio", "单选、选择组、按钮样式与键盘", "已实现", "alpha"],
+          ["Radio", "单选、选择组、按钮样式与键盘", "基础实现", "alpha"],
           [
             "Tag / Alert / Card / Badge / Avatar",
             "常用展示与交互；详见各组件页面",
-            "已实现",
+            "基础实现",
             "alpha",
           ],
-          ["Switch", "状态、键盘、加载、大小与 ref", "已实现", "alpha"],
+          ["Switch", "状态、键盘、加载、大小与 ref", "基础实现", "alpha"],
           [
             "Flex / Space / Divider",
             "基础布局、间距与分割线",
-            "已实现",
+            "基础实现",
             "alpha",
           ],
           [
             "Checkbox",
             "受控、非受控、禁用、中间态、ref 与 Group",
-            "已实现",
+            "基础实现",
             "alpha",
           ],
-          ["Grid / Layout", "响应式栅格、布局与折叠侧栏", "已实现", "alpha"],
+          ["Grid / Layout", "响应式栅格、布局与折叠侧栏", "基础实现", "alpha"],
           [
             "Collapse / Tabs",
             "面板切换、内容保留与键盘交互",
-            "已实现",
+            "基础实现",
             "alpha",
           ],
           [
             "Empty / Statistic / Timeline / Descriptions",
             "空状态、统计与信息展示",
-            "已实现",
+            "基础实现",
             "alpha",
           ],
           [
             "Typography / List",
             "文字编辑、复制、列表及响应式网格",
-            "已实现",
+            "基础实现",
             "alpha",
           ],
           [
             "Spin / Skeleton",
             "延迟加载、局部加载与内容占位",
-            "已实现",
+            "基础实现",
             "alpha",
           ],
           [
             "Progress / Result",
             "进度状态、结果展示与后续操作",
-            "已实现",
+            "基础实现",
             "alpha",
           ],
-          ["Segmented / Rate", "分段选择、评分与键盘交互", "已实现", "alpha"],
+          ["Segmented / Rate", "分段选择、评分与键盘交互", "基础实现", "alpha"],
           [
             "Breadcrumb / Steps / Pagination",
             "面包屑、步骤、页码与条数切换",
-            "已实现",
+            "基础实现",
             "alpha",
           ],
           [
             "Tooltip / Popover",
             "原生 portal、触发、定位与上下文继承",
-            "已实现",
+            "基础实现",
             "alpha",
           ],
-          ["ConfigProvider", "主题、尺寸、禁用与嵌套作用域", "已实现", "alpha"],
-          ["Form / Table / Modal", "动态表单、表格及浮层", "未实现", "—"],
+          [
+            "ConfigProvider",
+            "主题、尺寸、禁用与嵌套作用域",
+            "基础实现",
+            "alpha",
+          ],
+          [
+            "Form / Table / Select / DatePicker",
+            "表单、表格、选择器与日期选择器",
+            "未实现",
+            "—",
+          ],
         ]}
       />
       <h2 id="migration" tabIndex={-1}>

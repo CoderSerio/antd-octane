@@ -1,6 +1,6 @@
 <div align="center">
 
-<!-- 品牌图片占位：待补充正式 Logo（建议高度 180px） -->
+<img src="site/public/favicon.svg" width="96" height="96" alt="Ant Design for Octane 标识" />
 
 <h1>Ant Design for Octane</h1>
 
@@ -14,7 +14,9 @@
 
 </div>
 
-<!-- 产品展示图片占位：待补充组件与主题展示图 -->
+![真实组件与主题展示](docs/images/component-showcase.png)
+
+文档站中的 Octane 原生组件示例，支持品牌色、暗色与紧凑主题切换。
 
 ## ✨ 特性
 
@@ -97,7 +99,6 @@ pnpm pack:check
 
 涉及界面或交互的修改，还需完成对应的[浏览器验证](tests/browser/README.md)。
 
-<!-- 贡献者图片占位：待补充统一设计的贡献者展示 -->
 
 ## 鸣谢
 

@@ -37,7 +37,7 @@ export function Code({
   language = "tsx",
 }: {
   source: string;
-  language?: "tsx" | "ts" | "bash" | "css";
+  language?: "tsx" | "ts" | "bash" | "css" | "json" | "html";
 }) {
   const [copied, setCopied] = useState(false);
   const [failed, setFailed] = useState(false);
@@ -50,7 +50,11 @@ export function Code({
             ? "CSS"
             : language === "ts"
               ? "TypeScript"
-              : "TSX"}
+              : language === "json"
+                ? "JSON"
+                : language === "html"
+                  ? "HTML"
+                  : "TSX"}
       </span>
       <button
         className="copy-button"
@@ -190,22 +194,31 @@ export function DocMeta({ name }: { name: string }) {
     </div>
   );
 }
-export function ApiTable({ rows }: { rows: string[][] }) {
+export function ApiTable({
+  rows,
+  headers = ["参数", "说明", "类型", "默认值"],
+  label = "API 参数表，可横向滚动",
+}: {
+  rows: string[][];
+  headers?: [string, string, string, string];
+  label?: string;
+}) {
   return (
     // Keyboard users can scroll the table without moving the entire page.
     <section
       className="table-scroll"
-      aria-label="API 参数表，可横向滚动"
+      aria-label={label}
       // biome-ignore lint/a11y/noNoninteractiveTabindex: scrollable API region needs keyboard access.
       tabIndex={0}
     >
       <table>
         <thead>
           <tr>
-            <th>参数</th>
-            <th>说明</th>
-            <th>类型</th>
-            <th>默认值</th>
+            {headers.map((header) => (
+              <th key={header} scope="col">
+                {header}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>

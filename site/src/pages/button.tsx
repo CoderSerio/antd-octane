@@ -92,7 +92,7 @@ export default function ButtonPage({ section }: { section?: string }) {
         <h2 id="api" tabIndex={-1}>
           API
         </h2>
-        <span>本次原型支持范围</span>
+        <span>当前 alpha 支持范围</span>
       </div>
       <ApiTable rows={apiRows} />
       <div className="notice">

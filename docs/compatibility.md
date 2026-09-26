@@ -35,7 +35,7 @@
 
 ## 样式与包
 
-组件原生运行时不依赖 React；React 和 antd 仅用于开发对照测试。发布前保持包为 private。
+组件原生运行时不依赖 React；React 和 antd 仅用于开发对照测试。组件包已发布到 npm 的 alpha 标签；仓库根工作区保持 private，不作为 npm 包发布。
 
 组件使用静态 CSS，派生值通过 `--ao-btn-*`、`--ao-input-*`、`--ao-check-*` 局部变量传递。ConfigProvider 不创建额外 DOM，不在全局插入动态 style 标签。构建产物需要显式导入 `antd-octane/style.css`；仅支持 ESM 浏览器消费。SSR 不在本次支持范围。
 
