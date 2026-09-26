@@ -61,7 +61,7 @@ Divider 支持水平/垂直、文字、orientation、orientationMargin、plain�
 
 Switch 支持受控/非受控、value 别名、文字、大小、加载、禁用、原生 button ref，以及键盘操作。事件为原生事件。支持轨道/滑块尺寸、背景、阴影 token，暂不支持 innerMargin 系列 token、wave 和完整按压动效。
 
-完整扩展顺序见 [组件路线图](component-roadmap.md)，其中待办不代表已支持。
+组件总览列出已实现和待实现的组件；待实现项不代表已支持。
 
 ## 选择与信息展示
 

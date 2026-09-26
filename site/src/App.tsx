@@ -442,9 +442,7 @@ function Shell(p: ShellProps) {
               <div className="sidebar-note">
                 <span className="status-dot" />
                 0.1 开发预览<p>按组件验证，公开兼容边界。</p>
-                <a href="https://github.com/CoderSerio/antd-octane/blob/main/docs/RFC-0001-antd-for-octane.md">
-                  阅读 RFC ↗
-                </a>
+                <a href="#compatibility">支持范围 →</a>
               </div>
             </aside>
             <main id="main-content" className="main" tabIndex={-1}>

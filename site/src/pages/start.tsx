@@ -19,7 +19,7 @@ export default function StartPage({ section }: { section?: string }) {
       <Code
         language="bash"
         source={
-          "git clone --branch codex/first-alpha https://github.com/CoderSerio/antd-octane.git\ncd antd-octane\npnpm install\npnpm dev"
+          "git clone --branch main https://github.com/CoderSerio/antd-octane.git\ncd antd-octane\npnpm install\npnpm dev"
         }
       />
       <h2 id="integration" tabIndex={-1}>

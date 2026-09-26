@@ -28,8 +28,8 @@ Vite 需要启用 `octane/compiler/vite` 导出的 `octane()` 插件；TypeScrip
 
 以 Ant Design **5.29.3** 为参考，提供 55 项基础实现（包含 ConfigProvider），以及默认、暗色、紧凑主题算法。Alpha 不代表完整 API 兼容，API 可能调整；复杂组件、SSR 和无障碍验证仍有未完成项。
 
-- [接入与 Agent 指南](https://github.com/CoderSerio/antd-octane/blob/codex/first-alpha/docs/agent-guide.md)
-- [组件支持范围与已知差异](https://github.com/CoderSerio/antd-octane/blob/codex/first-alpha/docs/compatibility.md)
-- [源码与文档站](https://github.com/CoderSerio/antd-octane/tree/codex/first-alpha)
+- [接入与 Agent 指南](https://github.com/CoderSerio/antd-octane/blob/main/docs/agent-guide.md)
+- [组件支持范围与已知差异](https://github.com/CoderSerio/antd-octane/blob/main/docs/compatibility.md)
+- [源码与文档站](https://github.com/CoderSerio/antd-octane/tree/main)
 
 采用 MIT 许可。上游代码来源与许可见包内 `THIRD_PARTY_NOTICES.md` 和 `LICENSE`。

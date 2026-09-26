@@ -16,7 +16,7 @@
 3. [组件总览](./#components)，再打开所需组件页面，阅读 API 表及「主题与支持范围」，例如 [Input](./#input)、[Modal](./#modal)、[App](./#app)。
 4. 本地仓库中以 `packages/antd-octane/src/index.ts` 的导出、各组件 Props 和 `packages/antd-octane/src/theme/types.ts` 为最终核对依据；独立消费项目核对已安装包的 `dist/index.d.ts` 和相关声明文件。
 
-本站 `#...` 链接是客户端页面，需要执行 JavaScript。纯文本读取使用 [agent-guide.md](agent-guide.md) 或 [compatibility.md](compatibility.md)。也可查阅 [GitHub 兼容清单](https://github.com/CoderSerio/antd-octane/blob/codex/first-alpha/docs/compatibility.md)。远端仓库与本地工作区可能有版本差异，以当前使用的构建产物为准。
+本站 `#...` 链接是客户端页面，需要执行 JavaScript。纯文本读取使用 [agent-guide.md](agent-guide.md) 或 [compatibility.md](compatibility.md)。也可查阅 [GitHub 兼容清单](https://github.com/CoderSerio/antd-octane/blob/main/docs/compatibility.md)。远端仓库与本地工作区可能有版本差异，以当前使用的构建产物为准。
 
 ## 安装
 
