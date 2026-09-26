@@ -13,3 +13,7 @@ output/
 /specs/
 /plans/
 /.local-notes/
+
+# Local reference notes; public documentation lives in site/src/pages.
+/docs/agent-guide.md
+/docs/compatibility.md

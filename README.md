@@ -10,7 +10,7 @@
 [![npm alpha][npm-image]][npm-url]
 [![License: MIT][license-image]](LICENSE)
 
-[使用指南](docs/agent-guide.md) · [兼容范围](docs/compatibility.md) · [参与贡献](CONTRIBUTE.md) · [问题反馈](https://github.com/CoderSerio/antd-octane/issues)
+[使用示例](#-使用) · [兼容说明页面源码](site/src/pages/compatibility.tsx) · [参与贡献](CONTRIBUTE.md) · [问题反馈](https://github.com/CoderSerio/antd-octane/issues)
 
 </div>
 
@@ -24,9 +24,9 @@
 - **TypeScript**：提供组件属性与主题配置的类型声明。
 - **主题定制**：支持默认、暗色、紧凑算法，以及 Token 覆盖、算法组合与嵌套主题。
 - **中文文档**：提供组件示例、API、源码展示与可交互的主题预览。
-- **Agent 接入**：提供纯 Markdown 使用指南、兼容清单与文档站 `llms.txt`。
+- **Agent 接入**：提供文档站接入说明、兼容边界与 `llms.txt` 导航。
 
-当前版本为 **`0.1.0-alpha.0`**，通过 npm 的 `alpha` 标签发布，API 仍可能调整。按 Ant Design 5.x 文档目录计，已提供 **55 项基础实现**（包含 ConfigProvider）；基础实现不代表完整 API 兼容，具体能力与限制见[兼容范围](docs/compatibility.md)。
+当前版本为 **`0.1.0-alpha.0`**，通过 npm 的 `alpha` 标签发布，API 仍可能调整。按 Ant Design 5.x 文档目录计，已提供 **55 项基础实现**（包含 ConfigProvider）；基础实现不代表完整 API 兼容，具体能力与限制见[文档站兼容说明](site/src/pages/compatibility.tsx)。
 
 本项目由社区独立维护，与 Ant Design、Octane 官方无隶属关系。
 
@@ -79,7 +79,7 @@ export function App() {
 }
 ```
 
-完整的 Vite、TypeScript 与入口配置见[使用指南](docs/agent-guide.md)。各组件的支持范围以当前版本的类型声明和[兼容清单](docs/compatibility.md)为准。
+完整的 Vite、TypeScript 与入口配置见[文档站快速开始页面](site/src/pages/start.tsx)。各组件的支持范围以当前版本的类型声明和[文档站兼容说明](site/src/pages/compatibility.tsx)为准。
 
 ## 🤝 参与贡献
 
