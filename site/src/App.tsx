@@ -257,21 +257,13 @@ function Shell(p: ShellProps) {
           className="brand"
           aria-label="Ant Design for Octane 首页"
         >
-          <span className="brand-mark">
-            <svg viewBox="0 0 36 36" fill="none" aria-hidden="true">
-              <path
-                d="M18 2 32 10v16L18 34 4 26V10Z"
-                stroke="currentColor"
-                strokeWidth="2.5"
-              />
-              <path
-                d="m4 10 14 8 14-8M18 18v16M11 14V6m14 8V6"
-                stroke="currentColor"
-                strokeWidth="2"
-              />
-              <circle cx="18" cy="18" r="3" fill="currentColor" />
-            </svg>
-          </span>
+          <img
+            className="brand-mark"
+            src="./favicon.svg"
+            width="32"
+            height="32"
+            alt=""
+          />
           <span>
             Ant Design <b>for Octane</b>
           </span>

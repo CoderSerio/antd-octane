@@ -45,7 +45,7 @@ export const nav = [
     id: "compatibility",
     title: "兼容与迁移",
     category: "guide",
-    group: "其他",
+    group: "开始",
     keywords: "limitations differences migration 支持范围",
   },
   {
@@ -442,10 +442,12 @@ export const toc: Record<string, [string, string][]> = {
     ["contribute", "参与贡献"],
   ],
   start: [
-    ["install", "启动文档站"],
-    ["integration", "接入现有项目"],
+    ["integration", "安装组件库"],
+    ["configure", "配置构建工具"],
     ["usage", "使用组件"],
-    ["build", "构建与验证"],
+    ["run", "运行与检查"],
+    ["install", "开发本库与文档站"],
+    ["build", "仓库构建与验证"],
   ],
   theme: [
     ["configure", "配置主题"],

@@ -50,11 +50,10 @@ export default function ApiConventions({ section }: { section?: string }) {
         实例，不能照搬全局静态调用。
       </p>
       <div className="notice">
-        <strong>早期讨论的修正</strong>
+        <strong>Octane 版本约定</strong>
         <p>
-          早期方案中的 createSignal、直接 ref.focus()
-          和“组件只运行一次”不适用于本项目锁定的 Octane 版本。本文使用已验证的
-          Hooks 与 .current 写法。
+          本文示例面向 Octane 0.4.3，状态使用 Hooks，ref 通过 .current
+          读取。迁移代码时请同时核对 Octane 版本和组件类型声明。
         </p>
       </div>
     </>
