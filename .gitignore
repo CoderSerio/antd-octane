@@ -5,3 +5,11 @@ output/
 .playwright-cli/
 *.tgz
 .DS_Store
+
+# Local planning documents; keep durable notes outside the repository.
+/rfc/
+/rfcs/
+/spec/
+/specs/
+/plans/
+/.local-notes/

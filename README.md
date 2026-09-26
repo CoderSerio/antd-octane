@@ -1,56 +1,68 @@
-# Ant Design for Octane
+<div align="center">
 
-面向 [Octane](https://github.com/octanejs/octane) 的 Ant Design 组件库，沿用熟悉的组件 API、交互与主题配置。
+<!-- 品牌图片占位：待补充正式 Logo（建议高度 180px） -->
 
-**已发布 `0.1.0-alpha.0`，通过 npm 的 `alpha` 标签安装。当前为开发预览，API 可能调整。** 独立社区项目，不代表 Ant Design 或 Octane 的官方立场。
+<h1>Ant Design for Octane</h1>
 
-## 本地运行
+基于 Ant Design 设计体系的 Octane 原生组件库。
 
-需要 Node.js **≥ 22.22.2**、pnpm **10.29.2**。
+[![CI][ci-image]][ci-url]
+[![npm alpha][npm-image]][npm-url]
+[![License: MIT][license-image]](LICENSE)
+
+[使用指南](docs/agent-guide.md) · [兼容范围](docs/compatibility.md) · [参与贡献](CONTRIBUTE.md) · [问题反馈](https://github.com/CoderSerio/antd-octane/issues)
+
+</div>
+
+<!-- 产品展示图片占位：待补充组件与主题展示图 -->
+
+## ✨ 特性
+
+- **原生 Octane**：沿用熟悉的 Ant Design 组件命名、交互和主题配置，运行时不依赖 React。
+- **TypeScript**：提供组件属性与主题配置的类型声明。
+- **主题定制**：支持默认、暗色、紧凑算法，以及 Token 覆盖、算法组合与嵌套主题。
+- **中文文档**：提供组件示例、API、源码展示与可交互的主题预览。
+- **Agent 接入**：提供纯 Markdown 使用指南、兼容清单与文档站 `llms.txt`。
+
+当前版本为 **`0.1.0-alpha.0`**，通过 npm 的 `alpha` 标签发布，API 仍可能调整。按 Ant Design 5.x 文档目录计，已提供 **55 项基础实现**（包含 ConfigProvider）；基础实现不代表完整 API 兼容，具体能力与限制见[兼容范围](docs/compatibility.md)。
+
+本项目由社区独立维护，与 Ant Design、Octane 官方无隶属关系。
+
+## 🖥 兼容环境
+
+| 项目 | 当前范围 |
+| --- | --- |
+| 运行时 | Octane `0.4.3` |
+| 组件对照基线 | Ant Design `5.29.3` |
+| 模块格式 | ESM，浏览器应用 |
+| 样式 | 显式导入组件 CSS，支持 CSS Cascade Layers |
+| 本库开发环境 | Node.js ≥ `22.22.2`、pnpm `10.29.2` |
+
+当前已验证 Vite 消费项目与部分浏览器交互、样式和主题场景。完整跨浏览器、辅助技术及 SSR 验证尚未完成，不承诺仅替换包名即可迁移。
+
+## 📦 安装
 
 ```bash
-pnpm install
-pnpm dev
+npm install antd-octane@alpha octane@0.4.3
 ```
-
-打开终端显示的地址（默认 `http://127.0.0.1:4173`），查看中文文档、运行示例和主题实验室。
 
 ```bash
-pnpm check       # Biome、类型检查、测试、组件包与文档站构建
-pnpm pack:check  # 在独立临时项目中安装 tarball，验证类型与构建
-pnpm preview     # 预览 site/dist
+yarn add antd-octane@alpha octane@0.4.3
 ```
-
-## 第一版包含什么
-
-- Octane 原生组件：Button、基础 Input、Checkbox / Radio 选择组、Switch，及布局、信息展示组件；完整清单与未支持项见[兼容范围](docs/compatibility.md)。
-- antd v5 默认、暗色、紧凑主题算法，支持组合、自定义算法、token 覆盖和嵌套主题。
-- Button 常用类型、尺寸、禁用、加载、危险、幽灵、形状、链接和组件级主题。
-- 独立中文首页：品牌介绍、快速入口与可交互主题展示；根地址及 `#home` 进入首页，原有文档深链接保留。
-- Agent 接入：站点 `#for-agents`、`llms.txt` 和由同一 Markdown 源生成的 `agent-guide.md`；说明真实 API、安装与验证边界。
-- 中文文档站：接入指南、API 与语法约定、组件示例与 API、源码展示和实时主题预览。
-
-固定基线：Octane **0.4.3**、Ant Design **5.29.3**。全局 token 通过原版 antd 对照测试；这不代表所有组件与样式能力已兼容。详见[支持范围](docs/compatibility.md)。
-
-## 工作区结构
-
-```text
-packages/antd-octane/  组件包、主题算法与声明文件
-site/                 Octane + Vite 文档站与共享示例
-tests/                主题对照与原生交互测试
-scripts/              独立打包消费验证
-docs/                 RFC、兼容范围与设计说明
-```
-
-文档站构建产物为 `site/dist`，可部署到静态托管服务。当前不自动部署；CI 会生成站点产物供下载。
-
-## 安装与使用
 
 ```bash
 pnpm add antd-octane@alpha octane@0.4.3
 ```
 
-复现首个版本时使用 `antd-octane@0.1.0-alpha.0`。Vite / TypeScript 配置见 [接入指南](docs/agent-guide.md)。
+```bash
+bun add antd-octane@alpha octane@0.4.3
+```
+
+需要固定版本时，将 `antd-octane@alpha` 替换为 `antd-octane@0.1.0-alpha.0`。
+
+## 🔨 使用
+
+在已配置 Octane 编译器的项目中：
 
 ```tsx
 import { Button, ConfigProvider } from "antd-octane";
@@ -65,20 +77,45 @@ export function App() {
 }
 ```
 
-## 设计与许可
+完整的 Vite、TypeScript 与入口配置见[使用指南](docs/agent-guide.md)。各组件的支持范围以当前版本的类型声明和[兼容清单](docs/compatibility.md)为准。
 
-- [RFC-0001](docs/RFC-0001-antd-for-octane.md)
-- [兼容范围与已知差异](docs/compatibility.md)
-- [上游来源与第三方许可](packages/antd-octane/THIRD_PARTY_NOTICES.md)
+## 🤝 参与贡献
 
-本项目采用 [MIT](LICENSE)。主题纯算法参考并移植自 Ant Design，保留原始许可。鸣谢 [Ant Design](https://github.com/ant-design/ant-design)、[Octane](https://github.com/octanejs/octane) 与 [Antdv Next](https://github.com/antdv-next/antdv-next)。
+欢迎提交问题、修复、组件实现与文档改进。开始前请阅读[贡献指南](CONTRIBUTE.md)，其中包含分支命名、PR 流程、代码约定和验证要求。
 
-## 开发文档
+```bash
+pnpm install
+pnpm dev
+```
 
-- [API 与语法决策](docs/api-decisions.md)：受控值、事件、ref、主题与后续 API。
-- [工程与文档实施约定](docs/project-blueprint.md)：工程结构、文档质量与扩展顺序。
-- [Alpha 检查清单](docs/v0.1.0-alpha-checklist.md)：已完成与待验证项。
+文档站地址以终端输出为准。提交前执行：
 
-当前已提供 55 项基础实现（按 antd 5.x 文档目录计，包含 ConfigProvider），覆盖基础输入、布局、展示、反馈、分页与提示浮层。文档站组件总览列出完整 70 项目录和各项状态；基础实现不代表完整 API 兼容，具体边界见 [兼容清单](docs/compatibility.md)。
+```bash
+pnpm check
+pnpm pack:check
+```
 
-更多组件的实施顺序与进度见 [组件扩展清单](docs/component-roadmap.md)。
+涉及界面或交互的修改，还需完成对应的[浏览器验证](tests/browser/README.md)。
+
+<!-- 贡献者图片占位：待补充统一设计的贡献者展示 -->
+
+## 鸣谢
+
+感谢以下开源项目为本项目提供设计、实现参考与开发工具：
+
+- [Ant Design](https://github.com/ant-design/ant-design)
+- [Octane](https://github.com/octanejs/octane)
+- [Antdv Next](https://github.com/antdv-next/antdv-next)
+- [Vite](https://github.com/vitejs/vite)
+
+移植的主题算法保留上游许可与来源记录，详见[第三方声明](packages/antd-octane/THIRD_PARTY_NOTICES.md)。
+
+## 许可
+
+[MIT](LICENSE)
+
+[ci-image]: https://github.com/CoderSerio/antd-octane/actions/workflows/ci.yml/badge.svg?branch=main
+[ci-url]: https://github.com/CoderSerio/antd-octane/actions/workflows/ci.yml
+[npm-image]: https://img.shields.io/npm/v/antd-octane/alpha.svg?style=flat-square
+[npm-url]: https://www.npmjs.com/package/antd-octane
+[license-image]: https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square
