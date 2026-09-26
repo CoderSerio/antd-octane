@@ -1,0 +1,181 @@
+@layer antd {
+  :where(.ant-modal-root, .ant-drawer) {
+    position: fixed;
+    inset: 0;
+    z-index: var(--ao-dialog-z);
+    font: var(--ao-font-size) / var(--ao-line) var(--ao-font);
+    color: var(--ao-text);
+  }
+  :where(.ant-modal-root[hidden], .ant-drawer[hidden]) {
+    display: none;
+  }
+  :where(.ao-dialog-mask) {
+    position: absolute;
+    inset: 0;
+    background: var(--ao-dialog-mask);
+  }
+  :where(.ao-dialog-wrap) {
+    position: absolute;
+    inset: 0;
+    overflow: auto;
+    outline: 0;
+  }
+  :where(.ant-modal) {
+    position: relative;
+    box-sizing: border-box;
+    max-width: calc(100% - 32px);
+    margin: 100px auto 24px;
+    outline: none;
+    pointer-events: auto;
+  }
+  :where(.ant-modal-centered .ao-dialog-wrap) {
+    display: flex;
+    align-items: center;
+  }
+  :where(.ant-modal-centered .ant-modal) {
+    margin: 24px auto;
+  }
+  :where(.ant-modal-content) {
+    position: relative;
+    padding: var(--ao-dialog-padding);
+    background: var(--ao-dialog-bg);
+    border-radius: var(--ao-dialog-radius);
+    box-shadow: var(--ao-dialog-shadow);
+  }
+  :where(.ant-modal-header) {
+    margin-bottom: var(--ao-dialog-gap);
+    background: var(--ao-dialog-header);
+  }
+  :where(.ant-modal-close + .ant-modal-header) {
+    padding-inline-end: 24px;
+  }
+  :where(.ant-modal-title) {
+    color: var(--ao-dialog-title);
+    font-size: var(--ao-dialog-title-size);
+    font-weight: 600;
+    line-height: var(--ao-dialog-title-line);
+    overflow-wrap: anywhere;
+  }
+  :where(.ant-modal-body) {
+    overflow-wrap: anywhere;
+  }
+  :where(.ant-modal-footer) {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 12px;
+    background: var(--ao-dialog-footer);
+  }
+  :where(.ao-dialog-close) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    color: var(--ao-muted);
+    font-size: 24px;
+    line-height: 1;
+    background: none;
+    border: 0;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  :where(.ao-dialog-close:hover) {
+    color: var(--ao-text);
+    background: rgb(0 0 0 / 6%);
+  }
+  :where(.ao-dialog-close:focus-visible) {
+    outline: 2px solid var(--ao-focus);
+    outline-offset: 2px;
+  }
+  :where(.ant-modal-close) {
+    position: absolute;
+    top: 12px;
+    inset-inline-end: 12px;
+  }
+  :where(.ant-drawer-content-wrapper) {
+    position: absolute;
+    box-sizing: border-box;
+    max-width: 100%;
+    max-height: 100%;
+    outline: none;
+    box-shadow: var(--ao-dialog-shadow);
+    pointer-events: auto;
+  }
+  :where(.ant-drawer-left .ant-drawer-content-wrapper) {
+    left: 0;
+    top: 0;
+    bottom: 0;
+  }
+  :where(.ant-drawer-right .ant-drawer-content-wrapper) {
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+  :where(.ant-drawer-top .ant-drawer-content-wrapper) {
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+  :where(.ant-drawer-bottom .ant-drawer-content-wrapper) {
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  :where(.ant-drawer-content) {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: var(--ao-dialog-bg);
+  }
+  :where(.ant-drawer-header) {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: 16px;
+    padding: 16px var(--ao-drawer-padding);
+    border-bottom: 1px solid var(--ao-border);
+  }
+  :where(.ant-drawer-header-title) {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    align-items: center;
+    gap: 12px;
+  }
+  :where(.ant-drawer-title) {
+    flex: 1;
+    font-size: var(--ao-drawer-title-size);
+    line-height: var(--ao-drawer-title-line);
+    font-weight: 600;
+    overflow-wrap: anywhere;
+  }
+  :where(.ant-drawer-close) {
+    flex: none;
+    width: 24px;
+    height: 24px;
+  }
+  :where(.ant-drawer-body) {
+    line-height: normal;
+    flex: 1;
+    min-height: 0;
+    padding: var(--ao-drawer-padding);
+    overflow: auto;
+    overflow-wrap: anywhere;
+  }
+  :where(.ant-drawer-footer) {
+    flex: none;
+    padding: var(--ao-drawer-footer-padding);
+    border-top: 1px solid var(--ao-border);
+  }
+  @media (max-width: 575px) {
+    :where(.ant-modal) {
+      margin-block-start: 16px;
+    }
+  }
+}

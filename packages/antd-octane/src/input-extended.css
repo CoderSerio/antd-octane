@@ -1,0 +1,192 @@
+@layer antd {
+  :where(.ant-input-affix-wrapper) {
+    box-sizing: border-box;
+    display: inline-flex;
+    width: 100%;
+    min-width: 0;
+    gap: 4px;
+    align-items: center;
+    padding: var(--ao-input-pb) var(--ao-input-pi);
+    font: var(--ao-input-font-size) / var(--ao-input-line) var(--ao-input-font);
+    color: var(--ao-input-color);
+    background: var(--ao-input-bg);
+    border: var(--ao-input-width) var(--ao-input-line-type)
+      var(--ao-input-border);
+    border-radius: var(--ao-input-radius);
+    transition:
+      border-color var(--ao-input-duration),
+      box-shadow var(--ao-input-duration);
+  }
+  :where(.ant-input-affix-wrapper-small) {
+    padding: var(--ao-input-pb-sm) var(--ao-input-pi-sm);
+    font-size: var(--ao-input-font-sm);
+    border-radius: var(--ao-input-radius-sm);
+  }
+  :where(.ant-input-affix-wrapper-large) {
+    padding: var(--ao-input-pb-lg) var(--ao-input-pi-lg);
+    font-size: var(--ao-input-font-lg);
+    line-height: var(--ao-input-line-lg);
+    border-radius: var(--ao-input-radius-lg);
+  }
+  :where(.ant-input-affix-wrapper:hover) {
+    border-color: var(--ao-input-hover);
+    background: var(--ao-input-hover-bg);
+  }
+  :where(.ant-input-affix-wrapper:focus-within) {
+    border-color: var(--ao-input-active);
+    box-shadow: var(--ao-input-shadow);
+    background: var(--ao-input-active-bg);
+  }
+  :where(.ant-input-affix-wrapper-status-error) {
+    border-color: var(--ao-input-error);
+  }
+  :where(.ant-input-affix-wrapper-status-warning) {
+    border-color: var(--ao-input-warning);
+  }
+  :where(.ant-input-affix-wrapper-status-error:focus-within) {
+    border-color: var(--ao-input-error);
+    box-shadow: var(--ao-input-error-shadow);
+  }
+  :where(.ant-input-affix-wrapper-status-warning:focus-within) {
+    border-color: var(--ao-input-warning);
+    box-shadow: var(--ao-input-warning-shadow);
+  }
+  :where(.ant-input-affix-wrapper-disabled) {
+    color: var(--ao-input-disabled);
+    background: var(--ao-input-disabled-bg);
+    border-color: var(--ao-input-border);
+    box-shadow: none;
+    cursor: not-allowed;
+  }
+  .ant-input-affix-wrapper > :where(.ant-input) {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    flex: 1;
+    line-height: inherit;
+    font-size: inherit;
+  }
+  :where(.ant-input-prefix, .ant-input-suffix) {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    gap: 4px;
+  }
+  :where(.ant-input-suffix:empty) {
+    display: none;
+  }
+  :where(.ant-input-clear-icon, .ant-input-password-icon) {
+    padding: 0;
+    border: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    background: transparent;
+    color: var(--ao-input-placeholder);
+    cursor: pointer;
+    line-height: 1;
+  }
+  :where(.ant-input-clear-icon) {
+    font-size: 12px;
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+    background: var(--ao-input-placeholder);
+    color: var(--ao-input-bg);
+  }
+  :where(.ant-input-clear-icon:hover, .ant-input-password-icon:hover) {
+    opacity: 0.75;
+  }
+  :where(
+      .ant-input-clear-icon:focus-visible,
+      .ant-input-password-icon:focus-visible
+    ) {
+    outline: 2px solid var(--ao-input-active);
+    outline-offset: 2px;
+  }
+  :where(.ant-input-password-icon:disabled) {
+    cursor: not-allowed;
+    color: var(--ao-input-disabled);
+  }
+  :where(.ant-input-group-wrapper) {
+    display: inline-flex;
+    align-items: stretch;
+    width: 100%;
+    min-width: 0;
+    font: var(--ao-input-font-size) / var(--ao-input-line) var(--ao-input-font);
+    color: var(--ao-input-color);
+  }
+  :where(
+      .ant-input-group-wrapper > .ant-input,
+      .ant-input-group-wrapper > .ant-input-affix-wrapper
+    ) {
+    flex: 1;
+    min-width: 0;
+    z-index: 1;
+  }
+  :where(
+      .ant-input-group-wrapper > .ant-input:focus,
+      .ant-input-group-wrapper > .ant-input-affix-wrapper:focus-within
+    ) {
+    z-index: 2;
+  }
+  .ant-input-group-wrapper > :where(:not(:first-child)) {
+    border-start-start-radius: 0;
+    border-end-start-radius: 0;
+  }
+  .ant-input-group-wrapper > :where(:not(:last-child)) {
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
+  }
+  :where(.ant-input-group-addon) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    padding: 0 var(--ao-input-pi);
+    border: var(--ao-input-width) var(--ao-input-line-type)
+      var(--ao-input-border);
+    border-radius: var(--ao-input-radius);
+    background: var(--ao-input-disabled-bg);
+  }
+  :where(.ant-input-group-addon:first-child) {
+    border-inline-end: 0;
+  }
+  :where(.ant-input-group-addon:last-child) {
+    border-inline-start: 0;
+  }
+  :where(.ant-input-group-addon:has(.ant-input-search-button)) {
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+  .ant-input-group-addon > :where(.ant-input-search-button) {
+    border-start-start-radius: 0;
+    border-end-start-radius: 0;
+    height: 100%;
+    min-height: 0;
+  }
+  :where(.ant-input-textarea) {
+    vertical-align: bottom;
+    resize: vertical;
+    min-height: 32px;
+  }
+  :where(.ant-input-textarea-wrapper) {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    vertical-align: bottom;
+  }
+  .ant-input-textarea-wrapper > :where(.ant-input) {
+    padding-inline-end: 24px;
+  }
+  :where(.ant-input-textarea-wrapper > .ant-input-clear-icon) {
+    position: absolute;
+    inset-block-start: 10px;
+    inset-inline-end: 8px;
+    z-index: 1;
+  }
+}

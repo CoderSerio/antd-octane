@@ -1,0 +1,9 @@
+{
+  "name": "@antd-octane/site",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "antd-octane": "workspace:*",
+    "octane": "0.4.3"
+  }
+}

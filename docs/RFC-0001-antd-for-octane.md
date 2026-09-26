@@ -15,7 +15,7 @@
 以下是前期讨论形成的方案，作为实现和评审的起点；它们不代表已经实现或通过兼容性验证。
 
 - **版本基线**：0.x 先对齐 Ant Design v5，开始实现前锁定具体版本。后续再跟进 v6，不同时承诺两套完整实现。
-- **实现方式**：使用 Octane 实现组件，不包装 React 版 antd，也不包装另一套组件库来模拟 antd。
+- **实现方式**：使用 Octane 实现组件，不包装 React 版 antd；底层能力在验证后可复用已有 Octane 实现。
 - **API 边界**：高频业务 API 优先保持 antd 用法；状态、生命周期和 ref 接入方式遵循 Octane。主题、语言等一次性配置允许有必要的差异，但必须说明。
 - **主题与图标**：沿用 antd 的 seed/map/alias token 体系，优先复用样式能力和 `@ant-design/icons-svg` 图标数据，不另起一套设计体系。
 - **包结构**：采用一个主组件包 `antd-octane`，共享基础能力，不为每个组件单独发布 npm 包。
@@ -86,3 +86,38 @@
 - 上述原型范围是否足以判断方案可行，是否遗漏关键场景？
 
 本 RFC 用于讨论方向和技术边界。原型结果出来后，再收敛 API 约定、首版范围和发布计划。
+
+## 6. 首版工程与文档站（2026-09-25 补充）
+
+第一阶段交付工程骨架、最小文档站、主题兼容验证和 Button。固定 Octane 0.4.3 与 Ant Design 5.29.3 为验证基线。
+
+- `packages/antd-octane`：单一主组件包，先实现 ConfigProvider、主题和 Button。
+- `site`：使用 Octane + Vite，提供中文指南、可运行示例、示例源码、API、主题切换及已知差异。构建为静态站点，部署方式独立配置。
+- `playground`：用于调试和问题复现，按需建立；不替代文档站。文档 demo 同时供交互测试使用，不重复维护示例。
+- `docs`：保留 RFC 和设计决策。暂不实现在线代码编辑器。
+
+参考 Antdv Next 对正式文档站与开发 playground 的区分，不直接复制其 Vue 文档运行时。
+
+## 7. 主题迁移与样式工具
+
+**主题兼容是验收标准。** 支持范围内的 antd v5 `theme.token`、`theme.components.Button` 配置保持结构和值不变。内置算法导入改为来自本库，并支持默认、暗色、紧凑和算法组合。自定义算法、动态切换、嵌套继承与 `inherit: false` 需要验证。
+
+首版复用固定上游版本的纯 token 算法，保留 MIT 许可和来源记录；组件由 Octane 原生实现。Button 使用静态 CSS 与组件级 CSS 变量消费派生 token，暂不移植整套 CSS-in-JS 引擎。验证使用同一份配置对比原版 antd 的全局 token，并检查组件样式和交互。主题计算兼容不等于全部组件样式兼容。
+
+首版不承诺 `cssVar`、`hashed`、`prefixCls`、StyleProvider 或 SSR 样式契约；原有 Less、深层 DOM 选择器和 React 主题插件需要单独适配。缺失的 Button token 应在支持清单中说明，不能静默宣传为全量兼容。
+
+组件库不要求用户使用 Tailwind CSS 或 StyleX。保留 `className`、`style`，CSS 放入命名 layer，验证 reset、覆盖顺序和主题作用域。Tailwind 与 StyleX 是业务样式工具，也可以用于文档站；是否用作组件库内部引擎是独立决策。首版不把任一工具设为必需依赖，后续补充两者的真实构建消费测试，再声明兼容。
+
+允许评估已有 Octane Base UI 等底层实现；是否复用取决于 antd 行为与主题能否正确映射，不预先排除，也不以包装完成作为兼容证据。
+
+## 8. 文档布局与加载约定
+
+参考 [Ant Design](https://ant.design/components/button-cn/) 和 [Antdv Next](https://www.antdv-next.com/components/button-cn) 的文档结构：顶部区分研发与组件，左侧展示当前栏目的分组菜单，右侧提供页内目录。首版只列出已有文档与组件，不展示未实现的组件占位。主题实验室从顶部打开，保留示例的主要阅读空间；移动端使用可折叠导航。
+
+文档路由按页加载，示例源码展开时再请求。搜索先使用本地标题和关键词，不引入在线编辑器、远程字体或第三方搜索服务。主题调节直接复用组件库的 ConfigProvider。后续增加组件时，检查生产构建的首屏请求和交互，避免所有示例进入公共入口。官网的主观卡顿感不作为本项目性能优势的证据，具体原因需要单独测量。
+
+## 9. 实施记录入口
+
+早期 API 讨论已整理为独立的 [API 决策](api-decisions.md)，逐项保留 ref、受控值、输入事件、Form.rules、命令式 API、主题与 render 回调的结论和验证状态。Octane 0.4.3 使用 Hooks 与 `.current`；旧稿中基于 signal 模型的语法假设不作为实现契约。
+
+工程和文档质量要求见 [实施约定](project-blueprint.md)，首版剩余事项见 [alpha 清单](v0.1.0-alpha-checklist.md)。基础 Input、Checkbox 的实现和差异已加入 [兼容清单](compatibility.md)。

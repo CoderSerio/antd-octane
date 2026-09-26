@@ -1,0 +1,305 @@
+@layer antd {
+  :where(.ant-breadcrumb, .ant-steps, .ant-pagination) {
+    box-sizing: border-box;
+    font-family: var(--ao-font);
+    font-size: var(--ao-font-size);
+    line-height: var(--ao-line);
+    color: var(--ao-text);
+  }
+  :where(.ant-breadcrumb) {
+    color: var(--ao-breadcrumb-item);
+  }
+  :where(.ant-breadcrumb ol, .ant-pagination ul) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  :where(.ant-breadcrumb li) {
+    display: inline-flex;
+  }
+  :where(.ant-breadcrumb li:last-child) {
+    color: var(--ao-breadcrumb-last);
+  }
+  :where(.ant-breadcrumb a, .ant-breadcrumb button) {
+    color: var(--ao-breadcrumb-link);
+    text-decoration: none;
+    padding: 0 4px;
+    margin-inline: -4px;
+    border: 0;
+    background: transparent;
+    border-radius: 4px;
+    font: inherit;
+    cursor: pointer;
+  }
+  :where(.ant-breadcrumb a:hover, .ant-breadcrumb button:hover) {
+    color: var(--ao-breadcrumb-hover);
+    background: var(--ao-border);
+  }
+  :where(.ant-breadcrumb-separator) {
+    margin-inline: var(--ao-breadcrumb-gap);
+    color: var(--ao-breadcrumb-separator);
+  }
+  :where(.ant-steps) {
+    font-size: 0;
+    line-height: 0;
+    display: flex;
+    width: 100%;
+  }
+  :where(.ant-steps-item) {
+    font-size: var(--ao-font-size);
+    line-height: var(--ao-line);
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    padding-inline-start: var(--ao-steps-gap);
+  }
+  :where(.ant-steps-item:first-child) {
+    padding-inline-start: 0;
+  }
+  :where(.ant-steps-item:last-child) {
+    flex: none;
+  }
+  :where(.ant-steps-item-container) {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    border: 0;
+    padding: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-align: start;
+  }
+  :where(button.ant-steps-item-container) {
+    cursor: pointer;
+  }
+  :where(.ant-steps-item-container:disabled) {
+    cursor: not-allowed;
+    opacity: 0.45;
+  }
+  :where(.ant-steps-item-icon) {
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--ao-steps-icon);
+    height: var(--ao-steps-icon);
+    box-sizing: border-box;
+    border: 1px solid transparent;
+    border-radius: var(--ao-steps-icon);
+    background: var(--ao-steps-wait);
+    color: var(--ao-text);
+    font-size: var(--ao-steps-icon-font);
+    line-height: var(--ao-steps-icon);
+  }
+  :where(.ant-steps-item-process .ant-steps-item-icon) {
+    background: var(--ao-primary);
+    border-color: var(--ao-primary);
+  }
+  :where(.ant-steps-item-finish .ant-steps-item-icon) {
+    background: var(--ao-steps-primary-bg);
+    border-color: var(--ao-steps-primary-bg);
+  }
+  :where(.ant-steps-item-error .ant-steps-item-icon) {
+    background: var(--ao-steps-error);
+    border-color: var(--ao-steps-error);
+  }
+  :where(.ant-steps-icon) {
+    color: var(--ao-muted);
+    line-height: 1;
+  }
+  :where(.ant-steps-item-finish .ant-steps-icon) {
+    color: var(--ao-primary);
+  }
+  :where(
+      .ant-steps-item-process .ant-steps-icon,
+      .ant-steps-item-error .ant-steps-icon
+    ) {
+    color: var(--ao-steps-light);
+  }
+  :where(.ant-steps-item-custom .ant-steps-item-icon) {
+    background: none;
+    border: 0;
+  }
+  :where(.ant-steps-item-custom .ant-steps-icon) {
+    font-size: var(--ao-steps-icon);
+    color: var(--ao-primary);
+  }
+  :where(.ant-steps-item-custom.ant-steps-item-wait .ant-steps-icon) {
+    color: var(--ao-muted);
+  }
+  :where(.ant-steps-item-custom.ant-steps-item-error .ant-steps-icon) {
+    color: var(--ao-steps-error);
+  }
+  :where(.ant-steps-item-content) {
+    min-width: 0;
+  }
+  :where(.ant-steps-item-title) {
+    display: block;
+    position: relative;
+    width: max-content;
+    max-width: 100%;
+    line-height: var(--ao-steps-title-line);
+    padding-inline-end: var(--ao-steps-gap);
+    font-size: var(--ao-steps-title);
+  }
+  :where(.ant-steps-item:not(:last-child) .ant-steps-item-title)::after {
+    content: "";
+    position: absolute;
+    height: 1px;
+    width: 9999px;
+    inset-inline-start: 100%;
+    top: 50%;
+    background: var(--ao-border);
+  }
+  :where(.ant-steps-item-finish .ant-steps-item-title)::after {
+    background: var(--ao-primary);
+  }
+  :where(.ant-steps-item-subtitle) {
+    margin-inline-start: 8px;
+    font-size: var(--ao-font-size);
+    color: var(--ao-muted);
+  }
+  :where(.ant-steps-item-description) {
+    display: block;
+    max-width: var(--ao-steps-description);
+    color: var(--ao-muted);
+  }
+  :where(.ant-steps-item-wait .ant-steps-item-title) {
+    color: var(--ao-muted);
+  }
+  :where(
+      .ant-steps-item-error .ant-steps-item-title,
+      .ant-steps-item-error .ant-steps-item-description
+    ) {
+    color: var(--ao-steps-error);
+  }
+  :where(.ant-steps-vertical) {
+    flex-direction: column;
+  }
+  :where(.ant-steps-vertical .ant-steps-item) {
+    padding: 0 0 24px;
+  }
+  :where(.ant-steps-vertical .ant-steps-item:not(:last-child))::after {
+    content: "";
+    position: absolute;
+    inset-inline-start: calc(var(--ao-steps-icon) / 2);
+    top: calc(var(--ao-steps-icon) + 8px);
+    bottom: 8px;
+    width: 1px;
+    background: var(--ao-border);
+  }
+  :where(.ant-steps-vertical .ant-steps-item-title)::after {
+    display: none;
+  }
+  :where(.ant-steps-vertical .ant-steps-item-description) {
+    max-width: none;
+  }
+  :where(.ant-steps-label-vertical .ant-steps-item-container) {
+    flex-direction: column;
+    align-items: center;
+  }
+  :where(.ant-steps-label-vertical .ant-steps-item-content) {
+    text-align: center;
+  }
+  :where(.ant-steps-label-vertical .ant-steps-item-title)::after {
+    display: none;
+  }
+  :where(.ant-steps-item-process .ant-steps-item-description) {
+    color: var(--ao-text);
+  }
+  :where(.ant-steps-label-vertical .ant-steps-item) {
+    flex: 1;
+    padding-inline: 8px;
+    overflow: visible;
+  }
+  :where(.ant-steps-label-vertical .ant-steps-item:not(:last-child))::after {
+    content: "";
+    position: absolute;
+    height: 1px;
+    top: calc(var(--ao-steps-icon) / 2);
+    inset-inline-start: calc(50% + var(--ao-steps-icon) / 2 + 8px);
+    width: calc(100% - var(--ao-steps-icon) - 16px);
+    background: var(--ao-border);
+  }
+  :where(.ant-steps-label-vertical .ant-steps-item-finish)::after,
+  :where(.ant-steps-vertical .ant-steps-item-finish)::after {
+    background: var(--ao-primary);
+  }
+  :where(.ant-pagination ul) {
+    gap: var(--ao-pagination-gap);
+  }
+  :where(.ant-pagination-entry) {
+    display: inline-flex;
+    gap: var(--ao-pagination-gap);
+  }
+  :where(.ant-pagination button) {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--ao-pagination-size);
+    height: var(--ao-pagination-size);
+    padding: 0 var(--ao-pagination-item-padding, 6px);
+    border: 1px solid transparent;
+    border-radius: var(--ao-pagination-radius);
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    line-height: calc(var(--ao-pagination-size) - 2px);
+    cursor: pointer;
+  }
+  :where(.ant-pagination button:hover) {
+    background: var(--ao-pagination-hover);
+  }
+  :where(.ant-pagination-item button) {
+    background: var(--ao-pagination-bg);
+  }
+  :where(.ant-pagination-item-active button) {
+    background: var(--ao-pagination-active-bg);
+    border-color: var(--ao-primary);
+    color: var(--ao-primary);
+    font-weight: 600;
+  }
+  :where(.ant-pagination button:disabled) {
+    color: var(--ao-pagination-disabled);
+    cursor: not-allowed;
+  }
+  :where(.ant-pagination-disabled .ant-pagination-item-active button) {
+    background: var(--ao-pagination-disabled-bg);
+    border-color: var(--ao-border);
+  }
+  :where(.ant-pagination input, .ant-pagination select) {
+    box-sizing: border-box;
+    height: var(--ao-pagination-size);
+    padding: 0 7px;
+    border: 1px solid var(--ao-border);
+    border-radius: var(--ao-pagination-radius);
+    background: var(--ao-bg);
+    color: var(--ao-text);
+    font: inherit;
+  }
+  :where(.ant-pagination input) {
+    width: 50px;
+  }
+  :where(.ant-pagination-simple-pager) {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  :where(
+      .ant-pagination button:focus-visible,
+      .ant-pagination input:focus-visible,
+      .ant-pagination select:focus-visible,
+      .ant-breadcrumb a:focus-visible,
+      .ant-breadcrumb button:focus-visible,
+      .ant-steps button:focus-visible
+    ) {
+    outline: 2px solid var(--ao-focus);
+    outline-offset: 2px;
+  }
+}

@@ -1,0 +1,169 @@
+@layer antd {
+  :where(.ant-progress) {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    color: var(--ao-text);
+    font-family: var(--ao-font);
+    font-size: var(--ao-progress-font);
+    line-height: 1;
+  }
+  :where(.ant-progress-line) {
+    line-height: var(--ao-line);
+    min-height: 1lh;
+    width: 100%;
+  }
+  :where(.ant-progress-outer) {
+    flex: 1;
+    min-width: 0;
+  }
+  :where(.ant-progress-line .ant-progress-inner) {
+    position: relative;
+    overflow: hidden;
+    background: var(--ao-progress-trail);
+    border-radius: var(--ao-progress-radius);
+  }
+  :where(.ant-progress-bg, .ant-progress-success-bg) {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    border-radius: var(--ao-progress-radius);
+    transition: width 0.3s ease;
+  }
+  :where(.ant-progress-line .ant-progress-text) {
+    line-height: 1;
+    width: 2em;
+    margin-inline-start: 8px;
+    white-space: nowrap;
+    text-align: start;
+  }
+  :where(.ant-progress-circle, .ant-progress-dashboard) {
+    vertical-align: middle;
+    justify-content: center;
+  }
+  :where(
+      .ant-progress-circle .ant-progress-inner,
+      .ant-progress-dashboard .ant-progress-inner
+    ) {
+    width: 100%;
+    aspect-ratio: 1;
+  }
+  :where(.ant-progress svg) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  :where(
+      .ant-progress-circle .ant-progress-text,
+      .ant-progress-dashboard .ant-progress-text
+    ) {
+    position: absolute;
+    inset-inline: 0;
+    text-align: center;
+    color: var(--ao-progress-text);
+  }
+  :where(.ant-progress-circle-path, .ant-progress-circle-success) {
+    transition: stroke-dasharray 0.3s ease;
+  }
+  :where(.ant-progress-steps-outer) {
+    display: flex;
+    gap: 2px;
+  }
+  :where(.ant-progress-steps-item) {
+    flex: none;
+    min-width: 2px;
+    background: var(--ao-progress-trail);
+  }
+  :where(.ant-progress-status-active .ant-progress-bg)::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: #fff;
+    animation: ao-progress-active 2.4s ease infinite;
+  }
+  :where(.ant-result) {
+    box-sizing: border-box;
+    padding: var(--ao-result-padding);
+    font-family: var(--ao-font);
+    font-size: var(--ao-font-size);
+    line-height: normal;
+    color: inherit;
+  }
+  :where(.ant-result-icon) {
+    margin-block-end: var(--ao-result-block-gap);
+    text-align: center;
+    color: var(--ao-result-color);
+    font-size: var(--ao-result-icon-size);
+    line-height: 1;
+  }
+  :where(.ant-result-icon svg) {
+    display: block;
+    margin-inline: auto;
+    height: 1em;
+    width: 1em;
+  }
+  :where(.ant-result-http) {
+    display: inline-block;
+    font-size: 1.75em;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+  }
+  :where(.ant-result-title) {
+    font-size: var(--ao-result-title-size);
+    margin-block: var(--ao-result-gap);
+    line-height: var(--ao-result-title-line);
+    color: var(--ao-result-title-color);
+    text-align: center;
+  }
+  :where(.ant-result-subtitle) {
+    font-size: var(--ao-result-subtitle-size);
+    line-height: var(--ao-line);
+    color: var(--ao-muted);
+    text-align: center;
+  }
+  :where(.ant-result-extra) {
+    margin: var(--ao-result-extra-margin);
+    text-align: center;
+  }
+  :where(.ant-result-extra) > * {
+    margin-inline-end: var(--ao-result-gap);
+  }
+  :where(.ant-result-extra) > :last-child {
+    margin-inline-end: 0;
+  }
+  :where(.ant-result-content) {
+    margin-block-start: var(--ao-result-block-gap);
+    padding: var(--ao-result-content-padding);
+    background: var(--ao-result-content-bg);
+  }
+  @keyframes ao-progress-active {
+    0% {
+      transform: scaleX(0);
+      transform-origin: left;
+      opacity: 0.1;
+    }
+    20% {
+      transform: scaleX(0);
+      opacity: 0.5;
+    }
+    100% {
+      transform: scaleX(1);
+      opacity: 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :where(
+        .ant-progress-bg,
+        .ant-progress-success-bg,
+        .ant-progress-circle-path,
+        .ant-progress-circle-success
+      ) {
+      transition: none;
+    }
+    :where(.ant-progress-status-active .ant-progress-bg)::before {
+      animation: none;
+    }
+  }
+}

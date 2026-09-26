@@ -1,0 +1,38 @@
+{
+  "name": "antd-octane-workspace",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.29.2",
+  "engines": {
+    "node": ">=22.22.2"
+  },
+  "scripts": {
+    "dev": "vite --config site/vite.config.ts",
+    "build": "pnpm build:lib && pnpm build:site",
+    "build:lib": "vite build --config packages/antd-octane/vite.config.ts && tsc -p packages/antd-octane/tsconfig.build.json",
+    "build:site": "vite build --config site/vite.config.ts",
+    "preview": "vite preview --config site/vite.config.ts --host 127.0.0.1",
+    "type-check": "tsc --noEmit",
+    "lint": "biome ci .",
+    "format": "biome check --write .",
+    "test": "vitest run",
+    "check": "pnpm lint && pnpm type-check && pnpm test && pnpm build",
+    "pack:check": "node scripts/pack-check.mjs",
+    "dev:compare": "vite --config tests/browser/vite.config.ts",
+    "tailwind:check": "pnpm build:lib && node scripts/tailwind-check.mjs"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.4.8",
+    "@types/node": "^22.0.0",
+    "antd": "5.29.3",
+    "happy-dom": "^20.0.0",
+    "octane": "0.4.3",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "typescript": "5.9.3",
+    "vite": "^8.0.16",
+    "vitest": "^4.1.0",
+    "@types/react-dom": "^19.2.0",
+    "@types/react": "^19.2.0"
+  }
+}
