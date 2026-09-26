@@ -10,7 +10,7 @@
 [![npm alpha][npm-image]][npm-url]
 [![License: MIT][license-image]](LICENSE)
 
-[使用示例](#-使用) · [兼容说明页面源码](site/src/pages/compatibility.tsx) · [参与贡献](CONTRIBUTE.md) · [问题反馈](https://github.com/CoderSerio/antd-octane/issues)
+[在线文档](https://coderserio.github.io/antd-octane/) · [使用示例](#-使用) · [参与贡献](CONTRIBUTE.md) · [问题反馈](https://github.com/CoderSerio/antd-octane/issues)
 
 </div>
 
@@ -75,7 +75,7 @@ export function App() {
 }
 ```
 
-完整的 Vite、TypeScript 与入口配置见[文档站快速开始页面](site/src/pages/start.tsx)。各组件的支持范围以当前版本的类型声明和[文档站兼容说明](site/src/pages/compatibility.tsx)为准。
+完整的 Vite、TypeScript 与入口配置见[文档站快速开始](https://coderserio.github.io/antd-octane/#start)。各组件的支持范围以当前版本的类型声明和[兼容与迁移](https://coderserio.github.io/antd-octane/#compatibility)为准。
 
 ## 🤝 参与贡献
 
