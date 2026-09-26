@@ -14,10 +14,6 @@
 
 </div>
 
-![真实组件与主题展示](docs/images/component-showcase.png)
-
-文档站中的 Octane 原生组件示例，支持品牌色、暗色与紧凑主题切换。
-
 ## ✨ 特性
 
 - **原生 Octane**：沿用熟悉的 Ant Design 组件命名、交互和主题配置，运行时不依赖 React。

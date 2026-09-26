@@ -24,12 +24,13 @@ const files = execFileSync("git", ["ls-files", "-z"], {
 }).split("\0");
 const internal = files.filter(
   (file) =>
-    /(^|\/)(rfcs?|specs?|plans?)(\/|[-_.])/i.test(file) &&
-    /\.(md|mdx)$/i.test(file),
+    file.startsWith("docs/") ||
+    (/(^|\/)(rfcs?|specs?|plans?)(\/|[-_.])/i.test(file) &&
+      /\.(md|mdx)$/i.test(file)),
 );
 if (internal.length) {
   throw new Error(
-    `Keep internal proposal documents outside the repository: ${internal.join(", ")}`,
+    `Keep local documentation and temporary assets outside the repository: ${internal.join(", ")}`,
   );
 }
 console.log("Repository conventions passed.");

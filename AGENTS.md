@@ -12,5 +12,4 @@
 - Follow `CONTRIBUTE.md` for branch names, PR titles, validation and review. Use semantic branches such as `feat/select`, `fix/button-focus` or `chore/repository-conventions`; do not use tool or author names as branch prefixes.
 - Target `main` through pull requests. Do not push directly or force-push to `main`.
 - Keep internal RFCs, specs, plans and discussion notes outside the repository. Retain public API, integration, compatibility and contribution documentation.
-
-- Keep `docs/agent-guide.md` and `docs/compatibility.md` as ignored local notes. Do not track them or publish them as site assets; maintain public guidance in `site/src/pages/`.
+- Keep local notes and temporary screenshots outside the repository. `docs/` is ignored and must not contain tracked files; maintain public guidance in `site/src/pages/` and site assets in `site/public/`.
