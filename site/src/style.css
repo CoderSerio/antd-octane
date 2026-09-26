@@ -92,15 +92,27 @@
     width: calc(var(--sidebar-width) - 32px);
     flex-shrink: 0;
     white-space: nowrap;
-    font-size: 18px;
     font-weight: 600;
   }
-  .brand b {
-    display: block;
-    font-size: 11px;
-    font-weight: 400;
+  .brand-name {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+  }
+  .brand-name > span {
     color: var(--muted);
-    letter-spacing: 0.3px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .brand-name b {
+    display: block;
+    font-size: 18px;
+    font-weight: 650;
+    letter-spacing: -0.3px;
+  }
+  .brand-name strong {
+    color: var(--accent);
+    font-weight: 750;
   }
   .brand-mark {
     display: block;
@@ -859,6 +871,8 @@
     }
     .brand {
       width: 196px;
+    }
+    .brand-name b {
       font-size: 16px;
     }
     .header-links {
@@ -901,11 +915,10 @@
     }
     .brand {
       width: auto;
-      font-size: 15px;
       gap: 8px;
     }
-    .brand b {
-      font-size: 10px;
+    .brand-name b {
+      font-size: 15px;
     }
     .header-links {
       margin-left: auto;
