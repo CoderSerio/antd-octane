@@ -20,9 +20,14 @@ try {
   );
   const archive = readdirSync(directory).find((name) => name.endsWith(".tgz"));
   if (!archive) throw new Error("Package archive missing");
-  const versions = JSON.parse(
-    readFileSync(join(root, "package.json"), "utf8"),
-  ).devDependencies;
+  const versions = Object.fromEntries(
+    ["octane", "vite", "typescript", "@types/node"].map((name) => [
+      name,
+      JSON.parse(
+        readFileSync(join(root, "node_modules", name, "package.json"), "utf8"),
+      ).version,
+    ]),
+  );
   writeFileSync(
     join(directory, "package.json"),
     JSON.stringify(
@@ -45,7 +50,7 @@ try {
     ),
   );
   writeFileSync(join(directory, ".npmrc"), "auto-install-peers=false\n");
-  run(["install", "--offline", "--ignore-scripts"]);
+  run(["install", "--prefer-offline", "--ignore-scripts"]);
   writeFileSync(
     join(directory, "index.html"),
     '<div id="root"></div><script type="module" src="/main.tsx"></script>',
