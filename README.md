@@ -86,6 +86,8 @@ pnpm install
 pnpm dev
 ```
 
+文档站本身由 Octane 渲染，并通过 `site/package.json` 的 workspace 依赖消费 `antd-octane` 的公开包入口；站点骨架、搜索和组件示例都会实际使用本库。仓库内的 workspace 依赖用于同步开发，不等于 npm 上的 `alpha` 标签已经发布同一份源码。
+
 文档站地址以终端输出为准。提交前执行：
 
 ```bash

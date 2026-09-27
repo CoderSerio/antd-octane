@@ -238,6 +238,7 @@
   .workspace {
     display: grid;
     grid-template-columns: var(--sidebar-width) minmax(0, 1fr) 164px;
+    background: var(--bg);
   }
   .sidebar {
     position: sticky;
