@@ -29,6 +29,7 @@ import {
   Result,
   Row,
   Segmented,
+  Select,
   Skeleton,
   Slider,
   Space,
@@ -152,6 +153,17 @@ function Preview({ name }: { name: string }) {
 
     case "input-number":
       return <InputNumber defaultValue={3} min={0} max={10} />;
+    case "select":
+      return (
+        <Select
+          options={[
+            { value: "项目", label: "项目" },
+            { value: "成员", label: "成员" },
+          ]}
+          defaultValue="项目"
+          aria-label="示例选择器"
+        />
+      );
     case "slider":
       return (
         <div style={{ width: "100%", padding: "0 16px" }}>

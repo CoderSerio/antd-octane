@@ -75,6 +75,12 @@ export default function Compatibility({ section }: { section?: string }) {
             "基础实现",
             "alpha",
           ],
+          [
+            "Select",
+            "单选、搜索、受控值、键盘与清除；不含 multiple、tags、虚拟列表",
+            "基础实现",
+            "alpha.2",
+          ],
           ["Radio", "单选、选择组、按钮样式与键盘", "基础实现", "alpha"],
           [
             "Tag / Alert / Card / Badge / Avatar",
@@ -146,8 +152,8 @@ export default function Compatibility({ section }: { section?: string }) {
             "alpha",
           ],
           [
-            "Form / Table / Select / DatePicker",
-            "表单、表格、选择器与日期选择器",
+            "Form / Table / DatePicker",
+            "表单、表格与日期选择器",
             "未实现",
             "—",
           ],
@@ -171,7 +177,8 @@ export default function Compatibility({ section }: { section?: string }) {
       <p>
         SSR、prefixCls、cssVar、hashed、StyleProvider、Tailwind / StyleX
         完整消费、模态静态方法和表单集成尚未完成。Input.OTP、完整计数与
-        variant，以及 Select、日期选择等复杂输入组件仍未提供。
+        variant，以及日期选择等复杂输入组件仍未提供。Select
+        已支持单选基础能力，多选、标签模式和虚拟列表仍待实现。
       </p>
       <p>
         Spin 暂不支持自动进度，fullscreen 尚未接入共享 portal；Progress

@@ -126,6 +126,13 @@ export const nav = [
     keywords: "number 数字输入框 步进",
   },
   {
+    id: "select",
+    title: "Select 选择器",
+    category: "components",
+    group: "数据录入",
+    keywords: "select 选择器 单选 搜索 选项",
+  },
+  {
     id: "slider",
     title: "Slider 滑动输入条",
     category: "components",
@@ -466,6 +473,7 @@ export const toc: Record<string, [string, string][]> = {
     ["build", "仓库构建与验证"],
   ],
   changelog: [
+    ["alpha-2", "0.1.0-alpha.2"],
     ["alpha-1", "0.1.0-alpha.1"],
     ["alpha-0", "0.1.0-alpha.0"],
   ],
@@ -723,6 +731,14 @@ toc.segmented = [
   ["more", "受控值与布局"],
   ["api", "API"],
   ["tokens", "主题与支持范围"],
+];
+
+toc.select = [
+  ["examples", "代码演示"],
+  ["basic", "基本用法"],
+  ["controlled", "搜索与受控值"],
+  ["api", "API"],
+  ["scope", "支持范围"],
 ];
 
 toc.rate = [

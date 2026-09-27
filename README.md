@@ -22,7 +22,7 @@
 - **中文文档**：提供组件示例、API、源码展示与可交互的主题预览。
 - **Agent 接入**：提供文档站接入说明、兼容边界与 `llms.txt` 导航。
 
-当前通过 npm 的 `alpha` 标签发布，API 仍可能调整。按 Ant Design 5.x 文档目录计，已提供 **55 项基础实现**（包含 ConfigProvider）；基础实现不代表完整 API 兼容，具体能力与限制见[文档站兼容说明](site/src/pages/compatibility.tsx)，版本变化见[Changelog](CHANGELOG.md)。
+当前通过 npm 的 `alpha` 标签发布，API 仍可能调整。按 Ant Design 5.x 文档目录计，已提供 **56 项基础实现**（包含 ConfigProvider）；基础实现不代表完整 API 兼容，具体能力与限制见[文档站兼容说明](site/src/pages/compatibility.tsx)，版本变化见[Changelog](CHANGELOG.md)。
 
 本项目由社区独立维护，与 Ant Design、Octane 官方无隶属关系。
 
@@ -86,7 +86,7 @@ pnpm install
 pnpm dev
 ```
 
-文档站本身由 Octane 渲染，并通过 `site/package.json` 安装已发布的 `antd-octane@0.1.0-alpha.1`；站点骨架、搜索和组件示例都会实际使用本库的公开包入口。
+文档站本身由 Octane 渲染，并通过 `site/package.json` 安装已发布的 `antd-octane@0.1.0-alpha.2`；站点骨架、搜索和组件示例都会实际使用本库的公开包入口。
 
 文档站地址以终端输出为准。提交前执行：
 

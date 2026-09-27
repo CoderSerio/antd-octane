@@ -8,7 +8,7 @@ export default function ChangelogPage({ section }: { section?: string }) {
       <h1>更新日志</h1>
       <p className="lead">这里记录已发布到 npm 的 alpha 版本。</p>
       <p>
-        文档站当前安装 <code>antd-octane@0.1.0-alpha.1</code>。完整记录见{" "}
+        文档站当前安装 <code>antd-octane@0.1.0-alpha.2</code>。完整记录见{" "}
         <a
           className="text-link"
           href="https://github.com/CoderSerio/antd-octane/blob/main/CHANGELOG.md"
@@ -20,6 +20,13 @@ export default function ChangelogPage({ section }: { section?: string }) {
           兼容与迁移
         </a>
         。
+      </p>
+      <h2 id="alpha-2" tabIndex={-1}>
+        0.1.0-alpha.2 · 2026-09-27
+      </h2>
+      <p>
+        新增 Select 单选基础版，支持搜索、受控值、键盘操作、清除与主题尺寸。
+        多选、标签模式、labelInValue 和虚拟列表仍待实现。
       </p>
       <h2 id="alpha-1" tabIndex={-1}>
         0.1.0-alpha.1 · 2026-09-27
