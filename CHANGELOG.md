@@ -2,6 +2,12 @@
 
 此文件记录 `antd-octane` 的版本变化；标注「待发布」的条目尚不可从 npm 安装。组件支持范围与限制见[兼容与迁移](site/src/pages/compatibility.tsx)。
 
+## 0.1.0-alpha.3 — 待发布
+
+- 新增 Form 基础版：`Form.Item` 字段绑定、初始值、必填及常见长度/正则规则、提交、重置和 `Form.useForm()` 实例方法。
+- 验证与 Input、Select、Checkbox、Switch 的组合，并加入独立安装包的 TSX/TSRX 消费检查。
+- 暂不支持嵌套字段路径、动态字段列表、字段依赖、异步校验和完整 Ant Design Form API。
+
 ## 0.1.0-alpha.2 — 2026-09-27
 
 - 新增 Select 单选基础版：受控与非受控值、搜索过滤、键盘操作、清除、禁用状态及主题尺寸。

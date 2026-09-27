@@ -11,6 +11,16 @@ export { Button } from "./button";
 export type { ConfigProviderProps } from "./config-provider";
 export { ConfigProvider } from "./config-provider";
 export type {
+  FormFieldError,
+  FormInstance,
+  FormItemProps,
+  FormProps,
+  FormRule,
+  FormValidationError,
+  FormValues,
+} from "./form";
+export { Form } from "./form";
+export type {
   AliasToken,
   ButtonToken,
   ComponentTheme,

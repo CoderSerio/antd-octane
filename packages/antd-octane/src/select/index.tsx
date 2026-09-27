@@ -48,6 +48,7 @@ export interface SelectProps {
   id?: string;
   "aria-label"?: string;
   "aria-labelledby"?: string;
+  "aria-describedby"?: string;
   className?: string;
   style?: CSSProperties;
   ref?: Ref<SelectRef>;
@@ -306,6 +307,7 @@ export function Select(props: SelectProps) {
           (props["aria-labelledby"] ? undefined : props.placeholder)
         }
         aria-labelledby={props["aria-labelledby"]}
+        aria-describedby={props["aria-describedby"]}
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-controls={open ? listId : undefined}
