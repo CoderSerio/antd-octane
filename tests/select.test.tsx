@@ -87,7 +87,7 @@ it("filters by label, skips disabled options and handles empty results", async (
   expect(input().getAttribute("aria-expanded")).toBe("false");
 });
 
-it("preserves controlled values, clears uncontrolled values and closes outside", async () => {
+it("preserves controlled values and reports clear without reopening", async () => {
   const change = vi.fn();
   await render(
     <Select options={options} value="a" allowClear onChange={change} />,
@@ -103,7 +103,13 @@ it("preserves controlled values, clears uncontrolled values and closes outside",
   );
   expect(change).toHaveBeenLastCalledWith(undefined);
   expect(input().value).toBe("Apple");
+  expect(input().getAttribute("aria-expanded")).toBe("false");
+});
+
+it("clears an uncontrolled default and closes on outside pointer", async () => {
   await render(<Select options={options} defaultValue="a" allowClear />);
+  expect(input().value).toBe("Apple");
+  expect(container.querySelector(".ant-select-clear")).not.toBeNull();
   await act(() =>
     container.querySelector<HTMLButtonElement>(".ant-select-clear")?.click(),
   );
@@ -126,4 +132,29 @@ it("inherits disabled configuration and does not open", async () => {
   expect(input().disabled).toBe(true);
   await key("ArrowDown");
   expect(document.querySelector('[role="listbox"]')).toBeNull();
+});
+
+it("opens from host padding and keeps the active option visible", async () => {
+  const scroll = vi.spyOn(HTMLElement.prototype, "scrollIntoView");
+  try {
+    await render(
+      <Select
+        options={Array.from({ length: 20 }, (_, index) => ({
+          value: index,
+          label: `Option ${index}`,
+        }))}
+      />,
+    );
+    await act(() =>
+      container.querySelector<HTMLElement>(".ant-select")?.click(),
+    );
+    expect(input().getAttribute("aria-expanded")).toBe("true");
+    await key("End");
+    expect(input().getAttribute("aria-activedescendant")).toContain(
+      "option-19",
+    );
+    expect(scroll).toHaveBeenCalledWith({ block: "nearest" });
+  } finally {
+    scroll.mockRestore();
+  }
 });

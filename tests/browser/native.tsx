@@ -126,6 +126,21 @@ createRoot(root).render(
         ]}
       />
     </div>
+    <div
+      data-entry="select-static-container"
+      style={{ paddingInlineStart: 32 }}
+    >
+      <Select
+        aria-label="Static container fruit"
+        placeholder="Static container"
+        options={[{ value: "apple", label: "Apple" }]}
+        getPopupContainer={() =>
+          document.querySelector<HTMLElement>(
+            '[data-entry="select-static-container"]',
+          ) ?? document.body
+        }
+      />
+    </div>
     <div data-entry="number-small">
       <InputNumber size="small" defaultValue={3} />
     </div>

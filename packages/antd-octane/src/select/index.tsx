@@ -152,9 +152,16 @@ export function Select(props: SelectProps) {
         4,
       );
       if (target !== document.body) {
-        const rect = target.getBoundingClientRect();
-        next.x += target.scrollLeft - rect.left - target.clientLeft;
-        next.y += target.scrollTop - rect.top - target.clientTop;
+        const containingBlock =
+          (list.offsetParent as HTMLElement | null) ??
+          (getComputedStyle(target).position === "static"
+            ? document.body
+            : target);
+        const rect = containingBlock.getBoundingClientRect();
+        next.x +=
+          containingBlock.scrollLeft - rect.left - containingBlock.clientLeft;
+        next.y +=
+          containingBlock.scrollTop - rect.top - containingBlock.clientTop;
       }
       setPosition((old) =>
         old?.x === next.x && old?.y === next.y ? old : { x: next.x, y: next.y },
@@ -183,7 +190,22 @@ export function Select(props: SelectProps) {
       window.removeEventListener("scroll", update, true);
       observer?.disconnect();
     };
-  }, [open, target, filtered.length, props.getPopupContainer]);
+  }, [
+    open,
+    target,
+    filtered.length,
+    props.getPopupContainer,
+    props.open,
+    props.onOpenChange,
+    props.searchValue,
+    disabled,
+  ]);
+  useLayoutEffect(() => {
+    if (!open || activeIndex < 0) return;
+    const option = popup.current?.children[activeIndex];
+    if (option instanceof HTMLElement)
+      option.scrollIntoView({ block: "nearest" });
+  }, [open, target, activeIndex]);
 
   const height =
     size === "large"
@@ -244,8 +266,14 @@ export function Select(props: SelectProps) {
     </div>
   );
   return (
+    // biome-ignore lint/a11y/noStaticElementInteractions lint/a11y/useKeyWithClickEvents: The nested combobox owns keyboard interaction and focus.
     <div
       ref={host}
+      onClick={(event) => {
+        if (disabled || event.target === input.current) return;
+        input.current?.focus();
+        changeOpen(true);
+      }}
       className={[
         "ant-select",
         `ant-select-${size}`,
@@ -354,7 +382,8 @@ export function Select(props: SelectProps) {
           className="ant-select-clear"
           aria-label="清除选择"
           onMouseDown={(event) => event.preventDefault()}
-          onClick={() => {
+          onClick={(event) => {
+            event.stopPropagation();
             if (props.value === undefined) setInnerValue(null);
             props.onChange?.(undefined);
             props.onClear?.();
