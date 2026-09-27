@@ -5,7 +5,13 @@ import type {
   OctaneNode,
   Ref,
 } from "octane";
-import { useImperativeHandle, useMemo, useRef } from "octane";
+import {
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
+} from "octane";
 import { useConfig } from "../config-provider";
 import { buttonVariables } from "./tokens";
 
@@ -26,8 +32,9 @@ export interface ButtonProps
   danger?: boolean;
   ghost?: boolean;
   block?: boolean;
-  loading?: boolean;
+  loading?: boolean | { delay?: number; icon?: OctaneNode };
   icon?: OctaneNode;
+  iconPlacement?: "start" | "end";
   children?: OctaneNode;
   href?: string;
   target?: string;
@@ -55,6 +62,27 @@ export function Button(props: ButtonProps) {
     () => buttonVariables(config.theme, config.token),
     [config.theme, config.token],
   );
+  const loadingRequested = Boolean(props.loading);
+  const loadingDelay =
+    typeof props.loading === "object"
+      ? Math.max(0, props.loading.delay ?? 0)
+      : 0;
+  const [innerLoading, setInnerLoading] = useState(
+    loadingRequested && loadingDelay === 0,
+  );
+  useEffect(() => {
+    if (!loadingRequested) {
+      setInnerLoading(false);
+      return;
+    }
+    if (loadingDelay === 0) {
+      setInnerLoading(true);
+      return;
+    }
+    setInnerLoading(false);
+    const timer = window.setTimeout(() => setInnerLoading(true), loadingDelay);
+    return () => window.clearTimeout(timer);
+  }, [loadingRequested, loadingDelay]);
   const {
     type = "default",
     htmlType = "button",
@@ -63,9 +91,10 @@ export function Button(props: ButtonProps) {
     danger = false,
     ghost = false,
     block = false,
-    loading = false,
+    loading: _loading,
     disabled = config.componentDisabled ?? false,
     icon,
+    iconPlacement = "start",
     children,
     href,
     target,
@@ -76,6 +105,7 @@ export function Button(props: ButtonProps) {
     onClick,
     ...rest
   } = props;
+  const loading = innerLoading;
   const hasContent =
     children !== undefined &&
     children !== null &&
@@ -90,7 +120,7 @@ export function Button(props: ButtonProps) {
     ghost && "ant-btn-background-ghost",
     block && "ant-btn-block",
     loading && "ant-btn-loading",
-    !hasContent && Boolean(icon) && "ant-btn-icon-only",
+    !hasContent && (Boolean(icon) || loading) && "ant-btn-icon-only",
     className,
   ].filter(Boolean);
   const handleClick = (event: MouseEvent) => {
@@ -101,14 +131,24 @@ export function Button(props: ButtonProps) {
     }
     onClick?.(event);
   };
+  const loadingIcon =
+    typeof props.loading === "object" ? props.loading.icon : undefined;
+  const renderedIcon = loading ? (
+    loadingIcon ? (
+      <span className="ant-btn-icon" aria-hidden="true">
+        {loadingIcon}
+      </span>
+    ) : (
+      <span className="ao-btn-spinner" aria-hidden="true" />
+    )
+  ) : icon ? (
+    <span className="ant-btn-icon">{icon}</span>
+  ) : null;
   const content = (
     <>
-      {loading ? (
-        <span className="ao-btn-spinner" aria-hidden="true" />
-      ) : icon ? (
-        <span className="ant-btn-icon">{icon}</span>
-      ) : null}
+      {iconPlacement === "start" ? renderedIcon : null}
       {hasContent ? <span>{children}</span> : null}
+      {iconPlacement === "end" ? renderedIcon : null}
     </>
   );
   const mergedStyle = { ...variables, ...style };

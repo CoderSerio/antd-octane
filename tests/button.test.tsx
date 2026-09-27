@@ -16,6 +16,7 @@ async function render(node: ElementDescriptor) {
 afterEach(async () => {
   await act(() => root?.unmount());
   container?.remove();
+  vi.useRealTimers();
 });
 
 describe("Button native behavior", () => {
@@ -53,6 +54,79 @@ describe("Button native behavior", () => {
     });
     expect(click).not.toHaveBeenCalled();
     expect(container.querySelector('[aria-busy="true"]')).not.toBeNull();
+  });
+  it("places the icon after content when requested", async () => {
+    await render(
+      <Button icon={<span data-icon="arrow">→</span>} iconPlacement="end">
+        Continue
+      </Button>,
+    );
+    const button = container.querySelector("button");
+    expect(button?.children[0]?.textContent).toBe("Continue");
+    expect(button?.children[1]?.querySelector("[data-icon]"))?.not.toBeNull();
+  });
+  it("delays loading, prevents clicks once active, and restores clicks when cleared", async () => {
+    vi.useFakeTimers();
+    const click = vi.fn();
+    function Example() {
+      const [loading, setLoading] = useState(true);
+      return (
+        <>
+          <Button
+            loading={
+              loading ? { delay: 200, icon: <span data-icon="wait" /> } : false
+            }
+            onClick={click}
+          >
+            Save
+          </Button>
+          <button type="button" onClick={() => setLoading(false)}>
+            Clear
+          </button>
+        </>
+      );
+    }
+    await render(<Example />);
+    const button = container.querySelector(".ant-btn") as HTMLButtonElement;
+    expect(button.getAttribute("aria-busy")).toBeNull();
+    await act(() => button.click());
+    expect(click).toHaveBeenCalledOnce();
+    await act(() => vi.advanceTimersByTime(199));
+    expect(button.getAttribute("aria-busy")).toBeNull();
+    await act(() => vi.advanceTimersByTime(1));
+    expect(button.getAttribute("aria-busy")).toBe("true");
+    expect(button.querySelector("[data-icon='wait']")).not.toBeNull();
+    await act(() => button.click());
+    expect(click).toHaveBeenCalledOnce();
+    await act(() =>
+      (container.querySelectorAll("button")[1] as HTMLButtonElement).click(),
+    );
+    expect(button.getAttribute("aria-busy")).toBeNull();
+    await act(() => button.click());
+    expect(click).toHaveBeenCalledTimes(2);
+  });
+  it("cancels a pending loading delay when loading clears", async () => {
+    vi.useFakeTimers();
+    function Example() {
+      const [loading, setLoading] = useState(true);
+      return (
+        <>
+          <Button loading={loading ? { delay: 200 } : false}>Save</Button>
+          <button type="button" onClick={() => setLoading(false)}>
+            Clear
+          </button>
+        </>
+      );
+    }
+    await render(<Example />);
+    const button = container.querySelector(".ant-btn") as HTMLButtonElement;
+    await act(() => vi.advanceTimersByTime(100));
+    await act(() =>
+      (container.querySelectorAll("button")[1] as HTMLButtonElement).click(),
+    );
+    await act(() => vi.advanceTimersByTime(500));
+    expect(button.getAttribute("aria-busy")).toBeNull();
+    expect(button.querySelector(".ao-btn-spinner")).toBeNull();
   });
   it("exposes focus, blur and the native element", async () => {
     const ref = { current: null as ButtonRef | null };
