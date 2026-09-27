@@ -64,7 +64,7 @@ try {
     join(directory, "main.tsx"),
     `
 import { createRoot } from 'octane';
-import { Affix, Anchor, FloatButton, Image, Carousel, Splitter, Watermark, App, Icon, QRCode, Tour, Modal, Drawer, Menu, Dropdown, Popconfirm, message, notification, Button, InputNumber, Slider, Input, Select, Checkbox, Switch, Flex, Space, Divider, Radio, Tag, Alert, Card, Avatar, Badge, Spin, Skeleton, Progress, Result, Typography, List, Row, Col, Layout, Collapse, Tabs, Empty, Statistic, Timeline, Descriptions, Segmented, Rate, Breadcrumb, Steps, Pagination, Tooltip, Popover, ConfigProvider, theme } from 'antd-octane';
+import { Affix, Anchor, FloatButton, Image, Carousel, Splitter, Watermark, App, Icon, QRCode, Tour, Modal, Drawer, Menu, Dropdown, Popconfirm, message, notification, Button, InputNumber, Slider, Input, Select, Form, Checkbox, Switch, Flex, Space, Divider, Radio, Tag, Alert, Card, Avatar, Badge, Spin, Skeleton, Progress, Result, Typography, List, Row, Col, Layout, Collapse, Tabs, Empty, Statistic, Timeline, Descriptions, Segmented, Rate, Breadcrumb, Steps, Pagination, Tooltip, Popover, ConfigProvider, theme } from 'antd-octane';
 import 'antd-octane/style.css';
 function AppConsumer() {
   const {message} = App.useApp();
@@ -106,6 +106,11 @@ createRoot(document.getElementById('root')!).render(
     <Input.TextArea autoSize={{ minRows: 2, maxRows: 4 }} />
     <Input.Search allowClear onSearch={(value) => void value} />
     <Select options={[{value:'first',label:'First'},{value:'second',label:'Second'}]} defaultValue="first" showSearch onChange={(value) => void value} />
+    <Form initialValues={{name:'Packed'}} onFinish={(values) => void values.name}>
+      <Form.Item name="name" label="Name" rules={[{required:true}]}><Input /></Form.Item>
+      <Form.Item name="enabled" label="Enabled" valuePropName="checked"><Switch /></Form.Item>
+      <Button htmlType="submit">Save</Button>
+    </Form>
     <Modal open={false} title="Packed modal">Content</Modal>
     <Drawer open={false} title="Packed drawer">Content</Drawer>
     <Menu items={[{key:'one',label:'One'}]} />
@@ -150,7 +155,7 @@ createRoot(document.getElementById('root')!).render(
     join(directory, "main.tsrx"),
     `import { createRoot } from 'octane';
 import { useSignal$ } from 'octane/signals/client';
-import { Affix, Alert, Anchor, App, Breadcrumb, Button, Checkbox, ConfigProvider, Divider, Drawer, Dropdown, Flex, FloatButton, Icon, Input, InputNumber, Layout, Menu, Modal, Pagination, Popconfirm, Progress, Radio, Rate, Result, Row, Col, Select, Skeleton, Slider, Space, Spin, Splitter, Steps, Switch, Tabs, Typography, Watermark, message, notification, Carousel } from 'antd-octane';
+import { Affix, Alert, Anchor, App, Breadcrumb, Button, Checkbox, ConfigProvider, Divider, Drawer, Dropdown, Flex, FloatButton, Form, Icon, Input, InputNumber, Layout, Menu, Modal, Pagination, Popconfirm, Progress, Radio, Rate, Result, Row, Col, Select, Skeleton, Slider, Space, Spin, Splitter, Steps, Switch, Tabs, Typography, Watermark, message, notification, Carousel } from 'antd-octane';
 import 'antd-octane/style.css';
 
 function Page() @{
@@ -164,6 +169,9 @@ function Page() @{
   <main>
     <Button id="signal-update" onClick={() => { value$.set('updated'); checked$.set(true); number$.set(3); current$.set(2); selected$.set('second'); }}>Update</Button>
     <Input id="signal-input" value={value$.get()} onChange={(event) => value$.set(event.target.value)} />
+    <Form initialValues={{profile:'Signal form'}}>
+      <Form.Item name="profile" label="Profile" required><Input /></Form.Item>
+    </Form>
     <Switch checked={checked$.get()} onChange={(next) => checked$.set(next)} />
     <Checkbox checked={checked$.get()} onChange={(event) => checked$.set(event.target.checked)}>checkable</Checkbox>
     <Radio checked={checked$.get()} onChange={(event) => checked$.set(event.target.checked)}>radio choice</Radio>

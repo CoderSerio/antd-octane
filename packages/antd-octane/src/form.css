@@ -1,0 +1,56 @@
+@layer antd {
+  :where(.ant-form) {
+    color: var(--ao-form-text);
+    font-family: var(--ao-form-font);
+    font-size: var(--ao-form-size);
+  }
+  :where(.ant-form-item) {
+    margin-bottom: 24px;
+  }
+  :where(.ant-form-item-label) {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--ao-form-text);
+  }
+  :where(.ant-form-item-required, .ant-form-item-explain) {
+    color: var(--ao-form-error);
+  }
+  :where(.ant-form-item-explain, .ant-form-item-extra) {
+    margin-top: 4px;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  :where(.ant-form-item-extra) {
+    color: var(--ao-form-secondary);
+  }
+  :where(.ant-form-horizontal .ant-form-item) {
+    display: grid;
+    grid-template-columns: minmax(0, 120px) minmax(0, 1fr);
+    align-items: start;
+    gap: 8px;
+  }
+  :where(.ant-form-horizontal .ant-form-item-label) {
+    margin-top: 5px;
+    margin-bottom: 0;
+    text-align: right;
+  }
+  :where(.ant-form-inline) {
+    display: flex;
+    align-items: start;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  :where(.ant-form-inline .ant-form-item) {
+    margin-bottom: 0;
+  }
+  @media (max-width: 600px) {
+    :where(.ant-form-horizontal .ant-form-item) {
+      display: block;
+    }
+    :where(.ant-form-horizontal .ant-form-item-label) {
+      margin-top: 0;
+      margin-bottom: 8px;
+      text-align: left;
+    }
+  }
+}

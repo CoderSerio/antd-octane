@@ -15,6 +15,7 @@ import {
   Divider,
   Drawer,
   Empty,
+  Form,
   Input,
   InputNumber,
   Layout,
@@ -125,6 +126,28 @@ createRoot(root).render(
           { value: "cherry", label: "Cherry" },
         ]}
       />
+    </div>
+    <div data-entry="form" style={{ width: 360 }}>
+      <Form
+        layout="vertical"
+        initialValues={{ email: "" }}
+        onFinish={(values) => {
+          const result = document.querySelector("[data-form-result]");
+          if (result) result.textContent = String(values.email);
+        }}
+      >
+        <Form.Item
+          name="email"
+          label="Email"
+          rules={[{ required: true, message: "Email required" }]}
+        >
+          <Input placeholder="email@example.com" />
+        </Form.Item>
+        <Button htmlType="submit" type="primary">
+          Submit
+        </Button>
+      </Form>
+      <output data-form-result />
     </div>
     <div
       data-entry="select-static-container"
