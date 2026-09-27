@@ -1,5 +1,5 @@
 import type { ThemeConfig } from "antd-octane";
-import { ConfigProvider, theme } from "antd-octane";
+import { ConfigProvider, Input, Layout, theme } from "antd-octane";
 import { useEffect, useMemo, useState } from "octane";
 import { Icon } from "./icons";
 import { nav, toc } from "./navigation";
@@ -169,16 +169,14 @@ function Shell(p: ShellProps) {
           }}
         >
           <Icon name="search" />
-          <input
+          <Input
             id="doc-search"
             type="search"
             aria-label="搜索文档"
             placeholder="搜索文档…"
             autoComplete="off"
             value={query}
-            onInput={(event) =>
-              setQuery((event.currentTarget as HTMLInputElement).value)
-            }
+            onChange={(event) => setQuery(event.target.value)}
           />
           <kbd>⌘ K</kbd>
           {query.trim() && (
@@ -275,7 +273,7 @@ function Shell(p: ShellProps) {
             </button>
             <span>{current?.title}</span>
           </div>
-          <div className="workspace">
+          <Layout className="workspace">
             <aside
               id="doc-sidebar"
               className={`sidebar ${menuOpen ? "is-open" : ""}`}
@@ -331,7 +329,12 @@ function Shell(p: ShellProps) {
                 <a href="#compatibility">支持范围 →</a>
               </div>
             </aside>
-            <main id="main-content" className="main" tabIndex={-1}>
+            <Layout.Content
+              id="main-content"
+              className="main"
+              role="main"
+              tabIndex={-1}
+            >
               <RouteContent page={page} section={section} />
               {current && (
                 <nav className="page-turning" aria-label="文档翻页">
@@ -352,7 +355,7 @@ function Shell(p: ShellProps) {
               <footer>
                 Ant Design for Octane <span>独立社区探索 · MIT</span>
               </footer>
-            </main>
+            </Layout.Content>
             <aside className="page-toc" aria-label="页内目录">
               <span>本页内容</span>
               <nav>
@@ -393,7 +396,7 @@ function Shell(p: ShellProps) {
                 反馈问题 ↗
               </a>
             </aside>
-          </div>
+          </Layout>
         </>
       )}
       <dialog id="theme-dialog" aria-labelledby="theme-title">
