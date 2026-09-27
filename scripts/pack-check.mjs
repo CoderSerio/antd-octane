@@ -21,7 +21,7 @@ try {
   const archive = readdirSync(directory).find((name) => name.endsWith(".tgz"));
   if (!archive) throw new Error("Package archive missing");
   const versions = Object.fromEntries(
-    ["octane", "vite", "typescript", "@types/node"].map((name) => [
+    ["octane", "vite", "typescript", "@types/node", "happy-dom"].map((name) => [
       name,
       JSON.parse(
         readFileSync(join(root, "node_modules", name, "package.json"), "utf8"),
@@ -43,6 +43,7 @@ try {
           vite: versions.vite,
           typescript: versions.typescript,
           "@types/node": versions["@types/node"],
+          "happy-dom": versions["happy-dom"],
         },
       },
       null,
@@ -54,6 +55,10 @@ try {
   writeFileSync(
     join(directory, "index.html"),
     '<div id="root"></div><script type="module" src="/main.tsx"></script>',
+  );
+  writeFileSync(
+    join(directory, "tsrx.html"),
+    '<div id="root"></div><script type="module" src="/main.tsrx"></script>',
   );
   writeFileSync(
     join(directory, "main.tsx"),
@@ -141,13 +146,72 @@ createRoot(document.getElementById('root')!).render(
     }),
   );
   writeFileSync(
+    join(directory, "main.tsrx"),
+    `import { createRoot } from 'octane';
+import { useSignal$ } from 'octane/signals/client';
+import { Button, Input, Splitter, Space, Carousel } from 'antd-octane';
+import 'antd-octane/style.css';
+
+function Page() @{
+  const value$ = useSignal$('');
+  <main>
+    <Button onClick={() => value$.set('updated')}>Update</Button>
+    <Input value={value$.get()} onChange={(event) => value$.set(event.target.value)} />
+    <Splitter>
+      <Splitter.Panel>first</Splitter.Panel>
+      <Splitter.Panel>second</Splitter.Panel>
+    </Splitter>
+    <Space><span>one</span><span>two</span></Space>
+    <Carousel><div>slide one</div><div>slide two</div></Carousel>
+  </main>
+}
+
+createRoot(document.getElementById('root')!).render(Page, {});
+`,
+  );
+  writeFileSync(
     join(directory, "vite.config.ts"),
     `import { defineConfig } from 'vite';
 import { octane } from 'octane/compiler/vite';
-export default defineConfig({ plugins: [octane()], build: { target: 'es2022' } });`,
+export default defineConfig({ plugins: [octane()], build: { target: 'es2022', rollupOptions: { input: { main: 'index.html', tsrx: 'tsrx.html' } } } });`,
   );
   run(["exec", "tsc", "--noEmit"]);
   run(["exec", "vite", "build"]);
+  writeFileSync(
+    join(directory, "smoke.mjs"),
+    `import { Window } from 'happy-dom';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+
+const win = new Window({ url: 'http://localhost/' });
+for (const key of ['window', 'document', 'navigator', 'Node', 'Text', 'Comment', 'Document', 'DocumentFragment', 'Element', 'SVGElement', 'HTMLElement', 'HTMLInputElement', 'HTMLButtonElement', 'Event', 'PointerEvent', 'MouseEvent', 'MutationObserver', 'ResizeObserver', 'CustomEvent', 'getComputedStyle']) {
+  const value = key === 'window' ? win : key === 'getComputedStyle' ? win.getComputedStyle.bind(win) : win[key];
+  Object.defineProperty(globalThis, key, { value, configurable: true });
+}
+win.document.body.innerHTML = '<div id="root"></div>';
+try {
+  const html = readFileSync('dist/tsrx.html', 'utf8');
+  const script = html.match(/src="([^"]+\\.js)"/)?.[1];
+  if (!script) throw new Error('TSRX build entry missing');
+  await import(pathToFileURL(resolve('dist', script.replace(/^\\//, ''))).href);
+  await new Promise((done) => setTimeout(done, 30));
+  const count = (selector) => win.document.querySelectorAll(selector).length;
+  if (count('.ant-splitter-panel') !== 2) throw new Error('TSRX Splitter.Panel children missing');
+  if (count('.ant-space-item') !== 2) throw new Error('TSRX Space children missing');
+  const carousel = win.document.querySelector('.ant-carousel');
+  if (!carousel?.textContent.includes('slide one') || !carousel.textContent.includes('slide two')) throw new Error('TSRX Carousel children missing');
+  win.document.querySelector('button')?.click();
+  await new Promise((done) => setTimeout(done, 30));
+  if (win.document.querySelector('input')?.value !== 'updated') throw new Error('TSRX Signal-driven Input did not update');
+  console.log('Packed TSRX consumer rendered children and Signal-driven Input.');
+} finally {
+  win.happyDOM.abort();
+}
+process.exit(0);
+`,
+  );
+  run(["exec", "node", "smoke.mjs"]);
   const manifest = JSON.parse(
     readFileSync(
       join(directory, "node_modules/antd-octane/package.json"),

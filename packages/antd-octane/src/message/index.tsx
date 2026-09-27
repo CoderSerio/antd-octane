@@ -1,3 +1,4 @@
+/** @jsxImportSource octane */
 import type { OctaneNode } from "octane";
 import { useMemo } from "octane";
 import {

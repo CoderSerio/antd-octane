@@ -1,6 +1,8 @@
+/** @jsxImportSource octane */
 import type { CSSProperties, HTMLAttributes, OctaneNode, Ref } from "octane";
 import {
   Children,
+  descriptorChildren,
   useEffect,
   useImperativeHandle,
   useRef,
@@ -32,7 +34,7 @@ export interface CarouselProps extends HTMLAttributes<HTMLElement> {
   ref?: Ref<CarouselRef>;
   style?: CSSProperties;
 }
-export function Carousel({
+function InternalCarousel({
   children,
   autoplay = false,
   autoplaySpeed = 3000,
@@ -277,3 +279,4 @@ export function Carousel({
     </section>
   );
 }
+export const Carousel = descriptorChildren(InternalCarousel);

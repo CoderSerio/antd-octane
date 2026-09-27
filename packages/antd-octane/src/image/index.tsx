@@ -1,3 +1,4 @@
+/** @jsxImportSource octane */
 import { FastColor } from "@ant-design/fast-color";
 import type { CSSProperties, ImgHTMLAttributes, OctaneNode } from "octane";
 import {

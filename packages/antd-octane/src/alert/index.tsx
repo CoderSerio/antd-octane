@@ -1,3 +1,4 @@
+/** @jsxImportSource octane */
 import type { CSSProperties, HTMLAttributes, OctaneNode, Ref } from "octane";
 import { useEffect, useImperativeHandle, useRef, useState } from "octane";
 import { useComponentTokens } from "../_util/tokens";

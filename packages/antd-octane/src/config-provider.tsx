@@ -1,3 +1,4 @@
+/** @jsxImportSource octane */
 import type { OctaneNode } from "octane";
 import { createContext, useContext, useMemo } from "octane";
 import { getDesignToken, mergeTheme } from "./theme/resolve";

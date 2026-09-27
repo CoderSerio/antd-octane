@@ -1,3 +1,4 @@
+/** @jsxImportSource octane */
 /** biome-ignore-all lint/a11y/useFocusableInteractive: Static separators are not interactive splitters. */
 /** biome-ignore-all lint/a11y/useSemanticElements: A divider title requires children, which hr cannot contain. */
 /** biome-ignore-all lint/a11y/useAriaPropsForRole: Static separators do not take a splitter aria-valuenow. */

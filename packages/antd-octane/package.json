@@ -4,7 +4,7 @@
   "type": "module",
   "license": "MIT",
   "files": [
-    "dist",
+    "src",
     "LICENSE",
     "THIRD_PARTY_NOTICES.md"
   ],
@@ -13,10 +13,10 @@
   ],
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/antd-octane.js"
+      "types": "./src/index.ts",
+      "import": "./src/entry.ts"
     },
-    "./style.css": "./dist/antd-octane.css"
+    "./style.css": "./src/style.css"
   },
   "peerDependencies": {
     "octane": "0.4.3"

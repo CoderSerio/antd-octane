@@ -4,7 +4,7 @@
 
 ## Alpha 使用
 
-发布版本：`0.1.0-alpha.0`，发布标签：`alpha`。需要 Octane **0.4.3**；使用 Octane 编译器构建 TSX。
+当前 npm 版本：`0.1.0-alpha.0`，发布标签：`alpha`。需要 Octane **0.4.3**；使用 Octane 编译器构建 TSX 或 TSRX。仓库的下一次打包将包含原始源码，由应用的 Octane 编译器处理；这一调整尚未发布到 npm。
 
 ```bash
 npm install antd-octane@alpha octane@0.4.3
@@ -22,7 +22,7 @@ createRoot(document.getElementById("root")!).render(
 );
 ```
 
-Vite 需要启用 `octane/compiler/vite` 导出的 `octane()` 插件；TypeScript 配置 `jsx: "react-jsx"` 与 `jsxImportSource: "octane"`。运行时不依赖 React。
+Vite 需要启用 `octane/compiler/vite` 导出的 `octane()` 插件；TypeScript 配置 `jsx: "react-jsx"` 与 `jsxImportSource: "octane"`。TSX 和 TSRX 使用同一套组件 API。Signal 可在消费组件中通过 `.get()` 读取，再把结果传给受控属性；组件属性暂不直接接受 `SignalHandle`。运行时不依赖 React。
 
 ## 范围与文档
 

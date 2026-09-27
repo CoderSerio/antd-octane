@@ -1,3 +1,4 @@
+/** @jsxImportSource octane */
 import type { CSSProperties, OctaneNode } from "octane";
 import { useId, useLayoutEffect, useRef, useState } from "octane";
 import { DialogLayer } from "../_util/dialog";

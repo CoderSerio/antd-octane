@@ -1,3 +1,4 @@
+/** @jsxImportSource octane */
 import type {
   CSSProperties,
   InputHTMLAttributes,

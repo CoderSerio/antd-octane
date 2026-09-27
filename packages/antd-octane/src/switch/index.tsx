@@ -1,3 +1,4 @@
+/** @jsxImportSource octane */
 import type { ButtonHTMLAttributes, CSSProperties, OctaneNode } from "octane";
 import { useState } from "octane";
 import { useConfig } from "../config-provider";

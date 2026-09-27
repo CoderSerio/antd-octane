@@ -1,5 +1,6 @@
+/** @jsxImportSource octane */
 import type { CSSProperties, HTMLAttributes, OctaneNode } from "octane";
-import { Children, Fragment } from "octane";
+import { Children, descriptorChildren, Fragment } from "octane";
 import { useConfig } from "../config-provider";
 export type SpaceSize = "small" | "middle" | "large" | number;
 export interface SpaceProps extends HTMLAttributes<HTMLDivElement> {
@@ -10,7 +11,7 @@ export interface SpaceProps extends HTMLAttributes<HTMLDivElement> {
   wrap?: boolean;
   split?: OctaneNode;
 }
-export function Space({
+function InternalSpace({
   direction = "horizontal",
   size = "small",
   align,
@@ -60,3 +61,4 @@ export function Space({
     </div>
   );
 }
+export const Space = descriptorChildren(InternalSpace);
