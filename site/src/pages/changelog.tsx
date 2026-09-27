@@ -1,0 +1,44 @@
+import { usePageAnchor } from "../docs-ui";
+
+export default function ChangelogPage({ section }: { section?: string }) {
+  usePageAnchor(section);
+  return (
+    <>
+      <div className="eyebrow">GUIDE / CHANGELOG</div>
+      <h1>更新日志</h1>
+      <p className="lead">这里记录已发布到 npm 的 alpha 版本。</p>
+      <p>
+        文档站当前安装 <code>antd-octane@0.1.0-alpha.1</code>。完整记录见{" "}
+        <a
+          className="text-link"
+          href="https://github.com/CoderSerio/antd-octane/blob/main/CHANGELOG.md"
+        >
+          仓库 CHANGELOG.md
+        </a>
+        。组件支持范围见{" "}
+        <a className="text-link" href="#compatibility">
+          兼容与迁移
+        </a>
+        。
+      </p>
+      <h2 id="alpha-1" tabIndex={-1}>
+        0.1.0-alpha.1 · 2026-09-27
+      </h2>
+      <ul className="prose-list">
+        <li>npm 包以原始 TSX 源码为入口，由消费项目的 Octane 编译器处理。</li>
+        <li>
+          修复 TSRX 项目中的 Space、Splitter.Panel 和 Carousel 子节点渲染。
+        </li>
+        <li>扩展独立安装包验证，覆盖 TSRX 渲染和 Signal 驱动的受控交互。</li>
+      </ul>
+      <p>
+        当前仍需 Octane 0.4.3 和显式导入 <code>antd-octane/style.css</code>。
+        alpha 版本尚未覆盖完整 Ant Design API、视觉、无障碍和 SSR 兼容。
+      </p>
+      <h2 id="alpha-0" tabIndex={-1}>
+        0.1.0-alpha.0 · 2026-09-26
+      </h2>
+      <p>首个 npm alpha 预览版本，提供基础组件、主题算法与中文文档站。</p>
+    </>
+  );
+}

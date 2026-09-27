@@ -105,7 +105,7 @@ Tailwind 接入相关修改还应执行 `pnpm tailwind:check`，并按浏览器�
 
 ## 发布
 
-版本号、变更说明和发布配置通过 `release/<description>` 分支提交 PR，由维护者完成发布。Alpha 版本使用 npm 的 `alpha` 标签；发布前确认包内容、安装方式和公开文档一致，不把仓库尚未发布的能力描述为已发布能力。
+版本号、[Changelog](CHANGELOG.md) 和发布配置通过 `release/<description>` 分支提交 PR，由维护者完成发布。Alpha 版本使用 npm 的 `alpha` 标签；发布前确认包内容、安装方式和公开文档一致，不把仓库尚未发布的能力描述为已发布能力。发布完成后核对 npm dist-tag，并在独立项目中从 registry 安装验证。
 
 ## 许可
 

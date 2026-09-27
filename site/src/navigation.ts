@@ -56,6 +56,13 @@ export const nav = [
     keywords: "contribute develop docs check build PR 贡献 开发",
   },
   {
+    id: "changelog",
+    title: "更新日志",
+    category: "guide",
+    group: "其他",
+    keywords: "changelog release alpha version npm 版本 更新",
+  },
+  {
     id: "components",
     title: "组件总览",
     category: "components",
@@ -457,6 +464,10 @@ export const toc: Record<string, [string, string][]> = {
   contributing: [
     ["install", "开发本库与文档站"],
     ["build", "仓库构建与验证"],
+  ],
+  changelog: [
+    ["alpha-1", "0.1.0-alpha.1"],
+    ["alpha-0", "0.1.0-alpha.0"],
   ],
   theme: [
     ["configure", "配置主题"],
