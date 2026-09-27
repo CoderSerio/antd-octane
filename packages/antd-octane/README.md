@@ -26,7 +26,7 @@ Vite 需要启用 `octane/compiler/vite` 导出的 `octane()` 插件；TypeScrip
 
 ## 范围与文档
 
-以 Ant Design **5.29.3** 为参考，提供 57 项基础实现（包含 ConfigProvider），以及默认、暗色、紧凑主题算法。Select 当前提供单选、搜索和键盘操作，尚不支持 multiple、tags、labelInValue 和虚拟列表。Form 支持平面字段、同步规则校验及提交/重置，尚不支持嵌套路径、动态列表、异步规则和字段依赖。Alpha 不代表完整 API 兼容，API 可能调整；复杂组件、SSR 和无障碍验证仍有未完成项。
+以 Ant Design **5.29.3** 为参考，提供 57 项基础实现（包含 ConfigProvider），以及默认、暗色、紧凑主题算法。Button 支持图标位置与延迟加载；Input / TextArea 支持基础字符计数。Select 当前提供单选、搜索和键盘操作，尚不支持 multiple、tags、labelInValue 和虚拟列表。Form 支持平面字段、同步规则校验及提交/重置，尚不支持嵌套路径、动态列表、异步规则和字段依赖。Alpha 不代表完整 API 兼容，API 可能调整；复杂组件、SSR 和无障碍验证仍有未完成项。
 
 Form 的第一版可组合现有输入组件：
 
@@ -35,7 +35,7 @@ import { Button, Form, Input } from "antd-octane";
 
 <Form onFinish={(values) => console.log(values)}>
   <Form.Item name="email" label="邮箱" rules={[{ required: true, message: "请输入邮箱" }]}>
-    <Input />
+    <Input required />
   </Form.Item>
   <Button htmlType="submit">提交</Button>
 </Form>;

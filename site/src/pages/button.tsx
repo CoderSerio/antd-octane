@@ -1,5 +1,9 @@
 import type { ButtonToken } from "antd-octane";
 import { BasicDemo } from "../demos/basic";
+import { DelayedLoadingDemo } from "../demos/button-delayed-loading";
+import { GhostActionsDemo } from "../demos/button-ghost-actions";
+import { IconPlacementDemo } from "../demos/button-icon-placement";
+import { NativeFormLinkDemo } from "../demos/button-native-form-link";
 import { ComponentDemo } from "../demos/component";
 import { NestedDemo } from "../demos/nested";
 import { SizesDemo } from "../demos/sizes";
@@ -84,9 +88,21 @@ const apiRows = [
     "boolean",
     "ConfigProvider.componentDisabled 或 false",
   ],
-  ["loading", "显示加载状态，阻止重复点击", "boolean", "false"],
+  [
+    "loading",
+    "加载状态；对象可延迟显示或自定义图标",
+    "boolean | { delay?: number; icon?: OctaneNode }",
+    "false",
+  ],
   ["danger / ghost / block", "危险、幽灵或块级样式", "boolean", "false"],
   ["icon", "按钮图标", "OctaneNode", "—"],
+  ["iconPlacement", "图标位于文字前或后", "start | end", "start"],
+  [
+    "iconPosition",
+    "Ant Design 5.x 兼容别名；同时传入时以 iconPlacement 为准",
+    "start | end",
+    "—",
+  ],
   ["htmlType", "原生 button 类型", "button | submit | reset", "button"],
   ["href / target / rel", "链接地址与打开方式", "string", "—"],
   ["onClick", "点击回调，使用原生事件", "(event: MouseEvent) => void", "—"],
@@ -141,6 +157,38 @@ export default function ButtonPage({ section }: { section?: string }) {
           <StatesDemo />
         </Demo>
         <Demo
+          id="icon-placement"
+          title="图标位置"
+          description="切换图标与文字的顺序；仅图标按钮提供可访问名称。"
+          source={() => import("../demos/button-icon-placement.tsx?raw")}
+        >
+          <IconPlacementDemo />
+        </Demo>
+        <Demo
+          id="delayed-loading"
+          title="延迟与自定义加载"
+          description="短暂操作可延迟显示加载指示；加载生效后阻止重复点击。"
+          source={() => import("../demos/button-delayed-loading.tsx?raw")}
+        >
+          <DelayedLoadingDemo />
+        </Demo>
+        <Demo
+          id="ghost-actions"
+          title="幽灵、危险与块级"
+          description="幽灵按钮适用于深色背景；block 让按钮填满自身容器。"
+          source={() => import("../demos/button-ghost-actions.tsx?raw")}
+        >
+          <GhostActionsDemo />
+        </Demo>
+        <Demo
+          id="native-form-link"
+          title="原生提交与链接"
+          description="htmlType 明确控制表单行为；href 切换为原生链接，target=_blank 自动添加安全 rel。"
+          source={() => import("../demos/button-native-form-link.tsx?raw")}
+        >
+          <NativeFormLinkDemo />
+        </Demo>
+        <Demo
           id="nested"
           title="嵌套主题"
           description="局部覆盖主色与圆角；inherit: false 恢复独立默认主题。"
@@ -169,9 +217,9 @@ export default function ButtonPage({ section }: { section?: string }) {
       </h2>
       <p>
         onClick 接收原生 MouseEvent；disabled 或 loading 时不调用业务回调。
-        htmlType 默认为 button，需要提交原生表单时显式设置 submit。 ref.current
-        提供 focus(options?)、blur() 和 nativeElement；href
-        存在时原生节点为链接。
+        延迟加载尚未生效的窗口内仍可点击，业务请求仍应自行防重。htmlType 默认为
+        button，需要提交原生表单时显式设置 submit。 ref.current 提供
+        focus(options?)、blur() 和 nativeElement；href 存在时原生节点为链接。
       </p>
       <Code
         source={
@@ -208,8 +256,8 @@ export default function ButtonPage({ section }: { section?: string }) {
       </h2>
       <div className="notice">
         <p>
-          尚未实现 wave 点击动效、自动中文空格、loading 延迟配置、Button.Group
-          和 color / variant、iconPosition、语义 classNames / styles API。
+          尚未实现 wave 点击动效、自动中文空格、Button.Group 和 color /
+          variant、语义 classNames / styles API。
           contentLineHeight、onlyIconSize、groupBorderColor 和 paddingBlock
           等未列出的 组件 token 不支持。事件使用原生 DOM 事件，不提供 React
           SyntheticEvent。
@@ -225,8 +273,15 @@ export default function ButtonPage({ section }: { section?: string }) {
       </p>
       <h3>loading 可以传入延迟配置吗？</h3>
       <p>
-        当前只接收
-        boolean。需要延迟显示时由业务管理计时器与状态，并在组件卸载时清理计时器。
+        可以传入 <code>{"{ delay: 500 }"}</code>
+        ；若在等待期内结束加载，计时器会取消。 也可传入{" "}
+        <code>{"{ icon: <MyIcon /> }"}</code> 替换默认加载指示。
+        延迟期间尚未阻止点击，涉及提交或支付等操作时仍需在业务层防重。
+      </p>
+      <h3>iconPlacement 与 iconPosition 有什么区别？</h3>
+      <p>
+        两者都接受 start / end。iconPosition 是 Ant Design 5.x 的兼容别名；
+        新代码建议使用 iconPlacement，同时传入时 iconPlacement 优先。
       </p>
       <h3>href 按钮可以传入所有链接属性吗？</h3>
       <p>

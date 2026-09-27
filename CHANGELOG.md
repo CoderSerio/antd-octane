@@ -2,6 +2,13 @@
 
 此文件记录 `antd-octane` 的版本变化；标注「待发布」的条目尚不可从 npm 安装。组件支持范围与限制见[兼容与迁移](site/src/pages/compatibility.tsx)。
 
+## 0.1.0-alpha.4 — 待发布
+
+- Button 支持 `iconPosition` / `iconPlacement` 控制图标位置，并支持 `loading={{ delay, icon }}`；延迟结束前仍可点击，进入加载态后阻止重复操作。
+- Input、Input.Password、Input.Search 与 Input.TextArea 新增基础 `showCount`，支持与原生 `maxLength` 同时显示计数，并让辅助技术读取计数说明。
+- 修复 `Spin fullscreen` 处于隐藏状态时仍可能遮挡页面点击的问题。
+- `showCount` 暂不支持自定义字符算法或格式化函数；Button 仍未实现完整的 color / variant、按钮组和语义化样式 API。
+
 ## 0.1.0-alpha.3 — 2026-09-28
 
 - 新增 Form 基础版：`Form.Item` 字段绑定、初始值、必填及常见长度/正则规则、提交、重置和 `Form.useForm()` 实例方法。

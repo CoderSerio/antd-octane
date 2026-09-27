@@ -34,6 +34,8 @@ export interface ButtonProps
   block?: boolean;
   loading?: boolean | { delay?: number; icon?: OctaneNode };
   icon?: OctaneNode;
+  /** Ant Design 5.x name; iconPlacement takes precedence when both are set. */
+  iconPosition?: "start" | "end";
   iconPlacement?: "start" | "end";
   children?: OctaneNode;
   href?: string;
@@ -94,7 +96,8 @@ export function Button(props: ButtonProps) {
     loading: _loading,
     disabled = config.componentDisabled ?? false,
     icon,
-    iconPlacement = "start",
+    iconPosition,
+    iconPlacement: requestedIconPlacement,
     children,
     href,
     target,
@@ -106,6 +109,7 @@ export function Button(props: ButtonProps) {
     ...rest
   } = props;
   const loading = innerLoading;
+  const iconPlacement = requestedIconPlacement ?? iconPosition ?? "start";
   const hasContent =
     children !== undefined &&
     children !== null &&

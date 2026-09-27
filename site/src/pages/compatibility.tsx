@@ -65,15 +65,15 @@ export default function Compatibility({ section }: { section?: string }) {
           ],
           [
             "Button",
-            "常用类型、尺寸、状态、图标、链接与 ref",
+            "常用类型、尺寸、状态、图标位置、延迟加载、链接与 ref",
             "基础实现",
-            "alpha",
+            "alpha.4",
           ],
           [
             "Input",
-            "基础输入、前后缀/清除、Password/Search/TextArea 与 ref",
+            "基础输入、前后缀/清除、字数统计、Password/Search/TextArea 与 ref",
             "基础实现",
-            "alpha",
+            "alpha.4",
           ],
           [
             "Form",

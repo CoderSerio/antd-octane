@@ -1,4 +1,5 @@
 import { BasicDemo, MoreDemo } from "../demos/menu-basic";
+import { ControlledTreeDemo } from "../demos/menu-controlled-tree";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -30,6 +31,14 @@ export default function Page({ section }: { section?: string }) {
         >
           <MoreDemo />
         </Demo>
+        <Demo
+          id="controlled-tree"
+          title="受控展开与多选"
+          description="应用同步维护 selectedKeys 和 openKeys；再次选择会取消，外部按钮可统一展开或收起。"
+          source={() => import("../demos/menu-controlled-tree.tsx?raw")}
+        >
+          <ControlledTreeDemo />
+        </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>
         API
@@ -55,7 +64,9 @@ export default function Page({ section }: { section?: string }) {
         主题与支持范围
       </h2>
       <p>
-        条目请使用稳定唯一的 key。支持方向键、Home / End、字符定位，以及 Enter /
+        条目请使用稳定唯一的 key。受控时需在 onSelect、onDeselect 和
+        onOpenChange 中更新对应状态，单独传入 key
+        数组不会自动改变视图。支持方向键、Home / End、字符定位，以及 Enter /
         Space 激活；展开后右方向键进入子菜单、左方向键返回。支持
         itemColor、itemHoverBg、itemSelectedColor、itemSelectedBg、itemHeight、itemBorderRadius
         等 token。当前子菜单都在同一导航树中展开，vertical / horizontal

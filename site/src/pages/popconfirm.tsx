@@ -1,4 +1,5 @@
 import { BasicDemo, MoreDemo } from "../demos/popconfirm-basic";
+import { ControlledDemo } from "../demos/popconfirm-controlled";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -29,6 +30,14 @@ export default function Page({ section }: { section?: string }) {
           source={() => import("../demos/popconfirm-basic.tsx?raw")}
         >
           <MoreDemo />
+        </Demo>
+        <Demo
+          id="controlled"
+          title="受控显示与自定义文案"
+          description="外部入口也能打开确认框；onOpenChange 必须回写 open。"
+          source={() => import("../demos/popconfirm-controlled.tsx?raw")}
+        >
+          <ControlledDemo />
         </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>

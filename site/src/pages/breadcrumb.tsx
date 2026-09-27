@@ -1,4 +1,5 @@
 import { BasicDemo, MoreDemo } from "../demos/breadcrumb-basic";
+import { PathNavigationDemo } from "../demos/breadcrumb-path-navigation";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -30,6 +31,14 @@ export default function Page({ section }: { section?: string }) {
         >
           <MoreDemo />
         </Demo>
+        <Demo
+          id="path-navigation"
+          title="路径下钻"
+          description="进入下级时追加当前位置，点击前面的面包屑可返回对应层级。"
+          source={() => import("../demos/breadcrumb-path-navigation.tsx?raw")}
+        >
+          <PathNavigationDemo />
+        </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>
         API
@@ -58,7 +67,9 @@ export default function Page({ section }: { section?: string }) {
       <p>
         支持
         itemColor、lastItemColor、linkColor、linkHoverColor、separatorColor、separatorMargin
-        token。items 的菜单、旧版 routes / children 和 itemRender
+        token。仅传 onClick
+        的条目渲染为按钮，适合应用内切换；最后一项标记为当前页面。items
+        的菜单、旧版 routes / children 和 itemRender
         尚未提供；链接使用浏览器原生导航。
       </p>
     </>

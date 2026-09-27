@@ -1,5 +1,7 @@
 import { BasicDemo } from "../demos/form-basic";
 import { InstanceDemo } from "../demos/form-instance";
+import { FormLayoutDemo } from "../demos/form-layout";
+import { FormValidationDemo } from "../demos/form-validation";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 
 export default function FormPage({ section }: { section?: string }) {
@@ -12,6 +14,13 @@ export default function FormPage({ section }: { section?: string }) {
       </h1>
       <p className="lead">收集平面字段的值，在提交时校验并反馈错误。</p>
       <DocMeta name="Form" />
+      <h2 id="when" tabIndex={-1}>
+        何时使用
+      </h2>
+      <p>
+        多个输入项需要统一收集、同步校验和提交时使用。简单筛选栏可使用 inline
+        布局；当前只支持平面字段。
+      </p>
       <h2 id="examples" tabIndex={-1}>
         代码演示
       </h2>
@@ -31,6 +40,22 @@ export default function FormPage({ section }: { section?: string }) {
           source={() => import("../demos/form-instance.tsx?raw")}
         >
           <InstanceDemo />
+        </Demo>
+        <Demo
+          id="validation"
+          title="手动校验与字段变化"
+          description="多条同步规则按顺序检查；validateFields 返回 Promise，失败时提供 errorFields。"
+          source={() => import("../demos/form-validation.tsx?raw")}
+        >
+          <FormValidationDemo />
+        </Demo>
+        <Demo
+          id="layout"
+          title="三种排列方式"
+          description="切换 horizontal、vertical、inline；Form.Item 可提供 help 和 extra。"
+          source={() => import("../demos/form-layout.tsx?raw")}
+        >
+          <FormLayoutDemo />
         </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>
@@ -82,6 +107,12 @@ export default function FormPage({ section }: { section?: string }) {
             "[]",
           ],
           [
+            "Form.Item.required",
+            "显示必填标记；未指定 rules 时也执行必填校验",
+            "boolean",
+            "false",
+          ],
+          [
             "Form.Item.valuePropName",
             "布尔控件使用 checked",
             "value | checked",
@@ -92,6 +123,12 @@ export default function FormPage({ section }: { section?: string }) {
             "FormInstance",
             "读取/设置值、重置与校验",
             "getFieldValue, getFieldsValue, setFieldsValue, resetFields, validateFields",
+            "—",
+          ],
+          [
+            "Form.id / name / autoComplete",
+            "透传原生 form 属性；id/name 也用于生成字段 ID",
+            "string",
             "—",
           ],
         ]}

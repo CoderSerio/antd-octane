@@ -1,5 +1,8 @@
 import { BasicDemo } from "../demos/select-basic";
 import { ControlledDemo } from "../demos/select-controlled";
+import { SelectControlledOpenDemo } from "../demos/select-controlled-open";
+import { SelectFilterEmptyDemo } from "../demos/select-filter-empty";
+import { SelectSizesStatusDemo } from "../demos/select-sizes-status";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 
 export default function Page({ section }: { section?: string }) {
@@ -12,6 +15,12 @@ export default function Page({ section }: { section?: string }) {
       </h1>
       <p className="lead">从有限选项中选择一个值，也可以先输入文本过滤。</p>
       <DocMeta name="Select" />
+      <h2 id="when" tabIndex={-1}>
+        何时使用
+      </h2>
+      <p>
+        选项数量有限、用户需要从已有值中选择时使用；选项较多时可启用搜索。当前版本只支持单选。
+      </p>
       <h2 id="examples" tabIndex={-1}>
         代码演示
       </h2>
@@ -31,6 +40,30 @@ export default function Page({ section }: { section?: string }) {
           source={() => import("../demos/select-controlled.tsx?raw")}
         >
           <ControlledDemo />
+        </Demo>
+        <Demo
+          id="filter-empty"
+          title="自定义过滤与空结果"
+          description="filterOption 可按选项 title 过滤，notFoundContent 自定义空结果；设为 false 可保留所有选项。"
+          source={() => import("../demos/select-filter-empty.tsx?raw")}
+        >
+          <SelectFilterEmptyDemo />
+        </Demo>
+        <Demo
+          id="controlled-open"
+          title="受控展开与选中回调"
+          description="open/onOpenChange 交由应用管理；onSelect 每次选中时返回选项，禁用选项不可选。"
+          source={() => import("../demos/select-controlled-open.tsx?raw")}
+        >
+          <SelectControlledOpenDemo />
+        </Demo>
+        <Demo
+          id="sizes-status"
+          title="尺寸与校验状态"
+          description="分别设置大/小尺寸、错误与警告状态；也可从 ConfigProvider 继承尺寸。"
+          source={() => import("../demos/select-sizes-status.tsx?raw")}
+        >
+          <SelectSizesStatusDemo />
         </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>
@@ -56,6 +89,7 @@ export default function Page({ section }: { section?: string }) {
             "(value, option?) => void",
             "—",
           ],
+          ["onSelect", "选中选项时调用", "(value, option) => void", "—"],
           ["open / defaultOpen", "受控展开 / 初始展开", "boolean", "false"],
           ["onOpenChange", "展开状态变化回调", "(open) => void", "—"],
           ["showSearch", "允许输入并过滤选项", "boolean", "false"],
@@ -71,6 +105,7 @@ export default function Page({ section }: { section?: string }) {
             "boolean | (text, option) => boolean",
             "true",
           ],
+          ["notFoundContent", "没有匹配项时的内容", "OctaneNode", "无匹配结果"],
           [
             "allowClear / onClear",
             "显示清除按钮 / 清除回调",
@@ -100,6 +135,8 @@ export default function Page({ section }: { section?: string }) {
         关闭；禁用选项不可选。搜索默认按文本标签过滤，非文本标签按 value
         过滤。尚未实现
         multiple、tags、labelInValue、选项分组、虚拟列表和完整上游样式。
+        带搜索时可用 searchValue/onSearch 控制搜索文本；这与已选中的 value
+        是两份独立状态。
       </p>
     </>
   );

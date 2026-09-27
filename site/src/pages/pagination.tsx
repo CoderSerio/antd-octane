@@ -1,4 +1,5 @@
 import { BasicDemo, MoreDemo } from "../demos/pagination-basic";
+import { FilteredTotalDemo } from "../demos/pagination-filtered-total";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -29,6 +30,14 @@ export default function Page({ section }: { section?: string }) {
           source={() => import("../demos/pagination-basic.tsx?raw")}
         >
           <MoreDemo />
+        </Demo>
+        <Demo
+          id="filtered-total"
+          title="筛选后重置页码"
+          description="切换结果总数时由应用将受控页码重置为 1；页数与范围随 total、pageSize 更新。"
+          source={() => import("../demos/pagination-filtered-total.tsx?raw")}
+        >
+          <FilteredTotalDemo />
         </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>
@@ -75,10 +84,11 @@ export default function Page({ section }: { section?: string }) {
         主题与支持范围
       </h2>
       <p>
-        支持 itemSize、itemSizeSM、itemBg、itemActiveBg token
-        及全局主题。条数选择暂用原生 select，不依赖尚未实现的 Select；不支持
-        locale、align、响应式精简或 showQuickJumper 对象配置。itemRender
-        只替换按钮内容，不应返回嵌套按钮或链接。
+        支持 itemSize、itemSizeSM、itemBg、itemActiveBg token 及全局主题。total
+        缩小时显示页码会限制在有效范围，但受控 current
+        仍由应用维护；筛选时请按产品需求主动重置。条数选择暂用原生
+        select；不支持 locale、align、响应式精简或 showQuickJumper
+        对象配置。itemRender 只替换按钮内容，不应返回嵌套按钮或链接。
       </p>
     </>
   );

@@ -65,6 +65,18 @@ describe("Button native behavior", () => {
     expect(button?.children[0]?.textContent).toBe("Continue");
     expect(button?.children[1]?.querySelector("[data-icon]"))?.not.toBeNull();
   });
+  it("accepts the Ant Design 5.x iconPosition alias", async () => {
+    await render(
+      <Button icon={<span data-icon="arrow">→</span>} iconPosition="end">
+        Continue
+      </Button>,
+    );
+    expect(
+      container
+        .querySelector("button")
+        ?.lastElementChild?.querySelector("[data-icon]"),
+    ).not.toBeNull();
+  });
   it("delays loading, prevents clicks once active, and restores clicks when cleared", async () => {
     vi.useFakeTimers();
     const click = vi.fn();

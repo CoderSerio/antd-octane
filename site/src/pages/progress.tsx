@@ -1,4 +1,5 @@
 import { BasicDemo, MoreDemo } from "../demos/progress-basic";
+import { VerificationDemo } from "../demos/progress-verification";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -31,6 +32,14 @@ export default function Page({ section }: { section?: string }) {
           source={() => import("../demos/progress-basic.tsx?raw")}
         >
           <MoreDemo />
+        </Demo>
+        <Demo
+          id="verification"
+          title="传输完成后的校验进度"
+          description="总进度保持 100%，success.percent 表示已确认成功的部分；format 显示校验状态。"
+          source={() => import("../demos/progress-verification.tsx?raw")}
+        >
+          <VerificationDemo />
         </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>

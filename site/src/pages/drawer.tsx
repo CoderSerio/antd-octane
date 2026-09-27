@@ -1,4 +1,5 @@
 import { BasicDemo, MoreDemo } from "../demos/drawer-basic";
+import { SizesDemo } from "../demos/drawer-sizes";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -29,6 +30,14 @@ export default function Page({ section }: { section?: string }) {
           source={() => import("../demos/drawer-basic.tsx?raw")}
         >
           <MoreDemo />
+        </Demo>
+        <Demo
+          id="sizes"
+          title="预设尺寸与遮罩行为"
+          description="比较默认与大尺寸；maskClosable=false 可避免误触遮罩导致关闭。"
+          source={() => import("../demos/drawer-sizes.tsx?raw")}
+        >
+          <SizesDemo />
         </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>
@@ -73,6 +82,7 @@ export default function Page({ section }: { section?: string }) {
             "document.body",
           ],
           ["zIndex", "层级", "number", "1000"],
+          ["className / rootClassName", "内容容器 / 根节点类名", "string", "—"],
           ["afterOpenChange", "显示状态变更回调", "(open) => void", "—"],
         ]}
       />

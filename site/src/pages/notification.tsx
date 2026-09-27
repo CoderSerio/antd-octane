@@ -1,4 +1,5 @@
 import { BasicDemo, MoreDemo } from "../demos/notification-basic";
+import { PersistentDemo } from "../demos/notification-persistent";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -29,6 +30,14 @@ export default function Page({ section }: { section?: string }) {
           source={() => import("../demos/notification-basic.tsx?raw")}
         >
           <MoreDemo />
+        </Demo>
+        <Demo
+          id="persistent"
+          title="持续通知与关闭回调"
+          description="duration=0 保持显示；通知内操作或页面按钮关闭后触发 onClose。"
+          source={() => import("../demos/notification-persistent.tsx?raw")}
+        >
+          <PersistentDemo />
         </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>

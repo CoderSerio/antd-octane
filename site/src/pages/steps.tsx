@@ -1,4 +1,5 @@
 import { BasicDemo, MoreDemo } from "../demos/steps-basic";
+import { ValidationGateDemo } from "../demos/steps-validation-gate";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -31,6 +32,14 @@ export default function Page({ section }: { section?: string }) {
           source={() => import("../demos/steps-basic.tsx?raw")}
         >
           <MoreDemo />
+        </Demo>
+        <Demo
+          id="validation-gate"
+          title="校验与错误状态"
+          description="应用决定能否进入下一步；未确认条款时当前步骤显示错误，确认后可继续。"
+          source={() => import("../demos/steps-validation-gate.tsx?raw")}
+        >
+          <ValidationGateDemo />
         </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>
@@ -66,7 +75,8 @@ export default function Page({ section }: { section?: string }) {
       </h2>
       <p>
         支持 iconSize、iconSizeSM、descriptionMaxWidth token
-        及全局主题。支持自定义图标、状态和受控点击；progressDot、导航式 / inline
+        及全局主题。支持自定义图标、状态和受控点击；Steps 只发出
+        onChange，步骤校验与访问规则需由应用实现。progressDot、导航式 / inline
         步骤、percent 与旧版 Step 子组件未实现。
       </p>
     </>

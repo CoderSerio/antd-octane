@@ -1,4 +1,5 @@
 import { BasicDemo, MoreDemo } from "../demos/message-basic";
+import { LifecycleDemo } from "../demos/message-lifecycle";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -29,6 +30,14 @@ export default function Page({ section }: { section?: string }) {
           source={() => import("../demos/message-basic.tsx?raw")}
         >
           <MoreDemo />
+        </Demo>
+        <Demo
+          id="lifecycle"
+          title="请求过程与手动关闭"
+          description="同一个 key 从加载提示更新为结果；duration=0 保持显示，onClose 可同步页面反馈。"
+          source={() => import("../demos/message-lifecycle.tsx?raw")}
+        >
+          <LifecycleDemo />
         </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>

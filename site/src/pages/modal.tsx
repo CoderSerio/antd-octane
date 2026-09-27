@@ -1,4 +1,5 @@
 import { BasicDemo, MoreDemo } from "../demos/modal-basic";
+import { FooterDemo } from "../demos/modal-footer";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -30,6 +31,14 @@ export default function Page({ section }: { section?: string }) {
         >
           <MoreDemo />
         </Demo>
+        <Demo
+          id="footer"
+          title="自定义操作区"
+          description="需要三种以上操作时，使用 footer 完整替换默认按钮；关闭状态仍由应用控制。"
+          source={() => import("../demos/modal-footer.tsx?raw")}
+        >
+          <FooterDemo />
+        </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>
         API
@@ -45,6 +54,7 @@ export default function Page({ section }: { section?: string }) {
           ],
           ["onOk / onCancel", "确认 / 关闭请求", "(event) => void", "—"],
           ["confirmLoading", "确认按钮加载状态", "boolean", "false"],
+          ["okType", "默认确定按钮类型", "ButtonProps['type']", "primary"],
           ["okText / cancelText", "按钮文案", "OctaneNode", "确定 / 取消"],
           ["okButtonProps / cancelButtonProps", "按钮属性", "ButtonProps", "—"],
           [
@@ -53,6 +63,7 @@ export default function Page({ section }: { section?: string }) {
             "number | string / boolean",
             "520 / false",
           ],
+          ["zIndex", "浮层层级", "number", "主题默认层级"],
           [
             "closable / closeIcon",
             "显示关闭按钮 / 自定义图标",

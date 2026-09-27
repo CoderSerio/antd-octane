@@ -8,7 +8,7 @@ export default function ChangelogPage({ section }: { section?: string }) {
       <h1>更新日志</h1>
       <p className="lead">这里记录已发布到 npm 的 alpha 版本。</p>
       <p>
-        文档站当前安装 <code>antd-octane@0.1.0-alpha.3</code>。完整记录见{" "}
+        文档站当前安装 <code>antd-octane@0.1.0-alpha.4</code>。完整记录见{" "}
         <a
           className="text-link"
           href="https://github.com/CoderSerio/antd-octane/blob/main/CHANGELOG.md"
@@ -20,6 +20,14 @@ export default function ChangelogPage({ section }: { section?: string }) {
           兼容与迁移
         </a>
         。
+      </p>
+      <h2 id="alpha-4" tabIndex={-1}>
+        0.1.0-alpha.4 · 2026-09-28
+      </h2>
+      <p>
+        Button 新增图标位置与延迟加载配置，Input 系列新增内置字数统计，
+        同时修复隐藏的全屏 Spin
+        可能遮挡点击的问题。非数据展示组件页补充了更多可运行案例。
       </p>
       <h2 id="alpha-3" tabIndex={-1}>
         0.1.0-alpha.3 · 2026-09-28
