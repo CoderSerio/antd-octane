@@ -16,6 +16,7 @@ import {
   Empty,
   Flex,
   FloatButton,
+  Form,
   Input,
   InputNumber,
   Layout,
@@ -153,6 +154,14 @@ function Preview({ name }: { name: string }) {
 
     case "input-number":
       return <InputNumber defaultValue={3} min={0} max={10} />;
+    case "form":
+      return (
+        <Form layout="vertical" style={{ width: "100%" }}>
+          <Form.Item name="name" label="名称">
+            <Input placeholder="填写名称" />
+          </Form.Item>
+        </Form>
+      );
     case "select":
       return (
         <Select

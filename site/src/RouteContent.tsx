@@ -30,6 +30,7 @@ const pages: Record<string, () => Promise<{ default: PageComponent }>> = {
 
   "qr-code": () => import("./pages/qr-code"),
   "input-number": () => import("./pages/input-number"),
+  form: () => import("./pages/form"),
   select: () => import("./pages/select"),
   slider: () => import("./pages/slider"),
   typography: () => import("./pages/typography"),
