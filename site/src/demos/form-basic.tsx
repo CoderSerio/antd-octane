@@ -21,9 +21,13 @@ export function BasicDemo() {
           { pattern: /^[^@\s]+@[^@\s]+\.[^@\s]+$/, message: "邮箱格式不正确" },
         ]}
       >
-        <Input placeholder="name@example.com" style={{ width: "100%" }} />
+        <Input
+          required
+          placeholder="name@example.com"
+          style={{ width: "100%" }}
+        />
       </Form.Item>
-      <Form.Item name="fruit" label="喜欢的水果" required>
+      <Form.Item name="fruit" label="喜欢的水果">
         <Select
           style={{ width: "100%" }}
           options={[
@@ -38,7 +42,9 @@ export function BasicDemo() {
       <Button type="primary" htmlType="submit">
         提交
       </Button>{" "}
-      <Button htmlType="reset">重置</Button>
+      <Button htmlType="reset" onClick={() => setResult("")}>
+        重置
+      </Button>
       <p role="status">{result}</p>
     </Form>
   );

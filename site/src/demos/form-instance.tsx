@@ -10,7 +10,7 @@ export function InstanceDemo() {
       style={{ maxWidth: 320 }}
     >
       <Form.Item name="name" label="项目名称" required>
-        <Input style={{ width: "100%" }} />
+        <Input required style={{ width: "100%" }} />
       </Form.Item>
       <Button
         onClick={() => form.setFieldsValue({ name: "Ant Design for Octane" })}

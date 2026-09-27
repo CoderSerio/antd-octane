@@ -108,6 +108,11 @@ export default function FormPage({ section }: { section?: string }) {
         暂不支持嵌套字段路径、Form.List、字段依赖、异步规则、自定义值转换、完整的校验触发配置或完整
         Ant Design Form API。直接子组件以外的复合控件布局也尚未验证。
       </p>
+      <p>
+        Form.Item 的必填规则目前不会自动为子控件设置必填语义。使用 Input
+        时请同时设置 <code>required</code>；Select 暂未开放
+        <code>aria-required</code> 属性，相关辅助技术支持仍待补齐。
+      </p>
     </>
   );
 }
