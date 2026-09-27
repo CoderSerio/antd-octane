@@ -204,13 +204,14 @@ export default function InputPage({ section }: { section?: string }) {
           已知差异
         </strong>
         <p>
-          尚不支持 variant、showCount/count、OTP、Form 集成、Password 的 hover
-          action 和语义 styles/classNames。Search.enterButton
+          尚不支持 variant、showCount/count、OTP、Password 的 hover action
+          和语义 styles/classNames。Search.enterButton
           的节点作为按钮内容，不支持传入嵌套按钮。 autoSize 基于原生
           scrollHeight，暂不支持 onResize 或隐藏容器的预测量。
           改变前后缀/组合结构可能重建输入节点；需要保留焦点时请保留相应包裹结构。
           事件采用原生 Event；清除生成 input 事件，Search 的清除回调为 source:
-          clear。 TextArea.ref 与 InputRef 不同，详见上表。
+          clear。 TextArea.ref 与 InputRef 不同，详见上表。 Form.Item
+          已验证直接绑定基础 Input；复杂输入变体仍需分别验证。
         </p>
       </div>
     </>

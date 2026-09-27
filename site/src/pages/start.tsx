@@ -86,7 +86,12 @@ export default function StartPage({ section }: { section?: string }) {
         <a className="text-link" href="#compatibility">
           兼容与迁移
         </a>
-        。 Form、Table 等尚未实现的组件请先查阅组件总览，不能直接照搬上游示例。
+        。
+        <a className="text-link" href="#form">
+          Form
+        </a>
+        已提供平面字段和同步校验的基础版；Table、DatePicker 等尚未实现。
+        请先查阅各组件的支持范围，不能直接照搬上游示例。
       </p>
       <p>
         想修改组件库或文档站？参阅{" "}

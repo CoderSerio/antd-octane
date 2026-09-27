@@ -136,7 +136,8 @@ export default function CheckboxPage({ section }: { section?: string }) {
           已知差异
         </strong>
         <p>
-          尚未提供 Form.Item 集成，未实现上游 wave 动效。回调提供
+          Form.Item 已支持通过 valuePropName="checked" 绑定；未实现上游 wave
+          动效。回调提供
           target.checked、target.value、nativeEvent、preventDefault 与
           stopPropagation，不提供 React SyntheticEvent。
         </p>

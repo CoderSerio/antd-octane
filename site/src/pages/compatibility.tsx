@@ -177,7 +177,7 @@ export default function Compatibility({ section }: { section?: string }) {
       </h2>
       <p>
         SSR、prefixCls、cssVar、hashed、StyleProvider、Tailwind / StyleX
-        完整消费、模态静态方法和表单集成尚未完成。Input.OTP、完整计数与
+        完整消费、模态静态方法和复杂表单能力尚未完成。Input.OTP、完整计数与
         variant，以及日期选择等复杂输入组件仍未提供。Form
         当前只支持平面字段和同步规则；Select
         已支持单选基础能力，多选、标签模式和虚拟列表仍待实现。

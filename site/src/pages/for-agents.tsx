@@ -89,6 +89,11 @@ export default function Example() {
           StyleProvider、cssVar、hashed、prefixCls 或 SSR 样式契约。
         </li>
         <li>
+          Form 仅支持平面字段、直接子组件和同步规则；Checkbox、Switch 字段需设置
+          valuePropName="checked"。不生成 Form.List、嵌套 name
+          路径或异步校验示例。
+        </li>
+        <li>
           不推断未导出的组件、上游子组件、事件、ref 或 token
           已兼容。检查组件页与当前类型。
         </li>
