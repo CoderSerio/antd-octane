@@ -1,5 +1,4 @@
-import { Flex, Select, type SelectValue } from "antd-octane";
-import { useState } from "octane";
+import { Flex, Select } from "antd-octane";
 
 const options = [
   { value: "apple", label: "苹果" },
@@ -31,24 +30,6 @@ export function BasicDemo() {
         aria-label="禁用的水果选择器"
         style={{ width: 220 }}
       />
-    </Flex>
-  );
-}
-
-export function ControlledDemo() {
-  const [value, setValue] = useState<SelectValue | null>("apple");
-  return (
-    <Flex vertical gap={12} style={{ alignItems: "flex-start" }}>
-      <Select
-        options={options}
-        value={value}
-        showSearch
-        allowClear
-        aria-label="搜索并选择水果"
-        style={{ width: 220 }}
-        onChange={(next) => setValue(next ?? null)}
-      />
-      <p>当前值：{value ?? "未选择"}</p>
     </Flex>
   );
 }

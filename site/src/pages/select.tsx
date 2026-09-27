@@ -1,4 +1,5 @@
-import { BasicDemo, ControlledDemo } from "../demos/select-basic";
+import { BasicDemo } from "../demos/select-basic";
+import { ControlledDemo } from "../demos/select-controlled";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 
 export default function Page({ section }: { section?: string }) {
@@ -27,7 +28,7 @@ export default function Page({ section }: { section?: string }) {
           id="controlled"
           title="搜索与受控值"
           description="输入文本过滤选项；由应用状态控制选中的值。"
-          source={() => import("../demos/select-basic.tsx?raw")}
+          source={() => import("../demos/select-controlled.tsx?raw")}
         >
           <ControlledDemo />
         </Demo>
