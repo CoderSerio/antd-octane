@@ -1,3 +1,4 @@
+/** @jsxImportSource octane */
 import type { OctaneNode } from "octane";
 import { useEffect, useRef, useState } from "octane";
 import { Floating, type FloatingProps } from "../_util/floating";

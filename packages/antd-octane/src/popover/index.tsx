@@ -1,3 +1,4 @@
+/** @jsxImportSource octane */
 import type { OctaneNode } from "octane";
 import { Floating, type FloatingProps } from "../_util/floating";
 import { useComponentTokens } from "../_util/tokens";

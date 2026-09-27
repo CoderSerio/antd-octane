@@ -7,6 +7,18 @@ export default function ApiConventions({ section }: { section?: string }) {
       <p className="lead">
         沿用熟悉的 antd 业务 API，框架语法以 Octane 0.4.3 为准。
       </p>
+      <h2 id="syntax" tabIndex={-1}>
+        TSX、TSRX 与 Signal
+      </h2>
+      <p>
+        TSX 与 TSRX 使用同一套组件 API。TSRX 的模板语法不要求另一套组件实现；
+        Space、Splitter 和 Carousel 等子节点组件也可在 TSRX 中使用。
+      </p>
+      <p>
+        受控属性接收普通值。使用 Signal 时，在消费组件的渲染区域调用
+        <code>.get()</code>，再把结果传给 value、checked
+        等属性；目前不支持直接把 SignalHandle 作为这些组件属性传入。
+      </p>
       <h2 id="state" tabIndex={-1}>
         状态与受控输入
       </h2>

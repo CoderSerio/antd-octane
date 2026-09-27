@@ -1,3 +1,4 @@
+/** @jsxImportSource octane */
 import type { CSSProperties, HTMLAttributes, OctaneNode } from "octane";
 import { Fragment } from "octane";
 import type { Responsive } from "../_util/responsive";

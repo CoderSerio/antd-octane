@@ -1,3 +1,4 @@
+/** @jsxImportSource octane */
 import type { CSSProperties, HTMLAttributes, OctaneNode } from "octane";
 import { createContext, useContext, useMemo } from "octane";
 import { useConfig } from "../config-provider";

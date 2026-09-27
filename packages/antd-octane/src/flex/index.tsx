@@ -1,3 +1,4 @@
+/** @jsxImportSource octane */
 import type { CSSProperties, HTMLAttributes } from "octane";
 import { useConfig } from "../config-provider";
 export interface FlexProps extends HTMLAttributes<HTMLDivElement> {
