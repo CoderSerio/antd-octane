@@ -112,6 +112,13 @@ export const nav = [
     keywords: "switch 开关",
   },
   {
+    id: "form",
+    title: "Form 表单",
+    category: "components",
+    group: "数据录入",
+    keywords: "form 表单 校验 提交 重置",
+  },
+  {
     id: "input",
     title: "Input 输入框",
     category: "components",
@@ -473,6 +480,7 @@ export const toc: Record<string, [string, string][]> = {
     ["build", "仓库构建与验证"],
   ],
   changelog: [
+    ["alpha-3", "0.1.0-alpha.3"],
     ["alpha-2", "0.1.0-alpha.2"],
     ["alpha-1", "0.1.0-alpha.1"],
     ["alpha-0", "0.1.0-alpha.0"],
@@ -737,6 +745,14 @@ toc.select = [
   ["examples", "代码演示"],
   ["basic", "基本用法"],
   ["controlled", "搜索与受控值"],
+  ["api", "API"],
+  ["scope", "支持范围"],
+];
+
+toc.form = [
+  ["examples", "代码演示"],
+  ["basic", "填写并提交"],
+  ["instance", "实例方法"],
   ["api", "API"],
   ["scope", "支持范围"],
 ];

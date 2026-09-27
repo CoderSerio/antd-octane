@@ -12,9 +12,8 @@ export default function ApiConventions({ section }: { section?: string }) {
       </h2>
       <p>
         TSX 与 TSRX 使用同一套组件 API。TSRX 的模板语法不要求另一套组件实现。
-        仓库源码已验证 Space、Splitter 和 Carousel 等子节点组件在 TSRX 中可用；
-        npm alpha.0 包尚未包含这项修复；alpha.1 起提供源码包修复，安装前请确认
-        npm alpha 标签指向的版本。
+        已发布包从 alpha.1 起验证 Space、Splitter 和 Carousel 等子节点组件在
+        TSRX 中可用。安装前请确认 npm alpha 标签指向的版本。
       </p>
       <p>
         受控属性接收普通值。使用 Signal 时，在消费组件的渲染区域调用
@@ -57,8 +56,9 @@ export default function ApiConventions({ section }: { section?: string }) {
         后续 API 的边界
       </h2>
       <p>
-        Form 与 Table 仍待专项实现，Form.rules 与 Table render
-        的适配需另行验证。Modal 已提供声明式
+        Form
+        已支持平面字段绑定与同步规则校验；嵌套字段、动态列表和异步规则仍待实现。
+        Table 尚未实现。Modal 已提供声明式
         open/onOk/onCancel；Modal.confirm、Modal.useModal
         尚未支持。消息与通知可使用 hook/holder 或 App.useApp()
         实例，不能照搬全局静态调用。

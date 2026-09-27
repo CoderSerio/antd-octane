@@ -1,6 +1,6 @@
 # Ant Design for Octane
 
-> Octane 0.4.3 原生的 Ant Design 风格组件库；以 Ant Design 5.29.3 为参考，非全量兼容。当前 alpha 开发预览；npm 已发布 0.1.0-alpha.0，使用 antd-octane@alpha 安装。
+> Octane 0.4.3 原生的 Ant Design 风格组件库；以 Ant Design 5.29.3 为参考，非全量兼容。当前为 alpha 开发预览，使用 antd-octane@alpha 安装；具体版本请查询 npm dist-tags.alpha。
 
 ## 文档页面
 
@@ -16,12 +16,13 @@
 - [参与贡献](./#contributing): 本地开发与仓库验证。
 - [App](./#app): 上下文消息与通知实例；不提供 modal 实例。
 - [Modal](./#modal): 声明式弹窗；没有 confirm/useModal。
+- [Form](./#form): 平面字段绑定、同步校验、提交和重置；不支持动态列表与异步规则。
 
 ## 核对源码
 
 - [快速开始页面源码](https://github.com/CoderSerio/antd-octane/blob/main/site/src/pages/start.tsx): 安装、配置与完整入口示例。
-
 - [源码与类型](https://github.com/CoderSerio/antd-octane/tree/main/packages/antd-octane/src): 远端与本地可能有版本差异，以正在消费的包声明为准。
 - [兼容页面源码](https://github.com/CoderSerio/antd-octane/blob/main/site/src/pages/compatibility.tsx): 支持范围详情。
+- [Form 页面源码](https://github.com/CoderSerio/antd-octane/blob/main/site/src/pages/form.tsx): 表单 API 与已知限制。
 
 Hooks 和 JSX 来自 octane；显式导入 antd-octane/style.css。不要推断 React 包装、全量 antd API、SSR、已发布 CLI 或 MCP 支持。

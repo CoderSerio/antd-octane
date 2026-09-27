@@ -13,7 +13,7 @@ export default function Overview({ section }: { section?: string }) {
       </p>
       <p>
         这个文档站也由 Octane 渲染，并安装 npm 上的{" "}
-        <code>antd-octane@0.1.0-alpha.2</code>
+        <code>antd-octane@0.1.0-alpha.3</code>
         ，通过公开包入口使用布局、搜索、主题和示例组件。
       </p>
       <h2 id="features" tabIndex={-1}>
@@ -43,8 +43,9 @@ export default function Overview({ section }: { section?: string }) {
       </h2>
       <p>
         已通过 npm 的 alpha 标签发布，安装前可查询当前版本。当前实现
-        基础输入、布局、选择与信息展示组件，以及
-        ConfigProvider，按组件列出支持范围和已知差异。
+        基础输入、布局、选择、信息展示和 Form 平面字段基础版，以及
+        ConfigProvider。每个组件页列出当前支持范围与已知差异；目录项数量不代表
+        API、视觉或无障碍已完全对齐。
       </p>
       <div className="demo-row">
         <a className="text-link" href="#start">

@@ -32,7 +32,6 @@ const specialSlugs: Record<string, string> = {
 export const upstreamSlug = (name: string) =>
   specialSlugs[name] ?? name.toLowerCase();
 const projects = new Set([
-  "Form",
   "Table",
   "DatePicker",
   "TimePicker",
