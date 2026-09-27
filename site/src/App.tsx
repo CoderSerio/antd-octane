@@ -222,7 +222,7 @@ function Shell(p: ShellProps) {
           </a>
         </nav>
         <div className="header-links">
-          <span className="version">0.1.0-alpha.0</span>
+          <span className="version">alpha</span>
           <button
             type="button"
             className="theme-entry"

@@ -12,7 +12,7 @@ export function BasicDemo() {
           label: "状态",
           children: <Tag color="processing">开发中</Tag>,
         },
-        { key: "version", label: "版本", children: "0.1.0-alpha.0" },
+        { key: "version", label: "版本", children: "alpha" },
         { key: "framework", label: "框架", children: "Octane" },
         {
           key: "notes",
