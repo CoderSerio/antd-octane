@@ -1,0 +1,15 @@
+# Changelog
+
+此文件记录已发布的 `antd-octane` 包。仓库中尚未发布的改动不会提前列为已发布能力；组件支持范围与限制见[兼容与迁移](site/src/pages/compatibility.tsx)。
+
+## 0.1.0-alpha.1 — 2026-09-27
+
+- 将原始 TSX 源码作为 npm 包入口，由消费项目的 Octane 编译器处理；TSX 与 TSRX 共用同一套组件 API。
+- 修复 TSRX 消费项目中 `Space`、`Splitter.Panel` 与 `Carousel` 子节点未渲染的问题。
+- 扩展独立安装包检查，覆盖非数据展示组件的 TSRX 渲染，以及 Signal `.get()` 驱动的受控输入、选择与导航状态。
+- 仍需 Octane `0.4.3` 和显式导入 `antd-octane/style.css`。这是 alpha 版本，不代表完整 Ant Design API、视觉、无障碍或 SSR 兼容。
+
+## 0.1.0-alpha.0 — 2026-09-26
+
+- 首个 npm alpha 预览版本，提供基础组件、主题算法与中文文档站。
+- 该版本的预编译包不包含上述 TSRX 子节点修复。

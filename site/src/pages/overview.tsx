@@ -12,9 +12,9 @@ export default function Overview({ section }: { section?: string }) {
         API、交互与主题配置。组件运行时由 Octane 原生实现。
       </p>
       <p>
-        这个文档站也由 Octane
-        渲染，通过组件库的公开包入口使用布局、搜索、主题和示例组件；仓库开发使用
-        workspace 依赖，npm 发布版本请以 alpha 标签为准。
+        这个文档站也由 Octane 渲染，并安装 npm 上的{" "}
+        <code>antd-octane@0.1.0-alpha.1</code>
+        ，通过公开包入口使用布局、搜索、主题和示例组件。
       </p>
       <h2 id="features" tabIndex={-1}>
         特性

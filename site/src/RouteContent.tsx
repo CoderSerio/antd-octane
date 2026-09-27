@@ -7,6 +7,7 @@ const pages: Record<string, () => Promise<{ default: PageComponent }>> = {
   tailwindcss: () => import("./pages/tailwindcss"),
   "for-agents": () => import("./pages/for-agents"),
   contributing: () => import("./pages/contributing"),
+  changelog: () => import("./pages/changelog"),
   home: () => import("./pages/home"),
   tour: () => import("./pages/tour"),
   affix: () => import("./pages/affix"),
