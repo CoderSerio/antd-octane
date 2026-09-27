@@ -157,6 +157,13 @@ export type {
   SegmentedValue,
 } from "./segmented";
 export { Segmented } from "./segmented";
+export type {
+  SelectOption,
+  SelectProps,
+  SelectRef,
+  SelectValue,
+} from "./select";
+export { Select } from "./select";
 export type { SkeletonElementProps, SkeletonProps } from "./skeleton";
 export { Skeleton } from "./skeleton";
 export type { SliderMark, SliderProps, SliderValue } from "./slider";

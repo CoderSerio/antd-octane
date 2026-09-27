@@ -70,6 +70,7 @@ export interface ThemeConfig {
   token?: Partial<AliasToken>;
   algorithm?: MappingAlgorithm | MappingAlgorithm[];
   components?: {
+    Select?: ComponentTheme<{ zIndexPopup: number }>;
     QRCode?: ComponentTheme;
     Tour?: ComponentTheme<{
       zIndexPopup: number;

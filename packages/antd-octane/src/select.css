@@ -1,0 +1,115 @@
+@layer antd {
+  :where(.ant-select) {
+    box-sizing: border-box;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-width: 120px;
+    height: var(--ao-select-height);
+    padding-inline: 11px;
+    border: 1px solid var(--ao-select-border);
+    border-radius: var(--ao-radius);
+    background: var(--ao-bg);
+    color: var(--ao-text);
+    font: var(--ao-font-size) / var(--ao-line) var(--ao-font);
+    cursor: text;
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s;
+  }
+  :where(.ant-select-small) {
+    padding-inline: 7px;
+  }
+  :where(.ant-select-large) {
+    padding-inline: 11px;
+    font-size: 16px;
+  }
+  :where(.ant-select:not(.ant-select-disabled):hover) {
+    border-color: var(--ao-select-hover-border);
+  }
+  :where(.ant-select:focus-within) {
+    border-color: var(--ao-select-focus);
+    box-shadow: 0 0 0 2px
+      color-mix(in srgb, var(--ao-select-focus) 18%, transparent);
+  }
+  :where(.ant-select-disabled) {
+    background: var(--ao-select-disabled);
+    color: var(--ao-muted);
+    cursor: not-allowed;
+  }
+  :where(.ant-select > input) {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    padding: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+  }
+  :where(.ant-select > input::placeholder) {
+    color: var(--ao-muted);
+  }
+  :where(.ant-select > input:read-only) {
+    cursor: pointer;
+  }
+  :where(.ant-select-disabled > input:read-only) {
+    cursor: not-allowed;
+  }
+  :where(.ant-select-arrow) {
+    flex: none;
+    margin-inline-start: 8px;
+    color: var(--ao-muted);
+    pointer-events: none;
+  }
+  :where(.ant-select-clear) {
+    flex: none;
+    border: 0;
+    margin-inline-start: 8px;
+    padding: 0;
+    background: transparent;
+    color: var(--ao-muted);
+    font: inherit;
+    cursor: pointer;
+  }
+  :where(.ant-select-dropdown) {
+    box-sizing: border-box;
+    max-height: 256px;
+    max-width: calc(100vw - 16px);
+    overflow: auto;
+    padding: 4px;
+    border-radius: var(--ao-radius);
+    background: var(--ao-select-popup);
+    box-shadow: var(--ao-select-shadow);
+    color: var(--ao-text);
+    font: var(--ao-font-size) / var(--ao-line) var(--ao-font);
+  }
+  :where(.ant-select-item-option, .ant-select-item-empty) {
+    box-sizing: border-box;
+    min-height: 32px;
+    padding: 5px 8px;
+    border-radius: calc(var(--ao-radius) / 2);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  :where(.ant-select-item-option) {
+    cursor: pointer;
+  }
+  :where(.ant-select-item-option-active:not(.ant-select-item-option-disabled)) {
+    background: var(--ao-select-hover);
+  }
+  :where(.ant-select-item-option-selected) {
+    background: var(--ao-select-selected);
+    font-weight: 600;
+  }
+  :where(.ant-select-item-option-disabled) {
+    color: var(--ao-muted);
+    cursor: not-allowed;
+  }
+  :where(.ant-select-item-empty) {
+    color: var(--ao-muted);
+    text-align: center;
+  }
+}

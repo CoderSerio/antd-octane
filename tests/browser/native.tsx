@@ -31,6 +31,7 @@ import {
   Result,
   Row,
   Segmented,
+  Select,
   Skeleton,
   Slider,
   Spin,
@@ -111,6 +112,19 @@ createRoot(root).render(
     {new URLSearchParams(location.search).has("overlays") && <OverlayFixture />}
     <div data-entry="number">
       <InputNumber defaultValue={3} />
+    </div>
+    <div data-entry="select">
+      <Select
+        aria-label="Choose a fruit"
+        showSearch
+        allowClear
+        placeholder="Choose a fruit"
+        options={[
+          { value: "apple", label: "Apple" },
+          { value: "banana", label: "Banana", disabled: true },
+          { value: "cherry", label: "Cherry" },
+        ]}
+      />
     </div>
     <div data-entry="number-small">
       <InputNumber size="small" defaultValue={3} />
