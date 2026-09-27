@@ -1,4 +1,5 @@
 import { BasicDemo } from "../demos/divider-basic";
+import { OrientationDemo } from "../demos/divider-orientation";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -13,14 +14,24 @@ export default function Page({ section }: { section?: string }) {
       <h2 id="examples" tabIndex={-1}>
         代码演示
       </h2>
-      <Demo
-        id="basic"
-        title="基本使用"
-        description="切换顶部主题，观察布局与状态；展开查看完整示例。"
-        source={() => import("../demos/divider-basic.tsx?raw")}
-      >
-        <BasicDemo />
-      </Demo>
+      <div className="demo-grid">
+        <Demo
+          id="basic"
+          title="水平与垂直分隔"
+          description="用水平线分隔内容，或在行内操作之间使用垂直分隔。"
+          source={() => import("../demos/divider-basic.tsx?raw")}
+        >
+          <BasicDemo />
+        </Demo>
+        <Demo
+          id="orientation"
+          title="标题位置与样式"
+          description="调整文字位置，并组合 plain、dashed 和 orientationMargin。"
+          source={() => import("../demos/divider-orientation.tsx?raw")}
+        >
+          <OrientationDemo />
+        </Demo>
+      </div>
       <h2 id="api" tabIndex={-1}>
         API
       </h2>

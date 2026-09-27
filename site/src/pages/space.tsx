@@ -1,4 +1,6 @@
 import { BasicDemo } from "../demos/space-basic";
+import { LayoutDemo } from "../demos/space-layout";
+import { SizesDemo } from "../demos/space-sizes";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -15,14 +17,32 @@ export default function Page({ section }: { section?: string }) {
       <h2 id="examples" tabIndex={-1}>
         代码演示
       </h2>
-      <Demo
-        id="basic"
-        title="基本使用"
-        description="切换顶部主题，观察布局与状态；展开查看完整示例。"
-        source={() => import("../demos/space-basic.tsx?raw")}
-      >
-        <BasicDemo />
-      </Demo>
+      <div className="demo-grid">
+        <Demo
+          id="basic"
+          title="基本使用"
+          description="为操作组设置间距，并用分隔符组织链接。"
+          source={() => import("../demos/space-basic.tsx?raw")}
+        >
+          <BasicDemo />
+        </Demo>
+        <Demo
+          id="sizes"
+          title="间距尺寸"
+          description="在 small、middle 和 large 之间切换，预设值随主题 token 变化。"
+          source={() => import("../demos/space-sizes.tsx?raw")}
+        >
+          <SizesDemo />
+        </Demo>
+        <Demo
+          id="layout"
+          title="换行与分隔"
+          description="size 数组分别设置横向、纵向间距；split 只插入到有效子项之间。"
+          source={() => import("../demos/space-layout.tsx?raw")}
+        >
+          <LayoutDemo />
+        </Demo>
+      </div>
       <h2 id="api" tabIndex={-1}>
         API
       </h2>

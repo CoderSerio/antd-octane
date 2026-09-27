@@ -1,4 +1,5 @@
 import { BasicDemo } from "../demos/switch-basic";
+import { ControlledDemo } from "../demos/switch-controlled";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -15,14 +16,24 @@ export default function Page({ section }: { section?: string }) {
       <h2 id="examples" tabIndex={-1}>
         代码演示
       </h2>
-      <Demo
-        id="basic"
-        title="基本使用"
-        description="切换顶部主题，观察布局与状态；展开查看完整示例。"
-        source={() => import("../demos/switch-basic.tsx?raw")}
-      >
-        <BasicDemo />
-      </Demo>
+      <div className="demo-grid">
+        <Demo
+          id="basic"
+          title="基本使用与状态"
+          description="切换普通开关，对比小号、禁用、加载和文字状态。"
+          source={() => import("../demos/switch-basic.tsx?raw")}
+        >
+          <BasicDemo />
+        </Demo>
+        <Demo
+          id="controlled"
+          title="受控状态"
+          description="checked 由外部状态决定，开关和按钮都能更新同一个值。"
+          source={() => import("../demos/switch-controlled.tsx?raw")}
+        >
+          <ControlledDemo />
+        </Demo>
+      </div>
       <h2 id="api" tabIndex={-1}>
         API
       </h2>
