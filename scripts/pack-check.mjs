@@ -149,20 +149,69 @@ createRoot(document.getElementById('root')!).render(
     join(directory, "main.tsrx"),
     `import { createRoot } from 'octane';
 import { useSignal$ } from 'octane/signals/client';
-import { Button, Input, Splitter, Space, Carousel } from 'antd-octane';
+import { Affix, Alert, Anchor, App, Breadcrumb, Button, Checkbox, ConfigProvider, Divider, Drawer, Dropdown, Flex, FloatButton, Icon, Input, InputNumber, Layout, Menu, Modal, Pagination, Popconfirm, Progress, Radio, Rate, Result, Row, Col, Skeleton, Slider, Space, Spin, Splitter, Steps, Switch, Tabs, Typography, Watermark, message, notification, Carousel } from 'antd-octane';
 import 'antd-octane/style.css';
 
 function Page() @{
   const value$ = useSignal$('');
+  const checked$ = useSignal$(false);
+  const number$ = useSignal$(1);
+  const current$ = useSignal$(1);
+  const [messages, messageHolder] = message.useMessage();
+  const [notifications, notificationHolder] = notification.useNotification();
   <main>
-    <Button onClick={() => value$.set('updated')}>Update</Button>
-    <Input value={value$.get()} onChange={(event) => value$.set(event.target.value)} />
+    <Button id="signal-update" onClick={() => { value$.set('updated'); checked$.set(true); number$.set(3); current$.set(2); }}>Update</Button>
+    <Input id="signal-input" value={value$.get()} onChange={(event) => value$.set(event.target.value)} />
+    <Switch checked={checked$.get()} onChange={(next) => checked$.set(next)} />
+    <Checkbox checked={checked$.get()} onChange={(event) => checked$.set(event.target.checked)}>checkable</Checkbox>
+    <Radio checked={checked$.get()} onChange={(event) => checked$.set(event.target.checked)}>radio choice</Radio>
+    <InputNumber value={number$.get()} onChange={(next) => number$.set(next ?? 0)} />
+    <Rate value={number$.get()} onChange={(next) => number$.set(next)} />
+    <Slider value={number$.get()} onChange={(next) => number$.set(Number(next))} />
+    <Pagination current={current$.get()} total={50} onChange={(next) => current$.set(next)} />
+    <Tabs activeKey={String(current$.get())} onChange={(key) => current$.set(Number(key))} items={[{ key: '1', label: 'First tab', children: 'first panel' }, { key: '2', label: 'Second tab', children: 'second panel' }]} />
+    <section id="general">
+      <FloatButton description="Quick" />
+      <Icon viewBox="0 0 24 24"><path d="M2 12h20" /></Icon>
+      <Typography.Text>typed text</Typography.Text>
+    </section>
+    <section id="layout">
+      <Divider>divider content</Divider>
+      <Flex><span>flex child</span></Flex>
+      <Row><Col span={12}>grid child</Col></Row>
+      <Layout><Layout.Header>layout header</Layout.Header><Layout.Content>layout content</Layout.Content></Layout>
+    </section>
     <Splitter>
       <Splitter.Panel>first</Splitter.Panel>
       <Splitter.Panel>second</Splitter.Panel>
     </Splitter>
     <Space><span>one</span><span>two</span></Space>
     <Carousel><div>slide one</div><div>slide two</div></Carousel>
+    <section id="navigation">
+      <Anchor items={[{ key: 'target', href: '#general', title: 'Anchor target' }]} />
+      <Breadcrumb items={[{ title: 'Home' }, { title: 'Current' }]} />
+      <Dropdown menu={{ items: [{ key: 'open', label: 'Open menu' }] }}><Button>dropdown trigger</Button></Dropdown>
+      <Menu items={[{ key: 'item', label: 'Menu item' }]} />
+      <Steps current={1} items={[{ title: 'Start' }, { title: 'Done' }]} />
+    </section>
+    <section id="feedback">
+      <Alert message="alert content" />
+      <Drawer open={false} title="Drawer title">drawer content</Drawer>
+      <Modal open={false} title="Modal title">modal content</Modal>
+      <Popconfirm title="Confirm action"><Button>confirm trigger</Button></Popconfirm>
+      <Progress percent={30} />
+      <Result status="success" title="result content" />
+      <Skeleton loading={false}><span>skeleton child</span></Skeleton>
+      <Spin spinning={false}><span>spin child</span></Spin>
+      <Watermark content="watermark"><span>watermark child</span></Watermark>
+      {messageHolder}{notificationHolder}
+      <Button onClick={() => { messages.success('message ready'); notifications.info({ message: 'notification ready' }); }}>show notices</Button>
+    </section>
+    <section id="other">
+      <Affix><span>affix child</span></Affix>
+      <App><span>app child</span></App>
+      <ConfigProvider><span>config child</span></ConfigProvider>
+    </section>
   </main>
 }
 
@@ -185,8 +234,8 @@ import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 const win = new Window({ url: 'http://localhost/' });
-for (const key of ['window', 'document', 'navigator', 'Node', 'Text', 'Comment', 'Document', 'DocumentFragment', 'Element', 'SVGElement', 'HTMLElement', 'HTMLInputElement', 'HTMLButtonElement', 'Event', 'PointerEvent', 'MouseEvent', 'MutationObserver', 'ResizeObserver', 'CustomEvent', 'getComputedStyle']) {
-  const value = key === 'window' ? win : key === 'getComputedStyle' ? win.getComputedStyle.bind(win) : win[key];
+for (const key of ['window', 'document', 'navigator', 'Node', 'Text', 'Comment', 'Document', 'DocumentFragment', 'Element', 'SVGElement', 'HTMLElement', 'HTMLInputElement', 'HTMLButtonElement', 'Event', 'PointerEvent', 'MouseEvent', 'MutationObserver', 'ResizeObserver', 'CustomEvent', 'getComputedStyle', 'requestAnimationFrame', 'cancelAnimationFrame']) {
+  const value = key === 'window' ? win : ['getComputedStyle', 'requestAnimationFrame', 'cancelAnimationFrame'].includes(key) ? win[key].bind(win) : win[key];
   Object.defineProperty(globalThis, key, { value, configurable: true });
 }
 win.document.body.innerHTML = '<div id="root"></div>';
@@ -201,10 +250,23 @@ try {
   if (count('.ant-space-item') !== 2) throw new Error('TSRX Space children missing');
   const carousel = win.document.querySelector('.ant-carousel');
   if (!carousel?.textContent.includes('slide one') || !carousel.textContent.includes('slide two')) throw new Error('TSRX Carousel children missing');
-  win.document.querySelector('button')?.click();
+  const text = win.document.body.textContent;
+  for (const expected of ['typed text', 'divider content', 'flex child', 'grid child', 'layout header', 'layout content', 'Anchor target', 'Home', 'Current', 'Menu item', 'Start', 'alert content', 'result content', 'skeleton child', 'spin child', 'watermark child', 'affix child', 'app child', 'config child']) {
+    if (!text.includes(expected)) throw new Error('TSRX component content missing: ' + expected);
+  }
+  win.document.querySelector('#signal-update')?.click();
   await new Promise((done) => setTimeout(done, 30));
-  if (win.document.querySelector('input')?.value !== 'updated') throw new Error('TSRX Signal-driven Input did not update');
-  console.log('Packed TSRX consumer rendered children and Signal-driven Input.');
+  if (win.document.querySelector('#signal-input')?.value !== 'updated') throw new Error('TSRX Signal-driven Input did not update');
+  if (win.document.querySelector('[role="switch"]')?.getAttribute('aria-checked') !== 'true') throw new Error('TSRX Signal-driven Switch did not update');
+  if (!win.document.querySelector('.ant-checkbox input')?.checked) throw new Error('TSRX Signal-driven Checkbox did not update');
+  if (!win.document.querySelector('.ant-radio input')?.checked) throw new Error('TSRX Signal-driven Radio did not update');
+  if (win.document.querySelector('.ant-input-number-input')?.value !== '3') throw new Error('TSRX Signal-driven InputNumber did not update');
+  if (win.document.querySelector('.ant-rate')?.getAttribute('aria-valuenow') !== '3') throw new Error('TSRX Signal-driven Rate did not update');
+  if (win.document.querySelector('.ant-slider [role="slider"]')?.getAttribute('aria-valuenow') !== '3') throw new Error('TSRX Signal-driven Slider did not update');
+  if (win.document.querySelector('.ant-pagination-item-active')?.textContent.trim() !== '2') throw new Error('TSRX Signal-driven Pagination did not update');
+  if (!win.document.querySelector('.ant-tabs-tab-active')?.textContent.includes('Second tab')) throw new Error('TSRX Signal-driven Tabs did not update');
+  if (!win.document.querySelector('#feedback')?.textContent.includes('skeleton child')) throw new Error('TSRX feedback children missing');
+  console.log('Packed TSRX consumer rendered non-data-display components and Signal-driven controls.');
 } finally {
   win.happyDOM.abort();
 }
