@@ -11,7 +11,7 @@ export default function StartPage({ section }: { section?: string }) {
       <div className="notice">
         <strong>Alpha 开发预览</strong>
         <p>
-          当前版本为 0.1.0-alpha.0，API 可能调整。以下示例使用 Node.js ≥
+          当前为 alpha 阶段，API 可能调整。以下示例使用 Node.js ≥
           22.22.2、Octane 0.4.3、Vite 8 和 TypeScript 5.9。 Ant Design 5.29.3
           是组件对照基线，消费项目无需安装 React 或 antd。
         </p>
@@ -22,8 +22,9 @@ export default function StartPage({ section }: { section?: string }) {
       <p>在已有 Octane 项目中执行：</p>
       <Code language="bash" source="pnpm add antd-octane@alpha octane@0.4.3" />
       <p>
-        需要固定版本时，将 antd-octane@alpha 替换为
-        antd-octane@0.1.0-alpha.0。新建项目可先创建空目录，执行 pnpm init，
+        需要固定版本时，先用 npm view antd-octane dist-tags.alpha
+        查看当前发布版本，再将 antd-octane@alpha
+        替换为对应版本号。新建项目可先创建空目录，执行 pnpm init，
         再安装上述依赖和以下开发工具。
       </p>
       <Code language="bash" source="pnpm add -D vite@8 typescript@5.9" />

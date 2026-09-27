@@ -4,7 +4,7 @@
 
 ## Alpha 使用
 
-当前 npm 版本：`0.1.0-alpha.0`，发布标签：`alpha`。需要 Octane **0.4.3**；使用 Octane 编译器构建 TSX 或 TSRX。仓库的下一次打包将包含原始源码，由应用的 Octane 编译器处理；这一调整尚未发布到 npm。
+发布标签为 `alpha`，需要 Octane **0.4.3**；使用 Octane 编译器构建 TSX 或 TSRX。`0.1.0-alpha.0` 尚未包含 TSRX 子节点修复；`0.1.0-alpha.1` 起，安装包提供原始源码，由应用的 Octane 编译器处理。安装前可用 `npm view antd-octane dist-tags.alpha` 确认当前发布版本。
 
 ```bash
 npm install antd-octane@alpha octane@0.4.3

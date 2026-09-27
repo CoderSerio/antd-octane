@@ -18,8 +18,8 @@ export default function ForAgents({ section }: { section?: string }) {
       </h2>
       <p>
         本库原生运行于 Octane 0.4.3，Ant Design 5.29.3 是开发对照基线。 不使用
-        React 包装，不承诺全部 API 或内部 DOM 兼容。 当前版本为
-        0.1.0-alpha.0，已通过 npm alpha 标签发布。
+        React 包装，不承诺全部 API 或内部 DOM 兼容。本库已通过 npm alpha
+        标签发布；安装前请查询当前版本。
       </p>
       <h2 id="context" tabIndex={-1}>
         提供给 Agent 的上下文
