@@ -2,7 +2,7 @@
 
 此文件记录 `antd-octane` 的版本变化；标注「待发布」的条目尚不可从 npm 安装。组件支持范围与限制见[兼容与迁移](site/src/pages/compatibility.tsx)。
 
-## 0.1.0-alpha.2 — 待发布
+## 0.1.0-alpha.2 — 2026-09-27
 
 - 新增 Select 单选基础版：受控与非受控值、搜索过滤、键盘操作、清除、禁用状态及主题尺寸。
 - 独立安装包验证新增 Select 的 TSX 与 TSRX/Signal 消费路径。

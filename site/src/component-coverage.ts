@@ -39,7 +39,6 @@ const projects = new Set([
   "Tree",
   "TreeSelect",
   "Cascader",
-  "Select",
   "AutoComplete",
   "Mentions",
   "Upload",

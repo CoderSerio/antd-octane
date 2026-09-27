@@ -63,8 +63,8 @@ importers:
   site:
     dependencies:
       antd-octane:
-        specifier: 0.1.0-alpha.1
-        version: 0.1.0-alpha.1(octane@0.4.3(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@5.9.3)(vite@8.3.1(@types/node@22.20.4)))
+        specifier: 0.1.0-alpha.2
+        version: 0.1.0-alpha.2(octane@0.4.3(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@5.9.3)(vite@8.3.1(@types/node@22.20.4)))
       octane:
         specifier: 0.4.3
         version: 0.4.3(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@5.9.3)(vite@8.3.1(@types/node@22.20.4))
@@ -759,8 +759,8 @@ packages:
   alien-signals@3.2.0:
     resolution: {integrity: sha512-5J9+NpCLHgic4xnZtI8SznvNagwJsZSvRFsAwoLlLw+Edaqa4upCiOC19P8Vx2DqmEvqK2qJBMtI8+9eXOEb/A==}
 
-  antd-octane@0.1.0-alpha.1:
-    resolution: {integrity: sha512-fGABvSEh69ghf3zlnCecu/Keqz6BNKmihUi7AEPeyrkfo+mdkqjxKCVe6EV3FVBMajd76ZgFFcn88830w8V6Lw==}
+  antd-octane@0.1.0-alpha.2:
+    resolution: {integrity: sha512-1f3UcljS18CMJv5z0ZXLG25e+xcY+TPsSWIqp6rpVLIeWJlO3lh32i41A/wbX5chBFu9MR24pcH/Ear/GlMoUQ==}
     peerDependencies:
       octane: 0.4.3
 
@@ -1932,7 +1932,7 @@ snapshots:
 
   alien-signals@3.2.0: {}
 
-  antd-octane@0.1.0-alpha.1(octane@0.4.3(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@5.9.3)(vite@8.3.1(@types/node@22.20.4))):
+  antd-octane@0.1.0-alpha.2(octane@0.4.3(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@5.9.3)(vite@8.3.1(@types/node@22.20.4))):
     dependencies:
       '@ant-design/colors': 7.2.1
       '@ant-design/fast-color': 2.0.6
