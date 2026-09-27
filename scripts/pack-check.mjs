@@ -64,7 +64,7 @@ try {
     join(directory, "main.tsx"),
     `
 import { createRoot } from 'octane';
-import { Affix, Anchor, FloatButton, Image, Carousel, Splitter, Watermark, App, Icon, QRCode, Tour, Modal, Drawer, Menu, Dropdown, Popconfirm, message, notification, Button, InputNumber, Slider, Input, Checkbox, Switch, Flex, Space, Divider, Radio, Tag, Alert, Card, Avatar, Badge, Spin, Skeleton, Progress, Result, Typography, List, Row, Col, Layout, Collapse, Tabs, Empty, Statistic, Timeline, Descriptions, Segmented, Rate, Breadcrumb, Steps, Pagination, Tooltip, Popover, ConfigProvider, theme } from 'antd-octane';
+import { Affix, Anchor, FloatButton, Image, Carousel, Splitter, Watermark, App, Icon, QRCode, Tour, Modal, Drawer, Menu, Dropdown, Popconfirm, message, notification, Button, InputNumber, Slider, Input, Select, Checkbox, Switch, Flex, Space, Divider, Radio, Tag, Alert, Card, Avatar, Badge, Spin, Skeleton, Progress, Result, Typography, List, Row, Col, Layout, Collapse, Tabs, Empty, Statistic, Timeline, Descriptions, Segmented, Rate, Breadcrumb, Steps, Pagination, Tooltip, Popover, ConfigProvider, theme } from 'antd-octane';
 import 'antd-octane/style.css';
 function AppConsumer() {
   const {message} = App.useApp();
@@ -105,6 +105,7 @@ createRoot(document.getElementById('root')!).render(
     <Input.Password defaultValue="secret" />
     <Input.TextArea autoSize={{ minRows: 2, maxRows: 4 }} />
     <Input.Search allowClear onSearch={(value) => void value} />
+    <Select options={[{value:'first',label:'First'},{value:'second',label:'Second'}]} defaultValue="first" showSearch onChange={(value) => void value} />
     <Modal open={false} title="Packed modal">Content</Modal>
     <Drawer open={false} title="Packed drawer">Content</Drawer>
     <Menu items={[{key:'one',label:'One'}]} />
@@ -149,7 +150,7 @@ createRoot(document.getElementById('root')!).render(
     join(directory, "main.tsrx"),
     `import { createRoot } from 'octane';
 import { useSignal$ } from 'octane/signals/client';
-import { Affix, Alert, Anchor, App, Breadcrumb, Button, Checkbox, ConfigProvider, Divider, Drawer, Dropdown, Flex, FloatButton, Icon, Input, InputNumber, Layout, Menu, Modal, Pagination, Popconfirm, Progress, Radio, Rate, Result, Row, Col, Skeleton, Slider, Space, Spin, Splitter, Steps, Switch, Tabs, Typography, Watermark, message, notification, Carousel } from 'antd-octane';
+import { Affix, Alert, Anchor, App, Breadcrumb, Button, Checkbox, ConfigProvider, Divider, Drawer, Dropdown, Flex, FloatButton, Icon, Input, InputNumber, Layout, Menu, Modal, Pagination, Popconfirm, Progress, Radio, Rate, Result, Row, Col, Select, Skeleton, Slider, Space, Spin, Splitter, Steps, Switch, Tabs, Typography, Watermark, message, notification, Carousel } from 'antd-octane';
 import 'antd-octane/style.css';
 
 function Page() @{
@@ -157,15 +158,17 @@ function Page() @{
   const checked$ = useSignal$(false);
   const number$ = useSignal$(1);
   const current$ = useSignal$(1);
+  const selected$ = useSignal$('first');
   const [messages, messageHolder] = message.useMessage();
   const [notifications, notificationHolder] = notification.useNotification();
   <main>
-    <Button id="signal-update" onClick={() => { value$.set('updated'); checked$.set(true); number$.set(3); current$.set(2); }}>Update</Button>
+    <Button id="signal-update" onClick={() => { value$.set('updated'); checked$.set(true); number$.set(3); current$.set(2); selected$.set('second'); }}>Update</Button>
     <Input id="signal-input" value={value$.get()} onChange={(event) => value$.set(event.target.value)} />
     <Switch checked={checked$.get()} onChange={(next) => checked$.set(next)} />
     <Checkbox checked={checked$.get()} onChange={(event) => checked$.set(event.target.checked)}>checkable</Checkbox>
     <Radio checked={checked$.get()} onChange={(event) => checked$.set(event.target.checked)}>radio choice</Radio>
     <InputNumber value={number$.get()} onChange={(next) => number$.set(next ?? 0)} />
+    <Select id="signal-select" options={[{value:'first',label:'First'},{value:'second',label:'Second'}]} value={selected$.get()} onChange={(next) => selected$.set(String(next ?? ''))} />
     <Rate value={number$.get()} onChange={(next) => number$.set(next)} />
     <Slider value={number$.get()} onChange={(next) => number$.set(Number(next))} />
     <Pagination current={current$.get()} total={50} onChange={(next) => current$.set(next)} />
@@ -261,6 +264,7 @@ try {
   if (!win.document.querySelector('.ant-checkbox input')?.checked) throw new Error('TSRX Signal-driven Checkbox did not update');
   if (!win.document.querySelector('.ant-radio input')?.checked) throw new Error('TSRX Signal-driven Radio did not update');
   if (win.document.querySelector('.ant-input-number-input')?.value !== '3') throw new Error('TSRX Signal-driven InputNumber did not update');
+  if (win.document.querySelector('#signal-select')?.value !== 'Second') throw new Error('TSRX Signal-driven Select did not update');
   if (win.document.querySelector('.ant-rate')?.getAttribute('aria-valuenow') !== '3') throw new Error('TSRX Signal-driven Rate did not update');
   if (win.document.querySelector('.ant-slider [role="slider"]')?.getAttribute('aria-valuenow') !== '3') throw new Error('TSRX Signal-driven Slider did not update');
   if (win.document.querySelector('.ant-pagination-item-active')?.textContent.trim() !== '2') throw new Error('TSRX Signal-driven Pagination did not update');
