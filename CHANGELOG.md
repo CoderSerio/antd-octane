@@ -2,7 +2,7 @@
 
 此文件记录 `antd-octane` 的版本变化；标注「待发布」的条目尚不可从 npm 安装。组件支持范围与限制见[兼容与迁移](site/src/pages/compatibility.tsx)。
 
-## 0.1.0-alpha.4 — 待发布
+## 0.1.0-alpha.4 — 2026-09-28
 
 - Button 支持 `iconPosition` / `iconPlacement` 控制图标位置，并支持 `loading={{ delay, icon }}`；延迟结束前仍可点击，进入加载态后阻止重复操作。
 - Input、Input.Password、Input.Search 与 Input.TextArea 新增基础 `showCount`，支持与原生 `maxLength` 同时显示计数，并让辅助技术读取计数说明。
