@@ -1,4 +1,5 @@
 import { BasicDemo, MoreDemo } from "../demos/affix-basic";
+import { OffsetDemo } from "../demos/affix-offset";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -30,6 +31,14 @@ export default function Page({ section }: { section?: string }) {
         >
           <MoreDemo />
         </Demo>
+        <Demo
+          id="offset"
+          title="动态偏移与状态回调"
+          description="指定容器内改变 offsetTop，观察固定状态；ref.updatePosition 可主动重算。"
+          source={() => import("../demos/affix-offset.tsx?raw")}
+        >
+          <OffsetDemo />
+        </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>
         API
@@ -59,6 +68,8 @@ export default function Page({ section }: { section?: string }) {
         支持 zIndexPopup 和全局层级。监听目标滚动、窗口 resize 和
         ResizeObserver，卸载时移除监听并取消帧。固定元素采用 viewport fixed
         定位；带 transform 的祖先、跨窗口容器和滚动裁剪边缘不在当前保证范围。
+        同时指定 offsetTop 与 offsetBottom 时优先使用顶部；target 返回 null
+        时不会注册监听。updatePosition 用于应用已知的布局改变，不是滚动操作。
       </p>
     </>
   );

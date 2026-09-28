@@ -1,4 +1,8 @@
 import { BasicDemo, MoreDemo } from "../demos/steps-basic";
+import { IconsDemo } from "../demos/steps-icons";
+import { ItemStatusDemo } from "../demos/steps-item-status";
+import { LabelPlacementDemo } from "../demos/steps-label-placement";
+import { MiniDemo } from "../demos/steps-mini";
 import { ValidationGateDemo } from "../demos/steps-validation-gate";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
@@ -41,6 +45,38 @@ export default function Page({ section }: { section?: string }) {
         >
           <ValidationGateDemo />
         </Demo>
+        <Demo
+          id="mini"
+          title="迷你版"
+          description="size=small 用于空间较紧凑的流程导航。"
+          source={() => import("../demos/steps-mini.tsx?raw")}
+        >
+          <MiniDemo />
+        </Demo>
+        <Demo
+          id="icons"
+          title="带图标的步骤条"
+          description="items[].icon 替换步骤数字，图标可表达登录、确认和完成。"
+          source={() => import("../demos/steps-icons.tsx?raw")}
+        >
+          <IconsDemo />
+        </Demo>
+        <Demo
+          id="item-status"
+          title="步骤运行错误"
+          description="status=error 标记当前步骤；单项 status 可覆盖自动推导的状态。"
+          source={() => import("../demos/steps-item-status.tsx?raw")}
+        >
+          <ItemStatusDemo />
+        </Demo>
+        <Demo
+          id="label-placement"
+          title="标签放置位置"
+          description="切换水平步骤的标签位置；窄屏响应式纵向排列时不采用下方标签布局。"
+          source={() => import("../demos/steps-label-placement.tsx?raw")}
+        >
+          <LabelPlacementDemo />
+        </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>
         API
@@ -68,6 +104,18 @@ export default function Page({ section }: { section?: string }) {
             "default / horizontal",
           ],
           ["onChange", "点击可用步骤的回调", "(current: number) => void", "—"],
+          [
+            "items[].key / title / subTitle / description",
+            "键值、标题、副标题和描述",
+            "string | number / OctaneNode",
+            "—",
+          ],
+          [
+            "items[].icon / status / disabled",
+            "自定义图标、状态和是否允许点击",
+            "OctaneNode / StepStatus / boolean",
+            "— / 自动推导 / false",
+          ],
         ]}
       />
       <h2 id="tokens" tabIndex={-1}>

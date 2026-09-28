@@ -168,6 +168,8 @@ export type {
 } from "./segmented";
 export { Segmented } from "./segmented";
 export type {
+  MultipleSelectProps,
+  SelectComponentProps,
   SelectOption,
   SelectProps,
   SelectRef,

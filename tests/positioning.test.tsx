@@ -160,6 +160,38 @@ it("FloatButton group expands by button, Escape collapses and controlled state i
   );
   expect(container.querySelector('[aria-label="child"]')).toBeNull();
 });
+it("FloatButton group composes user click and toggle and respects preventDefault", async () => {
+  const click = vi.fn(),
+    change = vi.fn();
+  await render(
+    <FloatButton.Group trigger="click" onClick={click} onOpenChange={change}>
+      <FloatButton aria-label="composed child" />
+    </FloatButton.Group>,
+  );
+  await act(() =>
+    container
+      .querySelector<HTMLButtonElement>(".ant-float-btn-group-trigger")
+      ?.click(),
+  );
+  expect(click).toHaveBeenCalledTimes(1);
+  expect(change).toHaveBeenCalledExactlyOnceWith(true);
+  expect(
+    container.querySelector('[aria-label="composed child"]'),
+  ).not.toBeNull();
+
+  click.mockImplementation((event: MouseEvent) => event.preventDefault());
+  change.mockClear();
+  await act(() =>
+    container
+      .querySelector<HTMLButtonElement>(".ant-float-btn-group-trigger")
+      ?.click(),
+  );
+  expect(click).toHaveBeenCalledTimes(2);
+  expect(change).not.toHaveBeenCalled();
+  expect(
+    container.querySelector('[aria-label="composed child"]'),
+  ).not.toBeNull();
+});
 it("BackTop visibility threshold, target scrolling and cleanup", async () => {
   const scroll = target();
   scroll.scrollTop = 500;

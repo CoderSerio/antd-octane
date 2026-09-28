@@ -19,6 +19,16 @@ import { Button } from "../button";
 import { useConfig } from "../config-provider";
 import { inputVariables } from "./tokens";
 
+// The count shares the outer width; the field fills that width exactly once.
+function countControlStyle(
+  style: CSSProperties | undefined,
+  showCount?: boolean,
+): CSSProperties | undefined {
+  return showCount
+    ? { ...style, width: "100%", minWidth: undefined, maxWidth: undefined }
+    : style;
+}
+
 export type InputChangeEvent = Event & {
   target: HTMLInputElement;
   currentTarget: HTMLInputElement;
@@ -135,7 +145,12 @@ function InternalInput(props: InputProps) {
         status && `ant-input-status-${status}`,
         !affix && !grouped && className,
       ]}
-      style={{ ...variables, ...(!affix && !grouped ? style : undefined) }}
+      style={{
+        ...variables,
+        ...(!affix && !grouped
+          ? countControlStyle(style, showCount)
+          : undefined),
+      }}
       onInput={(event) => {
         setText(event.currentTarget.value);
         onChange?.(event as unknown as InputChangeEvent);
@@ -175,7 +190,10 @@ function InternalInput(props: InputProps) {
         disabled && "ant-input-affix-wrapper-disabled",
         !grouped && className,
       ]}
-      style={{ ...variables, ...(!grouped ? style : undefined) }}
+      style={{
+        ...variables,
+        ...(!grouped ? countControlStyle(style, showCount) : undefined),
+      }}
     >
       {prefix !== undefined && (
         <span className="ant-input-prefix">{prefix}</span>
@@ -215,7 +233,7 @@ function InternalInput(props: InputProps) {
         `ant-input-group-wrapper-${size}`,
         className,
       ]}
-      style={{ ...variables, ...style }}
+      style={{ ...variables, ...countControlStyle(style, showCount) }}
     >
       {addonBefore !== undefined && (
         <span className="ant-input-group-addon">{addonBefore}</span>
@@ -229,7 +247,15 @@ function InternalInput(props: InputProps) {
     decorated
   );
   return showCount ? (
-    <span className="ant-input-count-wrapper" style={variables}>
+    <span
+      className="ant-input-count-wrapper"
+      style={{
+        ...variables,
+        width: style?.width,
+        minWidth: style?.minWidth,
+        maxWidth: style?.maxWidth,
+      }}
+    >
       {control}
       <span
         id={countId}
@@ -580,7 +606,7 @@ function TextArea({
       style={{
         ...variables,
         resize: autoSize ? "none" : undefined,
-        ...(!allowClear ? style : undefined),
+        ...(!allowClear ? countControlStyle(style, showCount) : undefined),
       }}
       onInput={(event) => {
         setText(event.currentTarget.value);
@@ -610,7 +636,7 @@ function TextArea({
   const control = allowClear ? (
     <span
       className={["ant-input-textarea-wrapper", className]}
-      style={{ ...variables, ...style }}
+      style={{ ...variables, ...countControlStyle(style, showCount) }}
     >
       {textarea}
       {!disabled &&
@@ -641,7 +667,15 @@ function TextArea({
   );
   const currentLength = String(props.value ?? text).length;
   return showCount ? (
-    <span className="ant-input-count-wrapper" style={variables}>
+    <span
+      className="ant-input-count-wrapper"
+      style={{
+        ...variables,
+        width: style?.width,
+        minWidth: style?.minWidth,
+        maxWidth: style?.maxWidth,
+      }}
+    >
       {control}
       <span
         id={countId}

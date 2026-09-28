@@ -1,4 +1,5 @@
 import { BasicDemo, MoreDemo } from "../demos/watermark-basic";
+import { ConfigDemo } from "../demos/watermark-config";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -29,6 +30,14 @@ export default function Page({ section }: { section?: string }) {
           source={() => import("../demos/watermark-basic.tsx?raw")}
         >
           <MoreDemo />
+        </Demo>
+        <Demo
+          id="config"
+          title="水印参数预览"
+          description="编辑水印文字并切换字号与间距，检查覆盖层不妨碍输入。"
+          source={() => import("../demos/watermark-config.tsx?raw")}
+        >
+          <ConfigDemo />
         </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>

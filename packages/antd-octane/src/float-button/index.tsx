@@ -140,6 +140,7 @@ function Group({
   trigger,
   open: controlled,
   onOpenChange,
+  onClick,
   shape = "circle",
   icon,
   description,
@@ -203,7 +204,10 @@ function Group({
             description={description}
             tooltip={tooltip}
             aria-label={open ? "收起浮动按钮组" : "展开浮动按钮组"}
-            onClick={() => change(!open)}
+            onClick={(event) => {
+              onClick?.(event);
+              if (!event.defaultPrevented) change(!open);
+            }}
           />
         )}
       </fieldset>

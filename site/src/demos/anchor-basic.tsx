@@ -31,6 +31,7 @@ export function BasicDemo() {
             <p>滚动内容或点击左侧链接。</p>
           </section>
         ))}
+        <div style={{ height: 100 }} />
       </section>
     </div>
   );

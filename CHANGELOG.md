@@ -2,6 +2,14 @@
 
 此文件记录 `antd-octane` 的版本变化；标注「待发布」的条目尚不可从 npm 安装。组件支持范围与限制见[兼容与迁移](site/src/pages/compatibility.tsx)。
 
+## 0.1.0-alpha.5 — 待发布
+
+- Select 新增 `mode="multiple"`：数组形式的受控和非受控值、搜索、选择与移除、清空、键盘操作及多选状态说明；保留原有单选 `SelectProps`，新增 `MultipleSelectProps` 和 `SelectComponentProps` 类型。
+- 修复 Input / TextArea 开启 `showCount` 后，固定宽度、百分比宽度及宽度约束与计数区域不一致的问题，覆盖带前后缀和附加内容的输入框。
+- 修复 FloatButton.Group 的 `onClick` 被内部展开逻辑覆盖的问题，允许调用方通过 `preventDefault()` 阻止切换。
+- Select 多选选中后保留对应高亮项；可搜索输入中的 Home/End 保留原生文本光标行为。
+- Select 的标签模式、labelInValue、虚拟列表和高级渲染配置尚未支持；本次多选实现不代表完整上游 API 对齐。
+
 ## 0.1.0-alpha.4 — 2026-09-28
 
 - Button 支持 `iconPosition` / `iconPlacement` 控制图标位置，并支持 `loading={{ delay, icon }}`；延迟结束前仍可点击，进入加载态后阻止重复操作。

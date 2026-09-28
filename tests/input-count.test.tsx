@@ -94,3 +94,29 @@ it("updates uncontrolled TextArea count on input", async () => {
   });
   expect(count()?.textContent).toBe("4 / 10");
 });
+
+it("keeps explicit widths on the counted field including decorated variants", async () => {
+  const style = { width: "50%", minWidth: 120, maxWidth: 240 };
+  for (const field of [
+    <Input key="plain" showCount style={style} />,
+    <Input key="affix" showCount style={style} prefix="$" allowClear />,
+    <Input key="grouped" showCount style={style} addonBefore="https://" />,
+    <Input.TextArea key="textarea" showCount style={style} />,
+    <Input.TextArea key="textarea-clear" showCount style={style} allowClear />,
+  ]) {
+    await render(field);
+    const wrapper = container.querySelector<HTMLElement>(
+      ".ant-input-count-wrapper",
+    );
+    expect(wrapper?.style.width).toBe("50%");
+    expect(wrapper?.style.minWidth).toBe("120px");
+    expect(wrapper?.style.maxWidth).toBe("240px");
+    const control = wrapper?.firstElementChild as HTMLElement;
+    expect(control.style.width).toBe("100%");
+    expect(control.style.minWidth).toBe("");
+    expect(control.style.maxWidth).toBe("");
+  }
+  await render(<Input showCount={false} style={style} />);
+  expect(container.querySelector(".ant-input-count-wrapper")).toBeNull();
+  expect(container.querySelector("input")?.style.width).toBe("50%");
+});

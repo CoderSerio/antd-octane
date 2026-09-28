@@ -1,5 +1,9 @@
 import { BasicDemo, MoreDemo } from "../demos/dropdown-basic";
+import { ContextDemo } from "../demos/dropdown-context";
 import { ControlledOpenDemo } from "../demos/dropdown-controlled-open";
+import { DisabledDemo } from "../demos/dropdown-disabled";
+import { PlacementDemo } from "../demos/dropdown-placement";
+import { SelectionDemo } from "../demos/dropdown-selection";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -25,8 +29,8 @@ export default function Page({ section }: { section?: string }) {
         </Demo>
         <Demo
           id="more"
-          title="悬停与右键"
-          description="支持键盘操作，焦点与当前选中状态分别管理。"
+          title="悬停触发"
+          description="鼠标移入打开，移出关闭；触发器也支持 ArrowDown 打开。"
           source={() => import("../demos/dropdown-basic.tsx?raw")}
         >
           <MoreDemo />
@@ -38,6 +42,38 @@ export default function Page({ section }: { section?: string }) {
           source={() => import("../demos/dropdown-controlled-open.tsx?raw")}
         >
           <ControlledOpenDemo />
+        </Demo>
+        <Demo
+          id="placement"
+          title="弹出位置"
+          description="六种上下弹出位置；接近视口边界时可自动调整。"
+          source={() => import("../demos/dropdown-placement.tsx?raw")}
+        >
+          <PlacementDemo />
+        </Demo>
+        <Demo
+          id="selection"
+          title="菜单选择"
+          description="menu.selectable=true 启用选择，应用维护 selectedKeys。"
+          source={() => import("../demos/dropdown-selection.tsx?raw")}
+        >
+          <SelectionDemo />
+        </Demo>
+        <Demo
+          id="context"
+          title="右键菜单"
+          description="右键按指针位置打开；可聚焦触发器仍支持键盘打开。"
+          source={() => import("../demos/dropdown-context.tsx?raw")}
+        >
+          <ContextDemo />
+        </Demo>
+        <Demo
+          id="disabled"
+          title="禁用"
+          description="disabled 阻止展开；同时禁用触发按钮来表达不可用状态。"
+          source={() => import("../demos/dropdown-disabled.tsx?raw")}
+        >
+          <DisabledDemo />
         </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>
@@ -64,6 +100,18 @@ export default function Page({ section }: { section?: string }) {
             "document.body",
           ],
           ["destroyOnHidden", "关闭时卸载菜单", "boolean", "false"],
+          [
+            "overlayClassName / overlayStyle",
+            "浮层类名与样式",
+            "string / CSSProperties",
+            "—",
+          ],
+          [
+            "className / style",
+            "触发器包装节点的类名与样式",
+            "string / CSSProperties",
+            "—",
+          ],
         ]}
       />
       <h2 id="tokens" tabIndex={-1}>

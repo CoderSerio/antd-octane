@@ -24,11 +24,8 @@ export interface SelectRef {
   focus: () => void;
   blur: () => void;
 }
-export interface SelectProps {
+interface SelectCommonProps {
   options: SelectOption[];
-  value?: SelectValue | null;
-  defaultValue?: SelectValue | null;
-  onChange?: (value: SelectValue | undefined, option?: SelectOption) => void;
   onSelect?: (value: SelectValue, option: SelectOption) => void;
   open?: boolean;
   defaultOpen?: boolean;
@@ -53,6 +50,20 @@ export interface SelectProps {
   style?: CSSProperties;
   ref?: Ref<SelectRef>;
 }
+export interface SelectProps extends SelectCommonProps {
+  mode?: undefined;
+  value?: SelectValue | null;
+  defaultValue?: SelectValue | null;
+  onChange?: (value: SelectValue | undefined, option?: SelectOption) => void;
+}
+export interface MultipleSelectProps extends SelectCommonProps {
+  mode: "multiple";
+  value?: SelectValue[];
+  defaultValue?: SelectValue[];
+  onChange?: (values: SelectValue[], options: SelectOption[]) => void;
+  onDeselect?: (value: SelectValue, option: SelectOption) => void;
+}
+export type SelectComponentProps = SelectProps | MultipleSelectProps;
 
 function optionText(option: SelectOption) {
   return typeof option.label === "string" || typeof option.label === "number"
@@ -60,16 +71,17 @@ function optionText(option: SelectOption) {
     : String(option.value);
 }
 
-export function Select(props: SelectProps) {
+export function Select(props: SelectComponentProps) {
   const config = useConfig();
   const { token: t, component: c, base } = useComponentTokens("Select");
   const listId = `ao-select-${useId()}`;
   const host = useRef<HTMLDivElement | null>(null);
   const input = useRef<HTMLInputElement | null>(null);
+  const composing = useRef(false);
   const popup = useRef<HTMLDivElement | null>(null);
-  const [innerValue, setInnerValue] = useState<SelectValue | null>(
-    props.defaultValue ?? null,
-  );
+  const [innerValue, setInnerValue] = useState<
+    SelectValue | SelectValue[] | null
+  >(props.defaultValue ?? (props.mode === "multiple" ? [] : null));
   const [innerOpen, setInnerOpen] = useState(props.defaultOpen ?? false);
   const [innerSearch, setInnerSearch] = useState("");
   const [active, setActive] = useState<SelectValue | null>(null);
@@ -79,13 +91,27 @@ export function Select(props: SelectProps) {
   );
   const disabled = props.disabled ?? config.componentDisabled ?? false;
   const size = props.size ?? config.componentSize ?? "middle";
+  const multiple = props.mode === "multiple";
+  const showSearch = props.showSearch ?? multiple;
   const value = props.value !== undefined ? props.value : innerValue;
+  const singleValue = Array.isArray(value) ? null : value;
+  const selectedValues = multiple
+    ? Array.isArray(value)
+      ? [...new Set(value)]
+      : []
+    : singleValue == null
+      ? []
+      : [singleValue];
   const open = !disabled && (props.open ?? innerOpen);
   const search = props.searchValue ?? innerSearch;
-  const selected = props.options.find((option) => option.value === value);
+  const selected = props.options.find((option) => option.value === singleValue);
+  const optionFor = (selectedValue: SelectValue) =>
+    props.options.find((option) => option.value === selectedValue) ?? {
+      value: selectedValue,
+      label: String(selectedValue),
+    };
   const filtered = props.options.filter((option) => {
-    if (!props.showSearch || !search || props.filterOption === false)
-      return true;
+    if (!showSearch || !search || props.filterOption === false) return true;
     if (typeof props.filterOption === "function")
       return props.filterOption(search, option);
     return optionText(option)
@@ -95,7 +121,7 @@ export function Select(props: SelectProps) {
   const enabled = filtered.filter((option) => !option.disabled);
   const activeValue = enabled.some((option) => option.value === active)
     ? active
-    : (enabled.find((option) => option.value === value)?.value ??
+    : (enabled.find((option) => option.value === singleValue)?.value ??
       enabled[0]?.value ??
       null);
   const activeIndex = filtered.findIndex(
@@ -127,12 +153,35 @@ export function Select(props: SelectProps) {
   };
   const select = (option: SelectOption) => {
     if (disabled || option.disabled) return;
-    if (option.value !== value) {
-      if (props.value === undefined) setInnerValue(option.value);
-      props.onChange?.(option.value, option);
+    if (props.mode === "multiple") {
+      setActive(option.value);
+      const removing = selectedValues.includes(option.value);
+      const next = removing
+        ? selectedValues.filter((item) => item !== option.value)
+        : [...selectedValues, option.value];
+      if (props.value === undefined) setInnerValue(next);
+      props.onChange?.(next, next.map(optionFor));
+      if (removing) props.onDeselect?.(option.value, option);
+      else props.onSelect?.(option.value, option);
+      if (props.searchValue === undefined) setInnerSearch("");
+    } else {
+      if (option.value !== singleValue) {
+        if (props.value === undefined) setInnerValue(option.value);
+        props.onChange?.(option.value, option);
+      }
+      props.onSelect?.(option.value, option);
+      changeOpen(false);
     }
-    props.onSelect?.(option.value, option);
-    changeOpen(false);
+    input.current?.focus();
+  };
+  const remove = (selectedValue: SelectValue) => {
+    if (props.mode !== "multiple" || disabled) return;
+    const option = optionFor(selectedValue);
+    if (option.disabled) return;
+    const next = selectedValues.filter((item) => item !== selectedValue);
+    if (props.value === undefined) setInnerValue(next);
+    props.onChange?.(next, next.map(optionFor));
+    props.onDeselect?.(selectedValue, option);
     input.current?.focus();
   };
   useLayoutEffect(() => {
@@ -219,6 +268,7 @@ export function Select(props: SelectProps) {
       ref={popup}
       id={listId}
       role="listbox"
+      aria-multiselectable={multiple || undefined}
       className="ant-select-dropdown"
       style={{
         ...base,
@@ -238,15 +288,16 @@ export function Select(props: SelectProps) {
         filtered.map((option, index) => (
           // biome-ignore lint/a11y/useFocusableInteractive lint/a11y/useKeyWithClickEvents: Keyboard selection stays on the combobox through aria-activedescendant.
           <div
-            key={option.value}
+            key={`${typeof option.value}:${option.value}`}
             id={`${listId}-option-${index}`}
             role="option"
-            aria-selected={option.value === value}
+            aria-selected={selectedValues.includes(option.value)}
             aria-disabled={option.disabled || undefined}
             className={[
               "ant-select-item-option",
               option.value === activeValue && "ant-select-item-option-active",
-              option.value === value && "ant-select-item-option-selected",
+              selectedValues.includes(option.value) &&
+                "ant-select-item-option-selected",
               option.disabled && "ant-select-item-option-disabled",
             ]}
             title={option.title}
@@ -266,6 +317,142 @@ export function Select(props: SelectProps) {
       )}
     </div>
   );
+  const field = (
+    <input
+      ref={input}
+      id={props.id}
+      role="combobox"
+      aria-label={
+        props["aria-label"] ??
+        (props["aria-labelledby"] ? undefined : props.placeholder)
+      }
+      aria-labelledby={props["aria-labelledby"]}
+      aria-describedby={
+        [props["aria-describedby"], multiple && `${listId}-selection`]
+          .filter(Boolean)
+          .join(" ") || undefined
+      }
+      aria-haspopup="listbox"
+      aria-expanded={open}
+      aria-controls={open ? listId : undefined}
+      aria-activedescendant={
+        open && activeIndex >= 0 ? `${listId}-option-${activeIndex}` : undefined
+      }
+      aria-autocomplete={showSearch ? "list" : "none"}
+      aria-invalid={props.status === "error" || undefined}
+      disabled={disabled}
+      readOnly={!showSearch}
+      value={
+        multiple
+          ? search
+          : open && showSearch
+            ? search
+            : selected
+              ? optionText(selected)
+              : singleValue == null
+                ? ""
+                : String(singleValue)
+      }
+      placeholder={
+        multiple && selectedValues.length ? undefined : props.placeholder
+      }
+      onClick={() => changeOpen(true)}
+      onCompositionStart={() => {
+        composing.current = true;
+      }}
+      onCompositionEnd={() => {
+        composing.current = false;
+      }}
+      onInput={(event) => {
+        if (!showSearch) return;
+        changeSearch(event.currentTarget.value);
+        changeOpen(true);
+      }}
+      onKeyDown={(event) => {
+        if (
+          disabled ||
+          event.isComposing ||
+          composing.current ||
+          event.keyCode === 229
+        )
+          return;
+        if (multiple && event.key === "Backspace" && !search) {
+          const removable = [...selectedValues]
+            .reverse()
+            .find((item) => !optionFor(item).disabled);
+          if (removable !== undefined) {
+            event.preventDefault();
+            remove(removable);
+          }
+        } else if (event.key === "Escape" && open) {
+          event.preventDefault();
+          event.stopPropagation();
+          changeOpen(false);
+        } else if (event.key === "Tab") {
+          changeOpen(false);
+        } else if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+          event.preventDefault();
+          if (!open) {
+            changeOpen(true);
+            return;
+          }
+          if (!enabled.length) return;
+          const index = enabled.findIndex(
+            (option) => option.value === activeValue,
+          );
+          const delta = event.key === "ArrowDown" ? 1 : -1;
+          setActive(
+            enabled[(index + delta + enabled.length) % enabled.length].value,
+          );
+        } else if (event.key === "Home" || event.key === "End") {
+          if (showSearch || !open || !enabled.length) return;
+          event.preventDefault();
+          setActive(
+            event.key === "Home"
+              ? enabled[0].value
+              : enabled[enabled.length - 1].value,
+          );
+        } else if (event.key === "Enter") {
+          if (!open) {
+            event.preventDefault();
+            changeOpen(true);
+          } else {
+            event.preventDefault();
+            const option = enabled.find((item) => item.value === activeValue);
+            if (option) select(option);
+          }
+        }
+      }}
+    />
+  );
+  const selectedItems = selectedValues.map((selectedValue) => {
+    const option = optionFor(selectedValue);
+    return (
+      <span
+        key={`${typeof selectedValue}:${selectedValue}`}
+        className="ant-select-selection-item"
+        title={option.title ?? optionText(option)}
+      >
+        <span className="ant-select-selection-item-content">
+          {option.label ?? selectedValue}
+        </span>
+        {!disabled && !option.disabled && (
+          <button
+            type="button"
+            className="ant-select-selection-item-remove"
+            aria-label={`移除 ${optionText(option)}`}
+            onMouseDown={(event) => event.preventDefault()}
+            onClick={(event) => {
+              event.stopPropagation();
+              remove(selectedValue);
+            }}
+          >
+            ×
+          </button>
+        )}
+      </span>
+    );
+  });
   return (
     // biome-ignore lint/a11y/noStaticElementInteractions lint/a11y/useKeyWithClickEvents: The nested combobox owns keyboard interaction and focus.
     <div
@@ -277,6 +464,7 @@ export function Select(props: SelectProps) {
       }}
       className={[
         "ant-select",
+        multiple && "ant-select-multiple",
         `ant-select-${size}`,
         props.status && `ant-select-status-${props.status}`,
         disabled && "ant-select-disabled",
@@ -295,90 +483,20 @@ export function Select(props: SelectProps) {
         "--ao-select-hover-border": t.colorPrimaryHover,
         "--ao-select-focus": t.colorPrimary,
         "--ao-select-disabled": t.colorBgContainerDisabled,
+        "--ao-select-selection-bg": t.colorFillSecondary,
+        "--ao-select-selection-border": t.colorBorderSecondary,
         ...props.style,
       }}
     >
-      <input
-        ref={input}
-        id={props.id}
-        role="combobox"
-        aria-label={
-          props["aria-label"] ??
-          (props["aria-labelledby"] ? undefined : props.placeholder)
-        }
-        aria-labelledby={props["aria-labelledby"]}
-        aria-describedby={props["aria-describedby"]}
-        aria-haspopup="listbox"
-        aria-expanded={open}
-        aria-controls={open ? listId : undefined}
-        aria-activedescendant={
-          open && activeIndex >= 0
-            ? `${listId}-option-${activeIndex}`
-            : undefined
-        }
-        aria-autocomplete={props.showSearch ? "list" : "none"}
-        aria-invalid={props.status === "error" || undefined}
-        disabled={disabled}
-        readOnly={!props.showSearch}
-        value={
-          open && props.showSearch
-            ? search
-            : selected
-              ? optionText(selected)
-              : value == null
-                ? ""
-                : String(value)
-        }
-        placeholder={props.placeholder}
-        onClick={() => changeOpen(true)}
-        onInput={(event) => {
-          if (!props.showSearch) return;
-          changeSearch(event.currentTarget.value);
-          changeOpen(true);
-        }}
-        onKeyDown={(event) => {
-          if (disabled) return;
-          if (event.key === "Escape" && open) {
-            event.preventDefault();
-            event.stopPropagation();
-            changeOpen(false);
-          } else if (event.key === "Tab") {
-            changeOpen(false);
-          } else if (event.key === "ArrowDown" || event.key === "ArrowUp") {
-            event.preventDefault();
-            if (!open) {
-              changeOpen(true);
-              return;
-            }
-            if (!enabled.length) return;
-            const index = enabled.findIndex(
-              (option) => option.value === activeValue,
-            );
-            const delta = event.key === "ArrowDown" ? 1 : -1;
-            setActive(
-              enabled[(index + delta + enabled.length) % enabled.length].value,
-            );
-          } else if (event.key === "Home" || event.key === "End") {
-            if (!open || !enabled.length) return;
-            event.preventDefault();
-            setActive(
-              event.key === "Home"
-                ? enabled[0].value
-                : enabled[enabled.length - 1].value,
-            );
-          } else if (event.key === "Enter") {
-            if (!open) {
-              event.preventDefault();
-              changeOpen(true);
-            } else {
-              event.preventDefault();
-              const option = enabled.find((item) => item.value === activeValue);
-              if (option) select(option);
-            }
-          }
-        }}
-      />
-      {props.allowClear && !disabled && value != null && (
+      {multiple ? (
+        <span className="ant-select-selection-overflow">
+          {selectedItems}
+          {field}
+        </span>
+      ) : (
+        field
+      )}
+      {props.allowClear && !disabled && selectedValues.length > 0 && (
         <button
           type="button"
           className="ant-select-clear"
@@ -386,8 +504,14 @@ export function Select(props: SelectProps) {
           onMouseDown={(event) => event.preventDefault()}
           onClick={(event) => {
             event.stopPropagation();
-            if (props.value === undefined) setInnerValue(null);
-            props.onChange?.(undefined);
+            if (props.mode === "multiple") {
+              if (props.value === undefined) setInnerValue([]);
+              props.onChange?.([], []);
+              if (props.searchValue === undefined) setInnerSearch("");
+            } else {
+              if (props.value === undefined) setInnerValue(null);
+              props.onChange?.(undefined);
+            }
             props.onClear?.();
             changeOpen(false);
             input.current?.focus();
@@ -399,6 +523,17 @@ export function Select(props: SelectProps) {
       <span className="ant-select-arrow" aria-hidden="true">
         ⌄
       </span>
+      {multiple && (
+        <span
+          id={`${listId}-selection`}
+          className="ant-select-selection-summary"
+          role="status"
+        >
+          {selectedValues.length
+            ? `已选择 ${selectedValues.length} 项：${selectedValues.map((item) => optionText(optionFor(item))).join("、")}`
+            : "未选择"}
+        </span>
+      )}
       {open && target && createPortal(list, target)}
     </div>
   );
