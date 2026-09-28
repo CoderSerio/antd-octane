@@ -1,4 +1,7 @@
 import { BasicDemo, MoreDemo } from "../demos/slider-basic";
+import { SliderCompleteDemo } from "../demos/slider-complete";
+import { SliderInputNumberDemo } from "../demos/slider-input-number";
+import { SliderTooltipDemo } from "../demos/slider-tooltip";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -31,6 +34,30 @@ export default function Page({ section }: { section?: string }) {
           source={() => import("../demos/slider-basic.tsx?raw")}
         >
           <MoreDemo />
+        </Demo>
+        <Demo
+          id="input-number"
+          title="与数字输入同步"
+          description="滑块和数字输入共用受控状态，可用 0.01 步长精确调整透明度。"
+          source={() => import("../demos/slider-input-number.tsx?raw")}
+        >
+          <SliderInputNumberDemo />
+        </Demo>
+        <Demo
+          id="complete"
+          title="操作完成回调"
+          description="onChange 更新实时值；onChangeComplete 在拖动结束或键盘操作完成时记录结果。"
+          source={() => import("../demos/slider-complete.tsx?raw")}
+        >
+          <SliderCompleteDemo />
+        </Demo>
+        <Demo
+          id="tooltip"
+          title="提示格式与独立刻度"
+          description="格式化或隐藏提示；included=false 关闭选中区间填充，dots 显示步长点。"
+          source={() => import("../demos/slider-tooltip.tsx?raw")}
+        >
+          <SliderTooltipDemo />
         </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>
@@ -85,7 +112,10 @@ export default function Page({ section }: { section?: string }) {
         对象配置或 imperative
         ref。提示标签在滑块内定位，尚未接入浮层翻转和门户容器；不支持 tooltip
         placement / getPopupContainer。dots 超过 1,000 个间隔时仅绘制
-        marks，避免过量节点。
+        marks，避免过量节点。 onChangeComplete
+        反馈的是操作结果，不负责业务提交或网络请求；受控 value 的
+        外部更新不会触发该回调。与 InputNumber 联动时需要将 SliderValue
+        的单值与范围类型区分开。
       </p>
     </>
   );

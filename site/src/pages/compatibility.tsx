@@ -160,6 +160,11 @@ export default function Compatibility({ section }: { section?: string }) {
           ["Table / DatePicker", "表格与日期选择器", "未实现", "—"],
         ]}
       />
+      <p>
+        Typography 支持编辑、复制和受控展开，但省略仍使用 CSS 行数限制。
+        暂不支持精确溢出测量、中间省略或自定义 symbol、tooltip；suffix
+        在截断区域外渲染，与上游的行内测量存在差异。
+      </p>
       <h2 id="migration" tabIndex={-1}>
         迁移检查
       </h2>

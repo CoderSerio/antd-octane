@@ -1,6 +1,9 @@
+import { AlignmentDemo } from "../demos/space-alignment";
 import { BasicDemo } from "../demos/space-basic";
 import { LayoutDemo } from "../demos/space-layout";
 import { SizesDemo } from "../demos/space-sizes";
+import { SplitDemo } from "../demos/space-split";
+import { VerticalDemo } from "../demos/space-vertical";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -21,7 +24,7 @@ export default function Page({ section }: { section?: string }) {
         <Demo
           id="basic"
           title="基本使用"
-          description="为操作组设置间距，并用分隔符组织链接。"
+          description="相邻的行内组件使用一致的水平间距。"
           source={() => import("../demos/space-basic.tsx?raw")}
         >
           <BasicDemo />
@@ -36,11 +39,35 @@ export default function Page({ section }: { section?: string }) {
         </Demo>
         <Demo
           id="layout"
-          title="换行与分隔"
-          description="size 数组分别设置横向、纵向间距；split 只插入到有效子项之间。"
+          title="自动换行"
+          description="size 数组分别设置横向、纵向间距；窄容器中项目自动换行。"
           source={() => import("../demos/space-layout.tsx?raw")}
         >
           <LayoutDemo />
+        </Demo>
+        <Demo
+          id="vertical"
+          title="垂直间距"
+          description="direction=vertical 以一致间距排列块级内容。"
+          source={() => import("../demos/space-vertical.tsx?raw")}
+        >
+          <VerticalDemo />
+        </Demo>
+        <Demo
+          id="alignment"
+          title="对齐"
+          description="比较 start、center、end、baseline 对不同高度子项的效果。"
+          source={() => import("../demos/space-alignment.tsx?raw")}
+        >
+          <AlignmentDemo />
+        </Demo>
+        <Demo
+          id="split"
+          title="分隔符"
+          description="split 在有效子项之间加入分隔元素。"
+          source={() => import("../demos/space-split.tsx?raw")}
+        >
+          <SplitDemo />
         </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>
@@ -71,7 +98,8 @@ export default function Page({ section }: { section?: string }) {
       <p>
         预设间距消费全局 padding
         token。空子节点不占位；每个有效子项有包装节点。暂不支持
-        Space.Compact、语义化 classNames / styles；可使用 Flex 控制无包装布局。
+        Space.Compact、Space.Addon、语义化 classNames /
+        styles；上游紧凑布局案例暂不提供。可使用 Flex 控制无包装布局。
       </p>
     </>
   );

@@ -1,5 +1,6 @@
 import { BasicDemo, MoreDemo } from "../demos/spin-basic";
 import { FullscreenDemo } from "../demos/spin-fullscreen";
+import { IndicatorDemo } from "../demos/spin-indicator";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -38,6 +39,14 @@ export default function Page({ section }: { section?: string }) {
           source={() => import("../demos/spin-fullscreen.tsx?raw")}
         >
           <FullscreenDemo />
+        </Demo>
+        <Demo
+          id="indicator"
+          title="自定义指示器"
+          description="indicator 替换默认四点图案；提示与内容加载状态仍由 Spin 管理，自定义图标不会自动获得动画。"
+          source={() => import("../demos/spin-indicator.tsx?raw")}
+        >
+          <IndicatorDemo />
         </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>

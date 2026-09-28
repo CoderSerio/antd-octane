@@ -543,6 +543,7 @@ export const toc: Record<string, [string, string][]> = {
     ["states", "不可用"],
     ["controlled", "受控选择"],
     ["all", "全选与中间态"],
+    ["group-layout", "自定义组布局"],
     ["api", "API"],
     ["tokens", "主题变量"],
     ["limitations", "已知差异"],
@@ -572,6 +573,8 @@ toc.flex = [
   ["basic", "基本使用"],
   ["alignment", "主轴对齐"],
   ["wrapping", "换行与伸缩"],
+  ["cross-axis", "交叉轴对齐"],
+  ["gap", "设置间隙"],
   ["api", "API"],
   ["tokens", "主题与支持范围"],
 ];
@@ -579,14 +582,20 @@ toc.space = [
   ["examples", "代码演示"],
   ["basic", "基本使用"],
   ["sizes", "间距尺寸"],
-  ["layout", "换行与分隔"],
+  ["layout", "自动换行"],
+  ["vertical", "垂直间距"],
+  ["alignment", "对齐"],
+  ["split", "分隔符"],
   ["api", "API"],
   ["tokens", "主题与支持范围"],
 ];
 toc.divider = [
   ["examples", "代码演示"],
-  ["basic", "水平与垂直分隔"],
+  ["basic", "水平分割线"],
   ["orientation", "标题位置与样式"],
+  ["plain", "正文样式"],
+  ["vertical", "垂直分割线"],
+  ["dashed", "虚线"],
   ["api", "API"],
   ["tokens", "主题与支持范围"],
 ];
@@ -594,6 +603,8 @@ toc.switch = [
   ["examples", "代码演示"],
   ["basic", "基本使用与状态"],
   ["controlled", "受控状态"],
+  ["save-flow", "等待保存结果"],
+  ["form-binding", "表单绑定"],
   ["api", "API"],
   ["tokens", "主题与支持范围"],
 ];
@@ -603,6 +614,9 @@ toc.radio = [
   ["examples", "代码演示"],
   ["basic", "基本使用"],
   ["more", "组合与交互"],
+  ["vertical", "纵向排列与更多选项"],
+  ["button-sizes", "按钮尺寸与整行布局"],
+  ["disabled", "组禁用与单项禁用"],
   ["api", "API"],
   ["tokens", "主题与支持范围"],
 ];
@@ -620,6 +634,7 @@ toc.alert = [
   ["basic", "基本使用"],
   ["more", "组合与交互"],
   ["retry", "错误恢复与关闭回调"],
+  ["announcements", "切换顶部公告"],
   ["api", "API"],
   ["tokens", "主题与支持范围"],
 ];
@@ -652,6 +667,11 @@ toc.grid = [
   ["examples", "代码演示"],
   ["basic", "基础栅格"],
   ["more", "响应式布局"],
+  ["gutter", "区块间隔"],
+  ["offset", "左右偏移"],
+  ["order", "排序"],
+  ["alignment", "对齐"],
+  ["flex-fill", "Flex 填充"],
   ["api", "API"],
   ["tokens", "主题与支持范围"],
 ];
@@ -659,6 +679,9 @@ toc.layout = [
   ["examples", "代码演示"],
   ["basic", "上下结构"],
   ["more", "响应式侧栏"],
+  ["header-sider", "顶部与侧边布局"],
+  ["custom-trigger", "自定义触发器"],
+  ["sticky-header", "固定头部"],
   ["api", "API"],
   ["tokens", "主题与支持范围"],
 ];
@@ -708,8 +731,16 @@ toc.descriptions = [
 toc.typography = [
   ["examples", "代码演示"],
   ["basic", "文字层级与修饰"],
-  ["more", "编辑、复制与省略"],
+  ["headings", "标题层级"],
+  ["text", "文本与超链接"],
+  ["editable", "可编辑"],
+  ["controlled-edit", "受控编辑"],
+  ["copyable", "可复制"],
+  ["ellipsis", "省略号"],
+  ["expand", "受控展开与收起"],
+  ["suffix", "保留后缀"],
   ["api", "API"],
+  ["configuration", "交互配置"],
   ["tokens", "主题与支持范围"],
 ];
 toc.list = [
@@ -724,7 +755,8 @@ toc.spin = [
   ["examples", "代码演示"],
   ["basic", "三种尺寸"],
   ["more", "局部加载与延迟"],
-  ["fullscreen", "全屏加载"],
+  ["fullscreen", "全屏刷新反馈"],
+  ["indicator", "自定义指示器"],
   ["api", "API"],
   ["tokens", "主题与支持范围"],
 ];
@@ -741,7 +773,8 @@ toc.progress = [
   ["examples", "代码演示"],
   ["basic", "进度与状态"],
   ["more", "圆形、仪表盘与步骤"],
-  ["verification", "进度与校验"],
+  ["verification", "传输完成后的校验进度"],
+  ["gradient", "渐变颜色"],
   ["api", "API"],
   ["tokens", "主题与支持范围"],
 ];
@@ -766,9 +799,10 @@ toc.select = [
   ["examples", "代码演示"],
   ["basic", "基本用法"],
   ["controlled", "搜索与受控值"],
-  ["filter-empty", "过滤与空状态"],
-  ["controlled-open", "受控展开"],
-  ["sizes-status", "尺寸与状态"],
+  ["filter-empty", "自定义过滤与空结果"],
+  ["controlled-open", "受控展开与选中回调"],
+  ["sizes-status", "尺寸与校验状态"],
+  ["coordinated", "省市联动"],
   ["api", "API"],
   ["scope", "支持范围"],
 ];
@@ -788,6 +822,9 @@ toc.rate = [
   ["examples", "代码演示"],
   ["basic", "基本、半星与只读"],
   ["more", "受控评分与自定义字符"],
+  ["hover-text", "悬停说明"],
+  ["clear", "是否允许点击清零"],
+  ["characters", "自定义字符与数量"],
   ["api", "API"],
   ["tokens", "主题与支持范围"],
 ];
@@ -838,47 +875,58 @@ toc.popover = [
 toc["input-number"] = [
   ["examples", "代码演示"],
   ["basic", "尺寸与状态"],
-  ["more", "精度与格式化"],
+  ["more", "精度、格式化与受控值"],
+  ["boundaries", "动态边界与受控值"],
+  ["controls", "步进按钮与键盘"],
+  ["step", "小数步长与步进回调"],
   ["api", "API"],
   ["tokens", "主题与支持范围"],
 ];
 toc.slider = [
   ["examples", "代码演示"],
-  ["basic", "受控值"],
-  ["more", "范围与方向"],
+  ["basic", "受控单值"],
+  ["more", "范围、刻度与方向"],
+  ["input-number", "与数字输入同步"],
+  ["complete", "操作完成回调"],
+  ["tooltip", "提示格式与独立刻度"],
   ["api", "API"],
   ["tokens", "主题与支持范围"],
 ];
 
 toc.message = [
   ["examples", "代码演示"],
-  ["basic", "基本用法"],
-  ["more", "交互与状态"],
-  ["lifecycle", "加载与结果更新"],
+  ["basic", "提示类型与自动关闭"],
+  ["more", "主题继承与消息更新"],
+  ["lifecycle", "请求过程与手动关闭"],
+  ["close-promise", "等待提示关闭"],
   ["api", "API"],
   ["tokens", "主题与支持范围"],
 ];
 toc.notification = [
   ["examples", "代码演示"],
-  ["basic", "基本用法"],
-  ["more", "交互与状态"],
-  ["persistent", "持久通知与关闭"],
+  ["basic", "类型、位置与自动关闭"],
+  ["more", "更新内容与操作按钮"],
+  ["persistent", "持续通知与关闭回调"],
+  ["app-context", "通过 App 使用共享实例"],
   ["api", "API"],
   ["tokens", "主题与支持范围"],
 ];
 toc.modal = [
   ["examples", "代码演示"],
-  ["basic", "基本用法"],
-  ["more", "交互与状态"],
+  ["basic", "受控打开与确认反馈"],
+  ["more", "嵌套浮层与内容保留"],
   ["footer", "自定义操作区"],
+  ["button-props", "确认按钮条件"],
+  ["lifecycle", "关闭时保留或销毁"],
   ["api", "API"],
   ["tokens", "主题与支持范围"],
 ];
 toc.drawer = [
   ["examples", "代码演示"],
-  ["basic", "基本用法"],
-  ["more", "交互与状态"],
-  ["sizes", "尺寸与遮罩"],
+  ["basic", "四个方向"],
+  ["more", "关闭后销毁内容"],
+  ["sizes", "预设尺寸与遮罩行为"],
+  ["nested", "多层抽屉"],
   ["api", "API"],
   ["tokens", "主题与支持范围"],
 ];
@@ -900,9 +948,10 @@ toc.dropdown = [
 ];
 toc.popconfirm = [
   ["examples", "代码演示"],
-  ["basic", "基本用法"],
-  ["more", "交互与状态"],
-  ["controlled", "受控确认"],
+  ["basic", "确认与取消"],
+  ["more", "异步确认"],
+  ["controlled", "受控显示与自定义文案"],
+  ["retry", "失败后保留确认框"],
   ["api", "API"],
   ["tokens", "主题与支持范围"],
 ];
@@ -944,8 +993,12 @@ toc.carousel = [
 ];
 toc.splitter = [
   ["examples", "代码演示"],
-  ["basic", "基本用法"],
-  ["more", "交互与状态"],
+  ["basic", "基础拖拽与尺寸约束"],
+  ["more", "垂直方向"],
+  ["controlled", "受控模式"],
+  ["multiple", "多面板"],
+  ["nested", "复杂组合"],
+  ["resizable", "禁用调整"],
   ["api", "API"],
   ["tokens", "主题与支持范围"],
 ];

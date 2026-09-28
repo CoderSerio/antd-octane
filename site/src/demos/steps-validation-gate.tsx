@@ -33,6 +33,7 @@ export function ValidationGateDemo() {
         onChange={(event) => {
           setAccepted(event.target.checked);
           if (event.target.checked) setError(false);
+          else if (current === 2) setCurrent(1);
         }}
       >
         我已阅读并确认条款

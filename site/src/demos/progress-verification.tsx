@@ -9,9 +9,11 @@ export function VerificationDemo() {
       <Progress
         percent={100}
         success={{ percent: verified * 25 }}
-        format={(_, successPercent) => `${successPercent}% 已校验`}
-        aria-label="文件校验进度"
+        format={(_, successPercent) => `${successPercent}%`}
+        aria-label="文件传输与校验进度"
+        aria-valuetext={`文件传输完成，校验完成 ${verified * 25}%`}
       />
+      <span aria-live="polite">已校验 {verified} / 4 项</span>
       <Space wrap>
         <Button
           type="primary"

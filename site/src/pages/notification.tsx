@@ -1,3 +1,4 @@
+import { AppContextDemo } from "../demos/notification-app-context";
 import { BasicDemo, MoreDemo } from "../demos/notification-basic";
 import { PersistentDemo } from "../demos/notification-persistent";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
@@ -39,12 +40,26 @@ export default function Page({ section }: { section?: string }) {
         >
           <PersistentDemo />
         </Demo>
+        <Demo
+          id="app-context"
+          title="通过 App 使用共享实例"
+          description="ConfigProvider 包裹 App 后，子组件通过 App.useApp 取通知实例，并继承上下文与默认位置。"
+          source={() => import("../demos/notification-app-context.tsx?raw")}
+        >
+          <AppContextDemo />
+        </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>
         API
       </h2>
       <ApiTable
         rows={[
+          [
+            "App.useApp().notification",
+            "App 子组件内取得共享实例，无需重复插入 holder",
+            "NotificationInstance",
+            "—",
+          ],
           [
             "notification.useNotification(config)",
             "返回 api 与必须插入组件树的 contextHolder",
@@ -105,8 +120,10 @@ export default function Page({ section }: { section?: string }) {
         与全局颜色、字体、间距和圆角。通知操作区支持正常键盘访问，聚焦通知内控件时暂停倒计时。
       </p>
       <p>
-        本版提供 hook 实例 API，不提供静态 open/success/config 方法和 App.useApp
-        集成。原生 portal 保留上下文；自定义容器仍使用固定定位，带 transform
+        本版提供 hook 实例与 App.useApp().notification，不提供静态
+        open/success/config 方法。App 必须位于使用方的祖先组件，ConfigProvider
+        应包裹 App，才能让共享实例继承主题。原生 portal
+        保留上下文；自定义容器仍使用固定定位，带 transform
         的祖先可能限制覆盖范围。暂不支持
         RTL、prefixCls、堆叠收缩、进度条和完整进出场动效。默认图标为独立绘制。
       </p>

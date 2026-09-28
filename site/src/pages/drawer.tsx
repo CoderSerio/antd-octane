@@ -1,4 +1,5 @@
 import { BasicDemo, MoreDemo } from "../demos/drawer-basic";
+import { NestedDemo } from "../demos/drawer-nested";
 import { SizesDemo } from "../demos/drawer-sizes";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
@@ -38,6 +39,14 @@ export default function Page({ section }: { section?: string }) {
           source={() => import("../demos/drawer-sizes.tsx?raw")}
         >
           <SizesDemo />
+        </Demo>
+        <Demo
+          id="nested"
+          title="多层抽屉"
+          description="子层使用更高 zIndex；最上层关闭后仍保留外层，当前不支持 push 推动父层。"
+          source={() => import("../demos/drawer-nested.tsx?raw")}
+        >
+          <NestedDemo />
         </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>
@@ -82,6 +91,12 @@ export default function Page({ section }: { section?: string }) {
             "document.body",
           ],
           ["zIndex", "层级", "number", "1000"],
+          [
+            "style / rootStyle / bodyStyle",
+            "内容面板 / 浮层根节点 / 内容区样式",
+            "CSSProperties",
+            "—",
+          ],
           ["className / rootClassName", "内容容器 / 根节点类名", "string", "—"],
           ["afterOpenChange", "显示状态变更回调", "(open) => void", "—"],
         ]}

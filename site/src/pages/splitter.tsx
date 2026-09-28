@@ -1,4 +1,8 @@
 import { BasicDemo, MoreDemo } from "../demos/splitter-basic";
+import { ControlledDemo } from "../demos/splitter-controlled";
+import { MultipleDemo } from "../demos/splitter-multiple";
+import { NestedDemo } from "../demos/splitter-nested";
+import { ResizableDemo } from "../demos/splitter-resizable";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -17,18 +21,50 @@ export default function Page({ section }: { section?: string }) {
         <Demo
           id="basic"
           title="基础拖拽与尺寸约束"
-          description="可交互示例，可切换全局主题观察效果。"
+          description="拖动分隔线调整大小；min 和 max 同时支持像素与百分比。"
           source={() => import("../demos/splitter-basic.tsx?raw")}
         >
           <BasicDemo />
         </Demo>
         <Demo
           id="more"
-          title="垂直受控与多面板"
-          description="通过按钮改变配置，观察内容和布局的更新。"
+          title="垂直方向"
+          description="layout=vertical 将面板沿纵向排列，使用上下方向键调整。"
           source={() => import("../demos/splitter-basic.tsx?raw")}
         >
           <MoreDemo />
+        </Demo>
+        <Demo
+          id="controlled"
+          title="受控模式"
+          description="onResize 返回像素尺寸，应用同步维护全部 Panel.size；外部按钮可重置比例。"
+          source={() => import("../demos/splitter-controlled.tsx?raw")}
+        >
+          <ControlledDemo />
+        </Demo>
+        <Demo
+          id="multiple"
+          title="多面板"
+          description="三块面板按初始比例分配空间，每条分隔线只调整相邻面板。"
+          source={() => import("../demos/splitter-multiple.tsx?raw")}
+        >
+          <MultipleDemo />
+        </Demo>
+        <Demo
+          id="nested"
+          title="复杂组合"
+          description="在 Panel 内嵌套另一个 Splitter，组成不同方向的区域。"
+          source={() => import("../demos/splitter-nested.tsx?raw")}
+        >
+          <NestedDemo />
+        </Demo>
+        <Demo
+          id="resizable"
+          title="禁用调整"
+          description="resizable=false 禁止相邻分隔线的鼠标与键盘调整。"
+          source={() => import("../demos/splitter-resizable.tsx?raw")}
+        >
+          <ResizableDemo />
         </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>

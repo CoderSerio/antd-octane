@@ -1,5 +1,6 @@
 import { BasicDemo, MoreDemo } from "../demos/modal-basic";
 import { FooterDemo } from "../demos/modal-footer";
+import { ButtonPropsDemo, LifecycleDemo } from "../demos/modal-options";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -39,6 +40,22 @@ export default function Page({ section }: { section?: string }) {
         >
           <FooterDemo />
         </Demo>
+        <Demo
+          id="button-props"
+          title="确认按钮条件"
+          description="使用 okButtonProps 配置危险样式与禁用条件；勾选后才允许确认。"
+          source={() => import("../demos/modal-options.tsx?raw")}
+        >
+          <ButtonPropsDemo />
+        </Demo>
+        <Demo
+          id="lifecycle"
+          title="关闭时保留或销毁"
+          description="分别打开两个对话框，修改输入后再次打开，比较默认保留与 destroyOnHidden。"
+          source={() => import("../demos/modal-options.tsx?raw")}
+        >
+          <LifecycleDemo />
+        </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>
         API
@@ -64,6 +81,7 @@ export default function Page({ section }: { section?: string }) {
             "520 / false",
           ],
           ["zIndex", "浮层层级", "number", "主题默认层级"],
+          ["style / bodyStyle", "面板 / 内容区样式", "CSSProperties", "—"],
           [
             "closable / closeIcon",
             "显示关闭按钮 / 自定义图标",
@@ -109,9 +127,9 @@ export default function Page({ section }: { section?: string }) {
         支持 Modal 的
         contentBg、headerBg、titleColor、titleFontSize、titleLineHeight、footerBg
         及全局字体、阴影、背景和圆角。当前是受控组件，不提供静态 confirm/info
-        等方法、useModal、响应式 width、modalRender 或语义
-        styles/classNames。onOk 不自动等待 Promise，异步状态由应用通过
-        confirmLoading 与 open 管理。
+        等方法、useModal、App.useApp().modal、响应式 width、modalRender、footer
+        渲染函数或语义 styles/classNames。onOk 不自动等待
+        Promise，异步状态由应用通过 confirmLoading 与 open 管理。
       </p>
       <p>
         原生 portal 保留 ConfigProvider 上下文；打开时锁定 body

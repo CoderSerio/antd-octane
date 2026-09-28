@@ -1,3 +1,4 @@
+import { AnnouncementsDemo } from "../demos/alert-announcements";
 import { BasicDemo, MoreDemo } from "../demos/alert-basic";
 import { RetryDemo } from "../demos/alert-retry";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
@@ -43,6 +44,14 @@ export default function Page({ section }: { section?: string }) {
         >
           <RetryDemo />
         </Demo>
+        <Demo
+          id="announcements"
+          title="切换顶部公告"
+          description="公告内容由应用状态更新，banner 可关闭默认图标；使用 status 避免打断阅读。"
+          source={() => import("../demos/alert-announcements.tsx?raw")}
+        >
+          <AnnouncementsDemo />
+        </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>
         API
@@ -66,6 +75,7 @@ export default function Page({ section }: { section?: string }) {
           ],
           ["action", "右侧操作区域", "OctaneNode", "—"],
           ["closeIcon", "自定义关闭按钮图标", "OctaneNode", "×"],
+          ["ref", "获取原生根节点", "Ref<AlertRef>（nativeElement）", "—"],
         ]}
       />
       <h2 id="tokens" tabIndex={-1}>

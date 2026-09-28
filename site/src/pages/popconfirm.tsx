@@ -1,5 +1,6 @@
 import { BasicDemo, MoreDemo } from "../demos/popconfirm-basic";
 import { ControlledDemo } from "../demos/popconfirm-controlled";
+import { RetryDemo } from "../demos/popconfirm-retry";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -39,6 +40,14 @@ export default function Page({ section }: { section?: string }) {
         >
           <ControlledDemo />
         </Demo>
+        <Demo
+          id="retry"
+          title="失败后保留确认框"
+          description="Promise 拒绝时保持打开，由应用提供错误说明；关闭模拟失败后可再次提交。"
+          source={() => import("../demos/popconfirm-retry.tsx?raw")}
+        >
+          <RetryDemo />
+        </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>
         API
@@ -73,6 +82,18 @@ export default function Page({ section }: { section?: string }) {
             "false / true",
           ],
           ["icon", "提示图标，null 隐藏", "OctaneNode", "警告图标"],
+          [
+            "arrow / autoAdjustOverflow",
+            "显示箭头 / 超出视口时调整位置",
+            "boolean",
+            "true / true",
+          ],
+          [
+            "getPopupContainer",
+            "自定义浮层容器",
+            "(trigger: HTMLElement) => HTMLElement",
+            "document.body",
+          ],
           [
             "placement / trigger / destroyOnHidden",
             "位置、触发与销毁",

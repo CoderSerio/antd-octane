@@ -1,6 +1,7 @@
 import { BasicDemo } from "../demos/select-basic";
 import { ControlledDemo } from "../demos/select-controlled";
 import { SelectControlledOpenDemo } from "../demos/select-controlled-open";
+import { SelectCoordinatedDemo } from "../demos/select-coordinated";
 import { SelectFilterEmptyDemo } from "../demos/select-filter-empty";
 import { SelectSizesStatusDemo } from "../demos/select-sizes-status";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
@@ -64,6 +65,14 @@ export default function Page({ section }: { section?: string }) {
           source={() => import("../demos/select-sizes-status.tsx?raw")}
         >
           <SelectSizesStatusDemo />
+        </Demo>
+        <Demo
+          id="coordinated"
+          title="省市联动"
+          description="切换省份后由应用重置城市，避免保留不属于当前省份的值。"
+          source={() => import("../demos/select-coordinated.tsx?raw")}
+        >
+          <SelectCoordinatedDemo />
         </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>
@@ -137,6 +146,12 @@ export default function Page({ section }: { section?: string }) {
         multiple、tags、labelInValue、选项分组、虚拟列表和完整上游样式。
         带搜索时可用 searchValue/onSearch 控制搜索文本；这与已选中的 value
         是两份独立状态。
+      </p>
+      <p>
+        联动选项由应用负责同步：改变 options 不会自动清空已有
+        value。清除回调传入 undefined，受控场景可将其转换为 null。远程搜索可通过
+        onSearch 更新 options 并关闭内置过滤，但目前没有内置请求、loading
+        或防抖能力。
       </p>
     </>
   );

@@ -1,5 +1,7 @@
 import { BasicDemo } from "../demos/switch-basic";
 import { ControlledDemo } from "../demos/switch-controlled";
+import { SwitchFormBindingDemo } from "../demos/switch-form-binding";
+import { SwitchSaveFlowDemo } from "../demos/switch-save-flow";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -33,6 +35,22 @@ export default function Page({ section }: { section?: string }) {
         >
           <ControlledDemo />
         </Demo>
+        <Demo
+          id="save-flow"
+          title="等待保存结果"
+          description="本例显式模拟成功或失败；loading 期间阻止再次切换，成功后才接受新值。"
+          source={() => import("../demos/switch-save-flow.tsx?raw")}
+        >
+          <SwitchSaveFlowDemo />
+        </Demo>
+        <Demo
+          id="form-binding"
+          title="表单绑定"
+          description="Form.Item 使用 valuePropName=&quot;checked&quot; 收集布尔值，由提交按钮保存。"
+          source={() => import("../demos/switch-form-binding.tsx?raw")}
+        >
+          <SwitchFormBindingDemo />
+        </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>
         API
@@ -60,6 +78,9 @@ export default function Page({ section }: { section?: string }) {
         支持原生 button ref、Space / Enter 与左右方向键；继承 componentDisabled
         / componentSize。组件 token 支持轨道尺寸、padding、handle
         尺寸、背景和阴影；暂不支持 innerMargin 系列 token、wave 及完整按压动效。
+        Form.Item 应设置 valuePropName="checked"。loading
+        只阻止操作并显示加载状态，
+        不会发起请求、自动提交或回滚状态；这些流程由调用方管理。
       </p>
     </>
   );

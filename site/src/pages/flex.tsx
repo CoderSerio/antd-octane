@@ -1,5 +1,7 @@
 import { AlignmentDemo } from "../demos/flex-alignment";
 import { BasicDemo } from "../demos/flex-basic";
+import { CrossAxisDemo } from "../demos/flex-cross-axis";
+import { GapControlDemo } from "../demos/flex-gap-control";
 import { WrappingDemo } from "../demos/flex-wrapping";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
@@ -41,6 +43,22 @@ export default function Page({ section }: { section?: string }) {
           source={() => import("../demos/flex-wrapping.tsx?raw")}
         >
           <WrappingDemo />
+        </Demo>
+        <Demo
+          id="cross-axis"
+          title="交叉轴对齐"
+          description="对照上游对齐方式案例，切换 align 观察不同高度项目的位置与拉伸。"
+          source={() => import("../demos/flex-cross-axis.tsx?raw")}
+        >
+          <CrossAxisDemo />
+        </Demo>
+        <Demo
+          id="gap"
+          title="设置间隙"
+          description="gap 可使用预设尺寸或自定义像素值；拖动滑块调整间距。"
+          source={() => import("../demos/flex-gap-control.tsx?raw")}
+        >
+          <GapControlDemo />
         </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>

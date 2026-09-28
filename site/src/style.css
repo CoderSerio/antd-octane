@@ -309,19 +309,19 @@
     min-width: 0;
     outline: none;
   }
-  .main h1 {
+  .main h1:where(:not(.ant-typography)) {
     margin: 0 0 20px;
     font-size: 32px;
     line-height: 1.2105;
     font-weight: 600;
     letter-spacing: 0;
   }
-  .main :where(h1) > span {
+  .main :where(h1:where(:not(.ant-typography))) > span {
     margin-left: 8px;
     font-size: inherit;
     font-weight: inherit;
   }
-  .main h1 small {
+  .main h1:where(:not(.ant-typography)) small {
     margin-left: 14px;
     vertical-align: middle;
     font-size: 12px;
@@ -333,7 +333,7 @@
     color: #ad8b00;
     border: 1px solid #ffe58f;
   }
-  .main h2 {
+  .main h2:where(:not(.ant-typography)) {
     font-family:
       Avenir, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     margin: 40px 0 24px;
@@ -341,7 +341,7 @@
     font-size: 24px;
     line-height: 32px;
   }
-  .main h3 {
+  .main h3:where(:not(.ant-typography)) {
     font-size: 16px;
     font-weight: 500;
     margin: 24px 0 16px;
@@ -983,10 +983,10 @@
     .main {
       padding: 28px 18px 0;
     }
-    .main h1 {
+    .main h1:where(:not(.ant-typography)) {
       font-size: 28px;
     }
-    .main h2 {
+    .main h2:where(:not(.ant-typography)) {
       margin-top: 32px;
       font-size: 22px;
     }

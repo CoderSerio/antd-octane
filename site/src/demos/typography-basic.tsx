@@ -1,5 +1,4 @@
 import { Space, Typography } from "antd-octane";
-import { useState } from "octane";
 export function BasicDemo() {
   return (
     <div>
@@ -15,21 +14,6 @@ export function BasicDemo() {
         <Typography.Text keyboard>Enter</Typography.Text>
         <Typography.Link href="#start">快速开始</Typography.Link>
       </Space>
-    </div>
-  );
-}
-export function MoreDemo() {
-  const [text, setText] = useState("点击编辑，输入你的项目名称");
-  return (
-    <div style={{ width: "100%" }}>
-      <Typography.Paragraph editable={{ onChange: setText }} copyable>
-        {text}
-      </Typography.Paragraph>
-      <Typography.Paragraph ellipsis={{ rows: 2, expandable: "collapsible" }}>
-        {"组件库应帮助用户专注于业务。熟悉的交互与主题配置，可以降低迁移时的学习成本。".repeat(
-          5,
-        )}
-      </Typography.Paragraph>
     </div>
   );
 }
