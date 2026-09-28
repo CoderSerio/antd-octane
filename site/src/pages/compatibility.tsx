@@ -83,9 +83,9 @@ export default function Compatibility({ section }: { section?: string }) {
           ],
           [
             "Select",
-            "单选、搜索、受控值、键盘与清除；不含 multiple、tags、虚拟列表",
+            "单选与多选、搜索、受控值、键盘与清除；不含 tags、labelInValue、虚拟列表",
             "基础实现",
-            "alpha.2",
+            "alpha.5",
           ],
           ["Radio", "单选、选择组、按钮样式与键盘", "基础实现", "alpha"],
           [
@@ -185,7 +185,7 @@ export default function Compatibility({ section }: { section?: string }) {
         完整消费、模态静态方法和复杂表单能力尚未完成。Input.OTP、完整计数与
         variant，以及日期选择等复杂输入组件仍未提供。Form
         当前只支持平面字段和同步规则；Select
-        已支持单选基础能力，多选、标签模式和虚拟列表仍待实现。
+        已支持单选与多选，标签模式、labelInValue 和虚拟列表仍待实现。
       </p>
       <p>
         Spin 暂不支持自动进度，fullscreen 尚未接入共享 portal；Progress

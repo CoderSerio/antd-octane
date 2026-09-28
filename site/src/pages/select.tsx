@@ -3,6 +3,7 @@ import { ControlledDemo } from "../demos/select-controlled";
 import { SelectControlledOpenDemo } from "../demos/select-controlled-open";
 import { SelectCoordinatedDemo } from "../demos/select-coordinated";
 import { SelectFilterEmptyDemo } from "../demos/select-filter-empty";
+import { ControlledMultipleDemo, MultipleDemo } from "../demos/select-multiple";
 import { SelectSizesStatusDemo } from "../demos/select-sizes-status";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 
@@ -14,13 +15,15 @@ export default function Page({ section }: { section?: string }) {
         Select <span>选择器</span>
         <small>Alpha</small>
       </h1>
-      <p className="lead">从有限选项中选择一个值，也可以先输入文本过滤。</p>
+      <p className="lead">
+        从有限选项中选择一个或多个值，也可以先输入文本过滤。
+      </p>
       <DocMeta name="Select" />
       <h2 id="when" tabIndex={-1}>
         何时使用
       </h2>
       <p>
-        选项数量有限、用户需要从已有值中选择时使用；选项较多时可启用搜索。当前版本只支持单选。
+        选项数量有限、用户需要从已有值中选择时使用；选项较多时可启用搜索。单选使用标量值，多选使用数组值。
       </p>
       <h2 id="examples" tabIndex={-1}>
         代码演示
@@ -74,6 +77,22 @@ export default function Page({ section }: { section?: string }) {
         >
           <SelectCoordinatedDemo />
         </Demo>
+        <Demo
+          id="multiple"
+          title="多选与搜索"
+          description="多选默认支持搜索；选中后保持菜单展开，可移除已选项或一次清空。"
+          source={() => import("../demos/select-multiple.tsx?raw")}
+        >
+          <MultipleDemo />
+        </Demo>
+        <Demo
+          id="controlled-multiple"
+          title="受控多选与移除回调"
+          description="由数组状态管理选中项，onSelect / onDeselect 区分选择和移除。"
+          source={() => import("../demos/select-multiple.tsx?raw")}
+        >
+          <ControlledMultipleDemo />
+        </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>
         API
@@ -86,22 +105,29 @@ export default function Page({ section }: { section?: string }) {
             "SelectOption[]",
             "必填",
           ],
+          ["mode", "选择模式；省略为单选", "multiple", "—"],
           [
             "value / defaultValue",
             "受控值 / 初始值",
-            "string | number | null",
+            "SelectValue | null / SelectValue[]（多选）",
             "—",
           ],
           [
             "onChange",
-            "值变化回调；清除时传 undefined",
+            "单选清除传 undefined，多选清除传 []；多选返回值与选项数组",
             "(value, option?) => void",
             "—",
           ],
+          ["onDeselect", "多选移除选项时调用", "(value, option) => void", "—"],
           ["onSelect", "选中选项时调用", "(value, option) => void", "—"],
           ["open / defaultOpen", "受控展开 / 初始展开", "boolean", "false"],
           ["onOpenChange", "展开状态变化回调", "(open) => void", "—"],
-          ["showSearch", "允许输入并过滤选项", "boolean", "false"],
+          [
+            "showSearch",
+            "允许输入并过滤选项",
+            "boolean",
+            "单选 false / 多选 true",
+          ],
           [
             "searchValue / onSearch",
             "受控搜索文本 / 输入回调",
@@ -140,18 +166,19 @@ export default function Page({ section }: { section?: string }) {
         支持范围
       </h2>
       <p>
-        当前仅支持单选。方向键移动、Home / End 跳到首尾、Enter 选中、Escape
-        关闭；禁用选项不可选。搜索默认按文本标签过滤，非文本标签按 value
-        过滤。尚未实现
-        multiple、tags、labelInValue、选项分组、虚拟列表和完整上游样式。
+        支持单选与多选。方向键移动、Enter 切换选项、Escape
+        关闭；禁用选项不可选或移除。非搜索模式 Home / End
+        跳到首尾，搜索模式保留文本光标行为。多选搜索为空时 Backspace
+        移除最后一个可移除项。搜索默认按文本标签过滤，非文本标签按 value
+        过滤。尚未实现 tags、labelInValue、选项分组、虚拟列表和完整上游样式。
         带搜索时可用 searchValue/onSearch 控制搜索文本；这与已选中的 value
         是两份独立状态。
       </p>
       <p>
         联动选项由应用负责同步：改变 options 不会自动清空已有
-        value。清除回调传入 undefined，受控场景可将其转换为 null。远程搜索可通过
-        onSearch 更新 options 并关闭内置过滤，但目前没有内置请求、loading
-        或防抖能力。
+        value。单选清除回调传入 undefined，受控场景可将其转换为
+        null；多选传入空数组。远程搜索可通过 onSearch 更新 options
+        并关闭内置过滤，但目前没有内置请求、loading 或防抖能力。
       </p>
     </>
   );

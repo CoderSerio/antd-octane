@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "antd-octane": "0.1.0-alpha.4",
+    "antd-octane": "0.1.0-alpha.5",
     "octane": "0.4.3"
   }
 }
