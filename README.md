@@ -19,15 +19,15 @@
 
 Ant Design for Octane 面向的是希望在 Octane 应用中沿用 Ant Design 设计语言的开发者。
 
-设计和 API 对照以 [Ant Design 5 组件文档](https://5x.ant.design/components/overview/) 为基线
+设计和 API 对照以 [Ant Design 5 组件文档](https://5x.ant.design/components/overview/) 为基线；
 Octane 的语法与构建方式请以 [Octane 官方文档](https://octanejs.dev/docs) 为准。
 
 ## 快速开始
 
-> 请按[完整快速开始](https://coderserio.github.io/antd-octane/#start)操作
+> 新建项目与构建配置请按[完整快速开始](https://coderserio.github.io/antd-octane/#start)操作。
 
 ```bash
-pnpm add antd-octane@alpha
+pnpm add antd-octane@alpha octane@0.4.3
 ```
 
 ```tsx
@@ -54,7 +54,7 @@ export function App() {
 
 [组件总览](https://coderserio.github.io/antd-octane/#components/coverage)用于查找入口；
 每个组件页和[兼容与迁移](https://coderserio.github.io/antd-octane/#compatibility)说明具体支持范围。
-SSR、完整跨浏览器与辅助技术验证仍在推进，不能仅替换包名迁移整个应用。
+Octane 支持 SSR；本库尚未完成全部组件及客户端 hydration 验证。跨浏览器与辅助技术兼容也仍需验证。
 
 ## 开发与贡献
 
