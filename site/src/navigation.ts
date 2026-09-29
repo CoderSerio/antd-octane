@@ -112,6 +112,13 @@ export const nav = [
     keywords: "switch 开关",
   },
   {
+    id: "auto-complete",
+    title: "AutoComplete 自动完成",
+    category: "components",
+    group: "数据录入",
+    keywords: "autocomplete 自动完成 输入建议 搜索",
+  },
+  {
     id: "form",
     title: "Form 表单",
     category: "components",
@@ -480,6 +487,7 @@ export const toc: Record<string, [string, string][]> = {
     ["build", "仓库构建与验证"],
   ],
   changelog: [
+    ["alpha-6", "0.1.0-alpha.6"],
     ["alpha-5", "0.1.0-alpha.5"],
     ["alpha-4", "0.1.0-alpha.4"],
     ["alpha-3", "0.1.0-alpha.3"],
@@ -587,7 +595,12 @@ toc.space = [
   ["vertical", "垂直间距"],
   ["alignment", "对齐"],
   ["split", "分隔符"],
+  ["compact", "紧凑组合"],
+  ["compact-size", "紧凑尺寸"],
+  ["compact-vertical", "垂直紧凑布局"],
+  ["compact-addon", "前后缀与禁用"],
   ["api", "API"],
+  ["compact-api", "Space.Compact / Space.Addon"],
   ["tokens", "主题与支持范围"],
 ];
 toc.divider = [
@@ -814,6 +827,21 @@ toc.select = [
   ["scope", "支持范围"],
 ];
 
+toc["auto-complete"] = [
+  ["when", "何时使用"],
+  ["examples", "代码演示"],
+  ["basic", "自由输入"],
+  ["dynamic", "动态邮箱建议"],
+  ["controlled", "受控值与事件"],
+  ["filter", "内置与自定义过滤"],
+  ["clear", "清除与回调"],
+  ["states", "尺寸、状态与禁用"],
+  ["empty-open", "空列表与受控展开"],
+  ["ref-container", "聚焦与局部浮层"],
+  ["api", "API"],
+  ["scope", "支持范围"],
+];
+
 toc.form = [
   ["when", "何时使用"],
   ["examples", "代码演示"],
@@ -821,6 +849,10 @@ toc.form = [
   ["instance", "实例方法"],
   ["validation", "手动校验与重置"],
   ["layout", "表单布局"],
+  ["async-validation", "异步用户名校验"],
+  ["array-mapping", "绑定数组属性"],
+  ["custom-trigger", "自定义事件与多参数"],
+  ["value-props", "存储值与显示值"],
   ["api", "API"],
   ["scope", "支持范围"],
 ];

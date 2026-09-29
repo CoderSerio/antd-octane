@@ -1,7 +1,11 @@
+import { ArrayMappingDemo } from "../demos/form-array-mapping";
+import { AsyncValidationDemo } from "../demos/form-async-validation";
 import { BasicDemo } from "../demos/form-basic";
+import { CustomTriggerDemo } from "../demos/form-custom-trigger";
 import { InstanceDemo } from "../demos/form-instance";
 import { FormLayoutDemo } from "../demos/form-layout";
 import { FormValidationDemo } from "../demos/form-validation";
+import { ValuePropsDemo } from "../demos/form-value-props";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 
 export default function FormPage({ section }: { section?: string }) {
@@ -18,8 +22,8 @@ export default function FormPage({ section }: { section?: string }) {
         何时使用
       </h2>
       <p>
-        多个输入项需要统一收集、同步校验和提交时使用。简单筛选栏可使用 inline
-        布局；当前只支持平面字段。
+        多个输入项需要统一收集、同步或异步校验和提交时使用。简单筛选栏可使用
+        inline 布局；当前只支持平面字段。
       </p>
       <h2 id="examples" tabIndex={-1}>
         代码演示
@@ -28,7 +32,7 @@ export default function FormPage({ section }: { section?: string }) {
         <Demo
           id="basic"
           title="填写并提交"
-          description="Input、Select 与 Checkbox 共用一份表单状态；错误提交会聚焦首个字段。"
+          description="Input、Select 与 Checkbox 共用一份表单状态；未过期的错误提交会聚焦首个字段。"
           source={() => import("../demos/form-basic.tsx?raw")}
         >
           <BasicDemo />
@@ -57,6 +61,38 @@ export default function FormPage({ section }: { section?: string }) {
         >
           <FormLayoutDemo />
         </Demo>
+        <Demo
+          id="async-validation"
+          title="异步用户名校验"
+          description="等待 Promise 校验完成后才提交；输入或规则变化时旧校验会标记 outOfDate，不覆盖新错误。"
+          source={() => import("../demos/form-async-validation.tsx?raw")}
+        >
+          <AsyncValidationDemo />
+        </Demo>
+        <Demo
+          id="array-mapping"
+          title="绑定数组属性"
+          description="通过 valuePropName 绑定自定义控件的 targetKeys；初值、必填和重置都保留数组类型。"
+          source={() => import("../demos/form-array-mapping.tsx?raw")}
+        >
+          <ArrayMappingDemo />
+        </Demo>
+        <Demo
+          id="custom-trigger"
+          title="自定义事件与多参数"
+          description="trigger 指定收集事件，getValueFromEvent 把数量范围事件的两个参数转换为字段值。"
+          source={() => import("../demos/form-custom-trigger.tsx?raw")}
+        >
+          <CustomTriggerDemo />
+        </Demo>
+        <Demo
+          id="value-props"
+          title="存储值与显示值"
+          description="金额以分存储、以元显示；getValueProps 控制注入属性，getValueFromEvent 转回存储单位。"
+          source={() => import("../demos/form-value-props.tsx?raw")}
+        >
+          <ValuePropsDemo />
+        </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>
         API
@@ -78,7 +114,7 @@ export default function FormPage({ section }: { section?: string }) {
           ["Form.onFinish", "校验通过后收到字段值", "(values) => void", "—"],
           [
             "Form.onFinishFailed",
-            "校验失败时收到 values 与 errorFields",
+            "校验失败或过期时收到当前 values、errorFields；过期结果含 outOfDate: true",
             "(error) => void",
             "—",
           ],
@@ -102,8 +138,8 @@ export default function FormPage({ section }: { section?: string }) {
           ],
           [
             "Form.Item.rules",
-            "同步校验规则",
-            "{ required?, min?, max?, pattern?, message? }[]",
+            "内建同步规则与自定义同步/异步规则",
+            "{ required?, min?, max?, pattern?, message?, validator? }[]",
             "[]",
           ],
           [
@@ -114,9 +150,33 @@ export default function FormPage({ section }: { section?: string }) {
           ],
           [
             "Form.Item.valuePropName",
-            "布尔控件使用 checked",
-            "value | checked",
+            "指定接收字段值的属性；布尔控件用 checked，数组控件可用 targetKeys",
+            "string",
             "value",
+          ],
+          [
+            "Form.Item.trigger",
+            "收集字段值的子控件事件；保留原事件回调",
+            "string",
+            "onChange",
+          ],
+          [
+            "Form.Item.getValueFromEvent",
+            "同步转换收集事件的所有参数",
+            "(...args) => unknown",
+            "提取首参数或 event.target[valuePropName]",
+          ],
+          [
+            "Form.Item.getValueProps",
+            "由存储值生成子控件属性；优先于 valuePropName",
+            "(value) => Record<string, unknown>",
+            "—",
+          ],
+          [
+            "FormRule.validator",
+            "抛出错误或拒绝 Promise 表示失败；message 可覆盖错误文本",
+            "(rule, value) => void | Promise<void>",
+            "—",
           ],
           ["Form.Item.help / extra", "帮助说明与补充信息", "OctaneNode", "—"],
           [
@@ -137,13 +197,30 @@ export default function FormPage({ section }: { section?: string }) {
         支持范围
       </h2>
       <p>
-        当前支持字符串字段名、直接子组件、同步的必填/字符串长度/正则规则；提交时校验，错误字段变化时重新校验。Input、Select、Checkbox
-        和 Switch 已验证。Checkbox、Switch 需设置{" "}
-        <code>valuePropName="checked"</code>。
+        当前支持字符串字段名、单个直接子组件、必填/字符串或数组长度/正则规则，以及返回
+        Promise 的自定义 validator。提交或 validateFields
+        时运行全部规则；已有错误字段 在值变化时重新校验。尚未提供完整的
+        validateTrigger 配置。
       </p>
       <p>
-        暂不支持嵌套字段路径、Form.List、字段依赖、异步规则、自定义值转换、完整的校验触发配置或完整
-        Ant Design Form API。直接子组件以外的复合控件布局也尚未验证。
+        valuePropName 可指定任意属性名；getValueProps 启用后替代默认值属性注入。
+        getValueFromEvent 接收 trigger 的完整参数列表，必须同步返回字段值。
+        自定义控件应正确处理受控值与事件，并转发 id 或为复合控件提供可访问名称。
+        数组字段请用 initialValues 设置数组初值；不根据属性名推断空数组。
+      </p>
+      <p>
+        输入、设置值、重置、真实规则变化或更新的校验请求会使旧校验失效。失效结果
+        拒绝 Promise 并带 outOfDate: true，错误不覆盖当前 UI，也不会触发
+        onFinish。 调用方处理校验失败时应区分 outOfDate
+        与当前字段错误。等价的新规则数组不会 取消校验；validator
+        函数引用变化视为规则变化，异步 validator 宜保持引用稳定。
+      </p>
+      <p>
+        暂不支持嵌套字段路径、Form.List、dependencies、normalize、完整的校验触发配置
+        或完整 Ant Design Form API。setFieldsValue 与 resetFields 不触发
+        onValuesChange。 Input、Select、Checkbox 和 Switch
+        已验证；Checkbox、Switch 需设置
+        <code>valuePropName="checked"</code>。
       </p>
       <p>
         Form.Item 的必填规则目前不会自动为子控件设置必填语义。使用 Input

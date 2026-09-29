@@ -8,7 +8,7 @@ export default function ChangelogPage({ section }: { section?: string }) {
       <h1>更新日志</h1>
       <p className="lead">这里记录已发布到 npm 的 alpha 版本。</p>
       <p>
-        文档站当前安装 <code>antd-octane@0.1.0-alpha.5</code>。完整记录见{" "}
+        文档站当前安装 <code>antd-octane@0.1.0-alpha.6</code>。完整记录见{" "}
         <a
           className="text-link"
           href="https://github.com/CoderSerio/antd-octane/blob/main/CHANGELOG.md"
@@ -20,6 +20,14 @@ export default function ChangelogPage({ section }: { section?: string }) {
           兼容与迁移
         </a>
         。
+      </p>
+      <h2 id="alpha-6" tabIndex={-1}>
+        0.1.0-alpha.6 · 2026-09-30
+      </h2>
+      <p>
+        新增 AutoComplete 自由文本建议；Form
+        支持自定义字段映射和异步规则，并防止旧校验覆盖新值；Space 新增 Compact
+        与 Addon。相关页面补充独立案例与兼容边界。
       </p>
       <h2 id="alpha-5" tabIndex={-1}>
         0.1.0-alpha.5 · 2026-09-29

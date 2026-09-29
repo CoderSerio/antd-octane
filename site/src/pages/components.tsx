@@ -2,6 +2,7 @@ import {
   Affix,
   Alert,
   Anchor,
+  AutoComplete,
   Avatar,
   Badge,
   Breadcrumb,
@@ -154,6 +155,14 @@ function Preview({ name }: { name: string }) {
 
     case "input-number":
       return <InputNumber defaultValue={3} min={0} max={10} />;
+    case "auto-complete":
+      return (
+        <AutoComplete
+          options={[{ value: "Octane" }, { value: "Ant Design" }]}
+          placeholder="输入搜索词"
+          aria-label="示例自动完成"
+        />
+      );
     case "form":
       return (
         <Form layout="vertical" style={{ width: "100%" }}>
