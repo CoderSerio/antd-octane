@@ -402,7 +402,7 @@ export default function ComponentsPage({ section }: { section?: string }) {
         当前为开发预览。每个组件页提供可运行示例、API 和支持范围。 按 Ant Design
         5.x 的 {componentCoverage.length} 个文档条目核对， 当前{" "}
         {componentCoverage.filter((item) => item.implemented).length}{" "}
-        项已有基础实现，仍有{" "}
+        项已提供支持子集，仍有{" "}
         {componentCoverage.filter((item) => !item.implemented).length}{" "}
         项待推进。
         <a href="#components/coverage">查看完整覆盖清单 →</a>
@@ -444,7 +444,7 @@ export default function ComponentsPage({ section }: { section?: string }) {
         完整覆盖清单
       </h2>
       <p>
-        基础版仅表示已有部分能力，不代表完整
+        「已提供」表示可以从包中使用，具体功能仍可能只是子集，不代表完整
         API、子组件、交互或主题兼容；目录覆盖数量不是功能完成百分比。点击本库文档检查具体支持范围；尚未实现的项目只链接上游参考。
       </p>
       {upstreamGroups.map(([group]) => (

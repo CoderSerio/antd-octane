@@ -22,7 +22,7 @@
 - **中文文档**：提供组件示例、API、源码展示与可交互的主题预览。
 - **Agent 接入**：提供文档站接入说明、兼容边界与 `llms.txt` 导航。
 
-当前通过 npm 的 `alpha` 标签发布，API 仍可能调整。按 Ant Design 5.x 文档目录计，已提供 **58 项基础实现**（包含 ConfigProvider）；基础实现不代表完整 API 兼容，具体能力与限制见[文档站兼容说明](site/src/pages/compatibility.tsx)，版本变化见[Changelog](CHANGELOG.md)。
+当前通过 npm 的 `alpha` 标签发布，API 仍可能调整。按 Ant Design 5.x 文档目录计，已有 **58 项可使用的组件入口**（包含 ConfigProvider）；各入口可能只支持部分 API，具体能力与限制见[文档站兼容说明](site/src/pages/compatibility.tsx)，版本变化见[Changelog](CHANGELOG.md)。
 
 本项目由社区独立维护，与 Ant Design、Octane 官方无隶属关系。
 

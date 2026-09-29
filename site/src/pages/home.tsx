@@ -74,7 +74,7 @@ export default function Home({ section }: { section?: string }) {
             </a>
             <a href="#components/coverage">
               <span className="home-kicker">BUILDING IN THE OPEN</span>
-              <h2>{count} 项基础实现</h2>
+              <h2>{count} 项已提供</h2>
               <p>可运行示例、API 与支持范围，让每一步迁移都有据可查。</p>
               <span className="home-path-tail">
                 查看覆盖清单 <b aria-hidden="true">↗</b>
@@ -260,7 +260,7 @@ export default function Home({ section }: { section?: string }) {
           </a>
         </nav>
         <p className="home-alpha-note">
-          当前为 Alpha。基础实现数量不代表完整 API
+          当前为 Alpha。已提供数量不代表完整 API
           兼容，使用前请查阅各组件的支持范围。
         </p>
       </footer>
