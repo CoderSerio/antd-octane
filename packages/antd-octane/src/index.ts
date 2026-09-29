@@ -26,6 +26,8 @@ export type {
   FormValues,
 } from "./form";
 export { Form } from "./form";
+export type { MentionsOption, MentionsProps, MentionsRef } from "./mentions";
+export { getMentions, Mentions } from "./mentions";
 export type {
   AliasToken,
   ButtonToken,

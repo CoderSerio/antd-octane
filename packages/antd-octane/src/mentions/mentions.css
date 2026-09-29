@@ -1,0 +1,119 @@
+@layer antd {
+  :where(.ant-mentions) {
+    box-sizing: border-box;
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    vertical-align: top;
+  }
+  :where(.ant-mentions-textarea.ant-input) {
+    display: block;
+    width: 100%;
+    min-height: 32px;
+    resize: vertical;
+    overflow-wrap: break-word;
+  }
+  :where(.ant-mentions-small .ant-mentions-textarea) {
+    min-height: 24px;
+    padding: var(--ao-input-pb-sm) var(--ao-input-pi-sm);
+    font-size: var(--ao-input-font-sm);
+    border-radius: var(--ao-input-radius-sm);
+  }
+  :where(.ant-mentions-large .ant-mentions-textarea) {
+    min-height: 40px;
+    padding: var(--ao-input-pb-lg) var(--ao-input-pi-lg);
+    font-size: var(--ao-input-font-lg);
+    line-height: var(--ao-input-line-lg);
+    border-radius: var(--ao-input-radius-lg);
+  }
+  :where(.ant-mentions-status-error .ant-mentions-textarea) {
+    border-color: var(--ao-input-error);
+  }
+  :where(.ant-mentions-status-error .ant-mentions-textarea:focus) {
+    box-shadow: var(--ao-input-error-shadow);
+  }
+  :where(.ant-mentions-status-warning .ant-mentions-textarea) {
+    border-color: var(--ao-input-warning);
+  }
+  :where(.ant-mentions-status-warning .ant-mentions-textarea:focus) {
+    box-shadow: var(--ao-input-warning-shadow);
+  }
+  :where(.ant-mentions-filled .ant-mentions-textarea) {
+    background: var(--ao-input-disabled-bg);
+    border-color: transparent;
+  }
+  :where(.ant-mentions-borderless .ant-mentions-textarea) {
+    border-color: transparent;
+    box-shadow: none;
+  }
+  :where(.ant-mentions-underlined .ant-mentions-textarea) {
+    border-radius: 0;
+    border-inline: 0;
+    border-block-start: 0;
+  }
+  :where(.ant-mentions-readonly .ant-mentions-textarea) {
+    cursor: default;
+  }
+  :where(.ant-mentions-clear) {
+    box-sizing: border-box;
+    position: absolute;
+    top: 7px;
+    inset-inline-end: 8px;
+    border: 0;
+    padding: 0 3px;
+    color: var(--ao-input-disabled);
+    background: var(--ao-input-bg);
+    font: inherit;
+    line-height: 1;
+    cursor: pointer;
+  }
+  :where(.ant-mentions-clear:focus-visible) {
+    outline: 2px solid var(--ao-input-active);
+    outline-offset: 2px;
+  }
+  :where(.ant-mentions-mirror) {
+    box-sizing: border-box;
+    position: absolute;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    pointer-events: none;
+    visibility: hidden;
+    z-index: -1;
+  }
+  :where(.ant-mentions-dropdown) {
+    box-sizing: border-box;
+    min-width: 100px;
+    max-width: calc(100vw - 16px);
+    max-height: 250px;
+    overflow: auto;
+    padding: 4px;
+    border-radius: var(--ao-radius);
+    background: var(--ao-mentions-popup);
+    box-shadow: var(--ao-mentions-shadow);
+    color: var(--ao-text);
+    font: var(--ao-font-size) / var(--ao-line) var(--ao-font);
+  }
+  :where(.ant-mentions-option) {
+    box-sizing: border-box;
+    min-height: 32px;
+    padding: 5px 8px;
+    border-radius: calc(var(--ao-radius) / 2);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  :where(.ant-mentions-option-active:not(.ant-mentions-option-disabled)) {
+    background: var(--ao-mentions-hover);
+  }
+  :where(.ant-mentions-option-disabled) {
+    color: var(--ao-muted);
+    cursor: not-allowed;
+  }
+  :where(.ant-mentions-empty) {
+    padding: 8px;
+    color: var(--ao-muted);
+    text-align: center;
+  }
+}
