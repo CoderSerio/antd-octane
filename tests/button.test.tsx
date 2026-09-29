@@ -54,6 +54,13 @@ describe("Button native behavior", () => {
     });
     expect(click).not.toHaveBeenCalled();
     expect(container.querySelector('[aria-busy="true"]')).not.toBeNull();
+    const status = [
+      ...document.body.querySelectorAll(
+        '.ao-btn-loading-status[role="status"]',
+      ),
+    ].find((node) => node.textContent === "Loading");
+    expect(status?.textContent).toBe("Loading");
+    expect(status?.parentElement).toBe(document.body);
   });
   it("places the icon after content when requested", async () => {
     await render(

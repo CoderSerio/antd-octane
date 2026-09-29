@@ -34,7 +34,7 @@ export default function Page({ section }: { section?: string }) {
         <Demo
           id="config"
           title="消息与通知默认配置"
-          description="maxCount=1 限制消息数量，通知采用默认 bottomLeft 位置。"
+          description="maxCount=1 限制消息数量，通知通过 App 配置显示在 bottomLeft。"
           source={() => import("../demos/app-config.tsx?raw")}
         >
           <ConfigDemo />

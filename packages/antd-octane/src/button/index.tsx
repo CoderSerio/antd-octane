@@ -6,6 +6,7 @@ import type {
   Ref,
 } from "octane";
 import {
+  createPortal,
   useEffect,
   useImperativeHandle,
   useMemo,
@@ -156,45 +157,61 @@ export function Button(props: ButtonProps) {
     </>
   );
   const mergedStyle = { ...variables, ...style };
+  // Keep the live region outside the busy control so loading is announced.
+  const loadingStatus = (
+    <span className="ao-btn-loading-status" role="status" aria-live="polite">
+      {loading ? "Loading" : ""}
+    </span>
+  );
+  const loadingAnnouncement =
+    typeof document === "undefined"
+      ? null
+      : createPortal(loadingStatus, document.body);
   if (href !== undefined) {
     return (
-      <a
-        id={props.id}
-        title={props.title}
-        aria-label={props["aria-label"]}
-        aria-describedby={props["aria-describedby"]}
+      <>
+        <a
+          id={props.id}
+          title={props.title}
+          aria-label={props["aria-label"]}
+          aria-describedby={props["aria-describedby"]}
+          ref={(element) => {
+            node.current = element;
+          }}
+          href={disabled || loading ? undefined : href}
+          target={target}
+          rel={rel ?? (target === "_blank" ? "noopener noreferrer" : undefined)}
+          role={disabled || loading ? "link" : undefined}
+          tabIndex={disabled ? -1 : (props.tabIndex ?? 0)}
+          aria-disabled={disabled || undefined}
+          aria-busy={loading || undefined}
+          className={classes}
+          style={mergedStyle}
+          onClick={handleClick}
+        >
+          {content}
+        </a>
+        {loadingAnnouncement}
+      </>
+    );
+  }
+  return (
+    <>
+      <button
+        {...rest}
         ref={(element) => {
           node.current = element;
         }}
-        href={disabled || loading ? undefined : href}
-        target={target}
-        rel={rel ?? (target === "_blank" ? "noopener noreferrer" : undefined)}
-        role={disabled || loading ? "link" : undefined}
-        tabIndex={disabled ? -1 : (props.tabIndex ?? 0)}
-        aria-disabled={disabled || undefined}
+        type={htmlType}
+        disabled={disabled}
         aria-busy={loading || undefined}
         className={classes}
         style={mergedStyle}
         onClick={handleClick}
       >
         {content}
-      </a>
-    );
-  }
-  return (
-    <button
-      {...rest}
-      ref={(element) => {
-        node.current = element;
-      }}
-      type={htmlType}
-      disabled={disabled}
-      aria-busy={loading || undefined}
-      className={classes}
-      style={mergedStyle}
-      onClick={handleClick}
-    >
-      {content}
-    </button>
+      </button>
+      {loadingAnnouncement}
+    </>
   );
 }

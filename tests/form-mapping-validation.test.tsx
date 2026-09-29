@@ -321,6 +321,47 @@ it("invalidates pending validation on actual rule changes but not equivalent new
   });
 });
 
+it("keeps an inline validator's pending run and uses the latest callback afterward", async () => {
+  const pending = deferred();
+  let form!: FormInstance;
+  let changeValidator!: () => void;
+  function Example() {
+    [form] = Form.useForm();
+    const [version, setVersion] = useState(0);
+    changeValidator = () => setVersion(1);
+    return (
+      <Form form={form} initialValues={{ field: "ready" }}>
+        <Form.Item
+          name="field"
+          rules={[
+            {
+              validator: async () => {
+                if (version === 0) return pending.promise;
+                throw new Error("updated");
+              },
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+      </Form>
+    );
+  }
+  await render(<Example />);
+  const first = form.validateFields().catch((error) => error);
+  await act(changeValidator);
+  await act(async () => {
+    pending.resolve();
+    await first;
+  });
+  expect(await first).toEqual({ field: "ready" });
+  await act(async () => {
+    await expect(form.validateFields()).rejects.toMatchObject({
+      errorFields: [{ name: "field", errors: ["updated"] }],
+    });
+  });
+});
+
 it("invalidates an entire validation when a new field registers", async () => {
   const pending = deferred();
   const validator = () => pending.promise;

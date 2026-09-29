@@ -126,7 +126,7 @@ function sameRules(previous: FormRule[], next: FormRule[]) {
         rule.min === other.min &&
         rule.max === other.max &&
         rule.message === other.message &&
-        rule.validator === other.validator &&
+        Boolean(rule.validator) === Boolean(other.validator) &&
         rule.pattern?.source === other.pattern?.source &&
         rule.pattern?.flags === other.pattern?.flags
       );
@@ -199,13 +199,14 @@ function createFormStore(initialValues: FormValues = {}): FormStore {
       };
     },
     setRules(name, nextRules) {
-      if (sameRules(rules.get(name) ?? [], nextRules)) return;
+      const copied = nextRules.map((rule) => ({ ...rule }));
+      if (sameRules(rules.get(name) ?? [], nextRules)) {
+        rules.set(name, copied);
+        return;
+      }
       validationRun++;
       invalidate(name);
-      rules.set(
-        name,
-        nextRules.map((rule) => ({ ...rule })),
-      );
+      rules.set(name, copied);
     },
     getFieldValue: (name) => state.values[name],
     getFieldsValue: () => ({ ...state.values }),
