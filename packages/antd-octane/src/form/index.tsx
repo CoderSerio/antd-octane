@@ -20,6 +20,7 @@ export interface FormRule {
   max?: number;
   pattern?: RegExp;
   message?: string;
+  validator?: (rule: FormRule, value: unknown) => void | Promise<void>;
 }
 export interface FormFieldError {
   name: string;
@@ -28,6 +29,7 @@ export interface FormFieldError {
 export interface FormValidationError {
   values: FormValues;
   errorFields: FormFieldError[];
+  outOfDate?: boolean;
 }
 export interface FormInstance {
   getFieldValue: (name: string) => unknown;
@@ -45,6 +47,7 @@ interface FormStore extends FormInstance {
   snapshot: () => Snapshot;
   initialize: (values: FormValues) => void;
   register: (name: string, rules: FormRule[]) => () => void;
+  setRules: (name: string, rules: FormRule[]) => void;
   setFieldValue: (name: string, value: unknown) => FormValues;
 }
 
@@ -88,6 +91,49 @@ function ruleErrors(name: string, value: unknown, rules: FormRule[]) {
   return errors;
 }
 
+async function validateRules(name: string, value: unknown, rules: FormRule[]) {
+  const results = await Promise.all(
+    rules.map(async (rule) => {
+      const errors = ruleErrors(name, value, [rule]);
+      if (rule.validator) {
+        try {
+          await rule.validator(rule, value);
+        } catch (error) {
+          errors.push(
+            rule.message ??
+              (error instanceof Error
+                ? error.message
+                : typeof error === "string"
+                  ? error
+                  : `${name} 校验失败`),
+          );
+        }
+      }
+      return errors;
+    }),
+  );
+  return results.flat();
+}
+
+function sameRules(previous: FormRule[], next: FormRule[]) {
+  return (
+    previous.length === next.length &&
+    previous.every((rule, index) => {
+      const other = next[index];
+      return (
+        other !== undefined &&
+        rule.required === other.required &&
+        rule.min === other.min &&
+        rule.max === other.max &&
+        rule.message === other.message &&
+        rule.validator === other.validator &&
+        rule.pattern?.source === other.pattern?.source &&
+        rule.pattern?.flags === other.pattern?.flags
+      );
+    })
+  );
+}
+
 function createFormStore(initialValues: FormValues = {}): FormStore {
   let initial: FormValues = { ...initialValues };
   let state: Snapshot = { values: { ...initialValues }, errors: {} };
@@ -101,6 +147,27 @@ function createFormStore(initialValues: FormValues = {}): FormStore {
     state = next;
     emit();
   };
+  let revision = 0;
+  let validationRun = 0;
+  const fieldRuns = new Map<string, number>();
+  const invalidate = (name: string) => {
+    const run = (fieldRuns.get(name) ?? 0) + 1;
+    fieldRuns.set(name, run);
+    return run;
+  };
+  const changedErrors = (name: string, value: unknown) => {
+    const run = invalidate(name);
+    if (!state.errors[name]) return;
+    const fieldRules = rules.get(name) ?? [];
+    const errors = ruleErrors(name, value, fieldRules);
+    if (fieldRules.some((rule) => rule.validator)) {
+      void validateRules(name, value, fieldRules).then((messages) => {
+        if (fieldRuns.get(name) !== run || !rules.has(name)) return;
+        update({ ...state, errors: { ...state.errors, [name]: messages } });
+      });
+    }
+    return errors;
+  };
   return {
     subscribe(listener) {
       listeners.add(listener);
@@ -108,13 +175,22 @@ function createFormStore(initialValues: FormValues = {}): FormStore {
     },
     snapshot: () => state,
     initialize(values) {
+      revision++;
+      validationRun++;
+      for (const name of rules.keys()) invalidate(name);
       initial = { ...values };
       update({ values: { ...values }, errors: {} });
     },
     register(name, nextRules) {
-      rules.set(name, nextRules);
+      validationRun++;
+      invalidate(name);
+      rules.set(
+        name,
+        nextRules.map((rule) => ({ ...rule })),
+      );
       return () => {
         rules.delete(name);
+        invalidate(name);
         if (state.errors[name]) {
           const errors = { ...state.errors };
           delete errors[name];
@@ -122,45 +198,74 @@ function createFormStore(initialValues: FormValues = {}): FormStore {
         }
       };
     },
+    setRules(name, nextRules) {
+      if (sameRules(rules.get(name) ?? [], nextRules)) return;
+      validationRun++;
+      invalidate(name);
+      rules.set(
+        name,
+        nextRules.map((rule) => ({ ...rule })),
+      );
+    },
     getFieldValue: (name) => state.values[name],
     getFieldsValue: () => ({ ...state.values }),
     setFieldValue(name, value) {
+      revision++;
       const values = { ...state.values, [name]: value };
-      const errors = state.errors[name]
-        ? {
-            ...state.errors,
-            [name]: ruleErrors(name, value, rules.get(name) ?? []),
-          }
+      const messages = changedErrors(name, value);
+      const errors = messages
+        ? { ...state.errors, [name]: messages }
         : state.errors;
       update({ values, errors });
       return { ...values };
     },
     setFieldsValue(values) {
+      revision++;
       const merged = { ...state.values, ...values };
       const errors = { ...state.errors };
       for (const name of Object.keys(values)) {
-        if (errors[name])
-          errors[name] = ruleErrors(name, merged[name], rules.get(name) ?? []);
+        const messages = changedErrors(name, merged[name]);
+        if (messages) errors[name] = messages;
       }
       update({ values: merged, errors });
     },
     resetFields() {
+      revision++;
+      validationRun++;
+      for (const name of rules.keys()) invalidate(name);
       update({ values: { ...initial }, errors: {} });
     },
     async validateFields() {
+      const run = ++validationRun;
+      const valueRevision = revision;
+      const values = { ...state.values };
+      const entries = [...rules.entries()];
+      const tokens = entries.map(([name]) => invalidate(name));
+      const results = await Promise.all(
+        entries.map(([name, fieldRules]) =>
+          validateRules(name, values[name], fieldRules),
+        ),
+      );
       const errors: Record<string, string[]> = {};
       const errorFields: FormFieldError[] = [];
-      for (const [name, fieldRules] of rules) {
-        const messages = ruleErrors(name, state.values[name], fieldRules);
+      entries.forEach(([name], index) => {
+        const messages = results[index] ?? [];
         if (messages.length) {
           errors[name] = messages;
           errorFields.push({ name, errors: messages });
         }
-      }
-      update({ ...state, errors });
-      const values = { ...state.values };
-      if (errorFields.length)
-        throw { values, errorFields } satisfies FormValidationError;
+      });
+      const outOfDate =
+        valueRevision !== revision ||
+        run !== validationRun ||
+        entries.some(([name], index) => fieldRuns.get(name) !== tokens[index]);
+      if (!outOfDate) update({ ...state, errors });
+      if (errorFields.length || outOfDate)
+        throw {
+          values: { ...state.values },
+          errorFields,
+          ...(outOfDate ? { outOfDate: true } : {}),
+        } satisfies FormValidationError;
       return values;
     },
   };
@@ -228,7 +333,8 @@ function FormRoot(props: FormProps) {
             .then(props.onFinish, (error: FormValidationError) => {
               props.onFinishFailed?.(error);
               const first = error.errorFields[0]?.name;
-              if (first) document.getElementById(`${id}-${first}`)?.focus();
+              if (first && !error.outOfDate)
+                document.getElementById(`${id}-${first}`)?.focus();
             });
         }}
         onReset={(event) => {
@@ -247,18 +353,23 @@ export interface FormItemProps {
   label?: OctaneNode;
   rules?: FormRule[];
   required?: boolean;
-  valuePropName?: "value" | "checked";
+  valuePropName?: string;
+  getValueProps?: (value: unknown) => Record<string, unknown>;
+  // biome-ignore lint/suspicious/noExplicitAny: custom controls define their own event argument types.
+  getValueFromEvent?: (...args: any[]) => unknown;
+  trigger?: string;
   help?: OctaneNode;
   extra?: OctaneNode;
   children?: OctaneNode;
   className?: string;
   style?: CSSProperties;
 }
-function fromChange(value: unknown, checked: boolean) {
+function fromChange(value: unknown, valuePropName: string) {
   if (typeof value === "boolean") return value;
   if (value && typeof value === "object" && "target" in value) {
-    const target = value.target as { value?: unknown; checked?: boolean };
-    return checked ? target.checked : target.value;
+    const target = value.target;
+    if (target && typeof target === "object" && valuePropName in target)
+      return (target as Record<string, unknown>)[valuePropName];
   }
   return value;
 }
@@ -279,6 +390,9 @@ function FormItem(props: FormItemProps) {
   );
   useEffect(() => {
     if (name) return context?.store.register(name, rules);
+  }, [context?.store, name]);
+  useEffect(() => {
+    if (name) context?.store.setRules(name, rules);
   }, [context?.store, name, rules]);
   const id = name
     ? `${context?.id ?? `ao-form-${generatedId}`}-${name}`
@@ -290,13 +404,25 @@ function FormItem(props: FormItemProps) {
   const descriptor = isValidElement(child)
     ? (child as ElementDescriptor<Record<string, unknown>>)
     : null;
-  const original = descriptor?.props?.onChange;
+  const trigger = props.trigger ?? "onChange";
+  const original = descriptor?.props?.[trigger];
+  const value = name ? snapshot.values[name] : undefined;
+  const valueProps = props.getValueProps
+    ? props.getValueProps(value)
+    : {
+        [valuePropName]:
+          value ??
+          (valuePropName === "checked"
+            ? false
+            : valuePropName === "value"
+              ? ""
+              : undefined),
+      };
   const control =
     name && context && descriptor
       ? cloneElement(descriptor, {
           id: descriptor.props?.id ?? id,
-          [valuePropName]:
-            snapshot.values[name] ?? (valuePropName === "checked" ? false : ""),
+          ...valueProps,
           status: errors.length ? "error" : descriptor.props?.status,
           "aria-invalid": errors.length
             ? true
@@ -304,8 +430,10 @@ function FormItem(props: FormItemProps) {
           "aria-describedby": errors.length
             ? helpId
             : descriptor.props?.["aria-describedby"],
-          onChange: (...args: unknown[]) => {
-            const value = fromChange(args[0], valuePropName === "checked");
+          [trigger]: (...args: unknown[]) => {
+            const value = props.getValueFromEvent
+              ? props.getValueFromEvent(...args)
+              : fromChange(args[0], valuePropName);
             const all = context.store.setFieldValue(name, value);
             context.onValuesChange?.({ [name]: value }, all);
             if (typeof original === "function") original(...args);

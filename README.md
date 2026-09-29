@@ -22,7 +22,7 @@
 - **中文文档**：提供组件示例、API、源码展示与可交互的主题预览。
 - **Agent 接入**：提供文档站接入说明、兼容边界与 `llms.txt` 导航。
 
-当前通过 npm 的 `alpha` 标签发布，API 仍可能调整。按 Ant Design 5.x 文档目录计，已提供 **57 项基础实现**（包含 ConfigProvider）；基础实现不代表完整 API 兼容，具体能力与限制见[文档站兼容说明](site/src/pages/compatibility.tsx)，版本变化见[Changelog](CHANGELOG.md)。
+当前通过 npm 的 `alpha` 标签发布，API 仍可能调整。按 Ant Design 5.x 文档目录计，已提供 **58 项基础实现**（包含 ConfigProvider）；基础实现不代表完整 API 兼容，具体能力与限制见[文档站兼容说明](site/src/pages/compatibility.tsx)，版本变化见[Changelog](CHANGELOG.md)。
 
 本项目由社区独立维护，与 Ant Design、Octane 官方无隶属关系。
 
@@ -37,7 +37,7 @@
 | 本库开发环境 | Node.js ≥ `22.22.2`、pnpm `10.29.2` |
 
 当前已验证 Vite 消费项目与部分浏览器交互、样式和主题场景。完整跨浏览器、辅助技术及 SSR 验证尚未完成，不承诺仅替换包名即可迁移。
-Form 当前提供平面字段绑定、同步规则校验、提交和重置；嵌套字段、动态列表和异步校验尚未实现。组件目录和基础实现数量不能作为完整兼容度的衡量。
+当前分支新增 AutoComplete、Space.Compact / Addon，Form 提供平面字段、自定义属性/事件映射、同步与异步校验、提交和重置；嵌套字段、动态列表和字段依赖尚未实现。新增能力的发布状态以 Changelog 和 npm 版本为准。组件目录和基础实现数量不能作为完整兼容度的衡量。
 
 ## 📦 安装
 

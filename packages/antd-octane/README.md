@@ -26,9 +26,9 @@ Vite 需要启用 `octane/compiler/vite` 导出的 `octane()` 插件；TypeScrip
 
 ## 范围与文档
 
-以 Ant Design **5.29.3** 为参考，提供 57 项基础实现（包含 ConfigProvider），以及默认、暗色、紧凑主题算法。Button 支持图标位置与延迟加载；Input / TextArea 支持基础字符计数。Select 当前提供单选、搜索和键盘操作，尚不支持 multiple、tags、labelInValue 和虚拟列表。Form 支持平面字段、同步规则校验及提交/重置，尚不支持嵌套路径、动态列表、异步规则和字段依赖。Alpha 不代表完整 API 兼容，API 可能调整；复杂组件、SSR 和无障碍验证仍有未完成项。
+以 Ant Design **5.29.3** 为参考，提供 58 项基础实现（包含 ConfigProvider），以及默认、暗色、紧凑主题算法。Button 支持图标位置与延迟加载；Input / TextArea 支持基础字符计数。Select 提供单选、多选、搜索和键盘操作，尚不支持 tags、labelInValue 和虚拟列表。AutoComplete 支持自由文本输入与建议选项。Form 支持平面字段、自定义属性/事件映射、同步与异步规则校验及提交/重置，尚不支持嵌套路径、动态列表和字段依赖。Space.Compact / Addon 可组合紧凑控件。Alpha 不代表完整 API 兼容，API 可能调整；复杂组件、SSR 和无障碍验证仍有未完成项。
 
-Form 的第一版可组合现有输入组件：
+Form 可组合现有输入组件：
 
 ```tsx
 import { Button, Form, Input } from "antd-octane";
@@ -41,7 +41,7 @@ import { Button, Form, Input } from "antd-octane";
 </Form>;
 ```
 
-勾选类字段使用 `valuePropName="checked"`。当前仅支持字符串字段名、直接子组件，以及 `required`、文本长度和正则的同步校验规则。
+勾选类字段使用 `valuePropName="checked"`。当前仅支持字符串字段名、直接子组件，支持 `required`、文本长度、正则和自定义 `validator`；异步校验返回 Promise。值或规则改变时，旧校验结果不会覆盖当前错误。
 
 - [快速开始页面源码](https://github.com/CoderSerio/antd-octane/blob/main/site/src/pages/start.tsx)
 - [组件支持范围页面源码](https://github.com/CoderSerio/antd-octane/blob/main/site/src/pages/compatibility.tsx)

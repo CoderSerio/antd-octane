@@ -83,3 +83,22 @@ Select Cherry, then press ArrowUp/Enter to remove Apple without closing the
 menu. Escape closes the popup; Backspace with an empty search removes the last
 removable value. Reset and clear the selection. The output shows the controlled
 array for comparison. Searchable inputs preserve native Home/End caret behavior.
+
+### AutoComplete free input
+
+Open `/tests/browser/auto-complete-compare.html` (or append `?renderer=antd`).
+Type a value that is not an option: it must remain valid input, and Enter with
+no active suggestion must not select another value. Use arrows to skip disabled
+suggestions and Enter to confirm. Compare `onSearch` with `onSelect` in the event
+output; clear the field and verify focus remains in the input. Toggle empty
+options and check that an empty popup is never shown. Add `&dark` (or `?dark`)
+for the dark theme fixture.
+
+### Form custom controls and asynchronous validation
+
+Open `/tests/browser/form-mapping.html`. Submit the reserved username, then
+finish validation to show an error. Reset, submit again, edit the username
+before completing validation and verify the old result is reported as out of
+date without restoring its error. Select members and submit the new value:
+the output should contain an array collected through the custom `onMove`
+trigger and `targetKeys` value property.

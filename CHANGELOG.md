@@ -2,6 +2,13 @@
 
 此文件记录 `antd-octane` 的版本变化；标注「待发布」的条目尚不可从 npm 安装。组件支持范围与限制见[兼容与迁移](site/src/pages/compatibility.tsx)。
 
+## 0.1.0-alpha.6 — 2026-09-30
+
+- 新增 AutoComplete：自由文本输入与选项确认分离，支持受控值、搜索回调、过滤、清除、禁用选项、键盘操作和自定义浮层容器。
+- Form 新增自定义字段属性与事件映射（`valuePropName`、`getValueProps`、`getValueFromEvent`、`trigger`），以及 Promise 形式的自定义校验；过期的异步校验不会覆盖新值或误触发成功提交。
+- 新增 `Space.Compact` 和 `Space.Addon`，支持紧凑控件组合、尺寸继承、水平/垂直排列和整行布局。
+- 本次仍不含 Form 嵌套字段、动态列表和依赖校验；AutoComplete 自定义输入节点、分组选项及高级渲染能力仍未支持。
+
 ## 0.1.0-alpha.5 — 2026-09-29
 
 - Select 新增 `mode="multiple"`：数组形式的受控和非受控值、搜索、选择与移除、清空、键盘操作及多选状态说明；保留原有单选 `SelectProps`，新增 `MultipleSelectProps` 和 `SelectComponentProps` 类型。
