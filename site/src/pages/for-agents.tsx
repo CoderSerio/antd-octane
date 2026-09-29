@@ -13,6 +13,16 @@ export default function ForAgents({ section }: { section?: string }) {
         </a>
         提供文档入口。当前没有已发布的专用 CLI 或 MCP 服务。
       </p>
+      <p>
+        本页用于协助应用使用本库；参与仓库开发的 Agent 请先读{" "}
+        <a
+          className="text-link"
+          href="https://github.com/CoderSerio/antd-octane/blob/main/AGENTS.md"
+        >
+          仓库 AGENTS.md
+        </a>
+        。
+      </p>
       <h2 id="baseline" tabIndex={-1}>
         先确认基线
       </h2>
@@ -89,9 +99,9 @@ export default function Example() {
           StyleProvider、cssVar、hashed、prefixCls 或 SSR 样式契约。
         </li>
         <li>
-          Form 仅支持平面字段、直接子组件和同步规则；Checkbox、Switch 字段需设置
-          valuePropName="checked"。不生成 Form.List、嵌套 name
-          路径或异步校验示例。
+          Form 支持平面字段、直接子组件及同步/异步规则；Checkbox、Switch
+          字段需设置 valuePropName="checked"。不生成 Form.List 或嵌套 name
+          路径。
         </li>
         <li>
           不推断未导出的组件、上游子组件、事件、ref 或 token

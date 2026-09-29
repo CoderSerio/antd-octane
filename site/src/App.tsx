@@ -194,7 +194,7 @@ function Shell(p: ShellProps) {
                 >
                   {item.title}
                   <small>
-                    {item.category === "components" ? "组件" : "研发"}
+                    {item.category === "components" ? "组件" : "指南"}
                   </small>
                 </a>
               ))}
@@ -203,13 +203,13 @@ function Shell(p: ShellProps) {
         </form>
         <nav className="top-nav" aria-label="主导航">
           <a
-            href="#overview"
+            href="#start"
             className={!isHome && !isComponents ? "selected" : ""}
             aria-current={
               !isHome && !isComponents && current ? "true" : undefined
             }
           >
-            研发
+            指南
           </a>
           <a
             href="#components"
@@ -296,7 +296,7 @@ function Shell(p: ShellProps) {
                           item.group === group,
                       ),
                     )
-                  : ["快速上手", "AI", "进阶使用", "迁移", "其他"]
+                  : ["开始使用", "AI", "进阶使用", "迁移", "其他"]
                 ).map((group) => (
                   <div className="nav-group" key={group}>
                     <div className="nav-group-title">{group}</div>

@@ -254,6 +254,11 @@ export default function Home({ section }: { section?: string }) {
         </div>
         <nav aria-label="首页资源">
           <a href="#compatibility">兼容与迁移</a>
+          <a href="https://octanejs.dev/docs">Octane ↗</a>
+          <a href="https://ant.design/">Ant Design ↗</a>
+          <a href="https://antdv-next.com/components/overview-cn">
+            Antdv Next ↗
+          </a>
           <a href="https://github.com/CoderSerio/antd-octane">GitHub ↗</a>
           <a href="https://github.com/CoderSerio/antd-octane/issues">
             反馈问题 ↗
