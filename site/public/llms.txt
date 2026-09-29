@@ -7,7 +7,7 @@
 以下链接相对于站点入口，支持部署子目录。Hash 路由需要执行 JavaScript；纯文本工具可读取下方公开页面源码，并核对已安装包的类型声明。
 
 - [面向 AI Agent](./#for-agents): 使用说明。
-- [快速开始](./#start): npm 安装、Vite/TypeScript 配置、完整应用入口与运行检查。
+- [开始使用](./#start): npm 安装、Vite/TypeScript 配置、完整应用入口与运行检查。
 - [兼容与迁移](./#compatibility): 当前支持范围与差异。
 - [API 与语法约定](./#api-conventions): Octane 状态、事件与 ref。
 - [Tailwind CSS](./#tailwindcss): 样式层与接入说明。
@@ -16,13 +16,17 @@
 - [参与贡献](./#contributing): 本地开发与仓库验证。
 - [App](./#app): 上下文消息与通知实例；不提供 modal 实例。
 - [Modal](./#modal): 声明式弹窗；没有 confirm/useModal。
-- [Form](./#form): 平面字段绑定、同步校验、提交和重置；不支持动态列表与异步规则。
+- [Form](./#form): 平面字段绑定、同步/异步校验、提交和重置；不支持动态列表与嵌套路径。
 
 ## 核对源码
 
-- [快速开始页面源码](https://github.com/CoderSerio/antd-octane/blob/main/site/src/pages/start.tsx): 安装、配置与完整入口示例。
+- [开始使用页面源码](https://github.com/CoderSerio/antd-octane/blob/main/site/src/pages/start.tsx): 安装、配置与完整入口示例。
+- [仓库贡献指南](https://github.com/CoderSerio/antd-octane/blob/main/CONTRIBUTE.md): 本地开发和 PR 流程。
+- [仓库 AGENTS.md](https://github.com/CoderSerio/antd-octane/blob/main/AGENTS.md): 参与仓库开发的 Agent 工作规范。
 - [源码与类型](https://github.com/CoderSerio/antd-octane/tree/main/packages/antd-octane/src): 远端与本地可能有版本差异，以正在消费的包声明为准。
 - [兼容页面源码](https://github.com/CoderSerio/antd-octane/blob/main/site/src/pages/compatibility.tsx): 支持范围详情。
 - [Form 页面源码](https://github.com/CoderSerio/antd-octane/blob/main/site/src/pages/form.tsx): 表单 API 与已知限制。
 
 Hooks 和 JSX 来自 octane；显式导入 antd-octane/style.css。不要推断 React 包装、全量 antd API、SSR、已发布 CLI 或 MCP 支持。
+
+上游参考：[Octane 官方文档](https://octanejs.dev/docs)、[Ant Design 5 组件文档](https://5x.ant.design/components/overview/)、[Antdv Next 组件文档](https://antdv-next.com/components/overview-cn)。具体代码来源与许可见[第三方声明](https://github.com/CoderSerio/antd-octane/blob/main/packages/antd-octane/THIRD_PARTY_NOTICES.md)。

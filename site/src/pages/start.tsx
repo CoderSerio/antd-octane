@@ -4,9 +4,30 @@ export default function StartPage({ section }: { section?: string }) {
   return (
     <>
       <div className="eyebrow">GUIDE / GETTING STARTED</div>
-      <h1>快速开始</h1>
+      <h1>开始使用</h1>
       <p className="lead">
         从安装到第一个按钮，在 Octane 项目中使用 Ant Design 风格组件。
+      </p>
+      <p>
+        初次使用 Octane 可先阅读{" "}
+        <a className="text-link" href="https://octanejs.dev/docs">
+          Octane 官方文档
+        </a>
+        。本库参考{" "}
+        <a
+          className="text-link"
+          href="https://5x.ant.design/components/overview/"
+        >
+          Ant Design 5
+        </a>
+        的设计与 API，并借鉴{" "}
+        <a
+          className="text-link"
+          href="https://antdv-next.com/components/overview-cn"
+        >
+          Antdv Next
+        </a>
+        的案例组织；具体能力以本站组件页为准。
       </p>
       <div className="notice">
         <strong>Alpha 开发预览</strong>
@@ -90,7 +111,7 @@ export default function StartPage({ section }: { section?: string }) {
         <a className="text-link" href="#form">
           Form
         </a>
-        已提供平面字段和同步校验的基础版；Table、DatePicker 等尚未实现。
+        已提供平面字段、同步与异步校验的基础版；Table、DatePicker 等尚未实现。
         请先查阅各组件的支持范围，不能直接照搬上游示例。
       </p>
       <p>

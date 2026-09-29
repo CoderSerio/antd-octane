@@ -10,7 +10,7 @@ export default function ContributingPage({ section }: { section?: string }) {
       <p>
         如果只想在自己的项目中使用组件，请阅读{" "}
         <a className="text-link" href="#start">
-          快速开始
+          开始使用
         </a>
         。
       </p>
@@ -53,6 +53,16 @@ export default function ContributingPage({ section }: { section?: string }) {
           贡献指南
         </a>
         。
+      </p>
+      <p>
+        协助仓库开发的编程 Agent 还应阅读{" "}
+        <a
+          className="text-link"
+          href="https://github.com/CoderSerio/antd-octane/blob/main/AGENTS.md"
+        >
+          AGENTS.md
+        </a>
+        ；它记录了发布顺序、文件边界与必跑检查。
       </p>
     </>
   );

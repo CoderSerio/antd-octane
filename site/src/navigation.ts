@@ -1,17 +1,17 @@
 export const nav = [
   {
+    id: "start",
+    title: "开始使用",
+    category: "guide",
+    group: "开始使用",
+    keywords: "getting started 安装 使用",
+  },
+  {
     id: "overview",
     title: "项目介绍",
     category: "guide",
-    group: "快速上手",
-    keywords: "overview introduction",
-  },
-  {
-    id: "start",
-    title: "快速开始",
-    category: "guide",
-    group: "快速上手",
-    keywords: "getting started 安装 使用",
+    group: "开始使用",
+    keywords: "overview introduction Octane Ant Design Antdv Next 开源 来源",
   },
   {
     id: "for-agents",
@@ -475,10 +475,11 @@ export const toc: Record<string, [string, string][]> = {
     ["environment", "支持环境"],
     ["progress", "当前进度"],
     ["contribute", "参与贡献"],
+    ["upstream", "上游项目与致谢"],
   ],
   start: [
     ["integration", "安装组件库"],
-    ["configure", "配置构建工具"],
+    ["configure", "配置 Vite 与 TypeScript"],
     ["usage", "使用组件"],
     ["run", "运行与检查"],
   ],
