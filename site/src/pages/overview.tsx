@@ -49,7 +49,7 @@ export default function Overview({ section }: { section?: string }) {
       </p>
       <div className="demo-row">
         <a className="text-link" href="#start">
-          快速开始 →
+          开始使用 →
         </a>
         <a className="text-link" href="#components">
           浏览组件 →
@@ -73,6 +73,33 @@ export default function Overview({ section }: { section?: string }) {
       <p>
         本项目为独立社区探索，不代表 Ant Design 或 Octane 官方。不承诺仅替换
         import 即可迁移整个应用。
+      </p>
+      <h2 id="upstream" tabIndex={-1}>
+        上游项目与致谢
+      </h2>
+      <p>
+        <a className="text-link" href="https://ant.design/">
+          Ant Design
+        </a>{" "}
+        提供设计体系和组件规范；{" "}
+        <a className="text-link" href="https://octanejs.dev/docs">
+          Octane
+        </a>{" "}
+        提供运行时与编译器；{" "}
+        <a
+          className="text-link"
+          href="https://antdv-next.com/components/overview-cn"
+        >
+          Antdv Next
+        </a>{" "}
+        的案例与文档组织方式也给了我们参考。改编代码和素材的来源、许可见{" "}
+        <a
+          className="text-link"
+          href="https://github.com/CoderSerio/antd-octane/blob/main/packages/antd-octane/THIRD_PARTY_NOTICES.md"
+        >
+          第三方声明
+        </a>
+        。
       </p>
     </>
   );
