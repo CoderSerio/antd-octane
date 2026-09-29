@@ -8,6 +8,7 @@ import type {
 } from "octane";
 import {
   useEffect,
+  useId,
   useImperativeHandle,
   useLayoutEffect,
   useMemo,
@@ -17,6 +18,16 @@ import {
 import { Button } from "../button";
 import { useConfig } from "../config-provider";
 import { inputVariables } from "./tokens";
+
+// The count shares the outer width; the field fills that width exactly once.
+function countControlStyle(
+  style: CSSProperties | undefined,
+  showCount?: boolean,
+): CSSProperties | undefined {
+  return showCount
+    ? { ...style, width: "100%", minWidth: undefined, maxWidth: undefined }
+    : style;
+}
 
 export type InputChangeEvent = Event & {
   target: HTMLInputElement;
@@ -47,6 +58,7 @@ export interface InputProps
   addonBefore?: OctaneNode;
   addonAfter?: OctaneNode;
   allowClear?: boolean | { clearIcon?: OctaneNode };
+  showCount?: boolean;
   onClear?: () => void;
   size?: "small" | "middle" | "large";
   status?: "error" | "warning";
@@ -61,6 +73,7 @@ export interface InputProps
 
 function InternalInput(props: InputProps) {
   const config = useConfig();
+  const countId = `ao-input-count-${useId()}`;
   const node = useRef<HTMLInputElement | null>(null);
   const composing = useRef(false);
   const [text, setText] = useState(String(props.defaultValue ?? ""));
@@ -109,15 +122,21 @@ function InternalInput(props: InputProps) {
     addonBefore,
     addonAfter,
     allowClear,
+    showCount,
     onClear,
     ...rest
   } = props;
   const affix = prefix !== undefined || suffix !== undefined || !!allowClear;
   const grouped = addonBefore !== undefined || addonAfter !== undefined;
+  const currentLength = String(props.value ?? text).length;
+  const describedBy = [props["aria-describedby"], showCount && countId]
+    .filter(Boolean)
+    .join(" ");
   const field = (
     <input
       {...rest}
       ref={node}
+      aria-describedby={describedBy || undefined}
       disabled={disabled}
       aria-invalid={status === "error" ? true : props["aria-invalid"]}
       className={[
@@ -126,7 +145,12 @@ function InternalInput(props: InputProps) {
         status && `ant-input-status-${status}`,
         !affix && !grouped && className,
       ]}
-      style={{ ...variables, ...(!affix && !grouped ? style : undefined) }}
+      style={{
+        ...variables,
+        ...(!affix && !grouped
+          ? countControlStyle(style, showCount)
+          : undefined),
+      }}
       onInput={(event) => {
         setText(event.currentTarget.value);
         onChange?.(event as unknown as InputChangeEvent);
@@ -166,7 +190,10 @@ function InternalInput(props: InputProps) {
         disabled && "ant-input-affix-wrapper-disabled",
         !grouped && className,
       ]}
-      style={{ ...variables, ...(!grouped ? style : undefined) }}
+      style={{
+        ...variables,
+        ...(!grouped ? countControlStyle(style, showCount) : undefined),
+      }}
     >
       {prefix !== undefined && (
         <span className="ant-input-prefix">{prefix}</span>
@@ -199,14 +226,14 @@ function InternalInput(props: InputProps) {
   ) : (
     field
   );
-  return grouped ? (
+  const control = grouped ? (
     <span
       className={[
         "ant-input-group-wrapper",
         `ant-input-group-wrapper-${size}`,
         className,
       ]}
-      style={{ ...variables, ...style }}
+      style={{ ...variables, ...countControlStyle(style, showCount) }}
     >
       {addonBefore !== undefined && (
         <span className="ant-input-group-addon">{addonBefore}</span>
@@ -218,6 +245,33 @@ function InternalInput(props: InputProps) {
     </span>
   ) : (
     decorated
+  );
+  return showCount ? (
+    <span
+      className="ant-input-count-wrapper"
+      style={{
+        ...variables,
+        width: style?.width,
+        minWidth: style?.minWidth,
+        maxWidth: style?.maxWidth,
+      }}
+    >
+      {control}
+      <span
+        id={countId}
+        className={[
+          "ant-input-count",
+          props.maxLength !== undefined &&
+            currentLength > props.maxLength &&
+            "ant-input-count-exceed",
+        ]}
+      >
+        {currentLength}
+        {props.maxLength !== undefined ? ` / ${props.maxLength}` : ""}
+      </span>
+    </span>
+  ) : (
+    control
   );
 }
 
@@ -422,6 +476,7 @@ export interface TextAreaProps
   status?: "error" | "warning";
   size?: "small" | "middle" | "large";
   allowClear?: boolean | { clearIcon?: OctaneNode };
+  showCount?: boolean;
   onClear?: () => void;
   onChange?: (event: TextAreaChangeEvent) => void;
   onPressEnter?: (event: KeyboardEvent) => void;
@@ -431,6 +486,7 @@ function TextArea({
   ref,
   autoSize = false,
   allowClear,
+  showCount,
   onClear,
   size,
   status,
@@ -445,6 +501,7 @@ function TextArea({
   ...props
 }: TextAreaProps) {
   const config = useConfig();
+  const countId = `ao-input-count-${useId()}`;
   const disabled = customDisabled ?? config.componentDisabled;
   const resolvedSize = size ?? config.componentSize ?? "middle";
   const node = useRef<HTMLTextAreaElement | null>(null);
@@ -532,6 +589,11 @@ function TextArea({
     <textarea
       {...props}
       ref={node}
+      aria-describedby={
+        [props["aria-describedby"], showCount && countId]
+          .filter(Boolean)
+          .join(" ") || undefined
+      }
       disabled={disabled}
       aria-invalid={status === "error" ? true : props["aria-invalid"]}
       className={[
@@ -544,7 +606,7 @@ function TextArea({
       style={{
         ...variables,
         resize: autoSize ? "none" : undefined,
-        ...(!allowClear ? style : undefined),
+        ...(!allowClear ? countControlStyle(style, showCount) : undefined),
       }}
       onInput={(event) => {
         setText(event.currentTarget.value);
@@ -571,10 +633,10 @@ function TextArea({
       }}
     />
   );
-  return allowClear ? (
+  const control = allowClear ? (
     <span
       className={["ant-input-textarea-wrapper", className]}
-      style={{ ...variables, ...style }}
+      style={{ ...variables, ...countControlStyle(style, showCount) }}
     >
       {textarea}
       {!disabled &&
@@ -602,6 +664,34 @@ function TextArea({
     </span>
   ) : (
     textarea
+  );
+  const currentLength = String(props.value ?? text).length;
+  return showCount ? (
+    <span
+      className="ant-input-count-wrapper"
+      style={{
+        ...variables,
+        width: style?.width,
+        minWidth: style?.minWidth,
+        maxWidth: style?.maxWidth,
+      }}
+    >
+      {control}
+      <span
+        id={countId}
+        className={[
+          "ant-input-count",
+          props.maxLength !== undefined &&
+            currentLength > props.maxLength &&
+            "ant-input-count-exceed",
+        ]}
+      >
+        {currentLength}
+        {props.maxLength !== undefined ? ` / ${props.maxLength}` : ""}
+      </span>
+    </span>
+  ) : (
+    control
   );
 }
 export const Input = Object.assign(InternalInput, {

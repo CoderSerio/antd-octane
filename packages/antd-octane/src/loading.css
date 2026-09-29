@@ -12,7 +12,8 @@
     text-align: center;
     vertical-align: middle;
   }
-  :where(.ant-spin[hidden], .ant-spin-fullscreen[hidden]) {
+  .ant-spin[hidden],
+  .ant-spin-fullscreen[hidden] {
     display: none;
   }
   :where(.ant-spin-dot) {

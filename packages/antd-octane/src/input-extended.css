@@ -189,4 +189,28 @@
     inset-inline-end: 8px;
     z-index: 1;
   }
+  :where(.ant-input-count-wrapper) {
+    box-sizing: border-box;
+    display: inline-flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+    vertical-align: bottom;
+  }
+  :where(.ant-input-count-wrapper > .ant-input) {
+    width: 100%;
+  }
+  :where(.ant-input-count) {
+    align-self: flex-end;
+    padding-block-start: 4px;
+    color: var(--ao-input-placeholder);
+    font: var(--ao-input-font-size) / var(--ao-input-line) var(--ao-input-font);
+    white-space: nowrap;
+  }
+  :where(.ant-input-count-exceed) {
+    color: var(--ao-input-error);
+  }
+  :where(.ant-input-count-wrapper:has(:disabled) > .ant-input-count) {
+    color: var(--ao-input-disabled);
+  }
 }

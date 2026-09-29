@@ -1,4 +1,5 @@
 import { BasicDemo, MoreDemo } from "../demos/skeleton-basic";
+import { ElementSizesDemo, LayoutDemo } from "../demos/skeleton-layout";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -29,6 +30,22 @@ export default function Page({ section }: { section?: string }) {
           source={() => import("../demos/skeleton-basic.tsx?raw")}
         >
           <MoreDemo />
+        </Demo>
+        <Demo
+          id="layout"
+          title="按内容结构配置"
+          description="独立设置头像形状、标题宽度与每行段落宽度；可以切换圆角与动画。"
+          source={() => import("../demos/skeleton-layout.tsx?raw")}
+        >
+          <LayoutDemo />
+        </Demo>
+        <Demo
+          id="element-sizes"
+          title="独立占位尺寸"
+          description="头像使用数值尺寸，按钮和输入框使用预设尺寸；输入框可撑满容器。"
+          source={() => import("../demos/skeleton-layout.tsx?raw")}
+        >
+          <ElementSizesDemo />
         </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>
@@ -64,7 +81,7 @@ export default function Page({ section }: { section?: string }) {
           ],
           [
             "Skeleton.Avatar / Input",
-            "头像 / 输入框占位，支持 active、size 等",
+            "头像 / 输入框占位，size 支持预设值或数值；Input 支持 block",
             "组件",
             "—",
           ],
@@ -83,6 +100,9 @@ export default function Page({ section }: { section?: string }) {
         支持全局字体、间距、圆角与动效配置，以及 Skeleton 的
         gradientFromColor、gradientToColor、titleHeight、blockRadius、paragraphMarginTop、paragraphLiHeight
         token；同时兼容旧的 color / colorGradientEnd。图片占位图为独立绘制。
+        独立占位元素仅表达加载形状，不是可点击按钮或可输入控件；请用 loading
+        控制 Skeleton 包裹的实际内容。主组件不提供独立 Button/Input 的
+        size、block 属性，也暂不支持语义 classNames/styles 配置。
       </p>
     </>
   );

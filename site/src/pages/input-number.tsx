@@ -1,4 +1,7 @@
 import { BasicDemo, MoreDemo } from "../demos/input-number-basic";
+import { InputNumberBoundariesDemo } from "../demos/input-number-boundaries";
+import { InputNumberControlsDemo } from "../demos/input-number-controls";
+import { InputNumberStepDemo } from "../demos/input-number-step";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -29,6 +32,30 @@ export default function Page({ section }: { section?: string }) {
           source={() => import("../demos/input-number-basic.tsx?raw")}
         >
           <MoreDemo />
+        </Demo>
+        <Demo
+          id="boundaries"
+          title="动态边界与受控值"
+          description="改变上下界不会自动改写受控值；应用可以主动将值校正到合法范围。"
+          source={() => import("../demos/input-number-boundaries.tsx?raw")}
+        >
+          <InputNumberBoundariesDemo />
+        </Demo>
+        <Demo
+          id="controls"
+          title="步进按钮与键盘"
+          description="分别关闭步进按钮与方向键操作，保留直接输入数值的能力。"
+          source={() => import("../demos/input-number-controls.tsx?raw")}
+        >
+          <InputNumberControlsDemo />
+        </Demo>
+        <Demo
+          id="step"
+          title="小数步长与步进回调"
+          description="step 可使用数值字符串；onStep 提供步进方向和偏移。"
+          source={() => import("../demos/input-number-step.tsx?raw")}
+        >
+          <InputNumberStepDemo />
         </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>
@@ -95,6 +122,12 @@ export default function Page({ section }: { section?: string }) {
           ],
           ["bordered", "显示边框", "boolean", "true"],
           ["ref", "input、nativeElement、focus、blur", "InputNumberRef", "—"],
+          [
+            "onPressEnter",
+            "非输入法组合状态的 Enter 回调",
+            "(KeyboardEvent) => void",
+            "—",
+          ],
         ]}
       />
       <h2 id="tokens" tabIndex={-1}>

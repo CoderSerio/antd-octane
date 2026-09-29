@@ -12,6 +12,8 @@
 @import "./slider.css";
 @import "./choice.css";
 @import "./select.css";
+@import "./auto-complete.css";
+@import "./space/space.css";
 @import "./form.css";
 @import "./navigation.css";
 @import "./floating.css";
@@ -289,6 +291,14 @@
     border-right-color: transparent;
     border-radius: 50%;
     animation: ao-spin 0.8s linear infinite;
+  }
+  :where(.ao-btn-loading-status) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
   @keyframes ao-spin {
     to {

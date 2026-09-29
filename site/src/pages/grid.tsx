@@ -1,4 +1,9 @@
+import { AlignmentDemo } from "../demos/grid-alignment";
 import { BasicDemo, MoreDemo } from "../demos/grid-basic";
+import { FlexFillDemo } from "../demos/grid-flex-fill";
+import { OffsetDemo } from "../demos/grid-offset";
+import { OrderingDemo } from "../demos/grid-ordering";
+import { SpacingDemo } from "../demos/grid-spacing";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -29,6 +34,46 @@ export default function Page({ section }: { section?: string }) {
           source={() => import("../demos/grid-basic.tsx?raw")}
         >
           <MoreDemo />
+        </Demo>
+        <Demo
+          id="gutter"
+          title="区块间隔"
+          description="gutter 数组分别设置横向与纵向间距，调整滑块观察变化。"
+          source={() => import("../demos/grid-spacing.tsx?raw")}
+        >
+          <SpacingDemo />
+        </Demo>
+        <Demo
+          id="offset"
+          title="左右偏移"
+          description="offset 留出指定栅格宽度，列宽与偏移量共同占用 24 格。"
+          source={() => import("../demos/grid-offset.tsx?raw")}
+        >
+          <OffsetDemo />
+        </Demo>
+        <Demo
+          id="order"
+          title="排序"
+          description="order 调整视觉顺序，点击按钮切换正序与倒序。"
+          source={() => import("../demos/grid-ordering.tsx?raw")}
+        >
+          <OrderingDemo />
+        </Demo>
+        <Demo
+          id="alignment"
+          title="对齐"
+          description="Row.align 控制不同高度列的对齐位置，justify 控制主轴分布。"
+          source={() => import("../demos/grid-alignment.tsx?raw")}
+        >
+          <AlignmentDemo />
+        </Demo>
+        <Demo
+          id="flex-fill"
+          title="Flex 填充"
+          description="固定宽度与自适应列组合，也可按数字比例分配空间。"
+          source={() => import("../demos/grid-flex-fill.tsx?raw")}
+        >
+          <FlexFillDemo />
         </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>

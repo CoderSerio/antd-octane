@@ -64,8 +64,16 @@ try {
     join(directory, "main.tsx"),
     `
 import { createRoot } from 'octane';
-import { Affix, Anchor, FloatButton, Image, Carousel, Splitter, Watermark, App, Icon, QRCode, Tour, Modal, Drawer, Menu, Dropdown, Popconfirm, message, notification, Button, InputNumber, Slider, Input, Select, Form, Checkbox, Switch, Flex, Space, Divider, Radio, Tag, Alert, Card, Avatar, Badge, Spin, Skeleton, Progress, Result, Typography, List, Row, Col, Layout, Collapse, Tabs, Empty, Statistic, Timeline, Descriptions, Segmented, Rate, Breadcrumb, Steps, Pagination, Tooltip, Popover, ConfigProvider, theme } from 'antd-octane';
+import { AutoComplete, Affix, Anchor, FloatButton, Image, Carousel, Splitter, Watermark, App, Icon, QRCode, Tour, Modal, Drawer, Menu, Dropdown, Popconfirm, message, notification, Button, InputNumber, Slider, Input, Select, Form, Checkbox, Switch, Flex, Space, Divider, Radio, Tag, Alert, Card, Avatar, Badge, Spin, Skeleton, Progress, Result, Typography, List, Row, Col, Layout, Collapse, Tabs, Empty, Statistic, Timeline, Descriptions, Segmented, Rate, Breadcrumb, Steps, Pagination, Tooltip, Popover, ConfigProvider, theme } from 'antd-octane';
 import 'antd-octane/style.css';
+import type { MultipleSelectProps } from 'antd-octane';
+const multipleProps: MultipleSelectProps = {
+  mode: 'multiple', options: [{value:'first',label:'First'},{value:2,label:'Second'}], defaultValue: ['first'],
+  onChange: (values, options) => { const selected: (string | number)[] = values; void [selected, options.length]; },
+};
+// @ts-expect-error MultipleSelectProps must reject scalar values.
+const invalidMultiple: MultipleSelectProps = { mode: 'multiple', options: [], value: 'first' };
+void invalidMultiple;
 function AppConsumer() {
   const {message} = App.useApp();
   return <Button onClick={() => message.success('Ready')}>App message</Button>;
@@ -106,8 +114,11 @@ createRoot(document.getElementById('root')!).render(
     <Input.TextArea autoSize={{ minRows: 2, maxRows: 4 }} />
     <Input.Search allowClear onSearch={(value) => void value} />
     <Select options={[{value:'first',label:'First'},{value:'second',label:'Second'}]} defaultValue="first" showSearch onChange={(value) => void value} />
+    <Select {...multipleProps} />
+    <Space.Compact size="small"><Space.Addon>https://</Space.Addon><Input /><Button>Go</Button></Space.Compact>
+    <AutoComplete options={[{value:'Octane'}]} onChange={(text) => void text} onSelect={(text,option) => void option.value} />
     <Form initialValues={{name:'Packed'}} onFinish={(values) => void values.name}>
-      <Form.Item name="name" label="Name" rules={[{required:true}]}><Input /></Form.Item>
+      <Form.Item name="name" label="Name" rules={[{required:true}, {validator: async (_rule,value) => { if (!value) throw new Error("Required"); }}]}><Input /></Form.Item>
       <Form.Item name="enabled" label="Enabled" valuePropName="checked"><Switch /></Form.Item>
       <Button htmlType="submit">Save</Button>
     </Form>
@@ -155,7 +166,7 @@ createRoot(document.getElementById('root')!).render(
     join(directory, "main.tsrx"),
     `import { createRoot } from 'octane';
 import { useSignal$ } from 'octane/signals/client';
-import { Affix, Alert, Anchor, App, Breadcrumb, Button, Checkbox, ConfigProvider, Divider, Drawer, Dropdown, Flex, FloatButton, Form, Icon, Input, InputNumber, Layout, Menu, Modal, Pagination, Popconfirm, Progress, Radio, Rate, Result, Row, Col, Select, Skeleton, Slider, Space, Spin, Splitter, Steps, Switch, Tabs, Typography, Watermark, message, notification, Carousel } from 'antd-octane';
+import { AutoComplete, Affix, Alert, Anchor, App, Breadcrumb, Button, Checkbox, ConfigProvider, Divider, Drawer, Dropdown, Flex, FloatButton, Form, Icon, Input, InputNumber, Layout, Menu, Modal, Pagination, Popconfirm, Progress, Radio, Rate, Result, Row, Col, Select, Skeleton, Slider, Space, Spin, Splitter, Steps, Switch, Tabs, Typography, Watermark, message, notification, Carousel } from 'antd-octane';
 import 'antd-octane/style.css';
 
 function Page() @{
@@ -164,10 +175,12 @@ function Page() @{
   const number$ = useSignal$(1);
   const current$ = useSignal$(1);
   const selected$ = useSignal$('first');
+  const selectedMany$ = useSignal$<(string | number)[]>(['first']);
   const [messages, messageHolder] = message.useMessage();
   const [notifications, notificationHolder] = notification.useNotification();
   <main>
-    <Button id="signal-update" onClick={() => { value$.set('updated'); checked$.set(true); number$.set(3); current$.set(2); selected$.set('second'); }}>Update</Button>
+    <Button id="signal-update" onClick={() => { value$.set('updated'); checked$.set(true); number$.set(3); current$.set(2); selected$.set('second'); selectedMany$.set(['first','second']); }}>Update</Button>
+    <AutoComplete id="signal-autocomplete" value={value$.get()} onChange={(next) => value$.set(next)} options={[{value:"updated"}]} />
     <Input id="signal-input" value={value$.get()} onChange={(event) => value$.set(event.target.value)} />
     <Form initialValues={{profile:'Signal form'}}>
       <Form.Item name="profile" label="Profile" required><Input /></Form.Item>
@@ -177,6 +190,7 @@ function Page() @{
     <Radio checked={checked$.get()} onChange={(event) => checked$.set(event.target.checked)}>radio choice</Radio>
     <InputNumber value={number$.get()} onChange={(next) => number$.set(next ?? 0)} />
     <Select id="signal-select" options={[{value:'first',label:'First'},{value:'second',label:'Second'}]} value={selected$.get()} onChange={(next) => selected$.set(String(next ?? ''))} />
+    <section id="signal-multiple"><Select mode="multiple" id="signal-multiple-input" options={[{value:'first',label:'First'},{value:'second',label:'Second'}]} value={selectedMany$.get()} onChange={(next) => selectedMany$.set(next)} allowClear /></section>
     <Rate value={number$.get()} onChange={(next) => number$.set(next)} />
     <Slider value={number$.get()} onChange={(next) => number$.set(Number(next))} />
     <Pagination current={current$.get()} total={50} onChange={(next) => current$.set(next)} />
@@ -186,6 +200,7 @@ function Page() @{
       <Icon viewBox="0 0 24 24"><path d="M2 12h20" /></Icon>
       <Typography.Text>typed text</Typography.Text>
     </section>
+    <section id="compact"><Space.Compact><Space.Addon>Protocol</Space.Addon><Input /><Button>Compact submit</Button></Space.Compact></section>
     <section id="layout">
       <Divider>divider content</Divider>
       <Flex><span>flex child</span></Flex>
@@ -258,13 +273,22 @@ try {
   await new Promise((done) => setTimeout(done, 30));
   const count = (selector) => win.document.querySelectorAll(selector).length;
   if (count('.ant-splitter-panel') !== 2) throw new Error('TSRX Splitter.Panel children missing');
-  if (count('.ant-space-item') !== 2) throw new Error('TSRX Space children missing');
+  if (count('.ant-space-item') !== 2) throw new Error('TSRX Space children missing: count=' + count('.ant-space-item'));
+  if (!win.document.querySelector('#compact')?.textContent.includes('Compact submit') || !win.document.querySelector('#compact')?.textContent.includes('Protocol')) throw new Error('TSRX Space.Compact/Addon children missing');
   const carousel = win.document.querySelector('.ant-carousel');
   if (!carousel?.textContent.includes('slide one') || !carousel.textContent.includes('slide two')) throw new Error('TSRX Carousel children missing');
   const text = win.document.body.textContent;
   for (const expected of ['typed text', 'divider content', 'flex child', 'grid child', 'layout header', 'layout content', 'Anchor target', 'Home', 'Current', 'Menu item', 'Start', 'alert content', 'result content', 'skeleton child', 'spin child', 'watermark child', 'affix child', 'app child', 'config child']) {
     if (!text.includes(expected)) throw new Error('TSRX component content missing: ' + expected);
   }
+  win.document.querySelector('#signal-update')?.click();
+  await new Promise((done) => setTimeout(done, 30));
+  if (win.document.querySelector('#signal-autocomplete')?.value !== 'updated') throw new Error('TSRX Signal-driven AutoComplete did not update');
+  const autoInput = win.document.querySelector('#signal-autocomplete');
+  autoInput.value = 'free text';
+  autoInput.dispatchEvent(new win.Event('input', {bubbles:true}));
+  await new Promise((done) => setTimeout(done, 30));
+  if (win.document.querySelector('#signal-input')?.value !== 'free text') throw new Error('TSRX AutoComplete free input did not update owner Signal');
   win.document.querySelector('#signal-update')?.click();
   await new Promise((done) => setTimeout(done, 30));
   if (win.document.querySelector('#signal-input')?.value !== 'updated') throw new Error('TSRX Signal-driven Input did not update');
@@ -278,6 +302,14 @@ try {
   if (win.document.querySelector('.ant-pagination-item-active')?.textContent.trim() !== '2') throw new Error('TSRX Signal-driven Pagination did not update');
   if (!win.document.querySelector('.ant-tabs-tab-active')?.textContent.includes('Second tab')) throw new Error('TSRX Signal-driven Tabs did not update');
   if (!win.document.querySelector('#feedback')?.textContent.includes('skeleton child')) throw new Error('TSRX feedback children missing');
+  const multi = win.document.querySelector('#signal-multiple');
+  if (multi?.querySelectorAll('.ant-select-selection-item').length !== 2) throw new Error('TSRX Signal-driven multiple Select did not update');
+  multi.querySelector('[aria-label="移除 First"]')?.click();
+  await new Promise((done) => setTimeout(done, 30));
+  if (multi.querySelectorAll('.ant-select-selection-item').length !== 1 || multi.querySelector('.ant-select-selection-item-content')?.textContent !== 'Second') throw new Error('TSRX multiple Select removal did not update owner array');
+  multi.querySelector('.ant-select-clear')?.click();
+  await new Promise((done) => setTimeout(done, 30));
+  if (multi.querySelectorAll('.ant-select-selection-item').length !== 0) throw new Error('TSRX multiple Select clear did not update owner array');
   console.log('Packed TSRX consumer rendered non-data-display components and Signal-driven controls.');
 } finally {
   win.happyDOM.abort();

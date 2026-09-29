@@ -1,0 +1,91 @@
+/* biome-ignore-all lint/complexity/noImportantStyles: Joined corners override the controls' inline token radii. */
+.ant-space-compact {
+  display: inline-flex;
+  align-items: stretch;
+  vertical-align: top;
+  max-width: 100%;
+}
+.ant-space-compact-block {
+  display: flex;
+  width: 100%;
+}
+.ant-space-compact-vertical {
+  flex-direction: column;
+}
+.ant-space-addon {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+.ant-space-compact-item {
+  position: relative;
+  z-index: 1;
+}
+.ant-space-compact-horizontal-item:not(.ant-space-compact-last-item) {
+  margin-inline-end: calc(-1 * var(--ao-compact-line-width, 1px));
+}
+.ant-space-compact-vertical-item:not(.ant-space-compact-last-item) {
+  margin-bottom: calc(-1 * var(--ao-compact-line-width, 1px));
+}
+/* A nested group's last control supplies the overlap at the outer seam. */
+.ant-space-compact.ant-space-compact-item {
+  margin-inline-end: 0;
+  margin-bottom: 0;
+}
+/* Control sizes use inline token styles, so compact corners must override them. */
+.ant-space-compact-horizontal-item:not(.ant-space-compact-first-item),
+.ant-space-compact-horizontal-item.ant-input-group-wrapper:not(
+    .ant-space-compact-first-item
+  )
+  > :first-child {
+  border-start-start-radius: 0 !important;
+  border-end-start-radius: 0 !important;
+}
+.ant-space-compact-horizontal-item:not(.ant-space-compact-last-item),
+.ant-space-compact-horizontal-item.ant-input-group-wrapper:not(
+    .ant-space-compact-last-item
+  )
+  > :last-child {
+  border-start-end-radius: 0 !important;
+  border-end-end-radius: 0 !important;
+}
+.ant-space-compact-vertical-item:not(.ant-space-compact-first-item) {
+  border-start-start-radius: 0 !important;
+  border-start-end-radius: 0 !important;
+}
+.ant-space-compact-vertical-item:not(.ant-space-compact-last-item) {
+  border-end-start-radius: 0 !important;
+  border-end-end-radius: 0 !important;
+}
+.ant-space-compact-item:hover,
+.ant-space-compact-item:focus-within,
+.ant-space-compact-item:active {
+  z-index: 2;
+}
+.ant-space-compact-item:disabled,
+.ant-space-compact-item[aria-disabled="true"] {
+  z-index: 0;
+}
+/* showCount adds a non-bordered outer wrapper. Join the control, not the count. */
+.ant-space-compact > .ant-input-count-wrapper {
+  position: relative;
+}
+.ant-space-compact
+  > .ant-input-count-wrapper:has(
+    > .ant-space-compact-horizontal-item:not(.ant-space-compact-last-item)
+  ) {
+  margin-inline-end: calc(-1 * var(--ao-compact-line-width, 1px));
+}
+.ant-space-compact
+  > .ant-input-count-wrapper:has(
+    > .ant-space-compact-vertical-item:not(.ant-space-compact-last-item)
+  ) {
+  margin-bottom: calc(-1 * var(--ao-compact-line-width, 1px));
+}
+.ant-space-compact > .ant-input-count-wrapper > .ant-space-compact-item {
+  margin: 0;
+}
+.ant-space-compact > .ant-input-count-wrapper:focus-within {
+  z-index: 2;
+}

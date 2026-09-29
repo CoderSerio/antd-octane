@@ -1,4 +1,6 @@
+import { AnnouncementsDemo } from "../demos/alert-announcements";
 import { BasicDemo, MoreDemo } from "../demos/alert-basic";
+import { RetryDemo } from "../demos/alert-retry";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -34,6 +36,22 @@ export default function Page({ section }: { section?: string }) {
         >
           <MoreDemo />
         </Demo>
+        <Demo
+          id="retry"
+          title="错误恢复与关闭回调"
+          description="重试操作留在提示内部；关闭后可重新展示，并观察 onClose 与 afterClose。"
+          source={() => import("../demos/alert-retry.tsx?raw")}
+        >
+          <RetryDemo />
+        </Demo>
+        <Demo
+          id="announcements"
+          title="切换顶部公告"
+          description="公告内容由应用状态更新，banner 可关闭默认图标；使用 status 避免打断阅读。"
+          source={() => import("../demos/alert-announcements.tsx?raw")}
+        >
+          <AnnouncementsDemo />
+        </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>
         API
@@ -56,6 +74,8 @@ export default function Page({ section }: { section?: string }) {
             "false / — / —",
           ],
           ["action", "右侧操作区域", "OctaneNode", "—"],
+          ["closeIcon", "自定义关闭按钮图标", "OctaneNode", "×"],
+          ["ref", "获取原生根节点", "Ref<AlertRef>（nativeElement）", "—"],
         ]}
       />
       <h2 id="tokens" tabIndex={-1}>
@@ -65,7 +85,8 @@ export default function Page({ section }: { section?: string }) {
         支持 defaultPadding、withDescriptionPadding、withDescriptionIconSize
         和状态色 alias token。默认图标为本库绘制的 SVG；不引入 React
         图标。暂不支持 ErrorBoundary、closable 对象、关闭动画；afterClose
-        在移除后调用，onClose 不提供取消关闭契约。
+        在内部关闭状态生效后调用，onClose 不提供取消关闭契约。Alert
+        的关闭状态由组件内部管理；需要重新显示时请重新挂载组件。
       </p>
     </>
   );

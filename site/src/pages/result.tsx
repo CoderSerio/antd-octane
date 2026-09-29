@@ -1,4 +1,5 @@
 import { BasicDemo, MoreDemo } from "../demos/result-basic";
+import { CustomIconDemo, ErrorDetailsDemo } from "../demos/result-details";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -30,6 +31,22 @@ export default function Page({ section }: { section?: string }) {
         >
           <MoreDemo />
         </Demo>
+        <Demo
+          id="error-details"
+          title="错误详情与重新检查"
+          description="使用 children 列出需要修正的问题，主要操作重新检查后更新结果。"
+          source={() => import("../demos/result-details.tsx?raw")}
+        >
+          <ErrorDetailsDemo />
+        </Demo>
+        <Demo
+          id="custom-icon"
+          title="警告结果与自定义图标"
+          description="业务图标可以替换默认图案；status 继续表达结果的语义。"
+          source={() => import("../demos/result-details.tsx?raw")}
+        >
+          <CustomIconDemo />
+        </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>
         API
@@ -54,7 +71,9 @@ export default function Page({ section }: { section?: string }) {
       <p>
         支持全局颜色、间距与字体，以及 Result 的
         titleFontSize、subtitleFontSize、iconFontSize、extraMargin
-        token。状态图标与 HTTP 状态图示独立绘制，没有移植上游完整插画。
+        token。普通状态图标为本库绘制；HTTP
+        状态默认使用状态码文字，没有移植上游完整插画。 Result
+        不会自动跳转、重试或朗读结果变化；相关操作与动态反馈由应用管理。
       </p>
     </>
   );

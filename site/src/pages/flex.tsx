@@ -1,4 +1,8 @@
+import { AlignmentDemo } from "../demos/flex-alignment";
 import { BasicDemo } from "../demos/flex-basic";
+import { CrossAxisDemo } from "../demos/flex-cross-axis";
+import { GapControlDemo } from "../demos/flex-gap-control";
+import { WrappingDemo } from "../demos/flex-wrapping";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -15,14 +19,48 @@ export default function Page({ section }: { section?: string }) {
       <h2 id="examples" tabIndex={-1}>
         代码演示
       </h2>
-      <Demo
-        id="basic"
-        title="基本使用"
-        description="切换顶部主题，观察布局与状态；展开查看完整示例。"
-        source={() => import("../demos/flex-basic.tsx?raw")}
-      >
-        <BasicDemo />
-      </Demo>
+      <div className="demo-grid">
+        <Demo
+          id="basic"
+          title="基本使用"
+          description="组合纵向与横向布局，不需要为子节点加额外包装。"
+          source={() => import("../demos/flex-basic.tsx?raw")}
+        >
+          <BasicDemo />
+        </Demo>
+        <Demo
+          id="alignment"
+          title="主轴对齐"
+          description="切换 justify，观察项目在主轴上的分布。"
+          source={() => import("../demos/flex-alignment.tsx?raw")}
+        >
+          <AlignmentDemo />
+        </Demo>
+        <Demo
+          id="wrapping"
+          title="换行与伸缩"
+          description="窄容器里使用 wrap；子项可用原生 CSS flex 控制伸缩。"
+          source={() => import("../demos/flex-wrapping.tsx?raw")}
+        >
+          <WrappingDemo />
+        </Demo>
+        <Demo
+          id="cross-axis"
+          title="交叉轴对齐"
+          description="对照上游对齐方式案例，切换 align 观察不同高度项目的位置与拉伸。"
+          source={() => import("../demos/flex-cross-axis.tsx?raw")}
+        >
+          <CrossAxisDemo />
+        </Demo>
+        <Demo
+          id="gap"
+          title="设置间隙"
+          description="gap 可使用预设尺寸或自定义像素值；拖动滑块调整间距。"
+          source={() => import("../demos/flex-gap-control.tsx?raw")}
+        >
+          <GapControlDemo />
+        </Demo>
+      </div>
       <h2 id="api" tabIndex={-1}>
         API
       </h2>
@@ -46,6 +84,10 @@ export default function Page({ section }: { section?: string }) {
       <p>
         gap 的预设值随全局 paddingXS / padding / paddingLG 变化。支持 className
         和 style；暂不支持 component 自定义根节点和组件级 token。
+      </p>
+      <p>
+        Flex 直接排列子节点，适合需要响应式换行或弹性占位的区域。
+        子项自身的伸缩行为请通过子项的 CSS flex 与 minWidth 设置。
       </p>
     </>
   );

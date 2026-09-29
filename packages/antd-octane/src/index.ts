@@ -6,6 +6,12 @@ import {
   getDesignToken,
 } from "./theme/resolve";
 
+export type {
+  AutoCompleteOption,
+  AutoCompleteProps,
+  AutoCompleteRef,
+} from "./auto-complete";
+export { AutoComplete } from "./auto-complete";
 export type { ButtonProps, ButtonRef } from "./button";
 export { Button } from "./button";
 export type { ConfigProviderProps } from "./config-provider";
@@ -168,6 +174,8 @@ export type {
 } from "./segmented";
 export { Segmented } from "./segmented";
 export type {
+  MultipleSelectProps,
+  SelectComponentProps,
   SelectOption,
   SelectProps,
   SelectRef,
@@ -178,7 +186,7 @@ export type { SkeletonElementProps, SkeletonProps } from "./skeleton";
 export { Skeleton } from "./skeleton";
 export type { SliderMark, SliderProps, SliderValue } from "./slider";
 export { Slider } from "./slider";
-export type { SpaceProps } from "./space";
+export type { SpaceAddonProps, SpaceCompactProps, SpaceProps } from "./space";
 export { Space } from "./space";
 export type { SpinProps } from "./spin";
 export { Spin } from "./spin";

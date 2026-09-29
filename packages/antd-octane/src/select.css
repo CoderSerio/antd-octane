@@ -112,4 +112,84 @@
     color: var(--ao-muted);
     text-align: center;
   }
+  :where(.ant-select-multiple) {
+    height: auto;
+    min-height: var(--ao-select-height);
+    padding-block: 3px;
+  }
+  :where(.ant-select-selection-overflow) {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+    min-width: 0;
+  }
+  :where(.ant-select-selection-overflow > input) {
+    box-sizing: border-box;
+    flex: 1;
+    width: 32px;
+    min-width: 24px;
+    border: 0;
+    outline: 0;
+    padding: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+  }
+  :where(.ant-select-selection-overflow > input::placeholder) {
+    color: var(--ao-muted);
+  }
+  :where(.ant-select-selection-overflow > input:read-only) {
+    cursor: pointer;
+  }
+  :where(.ant-select-disabled .ant-select-selection-overflow > input) {
+    cursor: not-allowed;
+  }
+  :where(.ant-select-selection-item) {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    max-width: 100%;
+    padding-inline: 4px;
+    border: 1px solid var(--ao-select-selection-border);
+    border-radius: 4px;
+    background: var(--ao-select-selection-bg);
+  }
+  :where(.ant-select-selection-item-content) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  :where(.ant-select-selection-item-remove) {
+    flex: none;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: var(--ao-muted);
+    font: inherit;
+    line-height: 1;
+    cursor: pointer;
+  }
+  :where(.ant-select-selection-item-remove:hover) {
+    color: var(--ao-text);
+  }
+  :where(
+      .ant-select-selection-item-remove:focus-visible,
+      .ant-select-clear:focus-visible
+    ) {
+    outline: 2px solid var(--ao-focus);
+    outline-offset: 2px;
+  }
+  :where(.ant-select-selection-summary) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
 }

@@ -5,7 +5,14 @@ import type {
   OctaneNode,
   Ref,
 } from "octane";
-import { useImperativeHandle, useMemo, useRef } from "octane";
+import {
+  createPortal,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
+} from "octane";
 import { useConfig } from "../config-provider";
 import { buttonVariables } from "./tokens";
 
@@ -26,8 +33,11 @@ export interface ButtonProps
   danger?: boolean;
   ghost?: boolean;
   block?: boolean;
-  loading?: boolean;
+  loading?: boolean | { delay?: number; icon?: OctaneNode };
   icon?: OctaneNode;
+  /** Ant Design 5.x name; iconPlacement takes precedence when both are set. */
+  iconPosition?: "start" | "end";
+  iconPlacement?: "start" | "end";
   children?: OctaneNode;
   href?: string;
   target?: string;
@@ -55,6 +65,27 @@ export function Button(props: ButtonProps) {
     () => buttonVariables(config.theme, config.token),
     [config.theme, config.token],
   );
+  const loadingRequested = Boolean(props.loading);
+  const loadingDelay =
+    typeof props.loading === "object"
+      ? Math.max(0, props.loading.delay ?? 0)
+      : 0;
+  const [innerLoading, setInnerLoading] = useState(
+    loadingRequested && loadingDelay === 0,
+  );
+  useEffect(() => {
+    if (!loadingRequested) {
+      setInnerLoading(false);
+      return;
+    }
+    if (loadingDelay === 0) {
+      setInnerLoading(true);
+      return;
+    }
+    setInnerLoading(false);
+    const timer = window.setTimeout(() => setInnerLoading(true), loadingDelay);
+    return () => window.clearTimeout(timer);
+  }, [loadingRequested, loadingDelay]);
   const {
     type = "default",
     htmlType = "button",
@@ -63,9 +94,11 @@ export function Button(props: ButtonProps) {
     danger = false,
     ghost = false,
     block = false,
-    loading = false,
+    loading: _loading,
     disabled = config.componentDisabled ?? false,
     icon,
+    iconPosition,
+    iconPlacement: requestedIconPlacement,
     children,
     href,
     target,
@@ -76,6 +109,8 @@ export function Button(props: ButtonProps) {
     onClick,
     ...rest
   } = props;
+  const loading = innerLoading;
+  const iconPlacement = requestedIconPlacement ?? iconPosition ?? "start";
   const hasContent =
     children !== undefined &&
     children !== null &&
@@ -90,7 +125,7 @@ export function Button(props: ButtonProps) {
     ghost && "ant-btn-background-ghost",
     block && "ant-btn-block",
     loading && "ant-btn-loading",
-    !hasContent && Boolean(icon) && "ant-btn-icon-only",
+    !hasContent && (Boolean(icon) || loading) && "ant-btn-icon-only",
     className,
   ].filter(Boolean);
   const handleClick = (event: MouseEvent) => {
@@ -101,56 +136,82 @@ export function Button(props: ButtonProps) {
     }
     onClick?.(event);
   };
+  const loadingIcon =
+    typeof props.loading === "object" ? props.loading.icon : undefined;
+  const renderedIcon = loading ? (
+    loadingIcon ? (
+      <span className="ant-btn-icon" aria-hidden="true">
+        {loadingIcon}
+      </span>
+    ) : (
+      <span className="ao-btn-spinner" aria-hidden="true" />
+    )
+  ) : icon ? (
+    <span className="ant-btn-icon">{icon}</span>
+  ) : null;
   const content = (
     <>
-      {loading ? (
-        <span className="ao-btn-spinner" aria-hidden="true" />
-      ) : icon ? (
-        <span className="ant-btn-icon">{icon}</span>
-      ) : null}
+      {iconPlacement === "start" ? renderedIcon : null}
       {hasContent ? <span>{children}</span> : null}
+      {iconPlacement === "end" ? renderedIcon : null}
     </>
   );
   const mergedStyle = { ...variables, ...style };
+  // Keep the live region outside the busy control so loading is announced.
+  const loadingStatus = (
+    <span className="ao-btn-loading-status" role="status" aria-live="polite">
+      {loading ? "Loading" : ""}
+    </span>
+  );
+  const loadingAnnouncement =
+    typeof document === "undefined"
+      ? null
+      : createPortal(loadingStatus, document.body);
   if (href !== undefined) {
     return (
-      <a
-        id={props.id}
-        title={props.title}
-        aria-label={props["aria-label"]}
-        aria-describedby={props["aria-describedby"]}
+      <>
+        <a
+          id={props.id}
+          title={props.title}
+          aria-label={props["aria-label"]}
+          aria-describedby={props["aria-describedby"]}
+          ref={(element) => {
+            node.current = element;
+          }}
+          href={disabled || loading ? undefined : href}
+          target={target}
+          rel={rel ?? (target === "_blank" ? "noopener noreferrer" : undefined)}
+          role={disabled || loading ? "link" : undefined}
+          tabIndex={disabled ? -1 : (props.tabIndex ?? 0)}
+          aria-disabled={disabled || undefined}
+          aria-busy={loading || undefined}
+          className={classes}
+          style={mergedStyle}
+          onClick={handleClick}
+        >
+          {content}
+        </a>
+        {loadingAnnouncement}
+      </>
+    );
+  }
+  return (
+    <>
+      <button
+        {...rest}
         ref={(element) => {
           node.current = element;
         }}
-        href={disabled || loading ? undefined : href}
-        target={target}
-        rel={rel ?? (target === "_blank" ? "noopener noreferrer" : undefined)}
-        role={disabled || loading ? "link" : undefined}
-        tabIndex={disabled ? -1 : (props.tabIndex ?? 0)}
-        aria-disabled={disabled || undefined}
+        type={htmlType}
+        disabled={disabled}
         aria-busy={loading || undefined}
         className={classes}
         style={mergedStyle}
         onClick={handleClick}
       >
         {content}
-      </a>
-    );
-  }
-  return (
-    <button
-      {...rest}
-      ref={(element) => {
-        node.current = element;
-      }}
-      type={htmlType}
-      disabled={disabled}
-      aria-busy={loading || undefined}
-      className={classes}
-      style={mergedStyle}
-      onClick={handleClick}
-    >
-      {content}
-    </button>
+      </button>
+      {loadingAnnouncement}
+    </>
   );
 }

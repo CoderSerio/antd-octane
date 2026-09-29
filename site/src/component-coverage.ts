@@ -76,7 +76,7 @@ export const componentCoverage = upstreamGroups.flatMap(([group, names]) =>
           : undefined,
       upstream: `https://5x.ant.design/components/${upstreamSlug(name)}-cn/`,
       status: implemented
-        ? "基础版"
+        ? "已提供·支持子集"
         : projects.has(name)
           ? "待专项实现"
           : floating.has(name)

@@ -1,4 +1,6 @@
 import { BasicDemo, MoreDemo } from "../demos/message-basic";
+import { ClosePromiseDemo } from "../demos/message-close-promise";
+import { LifecycleDemo } from "../demos/message-lifecycle";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -30,12 +32,34 @@ export default function Page({ section }: { section?: string }) {
         >
           <MoreDemo />
         </Demo>
+        <Demo
+          id="lifecycle"
+          title="请求过程与手动关闭"
+          description="同一个 key 从加载提示更新为结果；duration=0 保持显示，onClose 可同步页面反馈。"
+          source={() => import("../demos/message-lifecycle.tsx?raw")}
+        >
+          <LifecycleDemo />
+        </Demo>
+        <Demo
+          id="close-promise"
+          title="等待提示关闭"
+          description="MessageType 可以 await；自动关闭与 destroy 都会完成关闭 Promise。"
+          source={() => import("../demos/message-close-promise.tsx?raw")}
+        >
+          <ClosePromiseDemo />
+        </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>
         API
       </h2>
       <ApiTable
         rows={[
+          [
+            "App.useApp().message",
+            "App 子组件内取得共享实例，无需重复插入 holder",
+            "MessageInstance",
+            "—",
+          ],
           [
             "message.useMessage(config)",
             "返回 api 与必须插入组件树的 contextHolder",
@@ -95,8 +119,10 @@ export default function Page({ section }: { section?: string }) {
         放入局部 ConfigProvider。
       </p>
       <p>
-        本版提供 hook 实例 API，不提供静态 open/success/config 方法和 App.useApp
-        集成。原生 portal 保留上下文；自定义容器仍使用固定定位，带 transform
+        本版提供 hook 实例与 App.useApp().message，不提供静态
+        open/success/config 方法。App 必须位于使用方的祖先组件，ConfigProvider
+        应包裹 App，才能让共享实例继承主题。原生 portal
+        保留上下文；自定义容器仍使用固定定位，带 transform
         的祖先可能限制覆盖范围。暂不支持
         RTL、prefixCls、堆叠收缩、进度条和完整进出场动效。默认图标为独立绘制。
       </p>

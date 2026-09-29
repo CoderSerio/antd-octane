@@ -1,4 +1,6 @@
 import { BasicDemo, MoreDemo } from "../demos/spin-basic";
+import { FullscreenDemo } from "../demos/spin-fullscreen";
+import { IndicatorDemo } from "../demos/spin-indicator";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -30,6 +32,22 @@ export default function Page({ section }: { section?: string }) {
         >
           <MoreDemo />
         </Demo>
+        <Demo
+          id="fullscreen"
+          title="全屏刷新反馈"
+          description="短时间刷新整个工作区时使用全屏遮罩，任务完成后由应用关闭。"
+          source={() => import("../demos/spin-fullscreen.tsx?raw")}
+        >
+          <FullscreenDemo />
+        </Demo>
+        <Demo
+          id="indicator"
+          title="自定义指示器"
+          description="indicator 替换默认四点图案；提示与内容加载状态仍由 Spin 管理，自定义图标不会自动获得动画。"
+          source={() => import("../demos/spin-indicator.tsx?raw")}
+        >
+          <IndicatorDemo />
+        </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>
         API
@@ -53,7 +71,9 @@ export default function Page({ section }: { section?: string }) {
         token，继承全局主色与动效设置。tip 需要配合 children 或 fullscreen
         使用；暂不支持 percent / auto 进度和 setDefaultIndicator
         静态方法。全屏层采用固定定位，尚未接入共享 portal；带 transform
-        的祖先可能限制其覆盖范围。
+        的祖先可能限制其覆盖范围。 嵌套模式加载期间会将内容设为
+        inert，防止误操作；全屏模式由应用维护 spinning 状态，不会自行结束。
+        示例仅在加载时挂载全屏 Spin，也便于在任务结束时移除相关节点。
       </p>
     </>
   );

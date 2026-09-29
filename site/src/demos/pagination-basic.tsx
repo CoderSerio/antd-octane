@@ -23,11 +23,5 @@ export function BasicDemo() {
   );
 }
 export function MoreDemo() {
-  return (
-    <Space direction="vertical">
-      <Pagination size="small" total={50} />
-      <Pagination simple total={120} showSizeChanger={false} />
-      <Pagination disabled total={50} />
-    </Space>
-  );
+  return <Pagination size="small" total={50} showSizeChanger={false} />;
 }

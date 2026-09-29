@@ -1,4 +1,7 @@
 import { BasicDemo, MoreDemo } from "../demos/layout-basic";
+import { CustomTriggerDemo } from "../demos/layout-custom-trigger";
+import { HeaderSiderDemo } from "../demos/layout-header-sider";
+import { StickyHeaderDemo } from "../demos/layout-sticky-header";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -29,6 +32,30 @@ export default function Page({ section }: { section?: string }) {
           source={() => import("../demos/layout-basic.tsx?raw")}
         >
           <MoreDemo />
+        </Demo>
+        <Demo
+          id="header-sider"
+          title="顶部与侧边布局"
+          description="Header 在外层，Sider 与 Content 在内层，组合通栏页头和侧栏。"
+          source={() => import("../demos/layout-header-sider.tsx?raw")}
+        >
+          <HeaderSiderDemo />
+        </Demo>
+        <Demo
+          id="custom-trigger"
+          title="自定义触发器"
+          description="trigger=null 隐藏内置按钮，通过页头按钮控制侧栏。"
+          source={() => import("../demos/layout-custom-trigger.tsx?raw")}
+        >
+          <CustomTriggerDemo />
+        </Demo>
+        <Demo
+          id="sticky-header"
+          title="固定头部"
+          description="使用应用 CSS 的 sticky 固定头部；演示在独立滚动容器内运行。"
+          source={() => import("../demos/layout-sticky-header.tsx?raw")}
+        >
+          <StickyHeaderDemo />
         </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>
@@ -75,7 +102,8 @@ export default function Page({ section }: { section?: string }) {
       </h2>
       <p>
         支持 Layout 头部、主体、底部、侧栏和 trigger 主题变量。Sider
-        触发器定位在当前侧栏底部，未实现上游固定在视口底部的定位方式、zeroWidthTriggerStyle、反向文档布局和完整过渡动画。
+        触发器定位在当前侧栏底部，未实现上游固定在视口底部的定位方式、zeroWidthTriggerStyle、反向文档布局和完整过渡动画。固定头部与固定侧栏属于应用的
+        CSS 布局，需要自行指定滚动容器、定位和占位尺寸。
       </p>
     </>
   );

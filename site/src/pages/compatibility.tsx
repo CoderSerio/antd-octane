@@ -65,27 +65,33 @@ export default function Compatibility({ section }: { section?: string }) {
           ],
           [
             "Button",
-            "常用类型、尺寸、状态、图标、链接与 ref",
+            "常用类型、尺寸、状态、图标位置、延迟加载、链接与 ref",
             "基础实现",
-            "alpha",
+            "alpha.4",
           ],
           [
             "Input",
-            "基础输入、前后缀/清除、Password/Search/TextArea 与 ref",
+            "基础输入、前后缀/清除、字数统计、Password/Search/TextArea 与 ref",
             "基础实现",
-            "alpha",
+            "alpha.4",
           ],
           [
             "Form",
-            "平面字段绑定、同步规则、提交与重置；不含嵌套路径、动态列表和异步规则",
+            "平面字段、自定义值/事件映射、同步与异步规则、提交与重置；不含嵌套路径、动态列表",
             "基础实现",
-            "alpha.3",
+            "alpha.6",
+          ],
+          [
+            "AutoComplete",
+            "自由文本、建议选项、搜索、清除、键盘和浮层容器；不含分组与自定义输入子元素",
+            "基础实现",
+            "alpha.6",
           ],
           [
             "Select",
-            "单选、搜索、受控值、键盘与清除；不含 multiple、tags、虚拟列表",
+            "单选与多选、搜索、受控值、键盘与清除；不含 tags、labelInValue、虚拟列表",
             "基础实现",
-            "alpha.2",
+            "alpha.5",
           ],
           ["Radio", "单选、选择组、按钮样式与键盘", "基础实现", "alpha"],
           [
@@ -97,7 +103,7 @@ export default function Compatibility({ section }: { section?: string }) {
           ["Switch", "状态、键盘、加载、大小与 ref", "基础实现", "alpha"],
           [
             "Flex / Space / Divider",
-            "基础布局、间距与分割线",
+            "基础布局、间距、Compact / Addon 组合与分割线",
             "基础实现",
             "alpha",
           ],
@@ -160,6 +166,11 @@ export default function Compatibility({ section }: { section?: string }) {
           ["Table / DatePicker", "表格与日期选择器", "未实现", "—"],
         ]}
       />
+      <p>
+        Typography 支持编辑、复制和受控展开，但省略仍使用 CSS 行数限制。
+        暂不支持精确溢出测量、中间省略或自定义 symbol、tooltip；suffix
+        在截断区域外渲染，与上游的行内测量存在差异。
+      </p>
       <h2 id="migration" tabIndex={-1}>
         迁移检查
       </h2>
@@ -179,8 +190,8 @@ export default function Compatibility({ section }: { section?: string }) {
         SSR、prefixCls、cssVar、hashed、StyleProvider、Tailwind / StyleX
         完整消费、模态静态方法和复杂表单能力尚未完成。Input.OTP、完整计数与
         variant，以及日期选择等复杂输入组件仍未提供。Form
-        当前只支持平面字段和同步规则；Select
-        已支持单选基础能力，多选、标签模式和虚拟列表仍待实现。
+        当前支持平面字段和异步规则，嵌套字段与动态列表仍待实现；Select
+        已支持单选与多选，标签模式、labelInValue 和虚拟列表仍待实现。
       </p>
       <p>
         Spin 暂不支持自动进度，fullscreen 尚未接入共享 portal；Progress

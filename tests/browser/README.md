@@ -67,3 +67,38 @@ Run it with the same `playwright-cli run-code` method as `compare.mjs`, substitu
 ## Tailwind CSS v4 独立消费
 
 `pnpm tailwind:check` 构建库，在临时项目安装 tarball 和固定的 Tailwind 4.3.3 / @tailwindcss/vite 4.3.3，再验证 TypeScript 与生产构建。此命令需要联网安装开发依赖，不修改工作区依赖。设置 `KEEP_TAILWIND_CONSUMER=1` 保留临时项目，按输出路径启动 `pnpm exec vite preview`（配置端口 4176），然后运行 `verify-tailwind.mjs`。浏览器检查 Preflight 下的默认 Button、工具类尺寸与布局、主题切换以及应用侧 token 映射；不代表全量组件或 SSR 兼容。
+
+### Counted input sizing
+
+Open `/tests/browser/input-count-width.html` with `pnpm dev:compare`; add
+`?renderer=antd` for the reference. The fixture covers Input, affixes, addons,
+TextArea and clearable TextArea with both `200px` and `50%` widths inside a
+`400px` container. Each control and its count should share a `200px` outer
+width; percentages must not be applied twice by nested wrappers.
+
+### Multiple Select interaction
+
+Open `/tests/browser/select-multiple-compare.html` (or append `?renderer=antd`).
+Select Cherry, then press ArrowUp/Enter to remove Apple without closing the
+menu. Escape closes the popup; Backspace with an empty search removes the last
+removable value. Reset and clear the selection. The output shows the controlled
+array for comparison. Searchable inputs preserve native Home/End caret behavior.
+
+### AutoComplete free input
+
+Open `/tests/browser/auto-complete-compare.html` (or append `?renderer=antd`).
+Type a value that is not an option: it must remain valid input, and Enter with
+no active suggestion must not select another value. Use arrows to skip disabled
+suggestions and Enter to confirm. Compare `onSearch` with `onSelect` in the event
+output; clear the field and verify focus remains in the input. Toggle empty
+options and check that an empty popup is never shown. Add `&dark` (or `?dark`)
+for the dark theme fixture.
+
+### Form custom controls and asynchronous validation
+
+Open `/tests/browser/form-mapping.html`. Submit the reserved username, then
+finish validation to show an error. Reset, submit again, edit the username
+before completing validation and verify the old result is reported as out of
+date without restoring its error. Select members and submit the new value:
+the output should contain an array collected through the custom `onMove`
+trigger and `targetKeys` value property.

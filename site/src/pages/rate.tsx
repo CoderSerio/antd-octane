@@ -1,4 +1,7 @@
 import { BasicDemo, MoreDemo } from "../demos/rate-basic";
+import { RateCharactersDemo } from "../demos/rate-characters";
+import { RateClearDemo } from "../demos/rate-clear";
+import { RateHoverTextDemo } from "../demos/rate-hover-text";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -29,6 +32,30 @@ export default function Page({ section }: { section?: string }) {
           source={() => import("../demos/rate-basic.tsx?raw")}
         >
           <MoreDemo />
+        </Demo>
+        <Demo
+          id="hover-text"
+          title="悬停说明"
+          description="鼠标悬停时预览评价说明，离开后恢复已选分值；键盘改变评分也会更新说明。"
+          source={() => import("../demos/rate-hover-text.tsx?raw")}
+        >
+          <RateHoverTextDemo />
+        </Demo>
+        <Demo
+          id="clear"
+          title="是否允许点击清零"
+          description="对比 allowClear=true/false；该属性控制重复点击，不限制 Home 键清零。"
+          source={() => import("../demos/rate-clear.tsx?raw")}
+        >
+          <RateClearDemo />
+        </Demo>
+        <Demo
+          id="characters"
+          title="自定义字符与数量"
+          description="character 接收从零开始的索引，count 定义评分上限。"
+          source={() => import("../demos/rate-characters.tsx?raw")}
+        >
+          <RateCharactersDemo />
         </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>
@@ -65,6 +92,9 @@ export default function Page({ section }: { section?: string }) {
         支持 starColor、starSize、starHoverScale、starBg。使用 slider
         语义提供键盘操作和半星读数。tooltips 当前使用浏览器原生 title
         提示，尚未接入 Tooltip；暂不支持命令式 ref、autoFocus 和 RTL 反向选择。
+        character 回调只提供 index，不包含上游完整 RateProps；allowClear
+        仅控制重复点击清零， Home 键仍可将评分设为 0。没有单独的 size
+        属性，可通过组件 token 的 starSize 调整。
       </p>
     </>
   );

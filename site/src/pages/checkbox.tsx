@@ -2,6 +2,7 @@ import { CheckboxAllDemo } from "../demos/checkbox-all";
 import { CheckboxBasicDemo } from "../demos/checkbox-basic";
 import { CheckboxControlledDemo } from "../demos/checkbox-controlled";
 import { BasicDemo as GroupDemo } from "../demos/checkbox-group-basic";
+import { CheckboxGroupLayoutDemo } from "../demos/checkbox-group-layout";
 import { CheckboxStatesDemo } from "../demos/checkbox-states";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function CheckboxPage({ section }: { section?: string }) {
@@ -59,6 +60,14 @@ export default function CheckboxPage({ section }: { section?: string }) {
         >
           <CheckboxAllDemo />
         </Demo>
+        <Demo
+          id="group-layout"
+          title="自定义组布局"
+          description="子项可放入网格布局；skipGroup 让预览开关独立于组的选中值。"
+          source={() => import("../demos/checkbox-group-layout.tsx?raw")}
+        >
+          <CheckboxGroupLayoutDemo />
+        </Demo>
       </div>
       <h2 id="group" tabIndex={-1}>
         Checkbox.Group
@@ -81,7 +90,7 @@ export default function CheckboxPage({ section }: { section?: string }) {
           [
             "options / children",
             "选项数组或子项",
-            "Option[] / OctaneNode",
+            "(string | number | boolean | CheckboxOption)[] / OctaneNode",
             "—",
           ],
           ["onChange", "返回当前已挂载选项顺序的值", "(values) => void", "—"],
@@ -139,7 +148,9 @@ export default function CheckboxPage({ section }: { section?: string }) {
           Form.Item 已支持通过 valuePropName="checked" 绑定；未实现上游 wave
           动效。回调提供
           target.checked、target.value、nativeEvent、preventDefault 与
-          stopPropagation，不提供 React SyntheticEvent。
+          stopPropagation，不提供 React SyntheticEvent。 Group
+          只收集已挂载且未设置 skipGroup 的子项；自定义网格布局使用普通 CSS，
+          没有独立的 columns 属性。尚未实现语义化 styles/classNames。
         </p>
       </div>
     </>

@@ -1,4 +1,6 @@
 import { BasicDemo, MoreDemo } from "../demos/progress-basic";
+import { GradientDemo } from "../demos/progress-gradient";
+import { VerificationDemo } from "../demos/progress-verification";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -31,6 +33,22 @@ export default function Page({ section }: { section?: string }) {
           source={() => import("../demos/progress-basic.tsx?raw")}
         >
           <MoreDemo />
+        </Demo>
+        <Demo
+          id="verification"
+          title="传输完成后的校验进度"
+          description="总进度保持 100%，success.percent 表示已确认成功的部分；format 显示校验状态。"
+          source={() => import("../demos/progress-verification.tsx?raw")}
+        >
+          <VerificationDemo />
+        </Demo>
+        <Demo
+          id="gradient"
+          title="渐变颜色"
+          description="同一份渐变配置可用于线形与圆形；按钮切换颜色以观察主题之外的局部覆盖。"
+          source={() => import("../demos/progress-gradient.tsx?raw")}
+        >
+          <GradientDemo />
         </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>
@@ -82,7 +100,8 @@ export default function Page({ section }: { section?: string }) {
         跟随全局颜色与暗色、紧凑算法，支持 Progress 组件
         token：defaultColor、remainingColor、circleTextColor、circleTextFontSize、lineBorderRadius。支持线形分段；分段模式暂不支持渐变与逐段颜色数组，暂不支持圆形分段、percentPosition、rounding、旧
         width 属性和完整的上游语义样式配置。渐变 direction
-        仅作用于线形，分段数量最多为 1000。
+        仅作用于线形，分段数量最多为 1000。 线形 format
+        的信息区当前保留固定宽度，适合简短百分比；较长业务说明请放在进度条旁的独立文本中。
       </p>
     </>
   );

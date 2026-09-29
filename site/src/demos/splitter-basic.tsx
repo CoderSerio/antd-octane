@@ -1,5 +1,4 @@
-import { Button, Space, Splitter } from "antd-octane";
-import { useState } from "octane";
+import { Splitter } from "antd-octane";
 
 const panelStyle = { padding: 16 };
 export function BasicDemo() {
@@ -21,25 +20,21 @@ export function BasicDemo() {
   );
 }
 export function MoreDemo() {
-  const [sizes, setSizes] = useState<number[]>([100, 100, 100]);
   return (
-    <Space direction="vertical" style={{ width: "100%" }}>
-      <Button onClick={() => setSizes([100, 100, 100])}>重置面板</Button>
-      <Splitter
-        layout="vertical"
-        style={{
-          height: 300,
-          width: "100%",
-          boxShadow: "0 0 0 1px var(--line)",
-        }}
-        onResize={setSizes}
-      >
-        {sizes.map((size, index) => (
-          <Splitter.Panel key={index} size={size} min={40} style={panelStyle}>
-            受控区域 {index + 1}：{Math.round(size)}px
-          </Splitter.Panel>
-        ))}
-      </Splitter>
-    </Space>
+    <Splitter
+      layout="vertical"
+      style={{
+        height: 300,
+        width: "100%",
+        boxShadow: "0 0 0 1px var(--line)",
+      }}
+    >
+      <Splitter.Panel defaultSize="50%" min="20%" style={panelStyle}>
+        First
+      </Splitter.Panel>
+      <Splitter.Panel min="20%" style={panelStyle}>
+        Second
+      </Splitter.Panel>
+    </Splitter>
   );
 }

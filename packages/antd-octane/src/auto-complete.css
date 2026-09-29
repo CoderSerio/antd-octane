@@ -1,0 +1,104 @@
+@layer antd {
+  :where(.ant-auto-complete) {
+    box-sizing: border-box;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-width: 120px;
+    height: var(--ao-autocomplete-height);
+    padding-inline: 11px;
+    border: 1px solid var(--ao-autocomplete-border);
+    border-radius: var(--ao-radius);
+    background: var(--ao-bg);
+    color: var(--ao-text);
+    font: var(--ao-font-size) / var(--ao-line) var(--ao-font);
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s;
+  }
+  :where(.ant-auto-complete-small) {
+    padding-inline: 7px;
+  }
+  :where(.ant-auto-complete-large) {
+    font-size: 16px;
+  }
+  :where(.ant-auto-complete:not(.ant-auto-complete-disabled):hover) {
+    border-color: var(--ao-autocomplete-hover-border);
+  }
+  :where(.ant-auto-complete:focus-within) {
+    border-color: var(--ao-autocomplete-focus);
+    box-shadow: 0 0 0 2px
+      color-mix(in srgb, var(--ao-autocomplete-focus) 18%, transparent);
+  }
+  :where(.ant-auto-complete-disabled) {
+    color: var(--ao-muted);
+    background: var(--ao-autocomplete-disabled);
+    cursor: not-allowed;
+  }
+  :where(.ant-auto-complete > input) {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    padding: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+  }
+  :where(.ant-auto-complete > input::placeholder) {
+    color: var(--ao-muted);
+  }
+  :where(.ant-auto-complete-disabled > input) {
+    cursor: not-allowed;
+  }
+  :where(.ant-auto-complete-clear) {
+    flex: none;
+    border: 0;
+    margin-inline-start: 8px;
+    padding: 0;
+    background: transparent;
+    color: var(--ao-muted);
+    font: inherit;
+    cursor: pointer;
+  }
+  :where(.ant-auto-complete-clear:focus-visible) {
+    outline: 2px solid var(--ao-focus);
+    outline-offset: 2px;
+  }
+  :where(.ant-auto-complete-dropdown) {
+    box-sizing: border-box;
+    max-height: 256px;
+    max-width: calc(100vw - 16px);
+    overflow: auto;
+    padding: 4px;
+    border-radius: var(--ao-radius);
+    background: var(--ao-autocomplete-popup);
+    box-shadow: var(--ao-autocomplete-shadow);
+    color: var(--ao-text);
+    font: var(--ao-font-size) / var(--ao-line) var(--ao-font);
+  }
+  :where(.ant-auto-complete-option) {
+    box-sizing: border-box;
+    min-height: 32px;
+    padding: 5px 8px;
+    border-radius: calc(var(--ao-radius) / 2);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  :where(
+      .ant-auto-complete-option-active:not(.ant-auto-complete-option-disabled)
+    ) {
+    background: var(--ao-autocomplete-hover);
+  }
+  :where(.ant-auto-complete-option-selected) {
+    background: var(--ao-autocomplete-selected);
+    font-weight: 600;
+  }
+  :where(.ant-auto-complete-option-disabled) {
+    color: var(--ao-muted);
+    cursor: not-allowed;
+  }
+}

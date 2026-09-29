@@ -2,6 +2,28 @@
 
 此文件记录 `antd-octane` 的版本变化；标注「待发布」的条目尚不可从 npm 安装。组件支持范围与限制见[兼容与迁移](site/src/pages/compatibility.tsx)。
 
+## 0.1.0-alpha.6 — 2026-09-30
+
+- 新增 AutoComplete：自由文本输入与选项确认分离，支持受控值、搜索回调、过滤、清除、禁用选项、键盘操作和自定义浮层容器。
+- Form 新增自定义字段属性与事件映射（`valuePropName`、`getValueProps`、`getValueFromEvent`、`trigger`），以及 Promise 形式的自定义校验；过期的异步校验不会覆盖新值或误触发成功提交。
+- 新增 `Space.Compact` 和 `Space.Addon`，支持紧凑控件组合、尺寸继承、水平/垂直排列和整行布局。
+- 本次仍不含 Form 嵌套字段、动态列表和依赖校验；AutoComplete 自定义输入节点、分组选项及高级渲染能力仍未支持。
+
+## 0.1.0-alpha.5 — 2026-09-29
+
+- Select 新增 `mode="multiple"`：数组形式的受控和非受控值、搜索、选择与移除、清空、键盘操作及多选状态说明；保留原有单选 `SelectProps`，新增 `MultipleSelectProps` 和 `SelectComponentProps` 类型。
+- 修复 Input / TextArea 开启 `showCount` 后，固定宽度、百分比宽度及宽度约束与计数区域不一致的问题，覆盖带前后缀和附加内容的输入框。
+- 修复 FloatButton.Group 的 `onClick` 被内部展开逻辑覆盖的问题，允许调用方通过 `preventDefault()` 阻止切换。
+- Select 多选选中后保留对应高亮项；可搜索输入中的 Home/End 保留原生文本光标行为。
+- Select 的标签模式、labelInValue、虚拟列表和高级渲染配置尚未支持；本次多选实现不代表完整上游 API 对齐。
+
+## 0.1.0-alpha.4 — 2026-09-28
+
+- Button 支持 `iconPosition` / `iconPlacement` 控制图标位置，并支持 `loading={{ delay, icon }}`；延迟结束前仍可点击，进入加载态后阻止重复操作。
+- Input、Input.Password、Input.Search 与 Input.TextArea 新增基础 `showCount`，支持与原生 `maxLength` 同时显示计数，并让辅助技术读取计数说明。
+- 修复 `Spin fullscreen` 处于隐藏状态时仍可能遮挡页面点击的问题。
+- `showCount` 暂不支持自定义字符算法或格式化函数；Button 仍未实现完整的 color / variant、按钮组和语义化样式 API。
+
 ## 0.1.0-alpha.3 — 2026-09-28
 
 - 新增 Form 基础版：`Form.Item` 字段绑定、初始值、必填及常见长度/正则规则、提交、重置和 `Form.useForm()` 实例方法。

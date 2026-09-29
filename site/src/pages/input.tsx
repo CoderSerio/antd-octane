@@ -6,7 +6,10 @@ import {
   InputSearchDemo,
   InputTextAreaDemo,
 } from "../demos/input-extended";
+import { InputNativeLengthDemo } from "../demos/input-native-length";
+import { InputPasswordControlledDemo } from "../demos/input-password-controlled";
 import { InputRefDemo } from "../demos/input-ref";
+import { InputShowCountDemo } from "../demos/input-show-count";
 import { InputSizesDemo } from "../demos/input-sizes";
 import { InputStatesDemo } from "../demos/input-states";
 import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
@@ -91,6 +94,14 @@ export default function InputPage({ section }: { section?: string }) {
           <InputPasswordDemo />
         </Demo>
         <Demo
+          id="password-controlled"
+          title="受控密码可见性"
+          description="通过 visibilityToggle 同步组件内的眼睛按钮和外部按钮；iconRender 自定义图标内容。"
+          source={() => import("../demos/input-password-controlled.tsx?raw")}
+        >
+          <InputPasswordControlledDemo />
+        </Demo>
+        <Demo
           id="search"
           title="搜索框"
           description="点击搜索或按 Enter 确认；输入法组合时不会误触发搜索。"
@@ -105,6 +116,22 @@ export default function InputPage({ section }: { section?: string }) {
           source={() => import("../demos/input-extended.tsx?raw")}
         >
           <InputTextAreaDemo />
+        </Demo>
+        <Demo
+          id="native-length"
+          title="原生长度限制"
+          description="maxLength 限制原生输入；也可以由应用状态自行渲染计数。"
+          source={() => import("../demos/input-native-length.tsx?raw")}
+        >
+          <InputNativeLengthDemo />
+        </Demo>
+        <Demo
+          id="show-count"
+          title="内置字数统计"
+          description="Input、Password、Search 和 TextArea 均支持 showCount；有 maxLength 时显示当前长度与上限。"
+          source={() => import("../demos/input-show-count.tsx?raw")}
+        >
+          <InputShowCountDemo />
         </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>
@@ -126,6 +153,12 @@ export default function InputPage({ section }: { section?: string }) {
             "清除按钮及回调；只读或禁用时隐藏",
             "boolean | { clearIcon? } / () => void",
             "false / —",
+          ],
+          [
+            "showCount",
+            "显示当前字符串长度；设置 maxLength 时显示长度 / 上限",
+            "boolean",
+            "false",
           ],
           [
             "Password.visibilityToggle",
@@ -204,8 +237,9 @@ export default function InputPage({ section }: { section?: string }) {
           已知差异
         </strong>
         <p>
-          尚不支持 variant、showCount/count、OTP、Password 的 hover action
-          和语义 styles/classNames。Search.enterButton
+          showCount 按 JavaScript 字符串长度计数，与原生 maxLength 一样按 UTF-16
+          单位计算；尚不支持自定义 count/formatter、variant、OTP、Password 的
+          hover action 和语义 styles/classNames。Search.enterButton
           的节点作为按钮内容，不支持传入嵌套按钮。 autoSize 基于原生
           scrollHeight，暂不支持 onResize 或隐藏容器的预测量。
           改变前后缀/组合结构可能重建输入节点；需要保留焦点时请保留相应包裹结构。

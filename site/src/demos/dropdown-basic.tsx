@@ -38,9 +38,6 @@ export function MoreDemo() {
       <Dropdown menu={menu}>
         <Button>悬停查看菜单</Button>
       </Dropdown>
-      <Dropdown trigger={["contextMenu"]} menu={menu}>
-        <Button>右键打开菜单</Button>
-      </Dropdown>
       <p aria-live="polite">当前操作：{selected}</p>
     </Space>
   );
