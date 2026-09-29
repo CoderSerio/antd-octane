@@ -64,7 +64,7 @@ try {
     join(directory, "main.tsx"),
     `
 import { createRoot } from 'octane';
-import { AutoComplete, Affix, Anchor, FloatButton, Image, Carousel, Splitter, Watermark, App, Icon, QRCode, Tour, Modal, Drawer, Menu, Dropdown, Popconfirm, message, notification, Button, InputNumber, Slider, Input, Select, Form, Checkbox, Switch, Flex, Space, Divider, Radio, Tag, Alert, Card, Avatar, Badge, Spin, Skeleton, Progress, Result, Typography, List, Row, Col, Layout, Collapse, Tabs, Empty, Statistic, Timeline, Descriptions, Segmented, Rate, Breadcrumb, Steps, Pagination, Tooltip, Popover, ConfigProvider, theme } from 'antd-octane';
+import { AutoComplete, Mentions, Affix, Anchor, FloatButton, Image, Carousel, Splitter, Watermark, App, Icon, QRCode, Tour, Modal, Drawer, Menu, Dropdown, Popconfirm, message, notification, Button, InputNumber, Slider, Input, Select, Form, Checkbox, Switch, Flex, Space, Divider, Radio, Tag, Alert, Card, Avatar, Badge, Spin, Skeleton, Progress, Result, Typography, List, Row, Col, Layout, Collapse, Tabs, Empty, Statistic, Timeline, Descriptions, Segmented, Rate, Breadcrumb, Steps, Pagination, Tooltip, Popover, ConfigProvider, theme } from 'antd-octane';
 import { AntDesignOutlined, ClockCircleOutlined, MinusOutlined, PlusOutlined, QuestionOutlined, UserOutlined } from 'antd-octane/icons';
 import 'antd-octane/style.css';
 import { StyleProvider, type StyleProviderProps } from 'antd-octane/style';
@@ -329,6 +329,7 @@ createRoot(document.getElementById('root')!).render(
     <Select {...multipleProps} />
     <Space.Compact size="small"><Space.Addon>https://</Space.Addon><Input /><Button>Go</Button></Space.Compact>
     <AutoComplete options={[{value:'Octane'}]} onChange={(text) => void text} onSelect={(text,option) => void option.value} />
+    <Mentions options={[{value:'alice'}]} defaultValue="Packed @a" onChange={(text) => void text} />
     <Form initialValues={{name:'Packed'}} onFinish={(values) => void values.name}>
       <Form.Item name="name" label="Name" rules={[{required:true}, {validator: async (_rule,value) => { if (!value) throw new Error("Required"); }}]}><Input /></Form.Item>
       <Form.Item name="enabled" label="Enabled" valuePropName="checked"><Switch /></Form.Item>
@@ -380,7 +381,7 @@ createRoot(document.getElementById('root')!).render(
     `import { createRoot } from 'octane';
 import { useSignal$ } from 'octane/signals/client';
 import { StyleProvider } from 'antd-octane/style';
-import { AutoComplete, Affix, Alert, Anchor, App, Breadcrumb, Button, Checkbox, ConfigProvider, Divider, Drawer, Dropdown, Flex, FloatButton, Form, Icon, Input, InputNumber, Layout, Menu, Modal, Pagination, Popconfirm, Progress, Radio, Rate, Result, Row, Col, Select, Skeleton, Slider, Space, Spin, Splitter, Steps, Switch, Tabs, Typography, Watermark, message, notification, Carousel } from 'antd-octane';
+import { AutoComplete, Mentions, Affix, Alert, Anchor, App, Breadcrumb, Button, Checkbox, ConfigProvider, Divider, Drawer, Dropdown, Flex, FloatButton, Form, Icon, Input, InputNumber, Layout, Menu, Modal, Pagination, Popconfirm, Progress, Radio, Rate, Result, Row, Col, Select, Skeleton, Slider, Space, Spin, Splitter, Steps, Switch, Tabs, Typography, Watermark, message, notification, Carousel } from 'antd-octane';
 import 'antd-octane/style.css';
 
 function Page() @{
@@ -395,6 +396,7 @@ function Page() @{
   <StyleProvider layer><main>
     <Button id="signal-update" onClick={() => { value$.set('updated'); checked$.set(true); number$.set(3); current$.set(2); selected$.set('second'); selectedMany$.set(['first','second']); }}>Update</Button>
     <AutoComplete id="signal-autocomplete" value={value$.get()} onChange={(next) => value$.set(next)} options={[{value:"updated"}]} />
+    <Mentions id="signal-mentions" value={value$.get()} onChange={(next) => value$.set(next)} options={[{value:"updated"}]} />
     <Input id="signal-input" value={value$.get()} onChange={(event) => value$.set(event.target.value)} />
     <Form initialValues={{profile:'Signal form'}}>
       <Form.Item name="profile" label="Profile" required><Input /></Form.Item>
@@ -502,6 +504,7 @@ try {
   win.document.querySelector('#signal-update')?.click();
   await new Promise((done) => setTimeout(done, 30));
   if (win.document.querySelector('#signal-autocomplete')?.value !== 'updated') throw new Error('TSRX Signal-driven AutoComplete did not update');
+  if (win.document.querySelector('#signal-mentions')?.value !== 'updated') throw new Error('TSRX Signal-driven Mentions did not update');
   const autoInput = win.document.querySelector('#signal-autocomplete');
   autoInput.value = 'free text';
   autoInput.dispatchEvent(new win.Event('input', {bubbles:true}));

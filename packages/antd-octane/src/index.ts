@@ -45,6 +45,8 @@ export { Form } from "./form";
 export type { Locale } from "./locale";
 export { default as enUS } from "./locale/en_US";
 export { default as zhCN } from "./locale/zh_CN";
+export type { MentionsOption, MentionsProps, MentionsRef } from "./mentions";
+export { getMentions, Mentions } from "./mentions";
 export type {
   AliasToken,
   ButtonToken,

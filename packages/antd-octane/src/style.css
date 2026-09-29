@@ -20,6 +20,7 @@
 @import "./choice.css";
 @import "./select.css";
 @import "./auto-complete.css";
+@import "./mentions/mentions.css";
 @import "./space/space.css";
 @import "./form.css";
 @import "./navigation.css";
