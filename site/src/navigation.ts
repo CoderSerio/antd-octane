@@ -482,6 +482,7 @@ export const toc: Record<string, [string, string][]> = {
     ["configure", "配置 Vite 与 TypeScript"],
     ["usage", "使用组件"],
     ["run", "运行与检查"],
+    ["troubleshooting", "遇到问题"],
   ],
   contributing: [
     ["install", "开发本库与文档站"],
@@ -524,6 +525,7 @@ export const toc: Record<string, [string, string][]> = {
   compatibility: [
     ["matrix", "支持矩阵"],
     ["migration", "迁移检查"],
+    ["migration-example", "表单迁移示例"],
     ["pending", "待验证能力"],
   ],
   input: [
@@ -825,6 +827,7 @@ toc.select = [
   ["sizes-status", "尺寸与校验状态"],
   ["coordinated", "省市联动"],
   ["api", "API"],
+  ["types", "选项与回调类型"],
   ["scope", "支持范围"],
 ];
 
@@ -855,6 +858,7 @@ toc.form = [
   ["custom-trigger", "自定义事件与多参数"],
   ["value-props", "存储值与显示值"],
   ["api", "API"],
+  ["instance-api", "FormInstance 方法"],
   ["scope", "支持范围"],
 ];
 

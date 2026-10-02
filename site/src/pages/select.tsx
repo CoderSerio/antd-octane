@@ -5,7 +5,7 @@ import { SelectCoordinatedDemo } from "../demos/select-coordinated";
 import { SelectFilterEmptyDemo } from "../demos/select-filter-empty";
 import { ControlledMultipleDemo, MultipleDemo } from "../demos/select-multiple";
 import { SelectSizesStatusDemo } from "../demos/select-sizes-status";
-import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
+import { ApiTable, Code, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -161,6 +161,29 @@ export default function Page({ section }: { section?: string }) {
           ],
           ["ref", "nativeElement、focus、blur", "SelectRef", "—"],
         ]}
+      />
+      <h2 id="types" tabIndex={-1}>
+        选项与回调类型
+      </h2>
+      <p>
+        SelectValue、SelectOption 可从 antd-octane 导入；label 使用 Octane
+        节点。单选与多选回调签名不同：
+      </p>
+      <Code
+        language="ts"
+        source={`import type { OctaneNode } from "octane";
+
+type SelectValue = string | number;
+interface SelectOption {
+  value: SelectValue;
+  label?: OctaneNode;
+  disabled?: boolean;
+  title?: string;
+}
+// 单选 onChange（清除时 value 为 undefined）
+type SingleChange = (value: SelectValue | undefined, option?: SelectOption) => void;
+// mode="multiple" 的 onChange（清除时两个数组均为空）
+type MultipleChange = (values: SelectValue[], options: SelectOption[]) => void;`}
       />
       <h2 id="scope" tabIndex={-1}>
         支持范围

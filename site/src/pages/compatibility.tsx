@@ -1,4 +1,6 @@
-import { ApiTable, usePageAnchor } from "../docs-ui";
+import { MigrationFormDemo } from "../demos/migration-form";
+import { ApiTable, Code, Demo, usePageAnchor } from "../docs-ui";
+import { siteVersion } from "../site-version";
 export default function Compatibility({ section }: { section?: string }) {
   usePageAnchor(section);
   return (
@@ -11,160 +13,122 @@ export default function Compatibility({ section }: { section?: string }) {
       <h2 id="matrix" tabIndex={-1}>
         支持矩阵
       </h2>
+      <p>
+        本站示例使用 antd-octane@{siteVersion}
+        。下列版本表示本站运行基线，不表示首次支持版本或上游全部能力已验证；历史变化见
+        <a href="#changelog">更新日志</a>。
+      </p>
       <ApiTable
-        headers={["组件", "支持范围", "状态", "版本"]}
+        headers={["组件", "支持范围", "状态", "本站示例版本"]}
         label="组件兼容矩阵，可横向滚动"
         rows={[
           [
             "Affix / Anchor / FloatButton / Tour",
             "定位、滚动、引导和键盘；不含所有变换/裁剪场景",
             "基础实现",
-            "alpha",
           ],
           [
             "Image / Carousel",
             "预览、分组、缩放、轮播与暂停；不含完整高级工具栏或 slick 接口",
             "基础实现",
-            "alpha",
           ],
           [
             "Splitter / Watermark",
             "拖拽与键盘尺寸调整、Canvas 水印；不含折叠/防篡改保障",
             "基础实现",
-            "alpha",
           ],
           [
             "App / Icon / QRCode",
             "消息上下文、SVG 数据适配、真实二维码；非完整上游 API",
             "基础实现",
-            "alpha",
           ],
           [
             "Message / Notification",
             "hook、contextHolder、计时器、更新和关闭；不含静态API/堆叠",
             "基础实现",
-            "alpha",
           ],
           [
             "Modal / Drawer",
             "受控浮层、焦点管理、滚动锁；不含静态API/动画",
             "基础实现",
-            "alpha",
           ],
           [
             "Menu / Dropdown / Popconfirm",
             "菜单、触发与确认交互；详见各组件边界",
             "基础实现",
-            "alpha",
           ],
           [
             "InputNumber / Slider",
             "数值输入、精度、范围、键盘和指针操作；支持子集",
             "基础实现",
-            "alpha",
           ],
           [
             "Button",
             "常用类型、尺寸、状态、图标位置、延迟加载、链接与 ref",
             "基础实现",
-            "alpha.4",
           ],
           [
             "Input",
             "基础输入、前后缀/清除、字数统计、Password/Search/TextArea 与 ref",
             "基础实现",
-            "alpha.4",
           ],
           [
             "Form",
             "平面字段、自定义值/事件映射、同步与异步规则、提交与重置；不含嵌套路径、动态列表",
             "基础实现",
-            "alpha.6",
           ],
           [
             "AutoComplete",
             "自由文本、建议选项、搜索、清除、键盘和浮层容器；不含分组与自定义输入子元素",
             "基础实现",
-            "alpha.6",
           ],
           [
             "Select",
             "单选与多选、搜索、受控值、键盘与清除；不含 tags、labelInValue、虚拟列表",
             "基础实现",
-            "alpha.5",
           ],
-          ["Radio", "单选、选择组、按钮样式与键盘", "基础实现", "alpha"],
+          ["Radio", "单选、选择组、按钮样式与键盘", "基础实现"],
           [
             "Tag / Alert / Card / Badge / Avatar",
             "常用展示与交互；详见各组件页面",
             "基础实现",
-            "alpha",
           ],
-          ["Switch", "状态、键盘、加载、大小与 ref", "基础实现", "alpha"],
+          ["Switch", "状态、键盘、加载、大小与 ref", "基础实现"],
           [
             "Flex / Space / Divider",
             "基础布局、间距、Compact / Addon 组合与分割线",
             "基础实现",
-            "alpha",
           ],
-          [
-            "Checkbox",
-            "受控、非受控、禁用、中间态、ref 与 Group",
-            "基础实现",
-            "alpha",
-          ],
-          ["Grid / Layout", "响应式栅格、布局与折叠侧栏", "基础实现", "alpha"],
-          [
-            "Collapse / Tabs",
-            "面板切换、内容保留与键盘交互",
-            "基础实现",
-            "alpha",
-          ],
+          ["Checkbox", "受控、非受控、禁用、中间态、ref 与 Group", "基础实现"],
+          ["Grid / Layout", "响应式栅格、布局与折叠侧栏", "基础实现"],
+          ["Collapse / Tabs", "面板切换、内容保留与键盘交互", "基础实现"],
           [
             "Empty / Statistic / Timeline / Descriptions",
             "空状态、统计与信息展示",
             "基础实现",
-            "alpha",
           ],
-          [
-            "Typography / List",
-            "文字编辑、复制、列表及响应式网格",
-            "基础实现",
-            "alpha",
-          ],
-          [
-            "Spin / Skeleton",
-            "延迟加载、局部加载与内容占位",
-            "基础实现",
-            "alpha",
-          ],
-          [
-            "Progress / Result",
-            "进度状态、结果展示与后续操作",
-            "基础实现",
-            "alpha",
-          ],
-          ["Segmented / Rate", "分段选择、评分与键盘交互", "基础实现", "alpha"],
+          ["Typography / List", "文字编辑、复制、列表及响应式网格", "基础实现"],
+          ["Spin / Skeleton", "延迟加载、局部加载与内容占位", "基础实现"],
+          ["Progress / Result", "进度状态、结果展示与后续操作", "基础实现"],
+          ["Segmented / Rate", "分段选择、评分与键盘交互", "基础实现"],
           [
             "Breadcrumb / Steps / Pagination",
             "面包屑、步骤、页码与条数切换",
             "基础实现",
-            "alpha",
           ],
           [
             "Tooltip / Popover",
             "原生 portal、触发、定位与上下文继承",
             "基础实现",
-            "alpha",
           ],
-          [
-            "ConfigProvider",
-            "主题、尺寸、禁用与嵌套作用域",
-            "基础实现",
-            "alpha",
-          ],
-          ["Table / DatePicker", "表格与日期选择器", "未实现", "—"],
-        ]}
+          ["ConfigProvider", "主题、尺寸、禁用与嵌套作用域", "基础实现"],
+          ["Table / DatePicker", "表格与日期选择器", "未实现"],
+        ].map(([component, scope, status]) => [
+          component,
+          scope,
+          status,
+          status === "未实现" ? "—" : siteVersion,
+        ])}
       />
       <p>
         Typography 支持编辑、复制和受控展开，但省略仍使用 CSS 行数限制。
@@ -183,6 +147,59 @@ export default function Compatibility({ section }: { section?: string }) {
         </li>
         <li>检查依赖 SyntheticEvent、深层 DOM 选择器或 React 插件的代码。</li>
       </ol>
+      <h2 id="migration-example" tabIndex={-1}>
+        迁移一个表单与保存提示
+      </h2>
+      <p>
+        迁移前：以下组件用于已配置的 React + Ant Design 5
+        应用。这里只收集姓名并显示提示，不请求后端。
+      </p>
+      <Code
+        source={`import { Button, Form, Input, message } from "antd";
+
+export function ProfileForm() {
+  return (
+    <Form layout="vertical" onFinish={(values) => message.success(\`已保存：\${values.name}\`)}>
+      <Form.Item name="name" label="姓名" rules={[{ required: true }]}>
+        <Input />
+      </Form.Item>
+      <Button htmlType="submit" type="primary">保存</Button>
+    </Form>
+  );
+}`}
+      />
+      <p>
+        迁移后：先按<a href="#start">开始使用</a>配置 Octane
+        和样式，再将示例组件放入入口的渲染树。消息改用 hook 返回的实例，并把
+        holder 放在当前组件树内；提交空值可验证错误反馈。
+      </p>
+      <Demo
+        id="migration-form"
+        title="Octane 表单与消息"
+        description="填写姓名后保存；校验通过才显示消息。"
+        source={() => import("../demos/migration-form.tsx?raw")}
+      >
+        <MigrationFormDemo />
+      </Demo>
+      <ul className="prose-list">
+        <li>
+          Modal.confirm / Modal.useModal：改为应用状态控制 open 的
+          <a href="#modal">声明式 Modal</a>，由 onOk / onCancel 关闭；不只是替换
+          import。
+        </li>
+        <li>
+          message.success / notification.info 静态调用：改用
+          <a href="#message">message.useMessage</a>、
+          <a href="#notification">notification.useNotification</a> 的实例与
+          holder，或在 App 内用<a href="#app">App.useApp()</a>。
+        </li>
+        <li>
+          React SyntheticEvent / persist：查看
+          <a href="#api-conventions/refs">原生事件约定</a>
+          ；异步操作前先取出所需值。Checkbox 的 target.checked
+          是包装后的值，不要把所有 onChange 都视作文本事件。
+        </li>
+      </ul>
       <h2 id="pending" tabIndex={-1}>
         待验证能力
       </h2>

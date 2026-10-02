@@ -1,4 +1,5 @@
 import { usePageAnchor } from "../docs-ui";
+import { siteVersion } from "../site-version";
 
 export default function ChangelogPage({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -8,7 +9,7 @@ export default function ChangelogPage({ section }: { section?: string }) {
       <h1>更新日志</h1>
       <p className="lead">这里记录已发布到 npm 的 alpha 版本。</p>
       <p>
-        文档站当前安装 <code>antd-octane@0.1.0-alpha.6</code>。完整记录见{" "}
+        文档站当前安装 <code>antd-octane@{siteVersion}</code>。完整记录见{" "}
         <a
           className="text-link"
           href="https://github.com/CoderSerio/antd-octane/blob/main/CHANGELOG.md"

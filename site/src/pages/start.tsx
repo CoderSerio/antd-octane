@@ -114,6 +114,31 @@ export default function StartPage({ section }: { section?: string }) {
         已提供平面字段、同步与异步校验的基础版；Table、DatePicker 等尚未实现。
         请先查阅各组件的支持范围，不能直接照搬上游示例。
       </p>
+      <h2 id="troubleshooting" tabIndex={-1}>
+        遇到问题
+      </h2>
+      <ul className="prose-list">
+        <li>
+          <strong>按钮没有样式：</strong>检查应用入口是否导入{" "}
+          <code>antd-octane/style.css</code>。已导入时检查应用 CSS 是否覆盖了
+          antd layer；先移除冲突规则再确认。详见
+          <a href="#button/faq">按钮样式排查</a>与
+          <a href="#tailwindcss">Tailwind 层级</a>。
+        </li>
+        <li>
+          <strong>JSX 编译或类型检查失败：</strong>检查 Vite 配置是否启用
+          octane()，tsconfig 的 jsxImportSource 是否为 octane，并确认安装
+          octane@0.4.3。按本页配置修正后重启开发服务，再运行 tsc
+          --noEmit；不要通过安装 React 来掩盖配置问题。
+        </li>
+        <li>
+          <strong>示例里的 API 不存在：</strong>运行 pnpm list antd-octane
+          octane，核对<a href="#changelog">本站使用版本与更新日志</a>
+          。若安装版本较旧，升级到所需已发布版本；若
+          <a href="#compatibility">支持范围</a>
+          注明未实现，使用本站替代方式，不照搬上游 API。
+        </li>
+      </ul>
       <p>
         想修改组件库或文档站？参阅{" "}
         <a className="text-link" href="#contributing">
