@@ -280,6 +280,7 @@ export function useForm(): [FormInstance] {
 interface FormContextValue {
   store: FormStore;
   id: string;
+  fieldIds: Map<string, string>;
   onValuesChange?: (changed: FormValues, all: FormValues) => void;
 }
 const FormContext = createContext<FormContextValue | null>(null);
@@ -304,11 +305,14 @@ function FormRoot(props: FormProps) {
   useEffect(() => {
     if (props.form) store.initialize(props.initialValues ?? {});
   }, [props.form]);
+  const [fieldIds] = useState(() => new Map<string, string>());
   const config = useConfig();
   const generatedId = useId();
   const id = props.id ?? props.name ?? `ao-form-${generatedId}`;
   return (
-    <FormContext value={{ store, id, onValuesChange: props.onValuesChange }}>
+    <FormContext
+      value={{ store, id, fieldIds, onValuesChange: props.onValuesChange }}
+    >
       <form
         id={props.id}
         name={props.name}
@@ -335,7 +339,9 @@ function FormRoot(props: FormProps) {
               props.onFinishFailed?.(error);
               const first = error.errorFields[0]?.name;
               if (first && !error.outOfDate)
-                document.getElementById(`${id}-${first}`)?.focus();
+                document
+                  .getElementById(fieldIds.get(first) ?? `${id}-${first}`)
+                  ?.focus();
             });
         }}
         onReset={(event) => {
@@ -395,16 +401,25 @@ function FormItem(props: FormItemProps) {
   useEffect(() => {
     if (name) context?.store.setRules(name, rules);
   }, [context?.store, name, rules]);
-  const id = name
-    ? `${context?.id ?? `ao-form-${generatedId}`}-${name}`
-    : undefined;
-  const helpId = id ? `${id}-help` : undefined;
-  const errors = name ? (snapshot.errors[name] ?? []) : [];
   const child = props.children;
   const valuePropName = props.valuePropName ?? "value";
   const descriptor = isValidElement(child)
     ? (child as ElementDescriptor<Record<string, unknown>>)
     : null;
+  const id = name
+    ? ((descriptor?.props?.id as string | undefined) ??
+      `${context?.id ?? `ao-form-${generatedId}`}-${name}`)
+    : undefined;
+  const fieldIds = context?.fieldIds;
+  useEffect(() => {
+    if (!name || !id || !fieldIds) return;
+    fieldIds.set(name, id);
+    return () => {
+      if (fieldIds.get(name) === id) fieldIds.delete(name);
+    };
+  }, [fieldIds, name, id]);
+  const helpId = id ? `${id}-help` : undefined;
+  const errors = name ? (snapshot.errors[name] ?? []) : [];
   const trigger = props.trigger ?? "onChange";
   const original = descriptor?.props?.[trigger];
   const value = name ? snapshot.values[name] : undefined;

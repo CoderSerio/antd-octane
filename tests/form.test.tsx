@@ -180,3 +180,23 @@ it("supports useForm methods and reset to initial values", async () => {
     "seed",
   );
 });
+
+it("keeps labels, error descriptions and failed-submit focus linked to a custom control id", async () => {
+  await render(
+    <Form>
+      <Form.Item name="email" label="Email" required>
+        <Input id="contact-email" />
+      </Form.Item>
+      <Button htmlType="submit">Save</Button>
+    </Form>,
+  );
+  const input = container.querySelector("input");
+  expect(container.querySelector("label")?.htmlFor).toBe("contact-email");
+  expect(input?.id).toBe("contact-email");
+  await submit();
+  expect(document.activeElement).toBe(input);
+  expect(input?.getAttribute("aria-describedby")).toBe("contact-email-help");
+  expect(container.querySelector('[role="alert"]')?.id).toBe(
+    "contact-email-help",
+  );
+});

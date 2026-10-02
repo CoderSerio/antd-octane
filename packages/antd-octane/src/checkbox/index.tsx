@@ -274,7 +274,7 @@ function CheckboxGroup({
                   key={`${typeof item.value}:${item.value}`}
                   value={item.value}
                   disabled={
-                    item.disabled || disabled || config.componentDisabled
+                    item.disabled || (disabled ?? config.componentDisabled)
                   }
                   title={item.title}
                   className={item.className}
