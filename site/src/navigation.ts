@@ -489,6 +489,7 @@ export const toc: Record<string, [string, string][]> = {
     ["build", "仓库构建与验证"],
   ],
   changelog: [
+    ["alpha-7", "0.1.0-alpha.7"],
     ["alpha-6", "0.1.0-alpha.6"],
     ["alpha-5", "0.1.0-alpha.5"],
     ["alpha-4", "0.1.0-alpha.4"],
