@@ -18,6 +18,7 @@
     "test": "vitest run",
     "check": "pnpm lint && pnpm type-check && pnpm test && pnpm build",
     "pack:check": "node scripts/pack-check.mjs",
+    "start:check": "node scripts/start-guide-check.mjs",
     "dev:compare": "vite --config tests/browser/vite.config.ts",
     "tailwind:check": "pnpm build:lib && node scripts/tailwind-check.mjs"
   },

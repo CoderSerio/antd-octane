@@ -20,6 +20,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm check
       - run: pnpm pack:check
+      - run: pnpm start:check
       - uses: actions/upload-artifact@v4
         with:
           name: documentation-site

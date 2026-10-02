@@ -252,7 +252,7 @@ function RadioGroup({
                   style={item.style}
                   className={item.className}
                   disabled={
-                    item.disabled || disabled || config.componentDisabled
+                    item.disabled || (disabled ?? config.componentDisabled)
                   }
                 >
                   {item.label}

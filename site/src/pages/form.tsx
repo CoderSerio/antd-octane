@@ -6,7 +6,7 @@ import { InstanceDemo } from "../demos/form-instance";
 import { FormLayoutDemo } from "../demos/form-layout";
 import { FormValidationDemo } from "../demos/form-validation";
 import { ValuePropsDemo } from "../demos/form-value-props";
-import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
+import { ApiTable, Code, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 
 export default function FormPage({ section }: { section?: string }) {
   usePageAnchor(section);
@@ -180,12 +180,6 @@ export default function FormPage({ section }: { section?: string }) {
           ],
           ["Form.Item.help / extra", "帮助说明与补充信息", "OctaneNode", "—"],
           [
-            "FormInstance",
-            "读取/设置值、重置与校验",
-            "getFieldValue, getFieldsValue, setFieldsValue, resetFields, validateFields",
-            "—",
-          ],
-          [
             "Form.id / name / autoComplete",
             "透传原生 form 属性；id/name 也用于生成字段 ID",
             "string",
@@ -193,6 +187,62 @@ export default function FormPage({ section }: { section?: string }) {
           ],
         ]}
       />
+      <h2 id="instance-api" tabIndex={-1}>
+        FormInstance 方法
+      </h2>
+      <p>
+        通过 Form.useForm()
+        获得实例。字段名仅支持字符串；下列为完整签名，不接受上游额外的字段列表或校验配置参数。
+      </p>
+      <ApiTable
+        headers={["方法", "说明", "签名", "返回"]}
+        rows={[
+          [
+            "getFieldValue",
+            "读取一个字段",
+            "(name: string) => unknown",
+            "字段值",
+          ],
+          [
+            "getFieldsValue",
+            "读取所有存储值的浅拷贝",
+            "() => FormValues",
+            "字段记录",
+          ],
+          [
+            "setFieldsValue",
+            "合并字段值；不触发 onValuesChange",
+            "(values: FormValues) => void",
+            "—",
+          ],
+          [
+            "resetFields",
+            "重置全部字段到 initialValues 并清除错误；不触发 onValuesChange",
+            "() => void",
+            "—",
+          ],
+          [
+            "validateFields",
+            "校验所有已注册字段",
+            "() => Promise<FormValues>",
+            "通过时返回值；失败或过期时拒绝",
+          ],
+        ]}
+      />
+      <Code
+        language="ts"
+        source={`type FormValues = Record<string, unknown>;
+interface FormValidationError {
+  values: FormValues;
+  errorFields: { name: string; errors: string[] }[];
+  outOfDate?: boolean;
+}`}
+      />
+      <p>
+        validateFields 拒绝时返回上述错误对象。outOfDate 为 true
+        表示结果已过期，不能用于覆盖当前界面错误。resetFields
+        不支持只重置部分字段；getFieldsValue 不支持字段筛选参数。
+      </p>
       <h2 id="scope" tabIndex={-1}>
         支持范围
       </h2>

@@ -102,3 +102,19 @@ before completing validation and verify the old result is reported as out of
 date without restoring its error. Select members and submit the new value:
 the output should contain an array collected through the custom `onMove`
 trigger and `targetKeys` value property.
+
+### Disabled selection group overrides
+
+Open `/tests/browser/group-disabled.html`. The surrounding ConfigProvider disables
+controls, but both groups with `disabled={false}` must remain usable. Click the
+enabled checkbox; focus the first radio and press ArrowRight to select the
+second. Explicitly disabled options and the two groups inheriting the provider
+must remain disabled. This fixture exercises workspace source, not the published
+site dependency.
+
+### Form custom control IDs
+
+Open `/tests/browser/form-custom-id.html`. Click the Email label and verify the
+custom-ID input receives focus. Submit empty: the same input must receive focus
+and reference the visible error text. Enter an email and submit again; the
+status should show the saved value. This fixture uses workspace source.

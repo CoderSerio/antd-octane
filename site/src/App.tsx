@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "octane";
 import { Icon } from "./icons";
 import { nav, toc } from "./navigation";
 import { RouteContent } from "./RouteContent";
+import { siteVersion } from "./site-version";
 import { ThemePanel } from "./ThemePanel";
 
 export function App() {
@@ -220,7 +221,9 @@ function Shell(p: ShellProps) {
           </a>
         </nav>
         <div className="header-links">
-          <span className="version">alpha</span>
+          <a className="version" href="#changelog" title="本站使用的组件库版本">
+            {siteVersion}
+          </a>
           <button
             type="button"
             className="theme-entry"
