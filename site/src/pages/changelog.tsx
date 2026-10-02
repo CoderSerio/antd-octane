@@ -22,6 +22,15 @@ export default function ChangelogPage({ section }: { section?: string }) {
         </a>
         。
       </p>
+      <h2 id="alpha-7" tabIndex={-1}>
+        0.1.0-alpha.7 · 2026-10-02
+      </h2>
+      <p>
+        修复 Checkbox.Group / Radio.Group 在全局禁用配置下忽略显式启用的问题，
+        以及 Form.Item 自定义控件 ID 的标签关联和首错聚焦。补齐 Form / Select
+        类型说明、迁移示例和安装排查，并验证公开起步示例。本次不新增组件或公开
+        API。
+      </p>
       <h2 id="alpha-6" tabIndex={-1}>
         0.1.0-alpha.6 · 2026-09-30
       </h2>
