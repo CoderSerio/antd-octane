@@ -2,6 +2,13 @@
 
 此文件记录 `antd-octane` 的版本变化；标注「待发布」的条目尚不可从 npm 安装。组件支持范围与限制见[兼容与迁移](site/src/pages/compatibility.tsx)。
 
+## 0.1.0-alpha.7 — 待发布
+
+- 修复 Checkbox.Group / Radio.Group 的 options 形式在全局禁用配置下忽略显式 `disabled={false}` 的问题；单独禁用的选项仍不可操作。
+- 修复 Form.Item 子控件使用自定义 `id` 时，标签关联和提交失败后的首错聚焦失效的问题；错误说明使用同一控件 ID。
+- 文档补齐 Form 实例方法和 Select 类型、表单与消息迁移示例、安装排查和站点版本说明。公开起步示例纳入独立 registry 消费验收。
+- 本次不新增组件或公开 API。文档站仍使用已发布的 alpha.6，发布并验证 alpha.7 后再更新站点依赖。
+
 ## 0.1.0-alpha.6 — 2026-09-30
 
 - 新增 AutoComplete：自由文本输入与选项确认分离，支持受控值、搜索回调、过滤、清除、禁用选项、键盘操作和自定义浮层容器。
