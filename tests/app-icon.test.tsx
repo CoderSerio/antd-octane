@@ -110,3 +110,21 @@ it("Icon preserves SVG definition root paint attributes", async () => {
   expect(svg?.getAttribute("stroke")).toBe("#123456");
   expect(svg?.getAttribute("stroke-width")).toBe("2");
 });
+it("named icon factories expose their definition name unless the caller overrides it", async () => {
+  const NamedIcon = createIcon({
+    name: "exclamation-circle",
+    theme: "filled",
+    icon: { tag: "svg", attrs: { viewBox: "0 0 24 24" }, children: [] },
+  });
+  await render(<NamedIcon />);
+  expect(
+    container.querySelector('[role="img"]')?.getAttribute("aria-label"),
+  ).toBe("exclamation-circle");
+  expect(
+    container.querySelector<HTMLElement>(".anticon")?.style.textAlign,
+  ).toBe("center");
+  await act(() => root?.render(<NamedIcon aria-label="Custom label" />));
+  expect(
+    container.querySelector('[role="img"]')?.getAttribute("aria-label"),
+  ).toBe("Custom label");
+});

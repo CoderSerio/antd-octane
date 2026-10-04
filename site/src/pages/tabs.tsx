@@ -73,6 +73,12 @@ export default function Page({ section }: { section?: string }) {
             "number / CSSProperties / OctaneNode",
             "—",
           ],
+          [
+            "removeIcon / rootClassName",
+            "自定义关闭图标 / 根节点附加类名",
+            "OctaneNode / string",
+            "× / —",
+          ],
         ]}
       />
       <h2 id="tokens" tabIndex={-1}>

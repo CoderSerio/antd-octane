@@ -45,24 +45,39 @@ it("Image falls back once and preserves native lazy loading", async () => {
 });
 it("single preview supports zoom bounds, Escape, and restores focus", async () => {
   await render(<Image src="image.svg" alt="山" />);
-  await act(() => button("预览：山").focus());
-  await click("预览：山");
+  await act(() => button("Preview: 山").focus());
+  await click("Preview: 山");
   expect(document.querySelector('[role="dialog"]')).not.toBeNull();
   expect(button("缩小图片").disabled).toBe(true);
   await click("放大图片");
   expect(
     document.querySelector<HTMLElement>(".ant-image-preview-img")?.style
       .transform,
-  ).toBe("scale(1.5)");
+  ).toContain("scale3d(1.5, 1.5, 1)");
   await act(() =>
     document.dispatchEvent(
       new KeyboardEvent("keydown", { key: "Escape", bubbles: true }),
     ),
   );
+  await act(async () => {
+    await new Promise((resolve) => setTimeout(resolve, 350));
+  });
   expect(
-    document.querySelector<HTMLElement>(".ant-image-preview-root")?.hidden,
-  ).toBe(true);
-  expect(document.activeElement).toBe(button("预览：山"));
+    document.querySelector<HTMLElement>(
+      ".ant-image-preview-root .ao-dialog-wrap",
+    )?.style.display,
+  ).toBe("none");
+  expect(document.activeElement).toBe(button("Preview: 山"));
+  expect(
+    document.querySelector(".ant-image-preview-root .ao-dialog-mask"),
+  ).toBeNull();
+  await click("Preview: 山");
+  expect(
+    document.querySelector<HTMLElement>(
+      ".ant-image-preview-root .ao-dialog-wrap",
+    )?.style.display,
+  ).not.toBe("none");
+  expect(button("关闭图片预览")).not.toBeNull();
 });
 it("PreviewGroup registers images and moves without reopening the dialog", async () => {
   await render(
@@ -71,7 +86,7 @@ it("PreviewGroup registers images and moves without reopening the dialog", async
       <Image src="two.svg" alt="二" />
     </Image.PreviewGroup>,
   );
-  await click("预览：一");
+  await click("Preview: 一");
   expect(button("上一张图片").disabled).toBe(true);
   await click("下一张图片");
   expect(
@@ -90,7 +105,7 @@ it("controlled preview emits close intent without overriding visible", async () 
     />,
   );
   await click("关闭图片预览");
-  expect(visible).toHaveBeenCalledWith(false);
+  expect(visible).toHaveBeenCalledWith(false, true);
   expect(
     document.querySelector<HTMLElement>(".ant-image-preview-root")?.hidden,
   ).toBe(false);
@@ -128,7 +143,132 @@ it("Carousel dots, arrows, ref and inert offscreen slides behave consistently", 
     container.querySelector(".slick-slide.slick-active")?.textContent,
   ).toBe("A");
 });
-it("Carousel autoplay pauses by control and respects reduced motion", async () => {
+it("Carousel goTo without animation still completes after navigating grouped slides", async () => {
+  vi.useFakeTimers();
+  const ref: { current: CarouselRef | null } = { current: null };
+  const before = vi.fn();
+  const after = vi.fn();
+  await render(
+    <Carousel
+      ref={ref}
+      slidesToShow={2}
+      slidesToScroll={2}
+      infinite={false}
+      speed={160}
+      beforeChange={before}
+      afterChange={after}
+    >
+      {[0, 1, 2, 3, 4, 5].map((index) => (
+        <div key={index}>{index}</div>
+      ))}
+    </Carousel>,
+  );
+  // antd's initial count/initialSlide effect calls slickGoTo(0).
+  expect(before).toHaveBeenCalledWith(0, 0);
+  await act(() => vi.advanceTimersByTime(160));
+  for (const [method, expected] of [
+    ["next", 2],
+    ["next", 4],
+    ["prev", 2],
+  ] as const) {
+    await act(() => ref.current?.[method]());
+    await act(() => vi.advanceTimersByTime(160));
+    expect(after).toHaveBeenLastCalledWith(expected);
+  }
+  before.mockClear();
+  after.mockClear();
+  await act(() => ref.current?.goTo(0, true));
+  const track = container.querySelector<HTMLElement>(".slick-track");
+  expect(track?.style.transition).toBe("");
+  expect(ref.current?.innerSlider.state.currentSlide).toBe(0);
+  expect(
+    container
+      .querySelector(".slick-current:not(.slick-cloned)")
+      ?.getAttribute("data-index"),
+  ).toBe("0");
+  expect(before).toHaveBeenCalledExactlyOnceWith(2, 0);
+  expect(after).not.toHaveBeenCalled();
+  await act(() => vi.advanceTimersByTime(159));
+  expect(after).not.toHaveBeenCalled();
+  await act(() => vi.advanceTimersByTime(1));
+  expect(after).toHaveBeenCalledExactlyOnceWith(0);
+  expect(track?.style.transition).toBe("");
+});
+it("Carousel resize cancels completion timers while later instant navigation still completes", async () => {
+  vi.useFakeTimers();
+  let notifyResize: (() => void) | undefined;
+  const observe = vi.fn();
+  vi.stubGlobal(
+    "ResizeObserver",
+    class {
+      constructor(callback: () => void) {
+        notifyResize = callback;
+      }
+      observe = observe;
+      disconnect() {}
+    },
+  );
+  const ref: { current: CarouselRef | null } = { current: null };
+  const before = vi.fn();
+  const after = vi.fn();
+  await render(
+    <Carousel
+      ref={ref}
+      slidesToShow={2}
+      slidesToScroll={2}
+      infinite={false}
+      speed={160}
+      beforeChange={before}
+      afterChange={after}
+    >
+      {[0, 1, 2, 3, 4, 5].map((index) => (
+        <div key={index}>{index}</div>
+      ))}
+    </Carousel>,
+  );
+  expect(before).toHaveBeenCalledWith(0, 0);
+  expect(ref.current?.innerSlider.state.animating).toBe(true);
+  await act(() => notifyResize?.());
+  await act(() => vi.advanceTimersByTime(49));
+  expect(ref.current?.innerSlider.state.animating).toBe(true);
+  await act(() => vi.advanceTimersByTime(1));
+  expect(ref.current?.innerSlider.state.animating).toBe(false);
+  await act(() => vi.advanceTimersByTime(160));
+  expect(after).not.toHaveBeenCalled();
+
+  await act(() => ref.current?.next());
+  expect(ref.current?.innerSlider.state.currentSlide).toBe(2);
+  await act(() => notifyResize?.());
+  await act(() => vi.advanceTimersByTime(210));
+  expect(ref.current?.innerSlider.state.animating).toBe(false);
+  expect(after).not.toHaveBeenCalled();
+  // Observing each newly active slide would cancel every ordinary transition.
+  expect(observe).toHaveBeenCalledExactlyOnceWith(
+    ref.current?.innerSlider.list,
+  );
+
+  before.mockClear();
+  await act(() => ref.current?.goTo(0, true));
+  expect(
+    container.querySelector<HTMLElement>(".slick-track")?.style.transition,
+  ).toBe("");
+  expect(before).toHaveBeenCalledExactlyOnceWith(2, 0);
+  await act(() => vi.advanceTimersByTime(160));
+  expect(after).toHaveBeenCalledExactlyOnceWith(0);
+
+  after.mockClear();
+  await act(() => ref.current?.next());
+  await act(() => window.dispatchEvent(new Event("resize")));
+  await act(() => vi.advanceTimersByTime(50));
+  expect(ref.current?.innerSlider.state.animating).toBe(false);
+  expect(
+    container.querySelector<HTMLElement>(".slick-track")?.style.transition,
+  ).toBe("");
+  await act(() => vi.advanceTimersByTime(110));
+  expect(after).not.toHaveBeenCalled();
+});
+it("Carousel autoplay uses slick timing and can pause through innerSlider ref", async () => {
+  const ref: { current: CarouselRef | null } = { current: null };
   vi.useFakeTimers();
   vi.stubGlobal("matchMedia", () => ({
     matches: false,
@@ -136,16 +276,17 @@ it("Carousel autoplay pauses by control and respects reduced motion", async () =
     removeEventListener: () => {},
   }));
   await render(
-    <Carousel autoplay autoplaySpeed={1000} speed={0}>
+    <Carousel ref={ref} autoplay autoplaySpeed={1000} speed={0}>
       <div>A</div>
       <div>B</div>
     </Carousel>,
   );
-  await act(() => vi.advanceTimersByTime(1000));
+  // react-slick uses autoplaySpeed + 50ms in the antd 5 baseline.
+  await act(() => vi.advanceTimersByTime(1050));
   expect(
     container.querySelector(".slick-slide.slick-active")?.textContent,
   ).toBe("B");
-  await click("暂停自动播放");
+  await act(() => ref.current?.innerSlider.pause("paused"));
   await act(() => vi.advanceTimersByTime(3000));
   expect(
     container.querySelector(".slick-slide.slick-active")?.textContent,
@@ -159,20 +300,21 @@ it("Carousel autoplay pauses by control and respects reduced motion", async () =
   root = createRoot(container);
   await act(() =>
     root?.render(
-      <Carousel autoplay autoplaySpeed={1000}>
+      <Carousel autoplay autoplaySpeed={1000} speed={0}>
         <div>A</div>
         <div>B</div>
       </Carousel>,
     ),
   );
-  await act(() => vi.advanceTimersByTime(3000));
+  // The upstream slider does not suppress autoplay for reduced motion.
+  await act(() => vi.advanceTimersByTime(1050));
   expect(
     container.querySelector(".slick-slide.slick-active")?.textContent,
-  ).toBe("A");
+  ).toBe("B");
 });
 it("Carousel touch swipe moves one slide", async () => {
   await render(
-    <Carousel speed={0}>
+    <Carousel speed={0} draggable>
       <div>A</div>
       <div>B</div>
     </Carousel>,
@@ -219,7 +361,7 @@ it("PreviewGroup preserves order when an existing source changes", async () => {
       </Image.PreviewGroup>,
     ),
   );
-  await click("预览：一");
+  await click("Preview: 一");
   expect(button("上一张图片").disabled).toBe(true);
   expect(
     document

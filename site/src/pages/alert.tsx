@@ -1,93 +1,129 @@
-import { AnnouncementsDemo } from "../demos/alert-announcements";
-import { BasicDemo, MoreDemo } from "../demos/alert-basic";
-import { RetryDemo } from "../demos/alert-retry";
-import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
+import { ComponentWhenToUse } from "../component-prose";
+import {
+  ReferenceApiTables,
+  ReferenceTokenTable,
+} from "../component-reference";
+import Demo9 from "../demos/alert/action";
+import Demo5 from "../demos/alert/banner";
+import Demo0 from "../demos/alert/basic";
+import Demo2 from "../demos/alert/closable";
+import Demo3 from "../demos/alert/description";
+import Demo8 from "../demos/alert/error-boundary";
+import Demo4 from "../demos/alert/icon";
+import Demo6 from "../demos/alert/loop-banner";
+import Demo7 from "../demos/alert/smooth-closed";
+import Demo1 from "../demos/alert/style";
+import { Demo, DemoGrid, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
   return (
     <>
       <h1>
         Alert <span>警告提示</span>
-        <small>Alpha</small>
       </h1>
-      <p className="lead">在页面内显示需要用户关注的提示信息。</p>
+      <p className="lead">警告提示，展现需要关注的信息。</p>
       <DocMeta name="Alert" />
-      <h2 id="when" tabIndex={-1}>
-        何时使用
-      </h2>
-      <p>提供四种语义状态，可带描述、图标、操作和关闭入口。</p>
-      <h2 id="examples" tabIndex={-1}>
-        代码演示
-      </h2>
-      <div className="demo-grid">
+      <ComponentWhenToUse component="Alert" />
+      <h2 id="examples">代码演示</h2>
+      <DemoGrid>
         <Demo
-          id="basic"
-          title="基本使用"
-          description="常用形态与状态，主题配置跟随页面切换。"
-          source={() => import("../demos/alert-basic.tsx?raw")}
+          id={"basic"}
+          title={"基本"}
+          description={"最简单的用法，适用于简短的警告提示。"}
+          descriptionMarkdown
+          source={() => import("../demos/alert/basic.tsx?raw")}
         >
-          <BasicDemo />
+          <Demo0 />
         </Demo>
         <Demo
-          id="more"
-          title="组合与交互"
-          description="结合业务内容验证配置和交互。"
-          source={() => import("../demos/alert-basic.tsx?raw")}
+          id={"style"}
+          title={"四种样式"}
+          description={"共有四种样式 `success`、`info`、`warning`、`error`。"}
+          descriptionMarkdown
+          source={() => import("../demos/alert/style.tsx?raw")}
         >
-          <MoreDemo />
+          <Demo1 />
         </Demo>
         <Demo
-          id="retry"
-          title="错误恢复与关闭回调"
-          description="重试操作留在提示内部；关闭后可重新展示，并观察 onClose 与 afterClose。"
-          source={() => import("../demos/alert-retry.tsx?raw")}
+          id={"closable"}
+          title={"可关闭的警告提示"}
+          description={"显示关闭按钮，点击可关闭警告提示。"}
+          descriptionMarkdown
+          source={() => import("../demos/alert/closable.tsx?raw")}
         >
-          <RetryDemo />
+          <Demo2 />
         </Demo>
         <Demo
-          id="announcements"
-          title="切换顶部公告"
-          description="公告内容由应用状态更新，banner 可关闭默认图标；使用 status 避免打断阅读。"
-          source={() => import("../demos/alert-announcements.tsx?raw")}
+          id={"description"}
+          title={"含有辅助性文字介绍"}
+          description={"含有辅助性文字介绍的警告提示。"}
+          descriptionMarkdown
+          source={() => import("../demos/alert/description.tsx?raw")}
         >
-          <AnnouncementsDemo />
+          <Demo3 />
         </Demo>
-      </div>
-      <h2 id="api" tabIndex={-1}>
-        API
-      </h2>
-      <ApiTable
-        rows={[
-          ["type", "语义状态", "success | info | warning | error", "info"],
-          ["message / description", "提示标题与详细说明", "OctaneNode", "—"],
-          [
-            "showIcon / icon",
-            "显示图标与自定义图标",
-            "boolean / OctaneNode",
-            "false / 默认图标",
-          ],
-          ["banner", "顶部公告样式，默认 warning 和图标", "boolean", "false"],
-          [
-            "closable / onClose / afterClose",
-            "关闭行为与移除后回调",
-            "boolean / function / function",
-            "false / — / —",
-          ],
-          ["action", "右侧操作区域", "OctaneNode", "—"],
-          ["closeIcon", "自定义关闭按钮图标", "OctaneNode", "×"],
-          ["ref", "获取原生根节点", "Ref<AlertRef>（nativeElement）", "—"],
-        ]}
-      />
-      <h2 id="tokens" tabIndex={-1}>
-        主题与支持范围
-      </h2>
-      <p>
-        支持 defaultPadding、withDescriptionPadding、withDescriptionIconSize
-        和状态色 alias token。默认图标为本库绘制的 SVG；不引入 React
-        图标。暂不支持 ErrorBoundary、closable 对象、关闭动画；afterClose
-        在内部关闭状态生效后调用，onClose 不提供取消关闭契约。Alert
-        的关闭状态由组件内部管理；需要重新显示时请重新挂载组件。
-      </p>
+        <Demo
+          id={"icon"}
+          title={"图标"}
+          description={"可口的图标让信息类型更加醒目。"}
+          descriptionMarkdown
+          source={() => import("../demos/alert/icon.tsx?raw")}
+        >
+          <Demo4 />
+        </Demo>
+        <Demo
+          id={"banner"}
+          title={"顶部公告"}
+          description={"页面顶部通告形式，默认有图标且 `type` 为 'warning'。"}
+          descriptionMarkdown
+          source={() => import("../demos/alert/banner.tsx?raw")}
+          iframe={{ demo: "alert/banner", height: 250 }}
+        >
+          <Demo5 />
+        </Demo>
+        <Demo
+          id={"loop-banner"}
+          title={"轮播的公告"}
+          description={
+            "配合 [react-text-loop-next](https://npmjs.com/package/react-text-loop-next) 或 [react-fast-marquee](https://npmjs.com/package/react-fast-marquee) 实现消息轮播通知栏。"
+          }
+          descriptionMarkdown
+          source={() => import("../demos/alert/loop-banner.tsx?raw")}
+        >
+          <Demo6 />
+        </Demo>
+        <Demo
+          id={"smooth-closed"}
+          title={"平滑地卸载"}
+          description={"平滑、自然的卸载提示。"}
+          descriptionMarkdown
+          source={() => import("../demos/alert/smooth-closed.tsx?raw")}
+        >
+          <Demo7 />
+        </Demo>
+        <Demo
+          id={"error-boundary"}
+          title={"Octane 错误处理"}
+          description={"友好的错误处理包裹组件。"}
+          descriptionMarkdown
+          source={() => import("../demos/alert/error-boundary.tsx?raw")}
+        >
+          <Demo8 />
+        </Demo>
+        <Demo
+          id={"action"}
+          title={"操作"}
+          description={"可以在右上角自定义操作项。"}
+          descriptionMarkdown
+          source={() => import("../demos/alert/action.tsx?raw")}
+        >
+          <Demo9 />
+        </Demo>
+      </DemoGrid>
+      <h2 id="api">API</h2>
+      <ReferenceApiTables component="Alert" />
+      <h2 id="tokens">主题变量（Design Token）</h2>
+      <ReferenceTokenTable component="Alert" />
     </>
   );
 }

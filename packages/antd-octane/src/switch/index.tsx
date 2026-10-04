@@ -1,6 +1,13 @@
 /** @jsxImportSource octane */
-import type { ButtonHTMLAttributes, CSSProperties, OctaneNode } from "octane";
-import { useState } from "octane";
+import type {
+  ButtonHTMLAttributes,
+  CSSProperties,
+  OctaneNode,
+  Ref,
+} from "octane";
+import { useImperativeHandle, useRef, useState } from "octane";
+import { LoadingOutlined } from "../_util/feedback-icons";
+import useWave from "../_util/wave/useWave";
 import { useConfig } from "../config-provider";
 import { resolveComponentAlias } from "../theme/resolve";
 export interface SwitchProps
@@ -9,6 +16,7 @@ export interface SwitchProps
     "onChange" | "onClick" | "value" | "defaultValue" | "children"
   > {
   style?: CSSProperties;
+  ref?: Ref<HTMLButtonElement>;
   checked?: boolean;
   defaultChecked?: boolean;
   value?: boolean;
@@ -22,6 +30,8 @@ export interface SwitchProps
 }
 export function Switch(props: SwitchProps) {
   const config = useConfig();
+  const node = useRef<HTMLButtonElement | null>(null);
+  useImperativeHandle(props.ref, () => node.current as HTMLButtonElement, []);
   const {
     checked,
     value,
@@ -37,11 +47,13 @@ export function Switch(props: SwitchProps) {
     disabled = config.componentDisabled ?? false,
     className,
     style,
+    ref: _ref,
     ...rest
   } = props;
   const [inner, setInner] = useState(defaultChecked ?? defaultValue ?? false);
   const current = checked ?? value ?? inner;
   const blocked = disabled || loading;
+  useWave(node, "Switch", blocked);
   const t = resolveComponentAlias(config.theme, config.token, "Switch");
   const c = config.theme.components?.Switch;
   const small = (size ?? config.componentSize) === "small";
@@ -59,6 +71,7 @@ export function Switch(props: SwitchProps) {
   return (
     <button
       {...rest}
+      ref={node}
       type="button"
       role="switch"
       aria-checked={current}
@@ -107,7 +120,20 @@ export function Switch(props: SwitchProps) {
       }}
     >
       <span className="ant-switch-handle" aria-hidden="true">
-        {loading && <span className="ant-switch-loading-icon" />}
+        {loading && (
+          <LoadingOutlined
+            className="ant-switch-loading-icon anticon-spin"
+            style={{
+              position: "relative",
+              top: (handle - (small ? t.fontSizeIcon * 0.75 : t.fontSize)) / 2,
+              fontSize: small ? t.fontSizeIcon * 0.75 : t.fontSize,
+              color: current
+                ? t.colorPrimary
+                : `rgba(0, 0, 0, ${t.opacityLoading})`,
+              verticalAlign: "top",
+            }}
+          />
+        )}
       </span>
       <span className="ant-switch-inner">
         {current ? checkedChildren : unCheckedChildren}

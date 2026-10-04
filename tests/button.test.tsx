@@ -20,6 +20,22 @@ afterEach(async () => {
 });
 
 describe("Button native behavior", () => {
+  it("spaces Chinese labels used in Tour and allows opting out", async () => {
+    await render(
+      <>
+        <Button>完成</Button>
+        <Button autoInsertSpace={false}>完成</Button>
+        <Button type="text">完成</Button>
+        <Button icon={<span>→</span>}>完成</Button>
+      </>,
+    );
+    expect(
+      Array.from(
+        container.querySelectorAll("button"),
+        (node) => node.textContent,
+      ),
+    ).toEqual(["完 成", "完成", "完成", "→完成"]);
+  });
   it("preserves zero content and native Octane class composition", async () => {
     await render(<Button className={["custom", { active: true }]}>{0}</Button>);
     const button = container.querySelector("button");
@@ -151,9 +167,9 @@ describe("Button native behavior", () => {
     const ref = { current: null as ButtonRef | null };
     await render(<Button ref={ref}>Focus me</Button>);
     ref.current?.focus();
-    expect(document.activeElement).toBe(ref.current?.nativeElement);
+    expect(document.activeElement).toBe(ref.current);
     ref.current?.blur();
-    expect(document.activeElement).not.toBe(ref.current?.nativeElement);
+    expect(document.activeElement).not.toBe(ref.current);
   });
   it("removes navigation from a disabled link", async () => {
     await render(

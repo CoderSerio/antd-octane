@@ -1,0 +1,209 @@
+@layer antd {
+  :where(.ant-collapse) {
+    box-sizing: border-box;
+    border: var(--ao-collapse-line-width) var(--ao-collapse-line-type)
+      var(--ao-border);
+    border-radius: var(--ao-radius);
+    background: var(--ao-collapse-header-bg);
+    color: var(--ao-text);
+    font-family: var(--ao-font);
+    font-size: var(--ao-font-size);
+    line-height: var(--ao-line);
+  }
+  :where(.ant-collapse > .ant-collapse-item) {
+    border-bottom: var(--ao-collapse-line-width) var(--ao-collapse-line-type)
+      var(--ao-border);
+  }
+  :where(.ant-collapse > .ant-collapse-item:last-child) {
+    border-bottom: 0;
+  }
+  :where(.ant-collapse-header, .ant-collapse-content-box) {
+    box-sizing: border-box;
+  }
+  :where(.ant-collapse-item:first-child .ant-collapse-header) {
+    border-radius: var(--ao-radius) var(--ao-radius) 0 0;
+  }
+  :where(.ant-collapse-item:last-child > .ant-collapse-header) {
+    border-radius: 0 0 var(--ao-radius) var(--ao-radius);
+  }
+  :where(.ant-collapse-header) {
+    display: flex;
+    align-items: flex-start;
+    padding: var(--ao-collapse-header-padding);
+    color: var(--ao-collapse-header-color);
+    position: relative;
+    cursor: pointer;
+    transition:
+      all var(--ao-collapse-motion),
+      visibility 0s;
+  }
+  :where(.ant-collapse-header-text) {
+    flex: 1;
+    margin-inline-end: auto;
+  }
+  :where(.ant-collapse-expand-icon) {
+    box-sizing: border-box;
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    height: var(--ao-collapse-icon-height);
+    padding-inline-end: var(--ao-collapse-icon-gap);
+    font-size: var(--ao-collapse-icon-size);
+  }
+  :where(.ant-collapse-arrow, .ant-collapse-arrow > svg) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    transition: transform var(--ao-collapse-motion);
+  }
+  :where(
+      .ant-collapse-icon-position-end
+        > .ant-collapse-item
+        > .ant-collapse-header
+        .ant-collapse-expand-icon
+    ) {
+    order: 1;
+    padding-inline-end: 0;
+    padding-inline-start: var(--ao-collapse-icon-gap);
+  }
+  :where(.ant-collapse-extra) {
+    margin-inline-start: auto;
+  }
+  :where(.ant-collapse-item-disabled > .ant-collapse-header) {
+    color: var(--ao-collapse-disabled);
+  }
+  :where(.ant-collapse-item-disabled > .ant-collapse-header) {
+    cursor: not-allowed;
+  }
+  :where(.ant-collapse-collapsible-header) {
+    cursor: default;
+  }
+  :where(.ant-collapse-collapsible-header .ant-collapse-header-text) {
+    flex: none;
+  }
+  :where(.ant-collapse-collapsible-icon) {
+    cursor: unset;
+  }
+  :where(.ant-collapse-collapsible-header .ant-collapse-expand-icon) {
+    cursor: pointer;
+  }
+  :where(.ant-collapse-collapsible-header .ant-collapse-header-text) {
+    cursor: pointer;
+  }
+  :where(.ant-collapse-collapsible-icon .ant-collapse-expand-icon) {
+    cursor: pointer;
+  }
+  :where(
+      .ant-collapse-header:focus-visible,
+      .ant-collapse-header-text:focus-visible,
+      .ant-collapse-expand-icon:focus-visible
+    ) {
+    outline: var(--ao-collapse-focus-width) solid var(--ao-focus);
+    outline-offset: 1px;
+    transition:
+      outline-offset 0s,
+      outline 0s;
+  }
+  :where(.ant-collapse-content) {
+    border-top: var(--ao-collapse-line-width) var(--ao-collapse-line-type)
+      var(--ao-border);
+    background: var(--ao-collapse-content-bg);
+    color: var(--ao-collapse-content-color);
+  }
+  :where(.ant-collapse-content-box) {
+    padding: var(--ao-collapse-content-padding);
+  }
+  :where(.ant-collapse-content-motion) {
+    transition:
+      height var(--ao-collapse-open-motion) var(--ao-collapse-ease),
+      opacity var(--ao-collapse-open-motion) var(--ao-collapse-ease);
+  }
+  :where(.ant-collapse-content-hidden) {
+    display: none;
+  }
+  :where(.ant-collapse-rtl) {
+    direction: rtl;
+  }
+  :where(.ant-collapse-rtl .ant-collapse-arrow) {
+    transform: rotate(180deg);
+  }
+  :where(.ant-collapse-item:last-child .ant-collapse-content) {
+    border-radius: 0 0 var(--ao-radius) var(--ao-radius);
+  }
+  :where(.ant-collapse-small > .ant-collapse-item > .ant-collapse-header) {
+    padding: var(--ao-collapse-header-padding-sm);
+    padding-inline-start: var(--ao-collapse-header-start-sm);
+  }
+  :where(.ant-collapse-small .ant-collapse-expand-icon) {
+    margin-inline-start: var(--ao-collapse-icon-offset-sm);
+  }
+  :where(
+      .ant-collapse-small
+        > .ant-collapse-item
+        > .ant-collapse-content
+        > .ant-collapse-content-box
+    ) {
+    padding: var(--ao-collapse-content-padding-sm);
+  }
+  :where(.ant-collapse-large > .ant-collapse-item) {
+    font-size: var(--ao-collapse-large-font-size);
+    line-height: var(--ao-collapse-large-line-height);
+  }
+  :where(.ant-collapse-large > .ant-collapse-item > .ant-collapse-header) {
+    padding: var(--ao-collapse-header-padding-lg);
+    padding-inline-start: var(--ao-collapse-header-start-lg);
+  }
+  :where(.ant-collapse-large .ant-collapse-expand-icon) {
+    height: var(--ao-collapse-icon-height-lg);
+    margin-inline-start: var(--ao-collapse-icon-offset-lg);
+  }
+  :where(
+      .ant-collapse-large
+        > .ant-collapse-item
+        > .ant-collapse-content
+        > .ant-collapse-content-box
+    ) {
+    padding: var(--ao-collapse-content-padding-lg);
+  }
+  :where(.ant-collapse-borderless) {
+    border: 0;
+  }
+  :where(.ant-collapse-borderless > .ant-collapse-item) {
+    border-top: 0;
+    border-bottom: 1px solid var(--ao-border);
+  }
+  :where(.ant-collapse-borderless > .ant-collapse-item:last-child) {
+    border-bottom: 0;
+    border-radius: 0;
+  }
+  :where(
+      .ant-collapse-borderless
+        > .ant-collapse-item:last-child
+        > .ant-collapse-header
+    ) {
+    border-radius: 0;
+  }
+  :where(.ant-collapse-borderless .ant-collapse-content) {
+    border: 0;
+    background: var(--ao-collapse-borderless-bg);
+  }
+  :where(.ant-collapse-borderless .ant-collapse-content-box) {
+    padding: var(--ao-collapse-borderless-padding);
+  }
+  :where(.ant-collapse-ghost) {
+    border: 0;
+    background: transparent;
+  }
+  :where(.ant-collapse-ghost > .ant-collapse-item) {
+    border: 0;
+    background: transparent;
+  }
+  :where(.ant-collapse-ghost .ant-collapse-content) {
+    border: 0;
+    background: transparent;
+  }
+  :where(.ant-collapse-ghost .ant-collapse-content-box) {
+    padding-block: var(--ao-collapse-ghost-content-padding);
+  }
+}

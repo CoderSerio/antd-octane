@@ -1,72 +1,91 @@
-import { BasicDemo, MoreDemo } from "../demos/statistic-basic";
-import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
+import { ComponentWhenToUse } from "../component-prose";
+import {
+  ComponentApiTables,
+  ComponentTokenTable,
+} from "../component-reference";
+import reference from "../data-display/statistic.json";
+import {
+  AnimatedDemo,
+  BasicDemo,
+  CardDemo,
+  TimerDemo,
+  UnitDemo,
+} from "../demos/statistic-basic";
+import { Demo, DemoGrid, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
   return (
     <>
       <h1>
         Statistic <span>统计数值</span>
-        <small>Alpha</small>
       </h1>
-      <p className="lead">突出展示数量、金额或其他关键指标。</p>
+      <p className="lead">展示统计数值。</p>
       <DocMeta name="Statistic" />
+      <ComponentWhenToUse component="Statistic" />
       <h2 id="examples" tabIndex={-1}>
         代码演示
       </h2>
-      <div className="demo-grid">
+      <DemoGrid>
         <Demo
           id="basic"
-          title="数值与金额"
-          description="使用千分位展示统计数值，通过 precision 和 prefix 设置小数位与货币符号。"
+          title={"基本"}
+          description={"简单的展示。"}
+          descriptionMarkdown
           source={() => import("../demos/statistic-basic.tsx?raw")}
+          sourceExport="BasicDemo"
         >
           <BasicDemo />
         </Demo>
         <Demo
-          id="more"
-          title="字符串精度"
-          description="输入大数字字符串，避免先转为 Number 导致精度丢失；小数按 precision 截取和补零。"
+          id="unit"
+          title={"单位"}
+          description={"通过前缀和后缀添加单位。"}
+          descriptionMarkdown
           source={() => import("../demos/statistic-basic.tsx?raw")}
+          sourceExport="UnitDemo"
         >
-          <MoreDemo />
+          <UnitDemo />
         </Demo>
-      </div>
+        <Demo
+          id="animated"
+          title={"动画效果"}
+          description={"使用 formatter 自定义数值展示。"}
+          descriptionMarkdown
+          source={() => import("../demos/statistic-basic.tsx?raw")}
+          sourceExport="AnimatedDemo"
+        >
+          <AnimatedDemo />
+        </Demo>
+        <Demo
+          id="card"
+          title={"在卡片中使用"}
+          description={"在卡片中展示统计数值。"}
+          descriptionMarkdown
+          source={() => import("../demos/statistic-basic.tsx?raw")}
+          sourceExport="CardDemo"
+        >
+          <CardDemo />
+        </Demo>
+        <Demo
+          id="timer"
+          title={"计时器"}
+          description={"计时器组件。"}
+          descriptionMarkdown
+          source={() => import("../demos/statistic-basic.tsx?raw")}
+          sourceExport="TimerDemo"
+        >
+          <TimerDemo />
+        </Demo>
+      </DemoGrid>
       <h2 id="api" tabIndex={-1}>
         API
       </h2>
-      <ApiTable
-        rows={[
-          [
-            "value / title",
-            "数值和标题",
-            "number | string / OctaneNode",
-            "0 / —",
-          ],
-          [
-            "precision / decimalSeparator / groupSeparator",
-            "小数位、小数符与分组符",
-            "number / string / string",
-            "— / . / ,",
-          ],
-          ["prefix / suffix", "前后缀", "OctaneNode", "—"],
-          ["formatter", "自定义内容格式", "(value) => OctaneNode", "—"],
-          [
-            "loading / valueStyle",
-            "加载占位与数值样式",
-            "boolean / CSSProperties",
-            "false / —",
-          ],
-        ]}
-      />
+      <ComponentApiTables component="Statistic" sections={reference.api} />
+
       <h2 id="tokens" tabIndex={-1}>
-        主题与支持范围
+        主题变量（Design Token）
       </h2>
-      <p>
-        支持 titleFontSize、contentFontSize 和 alias
-        token。字符串格式化不经过浮点数转换；precision
-        按上游行为截取和补零，不进行四舍五入。暂不支持 Countdown、Timer 和完整
-        Skeleton 动画。
-      </p>
+      <ComponentTokenTable component="Statistic" tokens={reference.tokens} />
     </>
   );
 }

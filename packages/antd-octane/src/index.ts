@@ -6,6 +6,7 @@ import {
   getDesignToken,
 } from "./theme/resolve";
 
+export type { GetProp, GetProps, GetRef } from "./_util/type";
 export type {
   AutoCompleteOption,
   AutoCompleteProps,
@@ -14,7 +15,22 @@ export type {
 export { AutoComplete } from "./auto-complete";
 export type { ButtonProps, ButtonRef } from "./button";
 export { Button } from "./button";
-export type { ConfigProviderProps } from "./config-provider";
+export type {
+  ComponentStyleConfig,
+  ConfigComponentProps,
+  ConfigProviderProps,
+  CSPConfig,
+  DirectionType,
+  PopupContainer,
+  PopupOverflow,
+  RenderEmptyHandler,
+  ShowWaveEffect,
+  SizeType,
+  TargetContainer,
+  WarningContextProps,
+  WaveComponent,
+  WaveConfig,
+} from "./config-provider";
 export { ConfigProvider } from "./config-provider";
 export type {
   FormFieldError,
@@ -26,6 +42,9 @@ export type {
   FormValues,
 } from "./form";
 export { Form } from "./form";
+export type { Locale } from "./locale";
+export { default as enUS } from "./locale/en_US";
+export { default as zhCN } from "./locale/zh_CN";
 export type {
   AliasToken,
   ButtonToken,
@@ -44,7 +63,16 @@ export const theme = {
   useToken,
 };
 
-export type { FloatingProps, Placement, Trigger } from "./_util/floating";
+export type {
+  FloatingAlign,
+  FloatingBuiltinPlacements,
+  FloatingOffset,
+  FloatingOverflow,
+  FloatingPlacement,
+  FloatingProps,
+  Placement,
+  Trigger,
+} from "./_util/floating";
 export type { AffixProps, AffixRef } from "./affix";
 export { Affix } from "./affix";
 export type { AlertProps, AlertRef } from "./alert";
@@ -53,15 +81,48 @@ export type { AnchorItem, AnchorProps } from "./anchor";
 export { Anchor } from "./anchor";
 export type { AppContextValue, AppProps } from "./app";
 export { App } from "./app";
-export type { AvatarProps, AvatarRef } from "./avatar";
+export type {
+  AvatarGroupProps,
+  AvatarProps,
+  AvatarRef,
+  AvatarSize,
+} from "./avatar";
 export { Avatar } from "./avatar";
-export type { BadgeProps } from "./badge";
+export type { BadgeProps, BadgeRibbonProps, ScrollNumberProps } from "./badge";
 export { Badge } from "./badge";
 export type { BreadcrumbItem, BreadcrumbProps } from "./breadcrumb";
 export { Breadcrumb } from "./breadcrumb";
-export type { CardMetaProps, CardProps } from "./card";
+export type {
+  CalendarCellInfo,
+  CalendarGenerateConfig,
+  CalendarHeaderRender,
+  CalendarLocale,
+  CalendarLocaleLang,
+  CalendarMode,
+  CalendarProps,
+  CalendarSelectInfo,
+  CalendarSelectSource,
+} from "./calendar";
+export { Calendar } from "./calendar";
+export type {
+  CardGridProps,
+  CardMetaProps,
+  CardProps,
+  CardTabListType,
+} from "./card";
 export { Card } from "./card";
-export type { CarouselProps, CarouselRef } from "./carousel";
+export type {
+  CarouselEffect,
+  CarouselInnerSliderRef,
+  CarouselProps,
+  CarouselRef,
+  CarouselSettings,
+  CustomArrowProps,
+  DotPosition,
+  LazyLoadTypes,
+  ResponsiveObject,
+  SwipeDirection,
+} from "./carousel";
 export { Carousel } from "./carousel";
 export type {
   CheckboxChangeEvent,
@@ -72,13 +133,26 @@ export type {
   CheckboxValue,
 } from "./checkbox";
 export { Checkbox } from "./checkbox";
-export type { CollapseItem, CollapseProps } from "./collapse";
+export type {
+  CollapseExpandIconProps,
+  CollapseItem,
+  CollapsePanelProps,
+  CollapseProps,
+  CollapsibleType,
+  ExpandIconPosition,
+} from "./collapse";
 export { Collapse } from "./collapse";
-export type { DescriptionsItem, DescriptionsProps } from "./descriptions";
-export { Descriptions } from "./descriptions";
+export type {
+  DescriptionsContextProps,
+  DescriptionsItem,
+  DescriptionsItemProps,
+  DescriptionsItemType,
+  DescriptionsProps,
+} from "./descriptions";
+export { Descriptions, DescriptionsContext } from "./descriptions";
 export type { DividerProps } from "./divider";
 export { Divider } from "./divider";
-export type { DrawerProps } from "./drawer";
+export type { DrawerClassNames, DrawerProps, DrawerStyles } from "./drawer";
 export { Drawer } from "./drawer";
 export type { DropdownProps } from "./dropdown";
 export { Dropdown } from "./dropdown";
@@ -104,12 +178,18 @@ export { Col, Grid, Row } from "./grid";
 export type { IconDefinition, IconNode, IconProps } from "./icon";
 export { createIcon, Icon } from "./icon";
 export type {
+  ImageElementProps,
+  ImageInfo,
   ImagePreviewConfig,
   ImagePreviewGroupProps,
   ImageProps,
+  ImageToolbarRenderInfo,
+  ImageTransform,
+  ImageTransformAction,
 } from "./image";
 export { Image } from "./image";
 export type {
+  GroupProps,
   InputChangeEvent,
   InputProps,
   InputRef,
@@ -124,7 +204,21 @@ export type { InputNumberProps, InputNumberRef } from "./input-number";
 export { InputNumber } from "./input-number";
 export type { LayoutProps, SiderProps } from "./layout";
 export { Layout } from "./layout";
-export type { ListItemMetaProps, ListItemProps, ListProps } from "./list";
+export type {
+  ColumnCount,
+  ColumnType,
+  ListConsumerProps,
+  ListGridType,
+  ListItemLayout,
+  ListItemMetaProps,
+  ListItemProps,
+  ListLocale,
+  ListPaginationAlign,
+  ListPaginationConfig,
+  ListPaginationPosition,
+  ListProps,
+  ListSize,
+} from "./list";
 export { List } from "./list";
 export type { MenuInfo, MenuItem, MenuProps } from "./menu";
 export { Menu } from "./menu";
@@ -135,11 +229,21 @@ export type {
   MessageType,
 } from "./message";
 export { message, useMessage } from "./message";
-export type { ModalProps } from "./modal";
+export type {
+  HookModalResult,
+  ModalFooterRender,
+  ModalFuncProps,
+  ModalInstance,
+  ModalProps,
+  ModalResult,
+  ModalStaticFunctions,
+} from "./modal";
 export { Modal } from "./modal";
 export type {
   NotificationArgs,
+  NotificationArgsProps,
   NotificationConfig,
+  NotificationGlobalConfig,
   NotificationInstance,
   NotificationPlacement,
 } from "./notification";
@@ -150,9 +254,31 @@ export type { PopconfirmProps } from "./popconfirm";
 export { Popconfirm } from "./popconfirm";
 export type { PopoverProps } from "./popover";
 export { Popover } from "./popover";
-export type { ProgressGradient, ProgressProps } from "./progress";
+export type {
+  PercentPositionType,
+  ProgressAriaProps,
+  ProgressGradient,
+  ProgressProps,
+  ProgressSize,
+  ProgressType,
+  SuccessProps,
+} from "./progress";
 export { Progress } from "./progress";
-export type { QRCodeProps } from "./qr-code";
+export type {
+  ImageSettings,
+  QRCodeCrossOrigin,
+  QRCodeImageSettings,
+  QRCodeLevel,
+  QRCodeLocale,
+  QRCodeProps,
+  QRCodeStatus,
+  QRCodeStatusRenderInfo,
+  QRProps,
+  QRPropsCanvas,
+  QRPropsSvg,
+  QRStatus,
+  StatusRenderInfo,
+} from "./qr-code";
 export { QRCode } from "./qr-code";
 export type {
   RadioChangeEvent,
@@ -168,7 +294,9 @@ export { Rate } from "./rate";
 export type { ResultProps } from "./result";
 export { Result } from "./result";
 export type {
+  SegmentedLabeledOption,
   SegmentedOption,
+  SegmentedOptions,
   SegmentedProps,
   SegmentedValue,
 } from "./segmented";
@@ -192,22 +320,125 @@ export type { SpinProps } from "./spin";
 export { Spin } from "./spin";
 export type { PanelProps, SplitterProps } from "./splitter";
 export { Splitter } from "./splitter";
-export type { StatisticProps } from "./statistic";
+export type {
+  CountdownProps,
+  StatisticProps,
+  StatisticRef,
+  StatisticTimerProps,
+  TimerType,
+} from "./statistic";
 export { Statistic } from "./statistic";
 export type { StepItem, StepStatus, StepsProps } from "./steps";
 export { Steps } from "./steps";
 export type { SwitchProps } from "./switch";
 export { Switch } from "./switch";
-export type { TabItem, TabsProps } from "./tabs";
+export type {
+  ColumnFilterItem,
+  ColumnsType,
+  ColumnTitle,
+  ColumnTitleProps,
+  CompareFn,
+  ExpandableConfig,
+  ExpandIconProps,
+  FilterDropdownActionOptions,
+  FilterDropdownProps,
+  FilterSearch,
+  FilterValue,
+  RowSelectMethod,
+  ShowSorterTooltip,
+  SorterResult,
+  SorterTooltipProps,
+  SortOrder,
+  TableAction,
+  TableBreakpoint,
+  TableCellProps,
+  TableColumnGroupType,
+  TableColumnType,
+  TableComponent,
+  TableComponents,
+  TableCurrentDataSource,
+  TableFilterDropdownProps,
+  TableKey,
+  TableLocale,
+  TablePaginationConfig,
+  TableProps,
+  TableRef,
+  TableRowSelection,
+  TableScrollConfig,
+  TableSelectionItem,
+  TableSelectionOption,
+  TableSelectionPreset,
+  TableStickyConfig,
+  TableSummaryCellProps,
+  TableSummaryProps,
+  TableSummaryRowProps,
+} from "./table";
+export {
+  SELECTION_ALL,
+  SELECTION_INVERT,
+  SELECTION_NONE,
+  Table,
+  TableSummary,
+  TableSummaryCell,
+  TableSummaryRow,
+} from "./table";
+export type { TabItem, TabPaneProps, TabsProps } from "./tabs";
 export { Tabs } from "./tabs";
-export type { CheckableTagProps, TagProps } from "./tag";
+export type {
+  CheckableTagProps,
+  ClosableType,
+  TagClosableConfig,
+  TagProps,
+} from "./tag";
 export { Tag } from "./tag";
-export type { TimelineItem, TimelineProps } from "./timeline";
+export type {
+  TimeLineItemProps,
+  TimelineItem,
+  TimelineItemProps,
+  TimelineProps,
+} from "./timeline";
 export { Timeline } from "./timeline";
-export type { TooltipProps } from "./tooltip";
+export type { TooltipProps, TooltipRef } from "./tooltip";
 export { Tooltip } from "./tooltip";
-export type { TourProps, TourStepProps } from "./tour";
+export type {
+  TourAlign,
+  TourButtonProps,
+  TourClosable,
+  TourMask,
+  TourPlacement,
+  TourProps,
+  TourStepProps,
+} from "./tour";
 export { Tour } from "./tour";
+export type {
+  DirectoryTreeExpandAction,
+  DirectoryTreeProps,
+  Key,
+  TreeCheckInfo,
+  TreeDataNode,
+  TreeDragEnterInfo,
+  TreeDraggableConfig,
+  TreeDragInfo,
+  TreeDropIndicatorProps,
+  TreeDropInfo,
+  TreeDropPosition,
+  TreeExpandInfo,
+  TreeFieldNames,
+  TreeLoadInfo,
+  TreeMotion,
+  TreeMotionEvent,
+  TreeMouseInfo,
+  TreeNodeAttribute,
+  TreeNodeProps,
+  TreeProps,
+  TreeRef,
+  TreeRightClickInfo,
+  TreeScrollTarget,
+  TreeSelectInfo,
+  TreeShowLineConfig,
+  TreeStyle,
+} from "./tree";
+export { DirectoryTree, Tree, TreeNode } from "./tree";
 export type {
   CopyConfig,
   EditConfig,

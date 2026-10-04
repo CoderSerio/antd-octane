@@ -67,15 +67,17 @@ try {
   writeFileSync(
     join(directory, "main.tsx"),
     `import {createRoot,useState,type CSSProperties} from 'octane';
-import {Button,ConfigProvider,theme} from 'antd-octane';
+import {App,Button,ConfigProvider,Modal,theme} from 'antd-octane';
+import {StyleProvider} from 'antd-octane/style';
 import './app.css';
 function ThemeScope(){const {token}=theme.useToken();return <section style={{'--app-primary':token.colorPrimary} as CSSProperties}><span id="mapped-primary" className="text-app-primary">Mapped application token</span></section>;}
 function Consumer(){
  const [mode,setMode]=useState('default');
+ const [open,setOpen]=useState(false);
  const chosen=mode==='dark'?{algorithm:theme.darkAlgorithm}:mode==='compact'?{algorithm:theme.compactAlgorithm}:mode==='brand'?{token:{colorPrimary:'#722ed1'}}:{};
- return <ConfigProvider theme={chosen}><main className="p-6"><h1 className="mb-4 text-2xl font-bold">Tailwind v4 packed consumer</h1><label>Theme <select aria-label="Theme" value={mode} onChange={event=>setMode((event.target as HTMLSelectElement).value)} className="mb-4 border p-2"><option value="default">Default</option><option value="brand">Brand</option><option value="dark">Dark</option><option value="compact">Compact</option></select></label><ThemeScope/><section id="utility-layout" className="grid grid-cols-2 gap-4 p-6 w-[640px] max-w-full"><Button id="default">Default button</Button><Button id="primary" type="primary">Primary button</Button><Button id="utility" className="h-12 px-8 gap-3" icon={<span aria-hidden="true">+</span>}>Utility button</Button><Button id="disabled" disabled>Disabled button</Button></section><p id="mode">{mode}</p></main></ConfigProvider>;
+ return <ConfigProvider theme={chosen}><main className="p-6"><h1 className="mb-4 text-2xl font-bold">Tailwind v4 packed consumer</h1><label>Theme <select aria-label="Theme" value={mode} onChange={event=>setMode((event.target as HTMLSelectElement).value)} className="mb-4 border p-2"><option value="default">Default</option><option value="brand">Brand</option><option value="dark">Dark</option><option value="compact">Compact</option></select></label><ThemeScope/><section id="utility-layout" className="grid grid-cols-2 gap-4 p-6 w-[640px] max-w-full"><Button id="default">Default button</Button><Button id="primary" type="primary">Primary button</Button><Button id="utility" className="h-12 px-8 gap-3" icon={<span aria-hidden="true">+</span>}>Utility button</Button><Button id="disabled" disabled>Disabled button</Button></section><section id="layered-app"><App className="text-xl text-purple-700"><span id="layered-app-child">App utility text</span></App></section><Button id="open-utility-modal" onClick={()=>setOpen(true)}>Open utility Modal</Button><Modal title="Tailwind modal" open={open} onOk={()=>setOpen(false)} onCancel={()=>setOpen(false)} classNames={{body:"p-8"}}><span id="utility-modal-body">Modal utility padding</span></Modal><p id="mode">{mode}</p></main></ConfigProvider>;
 }
-const container=document.getElementById('root');if(!container)throw Error('Missing root');createRoot(container).render(<Consumer/>);
+const container=document.getElementById('root');if(!container)throw Error('Missing root');createRoot(container).render(<StyleProvider layer><Consumer/></StyleProvider>);
 `,
   );
   writeFileSync(

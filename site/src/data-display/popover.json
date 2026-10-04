@@ -1,0 +1,185 @@
+{
+  "version": "5.29.3",
+  "api": [
+    {
+      "title": "Popover",
+      "rows": [
+        ["content", "卡片内容", "OctaneNode | () => OctaneNode", "-"],
+        ["title", "卡片标题", "OctaneNode | () => OctaneNode", "-"]
+      ]
+    },
+    {
+      "title": "共同的 API",
+      "rows": [
+        [
+          "align",
+          "请参考 [dom-align](https://github.com/yiminghe/dom-align) 进行配置",
+          "object",
+          "-"
+        ],
+        [
+          "arrow",
+          "修改箭头的显示状态以及修改箭头是否指向目标元素中心",
+          "boolean | { pointAtCenter: boolean }",
+          "true"
+        ],
+        ["autoAdjustOverflow", "气泡被遮挡时自动调整位置", "boolean", "true"],
+        [
+          "classNames",
+          "语义化结构 class",
+          "[Record<SemanticDOM, string>](#semantic-dom)",
+          "-"
+        ],
+        ["color", "背景颜色", "string", "-"],
+        ["defaultOpen", "默认是否显隐", "boolean", "false"],
+        ["~~destroyTooltipOnHide~~", "关闭后是否销毁 dom", "boolean", "false"],
+        ["destroyOnHidden", "关闭后是否销毁 dom", "boolean", "false"],
+        [
+          "fresh",
+          "默认情况下，Tooltip 在关闭时会缓存内容。设置该属性后会始终保持更新",
+          "boolean",
+          "false"
+        ],
+        [
+          "getPopupContainer",
+          "浮层渲染父节点，默认渲染到 body 上",
+          "(triggerNode: HTMLElement) => HTMLElement",
+          "() => document.body"
+        ],
+        [
+          "mouseEnterDelay",
+          "鼠标移入后延时多少才显示 Tooltip，单位：秒",
+          "number",
+          "0.1"
+        ],
+        [
+          "mouseLeaveDelay",
+          "鼠标移出后延时多少才隐藏 Tooltip，单位：秒",
+          "number",
+          "0.1"
+        ],
+        [
+          "~~overlayClassName~~",
+          "卡片类名, 请使用 `classNames={{ root: '' }}` 替换",
+          "string",
+          "-"
+        ],
+        [
+          "~~overlayStyle~~",
+          "卡片样式, 请使用 `styles={{ root: {} }}` 替换",
+          "CSSProperties",
+          "-"
+        ],
+        [
+          "~~overlayInnerStyle~~",
+          "卡片内容区域的样式对象, 请使用 `styles={{ body: {} }}` 替换",
+          "CSSProperties",
+          "-"
+        ],
+        [
+          "placement",
+          "气泡框位置，可选 `top` `left` `right` `bottom` `topLeft` `topRight` `bottomLeft` `bottomRight` `leftTop` `leftBottom` `rightTop` `rightBottom`",
+          "string",
+          "`top`"
+        ],
+        [
+          "styles",
+          "语义化结构 style",
+          "[Record<SemanticDOM, CSSProperties>](#semantic-dom)",
+          "-"
+        ],
+        [
+          "trigger",
+          "触发行为，可选 `hover` | `focus` | `click` | `contextMenu`，可使用数组设置多个触发行为",
+          "string | string[]",
+          "`hover`"
+        ],
+        [
+          "open",
+          "用于手动控制浮层显隐（[为什么?](/docs/react/faq#弹层类组件为什么要统一至-open-属性)）",
+          "boolean",
+          "false"
+        ],
+        ["zIndex", "设置 Tooltip 的 `z-index`", "number", "-"],
+        ["onOpenChange", "显示隐藏的回调", "(open: boolean) => void", "-"]
+      ]
+    }
+  ],
+  "tokens": {
+    "component": [
+      ["titleMinWidth", "气泡卡片标题最小宽度", "string | number", "177"],
+      ["zIndexPopup", "气泡卡片 z-index", "number", "1030"]
+    ],
+    "global": [
+      [
+        "colorBgElevated",
+        "浮层容器背景色，在暗色模式下该 token 的色值会比 `colorBgContainer` 要亮一些。例如：模态框、弹出框、菜单等。",
+        "string",
+        "#ffffff"
+      ],
+      [
+        "colorText",
+        "最深的文本色。为了符合W3C标准，默认的文本颜色使用了该色，同时这个颜色也是最深的中性色。",
+        "string",
+        "rgba(0,0,0,0.88)"
+      ],
+      ["colorTextHeading", "控制标题字体颜色。", "string", "rgba(0,0,0,0.88)"],
+      [
+        "borderRadiusLG",
+        "LG号圆角，用于组件中的一些大圆角，如 Card、Modal 等一些组件样式。",
+        "number",
+        "8"
+      ],
+      [
+        "borderRadiusXS",
+        "XS号圆角，用于组件中的一些小圆角，如 Segmented 、Arrow 等一些内部圆角的组件样式中。",
+        "number",
+        "2"
+      ],
+      [
+        "boxShadowSecondary",
+        "控制元素二级阴影样式。",
+        "string",
+        "\n      0 6px 16px 0 rgba(0, 0, 0, 0.08),\n      0 3px 6px -4px rgba(0, 0, 0, 0.12),\n      0 9px 28px 8px rgba(0, 0, 0, 0.05)\n    "
+      ],
+      [
+        "fontFamily",
+        "Ant Design 的字体家族中优先使用系统默认的界面字体，同时提供了一套利于屏显的备用字体库，来维护在不同平台以及浏览器的显示下，字体始终保持良好的易读性和可读性，体现了友好、稳定和专业的特性。",
+        "string",
+        "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,\n'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',\n'Noto Color Emoji'"
+      ],
+      [
+        "fontSize",
+        "设计系统中使用最广泛的字体大小，文本梯度也将基于该字号进行派生。",
+        "number",
+        "14"
+      ],
+      [
+        "fontWeightStrong",
+        "控制标题类组件（如 h1、h2、h3）或选中项的字体粗细。",
+        "number",
+        "600"
+      ],
+      ["lineHeight", "文本行高", "number", "1.5714285714285714"],
+      [
+        "motionDurationMid",
+        "动效播放速度，中速。用于中型元素动画交互",
+        "string",
+        "0.2s"
+      ],
+      [
+        "motionEaseInOutCirc",
+        "预设动效曲率",
+        "string",
+        "cubic-bezier(0.78, 0.14, 0.15, 0.86)"
+      ],
+      [
+        "motionEaseOutCirc",
+        "预设动效曲率",
+        "string",
+        "cubic-bezier(0.08, 0.82, 0.17, 1)"
+      ],
+      ["sizePopupArrow", "组件箭头的尺寸", "number", "16"]
+    ]
+  }
+}

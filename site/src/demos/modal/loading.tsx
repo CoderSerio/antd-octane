@@ -1,0 +1,45 @@
+// Adapted from Ant Design 5.29.3 demos (MIT).
+
+import { Button, Modal } from "antd-octane";
+import type * as Octane from "octane";
+import { useState } from "octane";
+
+const App: Octane.FC = () => {
+  const [open, setOpen] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const showLoading = () => {
+    setOpen(true);
+    setLoading(true);
+
+    // Simple loading mock. You should add cleanup logic in real world.
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  };
+
+  return (
+    <>
+      <Button type="primary" onClick={showLoading}>
+        Open Modal
+      </Button>
+      <Modal
+        title={<p>Loading Modal</p>}
+        footer={
+          <Button type="primary" onClick={showLoading}>
+            Reload
+          </Button>
+        }
+        loading={loading}
+        open={open}
+        onCancel={() => setOpen(false)}
+      >
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+      </Modal>
+    </>
+  );
+};
+
+export default App;

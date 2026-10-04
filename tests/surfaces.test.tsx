@@ -149,7 +149,12 @@ it("watermark draws multiline canvas and keeps children interactive", async () =
     fillStyle: "",
     textBaseline: "",
     textAlign: "",
-    measureText: () => ({ width: 80 }),
+    measureText: () => ({
+      width: 80,
+      fontBoundingBoxAscent: 13,
+      fontBoundingBoxDescent: 3,
+    }),
+    save: vi.fn(),
     scale: vi.fn(),
     translate: vi.fn(),
     rotate,
@@ -165,6 +170,7 @@ it("watermark draws multiline canvas and keeps children interactive", async () =
   const click = vi.fn();
   await render(
     <Watermark
+      className="test-watermark"
       content={["first", "second"]}
       rotate={-30}
       gap={[80, 90]}
@@ -178,9 +184,9 @@ it("watermark draws multiline canvas and keeps children interactive", async () =
   expect(fillText).toHaveBeenCalledTimes(2);
   expect(rotate).toHaveBeenCalledWith(-Math.PI / 6);
   expect(
-    (container.querySelector(".ant-watermark-layer") as HTMLElement).style
+    (container.querySelector(".test-watermark > div") as HTMLElement).style
       .backgroundPosition,
-  ).toBe("10px 20px");
+  ).toBe("-30px -25px");
   await act(() => container.querySelector("button")?.click());
   expect(click).toHaveBeenCalledOnce();
 });
@@ -229,7 +235,12 @@ it("watermark image failures fall back to text and detach image callbacks", asyn
     fillStyle: "",
     textBaseline: "",
     textAlign: "",
-    measureText: () => ({ width: 80 }),
+    measureText: () => ({
+      width: 80,
+      fontBoundingBoxAscent: 13,
+      fontBoundingBoxDescent: 3,
+    }),
+    save: vi.fn(),
     scale: vi.fn(),
     translate: vi.fn(),
     rotate: vi.fn(),
@@ -258,13 +269,18 @@ it("watermark image failures fall back to text and detach image callbacks", asyn
   try {
     await render(
       <Watermark
+        className="test-watermark"
         image="https://invalid.example/image.png"
         content="fallback"
       />,
     );
     await act(() => image?.onerror?.());
-    expect(fillText).toHaveBeenCalledWith("fallback", 0, 0);
-    expect(container.querySelector(".ant-watermark-layer")).not.toBeNull();
+    expect(fillText).toHaveBeenCalledWith(
+      "fallback",
+      60 * window.devicePixelRatio,
+      0,
+    );
+    expect(container.querySelector(".test-watermark > div")).not.toBeNull();
     await act(() => root?.unmount());
     expect(image?.onerror).toBeNull();
     expect(image?.onload).toBeNull();

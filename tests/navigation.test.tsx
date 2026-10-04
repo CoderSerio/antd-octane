@@ -27,7 +27,7 @@ async function click(label: string) {
 it("changes pages uncontrolled and clamps display after total shrinks", async () => {
   const change = vi.fn();
   await render(<Pagination total={250} onChange={change} />);
-  await click("下一页");
+  await click("Next Page");
   expect(change).toHaveBeenLastCalledWith(2, 10);
   expect(container.querySelector('[aria-current="page"]')?.textContent).toBe(
     "2",
@@ -37,14 +37,14 @@ it("changes pages uncontrolled and clamps display after total shrinks", async ()
     "1",
   );
   expect(
-    container.querySelector<HTMLButtonElement>('[aria-label="下一页"]')
+    container.querySelector<HTMLButtonElement>('[aria-label="Next Page"]')
       ?.disabled,
   ).toBe(true);
 });
 it("controlled page accepts intent without changing displayed selection", async () => {
   const change = vi.fn();
   await render(<Pagination current={3} total={100} onChange={change} />);
-  await click("下一页");
+  await click("Next Page");
   expect(change).toHaveBeenCalledWith(4, 10);
   expect(container.querySelector('[aria-current="page"]')?.textContent).toBe(
     "3",
@@ -103,7 +103,7 @@ it("quick jumping clamps large pages and ignores invalid input", async () => {
 it("disabled pagination prevents all intents, single-page can hide", async () => {
   const change = vi.fn();
   await render(<Pagination total={200} disabled onChange={change} />);
-  await click("下一页");
+  await click("Next Page");
   expect(change).not.toHaveBeenCalled();
   expect(container.querySelector<HTMLSelectElement>("select")?.disabled).toBe(
     true,
@@ -182,11 +182,11 @@ it("simple page input can be cleared and submitted without losing controlled sem
 it("jump controls navigate and expose a bounded page window", async () => {
   await render(<Pagination total={1000} showSizeChanger={false} />);
   expect(container.querySelectorAll(".ant-pagination-item")).toHaveLength(6);
-  await click("向后跳页");
+  await click("Next 5 Pages");
   expect(container.querySelector('[aria-current="page"]')?.textContent).toBe(
     "6",
   );
-  await click("向前跳页");
+  await click("Previous 5 Pages");
   expect(container.querySelector('[aria-current="page"]')?.textContent).toBe(
     "1",
   );

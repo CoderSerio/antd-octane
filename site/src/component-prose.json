@@ -1,0 +1,301 @@
+{
+  "Avatar": {
+    "sectionHeadings": {
+      "Avatar": 3,
+      "Avatar.Group": 3
+    }
+  },
+  "Badge": {
+    "when": "一般出现在通知图标或头像的右上角，用于显示需要处理的消息条数，通过醒目视觉形式吸引用户处理。",
+    "sectionHeadings": {
+      "Badge": 3,
+      "Badge.Ribbon": 3
+    }
+  },
+  "Calendar": {
+    "when": "当数据是日期或按照日期划分时，例如日程、课表、价格日历等，农历等。目前支持年/月切换。",
+    "apiIntro": "**注意**：Calendar 部分 locale 是从 value 中读取，所以请先正确设置 dayjs 的 locale。\n\n```jsx\n// 默认语言为 en-US，所以如果需要使用其他语言，推荐在入口文件全局设置 locale\n// import dayjs from 'dayjs';\n// import 'dayjs/locale/zh-cn';\n// dayjs.locale('zh-cn');\n\n<Calendar cellRender={cellRender} onPanelChange={onPanelChange} onSelect={onSelect} />\n```",
+    "sectionHeadings": {
+      "Calendar": 0
+    }
+  },
+  "Card": {
+    "when": "最基础的卡片容器，可承载文字、列表、图片、段落，常用于后台概览页面。",
+    "apiIntro": "```jsx\n<Card title=\"卡片标题\">卡片内容</Card>\n```",
+    "sectionHeadings": {
+      "Card": 0,
+      "Card.Grid": 3,
+      "Card.Meta": 3
+    }
+  },
+  "Carousel": {
+    "when": "- 当有一组平级的内容。\n- 当内容空间不足时，可以用走马灯的形式进行收纳，进行轮播展现。\n- 常用于一组图片或卡片轮播。",
+    "sectionAfter": {
+      "Carousel": "更多 API 可参考：<https://react-slick.neostack.com/docs/api>"
+    },
+    "sectionHeadings": {
+      "Carousel": 0
+    }
+  },
+  "Collapse": {
+    "when": "- 对复杂区域进行分组和隐藏，保持页面的整洁。\n- `手风琴` 是一种特殊的折叠面板，只允许单个内容区域展开。",
+    "sectionHeadings": {
+      "Collapse": 3,
+      "ItemType": 3,
+      "Collapse.Panel": 3
+    }
+  },
+  "Descriptions": {
+    "when": "常见于详情页的信息展示。",
+    "sectionAfter": {
+      "DescriptionItem": "> span 是 Description.Item 的数量。 span={2} 会占用两个 DescriptionItem 的宽度。当同时配置 `style` 和 `labelStyle`（或 `contentStyle`）时，两者会同时作用。样式冲突时，后者会覆盖前者。"
+    },
+    "sectionHeadings": {
+      "Descriptions": 3,
+      "DescriptionItem": 3
+    }
+  },
+  "Empty": {
+    "when": "- 当目前没有数据时，用于显式的用户提示。\n- 初始化场景时的引导创建流程。",
+    "apiIntro": "```jsx\n<Empty>\n  <Button>创建</Button>\n</Empty>\n```",
+    "sectionHeadings": {
+      "Empty": 0
+    }
+  },
+  "Image": {
+    "when": "- 需要展示图片时使用。\n- 加载显示大图或加载失败时容错处理。",
+    "sectionAfter": {
+      "Image": "其他属性见 [<img>](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#Attributes)"
+    },
+    "sectionHeadings": {
+      "Image": 3,
+      "PreviewType": 3,
+      "PreviewGroup": 2,
+      "PreviewGroupType": 3
+    }
+  },
+  "List": {
+    "when": "最基础的列表展示，可承载文字、列表、图片、段落，常用于后台数据展示页面。",
+    "sectionIntro": {
+      "pagination": "分页的配置项。"
+    },
+    "sectionAfter": {
+      "pagination": "更多配置项，请查看 [`Pagination`](/components/pagination-cn)。"
+    },
+    "sectionHeadings": {
+      "List": 3,
+      "pagination": 3,
+      "List grid props": 3,
+      "List.Item": 3,
+      "List.Item.Meta": 3
+    }
+  },
+  "Popover": {
+    "when": "当目标元素有进一步的描述和相关操作时，可以收纳到卡片中，根据用户的操作行为进行展现。\n\n和 `Tooltip` 的区别是，用户可以对浮层上的元素进行操作，因此它可以承载更复杂的内容，比如链接或按钮等。",
+    "sectionHeadings": {
+      "Popover": 0,
+      "共同的 API": 0
+    }
+  },
+  "QRCode": {
+    "when": "当需要将文本转换成为二维码时使用。",
+    "sectionHeadings": {
+      "QRCode": 0
+    }
+  },
+  "Segmented": {
+    "when": "- 用于展示多个选项并允许用户选择其中单个选项；\n- 当切换选中选项时，关联区域的内容会发生变化。",
+    "sectionHeadings": {
+      "Segmented": 3,
+      "SegmentedItemType": 3
+    }
+  },
+  "Statistic": {
+    "when": "- 当需要突出某个或某组数字时。\n- 当需要展示带描述的统计类数据时使用。",
+    "sectionHeadings": {
+      "Statistic": 4,
+      "Statistic.Countdown Deprecated": 4,
+      "Statistic.Timer": 4
+    }
+  },
+  "Table": {
+    "when": "- 当有大量结构化的数据需要展现时；\n- 当需要对数据进行排序、搜索、分页、自定义操作等复杂行为时。",
+    "sectionHeadings": {
+      "Table": 3,
+      "Table ref": 3,
+      "Column": 3,
+      "ColumnGroup": 3,
+      "pagination": 3,
+      "expandable": 3,
+      "rowSelection": 3,
+      "scroll": 3,
+      "selection": 3
+    }
+  },
+  "Tag": {
+    "when": "- 用于标记事物的属性和维度。\n- 进行分类。",
+    "sectionHeadings": {
+      "Tag": 3,
+      "Tag.CheckableTag": 3
+    }
+  },
+  "Timeline": {
+    "when": "- 当有一系列信息需按时间排列时，可正序和倒序。\n- 需要有一条时间轴进行视觉上的串联时。",
+    "sectionIntro": {
+      "Items": "时间轴的每一个节点。"
+    },
+    "sectionHeadings": {
+      "Timeline": 3,
+      "Items": 3
+    }
+  },
+  "Tooltip": {
+    "when": "鼠标移入则显示提示，移出消失，气泡浮层不承载复杂文本和操作。\n\n可用来代替系统默认的 `title` 提示，提供一个 `按钮/文字/操作` 的文案解释。",
+    "sectionHeadings": {
+      "Tooltip": 0,
+      "共同的 API": 3
+    }
+  },
+  "Tour": {
+    "when": "常用于引导用户了解产品功能。",
+    "sectionHeadings": {
+      "Tour": 3,
+      "TourStep 引导步骤卡片": 3
+    }
+  },
+  "Tree": {
+    "when": "文件夹、组织架构、生物分类、国家地区等等，世间万物的大多数结构都是树形结构。使用 `树控件` 可以完整展现其中的层级关系，并具有展开收起选择等交互功能。",
+    "sectionHeadings": {
+      "Tree props": 3,
+      "TreeNode props": 3,
+      "DirectoryTree props": 3
+    }
+  },
+  "Alert": {
+    "when": "- 当某个页面需要向用户显示警告的信息时。\n- 非浮层的静态展现形式，始终展现，不会自动消失，用户可以点击关闭。",
+    "sectionHeadings": {
+      "Alert": 0,
+      "Alert.ErrorBoundary": 3
+    }
+  },
+  "Drawer": {
+    "when": "抽屉从父窗体边缘滑入，覆盖住部分父窗体内容。用户在抽屉内操作时不必离开当前任务，操作完成后，可以平滑地回到原任务。\n\n- 当需要一个附加的面板来控制父窗体内容，这个面板在需要时呼出。比如，控制界面展示样式，往界面中添加内容。\n- 当需要在当前任务流中插入临时任务，创建或预览附加内容。比如展示协议条款，创建子对象。",
+    "apiIntro": "> 使用 `rootClassName` 与 `rootStyle` 配置最外层元素样式，`className` 与 `style` 配置 Drawer 窗体样式。",
+    "sectionHeadings": {
+      "Drawer": 0
+    }
+  },
+  "Message": {
+    "when": "- 可提供成功、警告和错误等反馈信息。\n- 顶部居中显示并自动消失，是一种不打断用户操作的轻量级提示方式。",
+    "sectionHeadings": {
+      "Message": 0,
+      "共同的 API": 0,
+      "message.config": 4
+    }
+  },
+  "Modal": {
+    "when": "需要用户处理事务，又不希望跳转页面以致打断工作流程时，可以使用 `Modal` 在当前页面正中打开一个浮层，承载相应的操作。\n\n另外当需要一个简洁的确认框询问用户时，可以使用 [`App.useApp`](/components/app-cn/) 封装的语法糖方法。",
+    "sectionAfter": {
+      "Modal": "#### 注意\n\n- `<Modal />` 默认关闭后状态不会自动清空，如果希望每次打开都是新内容，请设置 `destroyOnHidden`。",
+      "Modal.method()": "以上函数调用后，会返回一个引用，可以通过该引用更新和关闭弹窗。\n\n```jsx\nconst modal = Modal.info();\n\nmodal.update({\n  title: '修改的标题',\n  content: '修改的内容',\n});\n\n// 可以通过传入函数的方式更新弹窗\nmodal.update((prevConfig) => ({\n  ...prevConfig,\n  title: `${prevConfig.title}（新）`,\n}));\n\nmodal.destroy();\n```\n\n- `Modal.destroyAll`\n\n使用 `Modal.destroyAll()` 可以销毁弹出的确认窗（即上述的 `Modal.info`、`Modal.success`、`Modal.error`、`Modal.warning`、`Modal.confirm`）。通常用于路由监听当中，处理路由前进、后退不能销毁确认对话框的问题，而不用各处去使用实例的返回值进行关闭（`modal.destroy()` 适用于主动关闭，而不是路由这样被动关闭）\n\n```jsx\n// 在应用的路由变化回调中调用\nwindow.addEventListener(\"hashchange\", () => {\n  Modal.destroyAll();\n});\n```\n\n### Modal.useModal()\n\n当你需要使用 Context 时，可以通过 `Modal.useModal` 创建一个 `contextHolder` 插入子节点中。通过 hooks 创建的临时 Modal 将会得到 `contextHolder` 所在位置的所有上下文。创建的 `modal` 对象拥有与 [`Modal.method`](#modalmethod) 相同的创建通知方法。\n\n```jsx\nconst [modal, contextHolder] = Modal.useModal();\n\nuseEffect(() => {\n  modal.confirm({\n    // ...\n  });\n}, []);\n\nreturn <div>{contextHolder}</div>;\n```\n\n`modal.confirm` 返回方法：\n\n- `destroy`：销毁当前窗口\n- `update`：更新当前窗口\n- `then`：Promise 链式调用，支持 `await` 操作。该方法为 Hooks 仅有\n\n```tsx\n//点击 `onOk` 时返回 `true`，点击 `onCancel` 时返回 `false`\nconst confirmed = await modal.confirm({ ... });\n```"
+    },
+    "sectionIntro": {
+      "Modal.method()": "包括：\n\n- `Modal.info`\n- `Modal.success`\n- `Modal.error`\n- `Modal.warning`\n- `Modal.confirm`\n\n以上均为一个函数，参数为 object，具体属性如下："
+    },
+    "sectionHeadings": {
+      "Modal": 0,
+      "Modal.method()": 3
+    }
+  },
+  "Notification": {
+    "when": "在系统四个角显示通知提醒信息。经常用于以下情况：\n\n- 较为复杂的通知内容。\n- 带有交互的通知，给出用户下一步的行动点。\n- 系统主动推送。",
+    "apiIntro": "- `notification.success(config)`\n- `notification.error(config)`\n- `notification.info(config)`\n- `notification.warning(config)`\n- `notification.open(config)`\n- `notification.destroy(key?: String)`\n\nconfig 参数如下：",
+    "sectionIntro": {
+      "共同的 API": "- `notification.useNotification(config)`\n\nconfig 参数如下："
+    },
+    "sectionBefore": {
+      "notification.config": "### 全局配置\n\n还提供了一个全局配置方法，在调用前提前配置，全局一次生效。\n\n`notification.config(options)`\n\n> 当你使用 `ConfigProvider` 进行全局化配置时，系统会默认自动开启 RTL 模式。\n>\n> 当你想单独使用，可通过如下设置开启 RTL 模式。\n\n```js\nnotification.config({\n  placement: \"bottomRight\",\n  bottom: 50,\n  duration: 3,\n  rtl: true,\n});\n```"
+    },
+    "sectionHeadings": {
+      "Notification": 0,
+      "共同的 API": 0,
+      "notification.config": 4
+    }
+  },
+  "Popconfirm": {
+    "when": "目标元素的操作需要用户进一步的确认时，在目标元素附近弹出浮层提示，询问用户。\n\n和 `confirm` 弹出的全屏居中模态对话框相比，交互形式更轻量。",
+    "sectionHeadings": {
+      "Popconfirm": 0,
+      "共同的 API": 0
+    }
+  },
+  "Progress": {
+    "when": "在操作需要较长时间才能完成时，为用户显示该操作的当前进度和状态。\n\n- 当一个操作会打断当前界面，或者需要在后台运行，且耗时可能超过 2 秒时；\n- 当需要显示一个操作完成的百分比时。",
+    "apiIntro": "各类型共用的属性。",
+    "sectionHeadings": {
+      "Progress": 0,
+      "`type=\"line\"`": 3,
+      "`type=\"circle\"`": 3,
+      "`type=\"dashboard\"`": 3
+    }
+  },
+  "Result": {
+    "when": "当有重要操作需告知用户处理结果，且反馈内容较为复杂时使用。",
+    "sectionHeadings": {
+      "Result": 0
+    }
+  },
+  "Skeleton": {
+    "when": "- 网络较慢，需要长时间等待加载处理的情况下。\n- 图文信息内容较多的列表/卡片中。\n- 只在第一次加载数据的时候使用。\n- 可以被 Spin 完全代替，但是在可用的场景下可以比 Spin 提供更好的视觉效果和用户体验。",
+    "sectionHeadings": {
+      "Skeleton": 3,
+      "SkeletonAvatarProps": 3,
+      "SkeletonTitleProps": 3,
+      "SkeletonParagraphProps": 3,
+      "SkeletonButtonProps": 3,
+      "SkeletonInputProps": 3
+    }
+  },
+  "Spin": {
+    "when": "页面局部处于等待异步数据或正在渲染过程时，合适的加载动效会有效缓解用户的焦虑。",
+    "sectionAfter": {
+      "Spin": "### 静态方法\n\n- `Spin.setDefaultIndicator(indicator: OctaneNode)`\n\n你可以自定义全局默认 Spin 的元素。"
+    },
+    "sectionHeadings": {
+      "Spin": 0
+    }
+  },
+  "Watermark": {
+    "when": "- 页面需要添加水印标识版权时使用。\n- 适用于防止信息盗用。",
+    "sectionHeadings": {
+      "Watermark": 3,
+      "Font": 3
+    }
+  },
+  "Affix": {
+    "when": "当内容区域比较长，需要滚动页面时，这部分内容对应的操作或者导航需要在滚动范围内始终展现。常用于侧边菜单和按钮组合。\n\n页面可视范围过小时，慎用此功能以免出现遮挡页面内容的情况。",
+    "afterApi": "**注意：**`Affix` 内的元素不要使用绝对定位，如需要绝对定位的效果，可以直接设置 `Affix` 为绝对定位：\n\n```jsx\n<Affix style={{ position: \"absolute\", top: y, left: x }}>...</Affix>\n```",
+    "sectionHeadings": {
+      "Affix": 0
+    }
+  },
+  "App": {
+    "when": "- 提供可消费 Octane context 的 `message.xxx`、`Modal.xxx`、`notification.xxx` 的静态方法，可以简化 useMessage 等方法需要手动植入 `contextHolder` 的问题。\n- 提供基于 `.ant-app` 的默认重置样式，解决原生元素没有 antd 规范样式的问题。",
+    "sectionHeadings": {
+      "App": 3
+    }
+  },
+  "ConfigProvider": {
+    "sectionBefore": {
+      "ConfigProvider.useConfig()": "### ConfigProvider.config()\n\n设置 `Modal`、`Message`、`Notification` 静态方法配置，只会对非 hooks 的静态方法调用生效。\n\n```tsx\nConfigProvider.config({\n  holderRender: (children) => (\n    <ConfigProvider\n      prefixCls=\"ant\"\n      iconPrefixCls=\"anticon\"\n      theme={{ token: { colorPrimary: 'red' } }}\n    >\n      {children}\n    </ConfigProvider>\n  ),\n});\n```"
+    },
+    "sectionIntro": {
+      "ConfigProvider.useConfig()": "获取父级 `Provider` 的值，如 `DisabledContextProvider`、`SizeContextProvider`。\n\n```jsx\nconst {\n  componentDisabled,\n  componentSize,\n} = ConfigProvider.useConfig();\n```"
+    },
+    "sectionHeadings": {
+      "ConfigProvider": 0,
+      "ConfigProvider.useConfig()": 3,
+      "组件配置": 3
+    }
+  }
+}

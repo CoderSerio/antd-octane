@@ -1,0 +1,332 @@
+{
+  "version": "5.29.3",
+  "api": [
+    {
+      "title": "Modal",
+      "rows": [
+        ["afterClose", "Modal 完全关闭后的回调", "function", "-"],
+        [
+          "classNames",
+          "配置弹窗内置模块的 className",
+          "[Record<SemanticDOM, string>](#semantic-dom)",
+          "-"
+        ],
+        [
+          "styles",
+          "配置弹窗内置模块的 style",
+          "[Record<SemanticDOM, CSSProperties>](#semantic-dom)",
+          "-"
+        ],
+        [
+          "cancelButtonProps",
+          "cancel 按钮 props",
+          "[ButtonProps](/components/button-cn#api)",
+          "-"
+        ],
+        ["cancelText", "取消按钮文字", "OctaneNode", "`取消`"],
+        ["centered", "垂直居中展示 Modal", "boolean", "false"],
+        [
+          "closable",
+          "是否显示右上角的关闭按钮",
+          "boolean | { closeIcon?: OctaneNode; disabled?: boolean; }",
+          "true"
+        ],
+        [
+          "closeIcon",
+          "自定义关闭图标。设置为 `null` 或 `false` 时隐藏关闭按钮",
+          "OctaneNode",
+          "<CloseOutlined />"
+        ],
+        ["confirmLoading", "确定按钮 loading", "boolean", "false"],
+        [
+          "~~destroyOnClose~~",
+          "关闭时销毁 Modal 里的子元素",
+          "boolean",
+          "false"
+        ],
+        ["destroyOnHidden", "关闭时销毁 Modal 里的子元素", "boolean", "false"],
+        [
+          "focusTriggerAfterClose",
+          "对话框关闭后是否需要聚焦触发元素",
+          "boolean",
+          "true"
+        ],
+        [
+          "footer",
+          "底部内容，当不需要默认底部按钮时，可以设为 `footer={null}`",
+          "OctaneNode | (originNode: OctaneNode, extra: { OkBtn: Octane.FC, CancelBtn: Octane.FC }) => OctaneNode",
+          "(确定取消按钮)"
+        ],
+        ["forceRender", "强制渲染 Modal", "boolean", "false"],
+        [
+          "getContainer",
+          "指定 Modal 挂载的节点，但依旧为全屏展示，`false` 为挂载在当前位置",
+          "HTMLElement | () => HTMLElement | Selectors | false",
+          "document.body"
+        ],
+        ["keyboard", "是否支持键盘 esc 关闭", "boolean", "true"],
+        ["mask", "是否展示遮罩", "boolean", "true"],
+        ["maskClosable", "点击蒙层是否允许关闭", "boolean", "true"],
+        [
+          "modalRender",
+          "自定义渲染对话框",
+          "(node: OctaneNode) => OctaneNode",
+          "-"
+        ],
+        [
+          "okButtonProps",
+          "ok 按钮 props",
+          "[ButtonProps](/components/button-cn#api)",
+          "-"
+        ],
+        ["okText", "确认按钮文字", "OctaneNode", "`确定`"],
+        ["okType", "确认按钮类型", "string", "`primary`"],
+        ["style", "可用于设置浮层的样式，调整浮层位置等", "CSSProperties", "-"],
+        ["loading", "显示骨架屏", "boolean", ""],
+        ["title", "标题", "OctaneNode", "-"],
+        ["open", "对话框是否可见", "boolean", "-"],
+        [
+          "width",
+          "宽度",
+          "string | number | [Breakpoint](/components/grid-cn#col)",
+          "520"
+        ],
+        ["wrapClassName", "对话框外层容器的类名", "string", "-"],
+        ["zIndex", "设置 Modal 的 `z-index`", "number", "1000"],
+        [
+          "onCancel",
+          "点击遮罩层或右上角叉或取消按钮的回调",
+          "function(e)",
+          "-"
+        ],
+        ["onOk", "点击确定回调", "function(e)", "-"],
+        [
+          "afterOpenChange",
+          "打开和关闭 Modal 时动画结束后的回调",
+          "(open: boolean) => void",
+          "-"
+        ]
+      ]
+    },
+    {
+      "title": "Modal.method()",
+      "rows": [
+        ["afterClose", "Modal 完全关闭后的回调", "function", "-"],
+        [
+          "autoFocusButton",
+          "指定自动获得焦点的按钮",
+          "null | `ok` | `cancel`",
+          "`ok`"
+        ],
+        [
+          "cancelButtonProps",
+          "cancel 按钮 props",
+          "[ButtonProps](/components/button-cn#api)",
+          "-"
+        ],
+        ["cancelText", "设置 Modal.confirm 取消按钮文字", "string", "`取消`"],
+        ["centered", "垂直居中展示 Modal", "boolean", "false"],
+        ["className", "容器类名", "string", "-"],
+        ["closable", "是否显示右上角的关闭按钮", "boolean", "false"],
+        ["closeIcon", "自定义关闭图标", "OctaneNode", "undefined"],
+        ["content", "内容", "OctaneNode", "-"],
+        [
+          "footer",
+          "底部内容，当不需要默认底部按钮时，可以设为 `footer: null`",
+          "OctaneNode | (originNode: OctaneNode, extra: { OkBtn: Octane.FC, CancelBtn: Octane.FC }) => OctaneNode",
+          "-"
+        ],
+        [
+          "getContainer",
+          "指定 Modal 挂载的 HTML 节点，false 为挂载在当前 dom",
+          "HTMLElement | () => HTMLElement | Selectors | false",
+          "document.body"
+        ],
+        ["icon", "自定义图标", "OctaneNode", "<ExclamationCircleFilled />"],
+        ["keyboard", "是否支持键盘 esc 关闭", "boolean", "true"],
+        ["mask", "是否展示遮罩", "boolean", "true"],
+        ["maskClosable", "点击蒙层是否允许关闭", "boolean", "false"],
+        [
+          "okButtonProps",
+          "ok 按钮 props",
+          "[ButtonProps](/components/button-cn#api)",
+          "-"
+        ],
+        ["okText", "确认按钮文字", "string", "`确定`"],
+        ["okType", "确认按钮类型", "string", "`primary`"],
+        ["style", "可用于设置浮层的样式，调整浮层位置等", "CSSProperties", "-"],
+        ["title", "标题", "OctaneNode", "-"],
+        ["width", "宽度", "string | number", "416"],
+        ["wrapClassName", "对话框外层容器的类名", "string", "-"],
+        ["zIndex", "设置 Modal 的 `z-index`", "number", "1000"],
+        [
+          "onCancel",
+          "点击取消回调，参数为关闭函数，若返回 promise 时 resolve 为正常关闭, reject 为不关闭",
+          "function(close)",
+          "-"
+        ],
+        [
+          "onOk",
+          "点击确定回调，参数为关闭函数，若返回 promise 时 resolve 为正常关闭, reject 为不关闭",
+          "function(close)",
+          "-"
+        ]
+      ]
+    }
+  ],
+  "tokens": {
+    "component": [
+      ["contentBg", "内容区域背景色", "string", "#ffffff"],
+      ["footerBg", "底部区域背景色", "string", "transparent"],
+      ["headerBg", "顶部背景色", "string", "#ffffff"],
+      ["titleColor", "标题字体颜色", "string", "rgba(0,0,0,0.88)"],
+      ["titleFontSize", "标题字体大小", "number", "16"],
+      ["titleLineHeight", "标题行高", "string | number", "1.5"]
+    ],
+    "global": [
+      [
+        "colorBgMask",
+        "浮层的背景蒙层颜色，用于遮罩浮层下面的内容，Modal、Drawer 等组件的蒙层使用的是该 token",
+        "string",
+        "rgba(0,0,0,0.45)"
+      ],
+      [
+        "colorBgTextActive",
+        "控制文本在激活状态下的背景色。",
+        "string",
+        "rgba(0,0,0,0.15)"
+      ],
+      [
+        "colorBgTextHover",
+        "控制文本在悬停状态下的背景色。",
+        "string",
+        "rgba(0,0,0,0.06)"
+      ],
+      [
+        "colorIcon",
+        "控制弱操作图标的颜色，例如 allowClear 或 Alert 关闭按钮。\n *",
+        "string",
+        "rgba(0,0,0,0.45)"
+      ],
+      [
+        "colorIconHover",
+        "控制弱操作图标在悬浮状态下的颜色，例如 allowClear 或 Alert 关闭按钮。",
+        "string",
+        "rgba(0,0,0,0.88)"
+      ],
+      [
+        "colorPrimaryBorder",
+        "主色梯度下的描边用色，用在 Slider 等组件的描边上。",
+        "string",
+        "#91caff"
+      ],
+      [
+        "colorSplit",
+        "用于作为分割线的颜色，此颜色和 colorBorderSecondary 的颜色一致，但是用的是透明色。",
+        "string",
+        "rgba(5,5,5,0.06)"
+      ],
+      [
+        "colorText",
+        "最深的文本色。为了符合W3C标准，默认的文本颜色使用了该色，同时这个颜色也是最深的中性色。",
+        "string",
+        "rgba(0,0,0,0.88)"
+      ],
+      [
+        "borderRadiusLG",
+        "LG号圆角，用于组件中的一些大圆角，如 Card、Modal 等一些组件样式。",
+        "number",
+        "8"
+      ],
+      [
+        "borderRadiusSM",
+        "SM号圆角，用于组件小尺寸下的圆角，如 Button、Input、Select 等输入类控件在 small size 下的圆角",
+        "number",
+        "4"
+      ],
+      [
+        "boxShadow",
+        "控制元素阴影样式。",
+        "string",
+        "\n      0 6px 16px 0 rgba(0, 0, 0, 0.08),\n      0 3px 6px -4px rgba(0, 0, 0, 0.12),\n      0 9px 28px 8px rgba(0, 0, 0, 0.05)\n    "
+      ],
+      [
+        "controlHeight",
+        "Ant Design 中按钮和输入框等基础控件的高度",
+        "number",
+        "32"
+      ],
+      [
+        "fontFamily",
+        "Ant Design 的字体家族中优先使用系统默认的界面字体，同时提供了一套利于屏显的备用字体库，来维护在不同平台以及浏览器的显示下，字体始终保持良好的易读性和可读性，体现了友好、稳定和专业的特性。",
+        "string",
+        "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,\n'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',\n'Noto Color Emoji'"
+      ],
+      [
+        "fontSize",
+        "设计系统中使用最广泛的字体大小，文本梯度也将基于该字号进行派生。",
+        "number",
+        "14"
+      ],
+      ["fontSizeHeading5", "h5 标签使用的字号", "number", "16"],
+      ["fontSizeLG", "大号字体大小", "number", "16"],
+      [
+        "fontWeightStrong",
+        "控制标题类组件（如 h1、h2、h3）或选中项的字体粗细。",
+        "number",
+        "600"
+      ],
+      ["lineHeight", "文本行高", "number", "1.5714285714285714"],
+      ["lineHeightHeading5", "h5 标签所使用的行高", "number", "1.5"],
+      [
+        "lineType",
+        "用于控制组件边框、分割线等的样式，默认是实线",
+        "string",
+        "solid"
+      ],
+      ["lineWidth", "用于控制组件边框、分割线等的宽度", "number", "1"],
+      ["lineWidthFocus", "控制线条的宽度，当组件处于聚焦态时。", "number", "3"],
+      ["margin", "控制元素外边距，中等尺寸。", "number", "16"],
+      ["marginXS", "控制元素外边距，小尺寸。", "number", "8"],
+      [
+        "motionDurationMid",
+        "动效播放速度，中速。用于中型元素动画交互",
+        "string",
+        "0.2s"
+      ],
+      [
+        "motionDurationSlow",
+        "动效播放速度，慢速。用于大型元素如面板动画交互",
+        "string",
+        "0.3s"
+      ],
+      [
+        "motionEaseInOutCirc",
+        "预设动效曲率",
+        "string",
+        "cubic-bezier(0.78, 0.14, 0.15, 0.86)"
+      ],
+      [
+        "motionEaseOutCirc",
+        "预设动效曲率",
+        "string",
+        "cubic-bezier(0.08, 0.82, 0.17, 1)"
+      ],
+      ["padding", "控制元素的内间距。", "number", "16"],
+      ["paddingLG", "控制元素的大内间距。", "number", "24"],
+      ["screenLGMin", "控制大屏幕的最小宽度。", "number", "992"],
+      ["screenMDMin", "控制中等屏幕的最小宽度。", "number", "768"],
+      ["screenSMMax", "控制小屏幕的最大宽度。", "number", "767"],
+      ["screenSMMin", "控制小屏幕的最小宽度。", "number", "576"],
+      ["screenXLMin", "控制超大屏幕的最小宽度。", "number", "1200"],
+      ["screenXSMin", "控制超小屏幕的最小宽度。", "number", "480"],
+      ["screenXXLMin", "控制超超大屏幕的最小宽度。", "number", "1600"],
+      [
+        "zIndexPopupBase",
+        "浮层类组件的基础 Z 轴值，用于一些悬浮类的组件的可以基于该值 Z 轴控制层级，例如 FloatButton、 Affix、Modal 等",
+        "number",
+        "1000"
+      ]
+    ]
+  }
+}

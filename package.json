@@ -26,6 +26,7 @@
     "@biomejs/biome": "2.4.8",
     "@types/node": "^22.0.0",
     "antd": "5.29.3",
+    "dayjs": "1.11.23",
     "happy-dom": "^20.0.0",
     "octane": "0.4.3",
     "react": "^19.2.0",

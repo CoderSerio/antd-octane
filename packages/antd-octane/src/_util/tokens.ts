@@ -19,6 +19,9 @@ export function useComponentTokens<
       "--ao-border": token.colorBorderSecondary,
       "--ao-radius": `${token.borderRadiusLG}px`,
       "--ao-primary": token.colorPrimary,
+      "--ao-success": token.colorSuccess,
+      "--ao-warning": token.colorWarning,
+      "--ao-error": token.colorError,
       "--ao-focus": token.colorPrimaryBorder,
     },
   };

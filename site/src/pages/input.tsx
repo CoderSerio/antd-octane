@@ -247,6 +247,13 @@ export default function InputPage({ section }: { section?: string }) {
           clear。 TextArea.ref 与 InputRef 不同，详见上表。 Form.Item
           已验证直接绑定基础 Input；复杂输入变体仍需分别验证。
         </p>
+        <p>
+          未发布源码已补 Input.Group，支持 compact、size、prefixCls、className、
+          style 与鼠标、焦点事件，保留子输入框的受控状态和 ref。
+          该接口在上游已废弃，建议新代码使用 Space.Compact；
+          Select、日期选择等全部子组件组合及 Form 状态隔离尚未覆盖，
+          公共演示将在新包发布后更新。
+        </p>
       </div>
     </>
   );

@@ -1,0 +1,223 @@
+{
+  "version": "5.29.3",
+  "api": [
+    {
+      "title": "Collapse",
+      "rows": [
+        ["accordion", "手风琴模式", "boolean", "false"],
+        [
+          "activeKey",
+          "当前激活 tab 面板的 key",
+          "string[] | string <br/> number[] | number",
+          "[手风琴模式](#collapse-demo-accordion)下默认第一个元素"
+        ],
+        ["bordered", "带边框风格的折叠面板", "boolean", "true"],
+        [
+          "collapsible",
+          "所有子面板是否可折叠或指定可折叠触发区域",
+          "`header` | `icon` | `disabled`",
+          "-"
+        ],
+        [
+          "defaultActiveKey",
+          "初始化选中面板的 key",
+          "string[] | string<br/> number[] | number",
+          "-"
+        ],
+        ["~~destroyInactivePanel~~", "销毁折叠隐藏的面板", "boolean", "false"],
+        ["destroyOnHidden", "销毁折叠隐藏的面板", "boolean", "false"],
+        ["expandIcon", "自定义切换图标", "(panelProps) => OctaneNode", "-"],
+        ["expandIconPosition", "设置图标位置", "`start` | `end`", "-"],
+        ["ghost", "使折叠面板透明且无边框", "boolean", "false"],
+        [
+          "size",
+          "设置折叠面板大小",
+          "`large` | `middle` | `small`",
+          "`middle`"
+        ],
+        ["onChange", "切换面板的回调", "function", "-"],
+        ["items", "折叠项目内容", "[ItemType](#itemtype)", "-"]
+      ]
+    },
+    {
+      "title": "ItemType",
+      "rows": [
+        [
+          "classNames",
+          "语义化结构 className",
+          "[`Record<header | body, string>`](#semantic-dom)",
+          "-"
+        ],
+        [
+          "collapsible",
+          "是否可折叠或指定可折叠触发区域",
+          "`header` | `icon` | `disabled`",
+          "-"
+        ],
+        ["children", "body 区域内容", "OctaneNode", "-"],
+        ["extra", "自定义渲染每个面板右上角的内容", "OctaneNode", "-"],
+        [
+          "forceRender",
+          "被隐藏时是否渲染 body 区域 DOM 结构",
+          "boolean",
+          "false"
+        ],
+        ["key", "对应 activeKey", "string | number", "-"],
+        ["label", "面板标题", "OctaneNode", "-"],
+        [
+          "showArrow",
+          "是否展示当前面板上的箭头（为 false 时，collapsible 不能设为 icon）",
+          "boolean",
+          "true"
+        ],
+        [
+          "styles",
+          "语义化结构 style",
+          "[`Record<header | body, CSSProperties>`](#semantic-dom)",
+          "-"
+        ]
+      ]
+    },
+    {
+      "title": "Collapse.Panel",
+      "rows": [
+        [
+          "collapsible",
+          "是否可折叠或指定可折叠触发区域",
+          "`header` | `icon` | `disabled`",
+          "-"
+        ],
+        ["extra", "自定义渲染每个面板右上角的内容", "OctaneNode", "-"],
+        [
+          "forceRender",
+          "被隐藏时是否渲染 body 区域 DOM 结构",
+          "boolean",
+          "false"
+        ],
+        ["header", "面板标题", "OctaneNode", "-"],
+        ["key", "对应 activeKey", "string | number", "-"],
+        [
+          "showArrow",
+          "是否展示当前面板上的箭头（为 false 时，collapsible 不能设为 icon）",
+          "boolean",
+          "true"
+        ]
+      ]
+    }
+  ],
+  "tokens": {
+    "component": [
+      [
+        "borderlessContentBg",
+        "简约风格折叠面板的内容背景",
+        "string",
+        "transparent"
+      ],
+      [
+        "borderlessContentPadding",
+        "简约风格折叠面板的内容内边距",
+        "Padding<string | number> | undefined",
+        "4px 16px 16px"
+      ],
+      ["contentBg", "折叠面板内容背景", "string", "#ffffff"],
+      [
+        "contentPadding",
+        "折叠面板内容内边距",
+        "Padding<string | number> | undefined",
+        "16px 16px"
+      ],
+      ["headerBg", "折叠面板头部背景", "string", "rgba(0,0,0,0.02)"],
+      [
+        "headerPadding",
+        "折叠面板头部内边距",
+        "Padding<string | number> | undefined",
+        "12px 16px"
+      ]
+    ],
+    "global": [
+      [
+        "colorBorder",
+        "默认使用的边框颜色, 用于分割不同的元素，例如：表单的分割线、卡片的分割线等。",
+        "string",
+        "#d9d9d9"
+      ],
+      [
+        "colorPrimaryBorder",
+        "主色梯度下的描边用色，用在 Slider 等组件的描边上。",
+        "string",
+        "#91caff"
+      ],
+      [
+        "colorText",
+        "最深的文本色。为了符合W3C标准，默认的文本颜色使用了该色，同时这个颜色也是最深的中性色。",
+        "string",
+        "rgba(0,0,0,0.88)"
+      ],
+      [
+        "colorTextDisabled",
+        "控制禁用状态下的字体颜色。",
+        "string",
+        "rgba(0,0,0,0.25)"
+      ],
+      ["colorTextHeading", "控制标题字体颜色。", "string", "rgba(0,0,0,0.88)"],
+      [
+        "borderRadiusLG",
+        "LG号圆角，用于组件中的一些大圆角，如 Card、Modal 等一些组件样式。",
+        "number",
+        "8"
+      ],
+      [
+        "fontFamily",
+        "Ant Design 的字体家族中优先使用系统默认的界面字体，同时提供了一套利于屏显的备用字体库，来维护在不同平台以及浏览器的显示下，字体始终保持良好的易读性和可读性，体现了友好、稳定和专业的特性。",
+        "string",
+        "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,\n'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',\n'Noto Color Emoji'"
+      ],
+      [
+        "fontSize",
+        "设计系统中使用最广泛的字体大小，文本梯度也将基于该字号进行派生。",
+        "number",
+        "14"
+      ],
+      [
+        "fontSizeIcon",
+        "控制选择器、级联选择器等中的操作图标字体大小。正常情况下与 fontSizeSM 相同。",
+        "number",
+        "12"
+      ],
+      ["fontSizeLG", "大号字体大小", "number", "16"],
+      ["lineHeight", "文本行高", "number", "1.5714285714285714"],
+      ["lineHeightLG", "大型文本行高", "number", "1.5"],
+      [
+        "lineType",
+        "用于控制组件边框、分割线等的样式，默认是实线",
+        "string",
+        "solid"
+      ],
+      ["lineWidth", "用于控制组件边框、分割线等的宽度", "number", "1"],
+      ["lineWidthFocus", "控制线条的宽度，当组件处于聚焦态时。", "number", "3"],
+      ["marginSM", "控制元素外边距，中小尺寸。", "number", "12"],
+      [
+        "motionDurationMid",
+        "动效播放速度，中速。用于中型元素动画交互",
+        "string",
+        "0.2s"
+      ],
+      [
+        "motionDurationSlow",
+        "动效播放速度，慢速。用于大型元素如面板动画交互",
+        "string",
+        "0.3s"
+      ],
+      [
+        "motionEaseInOut",
+        "预设动效曲率",
+        "string",
+        "cubic-bezier(0.645, 0.045, 0.355, 1)"
+      ],
+      ["padding", "控制元素的内间距。", "number", "16"],
+      ["paddingLG", "控制元素的大内间距。", "number", "24"],
+      ["paddingSM", "控制元素的小内间距。", "number", "12"],
+      ["paddingXS", "控制元素的特小内间距。", "number", "8"]
+    ]
+  }
+}

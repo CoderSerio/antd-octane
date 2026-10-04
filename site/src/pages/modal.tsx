@@ -1,144 +1,202 @@
-import { BasicDemo, MoreDemo } from "../demos/modal-basic";
-import { FooterDemo } from "../demos/modal-footer";
-import { ButtonPropsDemo, LifecycleDemo } from "../demos/modal-options";
-import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
+import { ComponentWhenToUse } from "../component-prose";
+import {
+  ReferenceApiTables,
+  ReferenceTokenTable,
+} from "../component-reference";
+import Demo1 from "../demos/modal/async";
+import Demo0 from "../demos/modal/basic";
+import Demo9 from "../demos/modal/button-props";
+import Demo14 from "../demos/modal/classNames";
+import Demo13 from "../demos/modal/confirm";
+import Demo15 from "../demos/modal/confirm-router";
+import Demo2 from "../demos/modal/footer";
+import Demo4 from "../demos/modal/footer-render";
+import Demo5 from "../demos/modal/hooks";
+import Demo3 from "../demos/modal/loading";
+import Demo6 from "../demos/modal/locale";
+import Demo7 from "../demos/modal/manual";
+import Demo10 from "../demos/modal/modal-render";
+import Demo8 from "../demos/modal/position";
+import Demo12 from "../demos/modal/static-info";
+import Demo11 from "../demos/modal/width";
+import { Demo, DemoGrid, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
   return (
     <>
       <h1>
         Modal <span>对话框</span>
-        <small>Alpha</small>
       </h1>
-      <p className="lead">在当前任务之上展示重要信息，并要求用户作出决定。</p>
+      <p className="lead">展示一个对话框，提供标题、内容区、操作区。</p>
       <DocMeta name="Modal" />
-      <h2 id="examples" tabIndex={-1}>
-        代码演示
-      </h2>
-      <div className="demo-grid">
+      <ComponentWhenToUse component="Modal" />
+      <h2 id="examples">代码演示</h2>
+      <DemoGrid>
         <Demo
-          id="basic"
-          title="受控打开与确认反馈"
-          description="关闭后回到触发入口；可使用键盘操作。"
-          source={() => import("../demos/modal-basic.tsx?raw")}
+          id={"basic"}
+          title={"基本"}
+          description={"基础弹框。"}
+          descriptionMarkdown
+          source={() => import("../demos/modal/basic.tsx?raw")}
         >
-          <BasicDemo />
+          <Demo0 />
         </Demo>
         <Demo
-          id="more"
-          title="嵌套浮层与内容保留"
-          description="关闭后回到触发入口；可使用键盘操作。"
-          source={() => import("../demos/modal-basic.tsx?raw")}
+          id={"async"}
+          title={"异步关闭"}
+          description={"点击确定后异步关闭对话框，例如提交表单。"}
+          descriptionMarkdown
+          source={() => import("../demos/modal/async.tsx?raw")}
         >
-          <MoreDemo />
+          <Demo1 />
         </Demo>
         <Demo
-          id="footer"
-          title="自定义操作区"
-          description="需要三种以上操作时，使用 footer 完整替换默认按钮；关闭状态仍由应用控制。"
-          source={() => import("../demos/modal-footer.tsx?raw")}
+          id={"footer"}
+          title={"自定义页脚"}
+          description={
+            "更复杂的例子，自定义了页脚的按钮，点击提交后进入 loading 状态，完成后关闭。\n\n不需要默认确定取消按钮时，你可以把 `footer` 设为 `null`。"
+          }
+          descriptionMarkdown
+          source={() => import("../demos/modal/footer.tsx?raw")}
         >
-          <FooterDemo />
+          <Demo2 />
         </Demo>
         <Demo
-          id="button-props"
-          title="确认按钮条件"
-          description="使用 okButtonProps 配置危险样式与禁用条件；勾选后才允许确认。"
-          source={() => import("../demos/modal-options.tsx?raw")}
+          id={"loading"}
+          title={"加载中"}
+          description={"设置对话框加载状态。"}
+          descriptionMarkdown
+          source={() => import("../demos/modal/loading.tsx?raw")}
         >
-          <ButtonPropsDemo />
+          <Demo3 />
         </Demo>
         <Demo
-          id="lifecycle"
-          title="关闭时保留或销毁"
-          description="分别打开两个对话框，修改输入后再次打开，比较默认保留与 destroyOnHidden。"
-          source={() => import("../demos/modal-options.tsx?raw")}
+          id={"footer-render"}
+          title={"自定义页脚渲染函数"}
+          description={"自定义页脚渲染函数，支持在原有基础上进行扩展。"}
+          descriptionMarkdown
+          source={() => import("../demos/modal/footer-render.tsx?raw")}
         >
-          <LifecycleDemo />
+          <Demo4 />
         </Demo>
-      </div>
-      <h2 id="api" tabIndex={-1}>
-        API
-      </h2>
-      <ApiTable
-        rows={[
-          ["open", "是否显示，关闭回调不会自行修改", "boolean", "false"],
-          [
-            "title / footer",
-            "标题 / 底部内容；footer=null 隐藏按钮",
-            "OctaneNode",
-            "— / 默认按钮",
-          ],
-          ["onOk / onCancel", "确认 / 关闭请求", "(event) => void", "—"],
-          ["confirmLoading", "确认按钮加载状态", "boolean", "false"],
-          ["okType", "默认确定按钮类型", "ButtonProps['type']", "primary"],
-          ["okText / cancelText", "按钮文案", "OctaneNode", "确定 / 取消"],
-          ["okButtonProps / cancelButtonProps", "按钮属性", "ButtonProps", "—"],
-          [
-            "width / centered",
-            "宽度 / 垂直居中",
-            "number | string / boolean",
-            "520 / false",
-          ],
-          ["zIndex", "浮层层级", "number", "主题默认层级"],
-          ["style / bodyStyle", "面板 / 内容区样式", "CSSProperties", "—"],
-          [
-            "closable / closeIcon",
-            "显示关闭按钮 / 自定义图标",
-            "boolean / OctaneNode",
-            "true / ×",
-          ],
-          [
-            "mask / maskClosable / keyboard",
-            "遮罩 / 点击遮罩关闭 / Escape 关闭",
-            "boolean",
-            "true",
-          ],
-          [
-            "destroyOnHidden / forceRender",
-            "关闭后销毁 / 提前渲染",
-            "boolean",
-            "false",
-          ],
-          [
-            "getContainer",
-            "渲染容器，false 为原地渲染",
-            "HTMLElement | (() => HTMLElement) | false",
-            "document.body",
-          ],
-          [
-            "focusTriggerAfterClose",
-            "关闭后恢复原触发元素焦点",
-            "boolean",
-            "true",
-          ],
-          [
-            "afterOpenChange / afterClose",
-            "显示状态变更 / 关闭完成回调",
-            "(open) => void / () => void",
-            "—",
-          ],
-        ]}
-      />
-      <h2 id="tokens" tabIndex={-1}>
-        主题与支持范围
-      </h2>
-      <p>
-        支持 Modal 的
-        contentBg、headerBg、titleColor、titleFontSize、titleLineHeight、footerBg
-        及全局字体、阴影、背景和圆角。当前是受控组件，不提供静态 confirm/info
-        等方法、useModal、App.useApp().modal、响应式 width、modalRender、footer
-        渲染函数或语义 styles/classNames。onOk 不自动等待
-        Promise，异步状态由应用通过 confirmLoading 与 open 管理。
-      </p>
-      <p>
-        原生 portal 保留 ConfigProvider 上下文；打开时锁定 body
-        滚动，嵌套浮层分别释放锁。Tab 焦点保持在最上层，Escape
-        只通知最上层关闭。当前无进出场动画，afterOpenChange 表示 DOM
-        显示状态已更新。getContainer=false 保留原地 DOM，但定位仍为
-        fixed；自定义容器不替代 body
-        滚动锁。关闭默认保留已挂载的子树；destroyOnHidden 可用于清空表单状态。
-      </p>
+        <Demo
+          id={"hooks"}
+          title={"使用 hooks 获得上下文"}
+          description={
+            "通过 `Modal.useModal` 创建支持读取 context 的 `contextHolder`。其中仅有 hooks 方法支持 Promise `await` 操作。"
+          }
+          descriptionMarkdown
+          source={() => import("../demos/modal/hooks.tsx?raw")}
+        >
+          <Demo5 />
+        </Demo>
+        <Demo
+          id={"locale"}
+          title={"国际化"}
+          description={"设置 `okText` 与 `cancelText` 以自定义按钮文字。"}
+          descriptionMarkdown
+          source={() => import("../demos/modal/locale.tsx?raw")}
+        >
+          <Demo6 />
+        </Demo>
+        <Demo
+          id={"manual"}
+          title={"手动更新和移除"}
+          description={"通过返回的 instance 手动更新和关闭对话框。"}
+          descriptionMarkdown
+          source={() => import("../demos/modal/manual.tsx?raw")}
+        >
+          <Demo7 />
+        </Demo>
+        <Demo
+          id={"position"}
+          title={"自定义位置"}
+          description={
+            "使用 `centered` 或类似 `style.top` 的样式来设置对话框位置。"
+          }
+          descriptionMarkdown
+          source={() => import("../demos/modal/position.tsx?raw")}
+        >
+          <Demo8 />
+        </Demo>
+        <Demo
+          id={"button-props"}
+          title={"自定义页脚按钮属性"}
+          description={
+            "传入 `okButtonProps` 和 `cancelButtonProps` 可分别自定义确定按钮和取消按钮的 props。"
+          }
+          descriptionMarkdown
+          source={() => import("../demos/modal/button-props.tsx?raw")}
+        >
+          <Demo9 />
+        </Demo>
+        <Demo
+          id={"modal-render"}
+          title={"自定义渲染对话框"}
+          description={"自定义渲染对话框，可实现拖拽。"}
+          descriptionMarkdown
+          source={() => import("../demos/modal/modal-render.tsx?raw")}
+        >
+          <Demo10 />
+        </Demo>
+        <Demo
+          id={"width"}
+          title={"自定义模态的宽度"}
+          description={"使用 `width` 来设置模态对话框的宽度。"}
+          descriptionMarkdown
+          source={() => import("../demos/modal/width.tsx?raw")}
+        >
+          <Demo11 />
+        </Demo>
+        <Demo
+          id={"static-info"}
+          title={"静态方法"}
+          description={
+            "静态方法无法消费 Context，不能动态响应 ConfigProvider 提供的各项配置，启用 `layer` 时还可能导致样式异常。请优先使用 hooks 版本或者 App 组件提供的 `modal` 实例。"
+          }
+          descriptionMarkdown
+          source={() => import("../demos/modal/static-info.tsx?raw")}
+        >
+          <Demo12 />
+        </Demo>
+        <Demo
+          id={"confirm"}
+          title={"静态确认对话框"}
+          description={
+            "使用 `confirm()` 可以快捷地弹出确认框。onCancel/onOk 返回 promise 可以延迟关闭。"
+          }
+          descriptionMarkdown
+          source={() => import("../demos/modal/confirm.tsx?raw")}
+        >
+          <Demo13 />
+        </Demo>
+        <Demo
+          id={"classNames"}
+          title={"自定义内部模块 className"}
+          description={
+            "通过 `classNames` 属性设置弹窗内部区域（header、body、footer、mask、wrapper）的 `className`。"
+          }
+          descriptionMarkdown
+          source={() => import("../demos/modal/classNames.tsx?raw")}
+        >
+          <Demo14 />
+        </Demo>
+        <Demo
+          id={"confirm-router"}
+          title={"销毁确认对话框"}
+          description={
+            "使用 `Modal.destroyAll()` 可以销毁弹出的确认窗。通常用于路由监听当中，处理路由前进、后退不能销毁确认对话框的问题。"
+          }
+          descriptionMarkdown
+          source={() => import("../demos/modal/confirm-router.tsx?raw")}
+        >
+          <Demo15 />
+        </Demo>
+      </DemoGrid>
+      <h2 id="api">API</h2>
+      <ReferenceApiTables component="Modal" />
+      <h2 id="tokens">主题变量（Design Token）</h2>
+      <ReferenceTokenTable component="Modal" />
     </>
   );
 }

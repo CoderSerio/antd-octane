@@ -1,0 +1,75 @@
+/* Adapted from react-fast-marquee 1.6.5 (MIT, Copyright 2020 justin-chu). */
+.demo-marquee {
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  width: var(--width);
+  transform: var(--transform);
+}
+.demo-marquee:hover div {
+  animation-play-state: var(--pause-on-hover);
+}
+.demo-marquee:active div {
+  animation-play-state: var(--pause-on-click);
+}
+.demo-marquee .rfm-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.demo-marquee .rfm-overlay::before,
+.demo-marquee .rfm-overlay::after {
+  background: linear-gradient(
+    to right,
+    var(--gradient-color),
+    rgba(255, 255, 255, 0)
+  );
+  content: "";
+  height: 100%;
+  position: absolute;
+  width: var(--gradient-width);
+  z-index: 2;
+  pointer-events: none;
+  touch-action: none;
+}
+.demo-marquee .rfm-overlay::after {
+  right: 0;
+  top: 0;
+  transform: rotateZ(180deg);
+}
+.demo-marquee .rfm-overlay::before {
+  left: 0;
+  top: 0;
+}
+.demo-marquee .rfm-marquee {
+  flex: 0 0 auto;
+  min-width: var(--min-width);
+  z-index: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  animation: demo-marquee-scroll var(--duration) linear var(--delay)
+    var(--iteration-count);
+  animation-play-state: var(--play);
+  animation-delay: var(--delay);
+  animation-direction: var(--direction);
+}
+@keyframes demo-marquee-scroll {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+.demo-marquee .rfm-initial-child-container {
+  flex: 0 0 auto;
+  display: flex;
+  min-width: auto;
+  flex-direction: row;
+  align-items: center;
+}
+.demo-marquee .rfm-child {
+  transform: var(--transform);
+}

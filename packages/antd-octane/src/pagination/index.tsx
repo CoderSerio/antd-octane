@@ -2,6 +2,8 @@
 import type { CSSProperties, HTMLAttributes, OctaneNode } from "octane";
 import { useState } from "octane";
 import { useComponentTokens } from "../_util/tokens";
+import { useConfig } from "../config-provider";
+import { type Locale, useLocale } from "../locale";
 export interface PaginationProps
   extends Omit<HTMLAttributes<HTMLElement>, "onChange" | "defaultValue"> {
   total?: number;
@@ -26,6 +28,7 @@ export interface PaginationProps
     originalElement: OctaneNode,
   ) => OctaneNode;
   style?: CSSProperties;
+  locale?: Locale["Pagination"];
 }
 const positive = (n: number | undefined, fallback: number) =>
   Number.isFinite(n) && (n as number) > 0
@@ -37,7 +40,7 @@ export function Pagination({
   defaultCurrent = 1,
   pageSize,
   defaultPageSize = 10,
-  disabled = false,
+  disabled: customDisabled,
   size = "default",
   simple = false,
   hideOnSinglePage = false,
@@ -51,9 +54,14 @@ export function Pagination({
   itemRender,
   className,
   style,
+  locale: customLocale,
   ...rest
 }: PaginationProps) {
   const { token: t, component: c, base } = useComponentTokens("Pagination");
+  const config = useConfig();
+  const disabled = customDisabled ?? config.componentDisabled ?? false;
+  const [contextLocale] = useLocale("Pagination");
+  const locale = { ...contextLocale, ...customLocale };
   const [inner, setInner] = useState(defaultCurrent);
   const [innerSize, setInnerSize] = useState(defaultPageSize);
   const [jump, setJump] = useState<string>();
@@ -106,12 +114,12 @@ export function Pagination({
         kind === "page"
           ? `第 ${number} 页`
           : kind === "prev"
-            ? "上一页"
+            ? locale.prev_page
             : kind === "next"
-              ? "下一页"
+              ? locale.next_page
               : kind === "jump-prev"
-                ? "向前跳页"
-                : "向后跳页"
+                ? locale.prev_5
+                : locale.next_5
       }
       onClick={() => change(number)}
     >
@@ -218,7 +226,8 @@ export function Pagination({
             >
               {options.map((option) => (
                 <option key={option} value={option}>
-                  {option} 条/页
+                  {option}
+                  {locale.items_per_page}
                 </option>
               ))}
             </select>
@@ -226,7 +235,7 @@ export function Pagination({
         )}
         {showQuickJumper && !simple && (
           <li className="ant-pagination-options-quick-jumper">
-            跳至{" "}
+            {locale.jump_to}{" "}
             <input
               aria-label="跳转页码"
               disabled={disabled}
@@ -240,7 +249,7 @@ export function Pagination({
               }}
               onBlur={submitJump}
             />{" "}
-            页
+            {locale.page}
           </li>
         )}
       </ul>

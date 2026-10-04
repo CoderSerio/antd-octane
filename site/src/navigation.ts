@@ -224,6 +224,27 @@ export const nav = [
     keywords: "card 卡片",
   },
   {
+    id: "calendar",
+    title: "Calendar 日历",
+    category: "components",
+    group: "数据展示",
+    keywords: "calendar 日历 日期",
+  },
+  {
+    id: "table",
+    title: "Table 表格",
+    category: "components",
+    group: "数据展示",
+    keywords: "table 表格 排序 筛选 分页",
+  },
+  {
+    id: "tree",
+    title: "Tree 树形控件",
+    category: "components",
+    group: "数据展示",
+    keywords: "tree 树形控件 展开 复选",
+  },
+  {
     id: "badge",
     title: "Badge 徽标数",
     category: "components",
@@ -311,7 +332,7 @@ export const nav = [
     id: "tabs",
     title: "Tabs 标签页",
     category: "components",
-    group: "数据展示",
+    group: "导航",
     keywords: "tabs 标签页",
   },
   {
@@ -455,6 +476,20 @@ export const nav = [
     keywords: "Icon 图标",
   },
   {
+    id: "config-provider",
+    title: "ConfigProvider 全局化配置",
+    category: "components",
+    group: "其他",
+    keywords: "ConfigProvider 全局化配置 国际化 主题 尺寸 禁用",
+  },
+  {
+    id: "util",
+    title: "Util 工具类",
+    category: "components",
+    group: "其他",
+    keywords: "GetProp GetProps GetRef TypeScript 工具类型",
+  },
+  {
     id: "tour",
     title: "Tour 漫游式引导",
     category: "components",
@@ -469,6 +504,25 @@ export const nav = [
     keywords: "QRCode 二维码",
   },
 ];
+
+const antdOrderedGroups = new Set(["导航", "数据展示", "反馈", "其他"]);
+const componentDocTitle = (label: string) => label.split(" ", 1)[0] || label;
+
+export function orderComponentGroup<T extends { title: string }>(
+  items: T[],
+  group: string,
+): T[] {
+  if (!antdOrderedGroups.has(group)) return items;
+
+  // antd v5's Dumi sidebar falls back to frontmatter title for equal order/depth siblings.
+  return [...items].sort((a, b) =>
+    componentDocTitle(a.title).localeCompare(
+      componentDocTitle(b.title),
+      "zh-CN",
+    ),
+  );
+}
+
 export const toc: Record<string, [string, string][]> = {
   overview: [
     ["features", "特性"],
@@ -525,6 +579,7 @@ export const toc: Record<string, [string, string][]> = {
   ],
   compatibility: [
     ["matrix", "支持矩阵"],
+    ["component-notes", "组件实现差异"],
     ["migration", "迁移检查"],
     ["migration-example", "表单迁移示例"],
     ["pending", "待验证能力"],
@@ -639,15 +694,22 @@ toc.radio = [
   ["tokens", "主题与支持范围"],
 ];
 toc.tag = [
-  ["when", "何时使用"],
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
   ["basic", "基本使用"],
-  ["more", "组合与交互"],
+  ["colorful", "多彩标签"],
+  ["control", "动态添加和删除"],
+  ["checkable", "可选择标签"],
+  ["icon", "图标按钮"],
+  ["status", "预设状态的标签"],
+  ["borderless", "无边框"],
+  ["draggable", "可拖拽标签"],
+  ["animation", "动画"],
   ["api", "API"],
-  ["tokens", "主题与支持范围"],
+  ["tokens", "主题变量"],
 ];
 toc.alert = [
-  ["when", "何时使用"],
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
   ["basic", "基本使用"],
   ["more", "组合与交互"],
@@ -657,28 +719,48 @@ toc.alert = [
   ["tokens", "主题与支持范围"],
 ];
 toc.card = [
-  ["when", "何时使用"],
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
-  ["basic", "基本使用"],
-  ["more", "组合与交互"],
+  ["basic", "典型卡片"],
+  ["border-less", "无边框"],
+  ["simple", "简洁卡片"],
+  ["flexible-content", "更灵活的内容展示"],
+  ["grid-card", "网格型内嵌卡片"],
+  ["loading", "预加载的卡片"],
+  ["in-column", "栅格卡片"],
+  ["inner", "内部卡片"],
+  ["tabs", "带页签的卡片"],
+  ["meta", "支持更多内容配置"],
   ["api", "API"],
-  ["tokens", "主题与支持范围"],
+  ["tokens", "主题变量"],
 ];
 toc.badge = [
-  ["when", "何时使用"],
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
-  ["basic", "基本使用"],
-  ["more", "组合与交互"],
+  ["basic", "基本"],
+  ["no-wrapper", "独立使用"],
+  ["overflow", "封顶数字"],
+  ["dot", "讨嫌的小红点"],
+  ["change", "动态"],
+  ["link", "可点击"],
+  ["offset", "自定义位置偏移"],
+  ["size", "大小"],
+  ["status", "状态点"],
+  ["colorful", "多彩徽标"],
+  ["ribbon", "缎带"],
   ["api", "API"],
-  ["tokens", "主题与支持范围"],
+  ["tokens", "主题变量"],
 ];
 toc.avatar = [
-  ["when", "何时使用"],
   ["examples", "代码演示"],
-  ["basic", "基本使用"],
-  ["more", "组合与交互"],
+  ["basic", "基本"],
+  ["type", "类型"],
+  ["dynamic", "自动调整字符大小"],
+  ["badge", "带徽标的头像"],
+  ["group", "Avatar.Group"],
+  ["responsive", "响应式尺寸"],
   ["api", "API"],
-  ["tokens", "主题与支持范围"],
+  ["tokens", "主题变量"],
 ];
 
 toc.grid = [
@@ -704,11 +786,20 @@ toc.layout = [
   ["tokens", "主题与支持范围"],
 ];
 toc.collapse = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
-  ["basic", "折叠与状态保留"],
-  ["more", "手风琴与独立操作"],
+  ["basic", "折叠面板"],
+  ["size", "面板尺寸"],
+  ["accordion", "手风琴"],
+  ["mix", "嵌套面板"],
+  ["borderless", "简洁风格"],
+  ["custom", "自定义面板"],
+  ["noarrow", "隐藏箭头"],
+  ["extra", "额外节点"],
+  ["ghost", "幽灵折叠面板"],
+  ["collapsible", "可折叠触发区域"],
   ["api", "API"],
-  ["tokens", "主题与支持范围"],
+  ["tokens", "主题变量"],
 ];
 toc.tabs = [
   ["examples", "代码演示"],
@@ -718,32 +809,52 @@ toc.tabs = [
   ["tokens", "主题与支持范围"],
 ];
 toc.empty = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
-  ["basic", "空状态"],
-  ["more", "简洁图与操作入口"],
+  ["basic", "基本"],
+  ["simple", "选择图片"],
+  ["customize", "自定义"],
+  ["config-provider", "全局化配置"],
+  ["description", "无描述"],
   ["api", "API"],
-  ["tokens", "主题与支持范围"],
+  ["tokens", "主题变量"],
 ];
 toc.statistic = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
-  ["basic", "数值与金额"],
-  ["more", "字符串精度"],
+  ["basic", "基本"],
+  ["unit", "单位"],
+  ["animated", "动画效果"],
+  ["timer", "计时器"],
+  ["card", "在卡片中使用"],
   ["api", "API"],
-  ["tokens", "主题与支持范围"],
+  ["tokens", "主题变量"],
 ];
 toc.timeline = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
-  ["basic", "事件与状态"],
-  ["more", "交替布局与等待状态"],
+  ["basic", "基本用法"],
+  ["color", "圆圈颜色"],
+  ["pending", "最后一个及排序"],
+  ["alternate", "交替展现"],
+  ["custom", "自定义时间轴点"],
+  ["right", "右侧时间轴点"],
+  ["label", "标签"],
   ["api", "API"],
-  ["tokens", "主题与支持范围"],
+  ["tokens", "主题变量"],
 ];
 toc.descriptions = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
-  ["basic", "成组信息"],
-  ["more", "响应式与边框"],
+  ["basic", "基本"],
+  ["border", "带边框的"],
+  ["size", "自定义尺寸"],
+  ["responsive", "响应式"],
+  ["vertical", "垂直"],
+  ["vertical-border", "垂直带边框的"],
+  ["block", "整行"],
   ["api", "API"],
-  ["tokens", "主题与支持范围"],
+  ["tokens", "主题变量"],
 ];
 
 toc.typography = [
@@ -762,34 +873,55 @@ toc.typography = [
   ["tokens", "主题与支持范围"],
 ];
 toc.list = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
   ["basic", "带操作的列表"],
-  ["more", "响应式网格与空状态"],
+  ["simple", "简单列表"],
+  ["loadmore", "加载更多"],
+  ["vertical", "竖排列表"],
+  ["pagination", "分页"],
+  ["grid", "栅格列表"],
+  ["responsive", "响应式网格"],
+  ["infinite-load", "无限加载"],
+  ["drag-sorting", "拖拽排序"],
+  ["drag-sorting-handler", "拖拽排序（拖动手柄）"],
+  ["grid-drag-sorting", "栅格拖拽排序"],
+  ["grid-drag-sorting-handler", "栅格拖拽排序（拖动手柄）"],
+  ["virtual-list", "虚拟列表"],
   ["api", "API"],
-  ["tokens", "主题与支持范围"],
+  ["tokens", "主题变量"],
 ];
 
 toc.spin = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
-  ["basic", "三种尺寸"],
-  ["more", "局部加载与延迟"],
-  ["fullscreen", "全屏刷新反馈"],
-  ["indicator", "自定义指示器"],
+  ["basic", "基本用法"],
+  ["size", "各种大小"],
+  ["nested", "卡片加载中"],
+  ["tip", "自定义描述文案"],
+  ["delayAndDebounce", "延迟"],
+  ["custom-indicator", "自定义指示符"],
+  ["percent", "进度"],
+  ["fullscreen", "全屏"],
   ["api", "API"],
   ["tokens", "主题与支持范围"],
 ];
 
 toc.skeleton = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
   ["basic", "内容占位"],
-  ["more", "独立占位组件"],
-  ["layout", "按内容结构配置"],
-  ["element-sizes", "独立占位尺寸"],
+  ["complex", "复杂的组合"],
+  ["active", "动画效果"],
+  ["element", "按钮/头像/输入框/图像/自定义节点"],
+  ["children", "包含子组件"],
+  ["list", "列表"],
   ["api", "API"],
   ["tokens", "主题与支持范围"],
 ];
 
 toc.progress = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
   ["basic", "进度与状态"],
   ["more", "圆形、仪表盘与步骤"],
@@ -800,6 +932,7 @@ toc.progress = [
 ];
 
 toc.result = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
   ["basic", "成功与后续操作"],
   ["more", "异常页面"],
@@ -810,11 +943,22 @@ toc.result = [
 ];
 
 toc.segmented = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
-  ["basic", "基本用法与尺寸"],
-  ["more", "受控值与布局"],
+  ["basic", "基本"],
+  ["controlled", "受控模式"],
+  ["vertical", "垂直方向"],
+  ["block", "Block 分段选择器"],
+  ["shape", "胶囊形状"],
+  ["disabled", "不可用"],
+  ["custom", "自定义渲染"],
+  ["dynamic", "动态数据"],
+  ["size", "三种大小"],
+  ["with-icon", "设置图标"],
+  ["icon-only", "只设置图标"],
+  ["with-name", "配合 name 使用"],
   ["api", "API"],
-  ["tokens", "主题与支持范围"],
+  ["tokens", "主题变量"],
 ];
 
 toc.select = [
@@ -915,19 +1059,31 @@ toc.steps = [
 ];
 
 toc.tooltip = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
-  ["basic", "基本提示"],
-  ["more", "十二种位置"],
+  ["basic", "基本"],
+  ["placement", "位置"],
+  ["arrow", "箭头展示"],
+  ["shift", "贴边偏移"],
+  ["colorful", "多彩文字提示"],
+  ["disabled", "禁用"],
+  ["wrap-custom-component", "自定义子组件"],
   ["api", "API"],
-  ["tokens", "主题与支持范围"],
+  ["tokens", "主题变量"],
 ];
 
 toc.popover = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
-  ["basic", "多种触发方式"],
-  ["more", "受控显示与操作"],
+  ["basic", "基本"],
+  ["control", "从浮层内关闭"],
+  ["hover-with-click", "悬停点击弹出窗口"],
+  ["triggerType", "三种触发方式"],
+  ["placement", "位置"],
+  ["arrow", "箭头展示"],
+  ["shift", "贴边偏移"],
   ["api", "API"],
-  ["tokens", "主题与支持范围"],
+  ["tokens", "主题变量"],
 ];
 
 toc["input-number"] = [
@@ -952,6 +1108,7 @@ toc.slider = [
 ];
 
 toc.message = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
   ["basic", "提示类型与自动关闭"],
   ["more", "主题继承与消息更新"],
@@ -961,6 +1118,7 @@ toc.message = [
   ["tokens", "主题与支持范围"],
 ];
 toc.notification = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
   ["basic", "类型、位置与自动关闭"],
   ["more", "更新内容与操作按钮"],
@@ -970,6 +1128,7 @@ toc.notification = [
   ["tokens", "主题与支持范围"],
 ];
 toc.modal = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
   ["basic", "受控打开与确认反馈"],
   ["more", "嵌套浮层与内容保留"],
@@ -980,6 +1139,7 @@ toc.modal = [
   ["tokens", "主题与支持范围"],
 ];
 toc.drawer = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
   ["basic", "四个方向"],
   ["more", "关闭后销毁内容"],
@@ -1012,6 +1172,7 @@ toc.dropdown = [
   ["tokens", "主题与支持范围"],
 ];
 toc.popconfirm = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
   ["basic", "确认与取消"],
   ["more", "异步确认"],
@@ -1022,12 +1183,12 @@ toc.popconfirm = [
 ];
 
 toc.affix = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
   ["basic", "指定滚动容器"],
   ["more", "固定到底部"],
   ["offset", "动态偏移与状态回调"],
   ["api", "API"],
-  ["tokens", "主题与支持范围"],
 ];
 toc.anchor = [
   ["examples", "代码演示"],
@@ -1051,18 +1212,62 @@ toc["float-button"] = [
   ["tokens", "主题与支持范围"],
 ];
 toc.image = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
   ["basic", "基本用法"],
-  ["more", "交互与状态"],
+  ["fallback", "容错处理"],
+  ["placeholder", "渐进加载"],
+  ["preview-group", "多张图片预览"],
+  ["preview-group-visible", "相册模式"],
+  ["previewSrc", "自定义预览资源"],
+  ["controlled-preview", "受控的预览"],
+  ["toolbarRender", "自定义工具栏"],
+  ["imageRender", "自定义预览内容"],
+  ["nested", "嵌套"],
   ["api", "API"],
-  ["tokens", "主题与支持范围"],
+  ["tokens", "主题变量"],
+];
+toc.tree = [
+  ["when-to-use", "何时使用"],
+  ["examples", "代码演示"],
+  ["basic", "基本"],
+  ["basic-controlled", "受控操作示例"],
+  ["dynamic", "异步数据加载"],
+  ["directory", "目录"],
+  ["search", "可搜索"],
+  ["draggable", "拖动示例"],
+  ["line", "连接线"],
+  ["block-node", "占据整行"],
+  ["customized-icon", "自定义图标"],
+  ["virtual-scroll", "虚拟滚动"],
+  ["switcher-icon", "自定义展开/折叠图标"],
+  ["api", "API"],
+  ["tokens", "主题变量"],
+];
+toc.calendar = [
+  ["when-to-use", "何时使用"],
+  ["examples", "代码演示"],
+  ["basic", "基本"],
+  ["notice-calendar", "通知事项日历"],
+  ["card", "卡片模式"],
+  ["lunar", "农历日历"],
+  ["select", "选择功能"],
+  ["week", "周数"],
+  ["customize-header", "自定义头部"],
+  ["api", "API"],
+  ["tokens", "主题变量"],
 ];
 toc.carousel = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
   ["basic", "基本用法"],
-  ["more", "交互与状态"],
+  ["position", "位置"],
+  ["autoplay", "自动切换"],
+  ["fade", "渐显"],
+  ["arrows", "切换箭头"],
+  ["dot-duration", "进度条"],
   ["api", "API"],
-  ["tokens", "主题与支持范围"],
+  ["tokens", "主题变量"],
 ];
 toc.splitter = [
   ["examples", "代码演示"],
@@ -1076,6 +1281,7 @@ toc.splitter = [
   ["tokens", "主题与支持范围"],
 ];
 toc.watermark = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
   ["basic", "多行文字水印"],
   ["more", "图片、间距与旋转"],
@@ -1084,6 +1290,7 @@ toc.watermark = [
   ["tokens", "主题与支持范围"],
 ];
 toc.app = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
   ["basic", "共享实例"],
   ["more", "不增加容器"],
@@ -1101,18 +1308,34 @@ toc.icon = [
 ];
 
 toc["qr-code"] = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
-  ["basic", "内容与渲染方式"],
-  ["more", "状态与颜色"],
+  ["base", "基本使用"],
+  ["icon", "带 Icon 的例子"],
+  ["status", "不同的状态"],
+  ["customStatusRender", "自定义状态渲染器"],
+  ["type", "自定义渲染类型"],
+  ["customSize", "自定义尺寸"],
+  ["customColor", "自定义颜色"],
+  ["download", "下载二维码"],
+  ["errorlevel", "纠错比例"],
+  ["Popover", "高级用法"],
   ["api", "API"],
-  ["tokens", "主题与支持范围"],
+  ["tokens", "主题变量"],
 ];
 
 toc.tour = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
   ["basic", "基本用法"],
+  ["non-modal", "非模态"],
+  ["placement", "位置"],
+  ["mask", "自定义遮罩样式"],
+  ["indicator", "自定义指示器"],
+  ["actions-render", "自定义操作按钮"],
+  ["gap", "自定义高亮区域的样式"],
   ["api", "API"],
-  ["tokens", "主题与支持范围"],
+  ["tokens", "主题变量"],
 ];
 
 toc.tailwindcss = [
@@ -1129,4 +1352,256 @@ toc["for-agents"] = [
   ["context", "Agent 上下文"],
   ["usage", "状态与反馈"],
   ["boundaries", "API 边界"],
+];
+
+toc.table = [
+  ["when-to-use", "何时使用"],
+  ["examples", "代码演示"],
+  ["basic", "基本用法"],
+  ["jsx", "JSX 风格的 API"],
+  ["row-selection", "可选择"],
+  ["row-selection-and-operation", "选择和操作"],
+  ["row-selection-custom", "自定义选择项"],
+  ["head", "筛选和排序"],
+  ["filter-in-tree", "树型筛选菜单"],
+  ["filter-search", "自定义筛选的搜索"],
+  ["multiple-sorter", "多列排序"],
+  ["reset-filter", "可控的筛选和排序"],
+  ["custom-filter-panel", "自定义筛选菜单"],
+  ["ajax", "远程加载数据"],
+  ["size", "紧凑型"],
+  ["bordered", "带边框"],
+  ["expand", "可展开"],
+  ["colspan-rowspan", "表格行/列合并"],
+  ["tree-data", "树形数据展示"],
+  ["fixed-header", "固定表头"],
+  ["fixed-columns", "固定列"],
+  ["fixed-gapped-columns", "堆叠固定列"],
+  ["fixed-columns-header", "固定头和列"],
+  ["hidden-columns", "隐藏列"],
+  ["grouping-columns", "表头分组"],
+  ["nested-table", "嵌套子表格"],
+  ["ellipsis", "单元格自动省略"],
+  ["ellipsis-custom-tooltip", "自定义单元格省略提示"],
+  ["custom-empty", "自定义空状态"],
+  ["summary", "总结栏"],
+  ["virtual-list", "虚拟列表"],
+  ["responsive", "响应式"],
+  ["pagination", "分页设置"],
+  ["sticky", "随页面滚动的固定表头和滚动条"],
+  ["api", "API"],
+  ["tokens", "主题变量（Design Token）"],
+];
+
+// Feedback and Other demo anchors follow the pinned upstream source.
+toc.alert = [
+  ["when-to-use", "何时使用"],
+  ["examples", "代码演示"],
+  ["basic", "基本"],
+  ["style", "四种样式"],
+  ["closable", "可关闭的警告提示"],
+  ["description", "含有辅助性文字介绍"],
+  ["icon", "图标"],
+  ["banner", "顶部公告"],
+  ["loop-banner", "轮播的公告"],
+  ["smooth-closed", "平滑地卸载"],
+  ["error-boundary", "Octane 错误处理"],
+  ["action", "操作"],
+  ["api", "API"],
+  ["tokens", "主题变量（Design Token）"],
+];
+toc.drawer = [
+  ["when-to-use", "何时使用"],
+  ["examples", "代码演示"],
+  ["basic-right", "基础抽屉"],
+  ["placement", "自定义位置"],
+  ["loading", "加载中"],
+  ["extra", "额外操作"],
+  ["render-in-current", "渲染在当前 DOM"],
+  ["form-in-drawer", "抽屉表单"],
+  ["user-profile", "信息预览抽屉"],
+  ["multi-level-drawer", "多层抽屉"],
+  ["size", "预设宽度"],
+  ["classNames", "自定义内部样式"],
+  ["closable-placement", "关闭按钮位置"],
+  ["api", "API"],
+  ["tokens", "主题变量（Design Token）"],
+];
+toc.message = [
+  ["when-to-use", "何时使用"],
+  ["examples", "代码演示"],
+  ["hooks", "Hooks 调用（推荐）"],
+  ["other", "其他提示类型"],
+  ["duration", "修改延时"],
+  ["loading", "加载中"],
+  ["thenable", "Promise 接口"],
+  ["custom-style", "自定义样式"],
+  ["update", "更新消息内容"],
+  ["info", "静态方法（不推荐）"],
+  ["api", "API"],
+  ["global", "全局方法"],
+  ["tokens", "主题变量（Design Token）"],
+];
+toc.modal = [
+  ["when-to-use", "何时使用"],
+  ["examples", "代码演示"],
+  ["basic", "基本"],
+  ["async", "异步关闭"],
+  ["footer", "自定义页脚"],
+  ["loading", "加载中"],
+  ["footer-render", "自定义页脚渲染函数"],
+  ["hooks", "使用 hooks 获得上下文"],
+  ["locale", "国际化"],
+  ["manual", "手动更新和移除"],
+  ["position", "自定义位置"],
+  ["button-props", "自定义页脚按钮属性"],
+  ["modal-render", "自定义渲染对话框"],
+  ["width", "自定义模态的宽度"],
+  ["static-info", "静态方法"],
+  ["confirm", "静态确认对话框"],
+  ["classNames", "自定义内部模块 className"],
+  ["confirm-router", "销毁确认对话框"],
+  ["api", "API"],
+  ["tokens", "主题变量（Design Token）"],
+];
+toc.notification = [
+  ["when-to-use", "何时使用"],
+  ["examples", "代码演示"],
+  ["hooks", "Hooks 调用（推荐）"],
+  ["duration", "自动关闭的延时"],
+  ["with-icon", "带有图标的通知提醒框"],
+  ["with-btn", "自定义按钮"],
+  ["custom-icon", "自定义图标"],
+  ["placement", "位置"],
+  ["custom-style", "自定义样式"],
+  ["update", "更新消息内容"],
+  ["stack", "堆叠"],
+  ["show-with-progress", "显示进度条"],
+  ["basic", "静态方法（不推荐）"],
+  ["api", "API"],
+  ["tokens", "主题变量（Design Token）"],
+];
+toc.popconfirm = [
+  ["when-to-use", "何时使用"],
+  ["examples", "代码演示"],
+  ["basic", "基本"],
+  ["locale", "国际化"],
+  ["placement", "位置"],
+  ["shift", "贴边偏移"],
+  ["dynamic-trigger", "条件触发"],
+  ["icon", "自定义 Icon 图标"],
+  ["async", "异步关闭"],
+  ["promise", "基于 Promise 的异步关闭"],
+  ["api", "API"],
+  ["tokens", "主题变量（Design Token）"],
+];
+toc.progress = [
+  ["when-to-use", "何时使用"],
+  ["examples", "代码演示"],
+  ["line", "进度条"],
+  ["circle", "进度圈"],
+  ["line-mini", "小型进度条"],
+  ["circle-micro", "响应式进度圈"],
+  ["circle-mini", "小型进度圈"],
+  ["dynamic", "动态展示"],
+  ["format", "自定义文字格式"],
+  ["dashboard", "仪表盘"],
+  ["segment", "分段进度条"],
+  ["linecap", "边缘形状"],
+  ["gradient-line", "自定义进度条渐变色"],
+  ["steps", "步骤进度条"],
+  ["circle-steps", "步骤进度圈"],
+  ["size", "尺寸"],
+  ["info-position", "改变进度数值位置"],
+  ["api", "API"],
+  ["tokens", "主题变量（Design Token）"],
+];
+toc.result = [
+  ["when-to-use", "何时使用"],
+  ["examples", "代码演示"],
+  ["success", "Success"],
+  ["info", "Info"],
+  ["warning", "Warning"],
+  ["403", "403"],
+  ["404", "404"],
+  ["500", "500"],
+  ["error", "Error"],
+  ["customIcon", "自定义 icon"],
+  ["api", "API"],
+  ["tokens", "主题变量（Design Token）"],
+];
+toc.skeleton = [
+  ["when-to-use", "何时使用"],
+  ["examples", "代码演示"],
+  ["basic", "基本"],
+  ["complex", "复杂的组合"],
+  ["active", "动画效果"],
+  ["element", "按钮/头像/输入框/图像/自定义节点"],
+  ["children", "包含子组件"],
+  ["list", "列表"],
+  ["api", "API"],
+  ["tokens", "主题变量（Design Token）"],
+];
+toc.spin = [
+  ["when-to-use", "何时使用"],
+  ["examples", "代码演示"],
+  ["basic", "基本用法"],
+  ["size", "各种大小"],
+  ["nested", "卡片加载中"],
+  ["tip", "自定义描述文案"],
+  ["delayAndDebounce", "延迟"],
+  ["custom-indicator", "自定义指示符"],
+  ["percent", "进度"],
+  ["fullscreen", "全屏"],
+  ["api", "API"],
+  ["tokens", "主题变量（Design Token）"],
+];
+toc.watermark = [
+  ["when-to-use", "何时使用"],
+  ["examples", "代码演示"],
+  ["basic", "基本"],
+  ["multi-line", "多行水印"],
+  ["image", "图片水印"],
+  ["custom", "自定义配置"],
+  ["portal", "Modal 与 Drawer"],
+  ["api", "API"],
+  ["tokens", "主题变量（Design Token）"],
+];
+toc.affix = [
+  ["when-to-use", "何时使用"],
+  ["examples", "代码演示"],
+  ["basic", "基本"],
+  ["on-change", "固定状态改变的回调"],
+  ["target", "滚动容器"],
+  ["api", "API"],
+];
+toc.app = [
+  ["when-to-use", "何时使用"],
+  ["examples", "代码演示"],
+  ["basic", "基本用法"],
+  ["config", "Hooks 配置"],
+  ["usage", "如何使用"],
+  ["basic-usage", "基础用法"],
+  ["config-order", "与 ConfigProvider 先后顺序"],
+  ["nested-usage", "内嵌使用场景"],
+  ["global-usage", "全局场景"],
+  ["api", "API"],
+  ["tokens", "主题变量（Design Token）"],
+];
+toc["config-provider"] = [
+  ["usage", "使用"],
+  ["csp", "内容安全策略（CSP）"],
+  ["examples", "代码演示"],
+  ["locale", "国际化"],
+  ["direction", "方向"],
+  ["size", "组件尺寸"],
+  ["theme", "主题"],
+  ["wave", "自定义波纹"],
+  ["holderRender", "静态方法"],
+  ["api", "API"],
+];
+toc.util = [
+  ["get-ref", "GetRef"],
+  ["get-props", "GetProps"],
+  ["get-prop", "GetProp"],
 ];

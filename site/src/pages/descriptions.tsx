@@ -1,68 +1,113 @@
-import { BasicDemo, MoreDemo } from "../demos/descriptions-basic";
-import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
+import { ComponentWhenToUse } from "../component-prose";
+import {
+  ComponentApiTables,
+  ComponentTokenTable,
+} from "../component-reference";
+import reference from "../data-display/descriptions.json";
+import {
+  BasicDemo,
+  BlockDemo,
+  BorderedDemo,
+  ResponsiveDemo,
+  SizeDemo,
+  VerticalBorderedDemo,
+  VerticalDemo,
+} from "../demos/descriptions-basic";
+import { Demo, DemoGrid, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
   return (
     <>
       <h1>
         Descriptions <span>描述列表</span>
-        <small>Alpha</small>
       </h1>
-      <p className="lead">以标签和值展示一组只读信息。</p>
+      <p className="lead">展示多个只读字段的组合。</p>
       <DocMeta name="Descriptions" />
+      <ComponentWhenToUse component="Descriptions" />
       <h2 id="examples" tabIndex={-1}>
         代码演示
       </h2>
-      <div className="demo-grid">
+      <DemoGrid>
         <Demo
           id="basic"
-          title="成组信息"
-          description="用标签与内容展示只读信息；span 可让较长的说明跨越多列。"
+          title={"基本"}
+          description={"简单的展示。"}
+          descriptionMarkdown
           source={() => import("../demos/descriptions-basic.tsx?raw")}
+          sourceExport="BasicDemo"
         >
           <BasicDemo />
         </Demo>
         <Demo
-          id="more"
-          title="响应式与边框"
-          description="窄屏显示一列，md 及以上显示两列；filled 填满当前行，small 缩小单元格间距。"
+          id="border"
+          title={"带边框的"}
+          description={"带边框和背景颜色列表。"}
+          descriptionMarkdown
           source={() => import("../demos/descriptions-basic.tsx?raw")}
+          sourceExport="BorderedDemo"
         >
-          <MoreDemo />
+          <BorderedDemo />
         </Demo>
-      </div>
+        <Demo
+          id="size"
+          title={"自定义尺寸"}
+          description={"自定义尺寸，适应在各种容器中展示。"}
+          descriptionMarkdown
+          source={() => import("../demos/descriptions-basic.tsx?raw")}
+          sourceExport="SizeDemo"
+        >
+          <SizeDemo />
+        </Demo>
+        <Demo
+          id="responsive"
+          title={"响应式"}
+          description={"通过响应式的配置可以实现在小屏幕设备上的完美呈现。"}
+          descriptionMarkdown
+          source={() => import("../demos/descriptions-basic.tsx?raw")}
+          sourceExport="ResponsiveDemo"
+        >
+          <ResponsiveDemo />
+        </Demo>
+        <Demo
+          id="vertical"
+          title={"垂直"}
+          description={"垂直的列表。"}
+          descriptionMarkdown
+          source={() => import("../demos/descriptions-basic.tsx?raw")}
+          sourceExport="VerticalDemo"
+        >
+          <VerticalDemo />
+        </Demo>
+        <Demo
+          id="vertical-border"
+          title={"垂直带边框的"}
+          description={"垂直带边框和背景颜色的列表。"}
+          descriptionMarkdown
+          source={() => import("../demos/descriptions-basic.tsx?raw")}
+          sourceExport="VerticalBorderedDemo"
+        >
+          <VerticalBorderedDemo />
+        </Demo>
+        <Demo
+          id="block"
+          title={"整行"}
+          description={"整行的展示。"}
+          descriptionMarkdown
+          source={() => import("../demos/descriptions-basic.tsx?raw")}
+          sourceExport="BlockDemo"
+        >
+          <BlockDemo />
+        </Demo>
+      </DemoGrid>
       <h2 id="api" tabIndex={-1}>
         API
       </h2>
-      <ApiTable
-        rows={[
-          ["items", "label、children、key 与 span", "DescriptionsItem[]", "[]"],
-          ["column", "列数或响应式列数", "number | Responsive<number>", "3"],
-          [
-            "bordered / size / layout",
-            "边框、尺寸与排列方向",
-            "boolean / default | middle | small / horizontal | vertical",
-            "false / default / horizontal",
-          ],
-          [
-            "title / extra / colon",
-            "标题、操作与冒号",
-            "OctaneNode / OctaneNode / boolean",
-            "— / — / true",
-          ],
-          ["labelStyle / contentStyle", "标签与内容样式", "CSSProperties", "—"],
-          ["items.span", "占据列数或填满当前行", "number | filled", "1"],
-        ]}
-      />
+      <ComponentApiTables component="Descriptions" sections={reference.api} />
+
       <h2 id="tokens" tabIndex={-1}>
-        主题与支持范围
+        主题变量（Design Token）
       </h2>
-      <p>
-        支持
-        labelBg、labelColor、contentColor、titleColor、titleMarginBottom、itemPaddingBottom、itemPaddingEnd。暂不支持旧
-        Descriptions.Item、span 响应式对象和语义化
-        styles/classNames；长字段采用换行。
-      </p>
+      <ComponentTokenTable component="Descriptions" tokens={reference.tokens} />
     </>
   );
 }

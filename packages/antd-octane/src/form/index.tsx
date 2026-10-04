@@ -7,11 +7,19 @@ import {
   useContext,
   useEffect,
   useId,
+  useLayoutEffect,
   useMemo,
+  useRef,
   useState,
   useSyncExternalStore,
 } from "octane";
+import { componentClassName } from "../_util/componentClassName";
 import { useConfig } from "../config-provider";
+import type { SizeType } from "../config-provider/context";
+import { DisabledContextProvider } from "../config-provider/DisabledContext";
+import { SizeContextProvider } from "../config-provider/SizeContext";
+import { type Variant, VariantContext } from "./context";
+import { useFormStyle } from "./style";
 
 export type FormValues = Record<string, unknown>;
 export interface FormRule {
@@ -281,11 +289,21 @@ interface FormContextValue {
   store: FormStore;
   id: string;
   fieldIds: Map<string, string>;
+  stylePrefixCls: string;
+  size?: SizeType;
+  layout: "horizontal" | "vertical" | "inline";
+  colon: boolean;
   onValuesChange?: (changed: FormValues, all: FormValues) => void;
 }
 const FormContext = createContext<FormContextValue | null>(null);
 
 export interface FormProps {
+  prefixCls?: string;
+  rootClassName?: string;
+  colon?: boolean;
+  disabled?: boolean;
+  size?: SizeType;
+  variant?: Variant;
   form?: FormInstance;
   initialValues?: FormValues;
   onFinish?: (values: FormValues) => void;
@@ -307,55 +325,81 @@ function FormRoot(props: FormProps) {
   }, [props.form]);
   const [fieldIds] = useState(() => new Map<string, string>());
   const config = useConfig();
+  const prefixCls = config.getPrefixCls("form", props.prefixCls);
+  const cls = (suffix = "") =>
+    componentClassName("ant-form", prefixCls, suffix);
+  const layout = props.layout ?? "horizontal";
+  const size = props.size ?? config.componentSize;
+  const formStyle = useFormStyle(size);
   const generatedId = useId();
   const id = props.id ?? props.name ?? `ao-form-${generatedId}`;
   return (
-    <FormContext
-      value={{ store, id, fieldIds, onValuesChange: props.onValuesChange }}
-    >
-      <form
-        id={props.id}
-        name={props.name}
-        autoComplete={props.autoComplete}
-        noValidate
-        className={[
-          "ant-form",
-          `ant-form-${props.layout ?? "horizontal"}`,
-          props.className,
-        ]}
-        style={{
-          "--ao-form-text": config.token.colorText,
-          "--ao-form-secondary": config.token.colorTextDescription,
-          "--ao-form-error": config.token.colorError,
-          "--ao-form-font": config.token.fontFamily,
-          "--ao-form-size": `${config.token.fontSize}px`,
-          ...props.style,
-        }}
-        onSubmit={(event) => {
-          event.preventDefault();
-          void store
-            .validateFields()
-            .then(props.onFinish, (error: FormValidationError) => {
-              props.onFinishFailed?.(error);
-              const first = error.errorFields[0]?.name;
-              if (first && !error.outOfDate)
-                document
-                  .getElementById(fieldIds.get(first) ?? `${id}-${first}`)
-                  ?.focus();
-            });
-        }}
-        onReset={(event) => {
-          event.preventDefault();
-          store.resetFields();
-        }}
-      >
-        {props.children}
-      </form>
-    </FormContext>
+    <DisabledContextProvider disabled={props.disabled}>
+      <SizeContextProvider size={props.size}>
+        <VariantContext value={props.variant}>
+          <FormContext
+            value={{
+              store,
+              id,
+              fieldIds,
+              stylePrefixCls: prefixCls,
+              size,
+              layout,
+              colon: props.colon ?? config.form?.colon ?? true,
+              onValuesChange: props.onValuesChange,
+            }}
+          >
+            <form
+              id={props.id}
+              name={props.name}
+              autoComplete={props.autoComplete}
+              noValidate
+              className={[
+                cls(),
+                cls(`-${layout}`),
+                size && cls(`-${size}`),
+                config.direction === "rtl" && cls("-rtl"),
+                config.form?.className,
+                props.className,
+                props.rootClassName,
+              ]}
+              style={{
+                ...formStyle,
+                ...config.form?.style,
+                ...props.style,
+              }}
+              onSubmit={(event) => {
+                event.preventDefault();
+                void store
+                  .validateFields()
+                  .then(props.onFinish, (error: FormValidationError) => {
+                    props.onFinishFailed?.(error);
+                    const first = error.errorFields[0]?.name;
+                    if (first && !error.outOfDate)
+                      document
+                        .getElementById(fieldIds.get(first) ?? `${id}-${first}`)
+                        ?.focus();
+                  });
+              }}
+              onReset={(event) => {
+                event.preventDefault();
+                store.resetFields();
+              }}
+            >
+              {props.children}
+            </form>
+          </FormContext>
+        </VariantContext>
+      </SizeContextProvider>
+    </DisabledContextProvider>
   );
 }
 
 export interface FormItemProps {
+  prefixCls?: string;
+  rootClassName?: string;
+  layout?: "horizontal" | "vertical" | "inline";
+  colon?: boolean;
   name?: string;
   label?: OctaneNode;
   rules?: FormRule[];
@@ -385,6 +429,19 @@ const noopSubscribe = () => () => {};
 const getEmptySnapshot = () => emptySnapshot;
 function FormItem(props: FormItemProps) {
   const context = useContext(FormContext);
+  const config = useConfig();
+  const prefixCls = config.getPrefixCls("form", props.prefixCls);
+  const formStyle = useFormStyle(
+    context?.stylePrefixCls === prefixCls ? context?.size : undefined,
+  );
+  const cls = (suffix: string) =>
+    componentClassName("ant-form", prefixCls, suffix);
+  const layout = props.layout ?? context?.layout ?? "horizontal";
+  const colon = props.colon ?? context?.colon ?? true;
+  const label =
+    colon && layout !== "vertical" && typeof props.label === "string"
+      ? props.label.replace(/[:|：]\s*$/, "")
+      : props.label;
   const snapshot = useSyncExternalStore<Snapshot>(
     context?.store.subscribe ?? noopSubscribe,
     context?.store.snapshot ?? getEmptySnapshot,
@@ -395,6 +452,7 @@ function FormItem(props: FormItemProps) {
     () => props.rules ?? (props.required ? [{ required: true }] : []),
     [props.rules, props.required],
   );
+  const required = props.required ?? rules.some((rule) => rule.required);
   useEffect(() => {
     if (name) return context?.store.register(name, rules);
   }, [context?.store, name]);
@@ -420,6 +478,31 @@ function FormItem(props: FormItemProps) {
   }, [fieldIds, name, id]);
   const helpId = id ? `${id}-help` : undefined;
   const errors = name ? (snapshot.errors[name] ?? []) : [];
+  const hasHelp = props.help !== undefined && props.help !== null;
+  const hasAdditional = hasHelp || errors.length > 0;
+  const itemRef = useRef<HTMLDivElement | null>(null);
+  const extraRef = useRef<HTMLDivElement | null>(null);
+  const [marginBottom, setMarginBottom] = useState<number | null>(null);
+  const [extraHeight, setExtraHeight] = useState(0);
+  useLayoutEffect(() => {
+    if (!itemRef.current) return;
+    setMarginBottom(
+      hasAdditional
+        ? Number.parseInt(getComputedStyle(itemRef.current).marginBottom, 10) ||
+            0
+        : null,
+    );
+    setExtraHeight(extraRef.current?.offsetHeight ?? 0);
+  });
+  useEffect(() => {
+    const element = extraRef.current;
+    if (!element || typeof ResizeObserver === "undefined") return;
+    const observer = new ResizeObserver(() =>
+      setExtraHeight(element.offsetHeight),
+    );
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [props.extra]);
   const trigger = props.trigger ?? "onChange";
   const original = descriptor?.props?.[trigger];
   const value = name ? snapshot.values[name] : undefined;
@@ -458,39 +541,67 @@ function FormItem(props: FormItemProps) {
       : child;
   return (
     <div
+      ref={itemRef}
       className={[
-        "ant-form-item",
-        errors.length && "ant-form-item-has-error",
+        cls("-item"),
+        cls(`-item-${layout}`),
+        errors.length && cls("-item-has-error"),
+        hasAdditional && cls("-item-with-help"),
         props.className,
+        props.rootClassName,
       ]}
-      style={props.style}
+      style={{ ...formStyle, ...props.style }}
     >
-      {props.label && (
-        <label className="ant-form-item-label" htmlFor={id}>
-          {props.label}
-          {(props.required || rules.some((rule) => rule.required)) && (
-            <span aria-hidden="true" className="ant-form-item-required">
-              {" "}
-              *
-            </span>
-          )}
-        </label>
-      )}
-      <div className="ant-form-item-control">
-        {control}
-        {(errors.length > 0 || props.help) && (
-          <div
-            id={helpId}
-            className="ant-form-item-explain"
-            role={errors.length ? "alert" : undefined}
-          >
-            {errors[0] ?? props.help}
+      <div className={cls("-item-row")}>
+        {props.label && (
+          <div className={cls("-item-label")}>
+            <label
+              className={[
+                !colon && cls("-item-no-colon"),
+                required && cls("-item-required"),
+              ]}
+              htmlFor={id}
+              title={typeof props.label === "string" ? props.label : ""}
+            >
+              {label}
+            </label>
           </div>
         )}
-        {props.extra && (
-          <div className="ant-form-item-extra">{props.extra}</div>
-        )}
+        <div className={cls("-item-control")}>
+          <div className={cls("-item-control-input")}>
+            <div className={cls("-item-control-input-content")}>{control}</div>
+          </div>
+          <div
+            className={cls("-item-additional")}
+            style={
+              marginBottom
+                ? { minHeight: marginBottom + extraHeight }
+                : undefined
+            }
+          >
+            {hasAdditional && (
+              <div
+                id={helpId}
+                className={cls("-item-explain")}
+                role={errors.length ? "alert" : undefined}
+              >
+                {errors[0] ?? props.help}
+              </div>
+            )}
+            {props.extra && (
+              <div ref={extraRef} className={cls("-item-extra")}>
+                {props.extra}
+              </div>
+            )}
+          </div>
+        </div>
       </div>
+      {!!marginBottom && (
+        <div
+          className={cls("-item-margin-offset")}
+          style={{ marginBottom: -marginBottom }}
+        />
+      )}
     </div>
   );
 }

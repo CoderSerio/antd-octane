@@ -7,6 +7,11 @@
     background: var(--ao-seg-track);
     border-radius: var(--ao-radius);
     font: var(--ao-font-size) / var(--ao-line) var(--ao-font);
+    transition: all var(--ao-seg-duration);
+  }
+  :where(.ant-segmented:focus-visible, .ant-segmented-item-focused) {
+    outline: var(--ao-seg-focus-width) solid var(--ao-focus);
+    outline-offset: 1px;
   }
   :where(.ant-segmented-group) {
     display: flex;
@@ -20,16 +25,48 @@
     text-align: center;
     cursor: pointer;
     border-radius: var(--ao-seg-radius);
+    transition: color var(--ao-seg-duration);
+    transform: translateZ(0);
+  }
+  :where(.ant-segmented-item)::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    inset-inline-start: 0;
+    border-radius: inherit;
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      opacity var(--ao-seg-duration),
+      background-color var(--ao-seg-duration);
+  }
+  :where(
+      .ant-segmented-item:not(.ant-segmented-item-disabled):not(
+          .ant-segmented-item-selected
+        ):hover,
+      .ant-segmented-item:not(.ant-segmented-item-disabled):not(
+          .ant-segmented-item-selected
+        ):active
+    ) {
+    color: var(--ao-seg-hover-color);
   }
   :where(
       .ant-segmented-item:not(.ant-segmented-item-disabled):not(
           .ant-segmented-item-selected
         ):hover
-    ) {
+    )::after {
+    opacity: 1;
     background: var(--ao-seg-hover);
-    color: var(--ao-seg-hover-color);
   }
-  :where(.ant-segmented-item:not(.ant-segmented-item-disabled):active) {
+  :where(
+      .ant-segmented-item:not(.ant-segmented-item-disabled):not(
+          .ant-segmented-item-selected
+        ):active
+    )::after {
+    opacity: 1;
     background: var(--ao-seg-active);
   }
   :where(.ant-segmented-item-selected) {
@@ -43,18 +80,15 @@
   }
   :where(.ant-segmented-item-input) {
     position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    width: 0;
+    height: 0;
     opacity: 0;
-    cursor: inherit;
-    margin: 0;
-  }
-  :where(.ant-segmented-item:has(input:focus-visible)) {
-    outline: 2px solid var(--ao-focus);
-    outline-offset: 2px;
+    pointer-events: none;
   }
   :where(.ant-segmented-item-label) {
+    box-sizing: border-box;
     font-size: var(--ao-seg-font-size);
     min-height: calc(var(--ao-seg-height) - var(--ao-seg-padding) * 2);
     line-height: calc(var(--ao-seg-height) - var(--ao-seg-padding) * 2);
@@ -63,8 +97,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  :where(.ant-segmented-item-icon) {
-    margin-inline-end: 6px;
+  :where(.ant-segmented-item-icon + *) {
+    margin-inline-start: var(--ao-seg-icon-gap);
   }
   :where(.ant-segmented-block) {
     display: flex;
@@ -76,9 +110,40 @@
   :where(.ant-segmented-vertical .ant-segmented-group) {
     flex-direction: column;
   }
+  :where(.ant-segmented-thumb) {
+    box-sizing: border-box;
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    width: 0;
+    height: 100%;
+    padding: var(--ao-seg-thumb-padding) 0;
+    border-radius: var(--ao-seg-radius);
+    background: var(--ao-seg-selected);
+    box-shadow: var(--ao-seg-shadow);
+  }
+  :where(.ant-segmented-vertical .ant-segmented-thumb) {
+    padding: 0 var(--ao-seg-thumb-padding);
+  }
+  :where(
+      .ant-segmented-thumb
+        ~ .ant-segmented-item:not(.ant-segmented-item-selected):not(
+          .ant-segmented-item-disabled
+        )
+    )::after {
+    background-color: transparent;
+  }
+  :where(.ant-segmented-thumb-motion-appear-active) {
+    transition:
+      transform var(--ao-seg-motion-duration) var(--ao-seg-motion-ease),
+      width var(--ao-seg-motion-duration) var(--ao-seg-motion-ease),
+      height var(--ao-seg-motion-duration) var(--ao-seg-motion-ease);
+    will-change: transform, width;
+  }
   :where(
       .ant-segmented-shape-round,
-      .ant-segmented-shape-round .ant-segmented-item
+      .ant-segmented-shape-round .ant-segmented-item,
+      .ant-segmented-shape-round .ant-segmented-thumb
     ) {
     border-radius: 9999px;
   }

@@ -12,12 +12,102 @@
     color: var(--ao-popup-color);
     text-align: start;
     white-space: normal;
+    --ao-valid-arrow-x: var(
+      --ao-popup-arrow-offset-horizontal,
+      var(--ao-arrow-x, 50%)
+    );
+    transform-origin: var(--ao-valid-arrow-x) var(--ao-arrow-y, 50%);
   }
   :where(.ant-tooltip) {
     max-width: min(250px, calc(100vw - 16px));
+    color: var(--ao-text);
   }
   :where(.ant-tooltip[hidden], .ant-popover[hidden]) {
     display: none;
+  }
+  /* Native counterpart of antd's zoom-big-fast/zoom-big rc-motion rules. */
+  :where(
+      .ant-tooltip[data-native-motion="true"][data-motion-phase="appear"],
+      .ant-tooltip[data-native-motion="true"][data-motion-phase="enter"],
+      .ant-popover[data-native-motion="true"][data-motion-phase="appear"],
+      .ant-popover[data-native-motion="true"][data-motion-phase="enter"]
+    ) {
+    animation: ao-floating-zoom-in var(--ao-popup-motion-duration, 0.1s)
+      var(--ao-popup-motion-easing, cubic-bezier(0.08, 0.82, 0.17, 1)) both;
+  }
+  :where(
+      .ant-tooltip[data-native-motion="true"][data-motion-phase="leave"],
+      .ant-popover[data-native-motion="true"][data-motion-phase="leave"]
+    ) {
+    animation: ao-floating-zoom-out var(--ao-popup-motion-duration, 0.1s)
+      var(--ao-popup-motion-leave-easing, cubic-bezier(0.78, 0.14, 0.15, 0.86))
+      both;
+  }
+  :where(
+      .ant-tooltip[data-native-motion="true"][data-use-css-transform="true"][data-motion-phase="appear"],
+      .ant-tooltip[data-native-motion="true"][data-use-css-transform="true"][data-motion-phase="enter"],
+      .ant-popover[data-native-motion="true"][data-use-css-transform="true"][data-motion-phase="appear"],
+      .ant-popover[data-native-motion="true"][data-use-css-transform="true"][data-motion-phase="enter"]
+    ) {
+    animation-name: ao-floating-scale-in;
+  }
+  :where(
+      .ant-tooltip[data-native-motion="true"][data-use-css-transform="true"][data-motion-phase="leave"],
+      .ant-popover[data-native-motion="true"][data-use-css-transform="true"][data-motion-phase="leave"]
+    ) {
+    animation-name: ao-floating-scale-out;
+  }
+  :where(.ant-tooltip[data-side="top"], .ant-popover[data-side="top"]) {
+    transform-origin: 50% 100%;
+  }
+  :where(.ant-tooltip[data-side="bottom"], .ant-popover[data-side="bottom"]) {
+    transform-origin: 50% 0%;
+  }
+  :where(.ant-tooltip[data-side="left"], .ant-popover[data-side="left"]) {
+    transform-origin: 100% 50%;
+  }
+  :where(.ant-tooltip[data-side="right"], .ant-popover[data-side="right"]) {
+    transform-origin: 0% 50%;
+  }
+  @keyframes ao-floating-zoom-in {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes ao-floating-zoom-out {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+  }
+  @keyframes ao-floating-scale-in {
+    from {
+      opacity: 0;
+      scale: 0.8;
+    }
+    to {
+      opacity: 1;
+      scale: 1;
+    }
+  }
+  @keyframes ao-floating-scale-out {
+    from {
+      opacity: 1;
+      scale: 1;
+    }
+    to {
+      opacity: 0;
+      scale: 0.8;
+    }
   }
   :where(.ant-tooltip-inner, .ant-popover-inner) {
     position: relative;
@@ -26,55 +116,109 @@
     padding: var(--ao-popup-padding);
     background: var(--ao-popup-bg);
     box-shadow: var(--ao-popup-shadow);
-    overflow-wrap: break-word;
   }
   :where(.ant-tooltip-inner) {
+    overflow-wrap: break-word;
     min-height: var(--ao-popup-minheight);
-    min-width: 32px;
+    min-width: var(--ao-popup-tooltip-min-width, 28px);
+    color: var(--ao-popup-color);
+  }
+  :where(
+      .ant-tooltip-placement-topLeft .ant-tooltip-inner,
+      .ant-tooltip-placement-topRight .ant-tooltip-inner,
+      .ant-tooltip-placement-bottomLeft .ant-tooltip-inner,
+      .ant-tooltip-placement-bottomRight .ant-tooltip-inner
+    ) {
+    min-width: var(--ao-popup-tooltip-edge-min-width, 34px);
   }
   :where(.ant-popover) {
     user-select: text;
+  }
+  :where(.ant-popover-inner) {
+    box-sizing: content-box;
   }
   :where(.ant-popover-title) {
     min-width: min(var(--ao-popup-title-width), calc(100vw - 64px));
     margin-bottom: var(--ao-popup-title-gap);
     color: var(--ao-popup-title-color);
     font-weight: var(--ao-popup-title-weight);
+    padding: var(--ao-popup-title-padding);
+    border-bottom: var(--ao-popup-title-border);
+  }
+  :where(.ant-popover-inner-content) {
+    padding: var(--ao-popup-content-padding);
   }
   :where(.ant-tooltip-arrow, .ant-popover-arrow) {
     position: absolute;
-    width: 8px;
-    height: 8px;
-    background: var(--ao-popup-bg);
-    transform: rotate(45deg);
+    z-index: 1;
+    display: block;
+    width: var(--ao-popup-arrow-size, 16px);
+    height: var(--ao-popup-arrow-size, 16px);
+    overflow: hidden;
     pointer-events: none;
+    background: transparent;
+  }
+  :where(.ant-tooltip-arrow, .ant-popover-arrow)::before {
+    position: absolute;
+    bottom: 0;
+    inset-inline-start: 0;
+    width: var(--ao-popup-arrow-size, 16px);
+    height: calc(var(--ao-popup-arrow-size, 16px) / 2);
+    background: var(--ao-popup-bg);
+    clip-path: var(
+      --ao-popup-arrow-polygon,
+      polygon(3px 100%, 50% 2px, calc(100% - 3px) 100%, 3px 100%)
+    );
+    content: "";
+  }
+  @supports (clip-path: path("M 0 0")) {
+    :where(.ant-tooltip-arrow, .ant-popover-arrow)::before {
+      clip-path: var(--ao-popup-arrow-path);
+    }
+  }
+  :where(.ant-tooltip-arrow, .ant-popover-arrow)::after {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    width: var(--ao-popup-arrow-shadow-size, 8px);
+    height: var(--ao-popup-arrow-shadow-size, 8px);
+    margin: auto;
+    border-radius: 0 0 var(--ao-popup-arrow-radius, 2px) 0;
+    background: transparent;
+    box-shadow: var(--ao-popup-arrow-shadow, none);
+    transform: translateY(50%) rotate(-135deg);
+    content: "";
   }
   :where(
       [data-side="top"] > .ant-tooltip-arrow,
       [data-side="top"] > .ant-popover-arrow
     ) {
-    bottom: -4px;
-    left: calc(var(--ao-arrow-x) - 4px);
+    bottom: 0;
+    left: var(--ao-arrow-x, 50%);
+    transform: translate(-50%, 100%) rotate(180deg);
   }
   :where(
       [data-side="bottom"] > .ant-tooltip-arrow,
       [data-side="bottom"] > .ant-popover-arrow
     ) {
-    top: -4px;
-    left: calc(var(--ao-arrow-x) - 4px);
+    top: 0;
+    left: var(--ao-arrow-x, 50%);
+    transform: translate(-50%, -100%);
   }
   :where(
       [data-side="left"] > .ant-tooltip-arrow,
       [data-side="left"] > .ant-popover-arrow
     ) {
-    right: -4px;
-    top: calc(var(--ao-arrow-y) - 4px);
+    right: 0;
+    top: var(--ao-arrow-y, 50%);
+    transform: translate(100%, -50%) rotate(90deg);
   }
   :where(
       [data-side="right"] > .ant-tooltip-arrow,
       [data-side="right"] > .ant-popover-arrow
     ) {
-    left: -4px;
-    top: calc(var(--ao-arrow-y) - 4px);
+    left: 0;
+    top: var(--ao-arrow-y, 50%);
+    transform: translate(-100%, -50%) rotate(-90deg);
   }
 }

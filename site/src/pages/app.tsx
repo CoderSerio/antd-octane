@@ -1,89 +1,84 @@
-import { BasicDemo, MoreDemo } from "../demos/app-basic";
-import { ConfigDemo, NestedDemo } from "../demos/app-config";
-import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
+import { ComponentWhenToUse } from "../component-prose";
+import {
+  ReferenceApiTables,
+  ReferenceTokenTable,
+} from "../component-reference";
+import Demo0 from "../demos/app/basic";
+import Demo1 from "../demos/app/config";
+import { Code, Demo, DemoGrid, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
   return (
     <>
       <h1>
         App <span>包裹组件</span>
-        <small>Alpha</small>
       </h1>
-      <p className="lead">集中提供主题一致的消息与通知实例。</p>
+      <p className="lead">提供重置样式和提供消费上下文的默认环境。</p>
       <DocMeta name="App" />
-      <h2 id="examples" tabIndex={-1}>
-        代码演示
-      </h2>
-      <div className="demo-grid">
+      <ComponentWhenToUse component="App" />
+      <h2 id="examples">代码演示</h2>
+      <DemoGrid>
         <Demo
-          id="basic"
-          title="共享实例"
-          description="子组件通过 App.useApp 获取消息与通知。"
-          source={() => import("../demos/app-basic.tsx?raw")}
+          id={"basic"}
+          title={"基本用法"}
+          description={"获取 `message`、`notification`、`modal` 实例。"}
+          descriptionMarkdown
+          source={() => import("../demos/app/basic.tsx?raw")}
         >
-          <BasicDemo />
+          <Demo0 />
         </Demo>
         <Demo
-          id="more"
-          title="不增加容器"
-          description="component={false} 保留上下文，不额外包裹 div。"
-          source={() => import("../demos/app-basic.tsx?raw")}
+          id={"config"}
+          title={"Hooks 配置"}
+          description={"对 `message`、`notification` 进行配置。"}
+          descriptionMarkdown
+          source={() => import("../demos/app/config.tsx?raw")}
         >
-          <MoreDemo />
+          <Demo1 />
         </Demo>
-        <Demo
-          id="config"
-          title="消息与通知默认配置"
-          description="maxCount=1 限制消息数量，通知通过 App 配置显示在 bottomLeft。"
-          source={() => import("../demos/app-config.tsx?raw")}
-        >
-          <ConfigDemo />
-        </Demo>
-        <Demo
-          id="nested"
-          title="嵌套 App 的实例隔离"
-          description="子组件取最近一层实例；清空内层不会清空外层，局部主题可分别继承。"
-          source={() => import("../demos/app-config.tsx?raw")}
-        >
-          <NestedDemo />
-        </Demo>
-      </div>
-      <h2 id="api" tabIndex={-1}>
-        API
-      </h2>
-      <ApiTable
-        rows={[
-          [
-            "App.useApp()",
-            "在 App 子树内调用",
-            "{ message, notification }",
-            "—",
-          ],
-          [
-            "message / notification",
-            "实例默认配置",
-            "MessageConfig / NotificationConfig",
-            "—",
-          ],
-          ["component", "是否包裹 div", '"div" | false', "div"],
-          [
-            "className / style",
-            "容器样式；component=false 时不生效",
-            "string / CSSProperties",
-            "—",
-          ],
-        ]}
-      />
-      <h2 id="tokens" tabIndex={-1}>
-        主题与支持范围
-      </h2>
+      </DemoGrid>
+      <h2 id="usage">如何使用</h2>
+      <h3 id="basic-usage">基础用法</h3>
       <p>
-        ConfigProvider 应位于 App 外层；内部 contextHolder 会继承主题。暂不提供
-        App.useApp().modal、useModal、任意 component 标签、SSR 契约或完整 antd
-        reset 样式。在 App 外调用 useApp 会抛出明确错误。 嵌套 App
-        各自持有独立消息与通知实例；useApp 返回最近一层 App
-        的实例，离开该子树时对应 holder 和计时器会被清理。
+        App 组件通过 <code>Context</code> 提供上下文方法调用，因而 useApp
+        需要作为子组件才能使用，我们推荐在应用中顶层包裹 App。
       </p>
+      <Code
+        source={
+          'import { App, Button } from "antd-octane";\n\nfunction MyPage() {\n  const { message } = App.useApp();\n  return <Button onClick={() => message.success("Good!")}>Open message</Button>;\n}\n\nexport default function MyApp() {\n  return <App><MyPage /></App>;\n}'
+        }
+      />
+      <p>注意：App.useApp 必须在 App 之下方可使用。</p>
+      <h3 id="config-order">与 ConfigProvider 先后顺序</h3>
+      <p>
+        App 组件只能在 <code>ConfigProvider</code> 之下才能使用 Design
+        Token，如果需要使用其样式重置能力，则 ConfigProvider 与 App
+        组件必须成对出现。
+      </p>
+      <Code
+        source={
+          '<ConfigProvider theme={{ token: { colorPrimary: "#722ed1" } }}>\n  <App>\n    <MyPage />\n  </App>\n</ConfigProvider>'
+        }
+      />
+      <h3 id="nested-usage">内嵌使用场景（如无必要，尽量不做嵌套）</h3>
+      <Code
+        source={
+          "<App>\n  <Space>\n    <MyPage />\n    <App><OtherPage /></App>\n  </Space>\n</App>"
+        }
+      />
+      <h3 id="global-usage">全局场景</h3>
+      <p>
+        在 App 子组件中取得实例，供其他模块调用。调用前需确保该子组件已挂载。
+      </p>
+      <Code
+        source={
+          'import { App } from "antd-octane";\nimport type { MessageInstance, ModalInstance, NotificationInstance } from "antd-octane";\n\nexport let message: MessageInstance;\nexport let notification: NotificationInstance;\nexport let modal: ModalInstance;\n\nexport function GlobalInstances() {\n  const instances = App.useApp();\n  message = instances.message;\n  notification = instances.notification;\n  modal = instances.modal;\n  return null;\n}\n\n// Render <GlobalInstances /> inside <App>.'
+        }
+      />
+      <h2 id="api">API</h2>
+      <ReferenceApiTables component="App" />
+      <h2 id="tokens">主题变量（Design Token）</h2>
+      <ReferenceTokenTable component="App" />
     </>
   );
 }

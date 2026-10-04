@@ -29,7 +29,7 @@ it("Spin delays activation, cancels short requests and cleans pending timers", a
       <button type="button">content</button>
     </Spin>,
   );
-  expect(container.querySelector('[role="status"]')).toBeNull();
+  expect(container.querySelector(".ant-spin-spinning")).toBeNull();
   await act(() => vi.advanceTimersByTime(100));
   await render(
     <Spin spinning={false} delay={200}>
@@ -37,7 +37,7 @@ it("Spin delays activation, cancels short requests and cleans pending timers", a
     </Spin>,
   );
   await act(() => vi.advanceTimersByTime(200));
-  expect(container.querySelector('[role="status"]')).toBeNull();
+  expect(container.querySelector(".ant-spin-spinning")).toBeNull();
   await render(
     <Spin delay={200}>
       <button type="button">content</button>
@@ -45,7 +45,9 @@ it("Spin delays activation, cancels short requests and cleans pending timers", a
   );
   await act(() => vi.advanceTimersByTime(200));
   expect(
-    container.querySelector(".ant-spin-container")?.hasAttribute("inert"),
+    container
+      .querySelector(".ant-spin-container")
+      ?.classList.contains("ant-spin-blur"),
   ).toBe(true);
   expect(container.querySelector("button")?.textContent).toBe("content");
   await render(
@@ -54,7 +56,9 @@ it("Spin delays activation, cancels short requests and cleans pending timers", a
     </Spin>,
   );
   expect(
-    container.querySelector(".ant-spin-container")?.hasAttribute("inert"),
+    container
+      .querySelector(".ant-spin-container")
+      ?.classList.contains("ant-spin-blur"),
   ).toBe(false);
   const cancel = vi.spyOn(globalThis, "clearTimeout");
   await render(<Spin delay={200} />);
@@ -79,9 +83,11 @@ it("Spin supports custom indicators and nested tips without replacing child stat
   );
   expect(container.querySelector("input")).toBe(input);
   await render(<Spin tip="standalone" />);
-  expect(
-    container.querySelector('[role="status"]')?.getAttribute("aria-label"),
-  ).toBe("正在加载");
+  expect(container.querySelector(".ant-spin")?.getAttribute("aria-live")).toBe(
+    "polite",
+  );
+  expect(container.querySelector(".ant-spin-text")).toBeNull();
+  expect(container.querySelector('[role="status"]')).toBeNull();
 });
 it("Skeleton exposes row widths and restores children when loading completes", async () => {
   await render(
@@ -89,7 +95,8 @@ it("Skeleton exposes row widths and restores children when loading completes", a
       <button type="button">ready</button>
     </Skeleton>,
   );
-  expect(container.querySelectorAll('[role="status"]')).toHaveLength(1);
+  expect(container.querySelectorAll('[role="status"]')).toHaveLength(0);
+  expect(container.querySelectorAll(".ant-skeleton")).toHaveLength(1);
   expect(container.querySelectorAll("li")).toHaveLength(2);
   expect(container.querySelector("li")?.style.width).toBe("100px");
   expect(container.querySelectorAll("li")[1].style.width).toBe("50%");
@@ -100,7 +107,7 @@ it("Skeleton exposes row widths and restores children when loading completes", a
     </Skeleton>,
   );
   expect(container.querySelector("button")?.textContent).toBe("ready");
-  await render(<Skeleton paragraph={{ rows: Infinity }} />);
+  await render(<Skeleton paragraph={{ rows: 0 }} />);
   expect(container.querySelectorAll("li")).toHaveLength(0);
 });
 it("Skeleton variants honor geometry and custom nodes", async () => {
@@ -119,18 +126,22 @@ it("Skeleton variants honor geometry and custom nodes", async () => {
     container.querySelector<HTMLElement>(".ant-skeleton-avatar")?.style.width,
   ).toBe("48px");
   expect(
-    container.querySelector<HTMLElement>(".ant-skeleton-button")?.style.width,
-  ).toBe("100%");
-  expect(
-    container.querySelector<HTMLElement>(".ant-skeleton-input")?.style.height,
-  ).toBe("24px");
+    container
+      .querySelector(".ant-skeleton-button")
+      ?.parentElement?.classList.contains("ant-skeleton-block"),
+  ).toBe(true);
+  expect(container.querySelector(".ant-skeleton-input-sm")).not.toBeNull();
   expect(container.textContent).toContain("custom node");
 });
 it("Card uses Skeleton and List forwards Spin options retaining existing rows", async () => {
   await render(
     <div>
       <Card loading>secret content</Card>
-      <List loading={{ tip: "加载列表", size: "small" }} dataSource={["row"]} />
+      <List
+        loading={{ tip: "加载列表", size: "small" }}
+        dataSource={["row"]}
+        renderItem={(item) => <List.Item>{item}</List.Item>}
+      />
     </div>,
   );
   expect(container.querySelector(".ant-card .ant-skeleton")).not.toBeNull();

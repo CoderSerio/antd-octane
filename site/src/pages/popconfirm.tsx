@@ -1,120 +1,111 @@
-import { BasicDemo, MoreDemo } from "../demos/popconfirm-basic";
-import { ControlledDemo } from "../demos/popconfirm-controlled";
-import { RetryDemo } from "../demos/popconfirm-retry";
-import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
+import { ComponentWhenToUse } from "../component-prose";
+import {
+  ReferenceApiTables,
+  ReferenceTokenTable,
+} from "../component-reference";
+import Demo6 from "../demos/popconfirm/async";
+import Demo0 from "../demos/popconfirm/basic";
+import Demo4 from "../demos/popconfirm/dynamic-trigger";
+import Demo5 from "../demos/popconfirm/icon";
+import Demo1 from "../demos/popconfirm/locale";
+import Demo2 from "../demos/popconfirm/placement";
+import Demo7 from "../demos/popconfirm/promise";
+import Demo3 from "../demos/popconfirm/shift";
+import { Demo, DemoGrid, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
   return (
     <>
       <h1>
         Popconfirm <span>气泡确认框</span>
-        <small>Alpha</small>
       </h1>
-      <p className="lead">在操作附近询问确认，支持同步和异步操作。</p>
+      <p className="lead">点击元素，弹出气泡式的确认框。</p>
       <DocMeta name="Popconfirm" />
-      <h2 id="examples" tabIndex={-1}>
-        代码演示
-      </h2>
-      <div className="demo-grid">
+      <ComponentWhenToUse component="Popconfirm" />
+      <h2 id="examples">代码演示</h2>
+      <DemoGrid>
         <Demo
-          id="basic"
-          title="确认与取消"
-          description="确认、取消分别通知应用。"
-          source={() => import("../demos/popconfirm-basic.tsx?raw")}
+          id={"basic"}
+          title={"基本"}
+          description={"最简单的用法，支持确认标题和描述。"}
+          descriptionMarkdown
+          source={() => import("../demos/popconfirm/basic.tsx?raw")}
         >
-          <BasicDemo />
+          <Demo0 />
         </Demo>
         <Demo
-          id="more"
-          title="异步确认"
-          description="Promise 完成后关闭，等待期间防止重复提交；失败时保留确认框。"
-          source={() => import("../demos/popconfirm-basic.tsx?raw")}
+          id={"locale"}
+          title={"国际化"}
+          description={"使用 `okText` 和 `cancelText` 自定义按钮文字。"}
+          descriptionMarkdown
+          source={() => import("../demos/popconfirm/locale.tsx?raw")}
         >
-          <MoreDemo />
+          <Demo1 />
         </Demo>
         <Demo
-          id="controlled"
-          title="受控显示与自定义文案"
-          description="外部入口也能打开确认框；onOpenChange 必须回写 open。"
-          source={() => import("../demos/popconfirm-controlled.tsx?raw")}
+          id={"placement"}
+          title={"位置"}
+          description={
+            "位置有十二个方向。如需箭头指向目标元素中心，可以设置 `arrow: { pointAtCenter: true }`。"
+          }
+          descriptionMarkdown
+          source={() => import("../demos/popconfirm/placement.tsx?raw")}
         >
-          <ControlledDemo />
+          <Demo2 />
         </Demo>
         <Demo
-          id="retry"
-          title="失败后保留确认框"
-          description="Promise 拒绝时保持打开，由应用提供错误说明；关闭模拟失败后可再次提交。"
-          source={() => import("../demos/popconfirm-retry.tsx?raw")}
+          iframe={{ demo: "popconfirm/shift", height: 300 }}
+          id={"shift"}
+          title={"贴边偏移"}
+          description={
+            "当 Popconfirm 贴边时，自动偏移并且调整箭头位置。当超出过多时，则一同滚出屏幕。"
+          }
+          descriptionMarkdown
+          source={() => import("../demos/popconfirm/shift.tsx?raw")}
         >
-          <RetryDemo />
+          <Demo3 />
         </Demo>
-      </div>
-      <h2 id="api" tabIndex={-1}>
-        API
-      </h2>
-      <ApiTable
-        rows={[
-          [
-            "title / description",
-            "标题和说明",
-            "OctaneNode | (() => OctaneNode)",
-            "—",
-          ],
-          ["open / defaultOpen", "受控 / 初始显示", "boolean", "— / false"],
-          ["onOpenChange", "显示变化", "(open: boolean) => void", "—"],
-          [
-            "onConfirm / onCancel",
-            "确认（可返回 Promise）/ 取消",
-            "callback",
-            "—",
-          ],
-          ["okText / cancelText", "按钮文案", "OctaneNode", "确定 / 取消"],
-          [
-            "okType / okButtonProps / cancelButtonProps",
-            "按钮类型与属性",
-            "ButtonProps",
-            "primary / —",
-          ],
-          [
-            "disabled / showCancel",
-            "禁用触发 / 显示取消按钮",
-            "boolean",
-            "false / true",
-          ],
-          ["icon", "提示图标，null 隐藏", "OctaneNode", "警告图标"],
-          [
-            "arrow / autoAdjustOverflow",
-            "显示箭头 / 超出视口时调整位置",
-            "boolean",
-            "true / true",
-          ],
-          [
-            "getPopupContainer",
-            "自定义浮层容器",
-            "(trigger: HTMLElement) => HTMLElement",
-            "document.body",
-          ],
-          [
-            "placement / trigger / destroyOnHidden",
-            "位置、触发与销毁",
-            "同 Tooltip 基础子集",
-            "top / click / false",
-          ],
-        ]}
-      />
-      <h2 id="tokens" tabIndex={-1}>
-        主题与支持范围
-      </h2>
-      <p>
-        支持全局浮层颜色、字体、圆角、阴影与 Popconfirm.zIndexPopup。原生 portal
-        保留主题；触发内容增加 span 包裹。定位、箭头和容器限制同 Tooltip。
-      </p>
-      <p>
-        等待期间按钮禁用，Escape 或外部点击仍可关闭。Promise
-        拒绝时保留确认框，错误提示由应用负责。暂不提供 onPopupClick、语义
-        classNames/styles、动画生命周期或完整 ref
-        契约；这是非模态确认框，不锁定焦点。
-      </p>
+        <Demo
+          id={"dynamic-trigger"}
+          title={"条件触发"}
+          description={"可以判断是否需要弹出。"}
+          descriptionMarkdown
+          source={() => import("../demos/popconfirm/dynamic-trigger.tsx?raw")}
+        >
+          <Demo4 />
+        </Demo>
+        <Demo
+          id={"icon"}
+          title={"自定义 Icon 图标"}
+          description={"自定义提示 `icon`。"}
+          descriptionMarkdown
+          source={() => import("../demos/popconfirm/icon.tsx?raw")}
+        >
+          <Demo5 />
+        </Demo>
+        <Demo
+          id={"async"}
+          title={"异步关闭"}
+          description={"点击确定后异步关闭气泡确认框，例如提交表单。"}
+          descriptionMarkdown
+          source={() => import("../demos/popconfirm/async.tsx?raw")}
+        >
+          <Demo6 />
+        </Demo>
+        <Demo
+          id={"promise"}
+          title={"基于 Promise 的异步关闭"}
+          description={"点击确定后异步关闭 Popconfirm，例如提交表单。"}
+          descriptionMarkdown
+          source={() => import("../demos/popconfirm/promise.tsx?raw")}
+        >
+          <Demo7 />
+        </Demo>
+      </DemoGrid>
+      <h2 id="api">API</h2>
+      <ReferenceApiTables component="Popconfirm" />
+      <h2 id="tokens">主题变量（Design Token）</h2>
+      <ReferenceTokenTable component="Popconfirm" />
     </>
   );
 }

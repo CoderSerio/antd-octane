@@ -48,16 +48,25 @@ it("Affix pins to custom target, preserves placeholder and restores on scrolling
     content = holder.firstElementChild as HTMLElement;
   let top = 80;
   vi.spyOn(holder, "getBoundingClientRect").mockImplementation(
-    () => ({ top, bottom: top + 32, width: 100, left: 20 }) as DOMRect,
+    () =>
+      ({ top, bottom: top + 32, width: 100, height: 32, left: 20 }) as DOMRect,
   );
   vi.spyOn(content, "getBoundingClientRect").mockReturnValue({
     height: 32,
   } as DOMRect);
-  await act(() => ref.current?.updatePosition());
+  await act(async () => {
+    ref.current?.updatePosition();
+    await new Promise(requestAnimationFrame);
+  });
   expect(content.style.top).toBe("110px");
-  expect(holder.style.height).toBe("32px");
+  expect(
+    holder.querySelector<HTMLElement>('[aria-hidden="true"]')?.style.height,
+  ).toBe("32px");
   top = 130;
-  await act(() => ref.current?.updatePosition());
+  await act(async () => {
+    ref.current?.updatePosition();
+    await new Promise(requestAnimationFrame);
+  });
   expect(content.style.position).toBe("");
   expect(change).toHaveBeenLastCalledWith(false);
 });

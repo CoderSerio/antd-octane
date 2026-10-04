@@ -1,101 +1,118 @@
-/** @jsxImportSource octane */
-import type { CSSProperties, HTMLAttributes, OctaneNode } from "octane";
+// Ant Design 5.29.3 components/spin/index.tsx (MIT), adapted to Octane.
+import type { CSSProperties, ElementDescriptor, OctaneNode } from "octane";
 import { useEffect, useState } from "octane";
-import { useComponentTokens } from "../_util/tokens";
-export interface SpinProps extends HTMLAttributes<HTMLDivElement> {
+import { devUseWarning } from "../_util/warning";
+import { useConfig } from "../config-provider";
+import Indicator from "./Indicator";
+import usePercent from "./usePercent";
+import useSpinStyle from "./useSpinStyle";
+
+export type SpinSize = "small" | "default" | "large";
+export type SpinIndicator = ElementDescriptor<HTMLElement>;
+export interface SpinProps {
+  prefixCls?: string;
+  className?: string;
+  rootClassName?: string;
   spinning?: boolean;
-  delay?: number;
-  size?: "small" | "default" | "large";
-  tip?: OctaneNode;
-  indicator?: OctaneNode;
-  wrapperClassName?: string;
-  fullscreen?: boolean;
   style?: CSSProperties;
+  size?: SpinSize;
+  tip?: OctaneNode;
+  delay?: number;
+  wrapperClassName?: string;
+  indicator?: SpinIndicator;
+  children?: OctaneNode;
+  fullscreen?: boolean;
+  percent?: number | "auto";
 }
-export function Spin({
-  spinning = true,
+export type SpinType = ((props: SpinProps) => ElementDescriptor) & {
+  setDefaultIndicator: (indicator: OctaneNode) => void;
+};
+let defaultIndicator: OctaneNode;
+function shouldDelay(spinning?: boolean, delay?: number): boolean {
+  return !!spinning && !!delay && !Number.isNaN(Number(delay));
+}
+function InternalSpin({
+  prefixCls: customPrefix,
+  spinning: customSpinning = true,
   delay = 0,
+  className,
+  rootClassName,
   size = "default",
   tip,
-  indicator,
   wrapperClassName,
-  fullscreen = false,
-  children,
-  className,
   style,
-  ...rest
+  children,
+  fullscreen = false,
+  indicator,
+  percent,
+  ...restProps
 }: SpinProps) {
-  const { token: t, component: c, base } = useComponentTokens("Spin");
-  const duration = Number.isFinite(delay) ? Math.max(0, delay) : 0;
-  const [ready, setReady] = useState(spinning && duration === 0);
+  const config = useConfig();
+  const prefixCls = config.getPrefixCls("spin", customPrefix);
+  const base = useSpinStyle();
+  const [spinning, setSpinning] = useState(
+    () => customSpinning && !shouldDelay(customSpinning, delay),
+  );
+  const mergedPercent = usePercent(spinning, percent);
   useEffect(() => {
-    if (!spinning) {
-      setReady(false);
-      return;
+    if (customSpinning) {
+      // The upstream debounce is invoked once per effect; a cancellable timer
+      // preserves its trailing call, including zero and negative delays.
+      const timer = setTimeout(() => setSpinning(true), delay);
+      return () => clearTimeout(timer);
     }
-    if (!duration) {
-      setReady(true);
-      return;
-    }
-    const timer = setTimeout(() => setReady(true), duration);
-    return () => clearTimeout(timer);
-  }, [spinning, duration]);
-  const visible = spinning && ready;
-  const nested = children !== undefined && !fullscreen;
-  const dot =
-    size === "small"
-      ? (c?.dotSizeSM ?? t.controlHeightLG * 0.35)
-      : size === "large"
-        ? (c?.dotSizeLG ?? t.controlHeight)
-        : (c?.dotSize ?? t.controlHeightLG / 2);
-  const vars = {
-    ...base,
-    "--ao-spin-size": `${dot}px`,
-    "--ao-spin-height": `${c?.contentHeight ?? 400}px`,
-    "--ao-spin-z": t.zIndexPopupBase,
-    ...style,
-  };
+    setSpinning(false);
+  }, [delay, customSpinning]);
+  const nested = typeof children !== "undefined" && !fullscreen;
+  const warning = devUseWarning("Spin");
+  warning(
+    !tip || nested || fullscreen,
+    "usage",
+    "`tip` only work in nest or fullscreen pattern.",
+  );
+  const classes = (suffix: string) => [
+    `ant-spin${suffix}`,
+    `${prefixCls}${suffix}`,
+  ];
   const spinner = (
     <div
-      {...rest}
+      {...restProps}
+      style={{ ...base, ...config.spin?.style, ...style }}
       className={[
-        "ant-spin",
-        visible && "ant-spin-spinning",
-        size === "small" && "ant-spin-sm",
-        size === "large" && "ant-spin-lg",
+        ...classes(""),
+        config.spin?.className,
+        size === "small" && classes("-sm"),
+        size === "large" && classes("-lg"),
+        spinning && classes("-spinning"),
+        !!tip && classes("-show-text"),
+        config.direction === "rtl" && classes("-rtl"),
         className,
+        !fullscreen && rootClassName,
       ]}
-      style={vars}
-      role="status"
       aria-live="polite"
-      aria-label={rest["aria-label"] ?? "正在加载"}
-      aria-busy={visible}
-      hidden={!visible}
+      aria-busy={spinning}
     >
-      {indicator ?? (
-        <span className="ant-spin-dot" aria-hidden="true">
-          <i />
-          <i />
-          <i />
-          <i />
-        </span>
-      )}
-      {tip && (nested || fullscreen) && (
-        <div className="ant-spin-text">{tip}</div>
-      )}
+      <Indicator
+        prefixCls={prefixCls}
+        indicator={indicator ?? config.spin?.indicator ?? defaultIndicator}
+        percent={mergedPercent}
+      />
+      {tip && (nested || fullscreen) ? (
+        <div className={classes("-text")}>{tip}</div>
+      ) : null}
     </div>
   );
   if (nested)
     return (
       <div
-        className={["ant-spin-nested-loading", wrapperClassName]}
-        style={{ "--ao-spin-height": vars["--ao-spin-height"] }}
-        aria-busy={visible}
+        {...restProps}
+        className={[...classes("-nested-loading"), wrapperClassName]}
+        style={base}
       >
-        {visible && <div className="ant-spin-overlay">{spinner}</div>}
+        {spinning && <div key="loading">{spinner}</div>}
         <div
-          className={["ant-spin-container", visible && "ant-spin-blur"]}
-          inert={visible || undefined}
+          className={[...classes("-container"), spinning && classes("-blur")]}
+          key="container"
         >
           {children}
         </div>
@@ -103,9 +120,21 @@ export function Spin({
     );
   if (fullscreen)
     return (
-      <div className="ant-spin-fullscreen" style={vars} hidden={!visible}>
+      <div
+        className={[
+          ...classes("-fullscreen"),
+          spinning && classes("-fullscreen-show"),
+          rootClassName,
+        ]}
+        style={base}
+      >
         {spinner}
       </div>
     );
   return spinner;
 }
+export const Spin = Object.assign(InternalSpin, {
+  setDefaultIndicator(indicator: OctaneNode) {
+    defaultIndicator = indicator;
+  },
+});

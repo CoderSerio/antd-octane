@@ -153,6 +153,11 @@ export default function CheckboxPage({ section }: { section?: string }) {
           没有独立的 columns 属性。尚未实现语义化 styles/classNames。
         </p>
       </div>
+      <p>
+        未发布源码已支持 Checkbox / Checkbox.Group 的 prefixCls /
+        rootClassName、 ConfigProvider.checkbox 样式默认值与共用波纹；选项显式
+        disabled=false 可覆盖组或上下文禁用。静态样式保留 ant-* 别名。
+      </p>
     </>
   );
 }
