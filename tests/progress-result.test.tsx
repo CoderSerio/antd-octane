@@ -6,24 +6,28 @@ import { Progress } from "../packages/antd-octane/src/progress";
 import { Result } from "../packages/antd-octane/src/result";
 
 let root: Root | undefined;
+
 let container: HTMLDivElement;
+
 async function render(node: ElementDescriptor) {
   container = document.createElement("div");
   document.body.append(container);
   root = createRoot(container);
   await act(() => root?.render(node));
 }
+
 afterEach(async () => {
   await act(() => root?.unmount());
   container?.remove();
 });
-it("clamps invalid progress, exposes accessible values and updates", async () => {
+
+it("clamps visual progress, preserves upstream aria values and updates", async () => {
   await render(<Progress percent={140} aria-label="下载" />);
   expect(
     container
       .querySelector('[role="progressbar"]')
       ?.getAttribute("aria-valuenow"),
-  ).toBe("100");
+  ).toBe("140");
   expect(
     container
       .querySelector(".ant-progress")
@@ -34,11 +38,12 @@ it("clamps invalid progress, exposes accessible values and updates", async () =>
     container
       .querySelector('[role="progressbar"]')
       ?.getAttribute("aria-valuenow"),
-  ).toBe("0");
+  ).toBe("NaN");
   expect(
     container.querySelector<HTMLElement>(".ant-progress-bg")?.style.width,
   ).toBe("0%");
 });
+
 it("keeps success portion independent and lets formatter render zero", async () => {
   await render(
     <Progress
@@ -57,6 +62,7 @@ it("keeps success portion independent and lets formatter render zero", async () 
   await act(() => root?.render(<Progress percent={0} format={() => 0} />));
   expect(container.querySelector(".ant-progress-text")?.textContent).toBe("0");
 });
+
 it("uses unique gradient references and dashboard gaps with no zero-percent cap", async () => {
   await render(
     <>
@@ -72,17 +78,24 @@ it("uses unique gradient references and dashboard gaps with no zero-percent cap"
       />
     </>,
   );
-  const gradients = [...container.querySelectorAll("linearGradient")];
+  const gradients = [...container.querySelectorAll("mask")];
   expect(gradients).toHaveLength(2);
   expect(gradients[0].id).not.toBe(gradients[1].id);
   const paths = [...container.querySelectorAll(".ant-progress-circle-path")];
-  expect(paths[0].getAttribute("stroke")).toBe(`url(#${gradients[0].id})`);
+  expect(container.querySelector("foreignObject")?.getAttribute("mask")).toBe(
+    `url(#${gradients[0].id})`,
+  );
   expect(paths[0].getAttribute("opacity")).toBe("0");
-  const trails = [...container.querySelectorAll(".ant-progress-circle-trail")];
-  expect(trails[0].getAttribute("stroke-dasharray")).not.toBe(
-    trails[1].getAttribute("stroke-dasharray"),
+  const trails = [
+    ...container.querySelectorAll<SVGCircleElement>(
+      ".ant-progress-circle-trail",
+    ),
+  ];
+  expect(trails[0].style.strokeDasharray).not.toBe(
+    trails[1].style.strokeDasharray,
   );
 });
+
 it("renders discrete steps and hides only visual info", async () => {
   await render(
     <Progress steps={5} percent={60} showInfo={false} strokeColor="red" />,
@@ -91,9 +104,9 @@ it("renders discrete steps and hides only visual info", async () => {
     ...container.querySelectorAll<HTMLElement>(".ant-progress-steps-item"),
   ];
   expect(steps).toHaveLength(5);
-  expect(steps.filter((step) => step.style.background === "red")).toHaveLength(
-    3,
-  );
+  expect(
+    steps.filter((step) => step.style.backgroundColor === "red"),
+  ).toHaveLength(3);
   expect(container.querySelector(".ant-progress-text")).toBeNull();
   expect(
     container
@@ -101,6 +114,7 @@ it("renders discrete steps and hides only visual info", async () => {
       ?.getAttribute("aria-valuenow"),
   ).toBe("60");
 });
+
 it("uses scoped component tokens for both feedback components", async () => {
   await render(
     <ConfigProvider
@@ -126,6 +140,7 @@ it("uses scoped component tokens for both feedback components", async () => {
       ?.style.getPropertyValue("--ao-result-title-size"),
   ).toBe("30px");
 });
+
 it("supports result HTTP statuses, custom icons, details and actions without live announcements", async () => {
   await render(
     <Result

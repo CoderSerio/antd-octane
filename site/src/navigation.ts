@@ -888,6 +888,7 @@ toc.skeleton = [
 ];
 
 toc.progress = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
   ["basic", "进度与状态"],
   ["more", "圆形、仪表盘与步骤"],

@@ -234,7 +234,15 @@ export type { PopconfirmProps } from "./popconfirm";
 export { Popconfirm } from "./popconfirm";
 export type { PopoverProps } from "./popover";
 export { Popover } from "./popover";
-export type { ProgressGradient, ProgressProps } from "./progress";
+export type {
+  PercentPositionType,
+  ProgressAriaProps,
+  ProgressGradient,
+  ProgressProps,
+  ProgressSize,
+  ProgressType,
+  SuccessProps,
+} from "./progress";
 export { Progress } from "./progress";
 export type {
   ImageSettings,

@@ -1,0 +1,193 @@
+{
+  "version": "5.29.3",
+  "api": [
+    {
+      "title": "Progress",
+      "rows": [
+        [
+          "format",
+          "内容的模板函数",
+          "function(percent, successPercent)",
+          "(percent) => percent + `%`"
+        ],
+        ["percent", "百分比", "number", "0"],
+        ["showInfo", "是否显示进度数值或状态图标", "boolean", "true"],
+        [
+          "status",
+          "状态，可选：`success` `exception` `normal` `active`(仅限 line)",
+          "string",
+          "-"
+        ],
+        ["strokeColor", "进度条的色彩", "string", "-"],
+        [
+          "strokeLinecap",
+          "进度条的样式",
+          "`round` | `butt` | `square`，区别详见 [stroke-linecap](https://developer.mozilla.org/docs/Web/SVG/Attribute/stroke-linecap)",
+          "`round`"
+        ],
+        [
+          "success",
+          "成功进度条相关配置",
+          "{ percent: number, strokeColor: string }",
+          "-"
+        ],
+        ["trailColor", "未完成的分段的颜色", "string", "-"],
+        ["type", "类型，可选 `line` `circle` `dashboard`", "string", "`line`"],
+        [
+          "size",
+          "进度条的尺寸",
+          "number | [number | string, number] | { width: number, height: number } | \"small\" | \"default\"",
+          "\"default\""
+        ]
+      ]
+    },
+    {
+      "title": "`type=\"line\"`",
+      "rows": [
+        ["steps", "进度条总共步数", "number", "-"],
+        [
+          "rounding",
+          "用于四舍五入数值的函数",
+          "(step: number) => number",
+          "Math.round"
+        ],
+        [
+          "strokeColor",
+          "进度条的色彩，传入 object 时为渐变。当有 `steps` 时支持传入一个数组。",
+          "string | string[] | { from: string; to: string; direction: string }",
+          "-"
+        ],
+        [
+          "percentPosition",
+          "进度数值位置，传入对象，`align` 表示数值的水平位置，`type` 表示数值在进度条内部还是外部",
+          "{ align: string; type: string }",
+          "{ align: \\\"end\\\", type: \\\"outer\\\" }"
+        ]
+      ]
+    },
+    {
+      "title": "`type=\"circle\"`",
+      "rows": [
+        [
+          "steps",
+          "进度条总共步数，传入 object 时，count 指步数，gap 指间隔大小。传 number 类型时，gap 默认为 2。",
+          "number | { count: number, gap: number }",
+          "-"
+        ],
+        [
+          "strokeColor",
+          "圆形进度条线的色彩，传入 object 时为渐变",
+          "string | { number%: string }",
+          "-"
+        ],
+        [
+          "strokeWidth",
+          "圆形进度条线的宽度，单位是进度条画布宽度的百分比",
+          "number",
+          "6"
+        ]
+      ]
+    },
+    {
+      "title": "`type=\"dashboard\"`",
+      "rows": [
+        [
+          "steps",
+          "进度条总共步数，传入 object 时，count 指步数，gap 指间隔大小。传 number 类型时，gap 默认为 2。",
+          "number | { count: number, gap: number }",
+          "-"
+        ],
+        ["gapDegree", "仪表盘进度条缺口角度，可取值 0 ~ 295", "number", "75"],
+        [
+          "gapPosition",
+          "仪表盘进度条缺口位置",
+          "`top` | `bottom` | `left` | `right`",
+          "`bottom`"
+        ],
+        [
+          "strokeWidth",
+          "仪表盘进度条线的宽度，单位是进度条画布宽度的百分比",
+          "number",
+          "6"
+        ]
+      ]
+    }
+  ],
+  "tokens": {
+    "component": [
+      [
+        "circleIconFontSize",
+        "圆形进度条图标大小",
+        "string",
+        "1.1666666666666667em"
+      ],
+      ["circleTextColor", "圆形进度条文字颜色", "string", "rgba(0,0,0,0.88)"],
+      ["circleTextFontSize", "圆形进度条文本大小", "string", "1em"],
+      ["defaultColor", "进度条默认颜色", "string", "#1677ff"],
+      ["lineBorderRadius", "条状进度条圆角", "number", "100"],
+      ["remainingColor", "进度条剩余部分颜色", "string", "rgba(0,0,0,0.06)"]
+    ],
+    "global": [
+      [
+        "colorBgContainer",
+        "组件的容器背景色，例如：默认按钮、输入框等。务必不要将其与 `colorBgElevated` 混淆。",
+        "string",
+        "#ffffff"
+      ],
+      [
+        "colorError",
+        "用于表示操作失败的 Token 序列，如失败按钮、错误状态提示（Result）组件等。",
+        "string",
+        "#ff4d4f"
+      ],
+      [
+        "colorSuccess",
+        "用于表示操作成功的 Token 序列，如 Result、Progress 等组件会使用该组梯度变量。",
+        "string",
+        "#52c41a"
+      ],
+      [
+        "colorText",
+        "最深的文本色。为了符合W3C标准，默认的文本颜色使用了该色，同时这个颜色也是最深的中性色。",
+        "string",
+        "rgba(0,0,0,0.88)"
+      ],
+      ["colorWhite", "不随主题变化的纯白色", "string", "#fff"],
+      [
+        "fontFamily",
+        "Ant Design 的字体家族中优先使用系统默认的界面字体，同时提供了一套利于屏显的备用字体库，来维护在不同平台以及浏览器的显示下，字体始终保持良好的易读性和可读性，体现了友好、稳定和专业的特性。",
+        "string",
+        "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,\n'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',\n'Noto Color Emoji'"
+      ],
+      [
+        "fontSize",
+        "设计系统中使用最广泛的字体大小，文本梯度也将基于该字号进行派生。",
+        "number",
+        "14"
+      ],
+      ["fontSizeSM", "小号字体大小", "number", "12"],
+      ["lineHeight", "文本行高", "number", "1.5714285714285714"],
+      ["marginXS", "控制元素外边距，小尺寸。", "number", "8"],
+      ["marginXXS", "控制元素外边距，最小尺寸。", "number", "4"],
+      [
+        "motionDurationSlow",
+        "动效播放速度，慢速。用于大型元素如面板动画交互",
+        "string",
+        "0.3s"
+      ],
+      [
+        "motionEaseInOutCirc",
+        "预设动效曲率",
+        "string",
+        "cubic-bezier(0.78, 0.14, 0.15, 0.86)"
+      ],
+      [
+        "motionEaseOutQuint",
+        "预设动效曲率",
+        "string",
+        "cubic-bezier(0.23, 1, 0.32, 1)"
+      ],
+      ["paddingXXS", "控制元素的极小内间距。", "number", "4"]
+    ]
+  }
+}

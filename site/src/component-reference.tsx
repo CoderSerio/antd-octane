@@ -9,6 +9,7 @@ import message from "./feedback/message.json";
 import modal from "./feedback/modal.json";
 import notification from "./feedback/notification.json";
 import popconfirm from "./feedback/popconfirm.json";
+import progress from "./feedback/progress.json";
 
 export interface ApiSection {
   title: string;
@@ -30,6 +31,7 @@ const references: Record<
   Modal: modal,
   Notification: notification,
   Popconfirm: popconfirm,
+  Progress: progress,
 
 };
 

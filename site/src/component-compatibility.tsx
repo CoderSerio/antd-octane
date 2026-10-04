@@ -296,7 +296,18 @@ export function ComponentCompatibilityNotes() {
           destroyOnHidden。
         </p>
       </details>
-
+      <details>
+        <summary>Progress</summary>
+        <p>
+          未发布源码已按 antd 5.29.3 补齐显式参数、外层 div ref、原始 props
+          传递与三种形态的尺寸计算。条形渐变、成功分段、步骤取整、数值位置，
+          圆环分段及 SVG 渐变蒙版已做定向对照；微型圆环通过 Tooltip 展示数值。
+          默认、暗色、紧凑、品牌、组件和嵌套主题已检查桌面与窄屏案例，
+          并检查进度更新、归零、前缀、RTL 与键盘焦点。 这些案例不代表完整
+          API、动效或跨浏览器一致；本地站点当前使用 workspace 源码，
+          这些改动尚未发布到 npm。
+        </p>
+      </details>
       <details>
         <summary>QRCode</summary>
         <p>

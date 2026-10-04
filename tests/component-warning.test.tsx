@@ -8,6 +8,7 @@ import {
   Drawer,
   Image,
   Modal,
+  Progress,
   Statistic,
   Tag,
   Timeline,
@@ -119,6 +120,37 @@ const matrix = [
         "<Statistic.Countdown />",
         '<Statistic.Timer type="countdown" />',
       ),
+    ],
+  },
+{
+    name: "Progress",
+    node: (
+      <Progress
+        width={undefined}
+        successPercent={undefined}
+        success={{ progress: undefined }}
+        strokeWidth={undefined}
+      />
+    ),
+    messages: [
+      deprecation("successPercent", "success.percent"),
+      deprecation("width", "size"),
+      deprecation("success.progress", "success.percent"),
+      deprecation("strokeWidth", "size"),
+    ],
+  },
+{
+    name: "Progress",
+    node: <Progress type="circle" size={[100, 20]} strokeWidth={4} />,
+    messages: [
+      'Type "circle" and "dashboard" do not accept array as `size`, please use number or preset size instead.',
+    ],
+  },
+{
+    name: "Progress",
+    node: <Progress type="dashboard" size={{ width: 100, height: 20 }} />,
+    messages: [
+      'Type "circle" and "dashboard" do not accept object as `size`, please use number or preset size instead.',
     ],
   },
 {

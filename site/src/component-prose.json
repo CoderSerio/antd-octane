@@ -228,5 +228,15 @@
       "Popconfirm": 0,
       "共同的 API": 0
     }
+  },
+  "Progress": {
+    "when": "在操作需要较长时间才能完成时，为用户显示该操作的当前进度和状态。\n\n- 当一个操作会打断当前界面，或者需要在后台运行，且耗时可能超过 2 秒时；\n- 当需要显示一个操作完成的百分比时。",
+    "apiIntro": "各类型共用的属性。",
+    "sectionHeadings": {
+      "Progress": 0,
+      "`type=\"line\"`": 3,
+      "`type=\"circle\"`": 3,
+      "`type=\"dashboard\"`": 3
+    }
   }
 }

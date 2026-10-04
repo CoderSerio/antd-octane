@@ -23,6 +23,7 @@ import type {
   ModalToken,
   NotificationToken,
   PopconfirmToken,
+  ProgressToken,
 } from "./component-tokens";
 
 export type * from "./component-tokens";
@@ -186,13 +187,7 @@ export interface ThemeConfig {
     }>;
     Tooltip?: ComponentTheme<TooltipToken>;
     Popover?: ComponentTheme<PopoverToken & { innerPadding: number | string }>;
-    Progress?: ComponentTheme<{
-      defaultColor: string;
-      remainingColor: string;
-      circleTextColor: string;
-      circleTextFontSize: string;
-      lineBorderRadius: number;
-    }>;
+    Progress?: ComponentTheme<ProgressToken>;
     Result?: ComponentTheme<{
       titleFontSize: number;
       subtitleFontSize: number;
