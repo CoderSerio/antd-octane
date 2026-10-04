@@ -14,31 +14,25 @@ import {
 } from "../packages/antd-octane/src";
 
 let root: Root | undefined;
-
 let container: HTMLDivElement;
-
 async function render(node: ElementDescriptor) {
   container = document.createElement("div");
   document.body.append(container);
   root = createRoot(container);
   await act(() => root?.render(node));
 }
-
 afterEach(async () => {
   await act(() => root?.unmount());
   container?.remove();
 });
-
 function inputs() {
   return [...container.querySelectorAll("input")];
 }
-
 async function click(selector: string) {
   const el = container.querySelector<HTMLElement>(selector);
   if (!el) throw Error(`Missing ${selector}`);
   await act(() => el.click());
 }
-
 it("Checkbox.Group preserves option types and document order", async () => {
   const change = vi.fn();
   await render(
@@ -57,7 +51,6 @@ it("Checkbox.Group preserves option types and document order", async () => {
   expect(change.mock.lastCall?.[0]).toEqual([1, false, "1"]);
   expect(inputs().every((input) => input.checked)).toBe(true);
 });
-
 it("controlled Checkbox.Group can reject changes and skipGroup stays independent", async () => {
   const change = vi.fn();
   await render(
@@ -76,7 +69,6 @@ it("controlled Checkbox.Group can reject changes and skipGroup stays independent
   expect(inputs()[2].checked).toBe(true);
   expect(change).toHaveBeenCalledTimes(1);
 });
-
 it("removed checkbox children are not returned in later group changes", async () => {
   const change = vi.fn();
   function Example() {
@@ -96,7 +88,6 @@ it("removed checkbox children are not returned in later group changes", async ()
   await act(() => inputs()[0].click());
   expect(change).toHaveBeenCalledWith([2]);
 });
-
 it("checkbox option and provider disabled prevent interaction", async () => {
   const change = vi.fn();
   await render(
@@ -108,7 +99,6 @@ it("checkbox option and provider disabled prevent interaction", async () => {
   await act(() => inputs()[0].click());
   expect(change).not.toHaveBeenCalled();
 });
-
 it("Radio.Group preserves values and uses a unique native name per group", async () => {
   const change = vi.fn();
   await render(
@@ -132,7 +122,6 @@ it("Radio.Group preserves values and uses a unique native name per group", async
   expect(inputs()[1].checked).toBe(true);
   expect(inputs()[3].checked).toBe(true);
 });
-
 it("Radio controlled group rejects selection and button radios remain native inputs", async () => {
   const change = vi.fn();
   await render(
@@ -151,7 +140,6 @@ it("Radio controlled group rejects selection and button radios remain native inp
   );
   expect(change.mock.lastCall?.[0].target.value).toBe(2);
 });
-
 it("Tag close can be cancelled and never bubbles into its parent click handler", async () => {
   const parent = vi.fn();
   await render(
@@ -168,7 +156,6 @@ it("Tag close can be cancelled and never bubbles into its parent click handler",
     "Remove",
   );
 });
-
 it("CheckableTag is controlled and reports the requested next state", async () => {
   const change = vi.fn();
   function Example() {
@@ -190,7 +177,6 @@ it("CheckableTag is controlled and reports the requested next state", async () =
   expect(change).toHaveBeenCalledWith(true);
   expect(container.querySelector(".ant-tag-checkable-checked")).not.toBeNull();
 });
-
 it("Tag supports closable configuration and the deprecated visible prop", async () => {
   await render(
     <Tag
@@ -215,7 +201,6 @@ it("Tag supports closable configuration and the deprecated visible prop", async 
     "Hidden",
   );
 });
-
 it("CheckableTag renders its icon and invokes both change and click handlers", async () => {
   const change = vi.fn();
   const clickHandler = vi.fn();
@@ -234,7 +219,6 @@ it("CheckableTag renders its icon and invokes both change and click handlers", a
   expect(change).toHaveBeenCalledWith(true);
   expect(clickHandler).toHaveBeenCalledTimes(1);
 });
-
 it("Alert calls afterClose once before removal, as CSSMotion does upstream", async () => {
   const close = vi.fn();
   const after = vi.fn(() =>
@@ -254,7 +238,6 @@ it("Alert calls afterClose once before removal, as CSSMotion does upstream", asy
   expect(after).toHaveBeenCalledTimes(1);
   expect(container.querySelector('[role="alert"]')).toBeNull();
 });
-
 it("Badge respects zero hiding, overflow and custom content", async () => {
   await render(
     <>
@@ -268,7 +251,6 @@ it("Badge respects zero hiding, overflow and custom content", async () => {
   expect(container.querySelector("b")?.textContent).toBe("new");
   expect(container.textContent).toBe("099+new");
 });
-
 it("Avatar falls back on image failure and resets on a new source", async () => {
   await render(<Avatar src="/bad">AB</Avatar>);
   await act(() =>
@@ -279,7 +261,6 @@ it("Avatar falls back on image failure and resets on a new source", async () => 
   await act(() => root?.render(<Avatar src="/new">AB</Avatar>));
   expect(container.querySelector("img")?.getAttribute("src")).toBe("/new");
 });
-
 it("Avatar onError false keeps the image for consumer handling", async () => {
   await render(
     <Avatar src="/bad" onError={() => false}>
@@ -291,7 +272,6 @@ it("Avatar onError false keeps the image for consumer handling", async () => {
   );
   expect(container.querySelector("img")).not.toBeNull();
 });
-
 it("Avatar accepts image nodes and forwards image attributes", async () => {
   await render(
     <>
@@ -308,7 +288,6 @@ it("Avatar accepts image nodes and forwards image attributes", async () => {
   expect(image?.getAttribute("crossorigin")).toBe("anonymous");
   expect(image?.getAttribute("draggable")).toBe("false");
 });
-
 it("Avatar.Group shares shape and size and summarizes hidden avatars", async () => {
   await render(
     <Avatar.Group size={40} shape="square" max={{ count: 2 }}>
@@ -323,7 +302,6 @@ it("Avatar.Group shares shape and size and summarizes hidden avatars", async () 
   expect(avatars[0].style.getPropertyValue("--ao-avatar-size")).toBe("40px");
   expect(avatars[2].textContent).toBe("+1");
 });
-
 it("Card loading hides children and restores content with actions", async () => {
   await render(
     <Card

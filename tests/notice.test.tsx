@@ -16,13 +16,9 @@ import {
 } from "../packages/antd-octane/src/notification";
 
 let root: Root | undefined;
-
 let container: HTMLDivElement;
-
 let api: MessageInstance;
-
 let notices: NotificationInstance;
-
 async function render(node: ElementDescriptor) {
   if (!root) {
     container = document.createElement("div");
@@ -31,14 +27,12 @@ async function render(node: ElementDescriptor) {
   }
   await act(() => root?.render(node));
 }
-
 afterEach(async () => {
   await act(() => root?.unmount());
   root = undefined;
   container?.remove();
   vi.useRealTimers();
 });
-
 function MessageDemo() {
   const [instance, holder] = message.useMessage({ maxCount: 2 });
   api = instance;
@@ -53,17 +47,14 @@ function MessageDemo() {
     </ConfigProvider>
   );
 }
-
 function NotificationDemo() {
   const [instance, holder] = notification.useNotification();
   notices = instance;
   return holder;
 }
-
 function ThemeReader() {
   return <span data-color={useConfig().token.colorPrimary}>context</span>;
 }
-
 it("direct notice hooks remain independent of surrounding App defaults", async () => {
   function DirectHooks() {
     const [messageApi, messageHolder] = message.useMessage();
@@ -92,7 +83,6 @@ it("direct notice hooks remain independent of surrounding App defaults", async (
   expect(document.querySelectorAll(".ant-message-notice")).toHaveLength(2);
   expect(document.querySelectorAll(".ant-notification-notice")).toHaveLength(2);
 });
-
 it("static holder App settings override global defaults and config updates", async () => {
   ConfigProvider.config({
     holderRender: (children) => (
@@ -142,7 +132,6 @@ it("static holder App settings override global defaults and config updates", asy
     });
   }
 });
-
 it("message holder preserves local context across portal and resolves callable thenable", async () => {
   await render(<MessageDemo />);
   let close: ReturnType<MessageInstance["open"]> | undefined;
@@ -162,7 +151,26 @@ it("message holder preserves local context across portal and resolves callable t
   expect(await close).toBe(true);
   expect(document.querySelector(".ant-message")).toBeNull();
 });
-
+it("same key updates in place and maxCount silently evicts earliest", async () => {
+  await render(<MessageDemo />);
+  const close = vi.fn();
+  await act(() => {
+    api.open({ key: "one", content: "first", duration: 0, onClose: close });
+    api.open({ key: "one", content: "updated", duration: 0, onClose: close });
+  });
+  expect(document.querySelectorAll(".ant-message-notice")).toHaveLength(1);
+  expect(document.querySelector(".ant-message")?.textContent).toContain(
+    "updated",
+  );
+  await act(() => {
+    api.info({ key: "two", content: "second", duration: 0 });
+    api.info({ key: "three", content: "third", duration: 0 });
+  });
+  expect(document.querySelectorAll(".ant-message-notice")).toHaveLength(2);
+  expect(close).not.toHaveBeenCalled();
+  await act(() => api.destroy());
+  expect(document.querySelector(".ant-message")).toBeNull();
+});
 it("duration pauses on hover and resumes remaining time", async () => {
   vi.useFakeTimers();
   await render(<MessageDemo />);
@@ -178,7 +186,6 @@ it("duration pauses on hover and resumes remaining time", async () => {
   await act(() => vi.advanceTimersByTime(601));
   expect(document.querySelector(".ant-message")).toBeNull();
 });
-
 it("notification supports placement, actions, persistent duration and close", async () => {
   vi.useFakeTimers();
   await render(<NotificationDemo />);
@@ -206,7 +213,6 @@ it("notification supports placement, actions, persistent duration and close", as
   expect(close).toHaveBeenCalledOnce();
   expect(document.querySelector(".ant-notification")).toBeNull();
 });
-
 it("unmount removes portals and timers, retained API cannot leak new notices", async () => {
   vi.useFakeTimers();
   await render(<MessageDemo />);
@@ -219,9 +225,42 @@ it("unmount removes portals and timers, retained API cannot leak new notices", a
   expect(clear).toHaveBeenCalled();
   await act(() => vi.advanceTimersByTime(10001));
   clear.mockRestore();
-  expect(await api.info("after unmount")).toBe(true);
+  const warning = vi.spyOn(console, "error").mockImplementation(() => {});
+  const settled = vi.fn();
+  const afterUnmount = api.info("after unmount");
+  expect(afterUnmount.then(settled)).toBeUndefined();
+  afterUnmount();
+  await act(() => vi.advanceTimersByTime(10001));
+  expect(settled).not.toHaveBeenCalled();
+  expect(document.querySelector(".ant-message")).toBeNull();
+  expect(warning).toHaveBeenCalledWith(
+    expect.stringContaining("before contextHolder is mounted"),
+  );
+  warning.mockRestore();
 });
-
+it("same key restarts duration and settles only the latest close handle", async () => {
+  vi.useFakeTimers();
+  await render(<MessageDemo />);
+  let first: ReturnType<MessageInstance["open"]> | undefined;
+  let second: typeof first;
+  const firstSettled = vi.fn();
+  await act(() => {
+    first = api.open({ key: "job", content: "before", duration: 1 });
+    first.then(firstSettled);
+  });
+  await act(() => vi.advanceTimersByTime(800));
+  await act(() => {
+    second = api.open({ key: "job", content: "after", duration: 1 });
+  });
+  await act(() => vi.advanceTimersByTime(300));
+  expect(document.querySelector(".ant-message")?.textContent).toContain(
+    "after",
+  );
+  await act(() => vi.advanceTimersByTime(701));
+  expect(document.querySelector(".ant-message")).toBeNull();
+  expect(await second).toBe(true);
+  expect(firstSettled).not.toHaveBeenCalled();
+});
 it("only hover pauses notification duration; keyboard focus does not pause", async () => {
   vi.useFakeTimers();
   await render(<NotificationDemo />);
@@ -239,47 +278,4 @@ it("only hover pauses notification duration; keyboard focus does not pause", asy
   await act(() => el.dispatchEvent(new MouseEvent("mouseleave")));
   await act(() => vi.advanceTimersByTime(1500));
   expect(document.querySelector(".ant-notification")).toBeNull();
-});
-
-it("same key updates in place and maxCount evicts earliest with callback", async () => {
-  await render(<MessageDemo />);
-  const close = vi.fn();
-  await act(() => {
-    api.open({ key: "one", content: "first", duration: 0, onClose: close });
-    api.open({ key: "one", content: "updated", duration: 0, onClose: close });
-  });
-  expect(document.querySelectorAll(".ant-message-notice")).toHaveLength(1);
-  expect(document.querySelector(".ant-message")?.textContent).toContain(
-    "updated",
-  );
-  await act(() => {
-    api.info({ key: "two", content: "second", duration: 0 });
-    api.info({ key: "three", content: "third", duration: 0 });
-  });
-  expect(document.querySelectorAll(".ant-message-notice")).toHaveLength(2);
-  expect(close).toHaveBeenCalledOnce();
-  await act(() => api.destroy());
-  expect(document.querySelector(".ant-message")).toBeNull();
-});
-
-it("same key restarts duration and settles all outstanding close handles", async () => {
-  vi.useFakeTimers();
-  await render(<MessageDemo />);
-  let first: ReturnType<MessageInstance["open"]> | undefined;
-  let second: typeof first;
-  await act(() => {
-    first = api.open({ key: "job", content: "before", duration: 1 });
-  });
-  await act(() => vi.advanceTimersByTime(800));
-  await act(() => {
-    second = api.open({ key: "job", content: "after", duration: 1 });
-  });
-  await act(() => vi.advanceTimersByTime(300));
-  expect(document.querySelector(".ant-message")?.textContent).toContain(
-    "after",
-  );
-  await act(() => vi.advanceTimersByTime(701));
-  expect(document.querySelector(".ant-message")).toBeNull();
-  expect(await first).toBe(true);
-  expect(await second).toBe(true);
 });

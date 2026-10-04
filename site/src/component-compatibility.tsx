@@ -105,7 +105,77 @@ export function ComponentCompatibilityNotes() {
           限定到标题和箭头，collapsible="icon" 限定到箭头。
         </p>
       </details>
-
+      <details>
+        <summary>ConfigProvider</summary>
+        <p>
+          支持上下文嵌套、主题算法、组件
+          Token、尺寸、禁用、方向、语言包及组件默认配置。各组件实际支持的配置见对应组件页。
+          CSS-in-JS 的 hashed/cssVar 和未实现组件的配置仍未覆盖。
+        </p>
+        <p>
+          未发布源码已支持 csp.nonce 的上下文继承与嵌套覆盖，并将 nonce 写入 App
+          动态重置样式。省略 csp 时继承父级，显式空对象清空配置。
+          静态样式表需由应用的部署策略允许加载。该能力已在启用 CSP
+          的浏览器夹具检查；完整 CSS-in-JS 注入、SSR
+          提取及所有组件组合仍未覆盖。
+        </p>
+        <p>
+          ConfigProvider.useConfig() 返回 componentDisabled 与 componentSize，
+          同时读取 Form 提供的禁用与尺寸上下文。未设置禁用配置时返回 false；
+          显式 false 可覆盖父级禁用。
+        </p>
+        <p>
+          未发布源码已支持 wave.disabled 与 wave.showEffect，接入
+          Button、Tag、Checkbox、Radio、Switch。 支持 theme.components.Wave
+          覆盖默认波纹的颜色回退和动画参数，
+          自定义回调接收目标元素、组件名、事件和全局主题 Token；静态样式不生成
+          CSS-in-JS hashId，回调中的该值为空字符串。浏览器对照样例已移植 Happy
+          Work 效果；组件包尚未导出原生 HappyProvider。
+        </p>
+        <p>
+          未发布源码已补 Button、Checkbox、Radio、Select 及两个选择组的
+          prefixCls / rootClassName；支持父级、嵌套与组件自身前缀的优先级。
+          Select 弹层继承 getPopupContainer、方向和空状态配置。静态样式仍保留
+          ant-* 类名，尚不提供与 CSS-in-JS 相同的命名空间隔离。
+        </p>
+        <p>
+          浏览器夹具已还原 useConfig 的完整上游样例：三种尺寸切换、Form disabled
+          和两项配置值输入框。Form
+          标签、冒号及尺寸相关布局已在源码补齐，并检查默认、
+          深色、紧凑和嵌套组件主题；公共站点样例需在新包发布后更新。
+        </p>
+        <p>
+          holderRender 的源码对照夹具保留上游的 Message、Notification、Modal
+          内容与 static / icon 前缀。未发布源码已修正静态方法的 App
+          配置优先级：App 配置覆盖全局配置；直接调用 useMessage /
+          useNotification
+          保持独立。样例已检查五组主题、嵌套主题、中文和窄屏；StyleProvider 的
+          hashPriority 与 CSS-in-JS 隔离仍未实现。
+        </p>
+        <p>
+          未发布源码已支持 ConfigProvider.config 的 theme，prefixCls、
+          iconPrefixCls 和 theme 的 undefined 保留已有值，显式传入
+          holderRender=undefined 可清空包装。普通主题更新在下一次静态方法同步时
+          生效；每个静态 Modal 独立持有配置，并保留创建时的 holderRender。
+          旧颜色主题保留 CSS 变量写入和废弃提示。App 的 RTL、容器切换、
+          嵌套默认配置和组件主题覆盖已有浏览器对照。 运行中关闭 motion
+          会增加主题边界；原生静态消息可在重挂载后恢复实例， 与 antd 5.29.3
+          保留旧实例、后续调用可能失效的边缘行为不同。
+        </p>
+        <p>
+          未发布源码已接入 warning.strict：默认逐条输出警告，false
+          将废弃用法聚合为一条提示，嵌套配置可继承或覆盖；生产构建不输出这些警告。
+          官方 warning 样例已在源码夹具还原。数据展示的 Tag、Card、Collapse、
+          Descriptions、Image、Timeline、Statistic 和浮层，以及反馈的 Alert、
+          Progress、Spin、Modal、Drawer 已接入相应用法提示；Input.Group
+          也使用同一策略。未发布源码还补上 Notification 的 btn 废弃提示和
+          调用时机提示。ConfigProvider 自身的 autoInsertSpaceInButton、
+          dropdownMatchSelectWidth 与 SizeContext 废弃提示已按上游读取对应层级的
+          警告策略；两个兼容参数保留现代配置优先与嵌套继承行为。
+          popupMatchSelectWidth 与 popupOverflow 已接入原生
+          Select，分别控制弹层宽度和可视区域/滚动区域定位；全部选择器组合仍未覆盖。
+        </p>
+      </details>
       <details>
         <summary>Descriptions</summary>
         <p>

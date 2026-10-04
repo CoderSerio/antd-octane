@@ -4,16 +4,13 @@ import { afterEach, expect, it, vi } from "vitest";
 import { List, Typography } from "../packages/antd-octane/src";
 
 let root: Root | undefined;
-
 let container: HTMLDivElement;
-
 async function render(node: ElementDescriptor) {
   container = document.createElement("div");
   document.body.append(container);
   root = createRoot(container);
   await act(() => root?.render(node));
 }
-
 afterEach(async () => {
   await act(() => root?.unmount());
   container?.remove();
@@ -21,7 +18,6 @@ afterEach(async () => {
   vi.restoreAllMocks();
   vi.useRealTimers();
 });
-
 async function button(label: string) {
   const button = container.querySelector<HTMLButtonElement>(
     `button[aria-label="${label}"]`,
@@ -30,7 +26,6 @@ async function button(label: string) {
   await act(() => button.click());
   return button;
 }
-
 async function input(value: string) {
   const input = container.querySelector("textarea");
   if (!input) throw Error("Missing editor");
@@ -40,7 +35,6 @@ async function input(value: string) {
   });
   return input;
 }
-
 it("edits, preserves IME Enter, saves once and returns focus", async () => {
   const changed = vi.fn();
   function Example() {
@@ -80,7 +74,6 @@ it("edits, preserves IME Enter, saves once and returns focus", async () => {
   expect(container.textContent).toContain("新内容");
   expect(document.activeElement?.getAttribute("aria-label")).toBe("编辑");
 });
-
 it("cancels rich text without committing and starts with visible content", async () => {
   const cancel = vi.fn(),
     change = vi.fn();
@@ -101,7 +94,6 @@ it("cancels rich text without committing and starts with visible content", async
   expect(change).not.toHaveBeenCalled();
   expect(container.textContent).toContain("原文");
 });
-
 it("honors controlled editing and explicit edit text", async () => {
   const change = vi.fn();
   await render(
@@ -121,7 +113,6 @@ it("honors controlled editing and explicit edit text", async () => {
   expect(change).toHaveBeenCalledWith("保持受控");
   expect(container.querySelector("textarea")).not.toBeNull();
 });
-
 it("copies rendered text and reports rejection without claiming success", async () => {
   const writeText = vi.fn().mockResolvedValue(undefined);
   Object.defineProperty(navigator, "clipboard", {
@@ -145,7 +136,6 @@ it("copies rendered text and reports rejection without claiming success", async 
   );
   expect(onCopy).toHaveBeenCalledOnce();
 });
-
 it("preserves controlled expansion while emitting requested state", async () => {
   const onExpand = vi.fn();
   await render(
@@ -160,7 +150,6 @@ it("preserves controlled expansion while emitting requested state", async () => 
   expect(onExpand).toHaveBeenCalledWith(expect.anything(), { expanded: true });
   expect(toggle?.getAttribute("aria-expanded")).toBe("false");
 });
-
 it("keeps keyed list item input state when data reorders", async () => {
   function Example() {
     const [items, setItems] = useState([{ id: "a" }, { id: "b" }]);
@@ -191,7 +180,6 @@ it("keeps keyed list item input state when data reorders", async () => {
   ).toEqual(["b", "保留"]);
   expect(container.querySelectorAll(".ant-list-items > li")).toHaveLength(2);
 });
-
 it("shows custom empty content, suppresses it while loading, keeps header and footer", async () => {
   vi.useFakeTimers();
   await render(

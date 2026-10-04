@@ -203,6 +203,19 @@ type MultipleChange = (values: SelectValue[], options: SelectOption[]) => void;`
         null；多选传入空数组。远程搜索可通过 onSearch 更新 options
         并关闭内置过滤，但目前没有内置请求、loading 或防抖能力。
       </p>
+      <p>
+        未发布源码支持省略 options、prefixCls / rootClassName 和 ConfigProvider
+        的 select 样式默认值。默认空状态改用简洁 Empty，
+        并继承语言、renderEmpty、弹层容器和方向；完整语义样式与选择器 DOM
+        结构仍未覆盖。
+      </p>
+      <p>
+        未发布源码已支持 popupMatchSelectWidth 和兼容参数
+        dropdownMatchSelectWidth，组件参数优先于 ConfigProvider 配置。 true
+        与输入框等宽，false 保留最小宽度并可随内容扩展，数值指定宽度。
+        弹层使用绝对定位；选项圆角、选中样式和禁用颜色已接入对应主题 Token。
+        这些定向检查不代表 Select 的全部上游行为已实现。
+      </p>
     </>
   );
 }

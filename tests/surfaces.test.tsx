@@ -8,9 +8,7 @@ import {
 import { Watermark } from "../packages/antd-octane/src/watermark";
 
 let root: Root | undefined;
-
 let container: HTMLDivElement;
-
 async function render(node: ElementDescriptor) {
   if (!root) {
     container = document.createElement("div");
@@ -19,19 +17,16 @@ async function render(node: ElementDescriptor) {
   }
   await act(() => root?.render(node));
 }
-
 afterEach(async () => {
   await act(() => root?.unmount());
   root = undefined;
   container?.remove();
   vi.restoreAllMocks();
 });
-
 function dimension() {
   vi.spyOn(HTMLElement.prototype, "clientWidth", "get").mockReturnValue(600);
   vi.spyOn(HTMLElement.prototype, "clientHeight", "get").mockReturnValue(300);
 }
-
 it("Splitter inspects direct Panels and resizes neighbors with keyboard/minmax", async () => {
   dimension();
   const resized = vi.fn();
@@ -62,7 +57,6 @@ it("Splitter inspects direct Panels and resizes neighbors with keyboard/minmax",
   );
   expect(resized).toHaveBeenLastCalledWith([100, 400, 100]);
 });
-
 it("controlled sizes reject changes without drift and disabled neighbor blocks resizing", async () => {
   dimension();
   const resized = vi.fn();
@@ -96,7 +90,6 @@ it("controlled sizes reject changes without drift and disabled neighbor blocks r
   );
   expect(resized).not.toHaveBeenCalled();
 });
-
 it("vertical pointer resizing cleans document listeners on unmount", async () => {
   dimension();
   const end = vi.fn();
@@ -142,14 +135,12 @@ it("vertical pointer resizing cleans document listeners on unmount", async () =>
   await act(() => root?.unmount());
   expect(document.body.style.userSelect).toBe("");
 });
-
 it("size allocation preserves constraints and percent inputs", () => {
   expect(
     resolvePanelSizes([{ defaultSize: "25%", min: 100 }, { max: 400 }], 600),
   ).toEqual([200, 400]);
   expect(resolvePanelSizes([{ size: 200 }, {}], 600)).toEqual([200, 400]);
 });
-
 it("watermark draws multiline canvas and keeps children interactive", async () => {
   const fillText = vi.fn();
   const rotate = vi.fn();
@@ -199,7 +190,6 @@ it("watermark draws multiline canvas and keeps children interactive", async () =
   await act(() => container.querySelector("button")?.click());
   expect(click).toHaveBeenCalledOnce();
 });
-
 it("resize observer remeasures split proportions and disconnects", async () => {
   dimension();
   let callback: ResizeObserverCallback | undefined;
@@ -238,7 +228,6 @@ it("resize observer remeasures split proportions and disconnects", async () => {
     globalThis.ResizeObserver = old;
   }
 });
-
 it("watermark image failures fall back to text and detach image callbacks", async () => {
   const fillText = vi.fn();
   const ctx = {

@@ -332,3 +332,255 @@
     border-top: var(--ao-drawer-border);
   }
 }
+
+/* Ant Design 5.29.3 modal zoom/fade and drawer panel/mask motion. */
+@layer antd {
+  :where(
+      .ant-modal[data-native-motion="true"][data-motion-phase="appear"],
+      .ant-modal[data-native-motion="true"][data-motion-phase="enter"]
+    ) {
+    animation: ao-modal-zoom-in var(--ao-motion-slow, 0.3s)
+      var(--ao-motion-out-circ) both paused;
+    user-select: none;
+  }
+  :where(.ant-modal[data-native-motion="true"][data-motion-phase="leave"]) {
+    animation: ao-modal-zoom-out var(--ao-motion-mid, 0.2s)
+      var(--ao-motion-in-out-circ) both paused;
+  }
+  :where(.ant-modal[data-motion-phase="leave"] .ant-modal-content) {
+    pointer-events: none;
+  }
+  :where(
+      .ao-dialog-mask[data-native-motion="true"][data-motion-phase="appear"],
+      .ao-dialog-mask[data-native-motion="true"][data-motion-phase="enter"]
+    ) {
+    animation: ao-dialog-fade-in
+      var(--ao-motion-mid, var(--ao-motion-slow, 0.3s)) linear both paused;
+  }
+  :where(
+      .ao-dialog-mask[data-native-motion="true"][data-motion-phase="leave"]
+    ) {
+    animation: ao-dialog-fade-out
+      var(--ao-motion-mid, var(--ao-motion-slow, 0.3s)) linear both paused;
+  }
+  :where(
+      .ant-modal[data-native-motion="true"][data-motion-active="true"],
+      .ao-dialog-mask[data-native-motion="true"][data-motion-active="true"]
+    ) {
+    animation-play-state: running;
+  }
+  :where(
+      .ant-drawer-content-wrapper[data-motion-phase="appear"],
+      .ant-drawer-content-wrapper[data-motion-phase="enter"],
+      .ant-drawer-content-wrapper[data-motion-phase="leave"]
+    ) {
+    transition: all var(--ao-motion-slow, 0.3s);
+  }
+  :where(
+      .ant-drawer-content-wrapper[data-motion-phase="appear"],
+      .ant-drawer-content-wrapper[data-motion-phase="enter"]
+    ) {
+    opacity: 0.7;
+  }
+  :where(
+      .ant-drawer-content-wrapper[data-motion-phase="appear"][data-motion-active="true"],
+      .ant-drawer-content-wrapper[data-motion-phase="enter"][data-motion-active="true"]
+    ) {
+    opacity: 1;
+    /* biome-ignore lint/complexity/noImportantStyles: Enter/leave motion takes precedence over the nested drawer push transform. */
+    transform: none !important;
+  }
+  :where(
+      .ant-drawer-content-wrapper[data-motion-phase="leave"][data-motion-active="true"]
+    ) {
+    opacity: 0.7;
+  }
+  :where(
+      .ant-drawer-left
+        .ant-drawer-content-wrapper[data-motion-phase="appear"]:not(
+          [data-motion-active]
+        ),
+      .ant-drawer-left
+        .ant-drawer-content-wrapper[data-motion-phase="enter"]:not(
+          [data-motion-active]
+        ),
+      .ant-drawer-left
+        .ant-drawer-content-wrapper[data-motion-phase="leave"][data-motion-active="true"]
+    ) {
+    /* biome-ignore lint/complexity/noImportantStyles: Enter/leave motion takes precedence over the nested drawer push transform. */
+    transform: translateX(-100%) !important;
+  }
+  :where(
+      .ant-drawer-right
+        .ant-drawer-content-wrapper[data-motion-phase="appear"]:not(
+          [data-motion-active]
+        ),
+      .ant-drawer-right
+        .ant-drawer-content-wrapper[data-motion-phase="enter"]:not(
+          [data-motion-active]
+        ),
+      .ant-drawer-right
+        .ant-drawer-content-wrapper[data-motion-phase="leave"][data-motion-active="true"]
+    ) {
+    /* biome-ignore lint/complexity/noImportantStyles: Enter/leave motion takes precedence over the nested drawer push transform. */
+    transform: translateX(100%) !important;
+  }
+  :where(
+      .ant-drawer-top
+        .ant-drawer-content-wrapper[data-motion-phase="appear"]:not(
+          [data-motion-active]
+        ),
+      .ant-drawer-top
+        .ant-drawer-content-wrapper[data-motion-phase="enter"]:not(
+          [data-motion-active]
+        ),
+      .ant-drawer-top
+        .ant-drawer-content-wrapper[data-motion-phase="leave"][data-motion-active="true"]
+    ) {
+    /* biome-ignore lint/complexity/noImportantStyles: Enter/leave motion takes precedence over the nested drawer push transform. */
+    transform: translateY(-100%) !important;
+  }
+  :where(
+      .ant-drawer-bottom
+        .ant-drawer-content-wrapper[data-motion-phase="appear"]:not(
+          [data-motion-active]
+        ),
+      .ant-drawer-bottom
+        .ant-drawer-content-wrapper[data-motion-phase="enter"]:not(
+          [data-motion-active]
+        ),
+      .ant-drawer-bottom
+        .ant-drawer-content-wrapper[data-motion-phase="leave"][data-motion-active="true"]
+    ) {
+    /* biome-ignore lint/complexity/noImportantStyles: Enter/leave motion takes precedence over the nested drawer push transform. */
+    transform: translateY(100%) !important;
+  }
+}
+@keyframes ao-modal-zoom-in {
+  from {
+    transform: scale(0.2);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes ao-modal-zoom-out {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0.2);
+    opacity: 0;
+  }
+}
+@keyframes ao-dialog-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes ao-dialog-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@layer antd {
+  :where(.ao-confirm-hide-header .ant-modal-header) {
+    display: none;
+  }
+  :where(.ant-modal-confirm .ant-modal-body) {
+    padding: var(--ao-confirm-body-padding);
+  }
+  :where(.ant-modal-confirm-body) {
+    display: flex;
+    align-items: start;
+    flex-wrap: nowrap;
+  }
+  :where(.ant-modal-confirm-rtl) {
+    direction: rtl;
+  }
+  :where(
+      .ant-modal-confirm-body-wrapper::before,
+      .ant-modal-confirm-body-wrapper::after
+    ) {
+    display: table;
+    content: "";
+  }
+  :where(.ant-modal-confirm-body-wrapper::after) {
+    clear: both;
+  }
+  :where(.ant-modal-confirm-body > .anticon svg) {
+    display: block;
+    line-height: 1;
+  }
+  :where(.ant-modal-confirm-content) {
+    color: var(--ao-text);
+    font-size: var(--ao-font-size);
+    line-height: var(--ao-line);
+  }
+  :where(.ant-modal-confirm-body > .anticon) {
+    flex: none;
+    font-size: var(--ao-confirm-icon-size);
+    margin-inline-end: var(--ao-confirm-icon-gap);
+    margin-top: var(--ao-confirm-icon-top);
+    color: var(--ao-warning);
+  }
+  :where(.ant-modal-confirm-body-has-title > .anticon) {
+    margin-top: var(--ao-confirm-icon-title-top);
+  }
+  :where(.ant-modal-confirm-info .ant-modal-confirm-body > .anticon) {
+    color: var(--ao-confirm-info);
+  }
+  :where(.ant-modal-confirm-success .ant-modal-confirm-body > .anticon) {
+    color: var(--ao-success);
+  }
+  :where(.ant-modal-confirm-error .ant-modal-confirm-body > .anticon) {
+    color: var(--ao-error);
+  }
+  :where(.ant-modal-confirm-paragraph) {
+    display: flex;
+    flex-direction: column;
+    flex: auto;
+    row-gap: var(--ao-confirm-paragraph-gap);
+    max-width: calc(100% - var(--ao-confirm-paragraph-margin));
+  }
+  :where(.ant-modal-confirm-body > .anticon + .ant-modal-confirm-paragraph) {
+    max-width: calc(
+      100% -
+      var(--ao-confirm-icon-size) -
+      var(--ao-confirm-paragraph-margin)
+    );
+  }
+  :where(.ant-modal-confirm-title) {
+    display: block;
+    color: var(--ao-confirm-title-color);
+    font-weight: var(--ao-confirm-weight);
+    font-size: var(--ao-dialog-title-size);
+    line-height: var(--ao-dialog-title-line);
+  }
+  :where(.ant-modal-confirm-btns) {
+    text-align: end;
+    margin-top: var(--ao-confirm-btns-margin);
+  }
+  :where(.ant-modal-confirm-btns .ant-btn + .ant-btn) {
+    margin-inline-start: var(--ao-dialog-button-gap);
+  }
+  :where(.ant-modal-close .anticon, .ant-modal-close svg) {
+    line-height: 1;
+  }
+  :where(.ant-drawer-close-end) {
+    margin-inline-start: var(--ao-drawer-close-gap);
+    margin-inline-end: 0;
+  }
+  :where(.ant-modal-rtl, .ant-modal-wrap-rtl, .ant-drawer-rtl) {
+    direction: rtl;
+  }
+}

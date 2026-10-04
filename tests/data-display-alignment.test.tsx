@@ -17,12 +17,9 @@ import {
   Tree,
   type TreeRef,
 } from "../packages/antd-octane/src";
-import type {
-  LegacyPanelProps,
-} from "../packages/antd-octane/src/collapse/CollapsePanel";
+import type { LegacyPanelProps } from "../packages/antd-octane/src/collapse/CollapsePanel";
 
 let root: Root | undefined;
-
 let container: HTMLDivElement;
 
 async function render(node: ElementDescriptor) {
@@ -119,14 +116,6 @@ const tableLayoutCases: {
   },
 ];
 
-afterEach(async () => {
-  await act(() => root?.unmount());
-  root = undefined;
-  container?.remove();
-  vi.useRealTimers();
-  vi.unstubAllGlobals();
-});
-
 it.each(
   tableLayoutCases,
 )("Table applies the upstream layout default for $name", async ({
@@ -175,6 +164,14 @@ it("Table renders upstream caret geometry only for configured sort directions", 
   expect(
     element(".ant-table-column-sorter-up").classList.contains("active"),
   ).toBe(true);
+});
+
+afterEach(async () => {
+  await act(() => root?.unmount());
+  root = undefined;
+  container?.remove();
+  vi.useRealTimers();
+  vi.unstubAllGlobals();
 });
 
 // These exercise native runtime behavior from the antd 5.29.3 source audit;

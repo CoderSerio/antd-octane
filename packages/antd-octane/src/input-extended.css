@@ -1,10 +1,106 @@
 @layer antd {
+  /* Ant Design 5.29.3 input/style/index.ts: legacy Input.Group. */
+  :where(.ant-input-group) {
+    position: relative;
+    display: table;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    color: var(--ao-input-color);
+    font:
+      var(--ao-input-group-font-size) / var(--ao-input-line)
+      var(--ao-input-font);
+    list-style: none;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  :where(.ant-input-group-rtl) {
+    direction: rtl;
+  }
+  .ant-input-group > :where(.ant-input) {
+    display: table-cell;
+    width: 100%;
+    margin-bottom: 0;
+    text-align: inherit;
+  }
+  .ant-input-group-lg :where(.ant-input) {
+    padding: var(--ao-input-pb-lg) var(--ao-input-pi-lg);
+    font-size: var(--ao-input-font-lg);
+    line-height: var(--ao-input-line-lg);
+    border-radius: var(--ao-input-radius-lg);
+  }
+  .ant-input-group-sm :where(.ant-input) {
+    padding: var(--ao-input-pb-sm) var(--ao-input-pi-sm);
+    font-size: var(--ao-input-font-sm);
+    border-radius: var(--ao-input-radius-sm);
+  }
+  .ant-input-group > :where(.ant-input:not(:first-child):not(:last-child)) {
+    border-radius: 0;
+  }
+  .ant-input-group
+    > :where(
+      .ant-input:first-child,
+      .ant-input-affix-wrapper:not(:last-child)
+    ) {
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
+  }
+  .ant-input-group
+    > :where(
+      .ant-input:last-child,
+      .ant-input-affix-wrapper:not(:first-child)
+    ) {
+    border-start-start-radius: 0;
+    border-end-start-radius: 0;
+  }
+  .ant-input-group :where(.ant-input-affix-wrapper > .ant-input) {
+    padding: 0;
+    font-size: inherit;
+    line-height: inherit;
+  }
+  .ant-input-group-lg .ant-input-affix-wrapper > :where(.ant-input) {
+    line-height: var(--ao-input-line-lg);
+  }
+  :where(.ant-input-group-compact) {
+    display: block;
+  }
+  :where(.ant-input-group-compact)::before,
+  :where(.ant-input-group-compact)::after {
+    display: table;
+    content: "";
+  }
+  :where(.ant-input-group-compact)::after {
+    clear: both;
+  }
+  .ant-input-group-compact > * {
+    display: inline-flex;
+    float: none;
+    vertical-align: top;
+    border-radius: 0;
+  }
+  .ant-input-group-compact > :where(:not(:last-child)) {
+    margin-inline-end: calc(-1 * var(--ao-input-width));
+    border-inline-end-width: var(--ao-input-width);
+  }
+  .ant-input-group-compact > :where(:first-child) {
+    border-start-start-radius: var(--ao-input-radius);
+    border-end-start-radius: var(--ao-input-radius);
+  }
+  .ant-input-group-compact > :where(:last-child) {
+    border-start-end-radius: var(--ao-input-radius);
+    border-end-end-radius: var(--ao-input-radius);
+  }
+  .ant-input-group :where(.ant-input:focus, .ant-input:hover) {
+    z-index: 1;
+    border-inline-end-width: var(--ao-input-width);
+  }
   :where(.ant-input-affix-wrapper) {
     box-sizing: border-box;
     display: inline-flex;
     width: 100%;
     min-width: 0;
-    gap: 4px;
+    gap: var(--ao-input-affix-gap, 4px);
     align-items: center;
     padding: var(--ao-input-pb) var(--ao-input-pi);
     font: var(--ao-input-font-size) / var(--ao-input-line) var(--ao-input-font);
@@ -58,6 +154,9 @@
     box-shadow: none;
     cursor: not-allowed;
   }
+  .ant-input-group :where(.ant-input-affix-wrapper) {
+    align-items: normal;
+  }
   .ant-input-affix-wrapper > :where(.ant-input) {
     padding: 0;
     border: 0;
@@ -72,7 +171,7 @@
     display: inline-flex;
     flex: none;
     align-items: center;
-    gap: 4px;
+    gap: var(--ao-input-adornment-gap, 8px);
   }
   :where(.ant-input-suffix:empty) {
     display: none;

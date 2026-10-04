@@ -16,8 +16,13 @@ import {
   useRef,
   useState,
 } from "octane";
+import { componentClassName } from "../_util/componentClassName";
+import useCheckedActivation from "../_util/useCheckedActivation";
+import { TARGET_CLS } from "../_util/wave/interface";
+import useWave from "../_util/wave/useWave";
 import { useConfig } from "../config-provider";
 import { resolveComponentAlias } from "../theme/resolve";
+import useBubbleLock from "./useBubbleLock";
 
 export interface CheckboxChangeEvent {
   target: CheckboxProps & { checked: boolean };
@@ -37,6 +42,8 @@ export interface CheckboxProps
     "type" | "size" | "ref" | "style" | "children" | "onChange" | "value"
   > {
   value?: CheckboxValue;
+  prefixCls?: string;
+  rootClassName?: string;
   skipGroup?: boolean;
   indeterminate?: boolean;
   children?: OctaneNode;
@@ -48,6 +55,15 @@ function InternalCheckbox(props: CheckboxProps) {
   const context = useContext(CheckboxGroupContext);
   const group = props.skipGroup ? null : context;
   const config = useConfig();
+  const prefixCls = config.getPrefixCls("checkbox", props.prefixCls);
+  const cls = (suffix = "") =>
+    componentClassName("ant-checkbox", prefixCls, suffix);
+  const [innerChecked, setInnerChecked] = useState(
+    props.defaultChecked ?? false,
+  );
+  const checked = group
+    ? group.value.includes(props.value as CheckboxValue)
+    : (props.checked ?? innerChecked);
   const input = useRef<HTMLInputElement | null>(null);
   const registration = useRef(Symbol("checkbox"));
   useEffect(
@@ -55,6 +71,7 @@ function InternalCheckbox(props: CheckboxProps) {
     [group?.register, props.value],
   );
   const nativeElement = useRef<HTMLSpanElement | null>(null);
+  const wrapper = useRef<HTMLLabelElement | null>(null);
   useEffect(() => {
     if (input.current)
       input.current.indeterminate = props.indeterminate ?? false;
@@ -104,6 +121,10 @@ function InternalCheckbox(props: CheckboxProps) {
     indeterminate = false,
     children,
     className,
+    prefixCls: _prefixCls,
+    rootClassName,
+    checked: _checked,
+    defaultChecked: _defaultChecked,
     style,
     ref: _ref,
     onChange,
@@ -111,39 +132,49 @@ function InternalCheckbox(props: CheckboxProps) {
     skipGroup: _skipGroup,
     ...rest
   } = props;
+  const [onActivate, readChecked] = useCheckedActivation(rest.onClick);
+  const [onLabelClick, onInputClick] = useBubbleLock(onActivate);
+  useWave(wrapper, "Checkbox", disabled);
   return (
+    // biome-ignore lint/a11y/useKeyWithClickEvents: the native input handles keyboard activation; this label only locks forwarded clicks.
     <label
+      ref={wrapper}
+      onClick={onLabelClick}
       className={[
-        "ant-checkbox-wrapper",
-        disabled && "ant-checkbox-wrapper-disabled",
+        cls("-wrapper"),
+        checked && cls("-wrapper-checked"),
+        disabled && cls("-wrapper-disabled"),
+        config.direction === "rtl" && cls("-rtl"),
+        config.checkbox?.className,
         className,
+        rootClassName,
       ]}
-      style={{ ...variables, ...style }}
+      dir={config.direction}
+      style={{ ...variables, ...config.checkbox?.style, ...style }}
     >
       <span
         ref={nativeElement}
         className={[
-          "ant-checkbox",
-          indeterminate && "ant-checkbox-indeterminate",
-          disabled && "ant-checkbox-disabled",
+          cls(),
+          TARGET_CLS,
+          checked && cls("-checked"),
+          indeterminate && cls("-indeterminate"),
+          disabled && cls("-disabled"),
         ]}
       >
         <input
           {...rest}
+          onClick={onInputClick}
           type="checkbox"
           value={value === undefined ? undefined : String(value)}
           name={group?.name ?? rest.name}
-          {...(group
-            ? {
-                checked: group.value.includes(value as CheckboxValue),
-                defaultChecked: undefined,
-              }
-            : {})}
+          checked={checked}
           ref={input}
-          className="ant-checkbox-input"
+          className={cls("-input")}
           disabled={disabled}
           onChange={(event) => {
-            const checked = (event.currentTarget as HTMLInputElement).checked;
+            const checked = readChecked(event.currentTarget);
+            if (!group && props.checked === undefined) setInnerChecked(checked);
             onChange?.({
               target: { ...props, disabled, checked },
               nativeEvent: event,
@@ -154,9 +185,11 @@ function InternalCheckbox(props: CheckboxProps) {
             if (input.current) input.current.indeterminate = indeterminate;
           }}
         />
-        <span className="ant-checkbox-inner" aria-hidden="true" />
+        <span className={cls("-inner")} aria-hidden="true" />
       </span>
-      {children !== undefined && <span>{children}</span>}
+      {children !== undefined && (
+        <span className={cls("-label")}>{children}</span>
+      )}
     </label>
   );
 }
@@ -173,6 +206,8 @@ export interface CheckboxOption {
 export interface CheckboxGroupProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "onChange" | "defaultValue"> {
   value?: CheckboxValue[];
+  prefixCls?: string;
+  rootClassName?: string;
   defaultValue?: CheckboxValue[];
   options?: (CheckboxValue | CheckboxOption)[];
   name?: string;
@@ -201,10 +236,15 @@ function CheckboxGroup({
   children,
   onChange,
   className,
+  prefixCls: customizePrefixCls,
+  rootClassName,
   style,
   ...rest
 }: CheckboxGroupProps) {
   const config = useConfig();
+  const prefixCls = config.getPrefixCls("checkbox", customizePrefixCls);
+  const cls = (suffix: string) =>
+    componentClassName("ant-checkbox", prefixCls, suffix);
   const [inner, setInner] = useState(defaultValue);
   const selected = value ?? inner;
   const entries = useRef(
@@ -245,7 +285,13 @@ function CheckboxGroup({
   return (
     <div
       {...rest}
-      className={["ant-checkbox-group", className]}
+      className={[
+        cls("-group"),
+        config.direction === "rtl" && cls("-group-rtl"),
+        className,
+        rootClassName,
+      ]}
+      dir={config.direction}
       style={{
         display: "inline-flex",
         flexWrap: "wrap",
@@ -271,6 +317,7 @@ function CheckboxGroup({
                   : { label: String(option), value: option };
               return (
                 <InternalCheckbox
+                  prefixCls={prefixCls}
                   key={`${typeof item.value}:${item.value}`}
                   value={item.value}
                   disabled={

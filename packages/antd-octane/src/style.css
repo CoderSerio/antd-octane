@@ -25,6 +25,7 @@
 @import "./floating.css";
 @import "./loading.css";
 @import "./feedback.css";
+@import "./wave.css";
 
 @layer antd {
   /* Ant Design 5 genCommonStyle applies border-box to component slots. */
@@ -68,16 +69,19 @@
     text-decoration: none;
     cursor: pointer;
     user-select: none;
-    transition:
-      color var(--ao-btn-duration),
-      background var(--ao-btn-duration),
-      border-color var(--ao-btn-duration),
-      box-shadow var(--ao-btn-duration);
+    transition: all var(--ao-btn-duration) var(--ao-btn-ease);
+  }
+  /* Native buttons use the browser line-height; anchor buttons inherit it. */
+  :where(a.ant-btn) {
+    line-height: inherit;
   }
   :where(.ant-btn):not(:disabled):not([aria-disabled="true"]):hover {
     color: var(--ao-btn-hover-color);
     background: var(--ao-btn-hover-bg);
     border-color: var(--ao-btn-hover-border);
+  }
+  :where(.ant-btn-rtl) {
+    direction: rtl;
   }
   :where(.ant-btn):not(:disabled):not([aria-disabled="true"]):active {
     color: var(--ao-btn-active-color);
@@ -119,6 +123,9 @@
   :where(.ant-btn-dashed) {
     border-style: dashed;
   }
+  :where(.ant-btn-variant-filled) {
+    box-shadow: none;
+  }
   :where(.ant-btn-text, .ant-btn-link) {
     background: transparent;
     border-color: transparent;
@@ -153,6 +160,12 @@
   :where(.ant-btn-dangerous) {
     color: var(--ao-btn-error);
     border-color: var(--ao-btn-error);
+  }
+  :where(
+      .ant-btn-dangerous.ant-btn-variant-outlined,
+      .ant-btn-dangerous.ant-btn-variant-dashed
+    ) {
+    box-shadow: var(--ao-btn-danger-shadow);
   }
   :where(.ant-btn-dangerous):not(:disabled):not([aria-disabled="true"]):hover {
     color: var(--ao-btn-error-hover);
@@ -307,6 +320,9 @@
     display: inline-flex;
     align-items: center;
   }
+  :where(.ant-btn-loading-icon) {
+    display: inline-block;
+  }
   :where(.ant-btn-loading-icon .anticon-spin) {
     animation: ao-spin 1s linear infinite;
   }
@@ -326,9 +342,6 @@
   @media (prefers-reduced-motion: reduce) {
     :where(.ant-btn) {
       transition: none;
-    }
-    :where(.ao-btn-spinner) {
-      animation: none;
     }
   }
 }
@@ -421,6 +434,7 @@
     align-self: center;
     white-space: nowrap;
     line-height: 1;
+    border-radius: var(--ao-check-radius);
   }
   :where(.ant-checkbox-input) {
     position: absolute;
@@ -663,9 +677,6 @@
     :where(.ant-switch, .ant-switch-handle) {
       transition: none;
     }
-    :where(.ant-switch-loading-icon) {
-      animation: none;
-    }
   }
 }
 
@@ -693,6 +704,7 @@
     align-self: center;
     line-height: var(--ao-radio-line);
     vertical-align: middle;
+    border-radius: 50%;
   }
   :where(.ant-radio-input) {
     position: absolute;
@@ -796,7 +808,7 @@
   :where(.ant-radio-button-wrapper .ant-radio-label) {
     padding: 0;
   }
-  :where(.ant-radio-button-wrapper:has(input:checked)) {
+  :where(.ant-radio-button-wrapper-checked) {
     z-index: 1;
     background: var(--ao-radio-checked-bg);
     color: var(--ao-radio-primary);
@@ -805,18 +817,40 @@
   :where(.ant-radio-button-wrapper:hover:not(.ant-radio-wrapper-disabled)) {
     color: var(--ao-radio-primary);
   }
-  :where(.ant-radio-group-solid .ant-radio-button-wrapper:has(input:checked)) {
+  :where(
+      .ant-radio-button-wrapper-checked:hover:not(.ant-radio-wrapper-disabled)
+    ) {
+    color: var(--ao-radio-hover);
+    border-color: var(--ao-radio-hover);
+  }
+  :where(
+      .ant-radio-button-wrapper-checked:active:not(.ant-radio-wrapper-disabled)
+    ) {
+    color: var(--ao-radio-active);
+    border-color: var(--ao-radio-active);
+  }
+  :where(.ant-radio-group-solid .ant-radio-button-wrapper-checked) {
     background: var(--ao-radio-solid-bg);
+    color: var(--ao-radio-solid-color);
+    border-color: var(--ao-radio-solid-bg);
+  }
+  :where(
+      .ant-radio-group-solid
+        .ant-radio-button-wrapper-checked:hover:not(.ant-radio-wrapper-disabled)
+    ) {
+    background: var(--ao-radio-solid-hover);
+    border-color: var(--ao-radio-solid-hover);
     color: var(--ao-radio-solid-color);
   }
   :where(
       .ant-radio-group-solid
-        .ant-radio-button-wrapper:has(input:checked):hover:not(
+        .ant-radio-button-wrapper-checked:active:not(
           .ant-radio-wrapper-disabled
         )
     ) {
-    background: var(--ao-radio-solid-hover);
-    border-color: var(--ao-radio-solid-hover);
+    background: var(--ao-radio-solid-active);
+    border-color: var(--ao-radio-solid-active);
+    color: var(--ao-radio-solid-color);
   }
   :where(.ant-radio-group-small .ant-radio-button-wrapper) {
     padding-inline: var(--ao-radio-small-padding);
@@ -880,6 +914,17 @@
     display: inline-flex;
     align-items: center;
     margin-inline-end: 0;
+  }
+  :where(.ant-tag-close-icon) {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    padding: 0;
+    cursor: pointer;
+    line-height: 1;
+    font-family: inherit;
+    font-size: 14px;
   }
   :where(.ant-tag-hidden) {
     display: none;
@@ -961,9 +1006,6 @@
   :where(.ant-alert-with-description) {
     align-items: flex-start;
   }
-  :where(.ant-alert-with-description .ant-alert-icon) {
-    font-size: var(--ao-alert-icon-size);
-  }
   :where(.ant-alert-rtl) {
     direction: rtl;
   }
@@ -980,6 +1022,15 @@
     min-width: 0;
     flex: 1;
   }
+  :where(.ant-alert-with-description .ant-alert-icon) {
+    font-size: var(--ao-alert-icon-size);
+  }
+  /* Upstream plain messages inherit the root's text styles. Its hashed
+     standalone message/action selectors do not match these child nodes. */
+  :where(.ant-alert-with-description .ant-alert-message) {
+    font-size: var(--ao-alert-heading);
+    color: var(--ao-alert-heading-color);
+  }
   :where(.ant-alert-with-description .ant-alert-message) {
     margin-bottom: var(--ao-alert-message-gap);
     display: block;
@@ -991,6 +1042,9 @@
   :where(.ant-alert-error .ant-alert-description > pre) {
     margin: 0;
     padding: 0;
+  }
+  :where(.ant-alert-close-icon) {
+    margin-inline-start: var(--ao-alert-action-gap);
   }
   :where(.ant-alert-close-icon) {
     padding: 0;
@@ -1759,6 +1813,21 @@
     height: 2px;
     background: var(--ao-tabs-ink);
   }
+  :where(.ant-tabs-line.ant-tabs-indicator-custom .ant-tabs-tab-active)::after {
+    inset-inline: auto;
+    inset-inline-start: 50%;
+    width: var(--ao-tabs-indicator-size);
+    transform: translateX(-50%);
+  }
+  :where(.ant-tabs-line.ant-tabs-indicator-start .ant-tabs-tab-active)::after {
+    inset-inline-start: 0;
+    transform: none;
+  }
+  :where(.ant-tabs-line.ant-tabs-indicator-end .ant-tabs-tab-active)::after {
+    inset-inline-start: auto;
+    inset-inline-end: 0;
+    transform: none;
+  }
   :where(.ant-tabs-tab-btn:hover:not(:disabled)) {
     color: var(--ao-tabs-hover);
   }
@@ -1781,7 +1850,6 @@
   }
   :where(.ant-tabs-extra-content) {
     margin-inline-start: auto;
-    padding-inline-start: 16px;
     flex: 0 0 auto;
   }
   :where(.ant-tabs-content-holder) {
@@ -1975,10 +2043,7 @@
     color: var(--ao-text);
   }
   :where(.ant-timeline-item) {
-    position: relative;
-    margin: 0;
-    padding: 0 0 var(--ao-timeline-bottom);
-    list-style: none;
+    box-sizing: border-box;
   }
   :where(.ant-timeline-item) {
     position: relative;
@@ -2236,6 +2301,9 @@
   }
   :where(.ant-descriptions-bordered .ant-descriptions-row:last-child) {
     border-bottom: 0;
+  }
+  :where(.ant-descriptions-bordered .ant-descriptions-row > *:last-child) {
+    border-inline-end: 0;
   }
   :where(.ant-descriptions-rtl) {
     direction: rtl;

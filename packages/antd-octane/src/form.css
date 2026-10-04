@@ -3,54 +3,155 @@
     color: var(--ao-form-text);
     font-family: var(--ao-form-font);
     font-size: var(--ao-form-size);
+    line-height: var(--ao-form-line);
+    box-sizing: border-box;
+  }
+  :where(
+      .ant-form *,
+      .ant-form *::before,
+      .ant-form *::after,
+      .ant-form-item *,
+      .ant-form-item *::before,
+      .ant-form-item *::after
+    ) {
+    box-sizing: border-box;
   }
   :where(.ant-form-item) {
-    margin-bottom: 24px;
+    color: var(--ao-form-text);
+    font-family: var(--ao-form-font);
+    font-size: var(--ao-form-size);
+    line-height: var(--ao-form-line);
+    box-sizing: border-box;
+    margin: 0 0 var(--ao-form-item-margin, 24px);
+    vertical-align: top;
+  }
+  :where(.ant-form-item-row) {
+    display: flex;
+    flex-flow: row wrap;
+    min-width: 0;
   }
   :where(.ant-form-item-label) {
+    flex: none;
     display: block;
-    margin-bottom: 8px;
-    color: var(--ao-form-text);
+    overflow: hidden;
+    white-space: nowrap;
+    text-align: end;
+    vertical-align: middle;
   }
-  :where(.ant-form-item-required, .ant-form-item-explain) {
-    color: var(--ao-form-error);
+  :where(.ant-form-item-label > label) {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    max-width: 100%;
+    height: var(--ao-form-label-height, 32px);
+    color: var(--ao-form-label-color, var(--ao-form-text));
+    font-size: var(--ao-form-label-size, var(--ao-form-size));
+  }
+  :where(.ant-form-item-label > label)::after {
+    content: ":";
+    position: relative;
+    margin-inline-start: var(--ao-form-colon-start, 2px);
+    margin-inline-end: var(--ao-form-colon-end, 8px);
+  }
+  :where(.ant-form-item-label > .ant-form-item-no-colon)::after {
+    content: "\00a0";
+  }
+  :where(.ant-form-item-label > .ant-form-item-required)::before {
+    content: "*";
+    display: inline-block;
+    margin-inline-end: var(--ao-form-mark-gap, 4px);
+    color: var(--ao-form-required, var(--ao-form-error));
+    font-family: SimSun, sans-serif;
+    font-size: var(--ao-form-size);
+    line-height: 1;
+  }
+  :where(.ant-form-item-control) {
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+    min-width: 0;
+  }
+  :where(.ant-form-item-control:first-child) {
+    width: 100%;
+  }
+  :where(.ant-form-item-control-input) {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: var(--ao-form-control-height, 32px);
+  }
+  :where(.ant-form-item-control-input-content) {
+    flex: auto;
+    max-width: 100%;
+  }
+  :where(.ant-form-item-additional) {
+    display: flex;
+    flex-direction: column;
   }
   :where(.ant-form-item-explain, .ant-form-item-extra) {
-    margin-top: 4px;
-    font-size: 12px;
-    line-height: 1.5;
+    clear: both;
+    font-size: var(--ao-form-size);
+    line-height: var(--ao-form-line);
+  }
+  :where(.ant-form-item-explain) {
+    color: var(--ao-form-secondary);
+  }
+  :where(.ant-form-item-has-error .ant-form-item-explain) {
+    color: var(--ao-form-error);
   }
   :where(.ant-form-item-extra) {
     color: var(--ao-form-secondary);
-  }
-  :where(.ant-form-horizontal .ant-form-item) {
-    display: grid;
-    grid-template-columns: minmax(0, 120px) minmax(0, 1fr);
-    align-items: start;
-    gap: 8px;
-  }
-  :where(.ant-form-horizontal .ant-form-item-label) {
-    margin-top: 5px;
-    margin-bottom: 0;
-    text-align: right;
+    min-height: var(--ao-form-small-height, 24px);
   }
   :where(.ant-form-inline) {
     display: flex;
-    align-items: start;
     flex-wrap: wrap;
-    gap: 12px;
   }
-  :where(.ant-form-inline .ant-form-item) {
-    margin-bottom: 0;
+  :where(.ant-form-item-inline) {
+    flex: none;
+    margin-inline-end: var(--ao-form-inline-gap, 16px);
+    margin-bottom: var(--ao-form-inline-margin, 0px);
   }
-  @media (max-width: 600px) {
-    :where(.ant-form-horizontal .ant-form-item) {
-      display: block;
+  :where(.ant-form-item-inline .ant-form-item-row) {
+    flex-wrap: nowrap;
+  }
+  :where(.ant-form-item-vertical .ant-form-item-row) {
+    flex-direction: column;
+  }
+  :where(.ant-form-item-vertical .ant-form-item-label) {
+    margin: var(--ao-form-vertical-margin, 0);
+    padding: var(--ao-form-vertical-padding, 0 0 8px);
+    text-align: start;
+    white-space: initial;
+  }
+  :where(.ant-form-item-vertical .ant-form-item-label > label) {
+    height: auto;
+  }
+  :where(.ant-form-item-vertical .ant-form-item-label > label)::after {
+    visibility: hidden;
+  }
+  :where(.ant-form-item-vertical .ant-form-item-control) {
+    width: 100%;
+  }
+  @media (max-width: 575px) {
+    :where(.ant-form:not(.ant-form-inline) .ant-form-item-row) {
+      flex-wrap: wrap;
     }
-    :where(.ant-form-horizontal .ant-form-item-label) {
-      margin-top: 0;
-      margin-bottom: 8px;
-      text-align: left;
+    :where(.ant-form-item .ant-form-item-label) {
+      margin: var(--ao-form-vertical-margin, 0);
+      padding: var(--ao-form-vertical-padding, 0 0 8px);
+      text-align: start;
+      white-space: initial;
+    }
+    :where(.ant-form-item .ant-form-item-label > label)::after {
+      visibility: hidden;
+    }
+    :where(
+        .ant-form:not(.ant-form-inline) .ant-form-item-label,
+        .ant-form:not(.ant-form-inline) .ant-form-item-control
+      ) {
+      flex: 0 0 100%;
+      max-width: 100%;
     }
   }
 }

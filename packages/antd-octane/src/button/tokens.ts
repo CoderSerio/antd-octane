@@ -102,6 +102,7 @@ export function buttonVariables(
     "line-width": `${t.lineWidth}px`,
     "line-type": t.lineType,
     duration: t.motionDurationMid,
+    ease: t.motionEaseInOut,
     "loading-opacity": t.opacityLoading,
     "focus-color": t.colorPrimaryBorder,
     "focus-width": `${t.lineWidthFocus}px`,

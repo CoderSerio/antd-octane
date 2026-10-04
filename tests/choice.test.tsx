@@ -5,9 +5,7 @@ import { Rate } from "../packages/antd-octane/src/rate";
 import { Segmented } from "../packages/antd-octane/src/segmented";
 
 let root: Root | undefined;
-
 let container: HTMLDivElement;
-
 async function render(node: ElementDescriptor) {
   if (!root) {
     container = document.createElement("div");
@@ -16,13 +14,11 @@ async function render(node: ElementDescriptor) {
   }
   await act(() => root?.render(node));
 }
-
 afterEach(async () => {
   await act(() => root?.unmount());
   root = undefined;
   container?.remove();
 });
-
 async function key(element: Element | null, key: string) {
   if (!element) throw Error("Missing keyboard target");
   await act(() =>
@@ -31,7 +27,6 @@ async function key(element: Element | null, key: string) {
     ),
   );
 }
-
 it("Segmented selects numeric values, keeps a form name and matches rc-segmented arrow navigation", async () => {
   const change = vi.fn();
   await render(
@@ -56,7 +51,6 @@ it("Segmented selects numeric values, keeps a form name and matches rc-segmented
   await key(inputs[2], "ArrowRight");
   expect(inputs[0].checked).toBe(true);
 });
-
 it("Segmented respects controlled rejection and disabled groups", async () => {
   const change = vi.fn();
   await render(<Segmented options={["A", "B"]} value="A" onChange={change} />);
@@ -74,7 +68,6 @@ it("Segmented respects controlled rejection and disabled groups", async () => {
     [...container.querySelectorAll("input")].every((i) => i.disabled),
   ).toBe(true);
 });
-
 it("Segmented with disabled default option keeps an enabled tab stop and unnamed groups independent", async () => {
   await render(
     <div>
@@ -86,7 +79,6 @@ it("Segmented with disabled default option keeps an enabled tab stop and unnamed
   expect(inputs[1].tabIndex).toBe(0);
   expect(inputs[0].name).not.toBe(inputs[2].name);
 });
-
 it("Rate keyboard changes half values with bounds and supports controlled rejection", async () => {
   const change = vi.fn();
   await render(<Rate allowHalf defaultValue={2} onChange={change} />);
@@ -105,7 +97,6 @@ it("Rate keyboard changes half values with bounds and supports controlled reject
   expect(change).toHaveBeenLastCalledWith(2.5);
   expect(rate.getAttribute("aria-valuenow")).toBe("3");
 });
-
 it("Rate pointer half selection, hover clearing and allowClear", async () => {
   const hover = vi.fn();
   await render(<Rate allowHalf onHoverChange={hover} />);
@@ -136,7 +127,6 @@ it("Rate pointer half selection, hover clearing and allowClear", async () => {
   await act(() => star.click());
   expect(container.firstElementChild?.getAttribute("aria-valuenow")).toBe("2");
 });
-
 it("Rate disabled and keyboard=false prevent editing; custom characters and tooltip descriptions remain", async () => {
   const change = vi.fn();
   await render(

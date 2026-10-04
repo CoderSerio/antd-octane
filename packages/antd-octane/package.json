@@ -20,6 +20,10 @@
     "./icons": {
       "types": "./src/icons.tsx",
       "import": "./src/icons.tsx"
+    },
+    "./style": {
+      "types": "./src/style/index.tsx",
+      "import": "./src/style/index.tsx"
     }
   },
   "peerDependencies": {

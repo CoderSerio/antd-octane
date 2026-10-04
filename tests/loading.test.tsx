@@ -7,9 +7,7 @@ import { Skeleton } from "../packages/antd-octane/src/skeleton";
 import { Spin } from "../packages/antd-octane/src/spin";
 
 let root: Root | undefined;
-
 let container: HTMLDivElement;
-
 async function render(node: ElementDescriptor) {
   if (!root) {
     container = document.createElement("div");
@@ -18,14 +16,12 @@ async function render(node: ElementDescriptor) {
   }
   await act(() => root?.render(node));
 }
-
 afterEach(async () => {
   await act(() => root?.unmount());
   root = undefined;
   container?.remove();
   vi.useRealTimers();
 });
-
 it("Spin delays activation, cancels short requests and cleans pending timers", async () => {
   vi.useFakeTimers();
   await render(
@@ -71,7 +67,6 @@ it("Spin delays activation, cancels short requests and cleans pending timers", a
   expect(cancel).toHaveBeenCalled();
   cancel.mockRestore();
 });
-
 it("Spin supports custom indicators and nested tips without replacing child state", async () => {
   await render(
     <Spin tip="获取数据" indicator={<span>custom</span>}>
@@ -94,7 +89,6 @@ it("Spin supports custom indicators and nested tips without replacing child stat
   expect(container.querySelector(".ant-spin-text")).toBeNull();
   expect(container.querySelector('[role="status"]')).toBeNull();
 });
-
 it("Skeleton exposes row widths and restores children when loading completes", async () => {
   await render(
     <Skeleton avatar active paragraph={{ rows: 2, width: [100, "50%"] }}>
@@ -116,7 +110,6 @@ it("Skeleton exposes row widths and restores children when loading completes", a
   await render(<Skeleton paragraph={{ rows: 0 }} />);
   expect(container.querySelectorAll("li")).toHaveLength(0);
 });
-
 it("Skeleton variants honor geometry and custom nodes", async () => {
   await render(
     <div>
@@ -140,7 +133,6 @@ it("Skeleton variants honor geometry and custom nodes", async () => {
   expect(container.querySelector(".ant-skeleton-input-sm")).not.toBeNull();
   expect(container.textContent).toContain("custom node");
 });
-
 it("Card uses Skeleton and List forwards Spin options retaining existing rows", async () => {
   await render(
     <div>

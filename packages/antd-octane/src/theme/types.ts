@@ -1,4 +1,6 @@
 import type {
+  AffixToken,
+  AlertToken,
   AvatarToken,
   BadgeToken,
   CalendarToken,
@@ -6,10 +8,19 @@ import type {
   CarouselToken,
   CollapseToken,
   DescriptionsToken,
+  DrawerToken,
   ImageToken,
   ListToken,
+  MessageToken,
+  ModalToken,
+  NotificationToken,
+  PopconfirmToken,
   PopoverToken,
+  ProgressToken,
+  ResultToken,
   SegmentedToken,
+  SkeletonToken,
+  SpinToken,
   StatisticToken,
   TableToken,
   TagToken,
@@ -17,25 +28,15 @@ import type {
   TooltipToken,
   TourToken,
   TreeToken,
-  AlertToken,
-  DrawerToken,
-  MessageToken,
-  ModalToken,
-  NotificationToken,
-  PopconfirmToken,
-  ProgressToken,
-  ResultToken,
-  SkeletonToken,
-  SpinToken,
-  AffixToken,
 } from "./component-tokens";
 
 export type * from "./component-tokens";
 
 import type { CSSProperties } from "octane";
+import type { ComponentToken as FormToken } from "../form/tokens";
 import type { AliasToken, MapToken, SeedToken } from "./vendor/interface";
 
-export type { AliasToken, MapToken, SeedToken };
+export type { AliasToken, FormToken, MapToken, SeedToken };
 export type MappingAlgorithm = (
   seed: SeedToken,
   previous?: MapToken,
@@ -104,10 +105,27 @@ export interface ThemeConfig {
   token?: Partial<AliasToken>;
   algorithm?: MappingAlgorithm | MappingAlgorithm[];
   components?: {
+    App?: ComponentTheme;
+    Form?: ComponentTheme<FormToken>;
+    Wave?: ComponentTheme;
+    Select?: ComponentTheme<{
+      zIndexPopup: number;
+      optionHeight: number;
+      optionPadding: string | number;
+      optionFontSize: number;
+      optionLineHeight: string | number;
+      optionActiveBg: string;
+      optionSelectedBg: string;
+      optionSelectedColor: string;
+      optionSelectedFontWeight: CSSProperties["fontWeight"];
+      hoverBorderColor: string;
+      activeBorderColor: string;
+      activeOutlineColor: string;
+      selectorBg: string;
+    }>;
     Table?: ComponentTheme<TableToken>;
     Tree?: ComponentTheme<TreeToken>;
-    App?: ComponentTheme;
-    Select?: ComponentTheme<{ zIndexPopup: number }>;
+    Calendar?: ComponentTheme<CalendarToken>;
     QRCode?: ComponentTheme;
     Tour?: ComponentTheme<TourToken>;
     Anchor?: ComponentTheme<{
@@ -272,7 +290,6 @@ export interface ThemeConfig {
     Alert?: ComponentTheme<AlertToken>;
     Card?: ComponentTheme<CardToken>;
     Badge?: ComponentTheme<BadgeToken>;
-    Calendar?: ComponentTheme<CalendarToken>;
     Avatar?: ComponentTheme<AvatarToken>;
     Typography?: ComponentTheme<{
       titleMarginTop: string | number;

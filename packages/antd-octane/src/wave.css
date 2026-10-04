@@ -1,0 +1,25 @@
+@layer antd {
+  :where(.ant-wave) {
+    position: absolute;
+    background: transparent;
+    pointer-events: none;
+    box-sizing: border-box;
+    color: var(--wave-color, var(--ao-wave-primary));
+    box-shadow: 0 0 0 0 currentcolor;
+    opacity: 0.2;
+  }
+  :where(.ant-wave.wave-motion-appear) {
+    transition:
+      box-shadow 0.4s var(--ao-wave-ease-out),
+      opacity 2s var(--ao-wave-ease-out);
+  }
+  :where(.ant-wave.wave-motion-appear-active) {
+    box-shadow: 0 0 0 6px currentcolor;
+    opacity: 0;
+  }
+  :where(.ant-wave.wave-motion-appear.wave-quick) {
+    transition:
+      box-shadow var(--ao-wave-duration) var(--ao-wave-ease-in-out),
+      opacity var(--ao-wave-duration) var(--ao-wave-ease-in-out);
+  }
+}

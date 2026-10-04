@@ -12,7 +12,7 @@
     background: var(--ao-bg);
     color: var(--ao-text);
     font: var(--ao-font-size) / var(--ao-line) var(--ao-font);
-    cursor: text;
+    cursor: pointer;
     transition:
       border-color 0.2s,
       box-shadow 0.2s;
@@ -29,12 +29,11 @@
   }
   :where(.ant-select:focus-within) {
     border-color: var(--ao-select-focus);
-    box-shadow: 0 0 0 2px
-      color-mix(in srgb, var(--ao-select-focus) 18%, transparent);
+    box-shadow: 0 0 0 var(--ao-select-outline-width) var(--ao-select-outline);
   }
   :where(.ant-select-disabled) {
     background: var(--ao-select-disabled);
-    color: var(--ao-muted);
+    color: var(--ao-select-disabled-color);
     cursor: not-allowed;
   }
   :where(.ant-select > input) {
@@ -49,7 +48,10 @@
     font: inherit;
   }
   :where(.ant-select > input::placeholder) {
-    color: var(--ao-muted);
+    color: var(--ao-select-placeholder);
+  }
+  :where(.ant-select-single.ant-select-open > input:read-only) {
+    color: var(--ao-select-placeholder);
   }
   :where(.ant-select > input:read-only) {
     cursor: pointer;
@@ -58,10 +60,27 @@
     cursor: not-allowed;
   }
   :where(.ant-select-arrow) {
-    flex: none;
-    margin-inline-start: 8px;
-    color: var(--ao-muted);
+    position: absolute;
+    top: 50%;
+    inset-inline-end: var(--ao-select-arrow-inset);
+    display: flex;
+    align-items: center;
+    height: var(--ao-select-arrow-size);
+    margin-top: calc(var(--ao-select-arrow-size) / -2);
+    color: var(--ao-select-arrow-color);
+    font-size: var(--ao-select-arrow-size);
+    line-height: 1;
     pointer-events: none;
+  }
+  :where(.ant-select-single > input) {
+    padding-inline-end: 18px;
+  }
+  :where(.ant-select-single)::before {
+    content: "\00a0";
+    display: inline-block;
+    width: 0;
+    visibility: hidden;
+    line-height: var(--ao-select-baseline-height);
   }
   :where(.ant-select-clear) {
     flex: none;
@@ -76,9 +95,8 @@
   :where(.ant-select-dropdown) {
     box-sizing: border-box;
     max-height: 256px;
-    max-width: calc(100vw - 16px);
     overflow: auto;
-    padding: 4px;
+    padding: var(--ao-select-popup-padding);
     border-radius: var(--ao-radius);
     background: var(--ao-select-popup);
     box-shadow: var(--ao-select-shadow);
@@ -87,9 +105,11 @@
   }
   :where(.ant-select-item-option, .ant-select-item-empty) {
     box-sizing: border-box;
-    min-height: 32px;
-    padding: 5px 8px;
-    border-radius: calc(var(--ao-radius) / 2);
+    min-height: var(--ao-select-option-height);
+    padding: var(--ao-select-option-padding);
+    font-size: var(--ao-select-option-font);
+    line-height: var(--ao-select-option-line);
+    border-radius: var(--ao-select-option-radius);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -102,11 +122,15 @@
   }
   :where(.ant-select-item-option-selected) {
     background: var(--ao-select-selected);
-    font-weight: 600;
+    color: var(--ao-select-selected-color);
+    font-weight: var(--ao-select-selected-weight);
   }
   :where(.ant-select-item-option-disabled) {
-    color: var(--ao-muted);
+    color: var(--ao-select-disabled);
     cursor: not-allowed;
+  }
+  :where(.ant-select-item-option-disabled.ant-select-item-option-selected) {
+    background: var(--ao-select-disabled-bg);
   }
   :where(.ant-select-item-empty) {
     color: var(--ao-muted);

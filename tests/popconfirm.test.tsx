@@ -4,7 +4,6 @@ import { afterEach, expect, it, vi } from "vitest";
 import { Popconfirm } from "../packages/antd-octane/src/popconfirm";
 
 let root: Root | undefined, container: HTMLDivElement;
-
 async function render(node: ElementDescriptor) {
   if (!root) {
     container = document.createElement("div");
@@ -13,15 +12,12 @@ async function render(node: ElementDescriptor) {
   }
   await act(() => root?.render(node));
 }
-
 afterEach(async () => {
   await act(() => root?.unmount());
   root = undefined;
   container?.remove();
 });
-
 const popup = () => document.querySelector(".ant-popconfirm") as HTMLElement;
-
 const click = async (text: string) => {
   const button = Array.from(document.querySelectorAll("button")).find(
     (b) => b.textContent === text,
@@ -29,7 +25,6 @@ const click = async (text: string) => {
   if (!button) throw Error(text);
   await act(() => button.click());
 };
-
 it("opens, cancels and confirms with original trigger behavior", async () => {
   const cancel = vi.fn(),
     confirm = vi.fn(),
@@ -66,7 +61,6 @@ it("opens, cancels and confirms with original trigger behavior", async () => {
   );
   expect(popup().hidden).toBe(true);
 });
-
 it("waits for async success and allows retry after rejection", async () => {
   let resolve: () => void = () => {},
     reject: (reason: Error) => void = () => {};
@@ -99,7 +93,6 @@ it("waits for async success and allows retry after rejection", async () => {
   );
   expect(popup().hidden).toBe(true);
 });
-
 it("respects disabled and a controlled owner rejecting close", async () => {
   const change = vi.fn();
   await render(
@@ -118,7 +111,6 @@ it("respects disabled and a controlled owner rejecting close", async () => {
   expect(change).toHaveBeenCalledWith(false, expect.any(MouseEvent));
   expect(popup().hidden).toBe(false);
 });
-
 it("an earlier async action cannot close a newly opened popup", async () => {
   let resolve: () => void = () => {};
   await render(

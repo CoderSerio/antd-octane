@@ -6,21 +6,17 @@ import { Progress } from "../packages/antd-octane/src/progress";
 import { Result } from "../packages/antd-octane/src/result";
 
 let root: Root | undefined;
-
 let container: HTMLDivElement;
-
 async function render(node: ElementDescriptor) {
   container = document.createElement("div");
   document.body.append(container);
   root = createRoot(container);
   await act(() => root?.render(node));
 }
-
 afterEach(async () => {
   await act(() => root?.unmount());
   container?.remove();
 });
-
 it("clamps visual progress, preserves upstream aria values and updates", async () => {
   await render(<Progress percent={140} aria-label="下载" />);
   expect(
@@ -43,7 +39,6 @@ it("clamps visual progress, preserves upstream aria values and updates", async (
     container.querySelector<HTMLElement>(".ant-progress-bg")?.style.width,
   ).toBe("0%");
 });
-
 it("keeps success portion independent and lets formatter render zero", async () => {
   await render(
     <Progress
@@ -62,7 +57,6 @@ it("keeps success portion independent and lets formatter render zero", async () 
   await act(() => root?.render(<Progress percent={0} format={() => 0} />));
   expect(container.querySelector(".ant-progress-text")?.textContent).toBe("0");
 });
-
 it("uses unique gradient references and dashboard gaps with no zero-percent cap", async () => {
   await render(
     <>
@@ -95,7 +89,6 @@ it("uses unique gradient references and dashboard gaps with no zero-percent cap"
     trails[1].style.strokeDasharray,
   );
 });
-
 it("renders discrete steps and hides only visual info", async () => {
   await render(
     <Progress steps={5} percent={60} showInfo={false} strokeColor="red" />,
@@ -114,7 +107,6 @@ it("renders discrete steps and hides only visual info", async () => {
       ?.getAttribute("aria-valuenow"),
   ).toBe("60");
 });
-
 it("uses scoped component tokens for both feedback components", async () => {
   await render(
     <ConfigProvider
@@ -140,7 +132,6 @@ it("uses scoped component tokens for both feedback components", async () => {
       ?.style.getPropertyValue("--ao-result-title-size"),
   ).toBe("30px");
 });
-
 it("supports result HTTP statuses, custom icons, details and actions without live announcements", async () => {
   await render(
     <Result

@@ -2,6 +2,7 @@
 // Public component tokens; defaults are resolved by each native component.
 // Source: components/*/style/index.ts at 14f397749dca177e5495dc9d1c2f7debfb639545.
 import type { CSSProperties } from "octane";
+
 // components/avatar/style/index.ts
 export interface AvatarToken {
   /**
@@ -752,20 +753,6 @@ export interface TourToken {
   primaryNextBtnHoverBg: string;
 }
 
-// components/tree/style/index.ts
-export interface TreeToken extends TreeSharedToken {
-  /**
-   * @desc 目录树节点选中文字颜色
-   * @descEN Text color of selected directory node
-   */
-  directoryNodeSelectedColor: string;
-  /**
-   * @desc 目录树节点选中背景色
-   * @descEN Background color of selected directory node
-   */
-  directoryNodeSelectedBg: string;
-}
-
 export interface TreeSharedToken {
   /**
    * @desc 节点标题高度
@@ -799,141 +786,80 @@ export interface TreeSharedToken {
   nodeSelectedColor: string;
 }
 
-// components/alert/style/index.ts
-export interface AlertToken {
+// components/tree/style/index.ts
+export interface TreeToken extends TreeSharedToken {
   /**
-   * @desc 默认内间距
-   * @descEN Default padding
+   * @desc 目录树节点选中文字颜色
+   * @descEN Text color of selected directory node
    */
-  defaultPadding: CSSProperties["padding"];
+  directoryNodeSelectedColor: string;
   /**
-   * @desc 带有描述的内间距
-   * @descEN Padding with description
+   * @desc 目录树节点选中背景色
+   * @descEN Background color of selected directory node
    */
-  withDescriptionPadding: CSSProperties["padding"];
-  /**
-   * @desc 带有描述时的图标尺寸
-   * @descEN Icon size with description
-   */
-  withDescriptionIconSize: number;
+  directoryNodeSelectedBg: string;
 }
 
-// components/drawer/style/index.ts
-export interface DrawerToken {
+// components/spin/style/index.ts
+export interface SpinToken {
   /**
-   * @desc 弹窗 z-index
-   * @descEN z-index of drawer
+   * @desc 内容区域高度
+   * @descEN Height of content area
    */
-  zIndexPopup: number;
+  contentHeight: number | string;
   /**
-   * @desc 底部区域纵向内间距
-   * @descEN Vertical padding of footer
+   * @desc 加载图标尺寸
+   * @descEN Loading icon size
    */
-  footerPaddingBlock: number;
+  dotSize: number;
   /**
-   * @desc 底部区域横向内间距
-   * @descEN Horizontal padding of footer
+   * @desc 小号加载图标尺寸
+   * @descEN Small loading icon size
    */
-  footerPaddingInline: number;
+  dotSizeSM: number;
+  /**
+   * @desc 大号加载图标尺寸
+   * @descEN Large loading icon size
+   */
+  dotSizeLG: number;
 }
 
-// components/message/style/index.ts
-/** Component only token. Which will handle additional calculation of alias token */
-export interface MessageToken {
+// components/skeleton/style/index.ts
+export interface SkeletonToken {
+  /** @deprecated use gradientFromColor instead. */
+  color: string;
+  /** @deprecated use gradientToColor instead. */
+  colorGradientEnd: string;
   /**
-   * @desc 提示框 z-index
-   * @descEN z-index of Message
+   * @desc 渐变色起点颜色
+   * @descEN Start color of gradient
    */
-  zIndexPopup: number;
+  gradientFromColor: string;
   /**
-   * @desc 提示框背景色
-   * @descEN Background color of Message
+   * @desc 渐变色终点颜色
+   * @descEN End color of gradient
    */
-  contentBg: string;
+  gradientToColor: string;
   /**
-   * @desc 提示框内边距
-   * @descEN Padding of Message
+   * @desc 标题骨架屏高度
+   * @descEN Height of title skeleton
    */
-  contentPadding: CSSProperties["padding"];
-}
-
-// components/modal/style/index.ts
-/** Component only token. Which will handle additional calculation of alias token */
-export interface ModalToken {
+  titleHeight: number | string;
   /**
-   * @desc 顶部背景色
-   * @descEN Background color of header
+   * @desc 骨架屏圆角
+   * @descEN Border radius of skeleton
    */
-  headerBg: string;
+  blockRadius: number;
   /**
-   * @desc 标题行高
-   * @descEN Line height of title
+   * @desc 段落骨架屏上间距
+   * @descEN Margin top of paragraph skeleton
    */
-  titleLineHeight: number | string;
+  paragraphMarginTop: number;
   /**
-   * @desc 标题字体大小
-   * @descEN Font size of title
+   * @desc 段落骨架屏单行高度
+   * @descEN Line height of paragraph skeleton
    */
-  titleFontSize: number;
-  /**
-   * @desc 标题字体颜色
-   * @descEN Font color of title
-   */
-  titleColor: string;
-  /**
-   * @desc 内容区域背景色
-   * @descEN Background color of content
-   */
-  contentBg: string;
-  /**
-   * @desc 底部区域背景色
-   * @descEN Background color of footer
-   */
-  footerBg: string;
-}
-
-// components/notification/style/index.ts
-/** Component only token. Which will handle additional calculation of alias token */
-export interface NotificationToken {
-  /**
-   * @desc 提醒框 z-index
-   * @descEN z-index of Notification
-   */
-  zIndexPopup: number;
-  /**
-   * @desc 提醒框宽度
-   * @descEN Width of Notification
-   */
-  width: number | string;
-  /**
-   * @desc 成功提醒框容器背景色
-   * @descEN Background color of success notification container
-   */
-  colorSuccessBg?: string;
-  /**
-   * @desc 错误提醒框容器背景色
-   * @descEN Background color of error notification container
-   */
-  colorErrorBg?: string;
-  /**
-   * @desc 信息提醒框容器背景色
-   * @descEN Background color of info notification container
-   */
-  colorInfoBg?: string;
-  /**
-   * @desc 警告提醒框容器背景色
-   * @descEN Background color of warning notification container
-   */
-  colorWarningBg?: string;
-}
-
-// components/popconfirm/style/index.ts
-export interface PopconfirmToken {
-  /**
-   * @desc 确认框 z-index
-   * @descEN z-index of Popconfirm
-   */
-  zIndexPopup: number;
+  paragraphLiHeight: number;
 }
 
 // components/progress/style/index.ts
@@ -994,66 +920,141 @@ export interface ResultToken {
   extraMargin: CSSProperties["margin"];
 }
 
-// components/skeleton/style/index.ts
-export interface SkeletonToken {
-  /** @deprecated use gradientFromColor instead. */
-  color: string;
-  /** @deprecated use gradientToColor instead. */
-  colorGradientEnd: string;
+// components/alert/style/index.ts
+export interface AlertToken {
   /**
-   * @desc 渐变色起点颜色
-   * @descEN Start color of gradient
+   * @desc 默认内间距
+   * @descEN Default padding
    */
-  gradientFromColor: string;
+  defaultPadding: CSSProperties["padding"];
   /**
-   * @desc 渐变色终点颜色
-   * @descEN End color of gradient
+   * @desc 带有描述的内间距
+   * @descEN Padding with description
    */
-  gradientToColor: string;
+  withDescriptionPadding: CSSProperties["padding"];
   /**
-   * @desc 标题骨架屏高度
-   * @descEN Height of title skeleton
+   * @desc 带有描述时的图标尺寸
+   * @descEN Icon size with description
    */
-  titleHeight: number | string;
-  /**
-   * @desc 骨架屏圆角
-   * @descEN Border radius of skeleton
-   */
-  blockRadius: number;
-  /**
-   * @desc 段落骨架屏上间距
-   * @descEN Margin top of paragraph skeleton
-   */
-  paragraphMarginTop: number;
-  /**
-   * @desc 段落骨架屏单行高度
-   * @descEN Line height of paragraph skeleton
-   */
-  paragraphLiHeight: number;
+  withDescriptionIconSize: number;
 }
 
-// components/spin/style/index.ts
-export interface SpinToken {
+// components/message/style/index.ts
+/** Component only token. Which will handle additional calculation of alias token */
+export interface MessageToken {
   /**
-   * @desc 内容区域高度
-   * @descEN Height of content area
+   * @desc 提示框 z-index
+   * @descEN z-index of Message
    */
-  contentHeight: number | string;
+  zIndexPopup: number;
   /**
-   * @desc 加载图标尺寸
-   * @descEN Loading icon size
+   * @desc 提示框背景色
+   * @descEN Background color of Message
    */
-  dotSize: number;
+  contentBg: string;
   /**
-   * @desc 小号加载图标尺寸
-   * @descEN Small loading icon size
+   * @desc 提示框内边距
+   * @descEN Padding of Message
    */
-  dotSizeSM: number;
+  contentPadding: CSSProperties["padding"];
+}
+
+// components/notification/style/index.ts
+/** Component only token. Which will handle additional calculation of alias token */
+export interface NotificationToken {
   /**
-   * @desc 大号加载图标尺寸
-   * @descEN Large loading icon size
+   * @desc 提醒框 z-index
+   * @descEN z-index of Notification
    */
-  dotSizeLG: number;
+  zIndexPopup: number;
+  /**
+   * @desc 提醒框宽度
+   * @descEN Width of Notification
+   */
+  width: number | string;
+  /**
+   * @desc 成功提醒框容器背景色
+   * @descEN Background color of success notification container
+   */
+  colorSuccessBg?: string;
+  /**
+   * @desc 错误提醒框容器背景色
+   * @descEN Background color of error notification container
+   */
+  colorErrorBg?: string;
+  /**
+   * @desc 信息提醒框容器背景色
+   * @descEN Background color of info notification container
+   */
+  colorInfoBg?: string;
+  /**
+   * @desc 警告提醒框容器背景色
+   * @descEN Background color of warning notification container
+   */
+  colorWarningBg?: string;
+}
+
+// components/modal/style/index.ts
+/** Component only token. Which will handle additional calculation of alias token */
+export interface ModalToken {
+  /**
+   * @desc 顶部背景色
+   * @descEN Background color of header
+   */
+  headerBg: string;
+  /**
+   * @desc 标题行高
+   * @descEN Line height of title
+   */
+  titleLineHeight: number | string;
+  /**
+   * @desc 标题字体大小
+   * @descEN Font size of title
+   */
+  titleFontSize: number;
+  /**
+   * @desc 标题字体颜色
+   * @descEN Font color of title
+   */
+  titleColor: string;
+  /**
+   * @desc 内容区域背景色
+   * @descEN Background color of content
+   */
+  contentBg: string;
+  /**
+   * @desc 底部区域背景色
+   * @descEN Background color of footer
+   */
+  footerBg: string;
+}
+
+// components/drawer/style/index.ts
+export interface DrawerToken {
+  /**
+   * @desc 弹窗 z-index
+   * @descEN z-index of drawer
+   */
+  zIndexPopup: number;
+  /**
+   * @desc 底部区域纵向内间距
+   * @descEN Vertical padding of footer
+   */
+  footerPaddingBlock: number;
+  /**
+   * @desc 底部区域横向内间距
+   * @descEN Horizontal padding of footer
+   */
+  footerPaddingInline: number;
+}
+
+// components/popconfirm/style/index.ts
+export interface PopconfirmToken {
+  /**
+   * @desc 确认框 z-index
+   * @descEN z-index of Popconfirm
+   */
+  zIndexPopup: number;
 }
 
 // components/affix/style/index.ts

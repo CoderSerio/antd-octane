@@ -284,5 +284,18 @@
     "sectionHeadings": {
       "App": 3
     }
+  },
+  "ConfigProvider": {
+    "sectionBefore": {
+      "ConfigProvider.useConfig()": "### ConfigProvider.config()\n\n设置 `Modal`、`Message`、`Notification` 静态方法配置，只会对非 hooks 的静态方法调用生效。\n\n```tsx\nConfigProvider.config({\n  holderRender: (children) => (\n    <ConfigProvider\n      prefixCls=\"ant\"\n      iconPrefixCls=\"anticon\"\n      theme={{ token: { colorPrimary: 'red' } }}\n    >\n      {children}\n    </ConfigProvider>\n  ),\n});\n```"
+    },
+    "sectionIntro": {
+      "ConfigProvider.useConfig()": "获取父级 `Provider` 的值，如 `DisabledContextProvider`、`SizeContextProvider`。\n\n```jsx\nconst {\n  componentDisabled,\n  componentSize,\n} = ConfigProvider.useConfig();\n```"
+    },
+    "sectionHeadings": {
+      "ConfigProvider": 0,
+      "ConfigProvider.useConfig()": 3,
+      "组件配置": 3
+    }
   }
 }

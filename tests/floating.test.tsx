@@ -16,9 +16,7 @@ import { Popover } from "../packages/antd-octane/src/popover";
 import { Tooltip } from "../packages/antd-octane/src/tooltip";
 
 let root: Root | undefined;
-
 let container: HTMLDivElement;
-
 async function render(node: ElementDescriptor) {
   if (!root) {
     container = document.createElement("div");
@@ -27,7 +25,6 @@ async function render(node: ElementDescriptor) {
   }
   await act(() => root?.render(node));
 }
-
 afterEach(async () => {
   await act(() => root?.unmount());
   root = undefined;
@@ -35,10 +32,6 @@ afterEach(async () => {
   vi.restoreAllMocks();
   vi.useRealTimers();
 });
-
-function ThemeReader() {
-  return <span data-color={useConfig().token.colorPrimary}>context</span>;
-}
 
 it("popup layout dimensions preserve fractions and include content-box borders", () => {
   const popup = document.createElement("div");
@@ -146,7 +139,9 @@ it("Floating keeps a fractional submenu on the fitting side and floors unscaled 
   expect(popup.style.right).toBe("87px");
   expect(popup.style.bottom).toBe("423px");
 });
-
+function ThemeReader() {
+  return <span data-color={useConfig().token.colorPrimary}>context</span>;
+}
 it("Tooltip uses raw title availability and preserves explicit controlled open", async () => {
   await render(
     <Tooltip open>
@@ -184,7 +179,6 @@ it("Tooltip uses raw title availability and preserves explicit controlled open",
     false,
   );
 });
-
 it("Tooltip forwards container, align and ref and puts openClassName on the actual trigger", async () => {
   const target = document.createElement("div");
   document.body.append(target);
@@ -229,7 +223,6 @@ it("Tooltip forwards container, align and ref and puts openClassName on the actu
   await act(() => root?.unmount());
   target.remove();
 });
-
 it("Popover wireframe and explicit colors retain source text and spacing defaults", async () => {
   await render(
     <ConfigProvider
@@ -248,7 +241,6 @@ it("Popover wireframe and explicit colors retain source text and spacing default
     "2px solid",
   );
 });
-
 it("native portal retains provider context and cleans DOM on unmount", async () => {
   await render(
     <ConfigProvider theme={{ token: { colorPrimary: "#123456" } }}>
@@ -264,7 +256,6 @@ it("native portal retains provider context and cleans DOM on unmount", async () 
   await act(() => root?.unmount());
   expect(document.body.querySelector(".ant-popover")).toBeNull();
 });
-
 it("click keeps original handler and closes outside or Escape", async () => {
   const click = vi.fn();
   await render(
@@ -301,7 +292,6 @@ it("click keeps original handler and closes outside or Escape", async () => {
   );
   expect(trigger.getAttribute("aria-expanded")).toBe("false");
 });
-
 it("nested popup portals keep their parent open during child interactions", async () => {
   await render(
     <Popover
@@ -375,7 +365,6 @@ it("controlled open may be rejected and existing descriptions survive", async ()
     container.querySelector("button")?.getAttribute("aria-describedby"),
   ).toBe("existing");
 });
-
 it("hover delays cancel before entry and survive pointer movement to popup", async () => {
   vi.useFakeTimers();
   await render(
@@ -403,7 +392,6 @@ it("hover delays cancel before entry and survive pointer movement to popup", asy
     false,
   );
 });
-
 it("positions edge variants, flips overflow and clamps viewport", () => {
   const r = { left: 100, top: 100, width: 40, height: 30 };
   const box = { width: 80, height: 40 };
@@ -420,10 +408,33 @@ it("positions edge variants, flips overflow and clamps viewport", () => {
   });
   expect(
     positionPopup({ ...r, top: 0, left: 0 }, box, viewport, "topRight"),
-  ).toMatchObject({ x: 8, y: 42, placement: "bottomRight" });
+  ).toMatchObject({ x: 0, y: 42, placement: "bottomLeft" });
   expect(positionPopup({ ...r, top: 0 }, box, viewport, "top", false).y).toBe(
     -52,
   );
+});
+it("Dropdown edge alignment keeps the placement with more visible area without shifting", () => {
+  const anchor = { left: 884, top: 272.9, width: 20, height: 30 };
+  const box = { width: 198, height: 289 };
+  const viewport = { width: 1024, height: 576 };
+  expect(
+    positionPopup(anchor, box, viewport, "bottomRight", true, 4, {
+      align: { htmlRegion: undefined },
+      scrollRegion: { left: 0, top: -570, width: 1024, height: 1232 },
+    }),
+  ).toMatchObject({ x: 706, y: 306.9, placement: "bottomRight" });
+});
+it("keeps the placement offset when shifting a popup against a viewport edge", () => {
+  expect(
+    positionPopup(
+      { left: 137.8375, top: 51.5, width: 114.71875, height: 44 },
+      { width: 136.89375, height: 116 },
+      { width: 390, height: 840 },
+      "right",
+      true,
+      12,
+    ),
+  ).toMatchObject({ x: -12, y: 15.5, placement: "left" });
 });
 
 it("custom target is used and destroyOnHidden removes content", async () => {
@@ -468,7 +479,6 @@ it("custom target is used and destroyOnHidden removes content", async () => {
   expect(target.querySelector("[role=tooltip]")).toBeNull();
   target.remove();
 });
-
 it("hover-only closes after focused trigger leaves", async () => {
   vi.useFakeTimers();
   await render(
@@ -492,7 +502,6 @@ it("hover-only closes after focused trigger leaves", async () => {
     true,
   );
 });
-
 it("finishes the initial appear motion after the portal host is resolved", async () => {
   const afterOpenChange = vi.fn();
   await render(
@@ -512,7 +521,6 @@ it("finishes the initial appear motion after the portal host is resolved", async
   expect(popup?.getAttribute("data-motion-phase")).toBe("idle");
   expect(afterOpenChange).toHaveBeenCalledWith(true);
 });
-
 it("pending hover request is invalidated by controlled state changes", async () => {
   vi.useFakeTimers();
   const change = vi.fn();
@@ -539,7 +547,6 @@ it("pending hover request is invalidated by controlled state changes", async () 
   await act(() => vi.advanceTimersByTime(250));
   expect(change).not.toHaveBeenCalled();
 });
-
 it("resolves all twelve alignments without overflow adjustment", () => {
   const cases = {
     top: [80, 48],

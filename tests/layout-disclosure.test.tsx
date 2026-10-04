@@ -16,22 +16,18 @@ import {
 } from "../packages/antd-octane/src";
 
 let root: Root | undefined;
-
 let container: HTMLDivElement;
-
 async function render(node: ElementDescriptor) {
   container = document.createElement("div");
   document.body.append(container);
   root = createRoot(container);
   await act(() => root?.render(node));
 }
-
 afterEach(async () => {
   await act(() => root?.unmount());
   container?.remove();
   vi.unstubAllGlobals();
 });
-
 async function click(text: string) {
   const node = [
     ...container.querySelectorAll<HTMLElement>(
@@ -41,7 +37,6 @@ async function click(text: string) {
   if (!node) throw Error(`Missing button ${text}`);
   await act(() => node.click());
 }
-
 function mockMedia(initial: number) {
   let width = initial;
   const entries = new Map<
@@ -87,7 +82,6 @@ function mockMedia(initial: number) {
     },
   };
 }
-
 it("shares row breakpoint subscriptions, changes gutter/columns and cleans up", async () => {
   const media = mockMedia(1000);
   await render(
@@ -122,7 +116,6 @@ it("shares row breakpoint subscriptions, changes gutter/columns and cleans up", 
     [...media.entries.values()].every((entry) => entry.listeners.size === 0),
   ).toBe(true);
 });
-
 it("Sider registers with Layout and reports responsive versus click collapse", async () => {
   const media = mockMedia(1000);
   const change = vi.fn();
@@ -149,7 +142,6 @@ it("Sider registers with Layout and reports responsive versus click collapse", a
   );
   expect(change).toHaveBeenCalledWith(false, "clickTrigger");
 });
-
 it("controlled Sider requests collapse without changing its width", async () => {
   const change = vi.fn();
   await render(
@@ -164,7 +156,6 @@ it("controlled Sider requests collapse without changing its width", async () => 
   expect(change).toHaveBeenCalledWith(true, "clickTrigger");
   expect(container.firstElementChild?.getAttribute("style")).toContain("240px");
 });
-
 it("Collapse lazily mounts content and retains uncontrolled edits by default", async () => {
   await render(
     <Collapse
@@ -196,7 +187,6 @@ it("Collapse lazily mounts content and retains uncontrolled edits by default", a
   await click("Open");
   expect(container.querySelector("input")?.value).toBe("changed");
 });
-
 it("Collapse accordion uses string keys and destroyOnHidden unmounts", async () => {
   const change = vi.fn();
   await render(
@@ -226,7 +216,6 @@ it("Collapse accordion uses string keys and destroyOnHidden unmounts", async () 
   await click("Disabled");
   expect(change).toHaveBeenCalledTimes(2);
 });
-
 it("controlled Collapse can reject changes and extra actions do not toggle", async () => {
   const change = vi.fn();
   const extra = vi.fn();
@@ -264,7 +253,6 @@ it("controlled Collapse can reject changes and extra actions do not toggle", asy
     container.querySelector("[aria-expanded]")?.getAttribute("aria-expanded"),
   ).toBe("false");
 });
-
 it("Tabs connects ARIA ids and activates only enabled items", async () => {
   const change = vi.fn();
   await render(
@@ -291,7 +279,6 @@ it("Tabs connects ARIA ids and activates only enabled items", async () => {
     container.querySelectorAll<HTMLElement>('[role="tabpanel"]')[0].hidden,
   ).toBe(true);
 });
-
 it("Tabs keeps mounted state and destroyOnHidden resets it", async () => {
   const items = [
     { key: "a", label: "First", children: <Input defaultValue="seed" /> },
@@ -307,7 +294,6 @@ it("Tabs keeps mounted state and destroyOnHidden resets it", async () => {
   await click("Second");
   expect(container.querySelector("input")).toBeNull();
 });
-
 it("Tabs editable actions are callbacks and removed active items fall back", async () => {
   function Example() {
     const [items, set] = useState([
@@ -336,7 +322,6 @@ it("Tabs editable actions are callbacks and removed active items fall back", asy
     container.querySelector('[role="tab"]')?.getAttribute("aria-selected"),
   ).toBe("true");
 });
-
 it("Descriptions packs spans and adjusts columns at breakpoints", async () => {
   const media = mockMedia(1000);
   await render(
@@ -356,7 +341,6 @@ it("Descriptions packs spans and adjusts columns at breakpoints", async () => {
   expect(container.querySelectorAll("tr")).toHaveLength(3);
   expect(container.querySelector("td")?.colSpan).toBe(1);
 });
-
 it("Statistic preserves decimal strings and truncates precision without floating point conversion", async () => {
   await render(
     <Statistic
@@ -368,7 +352,6 @@ it("Statistic preserves decimal strings and truncates precision without floating
   );
   expect(container.textContent).toBe("¥12,345,678,901,234,567,890.12元");
 });
-
 it("Empty respects hidden descriptions and custom footer", async () => {
   await render(
     <Empty description={false} image={null}>
@@ -384,7 +367,6 @@ it("Empty respects hidden descriptions and custom footer", async () => {
     container.querySelector(".ant-empty-image svg title")?.textContent,
   ).toBe("No data");
 });
-
 it("Timeline reverses a copy and adds pending content", async () => {
   const items = [
     { key: 1, children: "First" },

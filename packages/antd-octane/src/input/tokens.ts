@@ -45,6 +45,7 @@ export function inputVariables(
   const variables: Record<string, string | number> = {
     "--ao-input-font": t.fontFamily,
     "--ao-input-font-size": `${c.inputFontSize}px`,
+    "--ao-input-group-font-size": `${t.fontSize}px`,
     "--ao-input-font-sm": `${c.inputFontSizeSM}px`,
     "--ao-input-font-lg": `${c.inputFontSizeLG}px`,
     "--ao-input-line": t.lineHeight,
@@ -78,6 +79,8 @@ export function inputVariables(
     "--ao-input-disabled": t.colorTextDisabled,
     "--ao-input-disabled-bg": t.colorBgContainerDisabled,
     "--ao-input-duration": t.motionDurationMid,
+    "--ao-input-affix-gap": `${t.paddingXXS}px`,
+    "--ao-input-adornment-gap": `${t.paddingXS}px`,
   };
   return variables;
 }

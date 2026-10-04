@@ -8,9 +8,7 @@ import { Dropdown } from "../packages/antd-octane/src/dropdown";
 import { Modal } from "../packages/antd-octane/src/modal";
 
 let root: Root | undefined;
-
 let container: HTMLDivElement;
-
 async function render(node: ElementDescriptor) {
   if (!root) {
     container = document.createElement("div");
@@ -19,7 +17,6 @@ async function render(node: ElementDescriptor) {
   }
   await act(() => root?.render(node));
 }
-
 afterEach(async () => {
   await act(() => root?.unmount());
   root = undefined;
@@ -28,7 +25,6 @@ afterEach(async () => {
     n.remove();
   });
 });
-
 async function key(key: string, shiftKey = false) {
   await act(() =>
     document.activeElement?.dispatchEvent(
@@ -41,13 +37,11 @@ async function key(key: string, shiftKey = false) {
     ),
   );
 }
-
 function dialog() {
   const node = document.querySelector<HTMLElement>('[role="dialog"]');
   if (!node) throw Error("Missing dialog");
   return node;
 }
-
 it("portals preserve context, wrap Tab at sentinels, close with Escape and restore trigger focus", async () => {
   function Demo() {
     const [open, setOpen] = useState(false);
@@ -89,7 +83,6 @@ it("portals preserve context, wrap Tab at sentinels, close with Escape and resto
   expect(document.activeElement).toBe(trigger);
   expect(document.body.style.overflowY).not.toBe("hidden");
 });
-
 it("only the topmost dialog handles Escape and nested locks survive one closure", async () => {
   const outer = vi.fn(),
     inner = vi.fn();
@@ -115,7 +108,6 @@ it("only the topmost dialog handles Escape and nested locks survive one closure"
   root = undefined;
   expect(document.body.style.overflowY).not.toBe("hidden");
 });
-
 it("preserves children while closed and destroys on request", async () => {
   await render(
     <Modal open title="retain">
@@ -144,7 +136,6 @@ it("preserves children while closed and destroys on request", async () => {
   );
   expect(document.querySelector(".ant-modal input")).toBeNull();
 });
-
 it("mask and keyboard switches respect controlled dismissal without mutating open", async () => {
   const close = vi.fn();
   await render(
@@ -174,7 +165,6 @@ it("mask and keyboard switches respect controlled dismissal without mutating ope
     document.querySelector(".ant-modal-root")?.hasAttribute("hidden"),
   ).toBe(false);
 });
-
 it("confirm loading blocks repeated confirmations and footer=null removes actions", async () => {
   const ok = vi.fn();
   await render(
@@ -194,7 +184,6 @@ it("confirm loading blocks repeated confirmations and footer=null removes action
   );
   expect(dialog().querySelector(".ant-modal-footer")).toBeNull();
 });
-
 it("supports inline containers, Drawer placement and lifecycle callbacks", async () => {
   const changed = vi.fn();
   await render(
@@ -217,7 +206,6 @@ it("supports inline containers, Drawer placement and lifecycle callbacks", async
   );
   expect(changed).toHaveBeenLastCalledWith(false);
 });
-
 it("allows focus inside an owned Dropdown portal and Escape closes it before Modal", async () => {
   const cancel = vi.fn();
   await render(
@@ -252,7 +240,6 @@ it("allows focus inside an owned Dropdown portal and Escape closes it before Mod
   await key("Escape");
   expect(cancel).toHaveBeenCalledOnce();
 });
-
 it("unmounting nested dialogs restores existing body styles and releases document handlers", async () => {
   const overflow = document.body.style.overflow,
     padding = document.body.style.paddingRight;

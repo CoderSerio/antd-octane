@@ -69,14 +69,16 @@ export default function Page({ section }: { section?: string }) {
         主题与支持范围
       </h2>
       <p>
-        支持与 @ant-design/icons-svg 结构兼容的
-        IconDefinition；需要使用其图标数据时，请在应用安装该包并按图标导入，再交给
-        createIcon。这里提供原生适配入口，没有打包完整图标集合，示例图形为独立绘制。
+        提供与 Ant Design 5 示例一致的命名图标入口，例如从 `antd-octane/icons`
+        引入 `ClockCircleOutlined`、`MinusOutlined` 和
+        `PlusOutlined`。图标数据兼容 @ant-design/icons-svg 的
+        IconDefinition，也可以在应用安装该包并按图标导入，再交给 createIcon。
       </p>
       <p>
-        不提供 React 图标组件兼容、iconfont 脚本加载器、全局
-        setTwoToneColor、完整 ref 或自动导入插件；component 负责自己的 SVG
-        属性。不要把只有图标的可点击 span 当按钮，请包裹 Button
+        `antd-octane/icons` 当前提供站点示例使用的基础图标集合，不等同于
+        `@ant-design/icons` 的完整 React 图标包。这里不提供 React 图标组件兼容、
+        iconfont 脚本加载器、全局 setTwoToneColor 或自动导入插件；component
+        负责自己的 SVG 属性。不要把只有图标的可点击 span 当按钮，请包裹 Button
         并提供可访问名称。
       </p>
     </>

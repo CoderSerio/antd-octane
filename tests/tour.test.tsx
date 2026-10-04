@@ -4,9 +4,7 @@ import { afterEach, expect, it, vi } from "vitest";
 import { Tour } from "../packages/antd-octane/src/tour";
 
 let root: Root | undefined;
-
 let container: HTMLDivElement;
-
 async function render(node: ElementDescriptor) {
   if (!root) {
     container = document.createElement("div");
@@ -15,7 +13,6 @@ async function render(node: ElementDescriptor) {
   }
   await act(() => root?.render(node));
 }
-
 async function click(text: string) {
   const button = Array.from(
     document.querySelectorAll<HTMLButtonElement>(".ant-tour button"),
@@ -23,7 +20,6 @@ async function click(text: string) {
   expect(button).toBeTruthy();
   await act(() => button?.click());
 }
-
 afterEach(async () => {
   await act(() => root?.unmount());
   root = undefined;
@@ -34,7 +30,6 @@ afterEach(async () => {
   vi.restoreAllMocks();
   vi.unstubAllGlobals();
 });
-
 it("steps advance and finish closes uncontrolled tour, previous goes back", async () => {
   const change = vi.fn(),
     finish = vi.fn();
@@ -56,7 +51,6 @@ it("steps advance and finish closes uncontrolled tour, previous goes back", asyn
   expect(document.querySelector(".ant-tour")).toBeNull();
   expect(document.body.style.overflow).toBe("");
 });
-
 it("controlled state reports changes without advancing or closing itself", async () => {
   const change = vi.fn(),
     close = vi.fn();
@@ -89,7 +83,6 @@ it("controlled state reports changes without advancing or closing itself", async
   expect(close).toHaveBeenCalledWith(0);
   expect(document.querySelector(".ant-tour")).not.toBeNull();
 });
-
 it("custom next handler runs after finishing and missing steps never mount", async () => {
   const order: string[] = [];
   const finish = vi.fn(() => order.push("finish"));
@@ -112,7 +105,6 @@ it("custom next handler runs after finishing and missing steps never mount", asy
   await render(<Tour steps={[]} />);
   expect(document.querySelector(".ant-tour")).toBeNull();
 });
-
 it("tracks target gap geometry, scroll updates and cleans observers", async () => {
   const target = document.createElement("div");
   target.dataset.tourTest = "";
@@ -162,7 +154,6 @@ it("tracks target gap geometry, scroll updates and cleans observers", async () =
   root = undefined;
   expect(disconnect).toHaveBeenCalled();
 });
-
 it("scrolls offscreen targets into view and centers missing targets without scrolling", async () => {
   const target = document.createElement("div");
   target.dataset.tourTest = "";
@@ -190,7 +181,6 @@ it("scrolls offscreen targets into view and centers missing targets without scro
   expect(document.querySelector(".ant-tour-placeholder-animated")).toBeNull();
   expect(document.querySelector(".ant-tour-full-mask")).not.toBeNull();
 });
-
 it("uses the opposite inset for a narrow popup after measuring its natural size", async () => {
   vi.spyOn(document.documentElement, "clientWidth", "get").mockReturnValue(390);
   vi.spyOn(document.documentElement, "clientHeight", "get").mockReturnValue(

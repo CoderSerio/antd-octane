@@ -1,6 +1,13 @@
 /** @jsxImportSource octane */
 import type { CSSProperties, HTMLAttributes, OctaneNode } from "octane";
-import { useEffect, useId, useRef, useState } from "octane";
+import {
+  Children,
+  isValidElement,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+} from "octane";
 import { useComponentTokens } from "../_util/tokens";
 import { useConfig } from "../config-provider";
 export interface TabItem {
@@ -14,9 +21,21 @@ export interface TabItem {
   destroyOnHidden?: boolean;
   icon?: OctaneNode;
 }
+/** Compatibility child API retained by antd 5 alongside `items`. */
+export interface TabPaneProps
+  extends Omit<TabItem, "key" | "label" | "children"> {
+  key?: string | number;
+  tab?: OctaneNode;
+  label?: OctaneNode;
+  children?: OctaneNode;
+}
+function TabPane(_props: TabPaneProps) {
+  return null;
+}
 export interface TabsProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   items?: TabItem[];
+  children?: OctaneNode;
   activeKey?: string;
   defaultActiveKey?: string;
   onChange?: (key: string) => void;
@@ -27,11 +46,20 @@ export interface TabsProps
   centered?: boolean;
   tabBarGutter?: number;
   tabBarStyle?: CSSProperties;
-  tabBarExtraContent?: OctaneNode;
+  tabBarExtraContent?: OctaneNode | { left?: OctaneNode; right?: OctaneNode };
   destroyOnHidden?: boolean;
   destroyInactiveTabPane?: boolean;
   hideAdd?: boolean;
   addIcon?: OctaneNode;
+  moreIcon?: OctaneNode;
+  more?: { icon?: OctaneNode; trigger?: "hover" | "click" };
+  indicatorSize?: number | ((origin: number) => number);
+  indicator?: {
+    size?: number | ((origin: number) => number);
+    align?: "start" | "center" | "end";
+  };
+  removeIcon?: OctaneNode;
+  rootClassName?: string;
   onEdit?: (keyOrEvent: string | MouseEvent, action: "add" | "remove") => void;
   style?: CSSProperties;
 }
@@ -71,6 +99,7 @@ function TabPanel({
 }
 export function Tabs({
   items = [],
+  children,
   activeKey,
   defaultActiveKey,
   onChange,
@@ -86,35 +115,62 @@ export function Tabs({
   destroyInactiveTabPane,
   hideAdd = false,
   addIcon,
+  moreIcon,
+  more,
+  indicatorSize,
+  indicator,
+  removeIcon,
   onEdit,
   className,
+  rootClassName,
   style,
   ...rest
 }: TabsProps) {
+  const legacyItems: TabItem[] = [];
+  Children.forEach(children, (child) => {
+    if (!isValidElement<TabPaneProps>(child) || child.type !== TabPane) return;
+    const props = child.props;
+    const key = props.key ?? child.key;
+    if (key === undefined || key === null) return;
+    legacyItems.push({
+      ...props,
+      key: String(key),
+      label: props.tab ?? props.label ?? String(key),
+      children: child.children ?? props.children,
+    });
+  });
+  const renderedItems = items.length > 0 ? items : legacyItems;
   const config = useConfig();
   const size = customSize ?? config.componentSize ?? "middle";
   const [inner, setInner] = useState(
-    defaultActiveKey ?? items.find((item) => !item.disabled)?.key,
+    defaultActiveKey ?? renderedItems.find((item) => !item.disabled)?.key,
   );
   const requested = activeKey ?? inner;
-  const active = items.some((item) => item.key === requested)
+  const active = renderedItems.some((item) => item.key === requested)
     ? requested
-    : items.find((item) => !item.disabled)?.key;
+    : renderedItems.find((item) => !item.disabled)?.key;
   const id = useId();
   const buttons = useRef(new Map<string, HTMLButtonElement>());
   const pendingFocus = useRef<string | null>(null);
   useEffect(() => {
     if (
       pendingFocus.current &&
-      !items.some((item) => item.key === pendingFocus.current)
+      !renderedItems.some((item) => item.key === pendingFocus.current)
     ) {
       if (active) buttons.current.get(active)?.focus();
       pendingFocus.current = null;
     }
-  }, [items, active]);
+  }, [renderedItems, active]);
   const { token: t, base } = useComponentTokens("Tabs");
   const c = config.theme.components?.Tabs;
   const vertical = tabPosition === "left" || tabPosition === "right";
+  const extra =
+    tabBarExtraContent &&
+    typeof tabBarExtraContent === "object" &&
+    !isValidElement(tabBarExtraContent) &&
+    ("left" in tabBarExtraContent || "right" in tabBarExtraContent)
+      ? (tabBarExtraContent as { left?: OctaneNode; right?: OctaneNode })
+      : { right: tabBarExtraContent as OctaneNode };
   const select = (key: string) => {
     if (key !== active) {
       if (activeKey === undefined) setInner(key);
@@ -130,7 +186,11 @@ export function Tabs({
         `ant-tabs-${tabPosition}`,
         `ant-tabs-${size}`,
         centered && "ant-tabs-centered",
+        (indicator?.size ?? indicatorSize) !== undefined &&
+          "ant-tabs-indicator-custom",
+        indicator?.align && `ant-tabs-indicator-${indicator.align}`,
         className,
+        rootClassName,
       ]}
       style={{
         ...base,
@@ -143,6 +203,10 @@ export function Tabs({
         "--ao-tabs-hover": c?.itemHoverColor ?? t.colorPrimaryHover,
         "--ao-tabs-active": c?.itemActiveColor ?? t.colorPrimaryActive,
         "--ao-tabs-ink": c?.inkBarColor ?? t.colorPrimary,
+        "--ao-tabs-indicator-size":
+          typeof (indicator?.size ?? indicatorSize) === "number"
+            ? `${indicator?.size ?? indicatorSize}px`
+            : undefined,
         "--ao-tabs-font-size": `${size === "small" ? (c?.titleFontSizeSM ?? t.fontSize) : size === "large" ? (c?.titleFontSizeLG ?? t.fontSizeLG) : (c?.titleFontSize ?? t.fontSize)}px`,
         "--ao-tabs-padding":
           size === "small"
@@ -158,6 +222,9 @@ export function Tabs({
       }}
     >
       <div className="ant-tabs-nav" style={tabBarStyle}>
+        {extra.left && (
+          <div className="ant-tabs-extra-content">{extra.left}</div>
+        )}
         <div
           className="ant-tabs-nav-list"
           role="tablist"
@@ -167,7 +234,7 @@ export function Tabs({
               event.target as HTMLElement
             ).closest<HTMLButtonElement>('[role="tab"]');
             if (!current) return;
-            const enabled = items.filter((item) => !item.disabled);
+            const enabled = renderedItems.filter((item) => !item.disabled);
             const index = enabled.findIndex(
               (item) => buttons.current.get(item.key) === current,
             );
@@ -185,7 +252,7 @@ export function Tabs({
             }
           }}
         >
-          {items.map((item) => {
+          {renderedItems.map((item) => {
             const keyId = `${id}-${encodeURIComponent(item.key)}`;
             return (
               <div
@@ -230,7 +297,7 @@ export function Tabs({
                       onEdit?.(item.key, "remove");
                     }}
                   >
-                    {item.closeIcon ?? "×"}
+                    {item.closeIcon ?? removeIcon ?? "×"}
                   </button>
                 )}
               </div>
@@ -247,12 +314,23 @@ export function Tabs({
             {addIcon ?? "+"}
           </button>
         )}
-        {tabBarExtraContent !== undefined && (
-          <div className="ant-tabs-extra-content">{tabBarExtraContent}</div>
+        {extra.right && (
+          <div className="ant-tabs-extra-content">{extra.right}</div>
         )}
+        {(moreIcon !== undefined || more?.icon !== undefined) &&
+          renderedItems.length > 0 && (
+            <button
+              className="ant-tabs-nav-more"
+              type="button"
+              aria-label="更多"
+              title={more?.trigger === "click" ? "更多" : undefined}
+            >
+              {moreIcon ?? more?.icon}
+            </button>
+          )}
       </div>
       <div className="ant-tabs-content-holder">
-        {items.map((item) => (
+        {renderedItems.map((item) => (
           <TabPanel
             key={item.key}
             item={item}
@@ -266,3 +344,5 @@ export function Tabs({
     </div>
   );
 }
+
+Tabs.TabPane = TabPane;

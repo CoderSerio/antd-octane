@@ -8,23 +8,19 @@ import {
 import { Image } from "../packages/antd-octane/src/image";
 
 let root: Root | undefined;
-
 let container: HTMLDivElement;
-
 async function render(node: ElementDescriptor) {
   container = document.createElement("div");
   document.body.append(container);
   root = createRoot(container);
   await act(() => root?.render(node));
 }
-
 afterEach(async () => {
   await act(() => root?.unmount());
   container?.remove();
   vi.useRealTimers();
   vi.unstubAllGlobals();
 });
-
 function button(label: string) {
   const node = document.querySelector<HTMLButtonElement>(
     `button[aria-label="${label}"]`,
@@ -32,11 +28,9 @@ function button(label: string) {
   if (!node) throw Error(`Missing ${label}`);
   return node;
 }
-
 async function click(label: string) {
   await act(() => button(label).click());
 }
-
 it("Image falls back once and preserves native lazy loading", async () => {
   await render(
     <Image src="bad.jpg" fallback="fallback.jpg" alt="图" loading="lazy" />,
@@ -49,7 +43,6 @@ it("Image falls back once and preserves native lazy loading", async () => {
   await act(() => img.dispatchEvent(new Event("error")));
   expect(img.getAttribute("src")).toBe("fallback.jpg");
 });
-
 it("single preview supports zoom bounds, Escape, and restores focus", async () => {
   await render(<Image src="image.svg" alt="山" />);
   await act(() => button("Preview: 山").focus());
@@ -86,7 +79,6 @@ it("single preview supports zoom bounds, Escape, and restores focus", async () =
   ).not.toBe("none");
   expect(button("关闭图片预览")).not.toBeNull();
 });
-
 it("PreviewGroup registers images and moves without reopening the dialog", async () => {
   await render(
     <Image.PreviewGroup>
@@ -104,7 +96,6 @@ it("PreviewGroup registers images and moves without reopening the dialog", async
   ).toBe("two.svg");
   expect(button("下一张图片").disabled).toBe(true);
 });
-
 it("controlled preview emits close intent without overriding visible", async () => {
   const visible = vi.fn();
   await render(
@@ -119,7 +110,6 @@ it("controlled preview emits close intent without overriding visible", async () 
     document.querySelector<HTMLElement>(".ant-image-preview-root")?.hidden,
   ).toBe(false);
 });
-
 it("Carousel dots, arrows, ref and inert offscreen slides behave consistently", async () => {
   const ref: { current: CarouselRef | null } = { current: null };
   const before = vi.fn(),
@@ -153,7 +143,6 @@ it("Carousel dots, arrows, ref and inert offscreen slides behave consistently", 
     container.querySelector(".slick-slide.slick-active")?.textContent,
   ).toBe("A");
 });
-
 it("Carousel goTo without animation still completes after navigating grouped slides", async () => {
   vi.useFakeTimers();
   const ref: { current: CarouselRef | null } = { current: null };
@@ -205,7 +194,6 @@ it("Carousel goTo without animation still completes after navigating grouped sli
   expect(after).toHaveBeenCalledExactlyOnceWith(0);
   expect(track?.style.transition).toBe("");
 });
-
 it("Carousel resize cancels completion timers while later instant navigation still completes", async () => {
   vi.useFakeTimers();
   let notifyResize: (() => void) | undefined;
@@ -279,7 +267,6 @@ it("Carousel resize cancels completion timers while later instant navigation sti
   await act(() => vi.advanceTimersByTime(110));
   expect(after).not.toHaveBeenCalled();
 });
-
 it("Carousel autoplay uses slick timing and can pause through innerSlider ref", async () => {
   const ref: { current: CarouselRef | null } = { current: null };
   vi.useFakeTimers();
@@ -325,7 +312,6 @@ it("Carousel autoplay uses slick timing and can pause through innerSlider ref", 
     container.querySelector(".slick-slide.slick-active")?.textContent,
   ).toBe("B");
 });
-
 it("Carousel touch swipe moves one slide", async () => {
   await render(
     <Carousel speed={0} draggable>
@@ -360,7 +346,6 @@ it("Carousel touch swipe moves one slide", async () => {
     container.querySelector(".slick-slide.slick-active")?.textContent,
   ).toBe("B");
 });
-
 it("PreviewGroup preserves order when an existing source changes", async () => {
   await render(
     <Image.PreviewGroup>

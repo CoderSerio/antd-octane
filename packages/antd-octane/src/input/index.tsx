@@ -17,7 +17,10 @@ import {
 } from "octane";
 import { Button } from "../button";
 import { useConfig } from "../config-provider";
+import Group from "./Group";
 import { inputVariables } from "./tokens";
+
+export type { GroupProps } from "./Group";
 
 // The count shares the outer width; the field fills that width exactly once.
 function countControlStyle(
@@ -61,6 +64,7 @@ export interface InputProps
   showCount?: boolean;
   onClear?: () => void;
   size?: "small" | "middle" | "large";
+  htmlSize?: number;
   status?: "error" | "warning";
   value?: string | number;
   defaultValue?: string | number;
@@ -107,6 +111,7 @@ function InternalInput(props: InputProps) {
   );
   const {
     size = config.componentSize ?? "middle",
+    htmlSize,
     status,
     disabled = config.componentDisabled ?? false,
     className,
@@ -136,6 +141,7 @@ function InternalInput(props: InputProps) {
     <input
       {...rest}
       ref={node}
+      size={htmlSize}
       aria-describedby={describedBy || undefined}
       disabled={disabled}
       aria-invalid={status === "error" ? true : props["aria-invalid"]}
@@ -695,6 +701,7 @@ function TextArea({
   );
 }
 export const Input = Object.assign(InternalInput, {
+  Group,
   Password,
   Search,
   TextArea,

@@ -14,7 +14,22 @@ export type {
 export { AutoComplete } from "./auto-complete";
 export type { ButtonProps, ButtonRef } from "./button";
 export { Button } from "./button";
-export type { ConfigProviderProps } from "./config-provider";
+export type {
+  ComponentStyleConfig,
+  ConfigComponentProps,
+  ConfigProviderProps,
+  CSPConfig,
+  DirectionType,
+  PopupContainer,
+  PopupOverflow,
+  RenderEmptyHandler,
+  ShowWaveEffect,
+  SizeType,
+  TargetContainer,
+  WarningContextProps,
+  WaveComponent,
+  WaveConfig,
+} from "./config-provider";
 export { ConfigProvider } from "./config-provider";
 export type {
   FormFieldError,
@@ -26,6 +41,9 @@ export type {
   FormValues,
 } from "./form";
 export { Form } from "./form";
+export type { Locale } from "./locale";
+export { default as enUS } from "./locale/en_US";
+export { default as zhCN } from "./locale/zh_CN";
 export type {
   AliasToken,
   ButtonToken,
@@ -170,6 +188,7 @@ export type {
 } from "./image";
 export { Image } from "./image";
 export type {
+  GroupProps,
   InputChangeEvent,
   InputProps,
   InputRef,
@@ -312,7 +331,6 @@ export type { StepItem, StepStatus, StepsProps } from "./steps";
 export { Steps } from "./steps";
 export type { SwitchProps } from "./switch";
 export { Switch } from "./switch";
-export type { TabItem, TabsProps } from "./tabs";
 export type {
   ColumnFilterItem,
   ColumnsType,
@@ -363,6 +381,7 @@ export {
   TableSummaryCell,
   TableSummaryRow,
 } from "./table";
+export type { TabItem, TabPaneProps, TabsProps } from "./tabs";
 export { Tabs } from "./tabs";
 export type {
   CheckableTagProps,

@@ -1,5 +1,5 @@
 /** @jsxImportSource octane */
-import type { CSSProperties, HTMLAttributes } from "octane";
+import type { CSSProperties, HTMLAttributes, Ref } from "octane";
 import { createContext, useContext } from "octane";
 import type { Responsive, Screens } from "../_util/responsive";
 import {
@@ -98,6 +98,7 @@ export interface ColSize {
   flex?: CSSProperties["flex"];
 }
 export interface ColProps extends HTMLAttributes<HTMLDivElement>, ColSize {
+  ref?: Ref<HTMLDivElement>;
   xs?: number | ColSize;
   sm?: number | ColSize;
   md?: number | ColSize;

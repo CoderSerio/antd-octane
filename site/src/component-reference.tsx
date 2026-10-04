@@ -16,6 +16,7 @@ import spin from "./feedback/spin.json";
 import watermark from "./feedback/watermark.json";
 import affix from "./other/affix.json";
 import app from "./other/app.json";
+import configProvider from "./other/config-provider.json";
 
 export interface ApiSection {
   title: string;
@@ -33,7 +34,7 @@ const references: Record<
   Alert: alert,
   Affix: affix,
   App: app,
-
+  ConfigProvider: configProvider,
   Drawer: drawer,
   Message: message,
   Modal: modal,

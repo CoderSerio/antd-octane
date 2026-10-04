@@ -3,29 +3,20 @@ import type { ElementDescriptor, Root } from "octane";
 import { act, createRoot } from "octane";
 import { afterEach, expect, it, vi } from "vitest";
 import { QRCode } from "../packages/antd-octane/src/qr-code";
-import {
-  qrcodegen,
-} from "../packages/antd-octane/src/qr-code/vendor/qrcodegen";
+import { qrcodegen } from "../packages/antd-octane/src/qr-code/vendor/qrcodegen";
 
 const require = createRequire(import.meta.url);
-
 const fromAntd = createRequire(require.resolve("antd/package.json"));
-
 const reference = fromAntd("@rc-component/qrcode/lib/libs/qrcodegen") as {
   QrCode: typeof qrcodegen.QrCode;
   Ecc: typeof qrcodegen.QrCode.Ecc;
 };
-
 const rendererReference = fromAntd("@rc-component/qrcode/lib/utils") as {
   generatePath: (cells: boolean[][], margin: number) => string;
 };
-
 const levels = { L: "LOW", M: "MEDIUM", Q: "QUARTILE", H: "HIGH" } as const;
-
 let root: Root | undefined;
-
 let container: HTMLDivElement;
-
 async function render(node: ElementDescriptor) {
   if (!root) {
     container = document.createElement("div");
@@ -34,19 +25,16 @@ async function render(node: ElementDescriptor) {
   }
   await act(() => root?.render(node));
 }
-
 afterEach(async () => {
   await act(() => root?.unmount());
   root = undefined;
   container?.remove();
   vi.restoreAllMocks();
 });
-
 const matrix = (qr: qrcodegen.QrCode) =>
   Array.from({ length: qr.size }, (_, y) =>
     Array.from({ length: qr.size }, (_, x) => qr.getModule(x, y)),
   );
-
 for (const level of ["L", "M", "Q", "H"] as const)
   it(`encoder matches antd's dev reference for ${level} numeric, ASCII, UTF8 and multiversion text`, () => {
     for (const text of [
@@ -68,7 +56,6 @@ for (const level of ["L", "M", "Q", "H"] as const)
       expect(matrix(actual)).toEqual(matrix(expected));
     }
   });
-
 it("SVG path exactly represents modules with an explicit four-module quiet zone", async () => {
   const value = "中文 SVG 🧩";
   await render(
@@ -84,7 +71,6 @@ it("SVG path exactly represents modules with an explicit four-module quiet zone"
   expect(svg.getAttribute("aria-label")).toBeNull();
   expect(svg.querySelector("title")).toBeNull();
 });
-
 it("Canvas paints the same matrix, rerenders colors/value and uses DPR", async () => {
   const paints: Array<{ color: string; rect: number[] }> = [];
   let fillStyle = "";
@@ -120,7 +106,6 @@ it("Canvas paints the same matrix, rerenders colors/value and uses DPR", async (
   expect(paints.length).toBeGreaterThan(previous);
   expect(paints.at(-1)?.color).toBe("#445566");
 });
-
 it("empty content renders nothing; oversized content falls back and recovers", async () => {
   await render(<QRCode value="" type="svg" />);
   // Ant Design 5.29.3 components/qr-code/index.tsx returns null for !value.
@@ -131,7 +116,6 @@ it("empty content renders nothing; oversized content falls back and recovers", a
   expect(container.querySelector("svg")).not.toBeNull();
   expect(container.querySelector("[role=status]")).toBeNull();
 });
-
 it("expired refresh callback and loading state remain operable", async () => {
   const refresh = vi.fn();
   await render(
