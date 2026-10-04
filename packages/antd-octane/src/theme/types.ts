@@ -1,4 +1,4 @@
-import type { AvatarToken } from "./component-tokens";
+import type { AvatarToken, BadgeToken } from "./component-tokens";
 
 export type * from "./component-tokens";
 
@@ -322,16 +322,7 @@ export interface ThemeConfig {
       headerPadding: number;
       headerPaddingSM: number;
     }>;
-    Badge?: ComponentTheme<{
-      indicatorZIndex: string | number;
-      indicatorHeight: number;
-      indicatorHeightSM: number;
-      dotSize: number;
-      textFontSize: number;
-      textFontSizeSM: number;
-      textFontWeight: CSSProperties["fontWeight"];
-      statusSize: number;
-    }>;
+    Badge?: ComponentTheme<BadgeToken>;
     Avatar?: ComponentTheme<AvatarToken>;
     Typography?: ComponentTheme<{
       titleMarginTop: string | number;

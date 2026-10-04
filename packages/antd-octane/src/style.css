@@ -1044,6 +1044,7 @@
     color: var(--ao-muted);
   }
   :where(.ant-badge) {
+    box-sizing: border-box;
     position: relative;
     display: inline-block;
     width: fit-content;
@@ -1058,6 +1059,7 @@
     inset-block-start: 0;
     inset-inline-end: 0;
     transform: translate(50%, -50%);
+    transform-origin: 100% 0;
     z-index: var(--ao-badge-z);
     min-width: var(--ao-badge-height);
     height: var(--ao-badge-height);
@@ -1070,7 +1072,13 @@
     background: var(--ao-badge-bg);
     color: var(--ao-badge-text);
     border-radius: calc(var(--ao-badge-height) / 2);
-    box-shadow: 0 0 0 1px var(--ao-badge-shadow);
+    box-shadow: 0 0 0 var(--ao-badge-shadow-size) var(--ao-badge-shadow);
+    transition: background var(--ao-badge-mid-duration);
+  }
+  :where(.ant-badge-count) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
   :where(.ant-badge-multiple) {
     padding: 0 var(--ao-badge-padding);
@@ -1081,26 +1089,198 @@
   }
   :where(.ant-badge-standalone .ant-badge-indicator) {
     position: relative;
-    display: inline-block;
-    transform: none;
+    display: block;
+    transform-origin: 50% 50%;
     vertical-align: middle;
   }
   :where(.ant-badge-status) {
-    box-shadow: none;
+    line-height: inherit;
+    vertical-align: baseline;
+  }
+  :where(.ant-badge-status-dot) {
+    position: relative;
+    top: -1px;
+    display: inline-block;
+    width: var(--ao-badge-height);
+    height: var(--ao-badge-height);
+    vertical-align: middle;
+    background: var(--ao-badge-bg);
+    border-radius: 50%;
+  }
+  :where(.ant-badge-status .ant-badge-status-processing) {
+    overflow: visible;
+    color: var(--ao-badge-bg);
   }
   :where(.ant-badge-status-text) {
-    margin-inline-start: 8px;
+    margin-inline-start: var(--ao-badge-text-margin);
     vertical-align: middle;
   }
-  :where(.ant-badge-processing)::after {
+  :where(.ant-badge-status .ant-badge-status-processing)::after {
     content: "";
     position: absolute;
     inset: 0;
-    border: 1px solid var(--ao-badge-bg);
+    border: var(--ao-badge-shadow-size) solid var(--ao-badge-bg);
     border-radius: 50%;
     animation: var(--ao-badge-animation);
   }
+  :where(
+      .ant-badge-standalone .ant-badge-count,
+      .ant-badge-standalone .ant-scroll-number-custom-component
+    ) {
+    transform: none;
+  }
+  :where(a:hover .ant-badge-count) {
+    background: var(--ao-badge-hover);
+  }
+  :where(.ant-badge .ant-scroll-number-custom-component) {
+    position: absolute;
+    top: 0;
+    inset-inline-end: 0;
+    transform: translate(50%, -50%);
+    transform-origin: 100% 0;
+  }
+  :where(.ant-badge-standalone .ant-scroll-number-custom-component) {
+    position: relative;
+    top: auto;
+    display: block;
+    transform: none;
+    transform-origin: 50% 50%;
+  }
+  :where(
+      .ant-badge-rtl .ant-badge-indicator,
+      .ant-badge-rtl .ant-scroll-number-custom-component
+    ) {
+    transform: translate(-50%, -50%);
+  }
+  :where(
+      .ant-badge-rtl.ant-badge-standalone .ant-badge-count,
+      .ant-badge-rtl.ant-badge-standalone .ant-scroll-number-custom-component
+    ) {
+    transform: none;
+  }
+  :where(.ant-badge .ant-scroll-number) {
+    overflow: hidden;
+    transition: all var(--ao-badge-mid-duration) var(--ao-badge-ease);
+  }
+  :where(.ant-badge-status .ant-badge-status-processing) {
+    overflow: visible;
+  }
+  :where(.ant-badge .ant-scroll-number-only) {
+    position: relative;
+    display: inline-block;
+    height: var(--ao-badge-scroll-height);
+    transition: all var(--ao-badge-duration) var(--ao-badge-ease);
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+  }
+  :where(.ant-badge-multiple bdi) {
+    unicode-bidi: plaintext;
+  }
+  :where(.ant-badge-zoom-enter) {
+    animation: ao-badge-zoom-in var(--ao-badge-duration) var(--ao-badge-ease)
+      both;
+  }
+  :where(.ant-badge-zoom-leave) {
+    animation: ao-badge-zoom-out var(--ao-badge-duration) var(--ao-badge-ease)
+      both;
+  }
+  :where(.ant-badge-standalone .ant-badge-zoom-enter) {
+    animation-name: ao-badge-standalone-in;
+  }
+  :where(.ant-badge-standalone .ant-badge-zoom-leave) {
+    animation-name: ao-badge-standalone-out;
+  }
+  @keyframes ao-badge-zoom-in {
+    from {
+      transform: scale(0) translate(50%, -50%);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1) translate(50%, -50%);
+    }
+  }
+  @keyframes ao-badge-zoom-out {
+    from {
+      transform: scale(1) translate(50%, -50%);
+    }
+    to {
+      transform: scale(0) translate(50%, -50%);
+      opacity: 0;
+    }
+  }
+  @keyframes ao-badge-standalone-in {
+    from {
+      transform: scale(0);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+  @keyframes ao-badge-standalone-out {
+    from {
+      transform: scale(1);
+    }
+    to {
+      transform: scale(0);
+      opacity: 0;
+    }
+  }
+  :where(.ant-ribbon-wrapper) {
+    position: relative;
+    font-size: var(--ao-font-size);
+  }
+  :where(.ant-ribbon) {
+    box-sizing: border-box;
+    position: absolute;
+    inset-block-start: var(--ao-ribbon-offset);
+    z-index: 1;
+    padding: 0 var(--ao-badge-padding);
+    font-family: var(--ao-font);
+    font-size: var(--ao-font-size);
+    color: var(--ao-ribbon-color, var(--ao-primary));
+    line-height: var(--ao-ribbon-line);
+    white-space: nowrap;
+    border-radius: var(--ao-ribbon-radius);
+  }
+  :where(.ant-ribbon-placement-end) {
+    inset-inline-end: calc(var(--ao-ribbon-offset) * -1);
+    border-end-end-radius: 0;
+  }
+  :where(.ant-ribbon-placement-start) {
+    inset-inline-start: calc(var(--ao-ribbon-offset) * -1);
+    border-end-start-radius: 0;
+  }
+  :where(.ant-ribbon-text) {
+    color: var(--ao-badge-text);
+  }
+  :where(.ant-ribbon-corner) {
+    box-sizing: border-box;
+    position: absolute;
+    inset-block-start: 100%;
+    width: var(--ao-ribbon-offset);
+    height: var(--ao-ribbon-offset);
+    color: inherit;
+    border: calc(var(--ao-ribbon-offset) / 2) solid;
+    filter: brightness(75%);
+    transform: scaleY(0.75);
+    transform-origin: top;
+  }
+  :where(.ant-ribbon-placement-end .ant-ribbon-corner) {
+    inset-inline-end: 0;
+    border-inline-end-color: transparent;
+    border-block-end-color: transparent;
+  }
+  :where(.ant-ribbon-placement-start .ant-ribbon-corner) {
+    inset-inline-start: 0;
+    border-inline-start-color: transparent;
+    border-block-end-color: transparent;
+  }
   @keyframes ao-badge-pulse {
+    from {
+      transform: scale(0.8);
+      opacity: 0.5;
+    }
     to {
       transform: scale(2.4);
       opacity: 0;
@@ -1157,7 +1337,7 @@
     margin-inline-start: var(--ao-avatar-group-space);
   }
   @media (prefers-reduced-motion: reduce) {
-    :where(.ant-badge-processing)::after {
+    :where(.ant-badge-status .ant-badge-status-processing)::after {
       animation: none;
     }
   }

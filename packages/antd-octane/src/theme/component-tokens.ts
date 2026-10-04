@@ -64,3 +64,48 @@ export interface AvatarToken {
    */
   groupBorderColor: string;
 }
+
+// components/badge/style/index.ts
+/** Component only token. Which will handle additional calculation of alias token */
+export interface BadgeToken {
+  /**
+   * @desc 徽标 z-index
+   * @descEN z-index of badge
+   */
+  indicatorZIndex: number | string;
+  /**
+   * @desc 徽标高度
+   * @descEN Height of badge
+   */
+  indicatorHeight: number | string;
+  /**
+   * @desc 小号徽标高度
+   * @descEN Height of small badge
+   */
+  indicatorHeightSM: number | string;
+  /**
+   * @desc 点状徽标尺寸
+   * @descEN Size of dot badge
+   */
+  dotSize: number;
+  /**
+   * @desc 徽标文本尺寸
+   * @descEN Font size of badge text
+   */
+  textFontSize: number;
+  /**
+   * @desc 小号徽标文本尺寸
+   * @descEN Font size of small badge text
+   */
+  textFontSizeSM: number;
+  /**
+   * @desc 徽标文本粗细
+   * @descEN Font weight of badge text
+   */
+  textFontWeight: number | string;
+  /**
+   * @desc 状态徽标尺寸
+   * @descEN Size of status badge
+   */
+  statusSize: number;
+}

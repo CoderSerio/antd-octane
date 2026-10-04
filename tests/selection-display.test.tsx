@@ -196,7 +196,8 @@ it("Badge respects zero hiding, overflow and custom content", async () => {
       <Badge count={<b>new</b>} />
     </>,
   );
-  expect(container.querySelectorAll(".ant-badge-indicator")).toHaveLength(3);
+  expect(container.querySelectorAll(".ant-badge-indicator")).toHaveLength(2);
+  expect(container.querySelector("b")?.textContent).toBe("new");
   expect(container.textContent).toBe("099+new");
 });
 it("Avatar falls back on image failure and resets on a new source", async () => {

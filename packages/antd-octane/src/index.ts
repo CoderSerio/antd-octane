@@ -60,7 +60,7 @@ export type {
   AvatarSize,
 } from "./avatar";
 export { Avatar } from "./avatar";
-export type { BadgeProps } from "./badge";
+export type { BadgeProps, BadgeRibbonProps, ScrollNumberProps } from "./badge";
 export { Badge } from "./badge";
 export type { BreadcrumbItem, BreadcrumbProps } from "./breadcrumb";
 export { Breadcrumb } from "./breadcrumb";
