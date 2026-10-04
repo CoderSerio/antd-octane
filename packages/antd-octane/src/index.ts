@@ -373,6 +373,35 @@ export type {
 } from "./tour";
 export { Tour } from "./tour";
 export type {
+  DirectoryTreeExpandAction,
+  DirectoryTreeProps,
+  Key,
+  TreeCheckInfo,
+  TreeDataNode,
+  TreeDragEnterInfo,
+  TreeDraggableConfig,
+  TreeDragInfo,
+  TreeDropIndicatorProps,
+  TreeDropInfo,
+  TreeDropPosition,
+  TreeExpandInfo,
+  TreeFieldNames,
+  TreeLoadInfo,
+  TreeMotion,
+  TreeMotionEvent,
+  TreeMouseInfo,
+  TreeNodeAttribute,
+  TreeNodeProps,
+  TreeProps,
+  TreeRef,
+  TreeRightClickInfo,
+  TreeScrollTarget,
+  TreeSelectInfo,
+  TreeShowLineConfig,
+  TreeStyle,
+} from "./tree";
+export { DirectoryTree, Tree, TreeNode } from "./tree";
+export type {
   CopyConfig,
   EditConfig,
   EllipsisConfig,

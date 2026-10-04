@@ -377,6 +377,52 @@ export function ComponentCompatibilityNotes() {
           rc-trigger 在复杂变换容器中的定位与对齐事件元数据。
         </p>
       </details>
+      <details>
+        <summary>Tree</summary>
+        <p>
+          方向键移动焦点；左方向键收起或返回父级，右方向键展开或进入子级；Home /
+          End 定位首尾节点，Enter / Space
+          选择或复选。非严格复选按父子关系传导；disabled、 disableCheckbox 与
+          checkable=false 节点会截断传导。checkedKeys 对象在 checkStrictly
+          模式下保留 halfChecked；普通模式会按数据树重新计算半选状态。
+        </p>
+        <p>
+          支持 treeData、fieldNames、TreeNode 声明、loadData 和 loadedKeys。
+          已展开的未加载节点会自动请求数据；默认展开选项只在初始化时生效。
+          filterTreeNode 接收包含原始数据、expanded、selected、checked、loaded、
+          loading、halfChecked、active
+          与拖放状态的节点；匹配只高亮，不隐藏节点。 DirectoryTree 提供 Ctrl /
+          Command 多选、可见节点的 Shift 范围选择和 expandAction。disabled
+          禁止选择、复选和开始拖拽，仍可操作展开按钮。
+        </p>
+        <p>
+          height 开启虚拟窗口，只渲染视口附近的可见节点；virtual=false
+          可关闭窗口渲染。ref.scrollTo 支持 key、index、align 和
+          offset，能定位尚未
+          渲染的可见节点；折叠分支内的节点需先展开。自定义标题的实际行高会参与滚动
+          定位。虚拟滚动不自动计算未渲染标题的横向宽度。
+        </p>
+        <p>
+          展开和收起使用原生高度、透明度动画；motion=null 或
+          theme.token.motion=false 可关闭动画。motion
+          支持名称或类名映射、准备阶段、起始/活动/结束回调和
+          motionDeadline。主题与 ConfigProvider 的
+          direction、virtual、tree.className、 tree.style 会参与渲染；RTL
+          镜像缩进、展开图标和拖放指示器，键盘仍保持左键 收起、右键展开。
+        </p>
+        <p>
+          拖放按扁平可见节点和鼠标横向偏移计算跨层级位置，支持 allowDrop、
+          dropIndicatorRender、dropPosition 与 dropToGap。悬停 800ms
+          可展开已有子节点
+          的分支，拖动节点自身及其后代不可作为放置目标。回调提供数据和位置，数据重排
+          由应用完成。键值须唯一且稳定。
+        </p>
+        <p>
+          本页支持范围描述当前开发源码；新能力需随包发布后供 npm 消费者使用。
+          展开动画和窗口滚动由 Octane 实现，内部节点 DOM、焦点容器与 rc-tree
+          实例 接口不同；没有提供 rc-tree 的内部实例方法。
+        </p>
+      </details>
 
     </>
   );

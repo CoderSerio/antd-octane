@@ -751,3 +751,50 @@ export interface TourToken {
    */
   primaryNextBtnHoverBg: string;
 }
+
+// components/tree/style/index.ts
+export interface TreeToken extends TreeSharedToken {
+  /**
+   * @desc 目录树节点选中文字颜色
+   * @descEN Text color of selected directory node
+   */
+  directoryNodeSelectedColor: string;
+  /**
+   * @desc 目录树节点选中背景色
+   * @descEN Background color of selected directory node
+   */
+  directoryNodeSelectedBg: string;
+}
+
+export interface TreeSharedToken {
+  /**
+   * @desc 节点标题高度
+   * @descEN Node title height
+   */
+  titleHeight: number;
+  /**
+   * @desc 缩进宽度
+   * @descEN Indent width of tree
+   */
+  indentSize?: number;
+  /**
+   * @desc 节点悬浮态背景色
+   * @descEN Background color of hovered node
+   */
+  nodeHoverBg: string;
+  /**
+   * @desc 节点悬浮态态文字颜色
+   * @descEN Text color of hovered node
+   */
+  nodeHoverColor: string;
+  /**
+   * @desc 节点选中态背景色
+   * @descEN Background color of selected node
+   */
+  nodeSelectedBg: string;
+  /**
+   * @desc 节点选中态文字颜色
+   * @descEN Text color of selected node
+   */
+  nodeSelectedColor: string;
+}

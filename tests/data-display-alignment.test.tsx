@@ -14,6 +14,8 @@ import {
   Statistic,
   Table,
   type TableProps,
+  Tree,
+  type TreeRef,
 } from "../packages/antd-octane/src";
 import type {
   LegacyPanelProps,
@@ -173,6 +175,118 @@ it("Table renders upstream caret geometry only for configured sort directions", 
   expect(
     element(".ant-table-column-sorter-up").classList.contains("active"),
   ).toBe(true);
+});
+
+// These exercise native runtime behavior from the antd 5.29.3 source audit;
+// they are regression cases, not complete API or visual certification.
+it("Tree keeps the rc-virtual-list range around a ref scroll target", async () => {
+  const ref: { current: TreeRef | null } = { current: null };
+  const treeData = Array.from({ length: 200 }, (_, index) => ({
+    key: index,
+    title: `Node ${index}`,
+  }));
+  await render(
+    <Tree ref={ref} treeData={treeData} height={192} itemHeight={28} virtual />,
+  );
+  expect(container.querySelectorAll(".ant-tree-title")).toHaveLength(8);
+  await act(() => ref.current?.scrollTo({ key: 150, align: "top" }));
+  expect(
+    [...container.querySelectorAll(".ant-tree-title")].map(
+      (node) => node.textContent,
+    ),
+  ).toEqual(Array.from({ length: 9 }, (_, index) => `Node ${149 + index}`));
+  await act(() => ref.current?.scrollTo({ key: 0, align: "top" }));
+  expect(element(".ant-tree-title").textContent).toBe("Node 0");
+});
+
+it("Tree reads Fragment-wrapped legacy nodes at every depth", async () => {
+  await render(
+    <Tree defaultExpandAll>
+      <Fragment key="root-fragment">
+        <Tree.TreeNode key="parent" title="Parent">
+          <Fragment key="child-fragment">
+            <Tree.TreeNode key="child" title="Child" />
+          </Fragment>
+        </Tree.TreeNode>
+        <Tree.TreeNode key="sibling" title="Sibling" />
+      </Fragment>
+    </Tree>,
+  );
+  expect(
+    [...container.querySelectorAll(".ant-tree-title")].map(
+      (node) => node.textContent,
+    ),
+  ).toEqual(["Parent", "Child", "Sibling"]);
+  expect(container.querySelectorAll('[role="treeitem"]')).toHaveLength(3);
+});
+
+it("Tree gives a function node title precedence over titleRender", async () => {
+  const title = vi.fn((node: { key?: string | number }) => `Own ${node.key}`);
+  const titleRender = vi.fn((node: { key?: string | number }) => (
+    <b>Shared {node.key}</b>
+  ));
+  await render(
+    <Tree
+      treeData={[
+        { key: "a", title },
+        { key: "b", title: "Plain" },
+      ]}
+      titleRender={titleRender}
+    />,
+  );
+  expect(
+    [...container.querySelectorAll(".ant-tree-title")].map(
+      (node) => node.textContent,
+    ),
+  ).toEqual(["Own a", "Shared b"]);
+  expect(title).toHaveBeenCalledWith(expect.objectContaining({ key: "a" }));
+  expect(titleRender).toHaveBeenCalledTimes(1);
+  expect(titleRender).toHaveBeenCalledWith(
+    expect.objectContaining({ key: "b" }),
+  );
+});
+
+it("DirectoryTree retains the last controlled selection and expansion when props are removed", async () => {
+  const data = [
+    {
+      key: "parent",
+      title: "Parent",
+      children: [{ key: "child", title: "Child", isLeaf: true }],
+    },
+  ];
+  await render(
+    <ConfigProvider theme={{ token: { motion: false } }}>
+      <Tree.DirectoryTree
+        treeData={data}
+        selectedKeys={["parent"]}
+        expandedKeys={[]}
+      />
+    </ConfigProvider>,
+  );
+  await update(
+    <ConfigProvider theme={{ token: { motion: false } }}>
+      <Tree.DirectoryTree
+        treeData={data}
+        selectedKeys={["child"]}
+        expandedKeys={["parent"]}
+      />
+    </ConfigProvider>,
+  );
+  await update(
+    <ConfigProvider theme={{ token: { motion: false } }}>
+      <Tree.DirectoryTree treeData={data} />
+    </ConfigProvider>,
+  );
+  expect(container.querySelectorAll('[role="treeitem"]')).toHaveLength(2);
+  expect(
+    element('[role="treeitem"][aria-selected="true"] .ant-tree-title')
+      .textContent,
+  ).toBe("Child");
+  expect(
+    element('[role="treeitem"][aria-level="1"]').getAttribute("aria-expanded"),
+  ).toBe("true");
+  await act(() => element<HTMLButtonElement>(".ant-tree-switcher").click());
+  expect(container.querySelectorAll('[role="treeitem"]')).toHaveLength(1);
 });
 
 it("Table only enables virtualization through its own virtual prop", async () => {

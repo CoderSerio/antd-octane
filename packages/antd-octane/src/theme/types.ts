@@ -16,6 +16,7 @@ import type {
   TimelineToken,
   TooltipToken,
   TourToken,
+  TreeToken,
 } from "./component-tokens";
 
 export type * from "./component-tokens";
@@ -93,6 +94,7 @@ export interface ThemeConfig {
   algorithm?: MappingAlgorithm | MappingAlgorithm[];
   components?: {
     Table?: ComponentTheme<TableToken>;
+    Tree?: ComponentTheme<TreeToken>;
     Select?: ComponentTheme<{ zIndexPopup: number }>;
     QRCode?: ComponentTheme;
     Tour?: ComponentTheme<TourToken>;

@@ -482,6 +482,13 @@ export const nav = [
     group: "数据展示",
     keywords: "table 表格 排序 筛选 分页",
   },
+  {
+    id: "tree",
+    title: "Tree 树形控件",
+    category: "components",
+    group: "数据展示",
+    keywords: "tree 树形控件 展开 复选",
+  },
 ];
 const antdOrderedGroups = new Set(["导航", "数据展示", "反馈", "其他"]);
 const componentDocTitle = (label: string) => label.split(" ", 1)[0] || label;
@@ -1315,4 +1322,21 @@ toc.table = [
   ["sticky", "随页面滚动的固定表头和滚动条"],
   ["api", "API"],
   ["tokens", "主题变量（Design Token）"],
+];
+toc.tree = [
+  ["when-to-use", "何时使用"],
+  ["examples", "代码演示"],
+  ["basic", "基本"],
+  ["basic-controlled", "受控操作示例"],
+  ["dynamic", "异步数据加载"],
+  ["directory", "目录"],
+  ["search", "可搜索"],
+  ["draggable", "拖动示例"],
+  ["line", "连接线"],
+  ["block-node", "占据整行"],
+  ["customized-icon", "自定义图标"],
+  ["virtual-scroll", "虚拟滚动"],
+  ["switcher-icon", "自定义展开/折叠图标"],
+  ["api", "API"],
+  ["tokens", "主题变量"],
 ];

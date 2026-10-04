@@ -66,7 +66,8 @@
       "components/qr-code/style",
       "components/tour/style",
       "components/calendar/style",
-      "components/table/style"
+      "components/table/style",
+      "components/tree/style"
     ],
     "destination": [
       "packages/antd-octane/src/button/tokens.ts",
@@ -121,7 +122,8 @@
       "packages/antd-octane/src/carousel.css",
       "packages/antd-octane/src/collapse.css",
       "packages/antd-octane/src/qr-code.css",
-      "packages/antd-octane/src/table.css"
+      "packages/antd-octane/src/table.css",
+      "packages/antd-octane/src/tree.css"
     ],
     "notes": "Supported defaults and state styles adapted to static CSS variables; see THIRD_PARTY_NOTICES.md and docs/compatibility.md."
   },
@@ -166,7 +168,9 @@
       "components/timeline/useItems.ts",
       "components/tooltip/index.tsx",
       "components/tour/{index,panelRender}.tsx",
-      "components/tour/interface.ts"
+      "components/tour/interface.ts",
+      "components/tree/{Tree,DirectoryTree}.tsx",
+      "components/tree/utils/dropIndicator.tsx"
     ],
     "destination": [
       "packages/antd-octane/src/calendar",
@@ -185,7 +189,8 @@
       "packages/antd-octane/src/tag",
       "packages/antd-octane/src/timeline",
       "packages/antd-octane/src/tooltip",
-      "packages/antd-octane/src/tour"
+      "packages/antd-octane/src/tour",
+      "packages/antd-octane/src/tree"
     ],
     "notes": "Source contracts, module structure, artwork and supported lifecycle/style behavior adapted to Octane. React runtime dependencies remain development references. Source API descriptions do not certify complete parity; see component support sections."
   },
@@ -336,6 +341,18 @@
         "es/hooks/useClosable.js"
       ],
       "destination": "packages/antd-octane/src/tour"
+    },
+    "rc-tree": {
+      "version": "5.13.1",
+      "source": [
+        "es/Tree.js",
+        "es/TreeNode.js",
+        "es/NodeList.js",
+        "es/MotionTreeNode.js",
+        "es/util.js",
+        "es/utils/treeUtil.js"
+      ],
+      "destination": "packages/antd-octane/src/tree"
     }
   },
   "data-display-icons": {
@@ -355,7 +372,8 @@
       "packages/antd-octane/src/table/InternalTable.tsx",
       "packages/antd-octane/src/tag/closable.tsx",
       "packages/antd-octane/src/timeline/index.tsx",
-      "packages/antd-octane/src/tour/utils.ts"
+      "packages/antd-octane/src/tour/utils.ts",
+      "packages/antd-octane/src/tree/icons.ts"
     ],
     "notes": "Original MIT SVG geometry; Octane renderers and no React icon runtime."
   },
