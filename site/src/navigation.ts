@@ -877,11 +877,22 @@ toc.result = [
 ];
 
 toc.segmented = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
-  ["basic", "基本用法与尺寸"],
-  ["more", "受控值与布局"],
+  ["basic", "基本"],
+  ["controlled", "受控模式"],
+  ["vertical", "垂直方向"],
+  ["block", "Block 分段选择器"],
+  ["shape", "胶囊形状"],
+  ["disabled", "不可用"],
+  ["custom", "自定义渲染"],
+  ["dynamic", "动态数据"],
+  ["size", "三种大小"],
+  ["with-icon", "设置图标"],
+  ["icon-only", "只设置图标"],
+  ["with-name", "配合 name 使用"],
   ["api", "API"],
-  ["tokens", "主题与支持范围"],
+  ["tokens", "主题变量"],
 ];
 
 toc.select = [

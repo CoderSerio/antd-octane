@@ -9,6 +9,7 @@ import type {
   ImageToken,
   ListToken,
   PopoverToken,
+  SegmentedToken,
 } from "./component-tokens";
 
 export type * from "./component-tokens";
@@ -300,16 +301,7 @@ export interface ThemeConfig {
       titleMarginTop: string | number;
       titleMarginBottom: string | number;
     }>;
-    Segmented?: ComponentTheme<{
-      trackPadding: number;
-      trackBg: string;
-      itemColor: string;
-      itemHoverColor: string;
-      itemHoverBg: string;
-      itemSelectedBg: string;
-      itemActiveBg: string;
-      itemSelectedColor: string;
-    }>;
+    Segmented?: ComponentTheme<SegmentedToken>;
     Rate?: ComponentTheme<{
       starColor: string;
       starSize: number;

@@ -256,7 +256,9 @@ export { Rate } from "./rate";
 export type { ResultProps } from "./result";
 export { Result } from "./result";
 export type {
+  SegmentedLabeledOption,
   SegmentedOption,
+  SegmentedOptions,
   SegmentedProps,
   SegmentedValue,
 } from "./segmented";

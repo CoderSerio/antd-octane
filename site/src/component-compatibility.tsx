@@ -198,6 +198,18 @@ export function ComponentCompatibilityNotes() {
         </p>
       </details>
 
+      <details>
+        <summary>Segmented</summary>
+        <p>
+          支持
+          trackPadding、trackBg、itemColor、itemHoverColor、itemHoverBg、itemSelectedBg、itemActiveBg、itemSelectedColor。支持原生表单字段、受控值、RTL、上下布局以及原生滑块平移动画。
+          默认尺寸为 middle，禁用状态由 disabled 属性控制，与 antd 5
+          的包装实现一致。 方向键按 rc-segmented 2.7.1 在整个 options
+          列表中循环，不增加 Home / End 行为。 ConfigProvider.segmented
+          可提供样式与类名；自定义 prefixCls 同时保留 ant-* 样式类。
+        </p>
+      </details>
+
     </>
   );
 }

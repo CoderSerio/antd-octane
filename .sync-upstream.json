@@ -153,7 +153,8 @@
       "components/list/{index,Item}.tsx",
       "components/list/context.ts",
       "components/popover/index.tsx",
-      "components/qr-code/{index,QrcodeStatus}.tsx"
+      "components/qr-code/{index,QrcodeStatus}.tsx",
+      "components/segmented/index.tsx"
     ],
     "destination": [
       "packages/antd-octane/src/calendar",
@@ -165,7 +166,8 @@
       "packages/antd-octane/src/image",
       "packages/antd-octane/src/list",
       "packages/antd-octane/src/popover",
-      "packages/antd-octane/src/qr-code"
+      "packages/antd-octane/src/qr-code",
+      "packages/antd-octane/src/segmented"
     ],
     "notes": "Source contracts, module structure, artwork and supported lifecycle/style behavior adapted to Octane. React runtime dependencies remain development references. Source API descriptions do not certify complete parity; see component support sections."
   },
@@ -238,6 +240,14 @@
         "es/utils.js"
       ],
       "destination": "packages/antd-octane/src/qr-code"
+    },
+    "rc-segmented": {
+      "version": "2.7.1",
+      "source": [
+        "es/index.js",
+        "es/MotionThumb.js"
+      ],
+      "destination": "packages/antd-octane/src/segmented"
     }
   },
   "data-display-icons": {
