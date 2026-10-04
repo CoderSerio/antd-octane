@@ -143,13 +143,17 @@
     "source": [
       "components/calendar/{generateCalendar,Header,index}.tsx",
       "components/card/{Card,Grid,Meta}.tsx",
-      "components/collapse/{Collapse,CollapsePanel}.tsx"
+      "components/collapse/{Collapse,CollapsePanel}.tsx",
+      "components/descriptions/{index,Cell,Row}.tsx",
+      "components/descriptions/DescriptionsContext.ts",
+      "components/descriptions/hooks/{useItems,useRow}.ts"
     ],
     "destination": [
       "packages/antd-octane/src/calendar",
       "packages/antd-octane/src/card",
       "packages/antd-octane/src/carousel",
-      "packages/antd-octane/src/collapse"
+      "packages/antd-octane/src/collapse",
+      "packages/antd-octane/src/descriptions"
     ],
     "notes": "Source contracts, module structure, artwork and supported lifecycle/style behavior adapted to Octane. React runtime dependencies remain development references. Source API descriptions do not certify complete parity; see component support sections."
   },
@@ -201,5 +205,21 @@
       "packages/antd-octane/src/collapse/CollapsePanel.tsx"
     ],
     "notes": "Original MIT SVG geometry; Octane renderers and no React icon runtime."
+  },
+  "data-display-reference": {
+    "version": "5.29.3",
+    "commit": "14f397749dca177e5495dc9d1c2f7debfb639545",
+    "source": [
+      "components/*/index.zh-CN.md",
+      "components/tooltip/shared/sharedProps.zh-CN.md",
+      "es/version/token-meta.json",
+      "es/version/token.json",
+      "components/*/style/index.ts"
+    ],
+    "destination": [
+      "site/src/data-display",
+      "packages/antd-octane/src/theme/component-tokens.ts"
+    ],
+    "notes": "MIT API tables and component token interfaces, adapted to Octane node and CSS types. Four table columns retained. Reproducible via scripts/sync-display-reference.mjs with a pinned source checkout."
   }
 }

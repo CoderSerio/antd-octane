@@ -114,8 +114,14 @@ export type {
   ExpandIconPosition,
 } from "./collapse";
 export { Collapse } from "./collapse";
-export type { DescriptionsItem, DescriptionsProps } from "./descriptions";
-export { Descriptions } from "./descriptions";
+export type {
+  DescriptionsContextProps,
+  DescriptionsItem,
+  DescriptionsItemProps,
+  DescriptionsItemType,
+  DescriptionsProps,
+} from "./descriptions";
+export { Descriptions, DescriptionsContext } from "./descriptions";
 export type { DividerProps } from "./divider";
 export { Divider } from "./divider";
 export type { DrawerProps } from "./drawer";

@@ -1,0 +1,58 @@
+{
+  "Avatar": {
+    "sectionHeadings": {
+      "Avatar": 3,
+      "Avatar.Group": 3
+    }
+  },
+  "Badge": {
+    "when": "一般出现在通知图标或头像的右上角，用于显示需要处理的消息条数，通过醒目视觉形式吸引用户处理。",
+    "sectionHeadings": {
+      "Badge": 3,
+      "Badge.Ribbon": 3
+    }
+  },
+  "Calendar": {
+    "when": "当数据是日期或按照日期划分时，例如日程、课表、价格日历等，农历等。目前支持年/月切换。",
+    "apiIntro": "**注意**：Calendar 部分 locale 是从 value 中读取，所以请先正确设置 dayjs 的 locale。\n\n```jsx\n// 默认语言为 en-US，所以如果需要使用其他语言，推荐在入口文件全局设置 locale\n// import dayjs from 'dayjs';\n// import 'dayjs/locale/zh-cn';\n// dayjs.locale('zh-cn');\n\n<Calendar cellRender={cellRender} onPanelChange={onPanelChange} onSelect={onSelect} />\n```",
+    "sectionHeadings": {
+      "Calendar": 0
+    }
+  },
+  "Card": {
+    "when": "最基础的卡片容器，可承载文字、列表、图片、段落，常用于后台概览页面。",
+    "apiIntro": "```jsx\n<Card title=\"卡片标题\">卡片内容</Card>\n```",
+    "sectionHeadings": {
+      "Card": 0,
+      "Card.Grid": 3,
+      "Card.Meta": 3
+    }
+  },
+  "Carousel": {
+    "when": "- 当有一组平级的内容。\n- 当内容空间不足时，可以用走马灯的形式进行收纳，进行轮播展现。\n- 常用于一组图片或卡片轮播。",
+    "sectionAfter": {
+      "Carousel": "更多 API 可参考：<https://react-slick.neostack.com/docs/api>"
+    },
+    "sectionHeadings": {
+      "Carousel": 0
+    }
+  },
+  "Collapse": {
+    "when": "- 对复杂区域进行分组和隐藏，保持页面的整洁。\n- `手风琴` 是一种特殊的折叠面板，只允许单个内容区域展开。",
+    "sectionHeadings": {
+      "Collapse": 3,
+      "ItemType": 3,
+      "Collapse.Panel": 3
+    }
+  },
+  "Descriptions": {
+    "when": "常见于详情页的信息展示。",
+    "sectionAfter": {
+      "DescriptionItem": "> span 是 Description.Item 的数量。 span={2} 会占用两个 DescriptionItem 的宽度。当同时配置 `style` 和 `labelStyle`（或 `contentStyle`）时，两者会同时作用。样式冲突时，后者会覆盖前者。"
+    },
+    "sectionHeadings": {
+      "Descriptions": 3,
+      "DescriptionItem": 3
+    }
+  }
+}

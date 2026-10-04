@@ -24,6 +24,23 @@
 @import "./feedback.css";
 
 @layer antd {
+  /* Ant Design 5 genCommonStyle applies border-box to component slots. */
+  :where(
+      [class^="ant-descriptions"],
+      [class*=" ant-descriptions"],
+      [class^="ant-empty"],
+      [class*=" ant-empty"],
+      [class^="ant-image"],
+      [class*=" ant-image"],
+      [class^="ant-statistic"],
+      [class*=" ant-statistic"],
+      [class^="ant-timeline"],
+      [class*=" ant-timeline"],
+      [class^="ant-tabs"],
+      [class*=" ant-tabs"]
+    ) {
+    box-sizing: border-box;
+  }
   :where(.ant-btn) {
     box-sizing: border-box;
     position: relative;
@@ -1975,16 +1992,20 @@
     flex: 1;
     font-size: var(--ao-descriptions-title-size);
     line-height: var(--ao-descriptions-title-line);
-    font-weight: 600;
+    font-weight: var(--ao-descriptions-weight);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     color: var(--ao-descriptions-title);
   }
   :where(.ant-descriptions-extra) {
     margin-inline-start: auto;
+    color: var(--ao-descriptions-extra);
   }
   :where(.ant-descriptions-view > table) {
     width: 100%;
-    border-collapse: collapse;
     table-layout: fixed;
+    border-collapse: collapse;
   }
   :where(
       .ant-descriptions-item,
@@ -1992,7 +2013,9 @@
       .ant-descriptions-row > td
     ) {
     box-sizing: border-box;
-    padding: 0 var(--ao-descriptions-end) var(--ao-descriptions-bottom) 0;
+    padding: 0;
+    padding-inline-end: var(--ao-descriptions-end);
+    padding-bottom: var(--ao-descriptions-bottom);
     text-align: start;
     vertical-align: top;
   }
@@ -2003,13 +2026,15 @@
   :where(.ant-descriptions-item-label) {
     font-weight: normal;
     color: var(--ao-descriptions-label);
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
   }
   :where(.ant-descriptions-item-content) {
+    display: table-cell;
     flex: 1;
     min-width: 0;
     color: var(--ao-descriptions-content);
-    overflow-wrap: anywhere;
+    word-break: break-word;
+    overflow-wrap: break-word;
   }
   :where(
       .ant-descriptions-row:last-child > td,
@@ -2018,7 +2043,8 @@
     padding-bottom: 0;
   }
   :where(.ant-descriptions-bordered .ant-descriptions-view) {
-    border: 1px solid var(--ao-border);
+    border: var(--ao-descriptions-line-width) var(--ao-descriptions-line-type)
+      var(--ao-descriptions-border);
     border-radius: var(--ao-radius);
     overflow: hidden;
   }
@@ -2027,8 +2053,12 @@
       .ant-descriptions-bordered .ant-descriptions-row > td
     ) {
     padding: var(--ao-descriptions-padding);
-    border-bottom: 1px solid var(--ao-border);
-    border-inline-end: 1px solid var(--ao-border);
+    border-inline-end: var(--ao-descriptions-line-width)
+      var(--ao-descriptions-line-type) var(--ao-descriptions-border);
+  }
+  :where(.ant-descriptions-bordered .ant-descriptions-row) {
+    border-bottom: var(--ao-descriptions-line-width)
+      var(--ao-descriptions-line-type) var(--ao-descriptions-border);
   }
   :where(
       .ant-descriptions-bordered
@@ -2039,15 +2069,49 @@
   }
   :where(.ant-descriptions-bordered .ant-descriptions-item-label) {
     background: var(--ao-descriptions-label-bg);
+    color: var(--ao-descriptions-bordered-label);
   }
-  :where(
-      .ant-descriptions-bordered .ant-descriptions-row:last-child > td,
-      .ant-descriptions-bordered .ant-descriptions-row:last-child > th
-    ) {
+  :where(.ant-descriptions-bordered .ant-descriptions-row:last-child) {
     border-bottom: 0;
   }
+  :where(.ant-descriptions-rtl) {
+    direction: rtl;
+  }
+  :where(.ant-descriptions-view) {
+    box-sizing: border-box;
+    width: 100%;
+    border-radius: var(--ao-radius);
+  }
+  :where(.ant-descriptions-bordered .ant-descriptions-view > table) {
+    table-layout: auto;
+  }
+  :where(.ant-descriptions-row > *:last-child) {
+    padding-inline-end: 0;
+  }
   :where(.ant-descriptions-bordered .ant-descriptions-row > *:last-child) {
-    border-inline-end: 0;
+    padding-inline-end: var(--ao-descriptions-bordered-end);
+  }
+  :where(.ant-descriptions-item-container .ant-descriptions-item-label) {
+    display: inline-flex;
+    align-items: baseline;
+  }
+  :where(.ant-descriptions-item-container .ant-descriptions-item-content) {
+    display: inline-flex;
+    align-items: baseline;
+    min-width: 1em;
+  }
+  :where(.ant-descriptions-item-label::after) {
+    content: ":";
+    position: relative;
+    top: -0.5px;
+    margin-inline: var(--ao-descriptions-colon-start)
+      var(--ao-descriptions-colon-end);
+  }
+  :where(.ant-descriptions-item-no-colon::after) {
+    content: "";
+  }
+  :where(.ant-descriptions-bordered .ant-descriptions-item-label::after) {
+    display: none;
   }
   @media (prefers-reduced-motion: reduce) {
     :where(.ant-timeline-pending-dot) {

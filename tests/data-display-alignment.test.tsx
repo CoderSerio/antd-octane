@@ -6,11 +6,15 @@ import {
   Carousel,
   Collapse,
   ConfigProvider,
+  Descriptions,
   Form,
 } from "../packages/antd-octane/src";
-import type { LegacyPanelProps } from "../packages/antd-octane/src/collapse/CollapsePanel";
+import type {
+  LegacyPanelProps,
+} from "../packages/antd-octane/src/collapse/CollapsePanel";
 
 let root: Root | undefined;
+
 let container: HTMLDivElement;
 
 async function render(node: ElementDescriptor) {
@@ -37,7 +41,6 @@ afterEach(async () => {
   vi.useRealTimers();
   vi.unstubAllGlobals();
 });
-
 
 it("Card resolves its variant before deprecated bordered, then Form before provider defaults", async () => {
   await render(
@@ -67,25 +70,6 @@ it("Card resolves its variant before deprecated bordered, then Form before provi
     expect(
       element(`[data-card="${name}"]`).classList.contains("ant-card-bordered"),
     ).toBe(true);
-});
-
-it("Carousel uses cssEase ease by default independently from the JavaScript easing prop", async () => {
-  await render(
-    <Carousel easing="linear">
-      <div>First</div>
-      <div>Second</div>
-    </Carousel>,
-  );
-  expect(element(".slick-track").style.transition).toBe("transform 500ms ease");
-  await update(
-    <Carousel easing="linear" cssEase="ease-in">
-      <div>First</div>
-      <div>Second</div>
-    </Carousel>,
-  );
-  expect(element(".slick-track").style.transition).toBe(
-    "transform 500ms ease-in",
-  );
 });
 
 it("Collapse flattens legacy Panel Fragments and passes active state and click handling through custom wrappers", async () => {
@@ -124,4 +108,46 @@ it("Collapse flattens legacy Panel Fragments and passes active state and click h
   expect(wrapperClick).toHaveBeenCalledWith("b");
   expect(headers[1].getAttribute("aria-expanded")).toBe("true");
   expect(container.textContent).toContain("Wrapped body");
+});
+
+it("Descriptions consumes nested Fragment Items, including filled spans", async () => {
+  await render(
+    <Descriptions column={2} bordered>
+      <Fragment key="items-fragment">
+        <Descriptions.Item key="a" label="Name">
+          Ada
+        </Descriptions.Item>
+        <Fragment key="nested-item-fragment">
+          <Descriptions.Item key="b" label="Role" span="filled">
+            Developer
+          </Descriptions.Item>
+        </Fragment>
+      </Fragment>
+    </Descriptions>,
+  );
+  expect(
+    container.querySelectorAll(".ant-descriptions-item-label"),
+  ).toHaveLength(2);
+  expect(container.textContent).toContain("NameAda");
+  expect(container.textContent).toContain("RoleDeveloper");
+  expect(container.querySelectorAll("tbody tr")).toHaveLength(1);
+});
+
+it("Carousel uses cssEase ease by default independently from the JavaScript easing prop", async () => {
+  await render(
+    <Carousel easing="linear">
+      <div>First</div>
+      <div>Second</div>
+    </Carousel>,
+  );
+  expect(element(".slick-track").style.transition).toBe("transform 500ms ease");
+  await update(
+    <Carousel easing="linear" cssEase="ease-in">
+      <div>First</div>
+      <div>Second</div>
+    </Carousel>,
+  );
+  expect(element(".slick-track").style.transition).toBe(
+    "transform 500ms ease-in",
+  );
 });

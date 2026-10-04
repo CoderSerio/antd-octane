@@ -1,11 +1,23 @@
 import type { ThemeConfig } from "antd-octane";
-import { ConfigProvider, Input, Layout, theme } from "antd-octane";
+import { ConfigProvider, Input, Layout, theme, zhCN } from "antd-octane";
 import { useEffect, useMemo, useState } from "octane";
 import { Icon } from "./icons";
-import { nav, toc } from "./navigation";
+import { nav, orderComponentGroup } from "./navigation";
+import { readPageToc, type TocSection } from "./page-toc";
 import { RouteContent } from "./RouteContent";
 import { siteVersion } from "./site-version";
 import { ThemePanel } from "./ThemePanel";
+
+const componentGroups = [
+  "组件",
+  "通用",
+  "布局",
+  "导航",
+  "数据录入",
+  "数据展示",
+  "反馈",
+  "其他",
+];
 
 export function App() {
   const [dark, setDark] = useState(false);
@@ -23,7 +35,7 @@ export function App() {
     [dark, compact, primary, radius],
   );
   return (
-    <ConfigProvider theme={config}>
+    <ConfigProvider theme={config} locale={zhCN}>
       <Shell
         dark={dark}
         setDark={setDark}
@@ -49,10 +61,12 @@ export interface ShellProps {
 }
 
 function Shell(p: ShellProps) {
+  const { token } = theme.useToken();
   const [route, setRoute] = useState(window.location.hash.slice(1) || "home");
   const [menuOpen, setMenuOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [activeAnchor, setActiveAnchor] = useState("");
+  const [pageToc, setPageToc] = useState<TocSection[]>([]);
   const [page, section] = route.split("/");
   const isHome = page === "home";
   const current = nav.find((item) => item.id === page);
@@ -95,33 +109,57 @@ function Shell(p: ShellProps) {
   }, [current, isHome]);
   useEffect(() => {
     let observer: IntersectionObserver | undefined;
+    let headings: HTMLElement[] = [];
+    let scrollFrame = 0;
+    const update = () => {
+      const above = headings.filter(
+        (node) => node.getBoundingClientRect().top <= 160,
+      );
+      setActiveAnchor((above.at(-1) ?? headings[0])?.id ?? "");
+    };
     const setup = () => {
       observer?.disconnect();
-      const headings = (Object.hasOwn(toc, page) ? toc[page] : [])
-        .map(([id]) => document.getElementById(id))
+      const content = document.getElementById("main-content");
+      const sections = page === "home" || !content ? [] : readPageToc(content);
+      setPageToc(sections);
+      headings = sections
+        .flatMap((item) => [item, ...item.children])
+        .map(({ id }) => document.getElementById(id))
         .filter((node): node is HTMLElement => node !== null);
-      const update = () => {
-        const above = headings.filter(
-          (node) => node.getBoundingClientRect().top <= 160,
-        );
-        setActiveAnchor((above.at(-1) ?? headings[0])?.id ?? "");
-      };
       observer = new IntersectionObserver(update, {
         rootMargin: "-80px 0px -60% 0px",
       });
       for (const node of headings) observer.observe(node);
       update();
     };
+    const onScroll = () => {
+      if (scrollFrame) return;
+      scrollFrame = requestAnimationFrame(() => {
+        scrollFrame = 0;
+        update();
+      });
+    };
     setup();
     window.addEventListener("docs:ready", setup);
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       observer?.disconnect();
+      cancelAnimationFrame(scrollFrame);
       window.removeEventListener("docs:ready", setup);
+      window.removeEventListener("scroll", onScroll);
     };
   }, [page]);
-  const pagesInCategory = nav.filter(
-    (item) => item.category === current?.category,
-  );
+  const pagesInCategory =
+    current?.category === "components"
+      ? componentGroups.flatMap((group) =>
+          orderComponentGroup(
+            nav.filter(
+              (item) => item.category === "components" && item.group === group,
+            ),
+            group,
+          ),
+        )
+      : nav.filter((item) => item.category === current?.category);
   const pageIndex = pagesInCategory.findIndex((item) => item.id === page);
   const previous = pageIndex > 0 ? pagesInCategory[pageIndex - 1] : undefined;
   const next = pageIndex >= 0 ? pagesInCategory[pageIndex + 1] : undefined;
@@ -283,16 +321,7 @@ function Shell(p: ShellProps) {
             >
               <nav aria-label="文档导航">
                 {(isComponents
-                  ? [
-                      "组件",
-                      "通用",
-                      "布局",
-                      "导航",
-                      "数据录入",
-                      "数据展示",
-                      "反馈",
-                      "其他",
-                    ].filter((group) =>
+                  ? componentGroups.filter((group) =>
                       nav.some(
                         (item) =>
                           item.category === "components" &&
@@ -303,26 +332,27 @@ function Shell(p: ShellProps) {
                 ).map((group) => (
                   <div className="nav-group" key={group}>
                     <div className="nav-group-title">{group}</div>
-                    {nav
-                      .filter(
+                    {orderComponentGroup(
+                      nav.filter(
                         (item) =>
                           item.category ===
                             (isComponents ? "components" : "guide") &&
                           item.group === group,
-                      )
-                      .map((item) => (
-                        <a
-                          key={item.id}
-                          href={`#${item.id}`}
-                          className={page === item.id ? "active" : ""}
-                          aria-current={page === item.id ? "page" : undefined}
-                          onClick={() => setMenuOpen(false)}
-                        >
-                          <span className="nav-item-label" title={item.title}>
-                            {item.title}
-                          </span>
-                        </a>
-                      ))}
+                      ),
+                      group,
+                    ).map((item) => (
+                      <a
+                        key={item.id}
+                        href={`#${item.id}`}
+                        className={page === item.id ? "active" : ""}
+                        aria-current={page === item.id ? "page" : undefined}
+                        onClick={() => setMenuOpen(false)}
+                      >
+                        <span className="nav-item-label" title={item.title}>
+                          {item.title}
+                        </span>
+                      </a>
+                    ))}
                   </div>
                 ))}
               </nav>
@@ -359,36 +389,55 @@ function Shell(p: ShellProps) {
                 Ant Design for Octane <span>独立社区探索 · MIT</span>
               </footer>
             </Layout.Content>
-            <aside className="page-toc" aria-label="页内目录">
+            <aside
+              className="page-toc"
+              aria-label="页内目录"
+              style={{
+                "--toc-font-size": `${token.fontSizeSM}px`,
+                "--toc-line-height": token.lineHeight,
+                "--toc-line-width": `${token.lineWidthBold}px`,
+                "--toc-link-indent": `${token.padding}px`,
+                "--toc-padding-block": `${token.paddingXXS}px`,
+                "--toc-child-padding-block": `${token.paddingXXS / 2}px`,
+                "--toc-title-gap": `${(token.fontSize / 14) * 3}px`,
+                "--toc-text": token.colorText,
+                "--toc-active": token.colorPrimary,
+                "--toc-border": token.colorSplit,
+              }}
+            >
               <span>本页内容</span>
               <nav>
-                {(Object.hasOwn(toc, page) ? toc[page] : []).map(
-                  ([id, title]) => (
+                {pageToc.map(({ id, title, children }) => (
+                  <div key={id} className="toc-group">
                     <a
-                      key={id}
                       href={`#${page}/${id}`}
-                      className={
-                        [
-                          "basic",
-                          "sizes",
-                          "states",
-                          "nested",
-                          "component",
-                          "controlled",
-                          "all",
-                          "refs",
-                        ].includes(id)
-                          ? "sub-anchor"
-                          : undefined
-                      }
+                      title={title}
+                      className={children.length ? "parent-anchor" : undefined}
                       aria-current={
                         activeAnchor === id ? "location" : undefined
                       }
                     >
-                      {title}
+                      <span>{title}</span>
                     </a>
-                  ),
-                )}
+                    {children.length > 0 && (
+                      <div className="toc-children">
+                        {children.map((child) => (
+                          <a
+                            key={child.id}
+                            href={`#${page}/${child.id}`}
+                            title={child.title}
+                            className="sub-anchor"
+                            aria-current={
+                              activeAnchor === child.id ? "location" : undefined
+                            }
+                          >
+                            <span>{child.title}</span>
+                          </a>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))}
               </nav>
               <a
                 className="toc-help"

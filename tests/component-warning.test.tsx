@@ -1,11 +1,13 @@
 import type { ElementDescriptor, Root } from "octane";
 import { act, createRoot } from "octane";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
-import { Card, Collapse } from "../packages/antd-octane/src";
+import { Card, Collapse, Descriptions } from "../packages/antd-octane/src";
 import { resetWarned } from "../packages/antd-octane/src/_util/warning";
 
 let root: Root | undefined;
+
 let container: HTMLDivElement;
+
 async function render(node: ElementDescriptor) {
   if (!root) {
     container = document.createElement("div");
@@ -14,12 +16,14 @@ async function render(node: ElementDescriptor) {
   }
   await act(() => root?.render(node));
 }
+
 beforeEach(() => {
   resetWarned();
   vi.stubEnv("NODE_ENV", "development");
   vi.spyOn(console, "warn").mockImplementation(() => {});
   vi.spyOn(console, "error").mockImplementation(() => {});
 });
+
 afterEach(async () => {
   await act(() => root?.unmount());
   root = undefined;
@@ -28,10 +32,12 @@ afterEach(async () => {
   vi.unstubAllEnvs();
   vi.restoreAllMocks();
 });
+
 const deprecation = (oldProp: string, newProp: string) =>
   `\`${oldProp}\` is deprecated. Please use \`${newProp}\` instead.`;
+
 const matrix = [
-  {
+{
     name: "Card",
     node: <Card headStyle={undefined} bodyStyle={undefined} bordered={false} />,
     messages: [
@@ -40,7 +46,7 @@ const matrix = [
       deprecation("bordered", "variant"),
     ],
   },
-  {
+{
     name: "Collapse",
     node: <Collapse expandIconPosition="left" destroyInactivePanel={false} />,
     messages: [
@@ -48,7 +54,7 @@ const matrix = [
       deprecation("destroyInactivePanel", "destroyOnHidden"),
     ],
   },
-  {
+{
     name: "Collapse.Panel",
     node: (
       <Collapse>
@@ -58,6 +64,22 @@ const matrix = [
       </Collapse>
     ),
     messages: [deprecation("disabled", 'collapsible="disabled"')],
+  },
+{
+    name: "Descriptions",
+    node: (
+      <Descriptions
+        column={2}
+        labelStyle={undefined}
+        contentStyle={undefined}
+        items={[{ label: "oversize", span: 3, children: "content" }]}
+      />
+    ),
+    messages: [
+      deprecation("labelStyle", "styles={{ label: {} }}"),
+      deprecation("contentStyle", "styles={{ content: {} }}"),
+      "Sum of column `span` in a line not match `column` of Descriptions.",
+    ],
   },
 ];
 

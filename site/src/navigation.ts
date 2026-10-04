@@ -766,11 +766,17 @@ toc.timeline = [
   ["tokens", "主题与支持范围"],
 ];
 toc.descriptions = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
-  ["basic", "成组信息"],
-  ["more", "响应式与边框"],
+  ["basic", "基本"],
+  ["border", "带边框的"],
+  ["size", "自定义尺寸"],
+  ["responsive", "响应式"],
+  ["vertical", "垂直"],
+  ["vertical-border", "垂直带边框的"],
+  ["block", "整行"],
   ["api", "API"],
-  ["tokens", "主题与支持范围"],
+  ["tokens", "主题变量"],
 ];
 
 toc.typography = [

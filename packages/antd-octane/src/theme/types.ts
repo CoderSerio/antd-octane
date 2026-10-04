@@ -5,6 +5,7 @@ import type {
   CardToken,
   CarouselToken,
   CollapseToken,
+  DescriptionsToken,
 } from "./component-tokens";
 
 export type * from "./component-tokens";
@@ -273,15 +274,7 @@ export interface ThemeConfig {
       dotBg: string;
       itemPaddingBottom: number;
     }>;
-    Descriptions?: ComponentTheme<{
-      labelColor: string;
-      labelBg: string;
-      contentColor: string;
-      titleColor: string;
-      titleMarginBottom: number;
-      itemPaddingBottom: number;
-      itemPaddingEnd: number;
-    }>;
+    Descriptions?: ComponentTheme<DescriptionsToken>;
     Radio?: ComponentTheme<{
       radioSize: number;
       dotSize: number;
