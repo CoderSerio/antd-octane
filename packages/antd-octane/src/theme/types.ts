@@ -4,6 +4,7 @@ import type {
   CalendarToken,
   CardToken,
   CarouselToken,
+  CollapseToken,
 } from "./component-tokens";
 
 export type * from "./component-tokens";
@@ -242,14 +243,7 @@ export interface ThemeConfig {
       lightTriggerBg: string;
       lightTriggerColor: string;
     }>;
-    Collapse?: ComponentTheme<{
-      headerBg: string;
-      headerPadding: string;
-      contentBg: string;
-      contentPadding: string;
-      borderlessContentBg: string;
-      borderlessContentPadding: string;
-    }>;
+    Collapse?: ComponentTheme<CollapseToken>;
     Tabs?: ComponentTheme<{
       horizontalMargin: string;
       horizontalItemGutter: number;

@@ -722,11 +722,20 @@ toc.layout = [
   ["tokens", "主题与支持范围"],
 ];
 toc.collapse = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
-  ["basic", "折叠与状态保留"],
-  ["more", "手风琴与独立操作"],
+  ["basic", "折叠面板"],
+  ["size", "面板尺寸"],
+  ["accordion", "手风琴"],
+  ["mix", "嵌套面板"],
+  ["borderless", "简洁风格"],
+  ["custom", "自定义面板"],
+  ["noarrow", "隐藏箭头"],
+  ["extra", "额外节点"],
+  ["ghost", "幽灵折叠面板"],
+  ["collapsible", "可折叠触发区域"],
   ["api", "API"],
-  ["tokens", "主题与支持范围"],
+  ["tokens", "主题变量"],
 ];
 toc.tabs = [
   ["examples", "代码演示"],

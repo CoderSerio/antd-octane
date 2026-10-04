@@ -29,9 +29,11 @@ afterEach(async () => {
   vi.unstubAllGlobals();
 });
 async function click(text: string) {
-  const node = [...container.querySelectorAll("button")].find(
-    (item) => item.textContent === text,
-  );
+  const node = [
+    ...container.querySelectorAll<HTMLElement>(
+      'button, [role="button"], [role="tab"]',
+    ),
+  ].find((item) => item.textContent === text);
   if (!node) throw Error(`Missing button ${text}`);
   await act(() => node.click());
 }
@@ -163,17 +165,26 @@ it("Collapse lazily mounts content and retains uncontrolled edits by default", a
     />,
   );
   expect(container.querySelector("input")).toBeNull();
-  await click("›Open");
+  await click("Open");
   const input = container.querySelector("input");
   if (!input) throw Error("No input");
   await act(() => {
     input.value = "changed";
     input.dispatchEvent(new Event("input", { bubbles: true }));
   });
-  await click("›Open");
+  await click("Open");
   expect(container.querySelector("input")).toBe(input);
-  expect(container.querySelector("section")?.hidden).toBe(true);
-  await click("›Open");
+  await act(() =>
+    container.querySelector(".ant-collapse-content-motion")?.dispatchEvent(
+      Object.assign(new Event("transitionend", { bubbles: true }), {
+        propertyName: "height",
+      }),
+    ),
+  );
+  expect(
+    container.querySelector<HTMLElement>(".ant-collapse-content")?.hidden,
+  ).toBe(true);
+  await click("Open");
   expect(container.querySelector("input")?.value).toBe("changed");
 });
 it("Collapse accordion uses string keys and destroyOnHidden unmounts", async () => {
@@ -190,11 +201,19 @@ it("Collapse accordion uses string keys and destroyOnHidden unmounts", async () 
       ]}
     />,
   );
-  await click("›First");
-  await click("›Second");
+  await click("First");
+  await click("Second");
   expect(change.mock.lastCall?.[0]).toEqual(["2"]);
+  expect(container.querySelector("input")).not.toBeNull();
+  await act(() =>
+    container.querySelector(".ant-collapse-content-inactive")?.dispatchEvent(
+      Object.assign(new Event("transitionend", { bubbles: true }), {
+        propertyName: "height",
+      }),
+    ),
+  );
   expect(container.querySelector("input")).toBeNull();
-  await click("›Disabled");
+  await click("Disabled");
   expect(change).toHaveBeenCalledTimes(2);
 });
 it("controlled Collapse can reject changes and extra actions do not toggle", async () => {
@@ -208,7 +227,16 @@ it("controlled Collapse can reject changes and extra actions do not toggle", asy
         {
           key: "a",
           label: "Panel",
-          extra: <Button onClick={extra}>Action</Button>,
+          extra: (
+            <Button
+              onClick={(event) => {
+                event.stopPropagation();
+                extra();
+              }}
+            >
+              Action
+            </Button>
+          ),
           children: "Body",
         },
       ]}
@@ -217,7 +245,9 @@ it("controlled Collapse can reject changes and extra actions do not toggle", asy
   await click("Action");
   expect(extra).toHaveBeenCalledTimes(1);
   expect(change).not.toHaveBeenCalled();
-  await click("›Panel");
+  await act(() =>
+    container.querySelector<HTMLElement>(".ant-collapse-header")?.click(),
+  );
   expect(change).toHaveBeenCalledWith(["a"]);
   expect(
     container.querySelector("[aria-expanded]")?.getAttribute("aria-expanded"),

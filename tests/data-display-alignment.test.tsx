@@ -1,7 +1,14 @@
 import type { ElementDescriptor, Root } from "octane";
-import { act, createRoot } from "octane";
+import { act, createRoot, Fragment } from "octane";
 import { afterEach, expect, it, vi } from "vitest";
-import { Card, Carousel, ConfigProvider, Form } from "../packages/antd-octane/src";
+import {
+  Card,
+  Carousel,
+  Collapse,
+  ConfigProvider,
+  Form,
+} from "../packages/antd-octane/src";
+import type { LegacyPanelProps } from "../packages/antd-octane/src/collapse/CollapsePanel";
 
 let root: Root | undefined;
 let container: HTMLDivElement;
@@ -79,4 +86,42 @@ it("Carousel uses cssEase ease by default independently from the JavaScript easi
   expect(element(".slick-track").style.transition).toBe(
     "transform 500ms ease-in",
   );
+});
+
+it("Collapse flattens legacy Panel Fragments and passes active state and click handling through custom wrappers", async () => {
+  const change = vi.fn();
+  const wrapperClick = vi.fn();
+  function WrappedPanel(props: LegacyPanelProps) {
+    return <Collapse.Panel {...props} />;
+  }
+  await render(
+    <ConfigProvider theme={{ token: { motion: false } }}>
+      <Collapse defaultActiveKey={["a"]} onChange={change}>
+        <Fragment key="panels-fragment">
+          <Collapse.Panel key="a" header="First">
+            First body
+          </Collapse.Panel>
+          <Fragment key="wrapper-fragment">
+            <WrappedPanel key="b" header="Wrapped" onItemClick={wrapperClick}>
+              Wrapped body
+            </WrappedPanel>
+          </Fragment>
+          <p data-raw="kept">Raw child</p>
+        </Fragment>
+      </Collapse>
+    </ConfigProvider>,
+  );
+  const headers = [
+    ...container.querySelectorAll<HTMLElement>(".ant-collapse-header"),
+  ];
+  expect(headers).toHaveLength(2);
+  expect(headers[0].getAttribute("aria-expanded")).toBe("true");
+  expect(headers[1].getAttribute("aria-expanded")).toBe("false");
+  expect(container.textContent).not.toContain("Wrapped body");
+  expect(element("[data-raw]").textContent).toBe("Raw child");
+  await act(() => headers[1].click());
+  expect(change).toHaveBeenCalledWith(["a", "b"]);
+  expect(wrapperClick).toHaveBeenCalledWith("b");
+  expect(headers[1].getAttribute("aria-expanded")).toBe("true");
+  expect(container.textContent).toContain("Wrapped body");
 });

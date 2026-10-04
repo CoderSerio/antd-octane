@@ -105,7 +105,14 @@ export type {
   CheckboxValue,
 } from "./checkbox";
 export { Checkbox } from "./checkbox";
-export type { CollapseItem, CollapseProps } from "./collapse";
+export type {
+  CollapseExpandIconProps,
+  CollapseItem,
+  CollapsePanelProps,
+  CollapseProps,
+  CollapsibleType,
+  ExpandIconPosition,
+} from "./collapse";
 export { Collapse } from "./collapse";
 export type { DescriptionsItem, DescriptionsProps } from "./descriptions";
 export { Descriptions } from "./descriptions";

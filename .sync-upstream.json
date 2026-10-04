@@ -117,7 +117,8 @@
       "packages/antd-octane/src/media.css",
       "packages/antd-octane/src/surfaces.css",
       "packages/antd-octane/src/tour.css",
-      "packages/antd-octane/src/carousel.css"
+      "packages/antd-octane/src/carousel.css",
+      "packages/antd-octane/src/collapse.css"
     ],
     "notes": "Supported defaults and state styles adapted to static CSS variables; see THIRD_PARTY_NOTICES.md and docs/compatibility.md."
   },
@@ -141,12 +142,14 @@
     "commit": "14f397749dca177e5495dc9d1c2f7debfb639545",
     "source": [
       "components/calendar/{generateCalendar,Header,index}.tsx",
-      "components/card/{Card,Grid,Meta}.tsx"
+      "components/card/{Card,Grid,Meta}.tsx",
+      "components/collapse/{Collapse,CollapsePanel}.tsx"
     ],
     "destination": [
       "packages/antd-octane/src/calendar",
       "packages/antd-octane/src/card",
-      "packages/antd-octane/src/carousel"
+      "packages/antd-octane/src/carousel",
+      "packages/antd-octane/src/collapse"
     ],
     "notes": "Source contracts, module structure, artwork and supported lifecycle/style behavior adapted to Octane. React runtime dependencies remain development references. Source API descriptions do not certify complete parity; see component support sections."
   },
@@ -175,16 +178,27 @@
         "lib/utils/innerSliderUtils.js"
       ],
       "destination": "packages/antd-octane/src/carousel"
+    },
+    "rc-collapse": {
+      "version": "3.9.0",
+      "source": [
+        "es/hooks/useItems.js",
+        "es/Panel.js",
+        "es/PanelContent.js"
+      ],
+      "destination": "packages/antd-octane/src/collapse"
     }
   },
   "data-display-icons": {
     "version": "4.6.0",
     "source": "@ant-design/icons-svg/es/asn",
     "icons": [
-      "DownOutlined"
+      "DownOutlined",
+      "RightOutlined"
     ],
     "destination": [
-      "packages/antd-octane/src/calendar.css"
+      "packages/antd-octane/src/calendar.css",
+      "packages/antd-octane/src/collapse/CollapsePanel.tsx"
     ],
     "notes": "Original MIT SVG geometry; Octane renderers and no React icon runtime."
   }

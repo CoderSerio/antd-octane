@@ -1,6 +1,7 @@
 // Adapted from Ant Design 5.29.3, MIT © 2015-present Ant UED.
 // Public component tokens; defaults are resolved by each native component.
 // Source: components/*/style/index.ts at 14f397749dca177e5495dc9d1c2f7debfb639545.
+import type { CSSProperties } from "octane";
 // components/avatar/style/index.ts
 export interface AvatarToken {
   /**
@@ -252,4 +253,39 @@ export interface CarouselToken {
    * @descEN arrows offset to Carousel edge
    */
   arrowOffset: number;
+}
+
+// components/collapse/style/index.ts
+/** Component only token. Which will handle additional calculation of alias token */
+export interface CollapseToken {
+  /**
+   * @desc 折叠面板头部内边距
+   * @descEN Padding of header
+   */
+  headerPadding: CSSProperties["padding"];
+  /**
+   * @desc 折叠面板头部背景
+   * @descEN Background of header
+   */
+  headerBg: string;
+  /**
+   * @desc 折叠面板内容内边距
+   * @descEN Padding of content
+   */
+  contentPadding: CSSProperties["padding"];
+  /**
+   * @desc 折叠面板内容背景
+   * @descEN Background of content
+   */
+  contentBg: string;
+  /**
+   * @desc 简约风格折叠面板的内容内边距
+   * @descEN Padding of content in borderless style
+   */
+  borderlessContentPadding: CSSProperties["padding"];
+  /**
+   * @desc 简约风格折叠面板的内容背景
+   * @descEN Background of content in borderless style
+   */
+  borderlessContentBg: string;
 }

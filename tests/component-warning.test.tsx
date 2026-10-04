@@ -1,7 +1,7 @@
 import type { ElementDescriptor, Root } from "octane";
 import { act, createRoot } from "octane";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
-import { Card } from "../packages/antd-octane/src";
+import { Card, Collapse } from "../packages/antd-octane/src";
 import { resetWarned } from "../packages/antd-octane/src/_util/warning";
 
 let root: Root | undefined;
@@ -39,6 +39,25 @@ const matrix = [
       deprecation("bodyStyle", "styles.body"),
       deprecation("bordered", "variant"),
     ],
+  },
+  {
+    name: "Collapse",
+    node: <Collapse expandIconPosition="left" destroyInactivePanel={false} />,
+    messages: [
+      "`expandIconPosition` with `left` or `right` is deprecated. Please use `start` or `end` instead.",
+      deprecation("destroyInactivePanel", "destroyOnHidden"),
+    ],
+  },
+  {
+    name: "Collapse.Panel",
+    node: (
+      <Collapse>
+        <Collapse.Panel key="a" header="legacy" disabled={undefined}>
+          content
+        </Collapse.Panel>
+      </Collapse>
+    ),
+    messages: [deprecation("disabled", 'collapsible="disabled"')],
   },
 ];
 
