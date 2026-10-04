@@ -33,7 +33,7 @@ it("Spin delays activation, cancels short requests and cleans pending timers", a
       <button type="button">content</button>
     </Spin>,
   );
-  expect(container.querySelector('[role="status"]')).toBeNull();
+  expect(container.querySelector(".ant-spin-spinning")).toBeNull();
   await act(() => vi.advanceTimersByTime(100));
   await render(
     <Spin spinning={false} delay={200}>
@@ -41,7 +41,7 @@ it("Spin delays activation, cancels short requests and cleans pending timers", a
     </Spin>,
   );
   await act(() => vi.advanceTimersByTime(200));
-  expect(container.querySelector('[role="status"]')).toBeNull();
+  expect(container.querySelector(".ant-spin-spinning")).toBeNull();
   await render(
     <Spin delay={200}>
       <button type="button">content</button>
@@ -49,7 +49,9 @@ it("Spin delays activation, cancels short requests and cleans pending timers", a
   );
   await act(() => vi.advanceTimersByTime(200));
   expect(
-    container.querySelector(".ant-spin-container")?.hasAttribute("inert"),
+    container
+      .querySelector(".ant-spin-container")
+      ?.classList.contains("ant-spin-blur"),
   ).toBe(true);
   expect(container.querySelector("button")?.textContent).toBe("content");
   await render(
@@ -58,7 +60,9 @@ it("Spin delays activation, cancels short requests and cleans pending timers", a
     </Spin>,
   );
   expect(
-    container.querySelector(".ant-spin-container")?.hasAttribute("inert"),
+    container
+      .querySelector(".ant-spin-container")
+      ?.classList.contains("ant-spin-blur"),
   ).toBe(false);
   const cancel = vi.spyOn(globalThis, "clearTimeout");
   await render(<Spin delay={200} />);
@@ -84,9 +88,11 @@ it("Spin supports custom indicators and nested tips without replacing child stat
   );
   expect(container.querySelector("input")).toBe(input);
   await render(<Spin tip="standalone" />);
-  expect(
-    container.querySelector('[role="status"]')?.getAttribute("aria-label"),
-  ).toBe("正在加载");
+  expect(container.querySelector(".ant-spin")?.getAttribute("aria-live")).toBe(
+    "polite",
+  );
+  expect(container.querySelector(".ant-spin-text")).toBeNull();
+  expect(container.querySelector('[role="status"]')).toBeNull();
 });
 
 it("Skeleton exposes row widths and restores children when loading completes", async () => {

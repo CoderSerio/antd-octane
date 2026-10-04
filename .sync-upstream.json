@@ -138,7 +138,12 @@
       "packages/antd-octane/src/skeleton/Input.tsx",
       "packages/antd-octane/src/skeleton/Image.tsx",
       "packages/antd-octane/src/skeleton/Node.tsx",
-      "packages/antd-octane/src/skeleton/useSkeletonStyle.ts"
+      "packages/antd-octane/src/skeleton/useSkeletonStyle.ts",
+      "packages/antd-octane/src/spin/Indicator.tsx",
+      "packages/antd-octane/src/spin/Looper.tsx",
+      "packages/antd-octane/src/spin/Progress.tsx",
+      "packages/antd-octane/src/spin/usePercent.ts",
+      "packages/antd-octane/src/spin/useSpinStyle.ts"
     ],
     "notes": "Supported defaults and state styles adapted to static CSS variables; see THIRD_PARTY_NOTICES.md and docs/compatibility.md."
   },

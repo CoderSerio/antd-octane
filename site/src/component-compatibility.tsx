@@ -371,7 +371,21 @@ export function ComponentCompatibilityNotes() {
           这不代表全部样式组合、CSS-in-JS 隔离或跨浏览器行为完全一致。
         </p>
       </details>
-
+      <details>
+        <summary>Spin</summary>
+        <p>
+          支持延迟、嵌套、全屏、百分比、自动进度和默认指示器。全屏采用原生固定定位，随当前上下文继承主题。
+        </p>
+        <p>
+          未发布源码已按 antd 5.29.3 拆分 Indicator、Looper 和进度环，修正
+          indicator
+          元素类型、延迟取消、百分比归零后的节点保留、嵌套布局与全屏颜色。
+          loading
+          内容通过样式阻止指针操作，保留上游的键盘焦点行为。默认、深色、紧凑、
+          品牌、组件及嵌套主题已在独立浏览器案例对照；静态前缀别名与上游
+          CSS-in-JS 隔离机制仍不同。文档示例使用已发布的包版本。
+        </p>
+      </details>
       <details>
         <summary>Statistic</summary>
         <p>

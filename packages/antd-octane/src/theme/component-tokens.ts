@@ -1031,3 +1031,27 @@ export interface SkeletonToken {
    */
   paragraphLiHeight: number;
 }
+
+// components/spin/style/index.ts
+export interface SpinToken {
+  /**
+   * @desc 内容区域高度
+   * @descEN Height of content area
+   */
+  contentHeight: number | string;
+  /**
+   * @desc 加载图标尺寸
+   * @descEN Loading icon size
+   */
+  dotSize: number;
+  /**
+   * @desc 小号加载图标尺寸
+   * @descEN Small loading icon size
+   */
+  dotSizeSM: number;
+  /**
+   * @desc 大号加载图标尺寸
+   * @descEN Large loading icon size
+   */
+  dotSizeLG: number;
+}

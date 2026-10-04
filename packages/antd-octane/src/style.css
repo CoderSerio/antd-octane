@@ -307,13 +307,8 @@
     display: inline-flex;
     align-items: center;
   }
-  :where(.ao-btn-spinner) {
-    width: 1em;
-    height: 1em;
-    border: 1.5px solid currentColor;
-    border-right-color: transparent;
-    border-radius: 50%;
-    animation: ao-spin 0.8s linear infinite;
+  :where(.ant-btn-loading-icon .anticon-spin) {
+    animation: ao-spin 1s linear infinite;
   }
   :where(.ao-btn-loading-status) {
     position: absolute;
@@ -662,14 +657,7 @@
       calc(var(--ao-switch-handle) + var(--ao-switch-padding) + 4px);
   }
   :where(.ant-switch-loading-icon) {
-    display: block;
-    box-sizing: border-box;
-    position: absolute;
-    inset: 3px;
-    border: 1px solid var(--ao-switch-primary);
-    border-right-color: transparent;
-    border-radius: 50%;
-    animation: ao-spin 0.8s linear infinite;
+    animation: ao-spin 1s linear infinite;
   }
   @media (prefers-reduced-motion: reduce) {
     :where(.ant-switch, .ant-switch-handle) {

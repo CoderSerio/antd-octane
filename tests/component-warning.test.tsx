@@ -9,6 +9,7 @@ import {
   Image,
   Modal,
   Progress,
+  Spin,
   Statistic,
   Tag,
   Timeline,
@@ -152,6 +153,11 @@ const matrix = [
     messages: [
       'Type "circle" and "dashboard" do not accept object as `size`, please use number or preset size instead.',
     ],
+  },
+{
+    name: "Spin",
+    node: <Spin tip="unusable" />,
+    messages: ["`tip` only work in nest or fullscreen pattern."],
   },
 {
     name: "Modal",

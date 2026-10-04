@@ -3,87 +3,209 @@
     min-height: var(--ao-list-loading-height);
   }
   :where(.ant-spin) {
+    --ao-spin-size: var(--ao-spin-default-size);
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: var(--ao-font);
+    font-weight: normal;
+    line-height: var(--ao-line);
+    list-style: none;
+    position: absolute;
+    display: none;
     color: var(--ao-primary);
-    font: var(--ao-font-size) / normal var(--ao-font);
     font-size: 0;
-    line-height: 0;
-    display: inline-block;
     text-align: center;
     vertical-align: middle;
+    opacity: 0;
+    transition: transform var(--ao-spin-slow) var(--ao-spin-ease);
   }
-  .ant-spin[hidden],
-  .ant-spin-fullscreen[hidden] {
-    display: none;
+  :where(.ant-spin-spinning) {
+    position: relative;
+    display: inline-block;
+    opacity: 1;
+  }
+  :where(.ant-spin-sm) {
+    --ao-spin-size: var(--ao-spin-size-sm);
+  }
+  :where(.ant-spin-lg) {
+    --ao-spin-size: var(--ao-spin-size-lg);
+  }
+  :where(.ant-spin-text) {
+    box-sizing: border-box;
+    font-size: var(--ao-font-size);
+    padding-top: calc(
+      (var(--ao-spin-default-size) - var(--ao-font-size)) /
+      2 +
+      2px
+    );
+  }
+  :where(.ant-spin-fullscreen) {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--ao-spin-mask);
+    z-index: var(--ao-spin-z);
+    inset: 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--ao-spin-mid);
+  }
+  :where(.ant-spin-fullscreen-show) {
+    opacity: 1;
+    visibility: visible;
+  }
+  :where(.ant-spin-dot-holder) {
+    width: 1em;
+    height: 1em;
+    font-size: var(--ao-spin-size);
+    display: inline-block;
+    transition:
+      transform var(--ao-spin-slow) ease,
+      opacity var(--ao-spin-slow) ease;
+    transform-origin: 50% 50%;
+    line-height: 1;
+    color: var(--ao-primary);
+  }
+  :where(.ant-spin-dot-holder-hidden) {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  :where(.ant-spin-dot-progress) {
+    position: absolute;
+    inset: 0;
   }
   :where(.ant-spin-dot) {
     position: relative;
-    font-size: var(--ao-spin-size);
-    line-height: 1;
     display: inline-block;
-    width: var(--ao-spin-size);
-    height: var(--ao-spin-size);
+    font-size: var(--ao-spin-size);
+    width: 1em;
+    height: 1em;
+  }
+  :where(.ant-spin-dot-item) {
+    position: absolute;
+    display: block;
+    width: calc((var(--ao-spin-size) - var(--ao-spin-margin) / 2) / 2);
+    height: calc((var(--ao-spin-size) - var(--ao-spin-margin) / 2) / 2);
+    background: currentColor;
+    border-radius: 100%;
+    transform: scale(0.75);
+    transform-origin: 50% 50%;
+    opacity: 0.3;
+    animation: ao-spin-fade 1s infinite linear alternate;
+  }
+  :where(.ant-spin-dot-item:nth-child(1)) {
+    top: 0;
+    inset-inline-start: 0;
+    animation-delay: 0s;
+  }
+  :where(.ant-spin-dot-item:nth-child(2)) {
+    top: 0;
+    inset-inline-end: 0;
+    animation-delay: 0.4s;
+  }
+  :where(.ant-spin-dot-item:nth-child(3)) {
+    bottom: 0;
+    inset-inline-end: 0;
+    animation-delay: 0.8s;
+  }
+  :where(.ant-spin-dot-item:nth-child(4)) {
+    bottom: 0;
+    inset-inline-start: 0;
+    animation-delay: 1.2s;
+  }
+  :where(.ant-spin-dot-spin) {
     transform: rotate(45deg);
     animation: ao-spin-rotate 1.2s infinite linear;
   }
-  :where(.ant-spin-dot i) {
-    position: absolute;
-    width: 45%;
-    height: 45%;
-    border-radius: 50%;
-    background: currentColor;
-    opacity: 0.3;
-    animation: ao-spin-fade 1s infinite alternate;
+  :where(.ant-spin-lg .ant-spin-dot-holder i) {
+    width: calc((var(--ao-spin-size) - var(--ao-spin-margin)) / 2);
+    height: calc((var(--ao-spin-size) - var(--ao-spin-margin)) / 2);
   }
-  :where(.ant-spin-dot i:nth-child(1)) {
-    inset: 0 auto auto 0;
+  :where(.ant-spin-dot-circle) {
+    stroke-linecap: round;
+    transition:
+      stroke-dashoffset var(--ao-spin-slow) ease,
+      stroke-dasharray var(--ao-spin-slow) ease,
+      stroke var(--ao-spin-slow) ease,
+      stroke-width var(--ao-spin-slow) ease,
+      opacity var(--ao-spin-slow) ease;
+    fill-opacity: 0;
+    stroke: currentColor;
   }
-  :where(.ant-spin-dot i:nth-child(2)) {
-    inset: 0 0 auto auto;
-    animation-delay: 0.3s;
+  :where(.ant-spin-dot-circle-bg) {
+    stroke: var(--ao-spin-fill);
   }
-  :where(.ant-spin-dot i:nth-child(3)) {
-    inset: auto 0 0 auto;
-    animation-delay: 0.6s;
+  :where(.ant-spin-show-text .ant-spin-text) {
+    display: block;
   }
-  :where(.ant-spin-dot i:nth-child(4)) {
-    inset: auto auto 0 0;
-    animation-delay: 0.9s;
+  :where(.ant-spin-fullscreen .ant-spin .ant-spin-dot-holder) {
+    color: var(--ao-spin-white);
   }
-  :where(.ant-spin-text) {
-    padding-top: 5px;
-    font-size: var(--ao-font-size);
-    line-height: var(--ao-line);
+  :where(.ant-spin-fullscreen .ant-spin .ant-spin-text) {
+    color: var(--ao-spin-light);
   }
   :where(.ant-spin-nested-loading) {
     position: relative;
   }
-  :where(.ant-spin-overlay) {
+  :where(.ant-spin-nested-loading > div > .ant-spin) {
     position: absolute;
-    inset: 0;
-    max-height: var(--ao-spin-height);
+    top: 0;
+    inset-inline-start: 0;
     z-index: 4;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-height: var(--ao-spin-height);
   }
-  :where(.ant-spin-container) {
+  :where(.ant-spin-nested-loading > div > .ant-spin .ant-spin-dot) {
+    position: absolute;
+    top: 50%;
+    inset-inline-start: 50%;
+    margin: calc(var(--ao-spin-size) / -2);
+  }
+  :where(.ant-spin-nested-loading > div > .ant-spin .ant-spin-text) {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    text-shadow: 0 1px 2px var(--ao-bg);
+    padding-top: calc((var(--ao-spin-size) - var(--ao-font-size)) / 2 + 2px);
+  }
+  :where(.ant-spin-nested-loading > div > .ant-spin-show-text .ant-spin-dot) {
+    margin-top: calc(var(--ao-spin-size) / -2 - 10px);
+  }
+  :where(.ant-spin-nested-loading .ant-spin-container) {
     position: relative;
-    transition: opacity 0.3s;
+    transition: opacity var(--ao-spin-slow);
   }
-  :where(.ant-spin-blur) {
+  :where(.ant-spin-nested-loading .ant-spin-container)::after {
+    position: absolute;
+    top: 0;
+    inset-inline-end: 0;
+    bottom: 0;
+    inset-inline-start: 0;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    background: var(--ao-bg);
+    opacity: 0;
+    transition: all var(--ao-spin-slow);
+    content: "";
+    pointer-events: none;
+  }
+  :where(.ant-spin-nested-loading .ant-spin-blur) {
+    clear: both;
     opacity: 0.5;
     user-select: none;
     pointer-events: none;
   }
-  :where(.ant-spin-fullscreen) {
-    position: fixed;
-    inset: 0;
-    z-index: var(--ao-spin-z);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgb(0 0 0 / 45%);
+  :where(.ant-spin-nested-loading .ant-spin-blur)::after {
+    opacity: 0.4;
+    pointer-events: auto;
   }
   :where(.ant-skeleton) {
     display: table;

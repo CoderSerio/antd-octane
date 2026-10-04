@@ -255,5 +255,14 @@
       "SkeletonButtonProps": 3,
       "SkeletonInputProps": 3
     }
+  },
+  "Spin": {
+    "when": "页面局部处于等待异步数据或正在渲染过程时，合适的加载动效会有效缓解用户的焦虑。",
+    "sectionAfter": {
+      "Spin": "### 静态方法\n\n- `Spin.setDefaultIndicator(indicator: OctaneNode)`\n\n你可以自定义全局默认 Spin 的元素。"
+    },
+    "sectionHeadings": {
+      "Spin": 0
+    }
   }
 }

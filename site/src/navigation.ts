@@ -868,11 +868,16 @@ toc.list = [
 ];
 
 toc.spin = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
-  ["basic", "三种尺寸"],
-  ["more", "局部加载与延迟"],
-  ["fullscreen", "全屏刷新反馈"],
-  ["indicator", "自定义指示器"],
+  ["basic", "基本用法"],
+  ["size", "各种大小"],
+  ["nested", "卡片加载中"],
+  ["tip", "自定义描述文案"],
+  ["delayAndDebounce", "延迟"],
+  ["custom-indicator", "自定义指示符"],
+  ["percent", "进度"],
+  ["fullscreen", "全屏"],
   ["api", "API"],
   ["tokens", "主题与支持范围"],
 ];

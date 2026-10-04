@@ -26,6 +26,7 @@ import type {
   ProgressToken,
   ResultToken,
   SkeletonToken,
+  SpinToken,
 } from "./component-tokens";
 
 export type * from "./component-tokens";
@@ -282,12 +283,7 @@ export interface ThemeConfig {
       starHoverScale: string;
       starBg: string;
     }>;
-    Spin?: ComponentTheme<{
-      dotSize: number;
-      dotSizeSM: number;
-      dotSizeLG: number;
-      contentHeight: number;
-    }>;
+    Spin?: ComponentTheme<SpinToken>;
     Skeleton?: ComponentTheme<
       SkeletonToken & { color: string; colorGradientEnd: string }
     >;
