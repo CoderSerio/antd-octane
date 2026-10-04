@@ -147,7 +147,8 @@
       "components/descriptions/{index,Cell,Row}.tsx",
       "components/descriptions/DescriptionsContext.ts",
       "components/descriptions/hooks/{useItems,useRow}.ts",
-      "components/empty/{index,empty,simple}.tsx"
+      "components/empty/{index,empty,simple}.tsx",
+      "components/image/{index,PreviewGroup}.tsx"
     ],
     "destination": [
       "packages/antd-octane/src/calendar",
@@ -155,7 +156,8 @@
       "packages/antd-octane/src/carousel",
       "packages/antd-octane/src/collapse",
       "packages/antd-octane/src/descriptions",
-      "packages/antd-octane/src/empty"
+      "packages/antd-octane/src/empty",
+      "packages/antd-octane/src/image"
     ],
     "notes": "Source contracts, module structure, artwork and supported lifecycle/style behavior adapted to Octane. React runtime dependencies remain development references. Source API descriptions do not certify complete parity; see component support sections."
   },
@@ -193,6 +195,31 @@
         "es/PanelContent.js"
       ],
       "destination": "packages/antd-octane/src/collapse"
+    },
+    "rc-image": {
+      "version": "7.12.0",
+      "source": [
+        "es/Image.js",
+        "es/Preview.js",
+        "es/PreviewGroup.js",
+        "es/Operations.js",
+        "es/hooks",
+        "es/getFixScaleEleTransPosition.js"
+      ],
+      "destination": "packages/antd-octane/src/image"
+    },
+    "rc-dialog": {
+      "version": "9.6.0",
+      "source": [
+        "es/Dialog/index.js",
+        "es/Dialog/Content/index.js",
+        "es/Dialog/Content/Panel.js",
+        "es/util.js"
+      ],
+      "destination": [
+        "packages/antd-octane/src/_util/dialog.tsx",
+        "packages/antd-octane/src/image/preview.tsx"
+      ]
     }
   },
   "data-display-icons": {
@@ -204,7 +231,8 @@
     ],
     "destination": [
       "packages/antd-octane/src/calendar.css",
-      "packages/antd-octane/src/collapse/CollapsePanel.tsx"
+      "packages/antd-octane/src/collapse/CollapsePanel.tsx",
+      "packages/antd-octane/src/image/icons.tsx"
     ],
     "notes": "Original MIT SVG geometry; Octane renderers and no React icon runtime."
   },

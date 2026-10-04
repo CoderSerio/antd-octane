@@ -1,81 +1,146 @@
-import { BasicDemo, MoreDemo } from "../demos/image-basic";
-import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
+import { ComponentWhenToUse } from "../component-prose";
+import {
+  ComponentApiTables,
+  ComponentTokenTable,
+} from "../component-reference";
+import reference from "../data-display/image.json";
+import {
+  BasicDemo,
+  ControlledDemo,
+  FallbackDemo,
+  ImageRenderDemo,
+  ItemsDemo,
+  MoreDemo,
+  NestedDemo,
+  PlaceholderDemo,
+  PreviewSrcDemo,
+  ToolbarDemo,
+} from "../demos/image-basic";
+import { Demo, DemoGrid, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
   return (
     <>
       <h1>
         Image <span>图片</span>
-        <small>Alpha</small>
       </h1>
-      <p className="lead">显示图片，并在可访问的预览层中放大查看。</p>
+      <p className="lead">可预览的图片。</p>
       <DocMeta name="Image" />
+      <ComponentWhenToUse component="Image" />
       <h2 id="examples" tabIndex={-1}>
         代码演示
       </h2>
-      <div className="demo-grid">
+      <DemoGrid>
         <Demo
           id="basic"
-          title="基础使用"
-          description="点击按钮查看内容，支持键盘聚焦与操作。"
+          title={"基本用法"}
+          description={"单击图像可以放大显示。"}
+          descriptionMarkdown
           source={() => import("../demos/image-basic.tsx?raw")}
+          sourceExport="BasicDemo"
         >
           <BasicDemo />
         </Demo>
         <Demo
-          id="more"
-          title="预览分组"
-          description="预览后可以切换组内图片或调整缩放。"
+          id="fallback"
+          title={"容错处理"}
+          description={"加载失败显示图像占位符。"}
+          descriptionMarkdown
           source={() => import("../demos/image-basic.tsx?raw")}
+          sourceExport="FallbackDemo"
+        >
+          <FallbackDemo />
+        </Demo>
+        <Demo
+          id="placeholder"
+          title={"渐进加载"}
+          description={"大图使用 placeholder 渐进加载。"}
+          descriptionMarkdown
+          source={() => import("../demos/image-basic.tsx?raw")}
+          sourceExport="PlaceholderDemo"
+        >
+          <PlaceholderDemo />
+        </Demo>
+        <Demo
+          id="preview-group"
+          title={"多张图片预览"}
+          description={"点击左右切换按钮可以预览多张图片。"}
+          descriptionMarkdown
+          source={() => import("../demos/image-basic.tsx?raw")}
+          sourceExport="MoreDemo"
         >
           <MoreDemo />
         </Demo>
-      </div>
+        <Demo
+          id="preview-group-visible"
+          title={"相册模式"}
+          description={"从一张图片点开相册。"}
+          descriptionMarkdown
+          source={() => import("../demos/image-basic.tsx?raw")}
+          sourceExport="ItemsDemo"
+        >
+          <ItemsDemo />
+        </Demo>
+        <Demo
+          id="previewSrc"
+          title={"自定义预览图片"}
+          description={"可以设置不同的预览图片。"}
+          descriptionMarkdown
+          source={() => import("../demos/image-basic.tsx?raw")}
+          sourceExport="PreviewSrcDemo"
+        >
+          <PreviewSrcDemo />
+        </Demo>
+        <Demo
+          id="controlled-preview"
+          title={"受控的预览"}
+          description={"可以使预览受控。"}
+          descriptionMarkdown
+          source={() => import("../demos/image-basic.tsx?raw")}
+          sourceExport="ControlledDemo"
+        >
+          <ControlledDemo />
+        </Demo>
+        <Demo
+          id="toolbarRender"
+          title={"自定义工具栏"}
+          description={"可以自定义工具栏并添加下载原图或翻转旋转后图片的按钮。"}
+          descriptionMarkdown
+          source={() => import("../demos/image-basic.tsx?raw")}
+          sourceExport="ToolbarDemo"
+        >
+          <ToolbarDemo />
+        </Demo>
+        <Demo
+          id="imageRender"
+          title={"自定义预览内容"}
+          description={"可以自定义预览内容。"}
+          descriptionMarkdown
+          source={() => import("../demos/image-basic.tsx?raw")}
+          sourceExport="ImageRenderDemo"
+        >
+          <ImageRenderDemo />
+        </Demo>
+        <Demo
+          id="nested"
+          title={"嵌套"}
+          description={"嵌套在弹框当中使用"}
+          descriptionMarkdown
+          source={() => import("../demos/image-basic.tsx?raw")}
+          sourceExport="NestedDemo"
+        >
+          <NestedDemo />
+        </Demo>
+      </DemoGrid>
       <h2 id="api" tabIndex={-1}>
         API
       </h2>
-      <ApiTable
-        rows={[
-          [
-            "src / alt / width / height",
-            "原生图片内容与尺寸",
-            "string / string / number | string",
-            "—",
-          ],
-          ["loading", "浏览器原生懒加载", "lazy | eager", "浏览器默认"],
-          [
-            "fallback / placeholder",
-            "加载失败替代图 / 加载占位",
-            "string / OctaneNode",
-            "—",
-          ],
-          ["preview", "启用或控制预览", "boolean | ImagePreviewConfig", "true"],
-          [
-            "preview.visible / onVisibleChange",
-            "受控显示与变化",
-            "boolean / callback",
-            "—",
-          ],
-          ["preview.src", "单独预览源", "string", "src"],
-          ["Image.PreviewGroup", "多图分组", "children, preview", "—"],
-          [
-            "PreviewGroup.preview.current / onChange",
-            "受控序号与切换",
-            "number / (current, previous) => void",
-            "0 / —",
-          ],
-        ]}
-      />
+      <ComponentApiTables component="Image" sections={reference.api} />
+
       <h2 id="tokens" tabIndex={-1}>
-        主题与支持范围
+        主题变量（Design Token）
       </h2>
-      <p>
-        预览复用共享对话框能力：锁定背景滚动、管理焦点、Escape
-        关闭并返回原触发器。支持组内上下张及 100%–300% 缩放；左右键切换。支持
-        Image 预览操作颜色与大小
-        token。当前没有旋转、翻转、下载、图片拖拽、鼠标滚轮缩放和工具栏自定义；放大后通过预览区滚动查看。PreviewGroup
-        当前从子 Image 注册图片，未提供 items 配置。
-      </p>
+      <ComponentTokenTable component="Image" tokens={reference.tokens} />
     </>
   );
 }

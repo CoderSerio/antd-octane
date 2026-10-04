@@ -150,9 +150,14 @@ export { Col, Grid, Row } from "./grid";
 export type { IconDefinition, IconNode, IconProps } from "./icon";
 export { createIcon, Icon } from "./icon";
 export type {
+  ImageElementProps,
+  ImageInfo,
   ImagePreviewConfig,
   ImagePreviewGroupProps,
   ImageProps,
+  ImageToolbarRenderInfo,
+  ImageTransform,
+  ImageTransformAction,
 } from "./image";
 export { Image } from "./image";
 export type {

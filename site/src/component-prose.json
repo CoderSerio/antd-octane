@@ -61,5 +61,17 @@
     "sectionHeadings": {
       "Empty": 0
     }
+  },
+  "Image": {
+    "when": "- 需要展示图片时使用。\n- 加载显示大图或加载失败时容错处理。",
+    "sectionAfter": {
+      "Image": "其他属性见 [<img>](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#Attributes)"
+    },
+    "sectionHeadings": {
+      "Image": 3,
+      "PreviewType": 3,
+      "PreviewGroup": 2,
+      "PreviewGroupType": 3
+    }
   }
 }

@@ -6,6 +6,7 @@ import type {
   CarouselToken,
   CollapseToken,
   DescriptionsToken,
+  ImageToken,
 } from "./component-tokens";
 
 export type * from "./component-tokens";
@@ -96,14 +97,12 @@ export interface ThemeConfig {
     }>;
     Affix?: ComponentTheme<{ zIndexPopup: number }>;
     FloatButton?: ComponentTheme;
-    Image?: ComponentTheme<{
-      previewOperationColor: string;
-      previewOperationColorDisabled: string;
-      previewOperationHoverColor: string;
-      previewOperationSize: number;
-      previewOperationSizeZoom: number;
-      previewOperationBg: string;
-    }>;
+    Image?: ComponentTheme<
+      ImageToken & {
+        previewOperationSizeZoom: number;
+        previewOperationBg: string;
+      }
+    >;
     Carousel?: ComponentTheme<CarouselToken>;
     Splitter?: ComponentTheme<{
       splitBarSize: number;

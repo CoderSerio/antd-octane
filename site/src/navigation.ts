@@ -1088,11 +1088,20 @@ toc["float-button"] = [
   ["tokens", "主题与支持范围"],
 ];
 toc.image = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
   ["basic", "基本用法"],
-  ["more", "交互与状态"],
+  ["fallback", "容错处理"],
+  ["placeholder", "渐进加载"],
+  ["preview-group", "多张图片预览"],
+  ["preview-group-visible", "相册模式"],
+  ["previewSrc", "自定义预览资源"],
+  ["controlled-preview", "受控的预览"],
+  ["toolbarRender", "自定义工具栏"],
+  ["imageRender", "自定义预览内容"],
+  ["nested", "嵌套"],
   ["api", "API"],
-  ["tokens", "主题与支持范围"],
+  ["tokens", "主题变量"],
 ];
 toc.calendar = [
   ["when-to-use", "何时使用"],

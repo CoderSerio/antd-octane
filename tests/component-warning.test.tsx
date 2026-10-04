@@ -1,7 +1,12 @@
 import type { ElementDescriptor, Root } from "octane";
 import { act, createRoot } from "octane";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
-import { Card, Collapse, Descriptions } from "../packages/antd-octane/src";
+import {
+  Card,
+  Collapse,
+  Descriptions,
+  Image,
+} from "../packages/antd-octane/src";
 import { resetWarned } from "../packages/antd-octane/src/_util/warning";
 
 let root: Root | undefined;
@@ -80,6 +85,11 @@ const matrix = [
       deprecation("contentStyle", "styles={{ content: {} }}"),
       "Sum of column `span` in a line not match `column` of Descriptions.",
     ],
+  },
+{
+    name: "Image",
+    node: <Image preview={{ destroyOnClose: undefined }} />,
+    messages: [deprecation("destroyOnClose", "destroyOnHidden")],
   },
 ];
 

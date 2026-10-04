@@ -93,6 +93,34 @@ export function ComponentCompatibilityNotes() {
           的图片与语义化样式配置。
         </p>
       </details>
+      <details>
+        <summary>Image</summary>
+        <p>
+          支持单图及 PreviewGroup
+          的受控预览、current、items、fallback、图片属性、容器、
+          destroyOnHidden、关闭图标，以及 imageRender、toolbarRender
+          和操作回调。 组内缩略图打开时选择对应图片；从外部重开时，未受控的
+          current 回到首张。
+          缩放、旋转、翻转、拖拽、滚轮、双击和双指缩放使用原生事件；旋转后的边界回弹参考
+          rc-image 的坐标算法。onTransform
+          按动画帧合并通知，关闭后在预览动画结束时复位。
+        </p>
+        <p>
+          ConfigProvider 的
+          prefixCls、direction、image.className/style/fallback/preview.closeIcon
+          和 getPopupContainer 会应用到单图；locale.Image.preview
+          控制缩略图预览文案，默认使用英文。 五项上游组件 Token
+          和预览间距、按钮尺寸、遮罩文案颜色、运动等全局 Token 已接入。
+          预览层支持焦点管理、Escape 和方向键；mask: false/null
+          只隐藏单图缩略图上的遮层。
+        </p>
+        <p>
+          内置运动使用原生 CSS 动画；rc-motion 的完整中断状态机、iframe
+          外部拖拽事件和所有第三方自定义动画组合仍未完全复刻。 PreviewGroup
+          的公开类型按当前上游源码排除
+          mask、maskClassName；旧文档中的这两项不表示分组对话框参数。
+        </p>
+      </details>
 
     </>
   );
