@@ -20,6 +20,7 @@ import type {
   AlertToken,
   DrawerToken,
   MessageToken,
+  ModalToken,
 } from "./component-tokens";
 
 export type * from "./component-tokens";
@@ -144,14 +145,7 @@ export interface ThemeConfig {
       controlItemBgActive: string;
       zIndexPopup: number;
     }>;
-    Modal?: ComponentTheme<{
-      contentBg: string;
-      headerBg: string;
-      titleColor: string;
-      titleFontSize: number;
-      titleLineHeight: number;
-      footerBg: string;
-    }>;
+    Modal?: ComponentTheme<ModalToken>;
     Drawer?: ComponentTheme<DrawerToken>;
     Message?: ComponentTheme<MessageToken>;
     Notification?: ComponentTheme<{ width: number; zIndexPopup: number }>;

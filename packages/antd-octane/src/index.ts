@@ -209,7 +209,15 @@ export type {
   MessageType,
 } from "./message";
 export { message, useMessage } from "./message";
-export type { ModalProps } from "./modal";
+export type {
+  HookModalResult,
+  ModalFooterRender,
+  ModalFuncProps,
+  ModalInstance,
+  ModalProps,
+  ModalResult,
+  ModalStaticFunctions,
+} from "./modal";
 export { Modal } from "./modal";
 export type {
   NotificationArgs,

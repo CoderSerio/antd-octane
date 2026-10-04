@@ -7,6 +7,7 @@ import {
   Descriptions,
   Drawer,
   Image,
+  Modal,
   Statistic,
   Tag,
   Timeline,
@@ -118,6 +119,23 @@ const matrix = [
         "<Statistic.Countdown />",
         '<Statistic.Timer type="countdown" />',
       ),
+    ],
+  },
+{
+    name: "Modal",
+    node: (
+      <Modal
+        visible={undefined}
+        bodyStyle={undefined}
+        maskStyle={undefined}
+        destroyOnClose={false}
+      />
+    ),
+    messages: [
+      deprecation("visible", "open"),
+      deprecation("bodyStyle", "styles.body"),
+      deprecation("maskStyle", "styles.mask"),
+      deprecation("destroyOnClose", "destroyOnHidden"),
     ],
   },
 {

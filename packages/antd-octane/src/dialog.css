@@ -38,52 +38,106 @@
     overflow: auto;
     outline: 0;
   }
-  :where(.ant-modal) {
-    position: relative;
-    box-sizing: border-box;
-    max-width: calc(100% - 32px);
-    margin: 100px auto 24px;
-    outline: none;
-    pointer-events: auto;
+  /* rc-dialog stacks its fixed mask and wrapper; its root is not a stacking context. */
+  :where(.ant-modal-root) {
+    position: static;
+    inset: auto;
+    z-index: auto;
+    line-height: inherit;
+    color: inherit;
   }
-  :where(.ant-modal-centered .ao-dialog-wrap) {
-    display: flex;
-    align-items: center;
+  :where(.ant-modal-mask, .ant-modal-wrap) {
+    box-sizing: border-box;
+    position: fixed;
+    z-index: var(--ao-dialog-z);
+  }
+  :where(.ant-modal, .ant-modal *, .ant-modal *::before, .ant-modal *::after) {
+    box-sizing: border-box;
+  }
+  :where(.ant-modal) {
+    font: var(--ao-font-size) / var(--ao-line) var(--ao-font);
+    color: var(--ao-text);
+    position: relative;
+    top: 100px;
+    box-sizing: border-box;
+    max-width: calc(100vw - var(--ao-modal-viewport-gap));
+    margin: var(--ao-modal-margin-block) auto;
+    padding-bottom: var(--ao-dialog-bottom-padding);
+    outline: none;
+    pointer-events: none;
+  }
+  :where(.ao-dialog-wrap.ant-modal-centered) {
+    text-align: center;
+  }
+  :where(.ant-modal-centered)::before {
+    display: inline-block;
+    width: 0;
+    height: 100%;
+    vertical-align: middle;
+    content: "";
   }
   :where(.ant-modal-centered .ant-modal) {
-    margin: 24px auto;
+    display: inline-block;
+    top: 0;
+    padding-bottom: 0;
+    text-align: start;
+    vertical-align: middle;
   }
   :where(.ant-modal-content) {
+    box-sizing: border-box;
     position: relative;
     padding: var(--ao-dialog-padding);
     background: var(--ao-dialog-bg);
+    background-clip: padding-box;
+    border: 0;
+    pointer-events: auto;
     border-radius: var(--ao-dialog-radius);
     box-shadow: var(--ao-dialog-shadow);
   }
-  :where(.ant-modal-header) {
-    margin-bottom: var(--ao-dialog-gap);
-    background: var(--ao-dialog-header);
+  :where(.ant-modal-mask) {
+    height: 100%;
+    pointer-events: none;
   }
-  :where(.ant-modal-close + .ant-modal-header) {
-    padding-inline-end: 24px;
+  :where(.ant-modal-header) {
+    color: var(--ao-text);
+    margin-bottom: var(--ao-modal-header-gap);
+    background: var(--ao-dialog-header);
+    border-radius: var(--ao-dialog-radius) var(--ao-dialog-radius) 0 0;
+    padding: var(--ao-modal-header-padding);
+    border-bottom: var(--ao-modal-header-border);
   }
   :where(.ant-modal-title) {
+    margin: 0;
     color: var(--ao-dialog-title);
     font-size: var(--ao-dialog-title-size);
-    font-weight: 600;
+    font-weight: var(--ao-modal-weight);
     line-height: var(--ao-dialog-title-line);
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
   }
   :where(.ant-modal-body) {
-    overflow-wrap: anywhere;
+    font-size: var(--ao-font-size);
+    line-height: var(--ao-line);
+    overflow-wrap: break-word;
+    padding: var(--ao-modal-body-padding);
+  }
+  .ant-modal-body :where(.ant-modal-body-skeleton) {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: var(--ao-dialog-margin) auto;
   }
   :where(.ant-modal-footer) {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 8px;
-    margin-top: 12px;
+    text-align: end;
+    margin-top: var(--ao-modal-footer-gap);
+    padding: var(--ao-modal-footer-padding);
+    border-top: var(--ao-modal-footer-border);
+    border-radius: var(--ao-modal-footer-radius);
     background: var(--ao-dialog-footer);
+  }
+  :where(.ant-modal-footer > .ant-btn + .ant-btn) {
+    margin-inline-start: var(--ao-dialog-button-gap);
   }
   :where(.ao-dialog-close) {
     display: inline-flex;
@@ -111,8 +165,50 @@
   }
   :where(.ant-modal-close) {
     position: absolute;
-    top: 12px;
-    inset-inline-end: 12px;
+    top: var(--ao-modal-close-offset);
+    inset-inline-end: var(--ao-modal-close-offset);
+    z-index: var(--ao-modal-close-z);
+    padding: 0;
+    color: var(--ao-modal-close-color);
+    font-weight: var(--ao-modal-weight);
+    line-height: 1;
+    text-decoration: none;
+    background: transparent;
+    border-radius: var(--ao-modal-close-radius);
+    width: var(--ao-modal-close-size);
+    height: var(--ao-modal-close-size);
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+    transition:
+      color var(--ao-motion-mid),
+      background-color var(--ao-motion-mid);
+  }
+  :where(.ant-modal-close-x) {
+    display: flex;
+    font-size: var(--ao-modal-close-font);
+    font-style: normal;
+    line-height: var(--ao-modal-close-size);
+    justify-content: center;
+    text-transform: none;
+    text-rendering: auto;
+  }
+  :where(.ant-modal-close:disabled) {
+    pointer-events: none;
+  }
+  :where(.ant-modal-close:hover) {
+    color: var(--ao-modal-close-hover);
+    background-color: var(--ao-modal-close-hover-bg);
+  }
+  :where(.ant-modal-close:active) {
+    background-color: var(--ao-modal-close-active-bg);
+  }
+  :where(.ant-modal-close:focus-visible) {
+    outline: var(--ao-modal-focus);
+    outline-offset: 1px;
+  }
+  :where(.ant-modal-hidden) {
+    display: none;
   }
   :where(.ant-drawer-content-wrapper) {
     position: absolute;
@@ -234,10 +330,5 @@
     flex-shrink: 0;
     padding: var(--ao-drawer-footer-padding);
     border-top: var(--ao-drawer-border);
-  }
-  @media (max-width: 575px) {
-    :where(.ant-modal) {
-      margin-block-start: 16px;
-    }
   }
 }

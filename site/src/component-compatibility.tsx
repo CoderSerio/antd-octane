@@ -191,6 +191,47 @@ export function ComponentCompatibilityNotes() {
           窄屏已有定向对比；全部组合行为与 CSS-in-JS 样式隔离仍未覆盖。
         </p>
       </details>
+      <details>
+        <summary>Modal</summary>
+        <p>
+          支持响应式宽度、footer 渲染函数、loading、语义样式、静态方法和
+          useModal 实例。原生事件替代 React
+          合成事件；缩放动画沿用上游曲线与点击起点， transitionName 可接入自定义
+          CSS，afterClose 在退出动画结束后触发。
+        </p>
+        <p>
+          未发布源码已按上游拆出 ConfirmDialog、HookModal 和 ActionButton，补齐
+          静态方法与 hook / App 实例的返回值、更新、销毁和异步按钮行为。
+          静态实例不可 await；hook 实例支持
+          await，函数式更新合并配置；静态方法的 函数式更新替换配置。destroy()
+          本身不会结算 hook 的确认 Promise。
+          已配对检查确认内容、图标、按钮覆盖、失败重试、焦点边界和回调顺序，
+          并定向检查五组主题、窄屏和 RTL；这些检查不代表所有组合完全一致。
+        </p>
+        <p>
+          未发布源码的普通 Modal 已拆出面板、Footer、按钮上下文与样式 Hook，
+          补齐 Provider 的 closable / centered、panelRef、height、bodyProps /
+          maskProps / wrapStyle， 以及按钮属性覆盖、空值、加载骨架、响应式宽度和
+          wireframe。 内部焦点哨兵、遮罩点击与 afterClose / afterOpenChange
+          顺序已有同输入浏览器对照； 默认、深色、紧凑、品牌色、组件
+          Token、窄屏和 RTL 已作定向检查。
+          十六个站点样例均已接入对应官方源码的对照夹具。拖拽示例按
+          react-draggable 的事件、边界余量和选区处理适配，五组主题的桌面、窄屏及
+          默认主题 RTL
+          已检查移动、边界和关闭重开；默认主题另检查了正文禁拖和关闭焦点恢复，
+          真实触摸设备尚未检查。 Form / Space 上下文隔离、全部自定义动效、SSR
+          与跨浏览器行为仍需继续核查。
+        </p>
+        <p>
+          自定义 classNames 的默认层叠也已按上游默认模式对齐：源码版 Modal
+          默认注册 为未分层样式，保留上游选择器权重，因此 body padding、content
+          边框和 header 边框在相同输入下结果一致。源码版可从 `antd-octane/style`
+          引入原生 `StyleProvider`，用 `layer` 选择可选的 antd
+          层；这项入口尚未随当前 alpha 包发布，不能作为已发布包 API
+          使用。默认、深色、紧凑、品牌色、组件 Token、 桌面、窄屏和默认 RTL
+          已作两种层级模式的对照。
+        </p>
+      </details>
 
       <details>
         <summary>Popover</summary>

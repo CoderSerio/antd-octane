@@ -48,6 +48,48 @@ function dialog() {
   return node;
 }
 
+it("portals preserve context, wrap Tab at sentinels, close with Escape and restore trigger focus", async () => {
+  function Demo() {
+    const [open, setOpen] = useState(false);
+    return (
+      <ConfigProvider theme={{ token: { colorPrimary: "#123456" } }}>
+        <button type="button" onClick={() => setOpen(true)}>
+          open
+        </button>
+        <Modal open={open} title="Details" onCancel={() => setOpen(false)}>
+          <Button>content</Button>
+        </Modal>
+      </ConfigProvider>
+    );
+  }
+  await render(<Demo />);
+  const trigger = container.querySelector("button");
+  await act(() => {
+    trigger?.focus();
+    trigger?.click();
+  });
+  expect(
+    dialog().parentElement?.closest(".ant-modal-root")?.parentElement,
+  ).toBe(document.body);
+  expect(dialog().querySelector(".ant-btn")?.getAttribute("style")).toContain(
+    "#123456",
+  );
+  expect(document.body.style.overflowY).toBe("hidden");
+  const start = dialog().querySelector<HTMLElement>('[data-sentinel="start"]');
+  const end = dialog().querySelector<HTMLElement>('[data-sentinel="end"]');
+  await act(() => end?.focus());
+  await key("Tab");
+  expect(document.activeElement).toBe(start);
+  await key("Tab", true);
+  expect(document.activeElement).toBe(end);
+  await key("Escape");
+  expect(
+    document.querySelector<HTMLElement>(".ant-modal-wrap")?.style.display,
+  ).toBe("none");
+  expect(document.activeElement).toBe(trigger);
+  expect(document.body.style.overflowY).not.toBe("hidden");
+});
+
 it("only the topmost dialog handles Escape and nested locks survive one closure", async () => {
   const outer = vi.fn(),
     inner = vi.fn();
@@ -66,12 +108,12 @@ it("only the topmost dialog handles Escape and nested locks survive one closure"
       <Drawer open={false} title="inner" onClose={inner} />
     </Modal>,
   );
-  expect(document.body.style.overflow).toBe("hidden");
+  expect(document.body.style.overflowY).toBe("hidden");
   await key("Escape");
   expect(outer).toHaveBeenCalledOnce();
   await act(() => root?.unmount());
   root = undefined;
-  expect(document.body.style.overflow).not.toBe("hidden");
+  expect(document.body.style.overflowY).not.toBe("hidden");
 });
 
 it("preserves children while closed and destroys on request", async () => {
@@ -114,7 +156,7 @@ it("mask and keyboard switches respect controlled dismissal without mutating ope
   await act(() =>
     document
       .querySelector(".ao-dialog-wrap")
-      ?.dispatchEvent(new MouseEvent("mousedown", { bubbles: true })),
+      ?.dispatchEvent(new MouseEvent("click", { bubbles: true })),
   );
   expect(close).not.toHaveBeenCalled();
   await render(
@@ -125,7 +167,7 @@ it("mask and keyboard switches respect controlled dismissal without mutating ope
   await act(() =>
     document
       .querySelector(".ao-dialog-wrap")
-      ?.dispatchEvent(new MouseEvent("mousedown", { bubbles: true })),
+      ?.dispatchEvent(new MouseEvent("click", { bubbles: true })),
   );
   expect(close).toHaveBeenCalledOnce();
   expect(
@@ -224,7 +266,7 @@ it("unmounting nested dialogs restores existing body styles and releases documen
       </Drawer>
     </Modal>,
   );
-  expect(document.body.style.overflow).toBe("hidden");
+  expect(document.body.style.overflowY).toBe("hidden");
   await act(() => root?.unmount());
   root = undefined;
   expect(document.body.style.overflow).toBe("scroll");
@@ -237,45 +279,4 @@ it("unmounting nested dialogs restores existing body styles and releases documen
   expect(close).not.toHaveBeenCalled();
   document.body.style.overflow = overflow;
   document.body.style.paddingRight = padding;
-});
-
-it("portals preserve context, trap Tab, close with Escape and restore trigger focus", async () => {
-  function Demo() {
-    const [open, setOpen] = useState(false);
-    return (
-      <ConfigProvider theme={{ token: { colorPrimary: "#123456" } }}>
-        <button type="button" onClick={() => setOpen(true)}>
-          open
-        </button>
-        <Modal open={open} title="Details" onCancel={() => setOpen(false)}>
-          <Button>content</Button>
-        </Modal>
-      </ConfigProvider>
-    );
-  }
-  await render(<Demo />);
-  const trigger = container.querySelector("button");
-  await act(() => {
-    trigger?.focus();
-    trigger?.click();
-  });
-  expect(
-    dialog().parentElement?.closest(".ant-modal-root")?.parentElement,
-  ).toBe(document.body);
-  expect(dialog().querySelector(".ant-btn")?.getAttribute("style")).toContain(
-    "#123456",
-  );
-  expect(document.body.style.overflow).toBe("hidden");
-  const buttons = dialog().querySelectorAll("button");
-  await act(() => buttons[buttons.length - 1].focus());
-  await key("Tab");
-  expect(document.activeElement).toBe(buttons[0]);
-  await key("Tab", true);
-  expect(document.activeElement).toBe(buttons[buttons.length - 1]);
-  await key("Escape");
-  expect(
-    document.querySelector(".ant-modal-root")?.hasAttribute("hidden"),
-  ).toBe(true);
-  expect(document.activeElement).toBe(trigger);
-  expect(document.body.style.overflow).not.toBe("hidden");
 });

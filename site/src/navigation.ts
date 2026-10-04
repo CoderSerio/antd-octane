@@ -1092,6 +1092,7 @@ toc.notification = [
   ["tokens", "主题与支持范围"],
 ];
 toc.modal = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
   ["basic", "受控打开与确认反馈"],
   ["more", "嵌套浮层与内容保留"],

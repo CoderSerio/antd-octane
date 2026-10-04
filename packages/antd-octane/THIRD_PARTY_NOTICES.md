@@ -410,3 +410,120 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
+
+## Ordinary Modal panel and Footer alignment
+
+`src/modal/Modal.tsx`, `shared.tsx`, `context.ts`,
+`components/NormalCancelBtn.tsx`, `components/NormalOkBtn.tsx`,
+`useModalStyle.ts` and the shared `src/_util/hooks/useClosable.tsx` adapt
+Ant Design **5.29.3**'s corresponding Modal, close configuration and style
+sources (MIT, copyright Ant UED). The panel slots in `ModalPanel.tsx`, content
+sentinels, retained inner content, wrapper click handling and callback order in
+`src/_util/dialog.tsx` follow **rc-dialog 9.6.0** (MIT, copyright yiminghe).
+The dependency licenses are reproduced above. The native implementation uses
+Octane contexts, descriptors, refs and lifecycle hooks, without React runtime
+substitution. Public and private style defaults include wireframe and responsive
+screen tokens. The anchor Button line-height correction follows the upstream
+Button style's inherited anchor line-height.
+The native Modal style registration also adapts the selector structure and
+defaults from `components/modal/style/index.ts` and `style/confirm.ts` (MIT,
+copyright Ant UED), keeping the default unlayered cascade and offering the
+source-only optional layer mode described above.
+Image preview's static root and fixed mask/wrapper use
+`components/image/style/index.ts` and the shared Modal mask styles, preserving
+mouse access to the page after rc-dialog hides its retained panel.
+
+Development fixtures in `tests/browser/modal-demos-upstream/` contain sixteen
+Ant Design 5.29.3 `components/modal/demo/*.tsx` source examples under that same
+MIT license. They are compiled by React only in the comparison server and are
+not included in the published runtime package.
+
+## Modal confirmation actions, static roots and hook instances
+
+`src/_util/ActionButton.tsx`, `src/modal/ConfirmDialog.tsx`, `HookModal.tsx`,
+`components/ConfirmOkBtn.tsx`, `components/ConfirmCancelBtn.tsx`, `confirm.tsx`,
+`useModal.tsx`, `destroyFns.ts` and the confirmation context/types adapt
+Ant Design **5.29.3** `components/_util/ActionButton.tsx`, `components/modal/`
+confirmation, hook and button sources (MIT, copyright Ant UED).
+The corresponding confirmation style rules derive from
+`components/modal/style/confirm.ts` and legacy danger Button rules from
+`components/button/style/index.ts`. The native code uses Octane descriptors,
+external stores, refs, effects and separate static roots. It does not vendor
+React, rc-dialog or the upstream hook runtime into the published package.
+
+Adapted behavior includes arity-dependent action callbacks, per-button loading,
+button prop precedence, await-mode rejection handling, delayed autofocus,
+function-update replacement versus merge, original static close callbacks and
+hook/global destruction. Focus restoration uses rc-dialog **9.6.0**'s closed
+state guard (MIT, copyright yiminghe). The comparison copies use React only in
+the development server, with a React 19 render adapter for upstream static APIs.
+Static root unmount is deferred beyond the current commit, following
+**rc-util 5.44.4** `es/React/render.js`'s modern unmount (MIT, copyright yiminghe).
+
+Named `createIcon` factories default their accessible label to the definition
+name; the shared icon wrapper centers text. These defaults follow
+**@ant-design/icons 5.6.1** `components/AntdIcon` and `utils` icon styles (MIT,
+copyright Ant UED). Caller-provided accessible labels take precedence.
+
+## Modal draggable and custom style demo references
+
+The development-only official Modal demo copies use **react-draggable 4.4.6**
+and **antd-style 3.7.1**, matching the versions selected from the Ant Design
+5.29.3 development baseline. These React libraries are not published runtime
+substitutes. `site/src/demos/native-draggable.tsx` adapts react-draggable's
+`Draggable.js`, `DraggableCore.js`, `utils/domFns.js` and `utils/positionFns.js`
+mouse/touch start, offset-parent coordinates, bounds slack, drag classes,
+selection handling and cleanup to Octane for this demo's supported input.
+It does not implement the full react-draggable public API.
+
+react-draggable 4.4.6 is licensed as follows:
+
+```text
+(MIT License)
+
+Copyright (c) 2014-2016 Matt Zabriskie. All rights reserved.
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+```
+
+antd-style 3.7.1 is licensed as follows:
+
+```text
+MIT License
+
+Copyright (c) 2022-current Arvin Xu
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
