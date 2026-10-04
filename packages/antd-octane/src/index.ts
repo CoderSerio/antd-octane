@@ -353,7 +353,12 @@ export type {
   TagProps,
 } from "./tag";
 export { Tag } from "./tag";
-export type { TimelineItem, TimelineProps } from "./timeline";
+export type {
+  TimeLineItemProps,
+  TimelineItem,
+  TimelineItemProps,
+  TimelineProps,
+} from "./timeline";
 export { Timeline } from "./timeline";
 export type { TooltipProps } from "./tooltip";
 export { Tooltip } from "./tooltip";

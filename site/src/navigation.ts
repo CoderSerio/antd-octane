@@ -799,11 +799,17 @@ toc.statistic = [
   ["tokens", "主题变量"],
 ];
 toc.timeline = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
-  ["basic", "事件与状态"],
-  ["more", "交替布局与等待状态"],
+  ["basic", "基本用法"],
+  ["color", "圆圈颜色"],
+  ["pending", "最后一个及排序"],
+  ["alternate", "交替展现"],
+  ["custom", "自定义时间轴点"],
+  ["right", "右侧时间轴点"],
+  ["label", "标签"],
   ["api", "API"],
-  ["tokens", "主题与支持范围"],
+  ["tokens", "主题变量"],
 ];
 toc.descriptions = [
   ["when-to-use", "何时使用"],

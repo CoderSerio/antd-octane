@@ -8,6 +8,7 @@ import {
   Image,
   Statistic,
   Tag,
+  Timeline,
 } from "../packages/antd-octane/src";
 import { resetWarned } from "../packages/antd-octane/src/_util/warning";
 
@@ -97,6 +98,15 @@ const matrix = [
     name: "Image",
     node: <Image preview={{ destroyOnClose: undefined }} />,
     messages: [deprecation("destroyOnClose", "destroyOnHidden")],
+  },
+{
+    name: "Timeline",
+    node: (
+      <Timeline>
+        <Timeline.Item>legacy</Timeline.Item>
+      </Timeline>
+    ),
+    messages: [deprecation("Timeline.Item", "items")],
   },
 {
     name: "Countdown",

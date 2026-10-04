@@ -13,6 +13,7 @@ import type {
   StatisticToken,
   TableToken,
   TagToken,
+  TimelineToken,
 } from "./component-tokens";
 
 export type * from "./component-tokens";
@@ -266,13 +267,7 @@ export interface ThemeConfig {
     }>;
     Empty?: ComponentTheme;
     Statistic?: ComponentTheme<StatisticToken>;
-    Timeline?: ComponentTheme<{
-      tailColor: string;
-      tailWidth: number;
-      dotBorderWidth: number;
-      dotBg: string;
-      itemPaddingBottom: number;
-    }>;
+    Timeline?: ComponentTheme<TimelineToken>;
     Descriptions?: ComponentTheme<DescriptionsToken>;
     Radio?: ComponentTheme<{
       radioSize: number;

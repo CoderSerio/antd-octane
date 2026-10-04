@@ -161,7 +161,9 @@
       "components/table/{InternalTable,Table}.tsx",
       "components/table/{Column,ColumnGroup}.ts",
       "components/table/hooks/{useSorter,useSelection}.tsx",
-      "components/table/hooks/useFilter"
+      "components/table/hooks/useFilter",
+      "components/timeline/{Timeline,TimelineItem}.tsx",
+      "components/timeline/useItems.ts"
     ],
     "destination": [
       "packages/antd-octane/src/calendar",
@@ -177,7 +179,8 @@
       "packages/antd-octane/src/segmented",
       "packages/antd-octane/src/statistic",
       "packages/antd-octane/src/table",
-      "packages/antd-octane/src/tag"
+      "packages/antd-octane/src/tag",
+      "packages/antd-octane/src/timeline"
     ],
     "notes": "Source contracts, module structure, artwork and supported lifecycle/style behavior adapted to Octane. React runtime dependencies remain development references. Source API descriptions do not certify complete parity; see component support sections."
   },
@@ -319,7 +322,8 @@
       "packages/antd-octane/src/table/FilterDropdown.tsx",
       "packages/antd-octane/src/table/FilterMenu.tsx",
       "packages/antd-octane/src/table/InternalTable.tsx",
-      "packages/antd-octane/src/tag/closable.tsx"
+      "packages/antd-octane/src/tag/closable.tsx",
+      "packages/antd-octane/src/timeline/index.tsx"
     ],
     "notes": "Original MIT SVG geometry; Octane renderers and no React icon runtime."
   },

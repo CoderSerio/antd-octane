@@ -138,5 +138,15 @@
       "Tag": 3,
       "Tag.CheckableTag": 3
     }
+  },
+  "Timeline": {
+    "when": "- 当有一系列信息需按时间排列时，可正序和倒序。\n- 需要有一条时间轴进行视觉上的串联时。",
+    "sectionIntro": {
+      "Items": "时间轴的每一个节点。"
+    },
+    "sectionHeadings": {
+      "Timeline": 3,
+      "Items": 3
+    }
   }
 }

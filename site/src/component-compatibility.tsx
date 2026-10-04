@@ -299,6 +299,17 @@ export function ComponentCompatibilityNotes() {
           所需的 ant-* 类名。
         </p>
       </details>
+      <details>
+        <summary>Timeline</summary>
+        <p>
+          支持 tailColor、tailWidth、dotBorderWidth、dotBg、itemPaddingBottom
+          和主题色。支持根节点类名、Timeline.Item 以及 items 单项类名和样式。
+          pending、pendingDot、reverse 与标签布局按 antd 5 的条目拆分实现；固定
+          left / right 模式覆盖条目的 position，alternate 模式允许条目指定位置。
+          支持 ConfigProvider.timeline 的 style / className、RTL。 antd 5 的
+          Timeline 未提供语义化 styles/classNames。
+        </p>
+      </details>
 
     </>
   );
