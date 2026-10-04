@@ -22,6 +22,7 @@ import type {
   MessageToken,
   ModalToken,
   NotificationToken,
+  PopconfirmToken,
 } from "./component-tokens";
 
 export type * from "./component-tokens";
@@ -123,7 +124,7 @@ export interface ThemeConfig {
       resizeSpinnerSize: number;
     }>;
 
-    Popconfirm?: ComponentTheme<{ zIndexPopup: number }>;
+    Popconfirm?: ComponentTheme<PopconfirmToken>;
     Menu?: ComponentTheme<{
       itemColor: string;
       itemBg: string;

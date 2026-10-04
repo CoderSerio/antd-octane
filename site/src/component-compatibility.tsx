@@ -251,7 +251,14 @@ export function ComponentCompatibilityNotes() {
           样式注入尚未验证；这些检查不代表 Notification 全部行为完全一致。
         </p>
       </details>
-
+      <details>
+        <summary>Popconfirm</summary>
+        <p>
+          支持受控显隐、十二方位、箭头、语义样式、onPopupClick、本地化与 Promise
+          确认。定位和缩放动画共用 Tooltip/Popover
+          的原生实现，复杂定位与运动中断场景仍需继续验证。
+        </p>
+      </details>
       <details>
         <summary>Popover</summary>
         <p>

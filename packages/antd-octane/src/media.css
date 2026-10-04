@@ -246,11 +246,6 @@
     margin-bottom: var(--ao-image-progress-gap);
     text-align: center;
   }
-  :where(.ant-carousel) {
-    position: relative;
-    width: 100%;
-    min-width: 0;
-  }
   :where(.ant-image-preview-prepare, .ant-image-preview-mask-prepare) {
     opacity: 0;
     transform: none;

@@ -25,6 +25,90 @@
   :where(.ant-tooltip[hidden], .ant-popover[hidden]) {
     display: none;
   }
+  /* Native counterpart of antd's zoom-big-fast/zoom-big rc-motion rules. */
+  :where(
+      .ant-tooltip[data-native-motion="true"][data-motion-phase="appear"],
+      .ant-tooltip[data-native-motion="true"][data-motion-phase="enter"],
+      .ant-popover[data-native-motion="true"][data-motion-phase="appear"],
+      .ant-popover[data-native-motion="true"][data-motion-phase="enter"]
+    ) {
+    animation: ao-floating-zoom-in var(--ao-popup-motion-duration, 0.1s)
+      var(--ao-popup-motion-easing, cubic-bezier(0.08, 0.82, 0.17, 1)) both;
+  }
+  :where(
+      .ant-tooltip[data-native-motion="true"][data-motion-phase="leave"],
+      .ant-popover[data-native-motion="true"][data-motion-phase="leave"]
+    ) {
+    animation: ao-floating-zoom-out var(--ao-popup-motion-duration, 0.1s)
+      var(--ao-popup-motion-leave-easing, cubic-bezier(0.78, 0.14, 0.15, 0.86))
+      both;
+  }
+  :where(
+      .ant-tooltip[data-native-motion="true"][data-use-css-transform="true"][data-motion-phase="appear"],
+      .ant-tooltip[data-native-motion="true"][data-use-css-transform="true"][data-motion-phase="enter"],
+      .ant-popover[data-native-motion="true"][data-use-css-transform="true"][data-motion-phase="appear"],
+      .ant-popover[data-native-motion="true"][data-use-css-transform="true"][data-motion-phase="enter"]
+    ) {
+    animation-name: ao-floating-scale-in;
+  }
+  :where(
+      .ant-tooltip[data-native-motion="true"][data-use-css-transform="true"][data-motion-phase="leave"],
+      .ant-popover[data-native-motion="true"][data-use-css-transform="true"][data-motion-phase="leave"]
+    ) {
+    animation-name: ao-floating-scale-out;
+  }
+  :where(.ant-tooltip[data-side="top"], .ant-popover[data-side="top"]) {
+    transform-origin: 50% 100%;
+  }
+  :where(.ant-tooltip[data-side="bottom"], .ant-popover[data-side="bottom"]) {
+    transform-origin: 50% 0%;
+  }
+  :where(.ant-tooltip[data-side="left"], .ant-popover[data-side="left"]) {
+    transform-origin: 100% 50%;
+  }
+  :where(.ant-tooltip[data-side="right"], .ant-popover[data-side="right"]) {
+    transform-origin: 0% 50%;
+  }
+  @keyframes ao-floating-zoom-in {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes ao-floating-zoom-out {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+  }
+  @keyframes ao-floating-scale-in {
+    from {
+      opacity: 0;
+      scale: 0.8;
+    }
+    to {
+      opacity: 1;
+      scale: 1;
+    }
+  }
+  @keyframes ao-floating-scale-out {
+    from {
+      opacity: 1;
+      scale: 1;
+    }
+    to {
+      opacity: 0;
+      scale: 0.8;
+    }
+  }
   :where(.ant-tooltip-inner, .ant-popover-inner) {
     position: relative;
     box-sizing: border-box;

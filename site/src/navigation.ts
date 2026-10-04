@@ -1137,6 +1137,7 @@ toc.dropdown = [
   ["tokens", "主题与支持范围"],
 ];
 toc.popconfirm = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
   ["basic", "确认与取消"],
   ["more", "异步确认"],

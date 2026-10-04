@@ -8,6 +8,7 @@ import drawer from "./feedback/drawer.json";
 import message from "./feedback/message.json";
 import modal from "./feedback/modal.json";
 import notification from "./feedback/notification.json";
+import popconfirm from "./feedback/popconfirm.json";
 
 export interface ApiSection {
   title: string;
@@ -28,6 +29,7 @@ const references: Record<
   Message: message,
   Modal: modal,
   Notification: notification,
+  Popconfirm: popconfirm,
 
 };
 

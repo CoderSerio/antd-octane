@@ -926,3 +926,12 @@ export interface NotificationToken {
    */
   colorWarningBg?: string;
 }
+
+// components/popconfirm/style/index.ts
+export interface PopconfirmToken {
+  /**
+   * @desc 确认框 z-index
+   * @descEN z-index of Popconfirm
+   */
+  zIndexPopup: number;
+}
