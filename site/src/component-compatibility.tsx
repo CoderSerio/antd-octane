@@ -136,6 +136,44 @@ export function ComponentCompatibilityNotes() {
         </p>
       </details>
 
+      <details>
+        <summary>Popover</summary>
+        <p>
+          继承全局颜色、字体、圆角和阴影，支持
+          Popover.zIndexPopup、titleMinWidth、innerPadding。它是非模态浮层，不锁定焦点；复杂表单流程应使用后续的
+          Modal。
+        </p>
+        <p>
+          使用 Octane 原生 portal 保留主题与业务上下文。触发内容外增加
+          inline-flex
+          span，保留子元素事件；请提供一个可聚焦的触发元素，键盘提示需包含 focus
+          触发。支持 getPopupContainer 和 ConfigProvider
+          默认容器；自定义容器按实际 offset parent
+          换算坐标。自动避让目前检查视口边缘，
+          不计算任意裁剪祖先的可视区域；旋转或倾斜变换容器不保证对齐。
+        </p>
+        <p>
+          支持 12 种 placement、align 的 points、数字或字符串
+          offset/targetOffset、 adjust 溢出配置和内置箭头安全区位移，以及
+          useCssRight、useCssBottom 和 useCssTransform。支持 builtinPlacements
+          自定义位置表、onPopupAlign、forceRender、 arrow.pointAtCenter、fresh
+          和旧 overlayInnerStyle；styles.body 优先于
+          overlayInnerStyle。自定义位置表替换内置表，onPopupAlign
+          在重新测量位置后调用； forceRender
+          会在首次打开前挂载浮层。默认关闭时缓存内容，fresh=true 时继续更新。
+        </p>
+        <p>
+          afterOpenChange 在入场或退场动效完成后触发，初始 open
+          也会触发入场回调。 TooltipRef 提供
+          forceAlign、forcePopupAlign（旧别名）、nativeElement 和
+          popupElement。Popover 的 onOpenChange 在 Escape
+          关闭时附带键盘事件，其他 触发只传 open。旧 destroyTooltipOnHide 的
+          keepParent
+          对象设置仍按上游兼容实现转成布尔值；要控制关闭后是否销毁请使用
+          destroyOnHidden。
+        </p>
+      </details>
+
     </>
   );
 }

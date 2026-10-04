@@ -44,7 +44,16 @@ export const theme = {
   useToken,
 };
 
-export type { FloatingProps, Placement, Trigger } from "./_util/floating";
+export type {
+  FloatingAlign,
+  FloatingBuiltinPlacements,
+  FloatingOffset,
+  FloatingOverflow,
+  FloatingPlacement,
+  FloatingProps,
+  Placement,
+  Trigger,
+} from "./_util/floating";
 export type { AffixProps, AffixRef } from "./affix";
 export { Affix } from "./affix";
 export type { AlertProps, AlertRef } from "./alert";

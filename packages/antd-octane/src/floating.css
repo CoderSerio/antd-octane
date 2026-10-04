@@ -12,6 +12,11 @@
     color: var(--ao-popup-color);
     text-align: start;
     white-space: normal;
+    --ao-valid-arrow-x: var(
+      --ao-popup-arrow-offset-horizontal,
+      var(--ao-arrow-x, 50%)
+    );
+    transform-origin: var(--ao-valid-arrow-x) var(--ao-arrow-y, 50%);
   }
   :where(.ant-tooltip) {
     max-width: min(250px, calc(100vw - 16px));
@@ -26,7 +31,6 @@
     padding: var(--ao-popup-padding);
     background: var(--ao-popup-bg);
     box-shadow: var(--ao-popup-shadow);
-    overflow-wrap: break-word;
   }
   :where(.ant-tooltip-inner) {
     min-height: var(--ao-popup-minheight);
@@ -35,46 +39,91 @@
   :where(.ant-popover) {
     user-select: text;
   }
+  :where(.ant-popover-inner) {
+    box-sizing: content-box;
+  }
   :where(.ant-popover-title) {
     min-width: min(var(--ao-popup-title-width), calc(100vw - 64px));
     margin-bottom: var(--ao-popup-title-gap);
     color: var(--ao-popup-title-color);
     font-weight: var(--ao-popup-title-weight);
+    padding: var(--ao-popup-title-padding);
+    border-bottom: var(--ao-popup-title-border);
+  }
+  :where(.ant-popover-inner-content) {
+    padding: var(--ao-popup-content-padding);
   }
   :where(.ant-tooltip-arrow, .ant-popover-arrow) {
     position: absolute;
-    width: 8px;
-    height: 8px;
-    background: var(--ao-popup-bg);
-    transform: rotate(45deg);
+    z-index: 1;
+    display: block;
+    width: var(--ao-popup-arrow-size, 16px);
+    height: var(--ao-popup-arrow-size, 16px);
+    overflow: hidden;
     pointer-events: none;
+    background: transparent;
+  }
+  :where(.ant-tooltip-arrow, .ant-popover-arrow)::before {
+    position: absolute;
+    bottom: 0;
+    inset-inline-start: 0;
+    width: var(--ao-popup-arrow-size, 16px);
+    height: calc(var(--ao-popup-arrow-size, 16px) / 2);
+    background: var(--ao-popup-bg);
+    clip-path: var(
+      --ao-popup-arrow-polygon,
+      polygon(3px 100%, 50% 2px, calc(100% - 3px) 100%, 3px 100%)
+    );
+    content: "";
+  }
+  @supports (clip-path: path("M 0 0")) {
+    :where(.ant-tooltip-arrow, .ant-popover-arrow)::before {
+      clip-path: var(--ao-popup-arrow-path);
+    }
+  }
+  :where(.ant-tooltip-arrow, .ant-popover-arrow)::after {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    width: var(--ao-popup-arrow-shadow-size, 8px);
+    height: var(--ao-popup-arrow-shadow-size, 8px);
+    margin: auto;
+    border-radius: 0 0 var(--ao-popup-arrow-radius, 2px) 0;
+    background: transparent;
+    box-shadow: var(--ao-popup-arrow-shadow, none);
+    transform: translateY(50%) rotate(-135deg);
+    content: "";
   }
   :where(
       [data-side="top"] > .ant-tooltip-arrow,
       [data-side="top"] > .ant-popover-arrow
     ) {
-    bottom: -4px;
-    left: calc(var(--ao-arrow-x) - 4px);
+    bottom: 0;
+    left: var(--ao-arrow-x, 50%);
+    transform: translate(-50%, 100%) rotate(180deg);
   }
   :where(
       [data-side="bottom"] > .ant-tooltip-arrow,
       [data-side="bottom"] > .ant-popover-arrow
     ) {
-    top: -4px;
-    left: calc(var(--ao-arrow-x) - 4px);
+    top: 0;
+    left: var(--ao-arrow-x, 50%);
+    transform: translate(-50%, -100%);
   }
   :where(
       [data-side="left"] > .ant-tooltip-arrow,
       [data-side="left"] > .ant-popover-arrow
     ) {
-    right: -4px;
-    top: calc(var(--ao-arrow-y) - 4px);
+    right: 0;
+    top: var(--ao-arrow-y, 50%);
+    transform: translate(100%, -50%) rotate(90deg);
   }
   :where(
       [data-side="right"] > .ant-tooltip-arrow,
       [data-side="right"] > .ant-popover-arrow
     ) {
-    left: -4px;
-    top: calc(var(--ao-arrow-y) - 4px);
+    left: 0;
+    top: var(--ao-arrow-y, 50%);
+    transform: translate(-100%, -50%) rotate(-90deg);
   }
 }

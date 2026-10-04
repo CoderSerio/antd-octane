@@ -476,6 +476,24 @@ export const nav = [
     keywords: "QRCode 二维码",
   },
 ];
+const antdOrderedGroups = new Set(["导航", "数据展示", "反馈", "其他"]);
+const componentDocTitle = (label: string) => label.split(" ", 1)[0] || label;
+
+export function orderComponentGroup<T extends { title: string }>(
+  items: T[],
+  group: string,
+): T[] {
+  if (!antdOrderedGroups.has(group)) return items;
+
+  // antd v5's Dumi sidebar falls back to frontmatter title for equal order/depth siblings.
+  return [...items].sort((a, b) =>
+    componentDocTitle(a.title).localeCompare(
+      componentDocTitle(b.title),
+      "zh-CN",
+    ),
+  );
+}
+
 export const toc: Record<string, [string, string][]> = {
   overview: [
     ["features", "特性"],
@@ -972,11 +990,17 @@ toc.tooltip = [
 ];
 
 toc.popover = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
-  ["basic", "多种触发方式"],
-  ["more", "受控显示与操作"],
+  ["basic", "基本"],
+  ["control", "从浮层内关闭"],
+  ["hover-with-click", "悬停点击弹出窗口"],
+  ["triggerType", "三种触发方式"],
+  ["placement", "位置"],
+  ["arrow", "箭头展示"],
+  ["shift", "贴边偏移"],
   ["api", "API"],
-  ["tokens", "主题与支持范围"],
+  ["tokens", "主题变量"],
 ];
 
 toc["input-number"] = [

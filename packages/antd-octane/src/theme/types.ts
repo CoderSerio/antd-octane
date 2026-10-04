@@ -8,6 +8,7 @@ import type {
   DescriptionsToken,
   ImageToken,
   ListToken,
+  PopoverToken,
 } from "./component-tokens";
 
 export type * from "./component-tokens";
@@ -188,11 +189,7 @@ export interface ThemeConfig {
       trackBgDisabled: string;
     }>;
     Tooltip?: ComponentTheme<{ zIndexPopup: number }>;
-    Popover?: ComponentTheme<{
-      zIndexPopup: number;
-      titleMinWidth: number;
-      innerPadding: number | string;
-    }>;
+    Popover?: ComponentTheme<PopoverToken & { innerPadding: number | string }>;
     Progress?: ComponentTheme<{
       defaultColor: string;
       remainingColor: string;

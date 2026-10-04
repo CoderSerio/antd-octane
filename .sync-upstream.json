@@ -150,7 +150,8 @@
       "components/empty/{index,empty,simple}.tsx",
       "components/image/{index,PreviewGroup}.tsx",
       "components/list/{index,Item}.tsx",
-      "components/list/context.ts"
+      "components/list/context.ts",
+      "components/popover/index.tsx"
     ],
     "destination": [
       "packages/antd-octane/src/calendar",
@@ -160,7 +161,8 @@
       "packages/antd-octane/src/descriptions",
       "packages/antd-octane/src/empty",
       "packages/antd-octane/src/image",
-      "packages/antd-octane/src/list"
+      "packages/antd-octane/src/list",
+      "packages/antd-octane/src/popover"
     ],
     "notes": "Source contracts, module structure, artwork and supported lifecycle/style behavior adapted to Octane. React runtime dependencies remain development references. Source API descriptions do not certify complete parity; see component support sections."
   },
