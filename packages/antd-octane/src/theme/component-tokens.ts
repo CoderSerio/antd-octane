@@ -798,3 +798,22 @@ export interface TreeSharedToken {
    */
   nodeSelectedColor: string;
 }
+
+// components/alert/style/index.ts
+export interface AlertToken {
+  /**
+   * @desc 默认内间距
+   * @descEN Default padding
+   */
+  defaultPadding: CSSProperties["padding"];
+  /**
+   * @desc 带有描述的内间距
+   * @descEN Padding with description
+   */
+  withDescriptionPadding: CSSProperties["padding"];
+  /**
+   * @desc 带有描述时的图标尺寸
+   * @descEN Icon size with description
+   */
+  withDescriptionIconSize: number;
+}

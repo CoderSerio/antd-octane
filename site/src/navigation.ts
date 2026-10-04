@@ -693,7 +693,7 @@ toc.tag = [
   ["tokens", "主题变量"],
 ];
 toc.alert = [
-  ["when", "何时使用"],
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
   ["basic", "基本使用"],
   ["more", "组合与交互"],

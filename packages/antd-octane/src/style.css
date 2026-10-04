@@ -949,6 +949,8 @@
   }
   :where(.ant-alert) {
     box-sizing: border-box;
+    margin: 0;
+    list-style: none;
     display: flex;
     align-items: center;
     position: relative;
@@ -958,44 +960,104 @@
     font-size: var(--ao-font-size);
     line-height: var(--ao-line);
     background: var(--ao-alert-bg);
-    border: 1px solid var(--ao-alert-border);
+    border: var(--ao-alert-border-width) var(--ao-alert-border-style)
+      var(--ao-alert-border);
     border-radius: var(--ao-alert-radius);
     overflow-wrap: break-word;
   }
   :where(.ant-alert-icon) {
-    display: flex;
-    flex-shrink: 0;
-    margin-inline-end: 8px;
-    font-size: var(--ao-alert-icon-size);
+    margin-inline-end: var(--ao-alert-icon-gap);
+    line-height: 0;
     color: var(--ao-alert-icon);
   }
   :where(.ant-alert-with-description) {
     align-items: flex-start;
   }
   :where(.ant-alert-with-description .ant-alert-icon) {
-    margin-inline-end: var(--ao-alert-icon-gap);
+    font-size: var(--ao-alert-icon-size);
+  }
+  :where(.ant-alert-rtl) {
+    direction: rtl;
+  }
+  :where(.ant-alert [class^="ant-alert"], .ant-alert [class*=" ant-alert"]) {
+    box-sizing: border-box;
+  }
+  :where(.ant-alert .anticon > *) {
+    line-height: 1;
+  }
+  :where(.ant-alert .anticon svg) {
+    display: inline-block;
   }
   :where(.ant-alert-content) {
     min-width: 0;
     flex: 1;
   }
-  :where(.ant-alert-message) {
-    font-size: var(--ao-alert-heading);
-  }
   :where(.ant-alert-with-description .ant-alert-message) {
     margin-bottom: var(--ao-alert-message-gap);
+    display: block;
   }
-  :where(.ant-alert-action, .ant-alert-close-icon) {
-    margin-inline-start: 8px;
+  :where(.ant-alert-with-description .ant-alert-description) {
+    display: block;
+    color: var(--ao-text);
+  }
+  :where(.ant-alert-error .ant-alert-description > pre) {
+    margin: 0;
+    padding: 0;
   }
   :where(.ant-alert-close-icon) {
-    flex-shrink: 0;
-    color: var(--ao-muted);
-    height: 22px;
+    padding: 0;
+    overflow: hidden;
+    font-size: var(--ao-alert-close-size);
+    line-height: var(--ao-alert-close-size);
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+  }
+  :where(.ant-alert-close-icon .anticon-close, .ant-alert-close-text) {
+    color: var(--ao-alert-close-color);
+    transition: color var(--ao-motion-mid);
+  }
+  :where(
+      .ant-alert-close-icon .anticon-close:hover,
+      .ant-alert-close-text:hover
+    ) {
+    color: var(--ao-alert-close-hover);
   }
   :where(.ant-alert-banner) {
-    border: 0;
+    margin-bottom: 0;
+    /* biome-ignore lint/complexity/noImportantStyles: Upstream banners override an authored border. */
+    border: 0 !important;
     border-radius: 0;
+  }
+  :where(.ant-alert a:not(.ant-btn, .ant-typography)) {
+    color: var(--ao-alert-link);
+    text-decoration: var(--ao-alert-link-decoration);
+    background-color: transparent;
+    outline: none;
+    cursor: pointer;
+    transition: color var(--ao-motion-slow);
+  }
+  :where(.ant-alert a:not(.ant-btn, .ant-typography):hover) {
+    color: var(--ao-alert-link-hover);
+  }
+  :where(.ant-alert a:not(.ant-btn, .ant-typography):active) {
+    color: var(--ao-alert-link-active);
+  }
+  :where(
+      .ant-alert a:not(.ant-btn, .ant-typography):hover,
+      .ant-alert a:not(.ant-btn, .ant-typography):active
+    ) {
+    text-decoration: var(--ao-alert-link-hover-decoration);
+    outline: 0;
+  }
+  :where(.ant-alert a:not(.ant-btn, .ant-typography):focus) {
+    text-decoration: var(--ao-alert-link-focus-decoration);
+    outline: 0;
+  }
+  :where(.ant-alert a:not(.ant-btn, .ant-typography)[disabled]) {
+    color: var(--ao-alert-link-disabled);
+    cursor: not-allowed;
   }
   :where(.ant-card) {
     box-sizing: border-box;

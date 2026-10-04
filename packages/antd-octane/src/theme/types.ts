@@ -17,6 +17,7 @@ import type {
   TooltipToken,
   TourToken,
   TreeToken,
+  AlertToken,
 } from "./component-tokens";
 
 export type * from "./component-tokens";
@@ -283,11 +284,7 @@ export interface ThemeConfig {
       wrapperMarginInlineEnd: number;
     }>;
     Tag?: ComponentTheme<TagToken>;
-    Alert?: ComponentTheme<{
-      withDescriptionIconSize: number;
-      defaultPadding: string;
-      withDescriptionPadding: string;
-    }>;
+    Alert?: ComponentTheme<AlertToken>;
     Card?: ComponentTheme<CardToken>;
     Badge?: ComponentTheme<BadgeToken>;
     Calendar?: ComponentTheme<CalendarToken>;

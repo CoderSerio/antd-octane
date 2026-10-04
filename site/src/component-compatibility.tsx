@@ -4,6 +4,20 @@ export function ComponentCompatibilityNotes() {
     <>
 
       <details>
+        <summary>Alert</summary>
+        <p>
+          支持类型、自定义图标、关闭配置、操作、Provider 样式与 nativeElement
+          ref。关闭时按上游测量更新后的高度，在移除节点前触发 afterClose；
+          禁用主题动画时不触发该动画回调。10 个公开示例与定向边界案例已对照 antd
+          5.29.3 的默认、深色、紧凑、品牌、组件及嵌套主题，包含桌面、窄屏与
+          RTL。ErrorBoundary 使用 Octane 原生错误边界，提供错误信息与原生堆栈；
+          React 的组件堆栈不适用于 Octane。循环公告使用 Octane 原生滚动实现。
+          本地站点当前使用 workspace 源码，改动尚未发布到 npm；这些案例不代表
+          完整 API、动效、SSR 或跨浏览器认证。
+        </p>
+      </details>
+
+      <details>
         <summary>Badge</summary>
         <p>
           支持 indicatorHeight / SM、dotSize、textFontSize /

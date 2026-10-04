@@ -23,10 +23,10 @@ export interface IconProps
   twoToneColor?: string | [string, string];
   style?: CSSProperties;
 }
-function draw(node: IconNode): OctaneNode {
+function draw(node: IconNode, index: number): OctaneNode {
   return createElement(
     node.tag,
-    node.attrs,
+    { ...node.attrs, key: `${node.tag}-${index}` },
     ...(node.children ?? []).map(draw),
   );
 }
@@ -42,7 +42,7 @@ export function Icon({
   style,
   ...rest
 }: IconProps) {
-  const { token } = useConfig();
+  const { token, iconPrefixCls = "anticon" } = useConfig();
   const colors = Array.isArray(twoToneColor)
     ? twoToneColor
     : [twoToneColor ?? token.colorPrimary, token.colorPrimaryBg];
@@ -57,13 +57,20 @@ export function Icon({
       {...rest}
       role={labelled ? "img" : rest.role}
       aria-hidden={labelled ? undefined : true}
-      className={["anticon", icon && `anticon-${icon.name}`, className]}
+      className={[
+        ...new Set([
+          "anticon",
+          iconPrefixCls,
+          icon && `${iconPrefixCls}-${icon.name}`,
+          className,
+        ]),
+      ]}
       style={{
         display: "inline-flex",
         alignItems: "center",
-        color: "inherit",
         fontStyle: "normal",
         lineHeight: 0,
+        textAlign: "center",
         verticalAlign: "-0.125em",
         ...style,
       }}
@@ -96,6 +103,6 @@ export function Icon({
 }
 export function createIcon(icon: IconDefinition) {
   return function DefinedIcon(props: Omit<IconProps, "icon">) {
-    return <Icon {...props} icon={icon} />;
+    return <Icon aria-label={icon.name} {...props} icon={icon} />;
   };
 }

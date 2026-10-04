@@ -16,7 +16,11 @@
       "types": "./src/index.ts",
       "import": "./src/entry.ts"
     },
-    "./style.css": "./src/style.css"
+    "./style.css": "./src/style.css",
+    "./icons": {
+      "types": "./src/icons.tsx",
+      "import": "./src/icons.tsx"
+    }
   },
   "peerDependencies": {
     "octane": "0.4.3"

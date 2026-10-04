@@ -3,6 +3,7 @@ import type { OctaneNode } from "octane";
 import { upstreamSlug } from "./component-coverage";
 import { ComponentProse, ComponentSectionHeading } from "./component-prose";
 import { ApiTable } from "./docs-ui";
+import alert from "./feedback/alert.json";
 
 export interface ApiSection {
   title: string;
@@ -17,6 +18,7 @@ const references: Record<
   string,
   { api: ApiSection[]; tokens: TokenReference }
 > = {
+  Alert: alert,
 
 };
 
