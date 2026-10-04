@@ -11,6 +11,7 @@ import notification from "./feedback/notification.json";
 import popconfirm from "./feedback/popconfirm.json";
 import progress from "./feedback/progress.json";
 import result from "./feedback/result.json";
+import skeleton from "./feedback/skeleton.json";
 
 export interface ApiSection {
   title: string;
@@ -34,6 +35,7 @@ const references: Record<
   Popconfirm: popconfirm,
   Progress: progress,
   Result: result,
+  Skeleton: skeleton,
 
 };
 

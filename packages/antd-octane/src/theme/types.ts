@@ -25,6 +25,7 @@ import type {
   PopconfirmToken,
   ProgressToken,
   ResultToken,
+  SkeletonToken,
 } from "./component-tokens";
 
 export type * from "./component-tokens";
@@ -287,16 +288,9 @@ export interface ThemeConfig {
       dotSizeLG: number;
       contentHeight: number;
     }>;
-    Skeleton?: ComponentTheme<{
-      gradientFromColor: string;
-      gradientToColor: string;
-      color: string;
-      colorGradientEnd: string;
-      titleHeight: number;
-      blockRadius: number;
-      paragraphMarginTop: number;
-      paragraphLiHeight: number;
-    }>;
+    Skeleton?: ComponentTheme<
+      SkeletonToken & { color: string; colorGradientEnd: string }
+    >;
     List?: ComponentTheme<ListToken>;
     Divider?: ComponentTheme<{
       textPaddingInline: string | number;

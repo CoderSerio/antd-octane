@@ -95,7 +95,8 @@ it("Skeleton exposes row widths and restores children when loading completes", a
       <button type="button">ready</button>
     </Skeleton>,
   );
-  expect(container.querySelectorAll('[role="status"]')).toHaveLength(1);
+  expect(container.querySelectorAll('[role="status"]')).toHaveLength(0);
+  expect(container.querySelectorAll(".ant-skeleton")).toHaveLength(1);
   expect(container.querySelectorAll("li")).toHaveLength(2);
   expect(container.querySelector("li")?.style.width).toBe("100px");
   expect(container.querySelectorAll("li")[1].style.width).toBe("50%");
@@ -106,7 +107,7 @@ it("Skeleton exposes row widths and restores children when loading completes", a
     </Skeleton>,
   );
   expect(container.querySelector("button")?.textContent).toBe("ready");
-  await render(<Skeleton paragraph={{ rows: Infinity }} />);
+  await render(<Skeleton paragraph={{ rows: 0 }} />);
   expect(container.querySelectorAll("li")).toHaveLength(0);
 });
 
@@ -126,11 +127,11 @@ it("Skeleton variants honor geometry and custom nodes", async () => {
     container.querySelector<HTMLElement>(".ant-skeleton-avatar")?.style.width,
   ).toBe("48px");
   expect(
-    container.querySelector<HTMLElement>(".ant-skeleton-button")?.style.width,
-  ).toBe("100%");
-  expect(
-    container.querySelector<HTMLElement>(".ant-skeleton-input")?.style.height,
-  ).toBe("24px");
+    container
+      .querySelector(".ant-skeleton-button")
+      ?.parentElement?.classList.contains("ant-skeleton-block"),
+  ).toBe(true);
+  expect(container.querySelector(".ant-skeleton-input-sm")).not.toBeNull();
   expect(container.textContent).toContain("custom node");
 });
 

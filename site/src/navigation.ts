@@ -878,11 +878,14 @@ toc.spin = [
 ];
 
 toc.skeleton = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
   ["basic", "内容占位"],
-  ["more", "独立占位组件"],
-  ["layout", "按内容结构配置"],
-  ["element-sizes", "独立占位尺寸"],
+  ["complex", "复杂的组合"],
+  ["active", "动画效果"],
+  ["element", "按钮/头像/输入框/图像/自定义节点"],
+  ["children", "包含子组件"],
+  ["list", "列表"],
   ["api", "API"],
   ["tokens", "主题与支持范围"],
 ];

@@ -127,7 +127,18 @@
       "packages/antd-octane/src/notification/interface.ts",
       "packages/antd-octane/src/notification/useNotification.tsx",
       "packages/antd-octane/src/notification/PureContent.tsx",
-      "packages/antd-octane/src/notification/util.tsx"
+      "packages/antd-octane/src/notification/util.tsx",
+      "packages/antd-octane/src/skeleton/interface.ts",
+      "packages/antd-octane/src/skeleton/Skeleton.tsx",
+      "packages/antd-octane/src/skeleton/Element.tsx",
+      "packages/antd-octane/src/skeleton/Title.tsx",
+      "packages/antd-octane/src/skeleton/Paragraph.tsx",
+      "packages/antd-octane/src/skeleton/Avatar.tsx",
+      "packages/antd-octane/src/skeleton/Button.tsx",
+      "packages/antd-octane/src/skeleton/Input.tsx",
+      "packages/antd-octane/src/skeleton/Image.tsx",
+      "packages/antd-octane/src/skeleton/Node.tsx",
+      "packages/antd-octane/src/skeleton/useSkeletonStyle.ts"
     ],
     "notes": "Supported defaults and state styles adapted to static CSS variables; see THIRD_PARTY_NOTICES.md and docs/compatibility.md."
   },

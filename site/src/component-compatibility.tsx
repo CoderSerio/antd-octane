@@ -354,6 +354,23 @@ export function ComponentCompatibilityNotes() {
           可提供样式与类名；自定义 prefixCls 同时保留 ant-* 样式类。
         </p>
       </details>
+      <details>
+        <summary>Skeleton</summary>
+        <p>
+          支持主骨架及 Avatar、Button、Input、Image、Node
+          子组件，配置名称与默认值参照 Ant Design 5.29.3。
+        </p>
+        <p>
+          未发布源码已按上游拆分 Element、Title、Paragraph 和各子组件，补齐
+          标题与段落的 prefixCls / className / style；保留显式 undefined
+          覆盖默认配置的行为。loading 未传时展示骨架，显式传入 undefined 时展示
+          children。头像使用直接 span；图片与图标尺寸随主题 controlHeight
+          变化，元素圆角与标题、段落的 blockRadius 分别处理。 Provider 的
+          skeleton 类名和样式应用于主组件。
+          已对照默认、深色、紧凑、品牌、组件及嵌套主题的定向案例；
+          这不代表全部样式组合、CSS-in-JS 隔离或跨浏览器行为完全一致。
+        </p>
+      </details>
 
       <details>
         <summary>Statistic</summary>
