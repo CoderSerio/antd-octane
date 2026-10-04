@@ -24,7 +24,21 @@ export function ComponentCompatibilityNotes() {
           完整 API、动效、SSR 或跨浏览器认证。
         </p>
       </details>
-
+      <details>
+        <summary>App</summary>
+        <p>
+          通过 App.useApp 提供 message、notification、modal 实例，支持
+          component=false、自定义包裹组件及默认配置。实例需在 App
+          的子组件中读取。 未发布源码已拆分 App、Context、useApp 和样式
+          Hook，补齐 RTL、App 组件主题覆盖及嵌套配置合并。自定义包裹组件只需转发
+          className 即可保留重置样式；其 style 仅接收调用方的显式样式。
+          component=false 不创建包裹节点，也不应用该重置样式。App 外读取 useApp
+          返回空实例对象。未发布源码的动态重置样式已接入
+          ConfigProvider.csp.nonce，
+          并在嵌套主题、RTL、桌面和窄屏下检查；CSS-in-JS 的 hashed/cssVar 与 SSR
+          样式提取仍待实现。
+        </p>
+      </details>
       <details>
         <summary>Badge</summary>
         <p>

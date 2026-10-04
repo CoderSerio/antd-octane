@@ -106,6 +106,7 @@ export interface ThemeConfig {
   components?: {
     Table?: ComponentTheme<TableToken>;
     Tree?: ComponentTheme<TreeToken>;
+    App?: ComponentTheme;
     Select?: ComponentTheme<{ zIndexPopup: number }>;
     QRCode?: ComponentTheme;
     Tour?: ComponentTheme<TourToken>;

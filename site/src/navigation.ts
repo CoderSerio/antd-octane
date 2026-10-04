@@ -1248,6 +1248,7 @@ toc.watermark = [
   ["tokens", "主题与支持范围"],
 ];
 toc.app = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
   ["basic", "共享实例"],
   ["more", "不增加容器"],

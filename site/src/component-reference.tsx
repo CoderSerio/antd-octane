@@ -15,6 +15,7 @@ import skeleton from "./feedback/skeleton.json";
 import spin from "./feedback/spin.json";
 import watermark from "./feedback/watermark.json";
 import affix from "./other/affix.json";
+import app from "./other/app.json";
 
 export interface ApiSection {
   title: string;
@@ -31,6 +32,7 @@ const references: Record<
 > = {
   Alert: alert,
   Affix: affix,
+  App: app,
 
   Drawer: drawer,
   Message: message,

@@ -1,6 +1,7 @@
 import type { ElementDescriptor, Root } from "octane";
 import { act, createRoot } from "octane";
 import { afterEach, expect, it, vi } from "vitest";
+import { App } from "../packages/antd-octane/src/app";
 import {
   ConfigProvider,
   useConfig,
@@ -62,6 +63,85 @@ function NotificationDemo() {
 function ThemeReader() {
   return <span data-color={useConfig().token.colorPrimary}>context</span>;
 }
+
+it("direct notice hooks remain independent of surrounding App defaults", async () => {
+  function DirectHooks() {
+    const [messageApi, messageHolder] = message.useMessage();
+    const [notificationApi, notificationHolder] =
+      notification.useNotification();
+    api = messageApi;
+    notices = notificationApi;
+    return (
+      <>
+        {messageHolder}
+        {notificationHolder}
+      </>
+    );
+  }
+  await render(
+    <App message={{ maxCount: 1 }} notification={{ maxCount: 1 }}>
+      <DirectHooks />
+    </App>,
+  );
+  await act(() => {
+    for (const value of ["one", "two"]) {
+      api.info({ content: value, duration: 0 });
+      notices.open({ message: value, duration: 0 });
+    }
+  });
+  expect(document.querySelectorAll(".ant-message-notice")).toHaveLength(2);
+  expect(document.querySelectorAll(".ant-notification-notice")).toHaveLength(2);
+});
+
+it("static holder App settings override global defaults and config updates", async () => {
+  ConfigProvider.config({
+    holderRender: (children) => (
+      <ConfigProvider theme={{ token: { motion: false } }} prefixCls="static">
+        <App message={{ maxCount: 1 }} notification={{ maxCount: 1 }}>
+          {children}
+        </App>
+      </ConfigProvider>
+    ),
+  });
+  try {
+    await act(() => {
+      message.config({ maxCount: 4, duration: 0 });
+      notification.config({ maxCount: 4, duration: 0 });
+      for (const value of ["one", "two"]) {
+        message.info(value);
+        notification.open({ message: value });
+      }
+    });
+    expect(document.querySelectorAll(".static-message-notice")).toHaveLength(1);
+    expect(
+      document.querySelectorAll(".static-notification-notice"),
+    ).toHaveLength(1);
+    await act(() => {
+      message.config({ maxCount: 5 });
+      notification.config({ maxCount: 5 });
+      message.info("three");
+      notification.open({ message: "three" });
+    });
+    expect(document.querySelectorAll(".static-message-notice")).toHaveLength(1);
+    expect(
+      document.querySelectorAll(".static-notification-notice"),
+    ).toHaveLength(1);
+    expect(
+      document.querySelector(".static-message-notice")?.textContent,
+    ).toContain("three");
+    expect(
+      document.querySelector(".static-notification-notice")?.textContent,
+    ).toContain("three");
+  } finally {
+    await act(() => {
+      message.destroy();
+      notification.destroy();
+      ConfigProvider.config({ holderRender: undefined });
+      message.config({ maxCount: undefined, duration: 3 });
+      notification.config({ maxCount: undefined, duration: 4.5 });
+    });
+  }
+});
 
 it("message holder preserves local context across portal and resolves callable thenable", async () => {
   await render(<MessageDemo />);
