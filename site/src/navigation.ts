@@ -483,6 +483,13 @@ export const nav = [
     keywords: "ConfigProvider 全局化配置 国际化 主题 尺寸 禁用",
   },
   {
+    id: "util",
+    title: "Util 工具类",
+    category: "components",
+    group: "其他",
+    keywords: "GetProp GetProps GetRef TypeScript 工具类型",
+  },
+  {
     id: "tour",
     title: "Tour 漫游式引导",
     category: "components",
@@ -1592,4 +1599,9 @@ toc["config-provider"] = [
   ["wave", "自定义波纹"],
   ["holderRender", "静态方法"],
   ["api", "API"],
+];
+toc.util = [
+  ["get-ref", "GetRef"],
+  ["get-props", "GetProps"],
+  ["get-prop", "GetProp"],
 ];

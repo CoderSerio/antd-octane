@@ -6,6 +6,7 @@ import {
   getDesignToken,
 } from "./theme/resolve";
 
+export type { GetProp, GetProps, GetRef } from "./_util/type";
 export type {
   AutoCompleteOption,
   AutoCompleteProps,
