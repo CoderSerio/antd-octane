@@ -174,6 +174,30 @@ export function ComponentCompatibilityNotes() {
         </p>
       </details>
 
+      <details>
+        <summary>QRCode</summary>
+        <p>
+          使用 Project Nayuki 的 MIT 编码算法。支持 QRCode 全局 alias token
+          覆盖；Canvas 按设备像素比绘制。value 为空时不渲染，超长文本显示提示。
+          API 表沿用 antd 5 文档中的 color 默认值 #000；antd 5.29.3
+          源码实际默认取 colorText，本组件采用相同实现，随主题变化。
+        </p>
+        <p>
+          支持中心图标、statusRender、imageSettings、自定义静区尺寸与字符串数组分段。
+          Canvas 仅在图标加载成功后挖孔，加载失败保留完整矩阵。状态文本读取
+          ConfigProvider.locale.QRCode，
+          默认使用上游英文文案；无边框时保留透明边框并移除内边距和圆角。
+        </p>
+        <p>
+          minVersion、marginSize/includeMargin、imageSettings、fgColor/level
+          别名是原生扩展；antd 5 的 QRCode
+          包装层并未将它们全部传给内部渲染器。图标尺寸按 size
+          换算为模块坐标，Canvas 位图为 size ×
+          设备像素比，显示区域由布局控制。role/aria-* 放在 Canvas 或 SVG；data-*
+          和 title 留在外层 div，不生成默认二维码标签。
+        </p>
+      </details>
+
     </>
   );
 }

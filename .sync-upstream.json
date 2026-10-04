@@ -118,7 +118,8 @@
       "packages/antd-octane/src/surfaces.css",
       "packages/antd-octane/src/tour.css",
       "packages/antd-octane/src/carousel.css",
-      "packages/antd-octane/src/collapse.css"
+      "packages/antd-octane/src/collapse.css",
+      "packages/antd-octane/src/qr-code.css"
     ],
     "notes": "Supported defaults and state styles adapted to static CSS variables; see THIRD_PARTY_NOTICES.md and docs/compatibility.md."
   },
@@ -151,7 +152,8 @@
       "components/image/{index,PreviewGroup}.tsx",
       "components/list/{index,Item}.tsx",
       "components/list/context.ts",
-      "components/popover/index.tsx"
+      "components/popover/index.tsx",
+      "components/qr-code/{index,QrcodeStatus}.tsx"
     ],
     "destination": [
       "packages/antd-octane/src/calendar",
@@ -162,7 +164,8 @@
       "packages/antd-octane/src/empty",
       "packages/antd-octane/src/image",
       "packages/antd-octane/src/list",
-      "packages/antd-octane/src/popover"
+      "packages/antd-octane/src/popover",
+      "packages/antd-octane/src/qr-code"
     ],
     "notes": "Source contracts, module structure, artwork and supported lifecycle/style behavior adapted to Octane. React runtime dependencies remain development references. Source API descriptions do not certify complete parity; see component support sections."
   },
@@ -225,6 +228,16 @@
         "packages/antd-octane/src/_util/dialog.tsx",
         "packages/antd-octane/src/image/preview.tsx"
       ]
+    },
+    "@rc-component/qrcode": {
+      "version": "1.1.3",
+      "source": [
+        "es/QRCodeCanvas.js",
+        "es/QRCodeSVG.js",
+        "es/hooks/useQRCode.js",
+        "es/utils.js"
+      ],
+      "destination": "packages/antd-octane/src/qr-code"
     }
   },
   "data-display-icons": {
@@ -237,7 +250,8 @@
     "destination": [
       "packages/antd-octane/src/calendar.css",
       "packages/antd-octane/src/collapse/CollapsePanel.tsx",
-      "packages/antd-octane/src/image/icons.tsx"
+      "packages/antd-octane/src/image/icons.tsx",
+      "packages/antd-octane/src/qr-code/QRCodeStatus.tsx"
     ],
     "notes": "Original MIT SVG geometry; Octane renderers and no React icon runtime."
   },

@@ -96,5 +96,11 @@
       "Popover": 0,
       "共同的 API": 0
     }
+  },
+  "QRCode": {
+    "when": "当需要将文本转换成为二维码时使用。",
+    "sectionHeadings": {
+      "QRCode": 0
+    }
   }
 }

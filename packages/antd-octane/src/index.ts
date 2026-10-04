@@ -226,7 +226,21 @@ export type { PopoverProps } from "./popover";
 export { Popover } from "./popover";
 export type { ProgressGradient, ProgressProps } from "./progress";
 export { Progress } from "./progress";
-export type { QRCodeProps } from "./qr-code";
+export type {
+  ImageSettings,
+  QRCodeCrossOrigin,
+  QRCodeImageSettings,
+  QRCodeLevel,
+  QRCodeLocale,
+  QRCodeProps,
+  QRCodeStatus,
+  QRCodeStatusRenderInfo,
+  QRProps,
+  QRPropsCanvas,
+  QRPropsSvg,
+  QRStatus,
+  StatusRenderInfo,
+} from "./qr-code";
 export { QRCode } from "./qr-code";
 export type {
   RadioChangeEvent,

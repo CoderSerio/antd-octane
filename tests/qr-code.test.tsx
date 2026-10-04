@@ -3,17 +3,29 @@ import type { ElementDescriptor, Root } from "octane";
 import { act, createRoot } from "octane";
 import { afterEach, expect, it, vi } from "vitest";
 import { QRCode } from "../packages/antd-octane/src/qr-code";
-import { qrcodegen } from "../packages/antd-octane/src/qr-code/vendor/qrcodegen";
+import {
+  qrcodegen,
+} from "../packages/antd-octane/src/qr-code/vendor/qrcodegen";
 
 const require = createRequire(import.meta.url);
+
 const fromAntd = createRequire(require.resolve("antd/package.json"));
+
 const reference = fromAntd("@rc-component/qrcode/lib/libs/qrcodegen") as {
   QrCode: typeof qrcodegen.QrCode;
   Ecc: typeof qrcodegen.QrCode.Ecc;
 };
+
+const rendererReference = fromAntd("@rc-component/qrcode/lib/utils") as {
+  generatePath: (cells: boolean[][], margin: number) => string;
+};
+
 const levels = { L: "LOW", M: "MEDIUM", Q: "QUARTILE", H: "HIGH" } as const;
+
 let root: Root | undefined;
+
 let container: HTMLDivElement;
+
 async function render(node: ElementDescriptor) {
   if (!root) {
     container = document.createElement("div");
@@ -22,16 +34,19 @@ async function render(node: ElementDescriptor) {
   }
   await act(() => root?.render(node));
 }
+
 afterEach(async () => {
   await act(() => root?.unmount());
   root = undefined;
   container?.remove();
   vi.restoreAllMocks();
 });
+
 const matrix = (qr: qrcodegen.QrCode) =>
   Array.from({ length: qr.size }, (_, y) =>
     Array.from({ length: qr.size }, (_, x) => qr.getModule(x, y)),
   );
+
 for (const level of ["L", "M", "Q", "H"] as const)
   it(`encoder matches antd's dev reference for ${level} numeric, ASCII, UTF8 and multiversion text`, () => {
     for (const text of [
@@ -53,25 +68,23 @@ for (const level of ["L", "M", "Q", "H"] as const)
       expect(matrix(actual)).toEqual(matrix(expected));
     }
   });
-it("SVG path exactly represents modules with a four-module quiet zone", async () => {
+
+it("SVG path exactly represents modules with an explicit four-module quiet zone", async () => {
   const value = "中文 SVG 🧩";
-  await render(<QRCode value={value} type="svg" errorLevel="H" />);
+  await render(
+    <QRCode value={value} type="svg" errorLevel="H" marginSize={4} />,
+  );
   const qr = reference.QrCode.encodeText(value, reference.Ecc.HIGH);
   const svg = container.querySelector("svg") as SVGSVGElement;
   expect(svg.getAttribute("viewBox")).toBe(`0 0 ${qr.size + 8} ${qr.size + 8}`);
-  const modules = Array.from(
-    svg
-      .querySelector("path")
-      ?.getAttribute("d")
-      ?.matchAll(/M(\d+) (\d+)h1v1h-1z/g) ?? [],
-  ).map((match) => [Number(match[1]) - 4, Number(match[2]) - 4]);
-  const expected: number[][] = [];
-  for (let y = 0; y < qr.size; y++)
-    for (let x = 0; x < qr.size; x++)
-      if (qr.getModule(x, y)) expected.push([x, y]);
-  expect(modules).toEqual(expected);
-  expect(svg.getAttribute("aria-label")).toBe("二维码");
+  expect(svg.querySelectorAll("path")).toHaveLength(2);
+  expect(svg.querySelectorAll("path")[1].getAttribute("d")).toBe(
+    rendererReference.generatePath(matrix(qr), 4),
+  );
+  expect(svg.getAttribute("aria-label")).toBeNull();
+  expect(svg.querySelector("title")).toBeNull();
 });
+
 it("Canvas paints the same matrix, rerenders colors/value and uses DPR", async () => {
   const paints: Array<{ color: string; rect: number[] }> = [];
   let fillStyle = "";
@@ -82,6 +95,7 @@ it("Canvas paints the same matrix, rerenders colors/value and uses DPR", async (
     set fillStyle(value: string) {
       fillStyle = value;
     },
+    scale: vi.fn(),
     fillRect: (...rect: number[]) => paints.push({ color: fillStyle, rect }),
   };
   vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(
@@ -90,10 +104,14 @@ it("Canvas paints the same matrix, rerenders colors/value and uses DPR", async (
   vi.spyOn(window, "devicePixelRatio", "get").mockReturnValue(2);
   await render(<QRCode value="Canvas" color="#112233" bgColor="#ffffff" />);
   const canvas = container.querySelector("canvas") as HTMLCanvasElement;
-  expect(canvas.width).toBe(268);
+  expect(canvas.width).toBe(320);
   const qr = reference.QrCode.encodeText("Canvas", reference.Ecc.MEDIUM);
+  expect(ctx.scale).toHaveBeenLastCalledWith(320 / qr.size, 320 / qr.size);
   expect(paints).toHaveLength(matrix(qr).flat().filter(Boolean).length + 1);
-  expect(paints[0]).toEqual({ color: "#ffffff", rect: [0, 0, 268, 268] });
+  expect(paints[0]).toEqual({
+    color: "#ffffff",
+    rect: [0, 0, qr.size, qr.size],
+  });
   expect(paints.slice(1).every((paint) => paint.color === "#112233")).toBe(
     true,
   );
@@ -102,18 +120,18 @@ it("Canvas paints the same matrix, rerenders colors/value and uses DPR", async (
   expect(paints.length).toBeGreaterThan(previous);
   expect(paints.at(-1)?.color).toBe("#445566");
 });
-it("empty and oversized content render a visible fallback and recover", async () => {
+
+it("empty content renders nothing; oversized content falls back and recovers", async () => {
   await render(<QRCode value="" type="svg" />);
-  expect(container.querySelector("[role=status]")?.textContent).toContain(
-    "无法生成",
-  );
-  expect(container.querySelector("svg")).toBeNull();
+  // Ant Design 5.29.3 components/qr-code/index.tsx returns null for !value.
+  expect(container.childElementCount).toBe(0);
   await render(<QRCode value={"a".repeat(5000)} type="svg" />);
   expect(container.querySelector("[role=status]")).not.toBeNull();
   await render(<QRCode value="valid again" type="svg" />);
   expect(container.querySelector("svg")).not.toBeNull();
   expect(container.querySelector("[role=status]")).toBeNull();
 });
+
 it("expired refresh callback and loading state remain operable", async () => {
   const refresh = vi.fn();
   await render(
