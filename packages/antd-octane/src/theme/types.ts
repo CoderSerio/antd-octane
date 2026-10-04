@@ -27,6 +27,7 @@ import type {
   ResultToken,
   SkeletonToken,
   SpinToken,
+  AffixToken,
 } from "./component-tokens";
 
 export type * from "./component-tokens";
@@ -112,7 +113,7 @@ export interface ThemeConfig {
       linkPaddingBlock: number;
       linkPaddingInlineStart: number;
     }>;
-    Affix?: ComponentTheme<{ zIndexPopup: number }>;
+    Affix?: ComponentTheme<AffixToken>;
     FloatButton?: ComponentTheme;
     Image?: ComponentTheme<
       ImageToken & {

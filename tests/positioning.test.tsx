@@ -6,7 +6,9 @@ import { Anchor } from "../packages/antd-octane/src/anchor";
 import { FloatButton } from "../packages/antd-octane/src/float-button";
 
 let root: Root | undefined;
+
 let container: HTMLDivElement;
+
 async function render(node: ElementDescriptor) {
   if (!root) {
     container = document.createElement("div");
@@ -15,6 +17,7 @@ async function render(node: ElementDescriptor) {
   }
   await act(() => root?.render(node));
 }
+
 afterEach(async () => {
   await act(() => root?.unmount());
   root = undefined;
@@ -25,12 +28,14 @@ afterEach(async () => {
   vi.restoreAllMocks();
   vi.unstubAllGlobals();
 });
+
 function target() {
   const node = document.createElement("div");
   node.dataset.positionTarget = "";
   document.body.append(node);
   return node;
 }
+
 it("Affix pins to custom target, preserves placeholder and restores on scrolling back", async () => {
   const scroll = target();
   vi.spyOn(scroll, "getBoundingClientRect").mockReturnValue({
@@ -48,19 +53,29 @@ it("Affix pins to custom target, preserves placeholder and restores on scrolling
     content = holder.firstElementChild as HTMLElement;
   let top = 80;
   vi.spyOn(holder, "getBoundingClientRect").mockImplementation(
-    () => ({ top, bottom: top + 32, width: 100, left: 20 }) as DOMRect,
+    () =>
+      ({ top, bottom: top + 32, width: 100, height: 32, left: 20 }) as DOMRect,
   );
   vi.spyOn(content, "getBoundingClientRect").mockReturnValue({
     height: 32,
   } as DOMRect);
-  await act(() => ref.current?.updatePosition());
+  await act(async () => {
+    ref.current?.updatePosition();
+    await new Promise(requestAnimationFrame);
+  });
   expect(content.style.top).toBe("110px");
-  expect(holder.style.height).toBe("32px");
+  expect(
+    holder.querySelector<HTMLElement>('[aria-hidden="true"]')?.style.height,
+  ).toBe("32px");
   top = 130;
-  await act(() => ref.current?.updatePosition());
+  await act(async () => {
+    ref.current?.updatePosition();
+    await new Promise(requestAnimationFrame);
+  });
   expect(content.style.position).toBe("");
   expect(change).toHaveBeenLastCalledWith(false);
 });
+
 it("Affix unregisters target scroll and resize observers", async () => {
   const scroll = target();
   const remove = vi.spyOn(scroll, "removeEventListener"),
@@ -78,6 +93,7 @@ it("Affix unregisters target scroll and resize observers", async () => {
   expect(remove).toHaveBeenCalledWith("scroll", expect.any(Function));
   expect(disconnect).toHaveBeenCalledOnce();
 });
+
 it("Anchor tracks custom scroll positions and scrolls clicked links with targetOffset", async () => {
   const scroll = target(),
     section = document.createElement("section");
@@ -107,6 +123,7 @@ it("Anchor tracks custom scroll positions and scrolls clicked links with targetO
   expect(move).toHaveBeenCalledWith({ top: -5, behavior: "smooth" });
   expect(change).toHaveBeenCalledWith("#position-two");
 });
+
 it("Anchor onClick can prevent navigation, getCurrentAnchor customizes selection", async () => {
   const scroll = target(),
     section = document.createElement("section");
@@ -128,6 +145,7 @@ it("Anchor onClick can prevent navigation, getCurrentAnchor customizes selection
     "location",
   );
 });
+
 it("FloatButton group expands by button, Escape collapses and controlled state is respected", async () => {
   const change = vi.fn();
   await render(
@@ -160,6 +178,7 @@ it("FloatButton group expands by button, Escape collapses and controlled state i
   );
   expect(container.querySelector('[aria-label="child"]')).toBeNull();
 });
+
 it("FloatButton group composes user click and toggle and respects preventDefault", async () => {
   const click = vi.fn(),
     change = vi.fn();
@@ -192,6 +211,7 @@ it("FloatButton group composes user click and toggle and respects preventDefault
     container.querySelector('[aria-label="composed child"]'),
   ).not.toBeNull();
 });
+
 it("BackTop visibility threshold, target scrolling and cleanup", async () => {
   const scroll = target();
   scroll.scrollTop = 500;

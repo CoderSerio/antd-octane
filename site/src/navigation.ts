@@ -1158,12 +1158,12 @@ toc.popconfirm = [
 ];
 
 toc.affix = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
   ["basic", "指定滚动容器"],
   ["more", "固定到底部"],
   ["offset", "动态偏移与状态回调"],
   ["api", "API"],
-  ["tokens", "主题与支持范围"],
 ];
 toc.anchor = [
   ["examples", "代码演示"],

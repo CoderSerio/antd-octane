@@ -1055,3 +1055,12 @@ export interface SpinToken {
    */
   dotSizeLG: number;
 }
+
+// components/affix/style/index.ts
+export interface AffixToken {
+  /**
+   * @desc 弹出层的 z-index
+   * @descEN z-index of popup
+   */
+  zIndexPopup: number;
+}

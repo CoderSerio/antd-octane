@@ -2,7 +2,15 @@
 export function ComponentCompatibilityNotes() {
   return (
     <>
-
+      <details>
+        <summary>Affix</summary>
+        <p>
+          未发布工作区实现按上游拆分测量工具、帧节流及主题样式，支持上、下偏移、目标滚动容器、状态回调和可取消的
+          updatePosition 引用。固定时保留独立占位节点。
+          与上游一样，只监听目标容器的事件，适用于垂直滚动；水平滚动和复杂 CSS
+          变换祖先仍需额外对照。
+        </p>
+      </details>
       <details>
         <summary>Alert</summary>
         <p>
