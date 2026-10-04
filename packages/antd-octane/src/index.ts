@@ -83,7 +83,18 @@ export type {
   CardTabListType,
 } from "./card";
 export { Card } from "./card";
-export type { CarouselProps, CarouselRef } from "./carousel";
+export type {
+  CarouselEffect,
+  CarouselInnerSliderRef,
+  CarouselProps,
+  CarouselRef,
+  CarouselSettings,
+  CustomArrowProps,
+  DotPosition,
+  LazyLoadTypes,
+  ResponsiveObject,
+  SwipeDirection,
+} from "./carousel";
 export { Carousel } from "./carousel";
 export type {
   CheckboxChangeEvent,

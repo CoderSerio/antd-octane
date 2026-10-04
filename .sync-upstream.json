@@ -116,7 +116,8 @@
       "packages/antd-octane/src/positioning.css",
       "packages/antd-octane/src/media.css",
       "packages/antd-octane/src/surfaces.css",
-      "packages/antd-octane/src/tour.css"
+      "packages/antd-octane/src/tour.css",
+      "packages/antd-octane/src/carousel.css"
     ],
     "notes": "Supported defaults and state styles adapted to static CSS variables; see THIRD_PARTY_NOTICES.md and docs/compatibility.md."
   },
@@ -144,7 +145,8 @@
     ],
     "destination": [
       "packages/antd-octane/src/calendar",
-      "packages/antd-octane/src/card"
+      "packages/antd-octane/src/card",
+      "packages/antd-octane/src/carousel"
     ],
     "notes": "Source contracts, module structure, artwork and supported lifecycle/style behavior adapted to Octane. React runtime dependencies remain development references. Source API descriptions do not certify complete parity; see component support sections."
   },
@@ -160,6 +162,19 @@
       "destination": [
         "packages/antd-octane/src/calendar"
       ]
+    },
+    "@ant-design/react-slick": {
+      "version": "1.1.2",
+      "source": [
+        "lib/default-props.js",
+        "lib/slider.js",
+        "lib/track.js",
+        "lib/dots.js",
+        "lib/arrows.js",
+        "lib/inner-slider.js",
+        "lib/utils/innerSliderUtils.js"
+      ],
+      "destination": "packages/antd-octane/src/carousel"
     }
   },
   "data-display-icons": {

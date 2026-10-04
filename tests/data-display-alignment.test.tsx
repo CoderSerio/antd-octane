@@ -1,7 +1,7 @@
 import type { ElementDescriptor, Root } from "octane";
 import { act, createRoot } from "octane";
 import { afterEach, expect, it, vi } from "vitest";
-import { Card, ConfigProvider, Form } from "../packages/antd-octane/src";
+import { Card, Carousel, ConfigProvider, Form } from "../packages/antd-octane/src";
 
 let root: Root | undefined;
 let container: HTMLDivElement;
@@ -10,6 +10,10 @@ async function render(node: ElementDescriptor) {
   container = document.createElement("div");
   document.body.append(container);
   root = createRoot(container);
+  await act(() => root?.render(node));
+}
+
+async function update(node: ElementDescriptor) {
   await act(() => root?.render(node));
 }
 
@@ -56,4 +60,23 @@ it("Card resolves its variant before deprecated bordered, then Form before provi
     expect(
       element(`[data-card="${name}"]`).classList.contains("ant-card-bordered"),
     ).toBe(true);
+});
+
+it("Carousel uses cssEase ease by default independently from the JavaScript easing prop", async () => {
+  await render(
+    <Carousel easing="linear">
+      <div>First</div>
+      <div>Second</div>
+    </Carousel>,
+  );
+  expect(element(".slick-track").style.transition).toBe("transform 500ms ease");
+  await update(
+    <Carousel easing="linear" cssEase="ease-in">
+      <div>First</div>
+      <div>Second</div>
+    </Carousel>,
+  );
+  expect(element(".slick-track").style.transition).toBe(
+    "transform 500ms ease-in",
+  );
 });

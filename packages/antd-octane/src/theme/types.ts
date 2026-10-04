@@ -3,6 +3,7 @@ import type {
   BadgeToken,
   CalendarToken,
   CardToken,
+  CarouselToken,
 } from "./component-tokens";
 
 export type * from "./component-tokens";
@@ -101,14 +102,7 @@ export interface ThemeConfig {
       previewOperationSizeZoom: number;
       previewOperationBg: string;
     }>;
-    Carousel?: ComponentTheme<{
-      dotWidth: number;
-      dotHeight: number;
-      dotActiveWidth: number;
-      dotGap: number;
-      arrowSize: number;
-      arrowOffset: number;
-    }>;
+    Carousel?: ComponentTheme<CarouselToken>;
     Splitter?: ComponentTheme<{
       splitBarSize: number;
       splitTriggerSize: number;

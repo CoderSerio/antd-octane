@@ -1,0 +1,323 @@
+/* Adapted from Ant Design 5.29.3 Carousel styles (MIT).
+ * See packages/antd-octane/THIRD_PARTY_NOTICES.md for provenance. */
+@layer antd {
+  :where(.ant-carousel) {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  :where(.ant-carousel .slick-slider) {
+    position: relative;
+    display: block;
+    box-sizing: border-box;
+    touch-action: pan-y;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  :where(.ant-carousel .slick-list) {
+    position: relative;
+    display: block;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+  :where(.ant-carousel .slick-list:focus) {
+    outline: none;
+  }
+  :where(.ant-carousel .slick-list.dragging) {
+    cursor: pointer;
+  }
+  :where(.ant-carousel .slick-track) {
+    position: relative;
+    top: 0;
+    inset-inline-start: 0;
+    display: block;
+    height: auto;
+    transition: initial;
+  }
+  :where(.ant-carousel .slick-track)::before,
+  :where(.ant-carousel .slick-track)::after {
+    display: table;
+    content: "";
+  }
+  :where(.ant-carousel .slick-track)::after {
+    clear: both;
+  }
+  :where(.ant-carousel .slick-slide) {
+    display: block;
+    float: left;
+    height: 100%;
+    min-height: 1px;
+    pointer-events: none;
+  }
+  :where(.ant-carousel .slick-slide.slick-active) {
+    pointer-events: auto;
+  }
+  :where(.ant-carousel .slick-slide img) {
+    display: block;
+  }
+  :where(.ant-carousel .slick-slide > div > div) {
+    vertical-align: bottom;
+  }
+  :where(.ant-carousel-fade .slick-slide) {
+    grid-area: auto;
+    align-self: auto;
+    transition-property: opacity, visibility;
+  }
+  :where(.ant-carousel-vertical .slick-track) {
+    height: auto;
+  }
+  :where(.ant-carousel-vertical .slick-slide) {
+    display: block;
+    float: none;
+    height: auto;
+  }
+  :where(.ant-carousel .slick-prev, .ant-carousel .slick-next) {
+    position: absolute;
+    top: 50%;
+    width: var(--ao-carousel-arrow-size);
+    height: var(--ao-carousel-arrow-size);
+    transform: translateY(-50%);
+    color: #fff;
+    opacity: 0.4;
+    background: transparent;
+    padding: 0;
+    line-height: 0;
+    border: 0;
+    outline: none;
+    cursor: pointer;
+    z-index: 1;
+    transition: opacity var(--ao-carousel-motion-duration);
+    font-size: 0;
+  }
+  :where(
+      .ant-carousel .slick-prev:hover,
+      .ant-carousel .slick-next:hover,
+      .ant-carousel .slick-prev:focus,
+      .ant-carousel .slick-next:focus
+    ) {
+    opacity: 1;
+  }
+  :where(
+      .ant-carousel .slick-prev.slick-disabled,
+      .ant-carousel .slick-next.slick-disabled
+    ) {
+    pointer-events: none;
+    opacity: 0;
+  }
+  :where(.ant-carousel .slick-prev, .ant-carousel .slick-next)::after {
+    box-sizing: border-box;
+    position: absolute;
+    top: calc(var(--ao-carousel-arrow-size) * 0.14644661);
+    inset-inline-start: calc(var(--ao-carousel-arrow-size) * 0.14644661);
+    display: inline-block;
+    width: calc(var(--ao-carousel-arrow-size) * 0.70710678);
+    height: calc(var(--ao-carousel-arrow-size) * 0.70710678);
+    border: 0 solid currentcolor;
+    border-inline-start-width: 2px;
+    border-block-start-width: 2px;
+    border-radius: 1px;
+    content: "";
+  }
+  :where(.ant-carousel .slick-prev) {
+    left: auto;
+    inset-inline-start: var(--ao-carousel-arrow-offset);
+  }
+  :where(.ant-carousel .slick-next) {
+    right: auto;
+    inset-inline-end: var(--ao-carousel-arrow-offset);
+  }
+  :where(.ant-carousel .slick-prev)::after {
+    transform: rotate(-45deg);
+  }
+  :where(.ant-carousel .slick-next)::after {
+    transform: rotate(135deg);
+  }
+  :where(.ant-carousel .slick-dots) {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 15;
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  :where(.ant-carousel .slick-dots-bottom) {
+    bottom: var(--ao-carousel-dot-offset);
+  }
+  :where(.ant-carousel .slick-dots-top) {
+    top: var(--ao-carousel-dot-offset);
+    bottom: auto;
+  }
+  :where(.ant-carousel .slick-dots li) {
+    position: relative;
+    display: inline-block;
+    flex: 0 1 auto;
+    box-sizing: content-box;
+    width: var(--ao-carousel-dot-width);
+    height: var(--ao-carousel-dot-height);
+    margin-inline: var(--ao-carousel-dot-gap);
+    padding: 0;
+    text-align: center;
+    text-indent: -999px;
+    vertical-align: top;
+    transition: all var(--ao-carousel-motion-duration);
+    border-radius: var(--ao-carousel-dot-height);
+    overflow: hidden;
+  }
+  :where(.ant-carousel .slick-dots li)::after {
+    display: block;
+    position: absolute;
+    top: 0;
+    inset-inline-start: 0;
+    width: 0;
+    height: var(--ao-carousel-dot-height);
+    content: "";
+    background: transparent;
+    border-radius: var(--ao-carousel-dot-height);
+    opacity: 1;
+    outline: none;
+    cursor: pointer;
+    overflow: hidden;
+  }
+  :where(.ant-carousel .slick-dots button) {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: var(--ao-carousel-dot-height);
+    padding: 0;
+    color: transparent;
+    font-size: 0;
+    background: var(--ao-bg);
+    border: 0;
+    border-radius: var(--ao-carousel-dot-height);
+    outline: none;
+    cursor: pointer;
+    opacity: 0.2;
+    transition: all var(--ao-carousel-motion-duration);
+    overflow: hidden;
+  }
+  :where(.ant-carousel .slick-dots button:hover) {
+    opacity: 0.75;
+  }
+  :where(.ant-carousel .slick-dots button)::after {
+    position: absolute;
+    inset: calc(var(--ao-carousel-dot-gap) * -1);
+    content: "";
+    animation: none;
+    background: transparent;
+  }
+  :where(.ant-carousel .slick-dots .slick-active) {
+    width: var(--ao-carousel-dot-active-width);
+  }
+  :where(.ant-carousel .slick-dots .slick-active button) {
+    width: 100%;
+    opacity: 0.2;
+  }
+  :where(.ant-carousel .slick-dots .slick-active)::after {
+    width: var(--ao-carousel-dot-active-width);
+    background: var(--ao-bg);
+  }
+  :where(.ant-carousel-dot-duration .slick-dots .slick-active button) {
+    opacity: 0.2;
+  }
+  :where(.ant-carousel-dot-duration .slick-dots .slick-active)::after {
+    background: var(--ao-bg);
+    animation: ao-carousel-dot-width var(--ao-carousel-autoplay-speed) ease-out
+      forwards;
+  }
+  @keyframes ao-carousel-dot-width {
+    from {
+      width: 0;
+    }
+    to {
+      width: var(--ao-carousel-dot-active-width);
+    }
+  }
+  :where(
+      .ant-carousel-vertical .slick-prev,
+      .ant-carousel-vertical .slick-next
+    ) {
+    inset-inline-start: 50%;
+    inset-inline-end: auto;
+    margin-block-start: unset;
+    transform: translateX(-50%);
+  }
+  :where(.ant-carousel-vertical .slick-prev) {
+    top: var(--ao-carousel-arrow-offset);
+  }
+  :where(.ant-carousel-vertical .slick-next) {
+    top: auto;
+    bottom: var(--ao-carousel-arrow-offset);
+  }
+  :where(.ant-carousel-vertical .slick-prev)::after {
+    transform: rotate(45deg);
+  }
+  :where(.ant-carousel-vertical .slick-next)::after {
+    transform: rotate(-135deg);
+  }
+  :where(.ant-carousel-vertical .slick-dots) {
+    top: 50%;
+    bottom: auto;
+    flex-direction: column;
+    width: var(--ao-carousel-dot-height);
+    height: auto;
+    margin: 0;
+    inset-block-end: auto;
+    transform: translateY(-50%);
+  }
+  :where(.ant-carousel-vertical .slick-dots-left) {
+    inset-inline-end: auto;
+    inset-inline-start: var(--ao-carousel-dot-offset);
+  }
+  :where(.ant-carousel-vertical .slick-dots-right) {
+    inset-inline-end: var(--ao-carousel-dot-offset);
+    inset-inline-start: auto;
+  }
+  :where(.ant-carousel-vertical .slick-dots li) {
+    width: var(--ao-carousel-dot-height);
+    height: var(--ao-carousel-dot-width);
+    margin: var(--ao-carousel-vertical-gap) 0;
+    vertical-align: baseline;
+  }
+  :where(.ant-carousel-vertical .slick-dots li button) {
+    width: var(--ao-carousel-dot-height);
+    height: var(--ao-carousel-dot-width);
+  }
+  :where(.ant-carousel-vertical .slick-dots li)::after {
+    width: var(--ao-carousel-dot-height);
+    height: 0;
+  }
+  :where(
+      .ant-carousel-vertical .slick-dots li.slick-active,
+      .ant-carousel-vertical .slick-dots li.slick-active button
+    ) {
+    width: var(--ao-carousel-dot-height);
+    height: var(--ao-carousel-dot-active-width);
+  }
+  :where(.ant-carousel-vertical .slick-dots li.slick-active)::after {
+    width: var(--ao-carousel-dot-height);
+    height: var(--ao-carousel-dot-active-width);
+  }
+  :where(
+      .ant-carousel-vertical.ant-carousel-dot-duration
+        .slick-dots
+        li.slick-active
+    )::after {
+    animation-name: ao-carousel-dot-height;
+  }
+  @keyframes ao-carousel-dot-height {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--ao-carousel-dot-active-width);
+    }
+  }
+  :where(.ant-carousel-rtl) {
+    direction: rtl;
+  }
+}

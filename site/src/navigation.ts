@@ -1089,11 +1089,16 @@ toc.calendar = [
   ["tokens", "主题变量"],
 ];
 toc.carousel = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
   ["basic", "基本用法"],
-  ["more", "交互与状态"],
+  ["position", "位置"],
+  ["autoplay", "自动切换"],
+  ["fade", "渐显"],
+  ["arrows", "切换箭头"],
+  ["dot-duration", "进度条"],
   ["api", "API"],
-  ["tokens", "主题与支持范围"],
+  ["tokens", "主题变量"],
 ];
 toc.splitter = [
   ["examples", "代码演示"],

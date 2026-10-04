@@ -143,6 +143,29 @@
     flex: 0 0 100%;
     min-width: 0;
   }
+  :where(.ant-carousel-adaptive-height .slick-track) {
+    align-items: flex-start;
+  }
+  :where(.ant-carousel-adaptive-height.ant-carousel-fade .slick-slide) {
+    align-self: start;
+  }
+  :where(.ant-carousel-fade .slick-track) {
+    display: grid;
+    width: 100%;
+    transform: none;
+    transition: none;
+  }
+  :where(.ant-carousel-fade .slick-slide) {
+    grid-area: 1 / 1;
+    width: 100%;
+    opacity: 0;
+    transition-property: opacity;
+    transition-timing-function: ease;
+  }
+  :where(.ant-carousel-fade .slick-slide.slick-active) {
+    z-index: 1;
+    opacity: 1;
+  }
   :where(.ant-carousel-vertical .slick-list) {
     height: 100%;
   }
@@ -160,7 +183,7 @@
     justify-content: center;
     gap: var(--ao-carousel-dot-gap);
     inset-inline: 0;
-    bottom: 12px;
+    bottom: var(--ao-carousel-dot-offset);
     list-style: none;
     padding: 0;
     margin: 0;
@@ -170,6 +193,7 @@
     width: var(--ao-carousel-dot-width);
     height: var(--ao-carousel-dot-height);
     padding: 0;
+    color: transparent;
     border: 0;
     border-radius: var(--ao-carousel-dot-height);
     font-size: 0;
@@ -180,6 +204,30 @@
   :where(.slick-dots .slick-active button) {
     width: var(--ao-carousel-dot-active-width);
     opacity: 1;
+  }
+  :where(.ant-carousel-dot-duration .slick-active button) {
+    position: relative;
+    overflow: hidden;
+    background: color-mix(in srgb, var(--ao-bg) 20%, transparent);
+  }
+  :where(.ant-carousel-dot-duration .slick-active button)::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--ao-bg);
+    transform-origin: left;
+    animation: ao-carousel-dot-progress var(--ao-carousel-autoplay-speed) linear
+      forwards;
+    animation-play-state: var(--ao-carousel-autoplay-state);
+  }
+  @keyframes ao-carousel-dot-progress {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
   }
   :where(.slick-dots button:focus-visible) {
     outline: 2px solid var(--ao-focus);
@@ -209,7 +257,7 @@
   }
   :where(.ant-carousel-dots-top .slick-dots) {
     bottom: auto;
-    top: 12px;
+    top: var(--ao-carousel-dot-offset);
   }
   :where(
       .ant-carousel-dots-left .slick-dots,
@@ -220,10 +268,10 @@
     flex-direction: column;
   }
   :where(.ant-carousel-dots-left .slick-dots) {
-    left: 12px;
+    left: var(--ao-carousel-dot-offset);
   }
   :where(.ant-carousel-dots-right .slick-dots) {
-    right: 12px;
+    right: var(--ao-carousel-dot-offset);
   }
   :where(
       .ant-carousel-dots-left .slick-dots button,
