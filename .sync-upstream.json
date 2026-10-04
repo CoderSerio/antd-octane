@@ -163,7 +163,8 @@
       "components/table/hooks/{useSorter,useSelection}.tsx",
       "components/table/hooks/useFilter",
       "components/timeline/{Timeline,TimelineItem}.tsx",
-      "components/timeline/useItems.ts"
+      "components/timeline/useItems.ts",
+      "components/tooltip/index.tsx"
     ],
     "destination": [
       "packages/antd-octane/src/calendar",
@@ -180,7 +181,8 @@
       "packages/antd-octane/src/statistic",
       "packages/antd-octane/src/table",
       "packages/antd-octane/src/tag",
-      "packages/antd-octane/src/timeline"
+      "packages/antd-octane/src/timeline",
+      "packages/antd-octane/src/tooltip"
     ],
     "notes": "Source contracts, module structure, artwork and supported lifecycle/style behavior adapted to Octane. React runtime dependencies remain development references. Source API descriptions do not certify complete parity; see component support sections."
   },

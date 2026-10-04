@@ -20,6 +20,7 @@
   }
   :where(.ant-tooltip) {
     max-width: min(250px, calc(100vw - 16px));
+    color: var(--ao-text);
   }
   :where(.ant-tooltip[hidden], .ant-popover[hidden]) {
     display: none;
@@ -33,8 +34,18 @@
     box-shadow: var(--ao-popup-shadow);
   }
   :where(.ant-tooltip-inner) {
+    overflow-wrap: break-word;
     min-height: var(--ao-popup-minheight);
-    min-width: 32px;
+    min-width: var(--ao-popup-tooltip-min-width, 28px);
+    color: var(--ao-popup-color);
+  }
+  :where(
+      .ant-tooltip-placement-topLeft .ant-tooltip-inner,
+      .ant-tooltip-placement-topRight .ant-tooltip-inner,
+      .ant-tooltip-placement-bottomLeft .ant-tooltip-inner,
+      .ant-tooltip-placement-bottomRight .ant-tooltip-inner
+    ) {
+    min-width: var(--ao-popup-tooltip-edge-min-width, 34px);
   }
   :where(.ant-popover) {
     user-select: text;

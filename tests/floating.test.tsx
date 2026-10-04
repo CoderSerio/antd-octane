@@ -147,6 +147,89 @@ it("Floating keeps a fractional submenu on the fitting side and floors unscaled 
   expect(popup.style.bottom).toBe("423px");
 });
 
+it("Tooltip uses raw title availability and preserves explicit controlled open", async () => {
+  await render(
+    <Tooltip open>
+      <button type="button">Empty controlled</button>
+    </Tooltip>,
+  );
+  expect(document.querySelector<HTMLElement>(".ant-tooltip")?.hidden).toBe(
+    false,
+  );
+  await render(
+    <Tooltip title="Title" overlay="Overlay" open>
+      <button type="button">Overlay</button>
+    </Tooltip>,
+  );
+  expect(document.querySelector(".ant-tooltip-inner")?.textContent).toBe(
+    "Overlay",
+  );
+  await render(
+    <Tooltip title={0} overlay="Overlay" open>
+      <button type="button">Zero</button>
+    </Tooltip>,
+  );
+  expect(document.querySelector(".ant-tooltip-inner")?.textContent).toBe("0");
+  const change = vi.fn();
+  await render(
+    <Tooltip title={() => null} trigger="click" onOpenChange={change}>
+      <button type="button">Function title</button>
+    </Tooltip>,
+  );
+  await act(() =>
+    container.querySelector<HTMLButtonElement>("button")?.click(),
+  );
+  expect(change).toHaveBeenCalledWith(true);
+  expect(document.querySelector<HTMLElement>(".ant-tooltip")?.hidden).toBe(
+    false,
+  );
+});
+
+it("Tooltip forwards container, align and ref and puts openClassName on the actual trigger", async () => {
+  const target = document.createElement("div");
+  document.body.append(target);
+  const ref: { current: TooltipRef | null } = { current: null };
+  const onPopupAlign = vi.fn();
+  const getTooltipContainer = vi.fn(() => target);
+  await render(
+    <Tooltip
+      title="Aligned"
+      open
+      forceRender
+      ref={ref}
+      getTooltipContainer={getTooltipContainer}
+      openClassName="custom-open"
+      onPopupAlign={onPopupAlign}
+      builtinPlacements={{
+        top: {
+          points: ["bc", "tc"],
+          offset: [7, -12],
+          overflow: { adjustX: false, adjustY: false },
+        },
+      }}
+    >
+      <button type="button" className="original">
+        Aligned trigger
+      </button>
+    </Tooltip>,
+  );
+  const trigger = container.querySelector<HTMLButtonElement>("button");
+  expect(trigger?.classList.contains("custom-open")).toBe(true);
+  expect(trigger?.classList.contains("original")).toBe(true);
+  expect(getTooltipContainer).toHaveBeenCalledWith(trigger);
+  expect(ref.current?.nativeElement).toBe(trigger);
+  expect(ref.current?.popupElement).toBe(target.querySelector(".ant-tooltip"));
+  expect(onPopupAlign).toHaveBeenCalledWith(
+    ref.current?.popupElement,
+    expect.objectContaining({ offset: [7, -12] }),
+  );
+  const calls = onPopupAlign.mock.calls.length;
+  await act(() => ref.current?.forceAlign());
+  expect(onPopupAlign.mock.calls.length).toBeGreaterThan(calls);
+  await act(() => root?.unmount());
+  target.remove();
+});
+
 it("Popover wireframe and explicit colors retain source text and spacing defaults", async () => {
   await render(
     <ConfigProvider
@@ -398,9 +481,36 @@ it("hover-only closes after focused trigger leaves", async () => {
   await act(() => host.dispatchEvent(new MouseEvent("mouseenter")));
   await act(() => host.dispatchEvent(new MouseEvent("mouseleave")));
   await act(() => vi.advanceTimersByTime(120));
+  await act(() =>
+    document.querySelector("[role=tooltip]")?.dispatchEvent(
+      Object.assign(new Event("animationend", { bubbles: true }), {
+        animationName: "ao-floating-zoom-out",
+      }),
+    ),
+  );
   expect(document.querySelector("[role=tooltip]")?.hasAttribute("hidden")).toBe(
     true,
   );
+});
+
+it("finishes the initial appear motion after the portal host is resolved", async () => {
+  const afterOpenChange = vi.fn();
+  await render(
+    <Tooltip open title="help" afterOpenChange={afterOpenChange}>
+      <button type="button">trigger</button>
+    </Tooltip>,
+  );
+  const popup = document.querySelector("[role=tooltip]");
+  expect(popup?.getAttribute("data-motion-phase")).toBe("appear");
+  await act(() =>
+    popup?.dispatchEvent(
+      Object.assign(new Event("animationend", { bubbles: true }), {
+        animationName: "ao-floating-zoom-in",
+      }),
+    ),
+  );
+  expect(popup?.getAttribute("data-motion-phase")).toBe("idle");
+  expect(afterOpenChange).toHaveBeenCalledWith(true);
 });
 
 it("pending hover request is invalidated by controlled state changes", async () => {

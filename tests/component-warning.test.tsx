@@ -9,6 +9,7 @@ import {
   Statistic,
   Tag,
   Timeline,
+  Tooltip,
 } from "../packages/antd-octane/src";
 import { resetWarned } from "../packages/antd-octane/src/_util/warning";
 
@@ -116,6 +117,53 @@ const matrix = [
         "<Statistic.Countdown />",
         '<Statistic.Timer type="countdown" />',
       ),
+    ],
+  },
+{
+    name: "Tooltip",
+    node: (
+      <Tooltip
+        title="help"
+        visible={undefined}
+        defaultVisible={undefined}
+        onVisibleChange={undefined}
+        afterVisibleChange={undefined}
+        destroyTooltipOnHide={undefined}
+        arrowPointAtCenter={false}
+        overlayStyle={undefined}
+        overlayInnerStyle={undefined}
+        overlayClassName={undefined}
+      >
+        <button type="button">trigger</button>
+      </Tooltip>
+    ),
+    messages: [
+      deprecation("visible", "open"),
+      deprecation("defaultVisible", "defaultOpen"),
+      deprecation("onVisibleChange", "onOpenChange"),
+      deprecation("afterVisibleChange", "afterOpenChange"),
+      deprecation("destroyTooltipOnHide", "destroyOnHidden"),
+      deprecation("arrowPointAtCenter", "arrow={{ pointAtCenter: true }}"),
+      deprecation("overlayStyle", "styles={{ root: {} }}"),
+      deprecation("overlayInnerStyle", "styles={{ body: {} }}"),
+      deprecation("overlayClassName", 'classNames={{ root: "" }}'),
+    ],
+  },
+{
+    name: "Tooltip",
+    node: (
+      <Tooltip
+        title="help"
+        destroyTooltipOnHide={{ keepParent: true }}
+        arrow={{ arrowPointAtCenter: false }}
+      >
+        <button type="button">trigger</button>
+      </Tooltip>
+    ),
+    messages: [
+      deprecation("destroyTooltipOnHide", "destroyOnHidden"),
+      "`destroyTooltipOnHide` no need config `keepParent` anymore. Please use `boolean` value directly.",
+      "`arrowPointAtCenter` in `arrow` is deprecated. Please use `pointAtCenter` instead.",
     ],
   },
 ];

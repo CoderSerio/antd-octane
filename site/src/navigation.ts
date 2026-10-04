@@ -1017,11 +1017,17 @@ toc.steps = [
 ];
 
 toc.tooltip = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
-  ["basic", "基本提示"],
-  ["more", "十二种位置"],
+  ["basic", "基本"],
+  ["placement", "位置"],
+  ["arrow", "箭头展示"],
+  ["shift", "贴边偏移"],
+  ["colorful", "多彩文字提示"],
+  ["disabled", "禁用"],
+  ["wrap-custom-component", "自定义子组件"],
   ["api", "API"],
-  ["tokens", "主题与支持范围"],
+  ["tokens", "主题变量"],
 ];
 
 toc.popover = [

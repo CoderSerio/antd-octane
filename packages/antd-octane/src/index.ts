@@ -360,7 +360,7 @@ export type {
   TimelineProps,
 } from "./timeline";
 export { Timeline } from "./timeline";
-export type { TooltipProps } from "./tooltip";
+export type { TooltipProps, TooltipRef } from "./tooltip";
 export { Tooltip } from "./tooltip";
 export type { TourProps, TourStepProps } from "./tour";
 export { Tour } from "./tour";

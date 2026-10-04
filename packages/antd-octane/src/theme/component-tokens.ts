@@ -718,3 +718,12 @@ export interface TimelineToken {
    */
   itemPaddingBottom: number;
 }
+
+// components/tooltip/style/index.ts
+export interface TooltipToken {
+  /**
+   * @desc 文字提示 z-index
+   * @descEN z-index of tooltip
+   */
+  zIndexPopup: number;
+}

@@ -14,6 +14,7 @@ import type {
   TableToken,
   TagToken,
   TimelineToken,
+  TooltipToken,
 } from "./component-tokens";
 
 export type * from "./component-tokens";
@@ -194,7 +195,7 @@ export interface ThemeConfig {
       dotActiveBorderColor: string;
       trackBgDisabled: string;
     }>;
-    Tooltip?: ComponentTheme<{ zIndexPopup: number }>;
+    Tooltip?: ComponentTheme<TooltipToken>;
     Popover?: ComponentTheme<PopoverToken & { innerPadding: number | string }>;
     Progress?: ComponentTheme<{
       defaultColor: string;
