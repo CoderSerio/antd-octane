@@ -1,3 +1,7 @@
+import type { AvatarToken } from "./component-tokens";
+
+export type * from "./component-tokens";
+
 import type { CSSProperties } from "octane";
 import type { AliasToken, MapToken, SeedToken } from "./vendor/interface";
 
@@ -328,17 +332,7 @@ export interface ThemeConfig {
       textFontWeight: CSSProperties["fontWeight"];
       statusSize: number;
     }>;
-    Avatar?: ComponentTheme<{
-      containerSize: number;
-      containerSizeLG: number;
-      containerSizeSM: number;
-      textFontSize: number;
-      textFontSizeLG: number;
-      textFontSizeSM: number;
-      iconFontSize: number;
-      iconFontSizeLG: number;
-      iconFontSizeSM: number;
-    }>;
+    Avatar?: ComponentTheme<AvatarToken>;
     Typography?: ComponentTheme<{
       titleMarginTop: string | number;
       titleMarginBottom: string | number;

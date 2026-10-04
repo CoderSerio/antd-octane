@@ -1,0 +1,132 @@
+{
+  "version": "5.29.3",
+  "api": [
+    {
+      "title": "Avatar",
+      "rows": [
+        ["alt", "图像无法显示时的替代文本", "string", "-"],
+        ["gap", "字符类型距离左右两侧边界单位像素", "number", "4"],
+        ["icon", "设置头像的自定义图标", "OctaneNode", "-"],
+        ["shape", "指定头像的形状", "`circle` | `square`", "`circle`"],
+        [
+          "size",
+          "设置头像的大小",
+          "number | `large` | `small` | `default` | { xs: number, sm: number, ...}",
+          "`default`"
+        ],
+        ["src", "图片类头像的资源地址或者图片元素", "string | OctaneNode", "-"],
+        ["srcSet", "设置图片类头像响应式资源地址", "string", "-"],
+        [
+          "draggable",
+          "图片是否允许拖动",
+          "boolean | `'true'` | `'false'`",
+          "true"
+        ],
+        [
+          "crossOrigin",
+          "CORS 属性设置",
+          "`'anonymous'` | `'use-credentials'` | `''`",
+          "-"
+        ],
+        [
+          "onError",
+          "图片加载失败的事件，返回 false 会关闭组件默认的 fallback 行为",
+          "() => boolean",
+          "-"
+        ]
+      ]
+    },
+    {
+      "title": "Avatar.Group",
+      "rows": [
+        [
+          "max",
+          "设置最多显示相关配置",
+          "`{ count?: number; style?: CSSProperties; popover?: PopoverProps }`",
+          "-"
+        ],
+        [
+          "size",
+          "设置头像的大小",
+          "number | `large` | `small` | `default` | { xs: number, sm: number, ...}",
+          "`default`"
+        ],
+        ["shape", "设置头像的形状", "`circle` | `square`", "`circle`"]
+      ]
+    }
+  ],
+  "tokens": {
+    "component": [
+      ["containerSize", "头像尺寸", "number", "32"],
+      ["containerSizeLG", "大号头像尺寸", "number", "40"],
+      ["containerSizeSM", "小号头像尺寸", "number", "24"],
+      ["groupBorderColor", "头像组边框颜色", "string", "#ffffff"],
+      ["groupOverlapping", "头像组重叠宽度", "number", "-8"],
+      ["groupSpace", "头像组间距", "number", "4"],
+      ["iconFontSize", "头像图标大小", "number", "18"],
+      ["iconFontSizeLG", "大号头像图标大小", "number", "24"],
+      ["iconFontSizeSM", "小号头像图标大小", "number", "14"],
+      ["textFontSize", "头像文字大小", "number", "14"],
+      ["textFontSizeLG", "大号头像文字大小", "number", "14"],
+      ["textFontSizeSM", "小号头像文字大小", "number", "14"]
+    ],
+    "global": [
+      [
+        "colorText",
+        "最深的文本色。为了符合W3C标准，默认的文本颜色使用了该色，同时这个颜色也是最深的中性色。",
+        "string",
+        "rgba(0,0,0,0.88)"
+      ],
+      [
+        "colorTextLightSolid",
+        "控制带背景色的文本，例如 Primary Button 组件中的文本高亮颜色。",
+        "string",
+        "#fff"
+      ],
+      [
+        "colorTextPlaceholder",
+        "控制占位文本的颜色。",
+        "string",
+        "rgba(0,0,0,0.25)"
+      ],
+      [
+        "borderRadius",
+        "基础组件的圆角大小，例如按钮、输入框、卡片等",
+        "number",
+        "6"
+      ],
+      [
+        "borderRadiusLG",
+        "LG号圆角，用于组件中的一些大圆角，如 Card、Modal 等一些组件样式。",
+        "number",
+        "8"
+      ],
+      [
+        "borderRadiusSM",
+        "SM号圆角，用于组件小尺寸下的圆角，如 Button、Input、Select 等输入类控件在 small size 下的圆角",
+        "number",
+        "4"
+      ],
+      [
+        "fontFamily",
+        "Ant Design 的字体家族中优先使用系统默认的界面字体，同时提供了一套利于屏显的备用字体库，来维护在不同平台以及浏览器的显示下，字体始终保持良好的易读性和可读性，体现了友好、稳定和专业的特性。",
+        "string",
+        "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,\n'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',\n'Noto Color Emoji'"
+      ],
+      [
+        "fontSize",
+        "设计系统中使用最广泛的字体大小，文本梯度也将基于该字号进行派生。",
+        "number",
+        "14"
+      ],
+      ["lineHeight", "文本行高", "number", "1.5714285714285714"],
+      [
+        "lineType",
+        "用于控制组件边框、分割线等的样式，默认是实线",
+        "string",
+        "solid"
+      ],
+      ["lineWidth", "用于控制组件边框、分割线等的宽度", "number", "1"]
+    ]
+  }
+}

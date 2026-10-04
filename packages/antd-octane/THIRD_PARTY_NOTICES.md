@@ -115,3 +115,21 @@ Modal, Drawer, Menu, Dropdown, Message, Notification and Popconfirm supported to
 ## Additional component styles
 
 Affix, Anchor, FloatButton, Image, Carousel, Splitter, Watermark, QRCode and Tour defaults and styles reference Ant Design 5.29.3 (MIT, copyright Ant Design), under the Ant Design license reproduced above. Implementations use the Octane runtime. Source paths and the pinned revision are recorded in `.sync-upstream.json`. Icon demo paths are independently authored; no full upstream icon collection is bundled.
+
+`site/src/component-reference.tsx`, `site/src/pages/avatar.tsx` and the API note
+rules in `site/src/style.css` adapt the Avatar fallback Tip and Markdown
+blockquote/inline-code styles from the same pinned revision's
+`components/avatar/index.zh-CN.md` and
+`.dumi/theme/common/styles/Markdown.tsx`. Theme values are supplied by the native
+Octane theme context; the Ant Design MIT license above applies.
+
+## Avatar demo icons
+
+`src/_util/feedback-icons.tsx` contains the UserOutlined and AntDesignOutlined
+SVG definitions from `@ant-design/icons-svg` 4.6.0, used by Ant Design 5.29.3's
+Avatar demos. The paths and view boxes are preserved and rendered with the native
+Octane `createIcon` adapter. They are re-exported from `antd-octane/icons` for
+named imports in demos and consumers. Copyright Ant UED; the MIT license above
+applies. This is an Octane icon adapter for the examples, not a full React icon
+collection. `site/src/demos/avatar-icons.tsx` now only keeps the compatibility
+avatar URL export.

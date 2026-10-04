@@ -1115,7 +1115,8 @@
     overflow: hidden;
     width: var(--ao-avatar-size);
     height: var(--ao-avatar-size);
-    border: 1px solid transparent;
+    border: var(--ao-avatar-border-width) var(--ao-avatar-border-style)
+      transparent;
     border-radius: 50%;
     font-family: var(--ao-font);
     font-size: var(--ao-avatar-font);
@@ -1125,6 +1126,9 @@
     white-space: nowrap;
     text-align: center;
     vertical-align: middle;
+  }
+  :where(.ant-avatar-image) {
+    background: transparent;
   }
   :where(.ant-avatar-square) {
     border-radius: var(--ao-avatar-radius);
@@ -1136,9 +1140,21 @@
     object-fit: cover;
   }
   :where(.ant-avatar-string) {
-    position: absolute;
     display: inline-block;
     transform-origin: center;
+  }
+  :where(.ant-avatar-group) {
+    display: inline-flex;
+    align-items: center;
+  }
+  :where(.ant-avatar-group > *:not(:first-child)) {
+    margin-inline-start: var(--ao-avatar-group-overlap);
+  }
+  :where(.ant-avatar-group .ant-avatar) {
+    border-color: var(--ao-avatar-group-border);
+  }
+  :where(.ant-avatar-group-popover .ant-avatar + .ant-avatar) {
+    margin-inline-start: var(--ao-avatar-group-space);
   }
   @media (prefers-reduced-motion: reduce) {
     :where(.ant-badge-processing)::after {

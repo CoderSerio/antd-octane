@@ -53,7 +53,12 @@ export type { AnchorItem, AnchorProps } from "./anchor";
 export { Anchor } from "./anchor";
 export type { AppContextValue, AppProps } from "./app";
 export { App } from "./app";
-export type { AvatarProps, AvatarRef } from "./avatar";
+export type {
+  AvatarGroupProps,
+  AvatarProps,
+  AvatarRef,
+  AvatarSize,
+} from "./avatar";
 export { Avatar } from "./avatar";
 export type { BadgeProps } from "./badge";
 export { Badge } from "./badge";

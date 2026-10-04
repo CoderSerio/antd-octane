@@ -673,12 +673,15 @@ toc.badge = [
   ["tokens", "主题与支持范围"],
 ];
 toc.avatar = [
-  ["when", "何时使用"],
   ["examples", "代码演示"],
-  ["basic", "基本使用"],
-  ["more", "组合与交互"],
+  ["basic", "基本"],
+  ["type", "类型"],
+  ["dynamic", "自动调整字符大小"],
+  ["badge", "带徽标的头像"],
+  ["group", "Avatar.Group"],
+  ["responsive", "响应式尺寸"],
   ["api", "API"],
-  ["tokens", "主题与支持范围"],
+  ["tokens", "主题变量"],
 ];
 
 toc.grid = [

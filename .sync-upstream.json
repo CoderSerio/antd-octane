@@ -125,5 +125,13 @@
     "path": "typescript-javascript/qrcodegen.ts",
     "destination": "packages/antd-octane/src/qr-code/vendor/qrcodegen.ts",
     "changes": "Export the three merged qrcodegen namespace declarations for ES module consumption. Algorithm bodies and original MIT notice preserved."
+  },
+  "avatar-demo-icons": {
+    "version": "4.6.0",
+    "source": "@ant-design/icons-svg/es/asn/{UserOutlined,AntDesignOutlined}.js",
+    "destination": [
+      "site/src/demos/avatar-icons.tsx"
+    ],
+    "notes": "MIT icon geometry used by the antd 5.29.3 Avatar demos. Runtime adapted with native createIcon."
   }
 }

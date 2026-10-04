@@ -220,6 +220,36 @@ it("Avatar onError false keeps the image for consumer handling", async () => {
   );
   expect(container.querySelector("img")).not.toBeNull();
 });
+it("Avatar accepts image nodes and forwards image attributes", async () => {
+  await render(
+    <>
+      <Avatar src={<img src="/node.png" alt="Node person" />} />
+      <Avatar src="/image.png" crossOrigin="anonymous" draggable="false" />
+    </>,
+  );
+  expect(
+    container.querySelector<HTMLImageElement>('img[src="/node.png"]')?.alt,
+  ).toBe("Node person");
+  const image = container.querySelector<HTMLImageElement>(
+    'img[src="/image.png"]',
+  );
+  expect(image?.getAttribute("crossorigin")).toBe("anonymous");
+  expect(image?.getAttribute("draggable")).toBe("false");
+});
+it("Avatar.Group shares shape and size and summarizes hidden avatars", async () => {
+  await render(
+    <Avatar.Group size={40} shape="square" max={{ count: 2 }}>
+      <Avatar>A</Avatar>
+      <Avatar>B</Avatar>
+      <Avatar>C</Avatar>
+    </Avatar.Group>,
+  );
+  const avatars = [...container.querySelectorAll<HTMLElement>(".ant-avatar")];
+  expect(avatars).toHaveLength(3);
+  expect(avatars[0].classList.contains("ant-avatar-square")).toBe(true);
+  expect(avatars[0].style.getPropertyValue("--ao-avatar-size")).toBe("40px");
+  expect(avatars[2].textContent).toBe("+1");
+});
 it("Card loading hides children and restores content with actions", async () => {
   await render(
     <Card
