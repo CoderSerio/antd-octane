@@ -175,7 +175,21 @@ export type { InputNumberProps, InputNumberRef } from "./input-number";
 export { InputNumber } from "./input-number";
 export type { LayoutProps, SiderProps } from "./layout";
 export { Layout } from "./layout";
-export type { ListItemMetaProps, ListItemProps, ListProps } from "./list";
+export type {
+  ColumnCount,
+  ColumnType,
+  ListConsumerProps,
+  ListGridType,
+  ListItemLayout,
+  ListItemMetaProps,
+  ListItemProps,
+  ListLocale,
+  ListPaginationAlign,
+  ListPaginationConfig,
+  ListPaginationPosition,
+  ListProps,
+  ListSize,
+} from "./list";
 export { List } from "./list";
 export type { MenuInfo, MenuItem, MenuProps } from "./menu";
 export { Menu } from "./menu";

@@ -148,7 +148,9 @@
       "components/descriptions/DescriptionsContext.ts",
       "components/descriptions/hooks/{useItems,useRow}.ts",
       "components/empty/{index,empty,simple}.tsx",
-      "components/image/{index,PreviewGroup}.tsx"
+      "components/image/{index,PreviewGroup}.tsx",
+      "components/list/{index,Item}.tsx",
+      "components/list/context.ts"
     ],
     "destination": [
       "packages/antd-octane/src/calendar",
@@ -157,7 +159,8 @@
       "packages/antd-octane/src/collapse",
       "packages/antd-octane/src/descriptions",
       "packages/antd-octane/src/empty",
-      "packages/antd-octane/src/image"
+      "packages/antd-octane/src/image",
+      "packages/antd-octane/src/list"
     ],
     "notes": "Source contracts, module structure, artwork and supported lifecycle/style behavior adapted to Octane. React runtime dependencies remain development references. Source API descriptions do not certify complete parity; see component support sections."
   },

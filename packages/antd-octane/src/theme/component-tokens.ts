@@ -373,3 +373,62 @@ export interface ImageToken {
    */
   previewOperationColorDisabled: string;
 }
+
+// components/list/style/index.ts
+export interface ListToken {
+  /**
+   * @desc 内容宽度
+   * @descEN Width of content
+   */
+  contentWidth: number | string;
+  /**
+   * @desc 大号列表项内间距
+   * @descEN Padding of large item
+   */
+  itemPaddingLG: string;
+  /**
+   * @desc 小号列表项内间距
+   * @descEN Padding of small item
+   */
+  itemPaddingSM: string;
+  /**
+   * @desc 列表项内间距
+   * @descEN Padding of item
+   */
+  itemPadding: string;
+  /**
+   * @desc 头部区域背景色
+   * @descEN Background color of header
+   */
+  headerBg: string;
+  /**
+   * @desc 底部区域背景色
+   * @descEN Background color of footer
+   */
+  footerBg: string;
+  /**
+   * @desc 空文本内边距
+   * @descEN Padding of empty text
+   */
+  emptyTextPadding: CSSProperties["padding"];
+  /**
+   * @desc Meta 下间距
+   * @descEN Margin bottom of meta
+   */
+  metaMarginBottom: CSSProperties["marginBottom"];
+  /**
+   * @desc 头像右间距
+   * @descEN Right margin of avatar
+   */
+  avatarMarginRight: CSSProperties["marginRight"];
+  /**
+   * @desc 标题下间距
+   * @descEN Margin bottom of title
+   */
+  titleMarginBottom: CSSProperties["marginBottom"];
+  /**
+   * @desc 描述文字大小
+   * @descEN Font size of description
+   */
+  descriptionFontSize: number;
+}

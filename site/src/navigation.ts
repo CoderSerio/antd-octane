@@ -799,11 +799,23 @@ toc.typography = [
   ["tokens", "主题与支持范围"],
 ];
 toc.list = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
   ["basic", "带操作的列表"],
-  ["more", "响应式网格与空状态"],
+  ["simple", "简单列表"],
+  ["loadmore", "加载更多"],
+  ["vertical", "竖排列表"],
+  ["pagination", "分页"],
+  ["grid", "栅格列表"],
+  ["responsive", "响应式网格"],
+  ["infinite-load", "无限加载"],
+  ["drag-sorting", "拖拽排序"],
+  ["drag-sorting-handler", "拖拽排序（拖动手柄）"],
+  ["grid-drag-sorting", "栅格拖拽排序"],
+  ["grid-drag-sorting-handler", "栅格拖拽排序（拖动手柄）"],
+  ["virtual-list", "虚拟列表"],
   ["api", "API"],
-  ["tokens", "主题与支持范围"],
+  ["tokens", "主题变量"],
 ];
 
 toc.spin = [

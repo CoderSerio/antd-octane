@@ -121,6 +121,20 @@ export function ComponentCompatibilityNotes() {
           mask、maskClassName；旧文档中的这两项不表示分组对话框参数。
         </p>
       </details>
+      <details>
+        <summary>List</summary>
+        <p>
+          支持列表间距、背景、Meta 文字与间距 token，以及 ConfigProvider 的
+          componentSize、direction、prefixCls、renderEmpty 和 List 样式配置。
+          网格使用 Row/Col；与 Ant Design 5 一样，仅取当前最高活动断点的列数，
+          未设置时回退到 grid.column。List.Item 的网格 ref 指向 Col，colStyle
+          应用于 Col；非网格 ref 指向 li。actions 与 extra 的 classNames/styles
+          合并组件配置和当前 Item 配置。loading 接受布尔值或 SpinProps。
+          数据多于 pageSize 时在本地切片；服务端分页可传当前页数据和 total。
+          分页、头部、底部及 loadMore 的顺序沿用 Ant Design 5。
+          已验证的路径不代表完整 API、视觉或无障碍认证。
+        </p>
+      </details>
 
     </>
   );

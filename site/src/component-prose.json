@@ -73,5 +73,21 @@
       "PreviewGroup": 2,
       "PreviewGroupType": 3
     }
+  },
+  "List": {
+    "when": "最基础的列表展示，可承载文字、列表、图片、段落，常用于后台数据展示页面。",
+    "sectionIntro": {
+      "pagination": "分页的配置项。"
+    },
+    "sectionAfter": {
+      "pagination": "更多配置项，请查看 [`Pagination`](/components/pagination-cn)。"
+    },
+    "sectionHeadings": {
+      "List": 3,
+      "pagination": 3,
+      "List grid props": 3,
+      "List.Item": 3,
+      "List.Item.Meta": 3
+    }
   }
 }

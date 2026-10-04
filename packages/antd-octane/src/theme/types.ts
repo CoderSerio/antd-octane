@@ -7,6 +7,7 @@ import type {
   CollapseToken,
   DescriptionsToken,
   ImageToken,
+  ListToken,
 } from "./component-tokens";
 
 export type * from "./component-tokens";
@@ -334,19 +335,7 @@ export interface ThemeConfig {
       paragraphMarginTop: number;
       paragraphLiHeight: number;
     }>;
-    List?: ComponentTheme<{
-      contentWidth: number;
-      itemPadding: string;
-      itemPaddingSM: string;
-      itemPaddingLG: string;
-      headerBg: string;
-      footerBg: string;
-      emptyTextPadding: number;
-      metaMarginBottom: number;
-      avatarMarginRight: number;
-      titleMarginBottom: number;
-      descriptionFontSize: number;
-    }>;
+    List?: ComponentTheme<ListToken>;
     Divider?: ComponentTheme<{
       textPaddingInline: string | number;
       orientationMargin: number;
