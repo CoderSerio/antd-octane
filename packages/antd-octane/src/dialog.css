@@ -9,6 +9,24 @@
   :where(.ant-modal-root[hidden], .ant-drawer[hidden]) {
     display: none;
   }
+  /* Drawer common styles set fonts but inherit the surrounding line height. */
+  :where(.ant-drawer) {
+    line-height: inherit;
+    pointer-events: none;
+  }
+  :where(.ant-drawer-inline) {
+    position: absolute;
+  }
+  :where(.ant-drawer-content-wrapper-hidden) {
+    display: none;
+  }
+  :where([class^="ant-drawer"], [class*=" ant-drawer"]) {
+    box-sizing: border-box;
+  }
+  :where(.ant-drawer-mask) {
+    z-index: var(--ao-drawer-z);
+    pointer-events: auto;
+  }
   :where(.ao-dialog-mask) {
     position: absolute;
     inset: 0;
@@ -99,11 +117,10 @@
   :where(.ant-drawer-content-wrapper) {
     position: absolute;
     box-sizing: border-box;
-    max-width: 100%;
-    max-height: 100%;
-    outline: none;
+    max-width: 100vw;
+    z-index: var(--ao-drawer-z);
     box-shadow: var(--ao-dialog-shadow);
-    pointer-events: auto;
+    transition: all var(--ao-motion-slow, 0.3s);
   }
   :where(.ant-drawer-left .ant-drawer-content-wrapper) {
     left: 0;
@@ -126,52 +143,97 @@
     right: 0;
   }
   :where(.ant-drawer-content) {
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    overflow: auto;
     background: var(--ao-dialog-bg);
+    pointer-events: auto;
   }
   :where(.ant-drawer-header) {
     display: flex;
-    flex: none;
+    flex: 0;
     align-items: center;
-    gap: 16px;
-    padding: 16px var(--ao-drawer-padding);
-    border-bottom: 1px solid var(--ao-border);
+    padding: var(--ao-drawer-header-padding);
+    font-size: var(--ao-drawer-title-size);
+    line-height: var(--ao-drawer-title-line);
+    border-bottom: var(--ao-drawer-border);
   }
   :where(.ant-drawer-header-title) {
     display: flex;
     flex: 1;
     min-width: 0;
     align-items: center;
-    gap: 12px;
+    min-height: 0;
   }
   :where(.ant-drawer-title) {
     flex: 1;
     font-size: var(--ao-drawer-title-size);
     line-height: var(--ao-drawer-title-line);
-    font-weight: 600;
-    overflow-wrap: anywhere;
+    font-weight: var(--ao-drawer-weight);
+    margin: 0;
   }
   :where(.ant-drawer-close) {
+    display: inline-flex;
+    width: var(--ao-drawer-close-size);
+    height: var(--ao-drawer-close-size);
+    border-radius: var(--ao-drawer-close-radius);
+    justify-content: center;
+    align-items: center;
+    color: var(--ao-drawer-close-color);
+    font-weight: var(--ao-drawer-weight);
+    font-size: var(--ao-drawer-title-size);
+    font-style: normal;
+    line-height: 1;
+    text-align: center;
+    text-transform: none;
+    text-decoration: none;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    transition: all var(--ao-motion-mid);
+    text-rendering: auto;
+    margin-inline-end: var(--ao-drawer-close-gap);
+  }
+  :where(.ant-drawer-close:hover) {
+    color: var(--ao-drawer-close-hover-color);
+    background-color: var(--ao-drawer-close-hover-bg);
+  }
+  :where(.ant-drawer-close:active) {
+    background-color: var(--ao-drawer-close-active-bg);
+  }
+  :where(.ant-drawer-close:focus-visible) {
+    outline: var(--ao-drawer-focus);
+    outline-offset: 1px;
+  }
+  :where(.ant-drawer-close .anticon) {
+    line-height: 1;
+  }
+  :where(.ant-drawer-close svg) {
+    line-height: 1;
+  }
+  :where(.ant-drawer-extra) {
     flex: none;
-    width: 24px;
-    height: 24px;
   }
   :where(.ant-drawer-body) {
-    line-height: normal;
     flex: 1;
+    min-width: 0;
     min-height: 0;
     padding: var(--ao-drawer-padding);
     overflow: auto;
-    overflow-wrap: anywhere;
+  }
+  :where(.ant-drawer-body) .ant-drawer-body-skeleton {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
   }
   :where(.ant-drawer-footer) {
-    flex: none;
+    flex-shrink: 0;
     padding: var(--ao-drawer-footer-padding);
-    border-top: 1px solid var(--ao-border);
+    border-top: var(--ao-drawer-border);
   }
   @media (max-width: 575px) {
     :where(.ant-modal) {

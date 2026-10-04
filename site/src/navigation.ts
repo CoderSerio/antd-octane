@@ -1101,6 +1101,7 @@ toc.modal = [
   ["tokens", "主题与支持范围"],
 ];
 toc.drawer = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
   ["basic", "四个方向"],
   ["more", "关闭后销毁内容"],

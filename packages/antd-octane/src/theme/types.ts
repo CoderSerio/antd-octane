@@ -18,6 +18,7 @@ import type {
   TourToken,
   TreeToken,
   AlertToken,
+  DrawerToken,
 } from "./component-tokens";
 
 export type * from "./component-tokens";
@@ -150,11 +151,7 @@ export interface ThemeConfig {
       titleLineHeight: number;
       footerBg: string;
     }>;
-    Drawer?: ComponentTheme<{
-      footerPaddingBlock: number;
-      footerPaddingInline: number;
-      zIndexPopup: number;
-    }>;
+    Drawer?: ComponentTheme<DrawerToken>;
     Message?: ComponentTheme<{
       contentBg: string;
       contentPadding: string | number;

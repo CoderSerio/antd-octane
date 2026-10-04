@@ -817,3 +817,22 @@ export interface AlertToken {
    */
   withDescriptionIconSize: number;
 }
+
+// components/drawer/style/index.ts
+export interface DrawerToken {
+  /**
+   * @desc 弹窗 z-index
+   * @descEN z-index of drawer
+   */
+  zIndexPopup: number;
+  /**
+   * @desc 底部区域纵向内间距
+   * @descEN Vertical padding of footer
+   */
+  footerPaddingBlock: number;
+  /**
+   * @desc 底部区域横向内间距
+   * @descEN Horizontal padding of footer
+   */
+  footerPaddingInline: number;
+}

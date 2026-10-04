@@ -1,0 +1,220 @@
+{
+  "version": "5.29.3",
+  "api": [
+    {
+      "title": "Drawer",
+      "rows": [
+        [
+          "autoFocus",
+          "抽屉展开后是否将焦点切换至其 DOM 节点",
+          "boolean",
+          "true"
+        ],
+        [
+          "afterOpenChange",
+          "切换抽屉时动画结束后的回调",
+          "function(open)",
+          "-"
+        ],
+        [
+          "className",
+          "Drawer 容器外层 className 设置，如果需要设置最外层，请使用 rootClassName",
+          "string",
+          "-"
+        ],
+        [
+          "classNames",
+          "语义化结构 className",
+          "[Record<SemanticDOM, string>](#semantic-dom)",
+          "-"
+        ],
+        [
+          "closable",
+          "是否显示关闭按钮。可通过 `placement` 配置其位置",
+          "boolean | { closeIcon?: OctaneNode; disabled?: boolean; placement?: 'start' | 'end' }",
+          "true"
+        ],
+        [
+          "closeIcon",
+          "自定义关闭图标。设置为 `null` 或 `false` 时隐藏关闭按钮",
+          "OctaneNode",
+          "<CloseOutlined />"
+        ],
+        [
+          "~~destroyOnClose~~",
+          "关闭时销毁 Drawer 里的子元素",
+          "boolean",
+          "false"
+        ],
+        ["destroyOnHidden", "关闭时销毁 Drawer 里的子元素", "boolean", "false"],
+        ["extra", "抽屉右上角的操作区域", "OctaneNode", "-"],
+        ["footer", "抽屉的页脚", "OctaneNode", "-"],
+        ["forceRender", "预渲染 Drawer 内元素", "boolean", "false"],
+        [
+          "getContainer",
+          "指定 Drawer 挂载的节点，**并在容器内展现**，`false` 为挂载在当前位置",
+          "HTMLElement | () => HTMLElement | Selectors | false",
+          "body"
+        ],
+        [
+          "height",
+          "高度，在 `placement` 为 `top` 或 `bottom` 时使用",
+          "string | number",
+          "378"
+        ],
+        ["keyboard", "是否支持键盘 esc 关闭", "boolean", "true"],
+        ["mask", "是否展示遮罩", "boolean", "true"],
+        ["maskClosable", "点击蒙层是否允许关闭", "boolean", "true"],
+        [
+          "placement",
+          "抽屉的方向",
+          "`top` | `right` | `bottom` | `left`",
+          "`right`"
+        ],
+        [
+          "push",
+          "用于设置多层 Drawer 的推动行为",
+          "boolean | { distance: string | number }",
+          "{ distance: 180 }"
+        ],
+        [
+          "rootStyle",
+          "可用于设置 Drawer 最外层容器的样式，和 `style` 的区别是作用节点包括 `mask`",
+          "CSSProperties",
+          "-"
+        ],
+        [
+          "size",
+          "预设抽屉宽度（或高度），default `378px` 和 large `736px`",
+          "'default' | 'large'",
+          "'default'"
+        ],
+        [
+          "style",
+          "设计 Drawer 容器样式，如果你只需要设置内容部分请使用 `styles.body`",
+          "CSSProperties",
+          "-"
+        ],
+        [
+          "styles",
+          "语义化结构 style",
+          "[Record<SemanticDOM, CSSProperties>](#semantic-dom)",
+          "-"
+        ],
+        ["title", "标题", "OctaneNode", "-"],
+        ["loading", "显示骨架屏", "boolean", "false"],
+        ["open", "Drawer 是否可见", "boolean", "-"],
+        ["width", "宽度", "string | number", "378"],
+        ["zIndex", "设置 Drawer 的 `z-index`", "number", "1000"],
+        ["onClose", "点击遮罩层或左上角叉或取消按钮的回调", "function(e)", "-"],
+        [
+          "drawerRender",
+          "自定义渲染抽屉",
+          "(node: OctaneNode) => OctaneNode",
+          "-"
+        ]
+      ]
+    }
+  ],
+  "tokens": {
+    "component": [
+      ["footerPaddingBlock", "底部区域纵向内间距", "number", "8"],
+      ["footerPaddingInline", "底部区域横向内间距", "number", "16"],
+      ["zIndexPopup", "弹窗 z-index", "number", "1000"]
+    ],
+    "global": [
+      [
+        "colorBgElevated",
+        "浮层容器背景色，在暗色模式下该 token 的色值会比 `colorBgContainer` 要亮一些。例如：模态框、弹出框、菜单等。",
+        "string",
+        "#ffffff"
+      ],
+      [
+        "colorBgMask",
+        "浮层的背景蒙层颜色，用于遮罩浮层下面的内容，Modal、Drawer 等组件的蒙层使用的是该 token",
+        "string",
+        "rgba(0,0,0,0.45)"
+      ],
+      [
+        "colorBgTextActive",
+        "控制文本在激活状态下的背景色。",
+        "string",
+        "rgba(0,0,0,0.15)"
+      ],
+      [
+        "colorBgTextHover",
+        "控制文本在悬停状态下的背景色。",
+        "string",
+        "rgba(0,0,0,0.06)"
+      ],
+      [
+        "colorIcon",
+        "控制弱操作图标的颜色，例如 allowClear 或 Alert 关闭按钮。\n *",
+        "string",
+        "rgba(0,0,0,0.45)"
+      ],
+      [
+        "colorIconHover",
+        "控制弱操作图标在悬浮状态下的颜色，例如 allowClear 或 Alert 关闭按钮。",
+        "string",
+        "rgba(0,0,0,0.88)"
+      ],
+      [
+        "colorPrimaryBorder",
+        "主色梯度下的描边用色，用在 Slider 等组件的描边上。",
+        "string",
+        "#91caff"
+      ],
+      [
+        "colorSplit",
+        "用于作为分割线的颜色，此颜色和 colorBorderSecondary 的颜色一致，但是用的是透明色。",
+        "string",
+        "rgba(5,5,5,0.06)"
+      ],
+      [
+        "colorText",
+        "最深的文本色。为了符合W3C标准，默认的文本颜色使用了该色，同时这个颜色也是最深的中性色。",
+        "string",
+        "rgba(0,0,0,0.88)"
+      ],
+      [
+        "borderRadiusSM",
+        "SM号圆角，用于组件小尺寸下的圆角，如 Button、Input、Select 等输入类控件在 small size 下的圆角",
+        "number",
+        "4"
+      ],
+      ["fontSizeLG", "大号字体大小", "number", "16"],
+      [
+        "fontWeightStrong",
+        "控制标题类组件（如 h1、h2、h3）或选中项的字体粗细。",
+        "number",
+        "600"
+      ],
+      ["lineHeightLG", "大型文本行高", "number", "1.5"],
+      [
+        "lineType",
+        "用于控制组件边框、分割线等的样式，默认是实线",
+        "string",
+        "solid"
+      ],
+      ["lineWidth", "用于控制组件边框、分割线等的宽度", "number", "1"],
+      ["lineWidthFocus", "控制线条的宽度，当组件处于聚焦态时。", "number", "3"],
+      ["marginXS", "控制元素外边距，小尺寸。", "number", "8"],
+      [
+        "motionDurationMid",
+        "动效播放速度，中速。用于中型元素动画交互",
+        "string",
+        "0.2s"
+      ],
+      [
+        "motionDurationSlow",
+        "动效播放速度，慢速。用于大型元素如面板动画交互",
+        "string",
+        "0.3s"
+      ],
+      ["padding", "控制元素的内间距。", "number", "16"],
+      ["paddingLG", "控制元素的大内间距。", "number", "24"],
+      ["paddingXS", "控制元素的特小内间距。", "number", "8"]
+    ]
+  }
+}

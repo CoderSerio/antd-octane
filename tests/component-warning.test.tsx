@@ -5,6 +5,7 @@ import {
   Card,
   Collapse,
   Descriptions,
+  Drawer,
   Image,
   Statistic,
   Tag,
@@ -117,6 +118,38 @@ const matrix = [
         "<Statistic.Countdown />",
         '<Statistic.Timer type="countdown" />',
       ),
+    ],
+  },
+{
+    name: "Drawer",
+    node: (
+      <Drawer
+        visible={undefined}
+        afterVisibleChange={undefined}
+        headerStyle={undefined}
+        bodyStyle={undefined}
+        footerStyle={undefined}
+        contentWrapperStyle={undefined}
+        maskStyle={undefined}
+        drawerStyle={undefined}
+      />
+    ),
+    messages: [
+      deprecation("visible", "open"),
+      deprecation("afterVisibleChange", "afterOpenChange"),
+      deprecation("headerStyle", "styles.header"),
+      deprecation("bodyStyle", "styles.body"),
+      deprecation("footerStyle", "styles.footer"),
+      deprecation("contentWrapperStyle", "styles.wrapper"),
+      deprecation("maskStyle", "styles.mask"),
+      deprecation("drawerStyle", "styles.content"),
+    ],
+  },
+{
+    name: "Drawer",
+    node: <Drawer getContainer={false} style={{ position: "absolute" }} />,
+    messages: [
+      "`style` is replaced by `rootStyle` in v5. Please check that `position: absolute` is necessary.",
     ],
   },
 {

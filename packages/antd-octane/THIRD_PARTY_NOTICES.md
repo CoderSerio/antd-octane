@@ -335,3 +335,78 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
+
+## Drawer panel, layering and lifecycle alignment
+
+The native Drawer implementation, panel decomposition, accessibility placement,
+semantic styles and Token rules are adapted from Ant Design **5.29.3** (MIT),
+`components/drawer/index.tsx`, `DrawerPanel.tsx`, `style/index.ts`,
+`components/_util/hooks/useClosable.tsx` and `useZIndex.ts`.
+The shared native `src/_util/hooks/useZIndex.ts` and `zindexContext.ts` adapt
+Ant Design 5.29.3's container/consumer offsets and inherited context. Modal and
+Drawer currently use this hook; declaring the other upstream offsets does not
+imply that every other floating component has adopted them. Modal mask/wrapper
+stacking and Escape behavior follow **rc-dialog 9.6.0** (MIT, license reproduced
+earlier) `src/Dialog/index.tsx`; body-portal vertical scroll locking follows
+**@rc-component/portal 1.1.2** (MIT)
+`src/Portal.tsx` and `useScrollLocker.tsx`. The runtime uses native Octane
+implementations of these behaviors, without those React runtime dependencies.
+Push context, zero-size focus sentinels, mask click handling and panel refs follow
+**rc-drawer 7.3.0** (MIT), `src/Drawer.tsx`, `DrawerPopup.tsx` and `DrawerPanel.tsx`.
+The implementation uses Octane's own portal, hooks and motion management; it does
+not ship React or rc-drawer as a runtime dependency. The documented disabled close
+button behavior is preserved; Ant Design 5.29.3's DrawerPanel omits that native
+button attribute.
+
+rc-drawer 7.3.0 license:
+
+```text
+MIT LICENSE
+
+Copyright (c) 2015-present Alipay.com, https://www.alipay.com/
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+```
+
+### @rc-component/portal 1.1.2
+
+```text
+MIT License
+
+Copyright (c) 2019-present react-component
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```

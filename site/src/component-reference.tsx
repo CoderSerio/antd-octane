@@ -4,6 +4,7 @@ import { upstreamSlug } from "./component-coverage";
 import { ComponentProse, ComponentSectionHeading } from "./component-prose";
 import { ApiTable } from "./docs-ui";
 import alert from "./feedback/alert.json";
+import drawer from "./feedback/drawer.json";
 
 export interface ApiSection {
   title: string;
@@ -19,6 +20,8 @@ const references: Record<
   { api: ApiSection[]; tokens: TokenReference }
 > = {
   Alert: alert,
+
+  Drawer: drawer,
 
 };
 

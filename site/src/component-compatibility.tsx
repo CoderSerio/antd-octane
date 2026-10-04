@@ -96,7 +96,32 @@ export function ComponentCompatibilityNotes() {
           的样式及语义化配置，组件和子项样式依次覆盖。
         </p>
       </details>
-
+      <details>
+        <summary>Drawer</summary>
+        <p>
+          未发布源码按 antd 5.29.3 拆分 Drawer、DrawerPanel、上下文与样式 Hook，
+          支持四个方向、预设尺寸、loading、push、关闭按钮位置、drawerRender、
+          panelRef、面板事件和语义样式。Provider 与局部 classNames 同时保留，
+          ARIA 应用于内容节点，data 属性应用于动画包裹节点。关闭动画结束后触发
+          afterOpenChange；保留内容与 destroyOnHidden 的生命周期已有定向检查。
+        </p>
+        <p>
+          默认、深色、紧凑、品牌和组件主题已与同一组上游夹具对照，包含窄屏、RTL、
+          嵌套推动、焦点、Escape、遮罩点击及关闭后输入恢复。 closable.disabled
+          保留禁用按钮行为；antd 5.29.3 的 DrawerPanel
+          未将此参数应用到按钮，这项行为差异未计为对齐。 暂缺依赖 DatePicker
+          的上游抽屉表单示例，自定义 motion、SSR
+          和跨浏览器组合尚未完成逐项对照。 当前本地站点使用 workspace
+          源码，相关改动尚未发布到 npm。
+        </p>
+        <p>
+          Modal 与 Drawer 已共用上游 useZIndex
+          上下文，七种定向混合层级案例已检查
+          默认、深色、紧凑、品牌和组件主题的桌面、窄屏，以及默认主题 RTL。
+          已对照关闭后父层保留、触发按钮焦点恢复、重开后的输入值和滚动锁。
+          这些检查不代表所有弹层及所有子组件组合均已对齐。
+        </p>
+      </details>
       <details>
         <summary>Empty</summary>
         <p>

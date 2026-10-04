@@ -133,7 +133,7 @@ export type {
 export { Descriptions, DescriptionsContext } from "./descriptions";
 export type { DividerProps } from "./divider";
 export { Divider } from "./divider";
-export type { DrawerProps } from "./drawer";
+export type { DrawerClassNames, DrawerProps, DrawerStyles } from "./drawer";
 export { Drawer } from "./drawer";
 export type { DropdownProps } from "./dropdown";
 export { Dropdown } from "./dropdown";
