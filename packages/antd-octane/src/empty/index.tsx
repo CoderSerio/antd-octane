@@ -1,76 +1,128 @@
 /** @jsxImportSource octane */
 import type { CSSProperties, HTMLAttributes, OctaneNode } from "octane";
 import { useComponentTokens } from "../_util/tokens";
+import { useConfig } from "../config-provider";
+import { useLocale } from "../locale";
+import DefaultEmptyImage from "./empty";
+import SimpleEmptyImage from "./simple";
 export interface EmptyProps extends HTMLAttributes<HTMLDivElement> {
+  prefixCls?: string;
+  rootClassName?: string;
   image?: OctaneNode;
+  /** @deprecated Please use `styles.image` instead. */
   imageStyle?: CSSProperties;
   description?: OctaneNode;
+  classNames?: {
+    root?: string;
+    image?: string;
+    description?: string;
+    footer?: string;
+  };
+  styles?: {
+    root?: CSSProperties;
+    image?: CSSProperties;
+    description?: CSSProperties;
+    footer?: CSSProperties;
+  };
   style?: CSSProperties;
 }
-const SIMPLE = "antd-octane:empty-simple";
-const DEFAULT = "antd-octane:empty-default";
-function EmptyImage() {
-  return (
-    <svg aria-hidden="true" width="64" height="41" viewBox="0 0 64 41">
-      <ellipse cx="32" cy="36" rx="30" ry="5" fill="var(--ao-empty-shadow)" />
-      <path
-        d="M8 14 18 2h28l10 12v20H8Z"
-        fill="var(--ao-empty-fill)"
-        stroke="var(--ao-empty-stroke)"
-      />
-      <path
-        d="M8 14h15l3 6h12l3-6h15"
-        fill="none"
-        stroke="var(--ao-empty-stroke)"
-      />
-    </svg>
-  );
-}
+const SIMPLE = <SimpleEmptyImage />;
+const DEFAULT = <DefaultEmptyImage />;
 function InternalEmpty({
-  image = DEFAULT,
+  prefixCls,
+  image: imageProp,
   imageStyle,
-  description = "暂无数据",
+  description,
   children,
   className,
+  rootClassName,
+  classNames,
+  styles,
   style,
   ...rest
 }: EmptyProps) {
   const { token: t, base } = useComponentTokens("Empty");
+  const config = useConfig();
+  const [locale] = useLocale("Empty");
+  const context = config.empty;
+  const des = description === undefined ? locale.description : description;
+  const image = imageProp ?? context?.image ?? DEFAULT;
   const simple = image === SIMPLE;
+  const prefix = config.getPrefixCls("empty", prefixCls);
   return (
     <div
       {...rest}
-      className={["ant-empty", simple && "ant-empty-normal", className]}
+      className={[
+        prefix,
+        prefix !== "ant-empty" && "ant-empty",
+        simple && `${prefix}-normal`,
+        simple && prefix !== "ant-empty" && "ant-empty-normal",
+        config.direction === "rtl" && `${prefix}-rtl`,
+        context?.className,
+        className,
+        rootClassName,
+        context?.classNames?.root,
+        classNames?.root,
+      ]}
       style={{
         ...base,
-        "--ao-empty-fill": t.colorFillQuaternary,
-        "--ao-empty-shadow": t.colorFillTertiary,
-        "--ao-empty-stroke": t.colorBorder,
         "--ao-empty-image-height": `${simple ? t.controlHeightLG : t.controlHeightLG * 2.5}px`,
+        "--ao-empty-image-small-height": `${t.controlHeightLG * 0.875}px`,
         "--ao-empty-margin": `${t.marginXL}px`,
         "--ao-empty-footer-gap": `${t.margin}px`,
         "--ao-empty-opacity": t.opacityImage,
         "--ao-empty-gap": `${t.marginXS}px`,
+        "--ao-empty-inline": `${t.marginXS}px`,
+        ...context?.styles?.root,
+        ...context?.style,
+        ...styles?.root,
         ...style,
       }}
     >
-      <div className="ant-empty-image" style={imageStyle}>
-        {image === SIMPLE || image === DEFAULT ? (
-          <EmptyImage />
-        ) : typeof image === "string" ? (
+      <div
+        className={[
+          `${prefix}-image`,
+          prefix !== "ant-empty" && "ant-empty-image",
+          context?.classNames?.image,
+          classNames?.image,
+        ]}
+        style={{ ...imageStyle, ...context?.styles?.image, ...styles?.image }}
+      >
+        {typeof image === "string" ? (
           <img
             src={image}
-            alt={typeof description === "string" ? description : ""}
+            alt={typeof des === "string" ? des : "empty"}
+            draggable={false}
           />
         ) : (
           image
         )}
       </div>
-      {description !== null && description !== false && (
-        <div className="ant-empty-description">{description}</div>
+      {des && (
+        <div
+          className={[
+            `${prefix}-description`,
+            prefix !== "ant-empty" && "ant-empty-description",
+            context?.classNames?.description,
+            classNames?.description,
+          ]}
+          style={{ ...context?.styles?.description, ...styles?.description }}
+        >
+          {des}
+        </div>
       )}
-      {children !== undefined && (
-        <div className="ant-empty-footer">{children}</div>
+      {children && (
+        <div
+          className={[
+            `${prefix}-footer`,
+            prefix !== "ant-empty" && "ant-empty-footer",
+            context?.classNames?.footer,
+            classNames?.footer,
+          ]}
+          style={{ ...context?.styles?.footer, ...styles?.footer }}
+        >
+          {children}
+        </div>
       )}
     </div>
   );

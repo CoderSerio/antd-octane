@@ -745,11 +745,15 @@ toc.tabs = [
   ["tokens", "主题与支持范围"],
 ];
 toc.empty = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
-  ["basic", "空状态"],
-  ["more", "简洁图与操作入口"],
+  ["basic", "基本"],
+  ["simple", "选择图片"],
+  ["customize", "自定义"],
+  ["config-provider", "全局化配置"],
+  ["description", "无描述"],
   ["api", "API"],
-  ["tokens", "主题与支持范围"],
+  ["tokens", "主题变量"],
 ];
 toc.statistic = [
   ["examples", "代码演示"],

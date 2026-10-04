@@ -1,60 +1,93 @@
-import { BasicDemo, MoreDemo } from "../demos/empty-basic";
-import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
+import { ComponentWhenToUse } from "../component-prose";
+import {
+  ComponentApiTables,
+  ComponentTokenTable,
+} from "../component-reference";
+import reference from "../data-display/empty.json";
+import {
+  BasicDemo,
+  ConfigProviderDemo,
+  CustomizeDemo,
+  DescriptionDemo,
+  SimpleDemo,
+} from "../demos/empty-basic";
+import { Demo, DemoGrid, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
   return (
     <>
       <h1>
         Empty <span>空状态</span>
-        <small>Alpha</small>
       </h1>
-      <p className="lead">在没有数据时说明当前状态，并提供下一步操作。</p>
+      <p className="lead">空状态时的展示占位图。</p>
       <DocMeta name="Empty" />
+      <ComponentWhenToUse component="Empty" />
       <h2 id="examples" tabIndex={-1}>
         代码演示
       </h2>
-      <div className="demo-grid">
+      <DemoGrid>
         <Demo
           id="basic"
-          title="空状态"
-          description="没有数据时展示占位图与说明，可通过 description 自定义文案或隐藏说明。"
+          title={"基本"}
+          description={"简单的展示。"}
+          descriptionMarkdown
           source={() => import("../demos/empty-basic.tsx?raw")}
+          sourceExport="BasicDemo"
         >
           <BasicDemo />
         </Demo>
         <Demo
-          id="more"
-          title="简洁图与操作入口"
-          description="使用简洁占位图，并在底部放置操作按钮；本例跳转到接入指南。"
+          id="simple"
+          title={"选择图片"}
+          description={
+            "可以通过设置 `image` 为 `Empty.PRESENTED_IMAGE_SIMPLE` 选择另一种风格的图片。"
+          }
+          descriptionMarkdown
           source={() => import("../demos/empty-basic.tsx?raw")}
+          sourceExport="SimpleDemo"
         >
-          <MoreDemo />
+          <SimpleDemo />
         </Demo>
-      </div>
+        <Demo
+          id="customize"
+          title={"自定义"}
+          description={"自定义图片链接、图片大小、描述、附属内容。"}
+          descriptionMarkdown
+          source={() => import("../demos/empty-basic.tsx?raw")}
+          sourceExport="CustomizeDemo"
+        >
+          <CustomizeDemo />
+        </Demo>
+        <Demo
+          id="config-provider"
+          title={"全局化配置"}
+          description={"自定义全局组件的 Empty 样式。"}
+          descriptionMarkdown
+          source={() => import("../demos/empty-basic.tsx?raw")}
+          sourceExport="ConfigProviderDemo"
+        >
+          <ConfigProviderDemo />
+        </Demo>
+        <Demo
+          id="description"
+          title={"无描述"}
+          description={"无描述展示。"}
+          descriptionMarkdown
+          source={() => import("../demos/empty-basic.tsx?raw")}
+          sourceExport="DescriptionDemo"
+        >
+          <DescriptionDemo />
+        </Demo>
+      </DemoGrid>
       <h2 id="api" tabIndex={-1}>
         API
       </h2>
-      <ApiTable
-        rows={[
-          ["image", "自定义图片地址或节点", "string | OctaneNode", "默认图示"],
-          ["imageStyle", "图示容器样式", "CSSProperties", "—"],
-          [
-            "description",
-            "说明文字；false/null 隐藏",
-            "OctaneNode",
-            "暂无数据",
-          ],
-          ["children", "底部操作区域", "OctaneNode", "—"],
-        ]}
-      />
+      <ComponentApiTables component="Empty" sections={reference.api} />
+
       <h2 id="tokens" tabIndex={-1}>
-        主题与支持范围
+        主题变量（Design Token）
       </h2>
-      <p>
-        支持全局颜色、字体与间距 token。PRESENTED_IMAGE_SIMPLE
-        提供小图示。本库图示为独立绘制，尚未移植上游完整插画；暂不支持
-        ConfigProvider locale / renderEmpty。
-      </p>
+      <ComponentTokenTable component="Empty" tokens={reference.tokens} />
     </>
   );
 }

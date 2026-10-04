@@ -1805,33 +1805,39 @@
   }
   :where(.ant-empty) {
     box-sizing: border-box;
-    margin-inline: 8px;
+    margin-inline: var(--ao-empty-inline);
     font-family: var(--ao-font);
     font-size: var(--ao-font-size);
     line-height: var(--ao-line);
     text-align: center;
-    color: var(--ao-muted);
+    color: var(--ao-text);
   }
   :where(.ant-empty-normal) {
     margin-block: var(--ao-empty-margin);
+    color: var(--ao-muted);
+  }
+  :where(.ant-empty-small) {
+    margin-block: var(--ao-empty-gap);
+    color: var(--ao-muted);
+  }
+  :where(.ant-empty-description) {
+    color: var(--ao-muted);
   }
   :where(.ant-empty-image) {
     opacity: var(--ao-empty-opacity);
-    display: flex;
-    align-items: center;
-    justify-content: center;
     height: var(--ao-empty-image-height);
     margin-bottom: var(--ao-empty-gap);
   }
+  :where(.ant-empty-small .ant-empty-image) {
+    height: var(--ao-empty-image-small-height);
+  }
   :where(.ant-empty-image > svg) {
     height: 100%;
-    width: auto;
     max-width: 100%;
+    margin: auto;
   }
   :where(.ant-empty-image > img) {
     height: 100%;
-    max-width: 100%;
-    object-fit: contain;
   }
   :where(.ant-empty-footer) {
     margin-top: var(--ao-empty-footer-gap);

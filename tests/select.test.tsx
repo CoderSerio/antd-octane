@@ -5,7 +5,9 @@ import { ConfigProvider } from "../packages/antd-octane/src/config-provider";
 import { Select } from "../packages/antd-octane/src/select";
 
 let root: Root | undefined;
+
 let container: HTMLDivElement;
+
 async function render(node: ElementDescriptor) {
   if (!root) {
     container = document.createElement("div");
@@ -14,11 +16,13 @@ async function render(node: ElementDescriptor) {
   }
   await act(() => root?.render(node));
 }
+
 afterEach(async () => {
   await act(() => root?.unmount());
   root = undefined;
   container?.remove();
 });
+
 function input() {
   const element = container.querySelector<HTMLInputElement>(
     'input[role="combobox"]',
@@ -26,6 +30,7 @@ function input() {
   if (!element) throw Error("Missing Select input");
   return element;
 }
+
 async function key(name: string) {
   await act(() =>
     input().dispatchEvent(
@@ -37,6 +42,7 @@ async function key(name: string) {
     ),
   );
 }
+
 const options = [
   { value: "a", label: "Apple" },
   { value: "b", label: "Banana", disabled: true },
@@ -80,9 +86,13 @@ it("filters by label, skips disabled options and handles empty results", async (
     input().value = "none";
     input().dispatchEvent(new Event("input", { bubbles: true }));
   });
-  expect(document.querySelector(".ant-select-item-empty")?.textContent).toBe(
-    "无匹配结果",
-  );
+  expect(
+    document.querySelector(".ant-select-item-empty .ant-empty-description")
+      ?.textContent,
+  ).toBe("No data");
+  expect(
+    document.querySelector(".ant-select-item-empty .ant-empty-image"),
+  ).not.toBeNull();
   await key("Escape");
   expect(input().getAttribute("aria-expanded")).toBe("false");
 });

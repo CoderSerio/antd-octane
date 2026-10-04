@@ -54,5 +54,12 @@
       "Descriptions": 3,
       "DescriptionItem": 3
     }
+  },
+  "Empty": {
+    "when": "- 当目前没有数据时，用于显式的用户提示。\n- 初始化场景时的引导创建流程。",
+    "apiIntro": "```jsx\n<Empty>\n  <Button>创建</Button>\n</Empty>\n```",
+    "sectionHeadings": {
+      "Empty": 0
+    }
   }
 }

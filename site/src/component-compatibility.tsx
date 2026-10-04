@@ -83,6 +83,17 @@ export function ComponentCompatibilityNotes() {
         </p>
       </details>
 
+      <details>
+        <summary>Empty</summary>
+        <p>
+          支持全局颜色、字体与间距 token。PRESENTED_IMAGE_SIMPLE
+          提供上游小图示，默认插画和小图示均采用 antd 5.29.3 的 SVG。 描述读取
+          ConfigProvider.locale.Empty；未提供 locale 时默认英文，可通过
+          description 覆盖或传 false、null 隐藏。支持 ConfigProvider.empty
+          的图片与语义化样式配置。
+        </p>
+      </details>
+
     </>
   );
 }
