@@ -1083,6 +1083,7 @@ toc.message = [
   ["tokens", "主题与支持范围"],
 ];
 toc.notification = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
   ["basic", "类型、位置与自动关闭"],
   ["more", "更新内容与操作按钮"],

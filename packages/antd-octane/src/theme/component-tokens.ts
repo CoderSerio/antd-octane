@@ -891,3 +891,38 @@ export interface ModalToken {
    */
   footerBg: string;
 }
+
+// components/notification/style/index.ts
+/** Component only token. Which will handle additional calculation of alias token */
+export interface NotificationToken {
+  /**
+   * @desc 提醒框 z-index
+   * @descEN z-index of Notification
+   */
+  zIndexPopup: number;
+  /**
+   * @desc 提醒框宽度
+   * @descEN Width of Notification
+   */
+  width: number | string;
+  /**
+   * @desc 成功提醒框容器背景色
+   * @descEN Background color of success notification container
+   */
+  colorSuccessBg?: string;
+  /**
+   * @desc 错误提醒框容器背景色
+   * @descEN Background color of error notification container
+   */
+  colorErrorBg?: string;
+  /**
+   * @desc 信息提醒框容器背景色
+   * @descEN Background color of info notification container
+   */
+  colorInfoBg?: string;
+  /**
+   * @desc 警告提醒框容器背景色
+   * @descEN Background color of warning notification container
+   */
+  colorWarningBg?: string;
+}

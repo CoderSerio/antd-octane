@@ -21,6 +21,7 @@ import type {
   DrawerToken,
   MessageToken,
   ModalToken,
+  NotificationToken,
 } from "./component-tokens";
 
 export type * from "./component-tokens";
@@ -148,7 +149,7 @@ export interface ThemeConfig {
     Modal?: ComponentTheme<ModalToken>;
     Drawer?: ComponentTheme<DrawerToken>;
     Message?: ComponentTheme<MessageToken>;
-    Notification?: ComponentTheme<{ width: number; zIndexPopup: number }>;
+    Notification?: ComponentTheme<NotificationToken>;
 
     InputNumber?: ComponentTheme<
       InputToken & {

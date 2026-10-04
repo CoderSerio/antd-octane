@@ -123,7 +123,11 @@
       "packages/antd-octane/src/collapse.css",
       "packages/antd-octane/src/qr-code.css",
       "packages/antd-octane/src/table.css",
-      "packages/antd-octane/src/tree.css"
+      "packages/antd-octane/src/tree.css",
+      "packages/antd-octane/src/notification/interface.ts",
+      "packages/antd-octane/src/notification/useNotification.tsx",
+      "packages/antd-octane/src/notification/PureContent.tsx",
+      "packages/antd-octane/src/notification/util.tsx"
     ],
     "notes": "Supported defaults and state styles adapted to static CSS variables; see THIRD_PARTY_NOTICES.md and docs/compatibility.md."
   },

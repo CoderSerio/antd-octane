@@ -221,7 +221,9 @@ export type {
 export { Modal } from "./modal";
 export type {
   NotificationArgs,
+  NotificationArgsProps,
   NotificationConfig,
+  NotificationGlobalConfig,
   NotificationInstance,
   NotificationPlacement,
 } from "./notification";

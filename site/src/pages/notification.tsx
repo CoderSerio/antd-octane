@@ -1,136 +1,148 @@
-import { AppContextDemo } from "../demos/notification-app-context";
-import { BasicDemo, MoreDemo } from "../demos/notification-basic";
-import { PersistentDemo } from "../demos/notification-persistent";
-import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
+import { ComponentWhenToUse } from "../component-prose";
+import {
+  ReferenceApiTables,
+  ReferenceTokenTable,
+} from "../component-reference";
+import Demo10 from "../demos/notification/basic";
+import Demo4 from "../demos/notification/custom-icon";
+import Demo6 from "../demos/notification/custom-style";
+import Demo1 from "../demos/notification/duration";
+import Demo0 from "../demos/notification/hooks";
+import Demo5 from "../demos/notification/placement";
+import Demo9 from "../demos/notification/show-with-progress";
+import Demo8 from "../demos/notification/stack";
+import Demo7 from "../demos/notification/update";
+import Demo3 from "../demos/notification/with-btn";
+import Demo2 from "../demos/notification/with-icon";
+import { Demo, DemoGrid, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
   return (
     <>
       <h1>
         Notification <span>通知提醒框</span>
-        <small>Alpha</small>
       </h1>
-      <p className="lead">展示需要更多解释的系统事件，提供可选的后续操作。</p>
-      <DocMeta name="notification" />
-      <h2 id="examples" tabIndex={-1}>
-        代码演示
-      </h2>
-      <div className="demo-grid">
+      <p className="lead">全局展示通知提醒信息。</p>
+      <DocMeta name="Notification" importName="notification" />
+      <ComponentWhenToUse component="Notification" />
+      <h2 id="examples">代码演示</h2>
+      <DemoGrid>
         <Demo
-          id="basic"
-          title="类型、位置与自动关闭"
-          description="通过 hook 创建独立实例，并在组件树中放置 contextHolder。悬停时暂停关闭计时。"
-          source={() => import("../demos/notification-basic.tsx?raw")}
+          id={"hooks"}
+          title={"Hooks 调用（推荐）"}
+          description={
+            "通过 `notification.useNotification` 创建支持读取 context 的 `contextHolder`。请注意，我们推荐通过顶层注册的方式代替 `notification` 静态方法，因为静态方法无法消费上下文，因而 ConfigProvider 的数据也不会生效。"
+          }
+          descriptionMarkdown
+          source={() => import("../demos/notification/hooks.tsx?raw")}
         >
-          <BasicDemo />
+          <Demo0 />
         </Demo>
         <Demo
-          id="more"
-          title="更新内容与操作按钮"
-          description="通过稳定 key 更新内容，使用实例方法手动关闭。"
-          source={() => import("../demos/notification-basic.tsx?raw")}
+          id={"duration"}
+          title={"自动关闭的延时"}
+          description={
+            "自定义通知框自动关闭的延时，默认 `4.5s`，取消自动关闭只要将该值设为 `0` 即可。"
+          }
+          descriptionMarkdown
+          source={() => import("../demos/notification/duration.tsx?raw")}
         >
-          <MoreDemo />
+          <Demo1 />
         </Demo>
         <Demo
-          id="persistent"
-          title="持续通知与关闭回调"
-          description="duration=0 保持显示；通知内操作或页面按钮关闭后触发 onClose。"
-          source={() => import("../demos/notification-persistent.tsx?raw")}
+          id={"with-icon"}
+          title={"带有图标的通知提醒框"}
+          description={"通知提醒框左侧有图标。"}
+          descriptionMarkdown
+          source={() => import("../demos/notification/with-icon.tsx?raw")}
         >
-          <PersistentDemo />
+          <Demo2 />
         </Demo>
         <Demo
-          id="app-context"
-          title="通过 App 使用共享实例"
-          description="ConfigProvider 包裹 App 后，子组件通过 App.useApp 取通知实例，并继承上下文与默认位置。"
-          source={() => import("../demos/notification-app-context.tsx?raw")}
+          id={"with-btn"}
+          title={"自定义按钮"}
+          description={"自定义关闭按钮的样式和文字。"}
+          descriptionMarkdown
+          source={() => import("../demos/notification/with-btn.tsx?raw")}
         >
-          <AppContextDemo />
+          <Demo3 />
         </Demo>
-      </div>
-      <h2 id="api" tabIndex={-1}>
-        API
-      </h2>
-      <ApiTable
-        rows={[
-          [
-            "App.useApp().notification",
-            "App 子组件内取得共享实例，无需重复插入 holder",
-            "NotificationInstance",
-            "—",
-          ],
-          [
-            "notification.useNotification(config)",
-            "返回 api 与必须插入组件树的 contextHolder",
-            "[NotificationInstance, OctaneNode]",
-            "—",
-          ],
-          [
-            "api.open/success/info/warning/error",
-            "展示通知；相同 key 更新内容",
-            "(config: NotificationArgs) => void",
-            "—",
-          ],
-          [
-            "api.destroy(key?)",
-            "关闭指定通知或全部通知",
-            "(key?) => void",
-            "—",
-          ],
-          [
-            "message / description / icon",
-            "标题 / 描述 / 自定义图标",
-            "OctaneNode",
-            "—",
-          ],
-          ["actions / btn", "操作区域；btn 为兼容别名", "OctaneNode", "—"],
-          [
-            "placement",
-            "顶部、底部及四角",
-            "top | topLeft | topRight | bottom | bottomLeft | bottomRight",
-            "topRight",
-          ],
-          [
-            "duration / pauseOnHover",
-            "自动关闭秒数；0/null 不自动关闭 / 悬停暂停",
-            "number | null / boolean",
-            "4.5 / true",
-          ],
-          [
-            "closeIcon / closable / onClose",
-            "关闭图标 / 显示关闭按钮 / 回调",
-            "OctaneNode / boolean / () => void",
-            "× / true / —",
-          ],
-          ["role", "朗读方式", "alert | status", "alert"],
-          [
-            "hook config",
-            "位置、时长、最大数量、上下偏移及容器",
-            "NotificationConfig",
-            "top/bottom 默认 24",
-          ],
-        ]}
-      />
-      <h2 id="tokens" tabIndex={-1}>
-        主题与支持范围
-      </h2>
-      <p>
-        支持 Notification.width、zIndexPopup
-        与全局颜色、字体、间距和圆角。通知操作区支持正常键盘访问，聚焦通知内控件时暂停倒计时。
-      </p>
-      <p>
-        本版提供 hook 实例与 App.useApp().notification，不提供静态
-        open/success/config 方法。App 必须位于使用方的祖先组件，ConfigProvider
-        应包裹 App，才能让共享实例继承主题。原生 portal
-        保留上下文；自定义容器仍使用固定定位，带 transform
-        的祖先可能限制覆盖范围。暂不支持
-        RTL、prefixCls、堆叠收缩、进度条和完整进出场动效。默认图标为独立绘制。
-      </p>
-      <p>
-        超过 maxCount 时关闭最早一条；同 key 更新会重启倒计时。卸载 holder
-        时清理所有通知和计时器，之后调用旧实例不会继续显示。
-      </p>
+        <Demo
+          id={"custom-icon"}
+          title={"自定义图标"}
+          description={"图标可以被自定义。"}
+          descriptionMarkdown
+          source={() => import("../demos/notification/custom-icon.tsx?raw")}
+        >
+          <Demo4 />
+        </Demo>
+        <Demo
+          id={"placement"}
+          title={"位置"}
+          description={
+            "使用 `placement` 可以配置通知从上面、下面、左上角、右上角、左下角、右下角弹出。"
+          }
+          descriptionMarkdown
+          source={() => import("../demos/notification/placement.tsx?raw")}
+        >
+          <Demo5 />
+        </Demo>
+        <Demo
+          id={"custom-style"}
+          title={"自定义样式"}
+          description={"使用 style 和 className 来定义样式。"}
+          descriptionMarkdown
+          source={() => import("../demos/notification/custom-style.tsx?raw")}
+        >
+          <Demo6 />
+        </Demo>
+        <Demo
+          id={"update"}
+          title={"更新消息内容"}
+          description={"可以通过唯一的 key 来更新内容。"}
+          descriptionMarkdown
+          source={() => import("../demos/notification/update.tsx?raw")}
+        >
+          <Demo7 />
+        </Demo>
+        <Demo
+          id={"stack"}
+          title={"堆叠"}
+          description={
+            "堆叠配置，默认开启。超过 3 个以上的消息会被自动收起，可以通过 `threshold` 来设置不会被收起的最大数量。"
+          }
+          descriptionMarkdown
+          source={() => import("../demos/notification/stack.tsx?raw")}
+        >
+          <Demo8 />
+        </Demo>
+        <Demo
+          id={"show-with-progress"}
+          title={"显示进度条"}
+          description={"显示自动关闭通知框的进度条。"}
+          descriptionMarkdown
+          source={() =>
+            import("../demos/notification/show-with-progress.tsx?raw")
+          }
+        >
+          <Demo9 />
+        </Demo>
+        <Demo
+          id={"basic"}
+          title={"静态方法（不推荐）"}
+          description={
+            "静态方法无法消费 Context，不能动态响应 ConfigProvider 提供的各项配置，启用 `layer` 时还可能导致样式异常。请优先使用 hooks 版本或者 App 组件提供的 `notification` 实例。"
+          }
+          descriptionMarkdown
+          source={() => import("../demos/notification/basic.tsx?raw")}
+        >
+          <Demo10 />
+        </Demo>
+      </DemoGrid>
+      <h2 id="api">API</h2>
+      <ReferenceApiTables component="Notification" />
+      <h2 id="tokens">主题变量（Design Token）</h2>
+      <ReferenceTokenTable component="Notification" />
     </>
   );
 }

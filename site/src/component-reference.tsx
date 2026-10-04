@@ -7,6 +7,7 @@ import alert from "./feedback/alert.json";
 import drawer from "./feedback/drawer.json";
 import message from "./feedback/message.json";
 import modal from "./feedback/modal.json";
+import notification from "./feedback/notification.json";
 
 export interface ApiSection {
   title: string;
@@ -26,6 +27,7 @@ const references: Record<
   Drawer: drawer,
   Message: message,
   Modal: modal,
+  Notification: notification,
 
 };
 

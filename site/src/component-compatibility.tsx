@@ -232,6 +232,25 @@ export function ComponentCompatibilityNotes() {
           已作两种层级模式的对照。
         </p>
       </details>
+      <details>
+        <summary>Notification</summary>
+        <p>
+          支持静态方法、全局配置、Hook
+          上下文、六种位置、进度、暂停与堆叠。堆叠按通知的实际尺寸计算位置，
+          悬停时展开并暂停整组通知。进出场与堆叠位移使用主题动效参数，
+          关闭后保留节点至离场完成；离场期间可使用同一 key 更新通知。
+        </p>
+        <p>
+          未发布源码已按 antd 5.29.3 补齐 btn 废弃提示、关闭图标优先级、
+          closable 对象、容器继承与静态调用队列，并修正状态图标、文字缩进、
+          按钮区间距、焦点样式和容器留白处的点击拦截。公开接口已独立拆分： top /
+          bottom 接受数字， onClick 声明为无参数回调，type 和 Hook
+          返回元组为只读。调用 Hook API 前必须挂载 contextHolder； 进度使用原生
+          progress 元素；默认悬停暂停计时与进度，pauseOnHover=false
+          时持续计时，键盘焦点不暂停。ShadowRoot 只验证了挂载和语义属性，
+          样式注入尚未验证；这些检查不代表 Notification 全部行为完全一致。
+        </p>
+      </details>
 
       <details>
         <summary>Popover</summary>

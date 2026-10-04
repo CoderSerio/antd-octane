@@ -206,5 +206,20 @@
       "Modal": 0,
       "Modal.method()": 3
     }
+  },
+  "Notification": {
+    "when": "在系统四个角显示通知提醒信息。经常用于以下情况：\n\n- 较为复杂的通知内容。\n- 带有交互的通知，给出用户下一步的行动点。\n- 系统主动推送。",
+    "apiIntro": "- `notification.success(config)`\n- `notification.error(config)`\n- `notification.info(config)`\n- `notification.warning(config)`\n- `notification.open(config)`\n- `notification.destroy(key?: String)`\n\nconfig 参数如下：",
+    "sectionIntro": {
+      "共同的 API": "- `notification.useNotification(config)`\n\nconfig 参数如下："
+    },
+    "sectionBefore": {
+      "notification.config": "### 全局配置\n\n还提供了一个全局配置方法，在调用前提前配置，全局一次生效。\n\n`notification.config(options)`\n\n> 当你使用 `ConfigProvider` 进行全局化配置时，系统会默认自动开启 RTL 模式。\n>\n> 当你想单独使用，可通过如下设置开启 RTL 模式。\n\n```js\nnotification.config({\n  placement: \"bottomRight\",\n  bottom: 50,\n  duration: 3,\n  rtl: true,\n});\n```"
+    },
+    "sectionHeadings": {
+      "Notification": 0,
+      "共同的 API": 0,
+      "notification.config": 4
+    }
   }
 }
