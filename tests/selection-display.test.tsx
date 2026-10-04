@@ -265,7 +265,7 @@ it("Card loading hides children and restores content with actions", async () => 
       <Card.Meta title="Meta" description="Details" />
     </Card>,
   );
-  expect(container.querySelector('[role="status"]')).not.toBeNull();
+  expect(container.querySelector(".ant-skeleton")).not.toBeNull();
   expect(container.textContent).not.toContain("Details");
   await act(() =>
     root?.render(
@@ -275,5 +275,5 @@ it("Card loading hides children and restores content with actions", async () => 
     ),
   );
   expect(container.textContent).toContain("Details");
-  expect(container.querySelector('[role="status"]')).toBeNull();
+  expect(container.querySelector(".ant-skeleton")).toBeNull();
 });

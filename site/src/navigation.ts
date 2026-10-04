@@ -217,18 +217,18 @@ export const nav = [
     keywords: "list 列表 网格",
   },
   {
-    id: "calendar",
-    title: "Calendar 日历",
-    category: "components",
-    group: "数据展示",
-    keywords: "calendar 日历 日期",
-  },
-  {
     id: "card",
     title: "Card 卡片",
     category: "components",
     group: "数据展示",
     keywords: "card 卡片",
+  },
+  {
+    id: "calendar",
+    title: "Calendar 日历",
+    category: "components",
+    group: "数据展示",
+    keywords: "calendar 日历 日期",
   },
   {
     id: "badge",
@@ -664,12 +664,20 @@ toc.alert = [
   ["tokens", "主题与支持范围"],
 ];
 toc.card = [
-  ["when", "何时使用"],
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
-  ["basic", "基本使用"],
-  ["more", "组合与交互"],
+  ["basic", "典型卡片"],
+  ["border-less", "无边框"],
+  ["simple", "简洁卡片"],
+  ["flexible-content", "更灵活的内容展示"],
+  ["grid-card", "网格型内嵌卡片"],
+  ["loading", "预加载的卡片"],
+  ["in-column", "栅格卡片"],
+  ["inner", "内部卡片"],
+  ["tabs", "带页签的卡片"],
+  ["meta", "支持更多内容配置"],
   ["api", "API"],
-  ["tokens", "主题与支持范围"],
+  ["tokens", "主题变量"],
 ];
 toc.badge = [
   ["when", "何时使用"],

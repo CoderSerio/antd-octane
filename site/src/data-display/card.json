@@ -1,0 +1,182 @@
+{
+  "version": "5.29.3",
+  "api": [
+    {
+      "title": "Card",
+      "rows": [
+        ["actions", "卡片操作组，位置在卡片底部", "Array<OctaneNode>", "-"],
+        ["activeTabKey", "当前激活页签的 key", "string", "-"],
+        [
+          "~~bordered~~",
+          "是否有边框, 请使用 `variant` 替换",
+          "boolean",
+          "true"
+        ],
+        ["variant", "形态变体", "`outlined` | `borderless`", "`outlined`"],
+        ["cover", "卡片封面", "OctaneNode", "-"],
+        [
+          "defaultActiveTabKey",
+          "初始化选中页签的 key，如果没有设置 activeTabKey",
+          "string",
+          "`第一个页签的 key`"
+        ],
+        ["extra", "卡片右上角的操作区域", "OctaneNode", "-"],
+        ["hoverable", "鼠标移过时可浮起", "boolean", "false"],
+        [
+          "loading",
+          "当卡片内容还在加载中时，可以用 loading 展示一个占位",
+          "boolean",
+          "false"
+        ],
+        ["size", "card 的尺寸", "`default` | `small`", "`default`"],
+        ["tabBarExtraContent", "tab bar 上额外的元素", "OctaneNode", "-"],
+        [
+          "tabList",
+          "页签标题列表",
+          "[TabItemType](/components/tabs-cn#tabitemtype)[]",
+          "-"
+        ],
+        ["tabProps", "[Tabs](/components/tabs-cn#tabs)", "-", "-"],
+        ["title", "卡片标题", "OctaneNode", "-"],
+        ["type", "卡片类型，可设置为 `inner` 或 不设置", "string", "-"],
+        [
+          "classNames",
+          "配置卡片内置模块的 className",
+          "[Record<SemanticDOM, string>](#semantic-dom)",
+          "-"
+        ],
+        [
+          "styles",
+          "配置卡片内置模块的 style",
+          "[Record<SemanticDOM, CSSProperties>](#semantic-dom)",
+          "-"
+        ],
+        ["onTabChange", "页签切换的回调", "(key) => void", "-"]
+      ]
+    },
+    {
+      "title": "Card.Grid",
+      "rows": [
+        ["className", "网格容器类名", "string", "-"],
+        ["hoverable", "鼠标移过时可浮起", "boolean", "true"],
+        ["style", "定义网格容器类名的样式", "CSSProperties", "-"]
+      ]
+    },
+    {
+      "title": "Card.Meta",
+      "rows": [
+        ["avatar", "头像/图标", "OctaneNode", "-"],
+        ["className", "容器类名", "string", "-"],
+        ["description", "描述内容", "OctaneNode", "-"],
+        ["style", "定义容器类名的样式", "CSSProperties", "-"],
+        ["title", "标题内容", "OctaneNode", "-"]
+      ]
+    }
+  ],
+  "tokens": {
+    "component": [
+      ["actionsBg", "操作区背景色", "string", "#ffffff"],
+      ["actionsLiMargin", "操作区每一项的外间距", "string", "12px 0"],
+      ["bodyPadding", "卡片内边距", "number", "24"],
+      ["bodyPaddingSM", "小号卡片内边距", "number", "12"],
+      ["extraColor", "额外区文字颜色", "string", "rgba(0,0,0,0.88)"],
+      ["headerBg", "卡片头部背景色", "string", "transparent"],
+      ["headerFontSize", "卡片头部文字大小", "string | number", "16"],
+      ["headerFontSizeSM", "小号卡片头部文字大小", "string | number", "14"],
+      ["headerHeight", "卡片头部高度", "string | number", "56"],
+      ["headerHeightSM", "小号卡片头部高度", "string | number", "38"],
+      ["headerPadding", "卡片头部内边距", "number", "24"],
+      ["headerPaddingSM", "小号卡片头部内边距", "number", "12"],
+      ["tabsMarginBottom", "内置标签页组件下间距", "number", "-17"]
+    ],
+    "global": [
+      [
+        "colorBgContainer",
+        "组件的容器背景色，例如：默认按钮、输入框等。务必不要将其与 `colorBgElevated` 混淆。",
+        "string",
+        "#ffffff"
+      ],
+      [
+        "colorBorderSecondary",
+        "比默认使用的边框色要浅一级，此颜色和 colorSplit 的颜色一致。使用的是实色。",
+        "string",
+        "#f0f0f0"
+      ],
+      ["colorFillAlter", "控制元素替代背景色。", "string", "rgba(0,0,0,0.02)"],
+      [
+        "colorIcon",
+        "控制弱操作图标的颜色，例如 allowClear 或 Alert 关闭按钮。\n *",
+        "string",
+        "rgba(0,0,0,0.45)"
+      ],
+      [
+        "colorPrimary",
+        "品牌色是体现产品特性和传播理念最直观的视觉元素之一。在你完成品牌主色的选取之后，我们会自动帮你生成一套完整的色板，并赋予它们有效的设计语义",
+        "string",
+        "#1677ff"
+      ],
+      [
+        "colorText",
+        "最深的文本色。为了符合W3C标准，默认的文本颜色使用了该色，同时这个颜色也是最深的中性色。",
+        "string",
+        "rgba(0,0,0,0.88)"
+      ],
+      [
+        "colorTextDescription",
+        "控制文本描述字体颜色。",
+        "string",
+        "rgba(0,0,0,0.45)"
+      ],
+      ["colorTextHeading", "控制标题字体颜色。", "string", "rgba(0,0,0,0.88)"],
+      [
+        "borderRadiusLG",
+        "LG号圆角，用于组件中的一些大圆角，如 Card、Modal 等一些组件样式。",
+        "number",
+        "8"
+      ],
+      [
+        "boxShadowTertiary",
+        "控制元素三级盒子阴影样式。",
+        "string",
+        "\n      0 1px 2px 0 rgba(0, 0, 0, 0.03),\n      0 1px 6px -1px rgba(0, 0, 0, 0.02),\n      0 2px 4px 0 rgba(0, 0, 0, 0.02)\n    "
+      ],
+      [
+        "fontFamily",
+        "Ant Design 的字体家族中优先使用系统默认的界面字体，同时提供了一套利于屏显的备用字体库，来维护在不同平台以及浏览器的显示下，字体始终保持良好的易读性和可读性，体现了友好、稳定和专业的特性。",
+        "string",
+        "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,\n'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',\n'Noto Color Emoji'"
+      ],
+      [
+        "fontSize",
+        "设计系统中使用最广泛的字体大小，文本梯度也将基于该字号进行派生。",
+        "number",
+        "14"
+      ],
+      ["fontSizeLG", "大号字体大小", "number", "16"],
+      [
+        "fontWeightStrong",
+        "控制标题类组件（如 h1、h2、h3）或选中项的字体粗细。",
+        "number",
+        "600"
+      ],
+      ["lineHeight", "文本行高", "number", "1.5714285714285714"],
+      [
+        "lineType",
+        "用于控制组件边框、分割线等的样式，默认是实线",
+        "string",
+        "solid"
+      ],
+      ["lineWidth", "用于控制组件边框、分割线等的宽度", "number", "1"],
+      ["marginXS", "控制元素外边距，小尺寸。", "number", "8"],
+      ["marginXXS", "控制元素外边距，最小尺寸。", "number", "4"],
+      [
+        "motionDurationMid",
+        "动效播放速度，中速。用于中型元素动画交互",
+        "string",
+        "0.2s"
+      ],
+      ["padding", "控制元素的内间距。", "number", "16"],
+      ["paddingLG", "控制元素的大内间距。", "number", "24"]
+    ]
+  }
+}

@@ -1,4 +1,9 @@
-import type { AvatarToken, BadgeToken, CalendarToken } from "./component-tokens";
+import type {
+  AvatarToken,
+  BadgeToken,
+  CalendarToken,
+  CardToken,
+} from "./component-tokens";
 
 export type * from "./component-tokens";
 
@@ -309,19 +314,7 @@ export interface ThemeConfig {
       defaultPadding: string;
       withDescriptionPadding: string;
     }>;
-    Card?: ComponentTheme<{
-      headerBg: string;
-      headerFontSize: number;
-      headerFontSizeSM: number;
-      headerHeight: number;
-      headerHeightSM: number;
-      actionsBg: string;
-      extraColor: string;
-      bodyPadding: number;
-      bodyPaddingSM: number;
-      headerPadding: number;
-      headerPaddingSM: number;
-    }>;
+    Card?: ComponentTheme<CardToken>;
     Badge?: ComponentTheme<BadgeToken>;
     Calendar?: ComponentTheme<CalendarToken>;
     Avatar?: ComponentTheme<AvatarToken>;

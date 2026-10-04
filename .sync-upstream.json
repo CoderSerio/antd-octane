@@ -139,10 +139,12 @@
     "version": "5.29.3",
     "commit": "14f397749dca177e5495dc9d1c2f7debfb639545",
     "source": [
-      "components/calendar/{generateCalendar,Header,index}.tsx"
+      "components/calendar/{generateCalendar,Header,index}.tsx",
+      "components/card/{Card,Grid,Meta}.tsx"
     ],
     "destination": [
-      "packages/antd-octane/src/calendar"
+      "packages/antd-octane/src/calendar",
+      "packages/antd-octane/src/card"
     ],
     "notes": "Source contracts, module structure, artwork and supported lifecycle/style behavior adapted to Octane. React runtime dependencies remain development references. Source API descriptions do not certify complete parity; see component support sections."
   },

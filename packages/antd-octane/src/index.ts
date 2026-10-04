@@ -76,7 +76,12 @@ export type {
   CalendarSelectSource,
 } from "./calendar";
 export { Calendar } from "./calendar";
-export type { CardMetaProps, CardProps } from "./card";
+export type {
+  CardGridProps,
+  CardMetaProps,
+  CardProps,
+  CardTabListType,
+} from "./card";
 export { Card } from "./card";
 export type { CarouselProps, CarouselRef } from "./carousel";
 export { Carousel } from "./carousel";
