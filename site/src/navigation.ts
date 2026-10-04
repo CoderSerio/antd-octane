@@ -774,11 +774,15 @@ toc.empty = [
   ["tokens", "主题变量"],
 ];
 toc.statistic = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
-  ["basic", "数值与金额"],
-  ["more", "字符串精度"],
+  ["basic", "基本"],
+  ["unit", "单位"],
+  ["animated", "动画效果"],
+  ["timer", "计时器"],
+  ["card", "在卡片中使用"],
   ["api", "API"],
-  ["tokens", "主题与支持范围"],
+  ["tokens", "主题变量"],
 ];
 toc.timeline = [
   ["examples", "代码演示"],

@@ -6,6 +6,7 @@ import {
   Collapse,
   Descriptions,
   Image,
+  Statistic,
 } from "../packages/antd-octane/src";
 import { resetWarned } from "../packages/antd-octane/src/_util/warning";
 
@@ -90,6 +91,16 @@ const matrix = [
     name: "Image",
     node: <Image preview={{ destroyOnClose: undefined }} />,
     messages: [deprecation("destroyOnClose", "destroyOnHidden")],
+  },
+{
+    name: "Countdown",
+    node: <Statistic.Countdown value={0} />,
+    messages: [
+      deprecation(
+        "<Statistic.Countdown />",
+        '<Statistic.Timer type="countdown" />',
+      ),
+    ],
   },
 ];
 

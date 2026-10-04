@@ -282,7 +282,13 @@ export type { SpinProps } from "./spin";
 export { Spin } from "./spin";
 export type { PanelProps, SplitterProps } from "./splitter";
 export { Splitter } from "./splitter";
-export type { StatisticProps } from "./statistic";
+export type {
+  CountdownProps,
+  StatisticProps,
+  StatisticRef,
+  StatisticTimerProps,
+  TimerType,
+} from "./statistic";
 export { Statistic } from "./statistic";
 export type { StepItem, StepStatus, StepsProps } from "./steps";
 export { Steps } from "./steps";

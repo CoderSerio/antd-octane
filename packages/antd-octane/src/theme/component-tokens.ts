@@ -502,3 +502,17 @@ export interface SegmentedToken {
    */
   trackBg: string;
 }
+
+// components/statistic/style/index.ts
+export interface StatisticToken {
+  /**
+   * @desc 标题字体大小
+   * @descEN Title font size
+   */
+  titleFontSize: number;
+  /**
+   * @desc 内容字体大小
+   * @descEN Content font size
+   */
+  contentFontSize: number;
+}

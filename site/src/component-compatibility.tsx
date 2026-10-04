@@ -210,6 +210,19 @@ export function ComponentCompatibilityNotes() {
         </p>
       </details>
 
+      <details>
+        <summary>Statistic</summary>
+        <p>
+          支持 titleFontSize、contentFontSize 和 alias
+          token。字符串格式化不经过浮点数转换；precision
+          按上游行为截取和补零，不进行四舍五入。支持 Countdown 和 Timer
+          的时间格式及回调；Timer
+          首次输出占位符，挂载后开始更新，倒计时结束时停止刷新。loading 使用
+          Skeleton。ConfigProvider.statistic 提供样式默认值，ref.nativeElement
+          指向外层 div。
+        </p>
+      </details>
+
     </>
   );
 }

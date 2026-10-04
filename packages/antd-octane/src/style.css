@@ -1858,10 +1858,11 @@
     overflow-wrap: anywhere;
     font-size: var(--ao-statistic-content-size);
     font-family: var(--ao-font);
-    color: var(--ao-text);
+    color: var(--ao-statistic-content-color);
   }
-  :where(.ant-statistic-content-value-decimal) {
-    font-size: var(--ao-font-size);
+  :where(.ant-statistic-content-value) {
+    direction: ltr;
+    display: inline-block;
   }
   :where(.ant-statistic-content-prefix) {
     margin-inline-end: var(--ao-statistic-gap);
@@ -1875,6 +1876,15 @@
     width: 120px;
     border-radius: 4px;
     background: var(--ao-border);
+  }
+  :where(.ant-statistic-rtl) {
+    direction: rtl;
+  }
+  :where(.ant-statistic-content-prefix, .ant-statistic-content-suffix) {
+    display: inline-block;
+  }
+  :where(.ant-statistic-skeleton) {
+    padding-top: var(--ao-statistic-skeleton-padding);
   }
   :where(.ant-timeline) {
     margin: 0;

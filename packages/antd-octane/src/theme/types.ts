@@ -10,6 +10,7 @@ import type {
   ListToken,
   PopoverToken,
   SegmentedToken,
+  StatisticToken,
 } from "./component-tokens";
 
 export type * from "./component-tokens";
@@ -261,10 +262,7 @@ export interface ThemeConfig {
       cardPadding: string;
     }>;
     Empty?: ComponentTheme;
-    Statistic?: ComponentTheme<{
-      titleFontSize: number;
-      contentFontSize: number;
-    }>;
+    Statistic?: ComponentTheme<StatisticToken>;
     Timeline?: ComponentTheme<{
       tailColor: string;
       tailWidth: number;

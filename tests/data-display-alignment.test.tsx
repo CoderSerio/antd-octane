@@ -2,12 +2,16 @@ import type { ElementDescriptor, Root } from "octane";
 import { act, createRoot, Fragment } from "octane";
 import { afterEach, expect, it, vi } from "vitest";
 import {
+  Avatar,
   Card,
   Carousel,
   Collapse,
   ConfigProvider,
   Descriptions,
+  Empty,
   Form,
+  QRCode,
+  Statistic,
 } from "../packages/antd-octane/src";
 import type {
   LegacyPanelProps,
@@ -150,4 +154,54 @@ it("Carousel uses cssEase ease by default independently from the JavaScript easi
   expect(element(".slick-track").style.transition).toBe(
     "transform 500ms ease-in",
   );
+});
+
+it("display components consume locale text and nested component Tokens in rendered native styles", async () => {
+  const refresh = vi.fn();
+  await render(
+    <ConfigProvider
+      locale={{
+        locale: "en-test",
+        Empty: { description: "No records" },
+        QRCode: { expired: "Expired code", refresh: "Retry code" },
+      }}
+      theme={{
+        components: {
+          Avatar: { containerSize: 52 },
+          Statistic: { titleFontSize: 19, contentFontSize: 37 },
+        },
+      }}
+    >
+      <Empty />
+      <QRCode
+        type="svg"
+        value="native-regression"
+        status="expired"
+        onRefresh={refresh}
+      />
+      <Avatar>Outer</Avatar>
+      <ConfigProvider theme={{ components: { Avatar: { containerSize: 28 } } }}>
+        <Avatar>Inner</Avatar>
+        <Statistic title="Total" value={7} />
+      </ConfigProvider>
+    </ConfigProvider>,
+  );
+  expect(element(".ant-empty-description").textContent).toBe("No records");
+  expect(element(".ant-qrcode-expired").textContent).toContain("Expired code");
+  expect(container.textContent).toContain("Retry code");
+  await act(() =>
+    element<HTMLButtonElement>(".ant-qrcode-mask button").click(),
+  );
+  expect(refresh).toHaveBeenCalledTimes(1);
+  const avatars = [...container.querySelectorAll<HTMLElement>(".ant-avatar")];
+  expect(avatars[0].style.getPropertyValue("--ao-avatar-size")).toBe("52px");
+  expect(avatars[1].style.getPropertyValue("--ao-avatar-size")).toBe("28px");
+  const statistic = element(".ant-statistic");
+  expect(statistic.style.getPropertyValue("--ao-statistic-title-size")).toBe(
+    "19px",
+  );
+  expect(statistic.style.getPropertyValue("--ao-statistic-content-size")).toBe(
+    "37px",
+  );
+  expect(element(".ant-statistic-content-value").textContent).toBe("7");
 });
