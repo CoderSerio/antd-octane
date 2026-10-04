@@ -12,7 +12,11 @@
     overflow: visible;
   }
   :where(.ant-message) {
-    inset-inline: 8px;
+    pointer-events: none;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-height: none;
     align-items: center;
     gap: 0;
   }
@@ -32,28 +36,53 @@
     transform: translateX(-50%);
   }
   :where(.ant-message-notice, .ant-notification-notice) {
-    pointer-events: auto;
     flex: none;
     max-width: 100%;
     box-sizing: border-box;
   }
-  :where(.ant-message-notice) {
+  :where(.ant-message-notice-wrapper) {
     padding: var(--ao-notice-outer-padding);
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    flex: none;
+  }
+  :where(.ant-message-notice) {
+    display: block;
+    text-align: center;
   }
   :where(.ant-message-notice-content) {
-    display: flex;
-    align-items: center;
-    gap: var(--ao-notice-gap);
+    pointer-events: all;
+    display: inline-block;
     padding: var(--ao-notice-padding);
     background: var(--ao-notice-bg);
     border-radius: var(--ao-radius);
     box-shadow: var(--ao-notice-shadow);
-    overflow-wrap: anywhere;
   }
   :where(.ant-notification-notice-content) {
     display: flex;
     align-items: flex-start;
     gap: var(--ao-notice-large-gap);
+  }
+  :where(.ant-message-custom-content) {
+    display: flex;
+    align-items: center;
+  }
+  :where(.ant-message-custom-content > .anticon) {
+    margin-inline-end: var(--ao-notice-gap);
+    font-size: var(--ao-notice-message-icon);
+  }
+  :where(.ant-message-info, .ant-message-loading) > .anticon {
+    color: var(--ao-notice-info);
+  }
+  :where(.ant-message-success) > .anticon {
+    color: var(--ao-notice-success);
+  }
+  :where(.ant-message-warning) > .anticon {
+    color: var(--ao-notice-warning);
+  }
+  :where(.ant-message-error) > .anticon {
+    color: var(--ao-notice-error);
   }
   :where(.ant-notification-notice-wrapper) {
     flex: none;
@@ -81,18 +110,6 @@
   :where(.ant-notification .ao-notice-icon) {
     font-size: var(--ao-notice-icon-size);
     min-height: var(--ao-notice-icon-size);
-  }
-  :where(.ant-message-notice-success, .ant-notification-notice-success)
-    .ao-notice-icon {
-    color: var(--ao-notice-success);
-  }
-  :where(.ant-message-notice-error, .ant-notification-notice-error)
-    .ao-notice-icon {
-    color: var(--ao-notice-error);
-  }
-  :where(.ant-message-notice-warning, .ant-notification-notice-warning)
-    .ao-notice-icon {
-    color: var(--ao-notice-warning);
   }
   :where(.ant-notification-notice-body) {
     flex: 1;
@@ -127,6 +144,9 @@
     outline: 2px solid var(--ao-primary);
     border-radius: 4px;
   }
+  :where(.ant-notification-rtl, .ant-message-rtl) {
+    direction: rtl;
+  }
   :where(.ao-notice-loading) {
     width: 1em;
     height: 1em;
@@ -140,6 +160,59 @@
     to {
       transform: rotate(360deg);
     }
+  }
+  :where(.ao-message-loading-icon) {
+    animation: ao-notice-spin 1s linear infinite;
+  }
+  :where(
+      .ant-message-move-up-appear,
+      .ant-message-move-up-enter,
+      .ant-message-move-up-leave
+    ) {
+    animation-fill-mode: forwards;
+    animation-duration: var(--ao-motion-slow);
+    animation-timing-function: var(--ao-motion-ease-in-out-circ);
+    animation-play-state: paused;
+  }
+  :where(.ant-message-move-up-appear, .ant-message-move-up-enter) {
+    animation-name: ao-message-move-in;
+  }
+  :where(.ant-message-move-up-leave) {
+    animation-name: ao-message-move-out;
+  }
+  :where(
+      .ant-message-move-up-appear-active,
+      .ant-message-move-up-enter-active,
+      .ant-message-move-up-leave-active
+    ) {
+    animation-play-state: running;
+  }
+  @keyframes ao-message-move-in {
+    from {
+      padding: 0;
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    to {
+      padding: var(--ao-notice-outer-padding);
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  @keyframes ao-message-move-out {
+    from {
+      max-height: 150px;
+      padding: var(--ao-notice-outer-padding);
+      opacity: 1;
+    }
+    to {
+      max-height: 0;
+      padding: 0;
+      opacity: 0;
+    }
+  }
+  :where(.ant-notification-fade-leave, .ant-message-move-up-leave) {
+    overflow: hidden;
   }
   @media (prefers-reduced-motion: reduce) {
     :where(.ao-notice-loading) {

@@ -19,6 +19,7 @@ import type {
   TreeToken,
   AlertToken,
   DrawerToken,
+  MessageToken,
 } from "./component-tokens";
 
 export type * from "./component-tokens";
@@ -152,11 +153,7 @@ export interface ThemeConfig {
       footerBg: string;
     }>;
     Drawer?: ComponentTheme<DrawerToken>;
-    Message?: ComponentTheme<{
-      contentBg: string;
-      contentPadding: string | number;
-      zIndexPopup: number;
-    }>;
+    Message?: ComponentTheme<MessageToken>;
     Notification?: ComponentTheme<{ width: number; zIndexPopup: number }>;
 
     InputNumber?: ComponentTheme<

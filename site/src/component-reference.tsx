@@ -5,6 +5,7 @@ import { ComponentProse, ComponentSectionHeading } from "./component-prose";
 import { ApiTable } from "./docs-ui";
 import alert from "./feedback/alert.json";
 import drawer from "./feedback/drawer.json";
+import message from "./feedback/message.json";
 
 export interface ApiSection {
   title: string;
@@ -22,6 +23,7 @@ const references: Record<
   Alert: alert,
 
   Drawer: drawer,
+  Message: message,
 
 };
 

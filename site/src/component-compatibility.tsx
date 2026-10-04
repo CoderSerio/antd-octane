@@ -174,6 +174,23 @@ export function ComponentCompatibilityNotes() {
           已验证的路径不代表完整 API、视觉或无障碍认证。
         </p>
       </details>
+      <details>
+        <summary>Message</summary>
+        <p>
+          支持静态方法、全局配置、Hook
+          上下文、键值更新、销毁及最大数量。原生独立根承载静态调用，应用上下文请通过
+          Hook 或 App 接入。进出场使用主题动效参数；关闭后保留节点至离场完成，
+          离场期间使用同一 key 可更新并重新显示消息。未发布源码已按 antd 5.29.3
+          修正 Holder 挂载检查、对象参数优先级、静态调用队列、关闭回调与 Promise
+          时序、ConfigProvider 样式快照，以及 Hook / App 的 transitionName。
+          只有内容框接收指针点击，两侧空白可穿透。top 保留数字或字符串；onClick
+          使用 Octane 原生事件， currentTarget 的类型为 HTMLDivElement，Hook
+          返回元组为只读。 未挂载时的调用、尚未展示就关闭的消息、清空与数量淘汰
+          不会执行关闭回调或兑现
+          Promise。加载图标、长文本及默认、深色、紧凑、嵌套主题和
+          窄屏已有定向对比；全部组合行为与 CSS-in-JS 样式隔离仍未覆盖。
+        </p>
+      </details>
 
       <details>
         <summary>Popover</summary>

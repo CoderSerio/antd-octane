@@ -1073,6 +1073,7 @@ toc.slider = [
 ];
 
 toc.message = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
   ["basic", "提示类型与自动关闭"],
   ["more", "主题继承与消息更新"],

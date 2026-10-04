@@ -15,9 +15,13 @@ import {
 } from "../packages/antd-octane/src/notification";
 
 let root: Root | undefined;
+
 let container: HTMLDivElement;
+
 let api: MessageInstance;
+
 let notices: NotificationInstance;
+
 async function render(node: ElementDescriptor) {
   if (!root) {
     container = document.createElement("div");
@@ -26,12 +30,14 @@ async function render(node: ElementDescriptor) {
   }
   await act(() => root?.render(node));
 }
+
 afterEach(async () => {
   await act(() => root?.unmount());
   root = undefined;
   container?.remove();
   vi.useRealTimers();
 });
+
 function MessageDemo() {
   const [instance, holder] = message.useMessage({ maxCount: 2 });
   api = instance;
@@ -46,14 +52,17 @@ function MessageDemo() {
     </ConfigProvider>
   );
 }
+
 function NotificationDemo() {
   const [instance, holder] = notification.useNotification();
   notices = instance;
   return holder;
 }
+
 function ThemeReader() {
   return <span data-color={useConfig().token.colorPrimary}>context</span>;
 }
+
 it("message holder preserves local context across portal and resolves callable thenable", async () => {
   await render(<MessageDemo />);
   let close: ReturnType<MessageInstance["open"]> | undefined;
@@ -73,26 +82,7 @@ it("message holder preserves local context across portal and resolves callable t
   expect(await close).toBe(true);
   expect(document.querySelector(".ant-message")).toBeNull();
 });
-it("same key updates in place and maxCount evicts earliest with callback", async () => {
-  await render(<MessageDemo />);
-  const close = vi.fn();
-  await act(() => {
-    api.open({ key: "one", content: "first", duration: 0, onClose: close });
-    api.open({ key: "one", content: "updated", duration: 0, onClose: close });
-  });
-  expect(document.querySelectorAll(".ant-message-notice")).toHaveLength(1);
-  expect(document.querySelector(".ant-message")?.textContent).toContain(
-    "updated",
-  );
-  await act(() => {
-    api.info({ key: "two", content: "second", duration: 0 });
-    api.info({ key: "three", content: "third", duration: 0 });
-  });
-  expect(document.querySelectorAll(".ant-message-notice")).toHaveLength(2);
-  expect(close).toHaveBeenCalledOnce();
-  await act(() => api.destroy());
-  expect(document.querySelector(".ant-message")).toBeNull();
-});
+
 it("duration pauses on hover and resumes remaining time", async () => {
   vi.useFakeTimers();
   await render(<MessageDemo />);
@@ -108,6 +98,7 @@ it("duration pauses on hover and resumes remaining time", async () => {
   await act(() => vi.advanceTimersByTime(601));
   expect(document.querySelector(".ant-message")).toBeNull();
 });
+
 it("notification supports placement, actions, persistent duration and close", async () => {
   vi.useFakeTimers();
   await render(<NotificationDemo />);
@@ -135,6 +126,7 @@ it("notification supports placement, actions, persistent duration and close", as
   expect(close).toHaveBeenCalledOnce();
   expect(document.querySelector(".ant-notification")).toBeNull();
 });
+
 it("unmount removes portals and timers, retained API cannot leak new notices", async () => {
   vi.useFakeTimers();
   await render(<MessageDemo />);
@@ -149,6 +141,47 @@ it("unmount removes portals and timers, retained API cannot leak new notices", a
   clear.mockRestore();
   expect(await api.info("after unmount")).toBe(true);
 });
+
+it("only hover pauses notification duration; keyboard focus does not pause", async () => {
+  vi.useFakeTimers();
+  await render(<NotificationDemo />);
+  await act(() =>
+    notices.open({
+      message: "actions",
+      duration: 1,
+      actions: <button type="button">action</button>,
+    }),
+  );
+  const el = document.querySelector(".ant-notification-notice") as HTMLElement;
+  const button = el.querySelector("button") as HTMLButtonElement;
+  await act(() => el.dispatchEvent(new MouseEvent("mouseenter")));
+  await act(() => button.focus());
+  await act(() => el.dispatchEvent(new MouseEvent("mouseleave")));
+  await act(() => vi.advanceTimersByTime(1500));
+  expect(document.querySelector(".ant-notification")).toBeNull();
+});
+
+it("same key updates in place and maxCount evicts earliest with callback", async () => {
+  await render(<MessageDemo />);
+  const close = vi.fn();
+  await act(() => {
+    api.open({ key: "one", content: "first", duration: 0, onClose: close });
+    api.open({ key: "one", content: "updated", duration: 0, onClose: close });
+  });
+  expect(document.querySelectorAll(".ant-message-notice")).toHaveLength(1);
+  expect(document.querySelector(".ant-message")?.textContent).toContain(
+    "updated",
+  );
+  await act(() => {
+    api.info({ key: "two", content: "second", duration: 0 });
+    api.info({ key: "three", content: "third", duration: 0 });
+  });
+  expect(document.querySelectorAll(".ant-message-notice")).toHaveLength(2);
+  expect(close).toHaveBeenCalledOnce();
+  await act(() => api.destroy());
+  expect(document.querySelector(".ant-message")).toBeNull();
+});
+
 it("same key restarts duration and settles all outstanding close handles", async () => {
   vi.useFakeTimers();
   await render(<MessageDemo />);
@@ -169,25 +202,4 @@ it("same key restarts duration and settles all outstanding close handles", async
   expect(document.querySelector(".ant-message")).toBeNull();
   expect(await first).toBe(true);
   expect(await second).toBe(true);
-});
-it("hover and focus jointly pause until both have left", async () => {
-  vi.useFakeTimers();
-  await render(<NotificationDemo />);
-  await act(() =>
-    notices.open({
-      message: "actions",
-      duration: 1,
-      actions: <button type="button">action</button>,
-    }),
-  );
-  const el = document.querySelector(".ant-notification-notice") as HTMLElement;
-  const button = el.querySelector("button") as HTMLButtonElement;
-  await act(() => el.dispatchEvent(new MouseEvent("mouseenter")));
-  await act(() => button.focus());
-  await act(() => el.dispatchEvent(new MouseEvent("mouseleave")));
-  await act(() => vi.advanceTimersByTime(1500));
-  expect(document.querySelector(".ant-notification")).not.toBeNull();
-  await act(() => button.blur());
-  await act(() => vi.advanceTimersByTime(1001));
-  expect(document.querySelector(".ant-notification")).toBeNull();
 });

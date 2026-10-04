@@ -235,6 +235,26 @@ it("CheckableTag renders its icon and invokes both change and click handlers", a
   expect(clickHandler).toHaveBeenCalledTimes(1);
 });
 
+it("Alert calls afterClose once before removal, as CSSMotion does upstream", async () => {
+  const close = vi.fn();
+  const after = vi.fn(() =>
+    expect(container.querySelector('[role="alert"]')).not.toBeNull(),
+  );
+  await render(
+    <Alert
+      message="Notice"
+      description="Details"
+      closable
+      onClose={close}
+      afterClose={after}
+    />,
+  );
+  await click("button");
+  expect(close).toHaveBeenCalledTimes(1);
+  expect(after).toHaveBeenCalledTimes(1);
+  expect(container.querySelector('[role="alert"]')).toBeNull();
+});
+
 it("Badge respects zero hiding, overflow and custom content", async () => {
   await render(
     <>
@@ -329,23 +349,4 @@ it("Card loading hides children and restores content with actions", async () => 
   );
   expect(container.textContent).toContain("Details");
   expect(container.querySelector(".ant-skeleton")).toBeNull();
-});
-
-it("Alert closes and calls afterClose once after removal", async () => {
-  const close = vi.fn();
-  const after = vi.fn(() =>
-    expect(container.querySelector('[role="alert"]')).toBeNull(),
-  );
-  await render(
-    <Alert
-      message="Notice"
-      description="Details"
-      closable
-      onClose={close}
-      afterClose={after}
-    />,
-  );
-  await click("button");
-  expect(close).toHaveBeenCalledTimes(1);
-  expect(after).toHaveBeenCalledTimes(1);
 });

@@ -1,12 +1,22 @@
 /** @jsxImportSource octane */
-import type { CSSProperties, OctaneNode } from "octane";
+import type {
+  CSSProperties,
+  HTMLAttributes,
+  MouseEventHandler,
+  OctaneNode,
+} from "octane";
 import {
   createPortal,
   useEffect,
-  useRef,
+  useLayoutEffect,
   useState,
   useSyncExternalStore,
 } from "octane";
+import { useConfig } from "../config-provider";
+import type { ConfigComponentProps } from "../config-provider/context";
+import type { ClosableType } from "./closable";
+
+import NoticeList from "./NoticeList";
 import { useComponentTokens } from "./tokens";
 export type NoticeKind = "success" | "info" | "warning" | "error" | "loading";
 export type NoticePlacement =
@@ -25,49 +35,79 @@ export interface NoticeArgs {
   icon?: OctaneNode;
   duration?: number | null;
   onClose?: () => void;
-  onClick?: (event: MouseEvent) => void;
+  onClick?: MouseEventHandler<HTMLDivElement>;
   placement?: NoticePlacement;
   className?: string;
   style?: CSSProperties;
   closeIcon?: OctaneNode;
-  closable?: boolean;
+  closable?: ClosableType;
+  showProgress?: boolean;
+  props?: Omit<HTMLAttributes<HTMLDivElement>, "style"> & {
+    style?: CSSProperties;
+  };
   actions?: OctaneNode;
+  /** @deprecated Please use `actions` instead. */
   btn?: OctaneNode;
   role?: "status" | "alert";
   pauseOnHover?: boolean;
 }
 export interface NoticeConfig {
   duration?: number;
+  prefixCls?: string;
+  rtl?: boolean;
+  showProgress?: boolean;
+  stack?: boolean | { threshold?: number };
   maxCount?: number;
   top?: number | string;
   bottom?: number;
-  getContainer?: () => HTMLElement;
+  getContainer?: () => HTMLElement | ShadowRoot;
   placement?: NoticePlacement;
   pauseOnHover?: boolean;
   closeIcon?: OctaneNode;
+  transitionName?: string;
 }
 export interface NoticeRecord extends NoticeArgs {
   key: string | number;
   revision: number;
-  done: Array<() => void>;
+  done: () => void;
 }
 export function createNoticeStore() {
   let records: NoticeRecord[] = [];
   let seq = 0;
   let config: NoticeConfig = {};
   let disposed = false;
+  let mounted = false;
+  let notificationConfig: ConfigComponentProps["notification"];
+  let messageConfig: ConfigComponentProps["message"];
+  let prefixCls = "ant-notification";
   const listeners = new Set<() => void>();
   const emit = () => {
     for (const fn of listeners) fn();
   };
   const finish = (record: NoticeRecord) => {
-    for (const resolve of record.done) resolve();
     record.onClose?.();
+    record.done();
   };
   const store = {
     configure(value: NoticeConfig) {
       config = value;
     },
+    configureNotification(
+      value: ConfigComponentProps["notification"],
+      prefix: string,
+    ) {
+      notificationConfig = value;
+      prefixCls = prefix;
+    },
+    getNotificationConfig: () => ({
+      notification: notificationConfig,
+      prefixCls,
+    }),
+    configureMessage(value: ConfigComponentProps["message"]) {
+      messageConfig = value;
+    },
+    getMessageConfig: () => ({ message: messageConfig }),
+    isMounted: () => mounted,
     subscribe(fn: () => void) {
       listeners.add(fn);
       return () => {
@@ -77,6 +117,7 @@ export function createNoticeStore() {
     snapshot: () => records,
     activate() {
       disposed = false;
+      mounted = true;
     },
     open(args: NoticeArgs, done: () => void) {
       if (disposed) {
@@ -91,204 +132,42 @@ export function createNoticeStore() {
         duration: args.duration === undefined ? config.duration : args.duration,
         placement: args.placement ?? config.placement,
         pauseOnHover: args.pauseOnHover ?? config.pauseOnHover,
+        showProgress: args.showProgress ?? config.showProgress,
         revision: (old?.revision ?? 0) + 1,
-        done: [...(old?.done ?? []), done],
+        done,
       };
       records = old
         ? records.map((item) => (item.key === key ? record : item))
         : [...records, record];
-      const max = Number.isFinite(config.maxCount)
-        ? Math.max(1, Math.floor(config.maxCount as number))
-        : Infinity;
-      const evicted = records.slice(0, Math.max(0, records.length - max));
-      records = records.slice(-max);
+      const max = config.maxCount;
+      // rc-notification drops overflow entries without calling their onClose.
+      if (max !== undefined && max > 0 && records.length > max)
+        records = records.slice(-max);
       emit();
-      for (const item of evicted) finish(item);
       return key;
     },
-    destroy(key?: string | number) {
-      const removed =
-        key === undefined
-          ? records
-          : records.filter((item) => item.key === key);
+    destroy(key?: string | number, displayedRecord?: NoticeRecord | null) {
+      if (key !== undefined) {
+        const record =
+          displayedRecord === undefined
+            ? records.find((item) => item.key === key)
+            : displayedRecord;
+        if (record) finish(record);
+      }
+      // Closing one key invokes its latest callback. Clearing all is silent.
       records =
         key === undefined ? [] : records.filter((item) => item.key !== key);
       emit();
-      for (const item of removed) finish(item);
     },
     dispose() {
       disposed = true;
+      mounted = false;
       store.destroy();
     },
   };
   return store;
 }
 export type NoticeStore = ReturnType<typeof createNoticeStore>;
-function NoticeIcon({ type }: { type: NoticeKind }) {
-  return type === "loading" ? (
-    <span className="ao-notice-loading" aria-hidden="true" />
-  ) : (
-    <svg viewBox="0 0 24 24" width="1em" height="1em" aria-hidden="true">
-      <circle cx="12" cy="12" r="11" fill="currentColor" />
-      <g
-        fill="none"
-        stroke="var(--ao-notice-bg)"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        {type === "success" ? (
-          <path d="m6 12 4 4 8-8" />
-        ) : type === "error" ? (
-          <path d="m8 8 8 8m0-8-8 8" />
-        ) : type === "info" ? (
-          <path d="M12 10v7m0-11v.1" />
-        ) : (
-          <path d="M12 6v7m0 4v.1" />
-        )}
-      </g>
-    </svg>
-  );
-}
-function NoticeItem({
-  record,
-  store,
-  kind,
-  config,
-}: {
-  record: NoticeRecord;
-  store: NoticeStore;
-  kind: "message" | "notification";
-  config: NoticeConfig;
-}) {
-  const node = useRef<HTMLDivElement | null>(null);
-  useEffect(() => {
-    const el = node.current;
-    const click = record.onClick;
-    if (click) el?.addEventListener("click", click);
-    return () => {
-      if (click) el?.removeEventListener("click", click);
-    };
-  }, [record.onClick]);
-  useEffect(() => {
-    const duration =
-      record.duration === null
-        ? 0
-        : (record.duration ?? (kind === "message" ? 3 : 4.5));
-    if (!Number.isFinite(duration) || duration <= 0) return;
-    let remaining = duration * 1000;
-    let began = Date.now();
-    let timer: ReturnType<typeof setTimeout> | undefined;
-    const start = () => {
-      began = Date.now();
-      timer = setTimeout(() => store.destroy(record.key), remaining);
-    };
-    const pause = () => {
-      if (timer !== undefined) {
-        clearTimeout(timer);
-        timer = undefined;
-        remaining = Math.max(0, remaining - (Date.now() - began));
-      }
-    };
-    const el = node.current;
-    let hovered = el?.matches(":hover") ?? false;
-    let focused = el?.contains(document.activeElement) ?? false;
-    const resume = () => {
-      if (timer === undefined && !hovered && !focused) start();
-    };
-    const enter = () => {
-      hovered = true;
-      pause();
-    };
-    const leave = () => {
-      hovered = false;
-      resume();
-    };
-    const focus = () => {
-      focused = true;
-      pause();
-    };
-    const blur = (event: FocusEvent) => {
-      focused = !!el?.contains(event.relatedTarget as Node | null);
-      resume();
-    };
-    if (record.pauseOnHover === false || (!hovered && !focused)) start();
-    if (record.pauseOnHover !== false) {
-      el?.addEventListener("mouseenter", enter);
-      el?.addEventListener("mouseleave", leave);
-      el?.addEventListener("focusin", focus);
-      el?.addEventListener("focusout", blur);
-    }
-    return () => {
-      if (timer !== undefined) clearTimeout(timer);
-      el?.removeEventListener("mouseenter", enter);
-      el?.removeEventListener("mouseleave", leave);
-      el?.removeEventListener("focusin", focus);
-      el?.removeEventListener("focusout", blur);
-    };
-  }, [record, store, kind]);
-  const icon =
-    record.icon !== undefined ? (
-      record.icon
-    ) : record.type ? (
-      <NoticeIcon type={record.type} />
-    ) : null;
-  const closeIcon =
-    record.closeIcon === undefined ? config.closeIcon : record.closeIcon;
-  const notice = (
-    <div
-      ref={node}
-      className={[
-        `ant-${kind}-notice`,
-        record.type && `ant-${kind}-notice-${record.type}`,
-        record.className,
-      ]}
-      style={record.style}
-      role={record.role ?? (kind === "message" ? "status" : "alert")}
-    >
-      <div className={`ant-${kind}-notice-content`}>
-        {icon !== null && <span className="ao-notice-icon">{icon}</span>}
-        {kind === "message" ? (
-          <span>{record.content}</span>
-        ) : (
-          <div className="ant-notification-notice-body">
-            <div className="ant-notification-notice-message">
-              {record.message}
-            </div>
-            {record.description !== undefined && (
-              <div className="ant-notification-notice-description">
-                {record.description}
-              </div>
-            )}
-            {(record.actions ?? record.btn) !== undefined && (
-              <div className="ant-notification-notice-actions">
-                {record.actions ?? record.btn}
-              </div>
-            )}
-          </div>
-        )}
-        {kind === "notification" &&
-          record.closable !== false &&
-          closeIcon !== null &&
-          closeIcon !== false && (
-            <button
-              type="button"
-              className="ant-notification-notice-close"
-              aria-label="关闭通知"
-              onClick={() => store.destroy(record.key)}
-            >
-              {closeIcon ?? "×"}
-            </button>
-          )}
-      </div>
-    </div>
-  );
-  return kind === "notification" ? (
-    <div className="ant-notification-notice-wrapper">{notice}</div>
-  ) : (
-    notice
-  );
-}
 export function NoticeHolder({
   store,
   kind,
@@ -298,6 +177,14 @@ export function NoticeHolder({
   kind: "message" | "notification";
   config: NoticeConfig;
 }) {
+  store.configure(
+    kind === "notification" ? { ...config, placement: undefined } : config,
+  );
+  const context = useConfig();
+  const prefixCls = context.getPrefixCls(kind, config.prefixCls);
+  if (kind === "notification")
+    store.configureNotification(context.notification, prefixCls);
+  else store.configureMessage(context.message);
   const messageTokens = useComponentTokens("Message");
   const notificationTokens = useComponentTokens("Notification");
   const { token: t, base } =
@@ -309,14 +196,16 @@ export function NoticeHolder({
     store.snapshot,
     store.snapshot,
   );
-  const [target, setTarget] = useState<HTMLElement | null>(null);
-  useEffect(() => {
+  const [target, setTarget] = useState<HTMLElement | ShadowRoot | null>(null);
+  useLayoutEffect(() => {
     store.activate();
     return () => store.dispose();
   }, [store]);
   useEffect(() => {
-    setTarget(config.getContainer?.() ?? document.body);
-  }, [config.getContainer]);
+    setTarget(
+      config.getContainer?.() || context.getPopupContainer?.() || document.body,
+    );
+  }, [config.getContainer, context.getPopupContainer]);
   const css = {
     ...base,
     "--ao-notice-animation": t.motion
@@ -339,13 +228,33 @@ export function NoticeHolder({
     "--ao-notice-shadow": t.boxShadow,
     "--ao-notice-gap": `${t.marginXS}px`,
     "--ao-notice-large-gap": `${t.margin}px`,
+    "--ao-notice-action-gap": `${t.marginSM}px`,
+    "--ao-notice-icon-offset": `${t.marginSM + t.fontSizeLG * t.lineHeightLG}px`,
     "--ao-notice-title-line": t.lineHeightLG,
     "--ao-notice-message-icon": `${t.fontSizeLG}px`,
     "--ao-notice-icon-size": `${t.fontSizeLG * t.lineHeightLG}px`,
     "--ao-notice-title-size": `${t.fontSizeLG}px`,
     "--ao-notice-heading": t.colorTextHeading,
-    "--ao-notice-padding-lg": `${t.paddingMD}px ${t.paddingLG}px`,
-    "--ao-notice-width": `${nc?.width ?? 384}px`,
+    "--ao-notice-padding-lg": `${t.paddingMD}px ${t.paddingContentHorizontalLG}px`,
+    "--ao-notice-width":
+      typeof nc?.width === "string" ? nc.width : `${nc?.width ?? 384}px`,
+    "--ao-notice-edge": `${t.marginLG}px`,
+    "--ao-notice-close-size": `${t.controlHeightLG * 0.55}px`,
+    "--ao-notice-close-top": `${t.paddingMD}px`,
+    "--ao-notice-close-end": `${t.paddingLG}px`,
+    "--ao-notice-close-radius": `${t.borderRadiusSM}px`,
+    "--ao-notice-close-color": t.colorIcon,
+    "--ao-notice-close-hover": t.colorIconHover,
+    "--ao-notice-hover-bg": t.colorBgTextHover,
+    "--ao-notice-active-bg": t.colorBgTextActive,
+    "--ao-notice-focus-width": `${t.lineWidthFocus}px`,
+    "--ao-notice-focus-color": t.colorPrimaryBorder,
+    "--ao-notice-progress-bg": `linear-gradient(90deg, ${t.colorPrimaryBorderHover}, ${t.colorPrimary})`,
+    "--ao-notice-blur-bg": t.colorBgBlur,
+    "--ao-motion-slow": t.motionDurationSlow,
+    "--ao-motion-mid": t.motionDurationMid,
+    "--ao-motion-ease-in-out": t.motionEaseInOut,
+    "--ao-motion-ease-in-out-circ": t.motionEaseInOutCirc,
   };
   const placements: NoticePlacement[] =
     kind === "message"
@@ -359,10 +268,18 @@ export function NoticeHolder({
               kind === "message" ||
               (record.placement ?? "topRight") === placement,
           );
-          return items.length ? (
-            <div
+          return (
+            <NoticeList
               key={placement}
-              className={[`ant-${kind}`, `ant-${kind}-${placement}`]}
+              items={items}
+              store={store}
+              kind={kind}
+              config={config}
+              placement={placement}
+              prefixCls={prefixCls}
+              motionEnabled={t.motion}
+              stackGap={t.margin}
+              rtl={config.rtl ?? context.direction === "rtl"}
               style={{
                 ...css,
                 zIndex:
@@ -376,18 +293,8 @@ export function NoticeHolder({
                   ? (config.bottom ?? 24)
                   : undefined,
               }}
-            >
-              {items.map((record) => (
-                <NoticeItem
-                  key={record.key}
-                  record={record}
-                  store={store}
-                  kind={kind}
-                  config={config}
-                />
-              ))}
-            </div>
-          ) : null;
+            />
+          );
         }),
         target,
       )
