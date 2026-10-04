@@ -1239,6 +1239,7 @@ toc.splitter = [
   ["tokens", "主题与支持范围"],
 ];
 toc.watermark = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
   ["basic", "多行文字水印"],
   ["more", "图片、间距与旋转"],

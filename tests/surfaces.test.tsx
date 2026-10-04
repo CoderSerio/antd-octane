@@ -8,7 +8,9 @@ import {
 import { Watermark } from "../packages/antd-octane/src/watermark";
 
 let root: Root | undefined;
+
 let container: HTMLDivElement;
+
 async function render(node: ElementDescriptor) {
   if (!root) {
     container = document.createElement("div");
@@ -17,16 +19,19 @@ async function render(node: ElementDescriptor) {
   }
   await act(() => root?.render(node));
 }
+
 afterEach(async () => {
   await act(() => root?.unmount());
   root = undefined;
   container?.remove();
   vi.restoreAllMocks();
 });
+
 function dimension() {
   vi.spyOn(HTMLElement.prototype, "clientWidth", "get").mockReturnValue(600);
   vi.spyOn(HTMLElement.prototype, "clientHeight", "get").mockReturnValue(300);
 }
+
 it("Splitter inspects direct Panels and resizes neighbors with keyboard/minmax", async () => {
   dimension();
   const resized = vi.fn();
@@ -57,6 +62,7 @@ it("Splitter inspects direct Panels and resizes neighbors with keyboard/minmax",
   );
   expect(resized).toHaveBeenLastCalledWith([100, 400, 100]);
 });
+
 it("controlled sizes reject changes without drift and disabled neighbor blocks resizing", async () => {
   dimension();
   const resized = vi.fn();
@@ -90,6 +96,7 @@ it("controlled sizes reject changes without drift and disabled neighbor blocks r
   );
   expect(resized).not.toHaveBeenCalled();
 });
+
 it("vertical pointer resizing cleans document listeners on unmount", async () => {
   dimension();
   const end = vi.fn();
@@ -135,12 +142,14 @@ it("vertical pointer resizing cleans document listeners on unmount", async () =>
   await act(() => root?.unmount());
   expect(document.body.style.userSelect).toBe("");
 });
+
 it("size allocation preserves constraints and percent inputs", () => {
   expect(
     resolvePanelSizes([{ defaultSize: "25%", min: 100 }, { max: 400 }], 600),
   ).toEqual([200, 400]);
   expect(resolvePanelSizes([{ size: 200 }, {}], 600)).toEqual([200, 400]);
 });
+
 it("watermark draws multiline canvas and keeps children interactive", async () => {
   const fillText = vi.fn();
   const rotate = vi.fn();
@@ -149,7 +158,12 @@ it("watermark draws multiline canvas and keeps children interactive", async () =
     fillStyle: "",
     textBaseline: "",
     textAlign: "",
-    measureText: () => ({ width: 80 }),
+    measureText: () => ({
+      width: 80,
+      fontBoundingBoxAscent: 13,
+      fontBoundingBoxDescent: 3,
+    }),
+    save: vi.fn(),
     scale: vi.fn(),
     translate: vi.fn(),
     rotate,
@@ -165,6 +179,7 @@ it("watermark draws multiline canvas and keeps children interactive", async () =
   const click = vi.fn();
   await render(
     <Watermark
+      className="test-watermark"
       content={["first", "second"]}
       rotate={-30}
       gap={[80, 90]}
@@ -178,12 +193,13 @@ it("watermark draws multiline canvas and keeps children interactive", async () =
   expect(fillText).toHaveBeenCalledTimes(2);
   expect(rotate).toHaveBeenCalledWith(-Math.PI / 6);
   expect(
-    (container.querySelector(".ant-watermark-layer") as HTMLElement).style
+    (container.querySelector(".test-watermark > div") as HTMLElement).style
       .backgroundPosition,
-  ).toBe("10px 20px");
+  ).toBe("-30px -25px");
   await act(() => container.querySelector("button")?.click());
   expect(click).toHaveBeenCalledOnce();
 });
+
 it("resize observer remeasures split proportions and disconnects", async () => {
   dimension();
   let callback: ResizeObserverCallback | undefined;
@@ -222,6 +238,7 @@ it("resize observer remeasures split proportions and disconnects", async () => {
     globalThis.ResizeObserver = old;
   }
 });
+
 it("watermark image failures fall back to text and detach image callbacks", async () => {
   const fillText = vi.fn();
   const ctx = {
@@ -229,7 +246,12 @@ it("watermark image failures fall back to text and detach image callbacks", asyn
     fillStyle: "",
     textBaseline: "",
     textAlign: "",
-    measureText: () => ({ width: 80 }),
+    measureText: () => ({
+      width: 80,
+      fontBoundingBoxAscent: 13,
+      fontBoundingBoxDescent: 3,
+    }),
+    save: vi.fn(),
     scale: vi.fn(),
     translate: vi.fn(),
     rotate: vi.fn(),
@@ -258,13 +280,18 @@ it("watermark image failures fall back to text and detach image callbacks", asyn
   try {
     await render(
       <Watermark
+        className="test-watermark"
         image="https://invalid.example/image.png"
         content="fallback"
       />,
     );
     await act(() => image?.onerror?.());
-    expect(fillText).toHaveBeenCalledWith("fallback", 0, 0);
-    expect(container.querySelector(".ant-watermark-layer")).not.toBeNull();
+    expect(fillText).toHaveBeenCalledWith(
+      "fallback",
+      60 * window.devicePixelRatio,
+      0,
+    );
+    expect(container.querySelector(".test-watermark > div")).not.toBeNull();
     await act(() => root?.unmount());
     expect(image?.onerror).toBeNull();
     expect(image?.onload).toBeNull();

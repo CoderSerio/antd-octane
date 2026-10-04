@@ -599,7 +599,16 @@ export function ComponentCompatibilityNotes() {
           实例 接口不同；没有提供 rc-tree 的内部实例方法。
         </p>
       </details>
-
+      <details>
+        <summary>Watermark</summary>
+        <p>
+          采用上游交错布局算法，支持设备像素比、文字、图片、间距、偏移、inherit
+          和 Modal/Drawer
+          继承。工作区实现会恢复被移除或修改样式、类名的覆盖层，以及水印容器的
+          position、overflow。自定义配置示例使用 Input、原生颜色选择器、Slider
+          和 InputNumber 调整文字、颜色、字号、层级、旋转角度、间距与偏移。
+        </p>
+      </details>
     </>
   );
 }

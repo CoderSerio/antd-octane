@@ -13,6 +13,7 @@ import progress from "./feedback/progress.json";
 import result from "./feedback/result.json";
 import skeleton from "./feedback/skeleton.json";
 import spin from "./feedback/spin.json";
+import watermark from "./feedback/watermark.json";
 
 export interface ApiSection {
   title: string;
@@ -38,7 +39,7 @@ const references: Record<
   Result: result,
   Skeleton: skeleton,
   Spin: spin,
-
+  Watermark: watermark,
 };
 
 export function ReferenceApiTables({ component }: { component: string }) {

@@ -264,5 +264,12 @@
     "sectionHeadings": {
       "Spin": 0
     }
+  },
+  "Watermark": {
+    "when": "- 页面需要添加水印标识版权时使用。\n- 适用于防止信息盗用。",
+    "sectionHeadings": {
+      "Watermark": 3,
+      "Font": 3
+    }
   }
 }
