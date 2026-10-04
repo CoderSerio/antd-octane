@@ -295,6 +295,56 @@ export { Steps } from "./steps";
 export type { SwitchProps } from "./switch";
 export { Switch } from "./switch";
 export type { TabItem, TabsProps } from "./tabs";
+export type {
+  ColumnFilterItem,
+  ColumnsType,
+  ColumnTitle,
+  ColumnTitleProps,
+  CompareFn,
+  ExpandableConfig,
+  ExpandIconProps,
+  FilterDropdownActionOptions,
+  FilterDropdownProps,
+  FilterSearch,
+  FilterValue,
+  RowSelectMethod,
+  ShowSorterTooltip,
+  SorterResult,
+  SorterTooltipProps,
+  SortOrder,
+  TableAction,
+  TableBreakpoint,
+  TableCellProps,
+  TableColumnGroupType,
+  TableColumnType,
+  TableComponent,
+  TableComponents,
+  TableCurrentDataSource,
+  TableFilterDropdownProps,
+  TableKey,
+  TableLocale,
+  TablePaginationConfig,
+  TableProps,
+  TableRef,
+  TableRowSelection,
+  TableScrollConfig,
+  TableSelectionItem,
+  TableSelectionOption,
+  TableSelectionPreset,
+  TableStickyConfig,
+  TableSummaryCellProps,
+  TableSummaryProps,
+  TableSummaryRowProps,
+} from "./table";
+export {
+  SELECTION_ALL,
+  SELECTION_INVERT,
+  SELECTION_NONE,
+  Table,
+  TableSummary,
+  TableSummaryCell,
+  TableSummaryRow,
+} from "./table";
 export { Tabs } from "./tabs";
 export type { CheckableTagProps, TagProps } from "./tag";
 export { Tag } from "./tag";

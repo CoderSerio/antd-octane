@@ -117,5 +117,19 @@
       "Statistic.Countdown Deprecated": 4,
       "Statistic.Timer": 4
     }
+  },
+  "Table": {
+    "when": "- 当有大量结构化的数据需要展现时；\n- 当需要对数据进行排序、搜索、分页、自定义操作等复杂行为时。",
+    "sectionHeadings": {
+      "Table": 3,
+      "Table ref": 3,
+      "Column": 3,
+      "ColumnGroup": 3,
+      "pagination": 3,
+      "expandable": 3,
+      "rowSelection": 3,
+      "scroll": 3,
+      "selection": 3
+    }
   }
 }

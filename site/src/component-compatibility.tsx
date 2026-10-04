@@ -222,6 +222,69 @@ export function ComponentCompatibilityNotes() {
           指向外层 div。
         </p>
       </details>
+      <details>
+        <summary>Table</summary>
+        <p>
+          表格颜色、字体、圆角、单元格间距和交互色使用 Table 组件 token 与全局
+          token。支持数据源和列渲染、响应式列、分组表头、左右固定列、受控与非受控分页、排序、内置与自定义筛选、筛选搜索、跨页选择、父子级联选择、行选择禁用、详情展开、树形数据展开、单元格省略及汇总行。使用服务端筛选或排序时，需在
+          onChange 中更新 dataSource；服务端分页将当前页数据和总数传入
+          pagination.total。
+        </p>
+        <p>
+          未指定 tableLayout 时，固定表头、sticky 或省略列使用
+          fixed；开启横向滚动的固定列也使用 fixed，但 scroll.x="max-content"
+          时使用 auto。显式设置的 tableLayout 优先于这些默认规则，与 antd 5
+          相同。
+        </p>
+        <p>
+          固定列宽度优先取列的
+          width，未指定时从表头单元格实测；首次布局可能发生一次偏移校正，建议为固定列指定
+          width。sticky 可在页面滚动时固定表头，也可配合 scroll.y
+          固定内部滚动容器中的表头；virtual 配合 scroll.y
+          会对普通平面行做窗口渲染，表头和固定 Summary 位于 scroll.y
+          指定的表体视口之外。未挂载行按字号、内边距和边框估算高度，已挂载行缓存实测高度并校正滚动位置。树形数据或详情展开表格会回退到普通渲染。sticky.offsetHeader
+          和 offsetSummary 控制表头与汇总行偏移；横向粘性滚动条会按 getContainer
+          判断当前是否可见，并使用 offsetScroll 定位。表头遵循浏览器 CSS sticky
+          祖先规则，自定义 getContainer
+          不是表格的滚动祖先时不会改变表头的滚动边界。
+        </p>
+        <p>
+          默认 filterMode="menu" 使用嵌套子菜单浮层：多选项显示
+          Checkbox，单选项显示
+          Radio；搜索只过滤叶子项，匹配不到的父级子菜单仍保留。menu
+          支持上下方向键、Home/End，以及按 LTR/RTL
+          方向打开或返回子菜单。filterMode="tree" 则使用
+          Tree：多选时父子勾选级联并保留半选父节点，单选时只选中单个节点；搜索会高亮匹配节点但保留整棵树，全选覆盖所有筛选项。Tree
+          支持方向键导航与 Space 勾选。开发源码的菜单以根 ul 作为 Tab
+          入口，子菜单和菜单项不参与顺序 Tab，内嵌输入保留原生焦点能力；Enter
+          选择菜单项，Space 只在输入上触发选择。筛选浮层参照 rc-dropdown 处理
+          Tab 与 Escape，关闭时恢复触发器焦点，并按 filterOnClose
+          决定是否提交；filterDropdownProps.autoFocus 控制打开后的浮层聚焦尝试。
+          这些源码修正需随包发布后供 npm
+          消费者使用。内置筛选值在回调中按原始筛选项顺序恢复为 filters 中的
+          number、boolean 或 string。
+        </p>
+        <p>
+          components 可替换
+          table、表头与表体包装器/行/单元格；Table.Summary.Row/Cell、onScroll、getPopupContainer、showSorterTooltip、expandable.columnTitle、筛选
+          popup 配置、自定义图标与重置行为、选择列的
+          renderCell/onCell/align/getTitleCheckboxProps/selections
+          均已接入。rowSelection.onSelectMultiple
+          会在当前页数据（包括嵌套子行）的 Shift
+          范围选择后触发；范围以最近一次选中的行为锚点。
+        </p>
+        <p>
+          virtual
+          当前只对平面数据且未展开详情的行做窗口化，包含实测行高缓存；树形行、展开详情暂不虚拟化，跨行单元格与复杂可变高布局仍需进一步对照。sticky
+          可在页面或 scroll.y 内部容器固定表头；自定义 getContainer
+          只控制粘性横向滚动条的可见范围，表头仍使用浏览器的最近滚动祖先。Table.Summary.Cell
+          的 index 会输出为 data
+          属性，并按数据列计算固定列偏移；选择列和展开列位于汇总列前方时，index
+          仍从第一列数据列开始。ref.scrollTo 支持当前页的 key/index 定位与
+          top/bottom/auto 对齐；虚拟模式可按当前页 key 或 index 定位，未指定
+          align 时采用最近可见位置。尚未测量的远处行使用高度估值，挂载后会校正。
+        </p>
+      </details>
 
     </>
   );

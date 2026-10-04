@@ -65,7 +65,8 @@
       "components/watermark/style",
       "components/qr-code/style",
       "components/tour/style",
-      "components/calendar/style"
+      "components/calendar/style",
+      "components/table/style"
     ],
     "destination": [
       "packages/antd-octane/src/button/tokens.ts",
@@ -119,7 +120,8 @@
       "packages/antd-octane/src/tour.css",
       "packages/antd-octane/src/carousel.css",
       "packages/antd-octane/src/collapse.css",
-      "packages/antd-octane/src/qr-code.css"
+      "packages/antd-octane/src/qr-code.css",
+      "packages/antd-octane/src/table.css"
     ],
     "notes": "Supported defaults and state styles adapted to static CSS variables; see THIRD_PARTY_NOTICES.md and docs/compatibility.md."
   },
@@ -155,7 +157,11 @@
       "components/popover/index.tsx",
       "components/qr-code/{index,QrcodeStatus}.tsx",
       "components/segmented/index.tsx",
-      "components/statistic/{Statistic,Number,Countdown,Timer}.tsx"
+      "components/statistic/{Statistic,Number,Countdown,Timer}.tsx",
+      "components/table/{InternalTable,Table}.tsx",
+      "components/table/{Column,ColumnGroup}.ts",
+      "components/table/hooks/{useSorter,useSelection}.tsx",
+      "components/table/hooks/useFilter"
     ],
     "destination": [
       "packages/antd-octane/src/calendar",
@@ -169,7 +175,8 @@
       "packages/antd-octane/src/popover",
       "packages/antd-octane/src/qr-code",
       "packages/antd-octane/src/segmented",
-      "packages/antd-octane/src/statistic"
+      "packages/antd-octane/src/statistic",
+      "packages/antd-octane/src/table"
     ],
     "notes": "Source contracts, module structure, artwork and supported lifecycle/style behavior adapted to Octane. React runtime dependencies remain development references. Source API descriptions do not certify complete parity; see component support sections."
   },
@@ -250,6 +257,50 @@
         "es/MotionThumb.js"
       ],
       "destination": "packages/antd-octane/src/segmented"
+    },
+    "rc-menu": {
+      "version": "9.16.1",
+      "source": [
+        "es/Menu.js",
+        "es/MenuItem.js",
+        "es/SubMenu/index.js",
+        "es/SubMenu/SubMenuList.js",
+        "es/placements.js",
+        "es/hooks/useAccessibility.js",
+        "es/hooks/useActive.js"
+      ],
+      "destination": "packages/antd-octane/src/table/FilterMenu.tsx",
+      "notes": "Table filter menu selection, submenu and keyboard behavior reference; native Octane implementation."
+    },
+    "rc-dropdown": {
+      "version": "4.2.1",
+      "source": [
+        "es/hooks/useAccessibility.js"
+      ],
+      "destination": "packages/antd-octane/src/table/useFilterDropdownAccessibility.ts",
+      "notes": "Native Table filter Escape, Tab and overlay focus attempt behavior."
+    },
+    "rc-table": {
+      "version": "7.54.0",
+      "source": [
+        "es/Table.js",
+        "es/Body",
+        "es/Footer",
+        "es/VirtualTable"
+      ],
+      "destination": "packages/antd-octane/src/table"
+    },
+    "rc-virtual-list": {
+      "version": "3.19.2",
+      "source": [
+        "es/List.js",
+        "es/hooks/useHeights.js",
+        "es/hooks/useScrollTo.js"
+      ],
+      "destination": [
+        "packages/antd-octane/src/tree/NodeList.tsx",
+        "packages/antd-octane/src/table"
+      ]
     }
   },
   "data-display-icons": {
@@ -263,7 +314,10 @@
       "packages/antd-octane/src/calendar.css",
       "packages/antd-octane/src/collapse/CollapsePanel.tsx",
       "packages/antd-octane/src/image/icons.tsx",
-      "packages/antd-octane/src/qr-code/QRCodeStatus.tsx"
+      "packages/antd-octane/src/qr-code/QRCodeStatus.tsx",
+      "packages/antd-octane/src/table/FilterDropdown.tsx",
+      "packages/antd-octane/src/table/FilterMenu.tsx",
+      "packages/antd-octane/src/table/InternalTable.tsx"
     ],
     "notes": "Original MIT SVG geometry; Octane renderers and no React icon runtime."
   },

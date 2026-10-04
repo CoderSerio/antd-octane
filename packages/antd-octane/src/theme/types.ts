@@ -11,6 +11,7 @@ import type {
   PopoverToken,
   SegmentedToken,
   StatisticToken,
+  TableToken,
 } from "./component-tokens";
 
 export type * from "./component-tokens";
@@ -87,6 +88,7 @@ export interface ThemeConfig {
   token?: Partial<AliasToken>;
   algorithm?: MappingAlgorithm | MappingAlgorithm[];
   components?: {
+    Table?: ComponentTheme<TableToken>;
     Select?: ComponentTheme<{ zIndexPopup: number }>;
     QRCode?: ComponentTheme;
     Tour?: ComponentTheme<{
