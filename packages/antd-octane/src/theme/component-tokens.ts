@@ -675,3 +675,17 @@ export interface TableToken {
    */
   stickyScrollBarBorderRadius: number;
 }
+
+// components/tag/style/index.ts
+export interface TagToken {
+  /**
+   * @desc 默认背景色
+   * @descEN Default background color
+   */
+  defaultBg: string;
+  /**
+   * @desc 默认文字颜色
+   * @descEN Default text color
+   */
+  defaultColor: string;
+}

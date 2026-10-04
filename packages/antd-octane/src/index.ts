@@ -346,7 +346,12 @@ export {
   TableSummaryRow,
 } from "./table";
 export { Tabs } from "./tabs";
-export type { CheckableTagProps, TagProps } from "./tag";
+export type {
+  CheckableTagProps,
+  ClosableType,
+  TagClosableConfig,
+  TagProps,
+} from "./tag";
 export { Tag } from "./tag";
 export type { TimelineItem, TimelineProps } from "./timeline";
 export { Timeline } from "./timeline";

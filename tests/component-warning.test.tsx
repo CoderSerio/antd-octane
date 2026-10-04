@@ -7,6 +7,7 @@ import {
   Descriptions,
   Image,
   Statistic,
+  Tag,
 } from "../packages/antd-octane/src";
 import { resetWarned } from "../packages/antd-octane/src/_util/warning";
 
@@ -43,6 +44,11 @@ const deprecation = (oldProp: string, newProp: string) =>
   `\`${oldProp}\` is deprecated. Please use \`${newProp}\` instead.`;
 
 const matrix = [
+{
+    name: "Tag",
+    node: <Tag visible={undefined}>tag</Tag>,
+    messages: [deprecation("visible", "visible && <Tag />")],
+  },
 {
     name: "Card",
     node: <Card headStyle={undefined} bodyStyle={undefined} bordered={false} />,

@@ -131,5 +131,12 @@
       "scroll": 3,
       "selection": 3
     }
+  },
+  "Tag": {
+    "when": "- 用于标记事物的属性和维度。\n- 进行分类。",
+    "sectionHeadings": {
+      "Tag": 3,
+      "Tag.CheckableTag": 3
+    }
   }
 }

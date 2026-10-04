@@ -873,49 +873,76 @@
     box-sizing: border-box;
     display: inline-block;
     position: relative;
-    padding: 0 7px;
+    padding: 0 var(--ao-tag-padding);
     margin-inline-end: var(--ao-tag-margin);
     font-family: var(--ao-font);
     font-size: var(--ao-tag-size);
     line-height: var(--ao-tag-line);
     white-space: nowrap;
     text-align: start;
-    border: 1px solid var(--ao-tag-border);
+    border: var(--ao-tag-border-width) var(--ao-tag-border-style)
+      var(--ao-tag-border);
     border-radius: var(--ao-tag-radius);
     background: var(--ao-tag-bg);
     color: var(--ao-tag-color);
+    transition: all var(--ao-tag-duration);
   }
   :where(.ant-tag-icon) {
     display: inline-flex;
     align-items: center;
-    margin-inline-end: 4px;
+    margin-inline-end: 0;
   }
-  :where(.ant-tag-close-icon, .ant-alert-close-icon) {
-    appearance: none;
-    border: 0;
-    background: transparent;
-    color: inherit;
-    padding: 0;
-    cursor: pointer;
-    line-height: 1;
-    font-family: inherit;
-    font-size: 14px;
+  :where(.ant-tag-hidden) {
+    display: none;
+  }
+  :where(.ant-tag a, .ant-tag a:hover) {
+    color: var(--ao-tag-color);
+  }
+  :where(.ant-tag > .anticon + span, .ant-tag > span + .anticon) {
+    margin-inline-start: var(--ao-tag-icon-gap);
   }
   :where(.ant-tag-close-icon) {
-    margin-inline-start: 3px;
-    opacity: 0.6;
+    margin-inline-start: var(--ao-tag-close-gap);
+    color: var(--ao-tag-close-color);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--ao-tag-close-size);
+    line-height: 0;
+    vertical-align: -0.125em;
+    transition: all var(--ao-tag-duration);
+  }
+  :where(.ant-tag-close-icon:hover) {
+    color: var(--ao-tag-close-hover);
+  }
+  :where(
+      .ant-tag-has-color .ant-tag-close-icon,
+      .ant-tag-has-color .ant-tag-close-icon:hover
+    ) {
+    color: var(--ao-tag-color);
+  }
+  :where(.ant-tag-close-icon[aria-disabled="true"]) {
+    cursor: not-allowed;
+  }
+  :where(.ant-tag-checkable:not(.ant-tag-checkable-checked):hover) {
+    color: var(--ao-tag-primary);
+    background-color: var(--ao-tag-hover-bg);
+  }
+  :where(.ant-tag-checkable-checked:hover) {
+    background-color: var(--ao-tag-primary-hover);
+  }
+  :where(.ant-tag-checkable:active) {
+    color: var(--ao-tag-light);
+    background-color: var(--ao-tag-primary-active);
   }
   :where(.ant-tag-close-icon:hover, .ant-alert-close-icon:hover) {
     opacity: 1;
   }
   :where(.ant-tag-checkable) {
+    appearance: none;
     cursor: pointer;
   }
-  :where(
-      .ant-tag-close-icon:focus-visible,
-      .ant-tag-checkable:focus-visible,
-      .ant-alert-close-icon:focus-visible
-    ) {
+  :where(.ant-tag-close-icon:focus-visible, .ant-tag-checkable:focus-visible) {
     outline: 2px solid var(--ao-focus);
     outline-offset: 2px;
   }

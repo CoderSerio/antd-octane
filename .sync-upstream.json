@@ -176,7 +176,8 @@
       "packages/antd-octane/src/qr-code",
       "packages/antd-octane/src/segmented",
       "packages/antd-octane/src/statistic",
-      "packages/antd-octane/src/table"
+      "packages/antd-octane/src/table",
+      "packages/antd-octane/src/tag"
     ],
     "notes": "Source contracts, module structure, artwork and supported lifecycle/style behavior adapted to Octane. React runtime dependencies remain development references. Source API descriptions do not certify complete parity; see component support sections."
   },
@@ -317,7 +318,8 @@
       "packages/antd-octane/src/qr-code/QRCodeStatus.tsx",
       "packages/antd-octane/src/table/FilterDropdown.tsx",
       "packages/antd-octane/src/table/FilterMenu.tsx",
-      "packages/antd-octane/src/table/InternalTable.tsx"
+      "packages/antd-octane/src/table/InternalTable.tsx",
+      "packages/antd-octane/src/tag/closable.tsx"
     ],
     "notes": "Original MIT SVG geometry; Octane renderers and no React icon runtime."
   },

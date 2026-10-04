@@ -12,6 +12,7 @@ import type {
   SegmentedToken,
   StatisticToken,
   TableToken,
+  TagToken,
 } from "./component-tokens";
 
 export type * from "./component-tokens";
@@ -287,7 +288,7 @@ export interface ThemeConfig {
       buttonPaddingInline: number;
       wrapperMarginInlineEnd: number;
     }>;
-    Tag?: ComponentTheme<{ defaultBg: string; defaultColor: string }>;
+    Tag?: ComponentTheme<TagToken>;
     Alert?: ComponentTheme<{
       withDescriptionIconSize: number;
       defaultPadding: string;

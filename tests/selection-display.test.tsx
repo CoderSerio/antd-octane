@@ -14,25 +14,31 @@ import {
 } from "../packages/antd-octane/src";
 
 let root: Root | undefined;
+
 let container: HTMLDivElement;
+
 async function render(node: ElementDescriptor) {
   container = document.createElement("div");
   document.body.append(container);
   root = createRoot(container);
   await act(() => root?.render(node));
 }
+
 afterEach(async () => {
   await act(() => root?.unmount());
   container?.remove();
 });
+
 function inputs() {
   return [...container.querySelectorAll("input")];
 }
+
 async function click(selector: string) {
   const el = container.querySelector<HTMLElement>(selector);
   if (!el) throw Error(`Missing ${selector}`);
   await act(() => el.click());
 }
+
 it("Checkbox.Group preserves option types and document order", async () => {
   const change = vi.fn();
   await render(
@@ -51,6 +57,7 @@ it("Checkbox.Group preserves option types and document order", async () => {
   expect(change.mock.lastCall?.[0]).toEqual([1, false, "1"]);
   expect(inputs().every((input) => input.checked)).toBe(true);
 });
+
 it("controlled Checkbox.Group can reject changes and skipGroup stays independent", async () => {
   const change = vi.fn();
   await render(
@@ -69,6 +76,7 @@ it("controlled Checkbox.Group can reject changes and skipGroup stays independent
   expect(inputs()[2].checked).toBe(true);
   expect(change).toHaveBeenCalledTimes(1);
 });
+
 it("removed checkbox children are not returned in later group changes", async () => {
   const change = vi.fn();
   function Example() {
@@ -88,6 +96,7 @@ it("removed checkbox children are not returned in later group changes", async ()
   await act(() => inputs()[0].click());
   expect(change).toHaveBeenCalledWith([2]);
 });
+
 it("checkbox option and provider disabled prevent interaction", async () => {
   const change = vi.fn();
   await render(
@@ -99,6 +108,7 @@ it("checkbox option and provider disabled prevent interaction", async () => {
   await act(() => inputs()[0].click());
   expect(change).not.toHaveBeenCalled();
 });
+
 it("Radio.Group preserves values and uses a unique native name per group", async () => {
   const change = vi.fn();
   await render(
@@ -122,6 +132,7 @@ it("Radio.Group preserves values and uses a unique native name per group", async
   expect(inputs()[1].checked).toBe(true);
   expect(inputs()[3].checked).toBe(true);
 });
+
 it("Radio controlled group rejects selection and button radios remain native inputs", async () => {
   const change = vi.fn();
   await render(
@@ -140,6 +151,7 @@ it("Radio controlled group rejects selection and button radios remain native inp
   );
   expect(change.mock.lastCall?.[0].target.value).toBe(2);
 });
+
 it("Tag close can be cancelled and never bubbles into its parent click handler", async () => {
   const parent = vi.fn();
   await render(
@@ -147,46 +159,82 @@ it("Tag close can be cancelled and never bubbles into its parent click handler",
       Keep
     </Tag>,
   );
-  await click("button");
+  await click(".ant-tag-close-icon");
   expect(container.textContent).toContain("Keep");
   expect(parent).not.toHaveBeenCalled();
   await act(() => root?.render(<Tag closable>Remove</Tag>));
-  await click("button");
-  expect(container.querySelector(".ant-tag")).toBeNull();
+  await click(".ant-tag-close-icon");
+  expect(container.querySelector(".ant-tag-hidden")?.textContent).toBe(
+    "Remove",
+  );
 });
-it("CheckableTag is controlled and exposes a pressed state", async () => {
+
+it("CheckableTag is controlled and reports the requested next state", async () => {
+  const change = vi.fn();
   function Example() {
     const [checked, set] = useState(false);
     return (
-      <Tag.CheckableTag checked={checked} onChange={set}>
+      <Tag.CheckableTag
+        checked={checked}
+        onChange={(next) => {
+          change(next);
+          set(next);
+        }}
+      >
         Choice
       </Tag.CheckableTag>
     );
   }
   await render(<Example />);
-  await click("button");
-  expect(container.querySelector("button")?.getAttribute("aria-pressed")).toBe(
-    "true",
-  );
+  await click(".ant-tag-checkable");
+  expect(change).toHaveBeenCalledWith(true);
+  expect(container.querySelector(".ant-tag-checkable-checked")).not.toBeNull();
 });
-it("Alert closes and calls afterClose once after removal", async () => {
-  const close = vi.fn();
-  const after = vi.fn(() =>
-    expect(container.querySelector('[role="alert"]')).toBeNull(),
-  );
+
+it("Tag supports closable configuration and the deprecated visible prop", async () => {
   await render(
-    <Alert
-      message="Notice"
-      description="Details"
-      closable
-      onClose={close}
-      afterClose={after}
-    />,
+    <Tag
+      closable={{
+        closeIcon: "close",
+        disabled: true,
+        "aria-label": "Dismiss tag",
+      }}
+    >
+      Keep
+    </Tag>,
   );
-  await click("button");
-  expect(close).toHaveBeenCalledTimes(1);
-  expect(after).toHaveBeenCalledTimes(1);
+  const close = container.querySelector<HTMLElement>(".ant-tag-close-icon");
+  expect(close?.textContent).toBe("close");
+  // antd 5.29.3 Tag does not consume useClosable's disabled return value.
+  expect(close?.getAttribute("aria-disabled")).toBeNull();
+  expect(close?.getAttribute("aria-label")).toBe("Dismiss tag");
+  await click(".ant-tag-close-icon");
+  expect(container.querySelector(".ant-tag-hidden")).not.toBeNull();
+  await act(() => root?.render(<Tag visible={false}>Hidden</Tag>));
+  expect(container.querySelector(".ant-tag-hidden")?.textContent).toBe(
+    "Hidden",
+  );
 });
+
+it("CheckableTag renders its icon and invokes both change and click handlers", async () => {
+  const change = vi.fn();
+  const clickHandler = vi.fn();
+  await render(
+    <Tag.CheckableTag
+      checked={false}
+      icon="★"
+      onChange={change}
+      onClick={clickHandler}
+    >
+      Favorite
+    </Tag.CheckableTag>,
+  );
+  expect(container.textContent).toContain("★");
+  await click(".ant-tag-checkable");
+  expect(change).toHaveBeenCalledWith(true);
+  expect(clickHandler).toHaveBeenCalledTimes(1);
+});
+
 it("Badge respects zero hiding, overflow and custom content", async () => {
   await render(
     <>
@@ -200,6 +248,7 @@ it("Badge respects zero hiding, overflow and custom content", async () => {
   expect(container.querySelector("b")?.textContent).toBe("new");
   expect(container.textContent).toBe("099+new");
 });
+
 it("Avatar falls back on image failure and resets on a new source", async () => {
   await render(<Avatar src="/bad">AB</Avatar>);
   await act(() =>
@@ -210,6 +259,7 @@ it("Avatar falls back on image failure and resets on a new source", async () => 
   await act(() => root?.render(<Avatar src="/new">AB</Avatar>));
   expect(container.querySelector("img")?.getAttribute("src")).toBe("/new");
 });
+
 it("Avatar onError false keeps the image for consumer handling", async () => {
   await render(
     <Avatar src="/bad" onError={() => false}>
@@ -221,6 +271,7 @@ it("Avatar onError false keeps the image for consumer handling", async () => {
   );
   expect(container.querySelector("img")).not.toBeNull();
 });
+
 it("Avatar accepts image nodes and forwards image attributes", async () => {
   await render(
     <>
@@ -237,6 +288,7 @@ it("Avatar accepts image nodes and forwards image attributes", async () => {
   expect(image?.getAttribute("crossorigin")).toBe("anonymous");
   expect(image?.getAttribute("draggable")).toBe("false");
 });
+
 it("Avatar.Group shares shape and size and summarizes hidden avatars", async () => {
   await render(
     <Avatar.Group size={40} shape="square" max={{ count: 2 }}>
@@ -251,6 +303,7 @@ it("Avatar.Group shares shape and size and summarizes hidden avatars", async () 
   expect(avatars[0].style.getPropertyValue("--ao-avatar-size")).toBe("40px");
   expect(avatars[2].textContent).toBe("+1");
 });
+
 it("Card loading hides children and restores content with actions", async () => {
   await render(
     <Card
@@ -276,4 +329,23 @@ it("Card loading hides children and restores content with actions", async () => 
   );
   expect(container.textContent).toContain("Details");
   expect(container.querySelector(".ant-skeleton")).toBeNull();
+});
+
+it("Alert closes and calls afterClose once after removal", async () => {
+  const close = vi.fn();
+  const after = vi.fn(() =>
+    expect(container.querySelector('[role="alert"]')).toBeNull(),
+  );
+  await render(
+    <Alert
+      message="Notice"
+      description="Details"
+      closable
+      onClose={close}
+      afterClose={after}
+    />,
+  );
+  await click("button");
+  expect(close).toHaveBeenCalledTimes(1);
+  expect(after).toHaveBeenCalledTimes(1);
 });

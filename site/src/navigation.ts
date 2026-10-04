@@ -671,12 +671,19 @@ toc.radio = [
   ["tokens", "主题与支持范围"],
 ];
 toc.tag = [
-  ["when", "何时使用"],
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
   ["basic", "基本使用"],
-  ["more", "组合与交互"],
+  ["colorful", "多彩标签"],
+  ["control", "动态添加和删除"],
+  ["checkable", "可选择标签"],
+  ["icon", "图标按钮"],
+  ["status", "预设状态的标签"],
+  ["borderless", "无边框"],
+  ["draggable", "可拖拽标签"],
+  ["animation", "动画"],
   ["api", "API"],
-  ["tokens", "主题与支持范围"],
+  ["tokens", "主题变量"],
 ];
 toc.alert = [
   ["when", "何时使用"],

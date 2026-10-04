@@ -285,6 +285,20 @@ export function ComponentCompatibilityNotes() {
           align 时采用最近可见位置。尚未测量的远处行使用高度估值，挂载后会校正。
         </p>
       </details>
+      <details>
+        <summary>Tag</summary>
+        <p>
+          支持 defaultBg、defaultColor 组件 token 和 alias token。预设色支持常用
+          13 色及 inverse 变体，状态色支持 success / processing / warning /
+          error / default。 CheckableTag 支持 icon、onChange 和
+          onClick。关闭配置支持 ARIA 属性。与 5.29.3 源码一致，closable.disabled
+          未参与关闭判断。点击型 Tag 与链接标签支持 wave；关闭后使用 hidden
+          类保留子节点状态， 与 antd 5 的关闭行为一致。closable、closeIcon
+          先使用组件属性，再继承 ConfigProvider.tag 配置；closeIcon=false
+          可禁用关闭图标。 支持 RTL。自定义 prefixCls 同时保留本库静态 CSS
+          所需的 ant-* 类名。
+        </p>
+      </details>
 
     </>
   );
