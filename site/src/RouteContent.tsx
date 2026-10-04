@@ -14,6 +14,7 @@ const pages: Record<string, () => Promise<{ default: PageComponent }>> = {
   anchor: () => import("./pages/anchor"),
   "float-button": () => import("./pages/float-button"),
   image: () => import("./pages/image"),
+  calendar: () => import("./pages/calendar"),
   carousel: () => import("./pages/carousel"),
   splitter: () => import("./pages/splitter"),
   watermark: () => import("./pages/watermark"),

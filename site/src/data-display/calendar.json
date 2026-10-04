@@ -1,0 +1,220 @@
+{
+  "version": "5.29.3",
+  "api": [
+    {
+      "title": "Calendar",
+      "rows": [
+        [
+          "cellRender",
+          "自定义单元格的内容",
+          "function(current: dayjs, info: { prefixCls: string, originNode: OctaneNode, today: dayjs, range?: 'start' | 'end', type: PanelMode, locale?: Locale, subType?: 'hour' | 'minute' | 'second' | 'meridiem' }) => OctaneNode",
+          "-"
+        ],
+        [
+          "dateFullCellRender",
+          "自定义渲染日期单元格，返回内容覆盖单元格，建议使用 `fullCellRender`",
+          "function(date: Dayjs): OctaneNode",
+          "-"
+        ],
+        [
+          "fullCellRender",
+          "自定义单元格的内容",
+          "function(current: dayjs, info: { prefixCls: string, originNode: OctaneNode, today: dayjs, range?: 'start' | 'end', type: PanelMode, locale?: Locale, subType?: 'hour' | 'minute' | 'second' | 'meridiem' }) => OctaneNode",
+          "-"
+        ],
+        ["defaultValue", "默认展示的日期", "[dayjs](https://day.js.org/)", "-"],
+        [
+          "disabledDate",
+          "不可选择的日期，参数为当前 `value`，注意使用时[不要直接修改](https://github.com/ant-design/ant-design/issues/30987)",
+          "(currentDate: Dayjs) => boolean",
+          "-"
+        ],
+        ["fullscreen", "是否全屏显示", "boolean", "true"],
+        ["showWeek", "是否显示周数列", "boolean", "false"],
+        [
+          "headerRender",
+          "自定义头部内容",
+          "function(object:{value: Dayjs, type: 'year' | 'month', onChange: f(), onTypeChange: f()})",
+          "-"
+        ],
+        [
+          "locale",
+          "国际化配置",
+          "object",
+          "[(默认配置)](https://github.com/ant-design/ant-design/blob/master/components/date-picker/locale/example.json)"
+        ],
+        ["mode", "初始模式", "`month` | `year`", "`month`"],
+        [
+          "validRange",
+          "设置可以显示的日期",
+          "[[dayjs](https://day.js.org/), [dayjs](https://day.js.org/)]",
+          "-"
+        ],
+        ["value", "展示日期", "[dayjs](https://day.js.org/)", "-"],
+        ["onChange", "日期变化回调", "function(date: Dayjs)", "-"],
+        [
+          "onPanelChange",
+          "日期面板变化回调",
+          "function(date: Dayjs, mode: string)",
+          "-"
+        ],
+        [
+          "onSelect",
+          "选择日期回调，包含来源信息",
+          "function(date: Dayjs, info: { source: 'year' | 'month' | 'date' | 'customize' })",
+          "-"
+        ]
+      ]
+    }
+  ],
+  "tokens": {
+    "component": [
+      ["fullBg", "完整日历背景色", "string", "#ffffff"],
+      ["fullPanelBg", "完整日历面板背景色", "string", "#ffffff"],
+      ["itemActiveBg", "日期项选中背景色", "string", "#e6f4ff"],
+      ["miniContentHeight", "迷你日历内容高度", "string | number", "256"],
+      ["monthControlWidth", "月选择器宽度", "string | number", "70"],
+      ["yearControlWidth", "年选择器宽度", "string | number", "80"]
+    ],
+    "global": [
+      [
+        "colorBgContainer",
+        "组件的容器背景色，例如：默认按钮、输入框等。务必不要将其与 `colorBgElevated` 混淆。",
+        "string",
+        "#ffffff"
+      ],
+      [
+        "colorFillSecondary",
+        "二级填充色可以较为明显地勾勒出元素形体，如 Rate、Skeleton 等。也可以作为三级填充色的 Hover 状态，如 Table 等。",
+        "string",
+        "rgba(0,0,0,0.06)"
+      ],
+      [
+        "colorIcon",
+        "控制弱操作图标的颜色，例如 allowClear 或 Alert 关闭按钮。\n *",
+        "string",
+        "rgba(0,0,0,0.45)"
+      ],
+      [
+        "colorIconHover",
+        "控制弱操作图标在悬浮状态下的颜色，例如 allowClear 或 Alert 关闭按钮。",
+        "string",
+        "rgba(0,0,0,0.88)"
+      ],
+      [
+        "colorPrimary",
+        "品牌色是体现产品特性和传播理念最直观的视觉元素之一。在你完成品牌主色的选取之后，我们会自动帮你生成一套完整的色板，并赋予它们有效的设计语义",
+        "string",
+        "#1677ff"
+      ],
+      [
+        "colorSplit",
+        "用于作为分割线的颜色，此颜色和 colorBorderSecondary 的颜色一致，但是用的是透明色。",
+        "string",
+        "rgba(5,5,5,0.06)"
+      ],
+      [
+        "colorText",
+        "最深的文本色。为了符合W3C标准，默认的文本颜色使用了该色，同时这个颜色也是最深的中性色。",
+        "string",
+        "rgba(0,0,0,0.88)"
+      ],
+      [
+        "colorTextDisabled",
+        "控制禁用状态下的字体颜色。",
+        "string",
+        "rgba(0,0,0,0.25)"
+      ],
+      ["colorTextHeading", "控制标题字体颜色。", "string", "rgba(0,0,0,0.88)"],
+      [
+        "colorTextLightSolid",
+        "控制带背景色的文本，例如 Primary Button 组件中的文本高亮颜色。",
+        "string",
+        "#fff"
+      ],
+      [
+        "colorTextTertiary",
+        "第三级文本色一般用于描述性文本，例如表单的中的补充说明文本、列表的描述性文本等场景。",
+        "string",
+        "rgba(0,0,0,0.45)"
+      ],
+      [
+        "borderRadiusLG",
+        "LG号圆角，用于组件中的一些大圆角，如 Card、Modal 等一些组件样式。",
+        "number",
+        "8"
+      ],
+      [
+        "borderRadiusSM",
+        "SM号圆角，用于组件小尺寸下的圆角，如 Button、Input、Select 等输入类控件在 small size 下的圆角",
+        "number",
+        "4"
+      ],
+      ["controlHeightLG", "较高的组件高度", "number", "40"],
+      ["controlHeightSM", "较小的组件高度", "number", "24"],
+      [
+        "controlItemBgActive",
+        "控制组件项在激活状态下的背景颜色。",
+        "string",
+        "#e6f4ff"
+      ],
+      [
+        "controlItemBgHover",
+        "控制组件项在鼠标悬浮时的背景颜色。",
+        "string",
+        "rgba(0,0,0,0.04)"
+      ],
+      [
+        "fontFamily",
+        "Ant Design 的字体家族中优先使用系统默认的界面字体，同时提供了一套利于屏显的备用字体库，来维护在不同平台以及浏览器的显示下，字体始终保持良好的易读性和可读性，体现了友好、稳定和专业的特性。",
+        "string",
+        "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,\n'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',\n'Noto Color Emoji'"
+      ],
+      [
+        "fontSize",
+        "设计系统中使用最广泛的字体大小，文本梯度也将基于该字号进行派生。",
+        "number",
+        "14"
+      ],
+      [
+        "fontWeightStrong",
+        "控制标题类组件（如 h1、h2、h3）或选中项的字体粗细。",
+        "number",
+        "600"
+      ],
+      ["lineHeight", "文本行高", "number", "1.5714285714285714"],
+      [
+        "lineType",
+        "用于控制组件边框、分割线等的样式，默认是实线",
+        "string",
+        "solid"
+      ],
+      ["lineWidth", "用于控制组件边框、分割线等的宽度", "number", "1"],
+      [
+        "lineWidthBold",
+        "描边类组件的默认线宽，如 Button、Input、Select 等输入类控件。",
+        "number",
+        "2"
+      ],
+      ["marginXS", "控制元素外边距，小尺寸。", "number", "8"],
+      ["marginXXS", "控制元素外边距，最小尺寸。", "number", "4"],
+      [
+        "motionDurationMid",
+        "动效播放速度，中速。用于中型元素动画交互",
+        "string",
+        "0.2s"
+      ],
+      [
+        "motionDurationSlow",
+        "动效播放速度，慢速。用于大型元素如面板动画交互",
+        "string",
+        "0.3s"
+      ],
+      ["padding", "控制元素的内间距。", "number", "16"],
+      ["paddingSM", "控制元素的小内间距。", "number", "12"],
+      ["paddingXS", "控制元素的特小内间距。", "number", "8"],
+      ["paddingXXS", "控制元素的极小内间距。", "number", "4"],
+      ["screenXS", "控制超小屏幕的屏幕宽度。", "number", "480"]
+    ]
+  }
+}

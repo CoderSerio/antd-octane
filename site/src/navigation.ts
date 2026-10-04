@@ -217,6 +217,13 @@ export const nav = [
     keywords: "list 列表 网格",
   },
   {
+    id: "calendar",
+    title: "Calendar 日历",
+    category: "components",
+    group: "数据展示",
+    keywords: "calendar 日历 日期",
+  },
+  {
     id: "card",
     title: "Card 卡片",
     category: "components",
@@ -1059,6 +1066,19 @@ toc.image = [
   ["more", "交互与状态"],
   ["api", "API"],
   ["tokens", "主题与支持范围"],
+];
+toc.calendar = [
+  ["when-to-use", "何时使用"],
+  ["examples", "代码演示"],
+  ["basic", "基本"],
+  ["notice-calendar", "通知事项日历"],
+  ["card", "卡片模式"],
+  ["lunar", "农历日历"],
+  ["select", "选择功能"],
+  ["week", "周数"],
+  ["customize-header", "自定义头部"],
+  ["api", "API"],
+  ["tokens", "主题变量"],
 ];
 toc.carousel = [
   ["examples", "代码演示"],

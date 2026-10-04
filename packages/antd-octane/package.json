@@ -24,7 +24,8 @@
   "dependencies": {
     "@ant-design/colors": "^7.2.1",
     "@ant-design/fast-color": "^2.0.6",
-    "csstype": "^3.1.3"
+    "csstype": "^3.1.3",
+    "dayjs": "1.11.23"
   },
   "description": "Ant Design-style native components and themes for Octane.",
   "repository": {

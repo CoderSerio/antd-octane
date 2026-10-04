@@ -7,6 +7,7 @@ import {
   Badge,
   Breadcrumb,
   Button,
+  Calendar,
   Card,
   Carousel,
   Checkbox,
@@ -47,6 +48,7 @@ import {
   Typography,
   Watermark,
 } from "antd-octane";
+import dayjs from "dayjs";
 import { componentCoverage, upstreamGroups } from "../component-coverage";
 import { BasicDemo as PreviewApp } from "../demos/app-basic";
 import { BasicDemo as PreviewDrawer } from "../demos/drawer-basic";
@@ -101,6 +103,14 @@ function Preview({ name }: { name: string }) {
       );
     case "image":
       return <PreviewImage />;
+    case "calendar":
+      return (
+        <Calendar
+          fullscreen={false}
+          defaultValue={dayjs("2025-12-10")}
+          style={{ width: 240 }}
+        />
+      );
     case "carousel":
       return (
         <Carousel style={{ width: "100%" }}>

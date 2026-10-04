@@ -33,6 +33,12 @@ export default function Compatibility({ section }: { section?: string }) {
             "基础实现",
           ],
           [
+            "Calendar",
+            "Dayjs、自定义 generateConfig、月/年视图、受控选择、locale 和单元格渲染；自定义日期库需提供完整 adapter",
+            "基础实现",
+            "alpha",
+          ],
+          [
             "Splitter / Watermark",
             "拖拽与键盘尺寸调整、Canvas 水印；不含折叠/防篡改保障",
             "基础实现",

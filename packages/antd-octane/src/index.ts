@@ -64,6 +64,18 @@ export type { BadgeProps, BadgeRibbonProps, ScrollNumberProps } from "./badge";
 export { Badge } from "./badge";
 export type { BreadcrumbItem, BreadcrumbProps } from "./breadcrumb";
 export { Breadcrumb } from "./breadcrumb";
+export type {
+  CalendarCellInfo,
+  CalendarGenerateConfig,
+  CalendarHeaderRender,
+  CalendarLocale,
+  CalendarLocaleLang,
+  CalendarMode,
+  CalendarProps,
+  CalendarSelectInfo,
+  CalendarSelectSource,
+} from "./calendar";
+export { Calendar } from "./calendar";
 export type { CardMetaProps, CardProps } from "./card";
 export { Card } from "./card";
 export type { CarouselProps, CarouselRef } from "./carousel";

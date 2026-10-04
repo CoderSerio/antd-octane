@@ -114,7 +114,7 @@ Modal, Drawer, Menu, Dropdown, Message, Notification and Popconfirm supported to
 
 ## Additional component styles
 
-Affix, Anchor, FloatButton, Image, Carousel, Splitter, Watermark, QRCode and Tour defaults and styles reference Ant Design 5.29.3 (MIT, copyright Ant Design), under the Ant Design license reproduced above. Implementations use the Octane runtime. Source paths and the pinned revision are recorded in `.sync-upstream.json`. Icon demo paths are independently authored; no full upstream icon collection is bundled.
+Affix, Anchor, FloatButton, Image, Carousel, Splitter, Watermark, QRCode, Tour and Calendar defaults and styles reference Ant Design 5.29.3 (MIT, copyright Ant Design), under the Ant Design license reproduced above. Implementations use the Octane runtime. Source paths and the pinned revision are recorded in `.sync-upstream.json`. Icon demo paths are independently authored; no full upstream icon collection is bundled.
 
 `site/src/component-reference.tsx`, `site/src/pages/avatar.tsx` and the API note
 rules in `site/src/style.css` adapt the Avatar fallback Tip and Markdown
@@ -133,3 +133,17 @@ named imports in demos and consumers. Copyright Ant UED; the MIT license above
 applies. This is an Octane icon adapter for the examples, not a full React icon
 collection. `site/src/demos/avatar-icons.tsx` now only keeps the compatibility
 avatar URL export.
+
+### rc-segmented 2.7.1, rc-picker 4.11.3
+
+```text
+The MIT License (MIT)
+
+Copyright (c) 2019-present afc163
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+```

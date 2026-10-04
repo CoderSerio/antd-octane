@@ -1,4 +1,4 @@
-import type { AvatarToken, BadgeToken } from "./component-tokens";
+import type { AvatarToken, BadgeToken, CalendarToken } from "./component-tokens";
 
 export type * from "./component-tokens";
 
@@ -323,6 +323,7 @@ export interface ThemeConfig {
       headerPaddingSM: number;
     }>;
     Badge?: ComponentTheme<BadgeToken>;
+    Calendar?: ComponentTheme<CalendarToken>;
     Avatar?: ComponentTheme<AvatarToken>;
     Typography?: ComponentTheme<{
       titleMarginTop: string | number;

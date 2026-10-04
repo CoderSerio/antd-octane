@@ -64,7 +64,8 @@
       "components/splitter/style",
       "components/watermark/style",
       "components/qr-code/style",
-      "components/tour/style"
+      "components/tour/style",
+      "components/calendar/style"
     ],
     "destination": [
       "packages/antd-octane/src/button/tokens.ts",
@@ -133,5 +134,41 @@
       "site/src/demos/avatar-icons.tsx"
     ],
     "notes": "MIT icon geometry used by the antd 5.29.3 Avatar demos. Runtime adapted with native createIcon."
+  },
+  "data-display-runtime": {
+    "version": "5.29.3",
+    "commit": "14f397749dca177e5495dc9d1c2f7debfb639545",
+    "source": [
+      "components/calendar/{generateCalendar,Header,index}.tsx"
+    ],
+    "destination": [
+      "packages/antd-octane/src/calendar"
+    ],
+    "notes": "Source contracts, module structure, artwork and supported lifecycle/style behavior adapted to Octane. React runtime dependencies remain development references. Source API descriptions do not certify complete parity; see component support sections."
+  },
+  "rc-runtime-references": {
+    "rc-picker": {
+      "version": "4.11.3",
+      "source": [
+        "es/generate/dayjs.js",
+        "es/locale/en_US.js",
+        "es/locale/zh_CN.js",
+        "es/PickerPanel"
+      ],
+      "destination": [
+        "packages/antd-octane/src/calendar"
+      ]
+    }
+  },
+  "data-display-icons": {
+    "version": "4.6.0",
+    "source": "@ant-design/icons-svg/es/asn",
+    "icons": [
+      "DownOutlined"
+    ],
+    "destination": [
+      "packages/antd-octane/src/calendar.css"
+    ],
+    "notes": "Original MIT SVG geometry; Octane renderers and no React icon runtime."
   }
 }
