@@ -164,7 +164,9 @@
       "components/table/hooks/useFilter",
       "components/timeline/{Timeline,TimelineItem}.tsx",
       "components/timeline/useItems.ts",
-      "components/tooltip/index.tsx"
+      "components/tooltip/index.tsx",
+      "components/tour/{index,panelRender}.tsx",
+      "components/tour/interface.ts"
     ],
     "destination": [
       "packages/antd-octane/src/calendar",
@@ -182,7 +184,8 @@
       "packages/antd-octane/src/table",
       "packages/antd-octane/src/tag",
       "packages/antd-octane/src/timeline",
-      "packages/antd-octane/src/tooltip"
+      "packages/antd-octane/src/tooltip",
+      "packages/antd-octane/src/tour"
     ],
     "notes": "Source contracts, module structure, artwork and supported lifecycle/style behavior adapted to Octane. React runtime dependencies remain development references. Source API descriptions do not certify complete parity; see component support sections."
   },
@@ -307,6 +310,32 @@
         "packages/antd-octane/src/tree/NodeList.tsx",
         "packages/antd-octane/src/table"
       ]
+    },
+    "@rc-component/trigger": {
+      "version": "2.3.1",
+      "source": [
+        "es/hooks/useAlign.js",
+        "es/hooks/useWinClick.js",
+        "es/context.js",
+        "es/index.js",
+        "es/Popup"
+      ],
+      "destination": [
+        "packages/antd-octane/src/_util/floating.tsx",
+        "packages/antd-octane/src/_util/getLayoutSize.ts",
+        "packages/antd-octane/src/_util/getPopupContainerSize.ts",
+        "packages/antd-octane/src/tour/index.tsx"
+      ]
+    },
+    "@rc-component/tour": {
+      "version": "1.15.1",
+      "source": [
+        "es/Tour.js",
+        "es/Mask.js",
+        "es/hooks/useTarget.js",
+        "es/hooks/useClosable.js"
+      ],
+      "destination": "packages/antd-octane/src/tour"
     }
   },
   "data-display-icons": {
@@ -325,7 +354,8 @@
       "packages/antd-octane/src/table/FilterMenu.tsx",
       "packages/antd-octane/src/table/InternalTable.tsx",
       "packages/antd-octane/src/tag/closable.tsx",
-      "packages/antd-octane/src/timeline/index.tsx"
+      "packages/antd-octane/src/timeline/index.tsx",
+      "packages/antd-octane/src/tour/utils.ts"
     ],
     "notes": "Original MIT SVG geometry; Octane renderers and no React icon runtime."
   },

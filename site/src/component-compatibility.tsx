@@ -344,6 +344,39 @@ export function ComponentCompatibilityNotes() {
           destroyOnHidden。
         </p>
       </details>
+      <details>
+        <summary>Tour</summary>
+        <p>
+          支持 Tour 的
+          zIndexPopup、closeBtnSize、primaryPrevBtnBg、primaryNextBtnHoverBg，以及全局主色、背景、字体、间距、圆角和阴影。target
+          可为元素或返回元素的函数，目标缺失且未显式指定 placement 时居中；
+          步骤级 placement 优先于 Tour 的配置。滚动和尺寸变化会重新定位。原生
+          portal 保留 ConfigProvider 上下文。
+        </p>
+        <p>
+          遮罩默认允许点击高亮目标，disabledInteraction 可禁用目标交互。
+          mask=false 隐藏遮罩，不限制焦点；与 antd 5 的 rc-tour 实现一致， Tour
+          打开期间仍锁定页面滚动。支持箭头、center placement、
+          getPopupContainer、遮罩颜色与样式，以及步骤级 closeIcon、closable 和
+          scrollIntoViewOptions。按钮和关闭标签读取 ConfigProvider.locale，
+          未配置时使用英文。
+        </p>
+        <p>
+          与当前 rc-tour 源码一致，目标离屏时 scrollIntoViewOptions=false
+          会传入原生 scrollIntoView(false)，其含义是底边对齐，而非跳过滚动。
+          可传入 ScrollIntoViewOptions 对象指定滚动方式。
+        </p>
+        <p>
+          非受控模式重新打开时重置到第 0 步；受控 current 由调用方更新。
+          nextButtonProps、prevButtonProps 的 onClick
+          在步骤切换后调用，不接收事件参数。 步骤级
+          onClose、onFinish、onNext、onPrev 会覆盖默认步骤回调，
+          因此自定义回调需要自行控制相应状态。 antd 5 的 Tour 不提供
+          styles/classNames 语义配置；可使用 rootClassName 与步骤
+          className/style。高亮区域变化使用主题中的过渡时长。当前尚未完整复刻
+          rc-trigger 在复杂变换容器中的定位与对齐事件元数据。
+        </p>
+      </details>
 
     </>
   );

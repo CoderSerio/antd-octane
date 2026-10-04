@@ -2,41 +2,100 @@
   :where(.ant-tour-root) {
     position: fixed;
     inset: 0;
+    pointer-events: none;
   }
   :where(.ant-tour-root[hidden]) {
     display: none;
   }
   :where(.ant-tour) {
-    position: fixed;
+    position: absolute;
     box-sizing: border-box;
     width: 520px;
-    max-width: calc(100vw - 16px);
+    max-width: fit-content;
     pointer-events: auto;
     outline: none;
     font: var(--ao-font-size) / var(--ao-line) var(--ao-font);
     color: var(--ao-tour-color);
   }
-  :where(.ant-tour-spotlight) {
-    position: fixed;
-    z-index: -1;
-    border-radius: var(--ao-tour-spot-radius);
-    box-shadow: 0 0 0 9999px var(--ao-tour-mask);
-    pointer-events: none;
+  :where(.ant-tour [class^="ant-tour-"], .ant-tour [class*=" ant-tour-"]) {
+    box-sizing: border-box;
   }
-  :where(.ant-tour-full-mask) {
+  :where(.ant-tour-mask) {
     position: fixed;
     inset: 0;
-    z-index: -1;
-    background: var(--ao-tour-mask);
-    pointer-events: none;
+  }
+  :where(.ant-tour-placeholder-animated) {
+    transition: all var(--ao-tour-motion);
+  }
+  :where(.ant-tour-content) {
+    position: relative;
   }
   :where(.ant-tour-inner) {
     position: relative;
     box-sizing: border-box;
-    overflow: auto;
     background: var(--ao-tour-bg);
     border-radius: var(--ao-tour-radius);
     box-shadow: var(--ao-tour-shadow);
+    text-align: start;
+    text-decoration: none;
+    background-clip: padding-box;
+  }
+  :where(.ant-tour-arrow) {
+    position: absolute;
+    z-index: 1;
+    display: block;
+    width: var(--ao-tour-arrow-size);
+    height: var(--ao-tour-arrow-size);
+    overflow: hidden;
+    pointer-events: none;
+  }
+  :where(.ant-tour-arrow)::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    inset-inline-start: 0;
+    width: var(--ao-tour-arrow-size);
+    height: calc(var(--ao-tour-arrow-size) / 2);
+    background: var(--ao-tour-bg);
+    clip-path: var(--ao-tour-arrow-polygon);
+  }
+  @supports (clip-path: path("M 0 0 L 1 0 L 0 1 Z")) {
+    :where(.ant-tour-arrow)::before {
+      clip-path: var(--ao-tour-arrow-path);
+    }
+  }
+  :where(.ant-tour-arrow)::after {
+    content: "";
+    position: absolute;
+    width: var(--ao-tour-arrow-shadow-width);
+    height: var(--ao-tour-arrow-shadow-width);
+    bottom: 0;
+    inset-inline: 0;
+    margin: auto;
+    border-radius: 0 0 var(--ao-tour-arrow-radius) 0;
+    transform: translateY(50%) rotate(-135deg);
+    box-shadow: var(--ao-tour-arrow-shadow);
+    background: transparent;
+  }
+  :where(.ant-tour-arrow-top) {
+    left: calc(var(--ao-tour-arrow-x) - var(--ao-tour-arrow-size) / 2);
+    bottom: 0;
+    transform: translateY(100%) rotate(180deg);
+  }
+  :where(.ant-tour-arrow-bottom) {
+    left: calc(var(--ao-tour-arrow-x) - var(--ao-tour-arrow-size) / 2);
+    top: 0;
+    transform: translateY(-100%);
+  }
+  :where(.ant-tour-arrow-left) {
+    top: calc(var(--ao-tour-arrow-y) - var(--ao-tour-arrow-size) / 2);
+    right: 0;
+    transform: translateX(100%) rotate(90deg);
+  }
+  :where(.ant-tour-arrow-right) {
+    top: calc(var(--ao-tour-arrow-y) - var(--ao-tour-arrow-size) / 2);
+    left: 0;
+    transform: translateX(-100%) rotate(-90deg);
   }
   :where(.ant-tour-close) {
     position: absolute;
@@ -45,79 +104,112 @@
     width: var(--ao-tour-close-size);
     height: var(--ao-tour-close-size);
     border: 0;
-    border-radius: 4px;
+    border-radius: var(--ao-tour-close-radius);
     padding: 0;
-    color: inherit;
+    color: var(--ao-tour-close-color);
     background: transparent;
-    font-size: 22px;
+    font-size: inherit;
     line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      background-color var(--ao-tour-motion-mid),
+      color var(--ao-tour-motion-mid);
     cursor: pointer;
   }
   :where(.ant-tour-close:hover) {
-    background: rgb(0 0 0 / 6%);
+    color: var(--ao-tour-close-hover-color);
+    background: var(--ao-tour-close-hover-bg);
+  }
+  :where(.ant-tour-close:active) {
+    background: var(--ao-tour-close-active-bg);
+  }
+  :where(.ant-tour-close-icon) {
+    display: inline-flex;
+    line-height: 0;
   }
   :where(.ant-tour-close:focus-visible) {
     outline: 2px solid var(--ao-focus);
     outline-offset: 2px;
   }
   :where(.ant-tour-header) {
-    padding: var(--ao-tour-padding)
-      calc(var(--ao-tour-padding) + var(--ao-tour-close-size) + 8px)
-      var(--ao-tour-small-padding) var(--ao-tour-padding);
+    box-sizing: border-box;
+    padding: var(--ao-tour-padding) var(--ao-tour-padding)
+      var(--ao-tour-small-padding);
+    width: calc(100% - var(--ao-tour-close-size));
+    word-break: break-word;
   }
   :where(.ant-tour-title) {
     font-size: var(--ao-tour-title-size);
-    font-weight: 600;
+    font-weight: var(--ao-tour-title-weight);
     color: var(--ao-tour-title);
   }
   :where(.ant-tour-description) {
     padding: 0 var(--ao-tour-padding);
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
   }
   :where(.ant-tour-cover) {
-    padding: calc(var(--ao-tour-padding) + var(--ao-tour-close-size) + 8px)
+    text-align: center;
+    padding: calc(
+        var(--ao-tour-padding) +
+        var(--ao-tour-close-size) +
+        var(--ao-tour-small-padding)
+      )
       var(--ao-tour-padding) 0;
   }
   :where(.ant-tour-cover img) {
-    max-width: 100%;
+    width: 100%;
   }
   :where(.ant-tour-footer) {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
     padding: var(--ao-tour-small-padding) var(--ao-tour-padding)
       var(--ao-tour-padding);
+    text-align: end;
+    border-radius: 0 0 var(--ao-tour-arrow-radius) var(--ao-tour-arrow-radius);
   }
   :where(.ant-tour-indicators) {
-    display: flex;
-    gap: 6px;
+    display: inline-block;
   }
-  :where(.ant-tour-indicators > span) {
+  :where(.ant-tour-indicator) {
+    display: inline-block;
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: currentColor;
-    opacity: 0.2;
+    background: var(--ao-tour-indicator);
   }
-  :where(.ant-tour-indicators > .ant-tour-indicator-active) {
-    opacity: 1;
+  :where(.ant-tour-indicator:not(:last-child)) {
+    margin-inline-end: 6px;
+  }
+  :where(.ant-tour-indicator-active) {
+    background: var(--ao-tour-indicator-active);
   }
   :where(.ant-tour-buttons) {
-    display: flex;
-    gap: 8px;
+    margin-inline-start: auto;
   }
-  :where(.ant-tour-primary .ant-tour-buttons .ant-btn:not(.ant-btn-primary)) {
+  :where(.ant-tour-buttons .ant-btn) {
+    margin-inline-start: var(--ao-tour-button-margin);
+  }
+  .ant-tour-primary .ant-tour-prev-btn {
+    background: var(--ao-tour-bg);
+    border-color: var(--ao-tour-prev-bg);
+    color: inherit;
+  }
+  .ant-tour-primary
+    .ant-tour-prev-btn:not(:disabled):not([aria-disabled="true"]):hover {
     background: var(--ao-tour-prev-bg);
     border-color: transparent;
     color: inherit;
   }
-  :where(.ant-tour-primary .ant-tour-buttons .ant-btn-primary) {
+  .ant-tour-primary .ant-tour-next-btn {
     color: var(--ao-tour-next-color);
     background: var(--ao-tour-next-bg);
     border-color: transparent;
   }
-  :where(.ant-tour-primary .ant-tour-buttons .ant-btn-primary:hover) {
+  .ant-tour-primary
+    .ant-tour-next-btn:not(:disabled):not([aria-disabled="true"]):hover {
     background: var(--ao-tour-next-hover);
+    color: var(--ao-tour-next-color);
+    border-color: transparent;
   }
 }

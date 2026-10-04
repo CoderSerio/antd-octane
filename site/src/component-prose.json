@@ -155,5 +155,12 @@
       "Tooltip": 0,
       "共同的 API": 3
     }
+  },
+  "Tour": {
+    "when": "常用于引导用户了解产品功能。",
+    "sectionHeadings": {
+      "Tour": 3,
+      "TourStep 引导步骤卡片": 3
+    }
   }
 }

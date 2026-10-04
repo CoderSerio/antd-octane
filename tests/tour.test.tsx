@@ -4,7 +4,9 @@ import { afterEach, expect, it, vi } from "vitest";
 import { Tour } from "../packages/antd-octane/src/tour";
 
 let root: Root | undefined;
+
 let container: HTMLDivElement;
+
 async function render(node: ElementDescriptor) {
   if (!root) {
     container = document.createElement("div");
@@ -13,6 +15,7 @@ async function render(node: ElementDescriptor) {
   }
   await act(() => root?.render(node));
 }
+
 async function click(text: string) {
   const button = Array.from(
     document.querySelectorAll<HTMLButtonElement>(".ant-tour button"),
@@ -20,6 +23,7 @@ async function click(text: string) {
   expect(button).toBeTruthy();
   await act(() => button?.click());
 }
+
 afterEach(async () => {
   await act(() => root?.unmount());
   root = undefined;
@@ -30,6 +34,7 @@ afterEach(async () => {
   vi.restoreAllMocks();
   vi.unstubAllGlobals();
 });
+
 it("steps advance and finish closes uncontrolled tour, previous goes back", async () => {
   const change = vi.fn(),
     finish = vi.fn();
@@ -40,17 +45,18 @@ it("steps advance and finish closes uncontrolled tour, previous goes back", asyn
       onFinish={finish}
     />,
   );
-  await click("下一步");
+  await click("Next");
   expect(document.querySelector(".ant-tour-title")?.textContent).toBe("Second");
   expect(change).toHaveBeenLastCalledWith(1);
-  await click("上一步");
+  await click("Previous");
   expect(change).toHaveBeenLastCalledWith(0);
-  await click("下一步");
-  await click("完成");
+  await click("Next");
+  await click("Finish");
   expect(finish).toHaveBeenCalledOnce();
   expect(document.querySelector(".ant-tour")).toBeNull();
   expect(document.body.style.overflow).toBe("");
 });
+
 it("controlled state reports changes without advancing or closing itself", async () => {
   const change = vi.fn(),
     close = vi.fn();
@@ -63,7 +69,7 @@ it("controlled state reports changes without advancing or closing itself", async
       onClose={close}
     />,
   );
-  await click("下一步");
+  await click("Next");
   expect(change).toHaveBeenCalledWith(1);
   expect(document.querySelector(".ant-tour-title")?.textContent).toBe("One");
   await act(() =>
@@ -75,27 +81,38 @@ it("controlled state reports changes without advancing or closing itself", async
       }),
     ),
   );
+  // rc-tour has no Escape listener; the explicit close control reports intent.
+  expect(close).not.toHaveBeenCalled();
+  await act(() =>
+    document.querySelector<HTMLElement>(".ant-tour-close")?.click(),
+  );
   expect(close).toHaveBeenCalledWith(0);
   expect(document.querySelector(".ant-tour")).not.toBeNull();
 });
-it("custom next handler can cancel transition and missing steps never mount", async () => {
-  const finish = vi.fn();
+
+it("custom next handler runs after finishing and missing steps never mount", async () => {
+  const order: string[] = [];
+  const finish = vi.fn(() => order.push("finish"));
+  const handler = vi.fn(() => order.push("button"));
   await render(
     <Tour
       steps={[
         {
           title: "Stay",
-          nextButtonProps: { onClick: (e) => e.preventDefault() },
+          nextButtonProps: { onClick: handler },
         },
       ]}
       onFinish={finish}
     />,
   );
-  await click("完成");
-  expect(finish).not.toHaveBeenCalled();
+  await click("Finish");
+  expect(finish).toHaveBeenCalledOnce();
+  expect(handler).toHaveBeenCalledWith();
+  expect(order).toEqual(["finish", "button"]);
   await render(<Tour steps={[]} />);
   expect(document.querySelector(".ant-tour")).toBeNull();
 });
+
 it("tracks target gap geometry, scroll updates and cleans observers", async () => {
   const target = document.createElement("div");
   target.dataset.tourTest = "";
@@ -129,20 +146,23 @@ it("tracks target gap geometry, scroll updates and cleans observers", async () =
   await act(async () => {
     await new Promise((r) => setTimeout(r, 30));
   });
-  const spot = document.querySelector<HTMLElement>(".ant-tour-spotlight");
-  expect(spot?.style.left).toBe("42px");
-  expect(spot?.style.top).toBe("96px");
-  expect(spot?.style.width).toBe("116px");
+  const spot = document.querySelector<SVGRectElement>(
+    ".ant-tour-placeholder-animated",
+  );
+  expect(spot?.getAttribute("x")).toBe("42");
+  expect(spot?.getAttribute("y")).toBe("96");
+  expect(spot?.getAttribute("width")).toBe("116");
   top = 150;
   await act(async () => {
     window.dispatchEvent(new Event("scroll"));
     await new Promise((r) => setTimeout(r, 30));
   });
-  expect(spot?.style.top).toBe("146px");
+  expect(spot?.getAttribute("y")).toBe("146");
   await act(() => root?.unmount());
   root = undefined;
   expect(disconnect).toHaveBeenCalled();
 });
+
 it("scrolls offscreen targets into view and centers missing targets without scrolling", async () => {
   const target = document.createElement("div");
   target.dataset.tourTest = "";
@@ -167,6 +187,51 @@ it("scrolls offscreen targets into view and centers missing targets without scro
   await act(async () => {
     await new Promise((r) => setTimeout(r, 30));
   });
-  expect(document.querySelector(".ant-tour-spotlight")).toBeNull();
+  expect(document.querySelector(".ant-tour-placeholder-animated")).toBeNull();
   expect(document.querySelector(".ant-tour-full-mask")).not.toBeNull();
+});
+
+it("uses the opposite inset for a narrow popup after measuring its natural size", async () => {
+  vi.spyOn(document.documentElement, "clientWidth", "get").mockReturnValue(390);
+  vi.spyOn(document.documentElement, "clientHeight", "get").mockReturnValue(
+    840,
+  );
+  const target = document.createElement("div");
+  target.dataset.tourTest = "";
+  document.body.append(target);
+  vi.spyOn(target, "getBoundingClientRect").mockReturnValue({
+    left: 143.8375,
+    top: 57.5,
+    width: 102.71875,
+    height: 32,
+    right: 246.55625,
+    bottom: 89.5,
+  } as DOMRect);
+  const original = HTMLElement.prototype.getBoundingClientRect;
+  vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockImplementation(
+    function (this: HTMLElement) {
+      if (!this.classList.contains("ant-tour")) return original.call(this);
+      const left = this.style.right === "0px" ? 253 : 0;
+      return {
+        left,
+        top: 0,
+        width: 137,
+        height: 116,
+        right: left + 137,
+        bottom: 116,
+      } as DOMRect;
+    },
+  );
+  await render(
+    <Tour
+      steps={[
+        { target, title: "Title", description: "Content", placement: "right" },
+      ]}
+    />,
+  );
+  const popup = document.querySelector<HTMLElement>(".ant-tour");
+  expect(popup?.classList.contains("ant-tour-placement-left")).toBe(true);
+  expect(popup?.style.left).toBe("auto");
+  expect(popup?.style.right).toBe("265px");
+  expect(popup?.style.top).toBe("15px");
 });

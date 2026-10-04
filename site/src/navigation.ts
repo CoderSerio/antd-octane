@@ -1250,10 +1250,17 @@ toc["qr-code"] = [
 ];
 
 toc.tour = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
   ["basic", "基本用法"],
+  ["non-modal", "非模态"],
+  ["placement", "位置"],
+  ["mask", "自定义遮罩样式"],
+  ["indicator", "自定义指示器"],
+  ["actions-render", "自定义操作按钮"],
+  ["gap", "自定义高亮区域的样式"],
   ["api", "API"],
-  ["tokens", "主题与支持范围"],
+  ["tokens", "主题变量"],
 ];
 
 toc.tailwindcss = [

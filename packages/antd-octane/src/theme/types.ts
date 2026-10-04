@@ -15,6 +15,7 @@ import type {
   TagToken,
   TimelineToken,
   TooltipToken,
+  TourToken,
 } from "./component-tokens";
 
 export type * from "./component-tokens";
@@ -94,12 +95,7 @@ export interface ThemeConfig {
     Table?: ComponentTheme<TableToken>;
     Select?: ComponentTheme<{ zIndexPopup: number }>;
     QRCode?: ComponentTheme;
-    Tour?: ComponentTheme<{
-      zIndexPopup: number;
-      closeBtnSize: number;
-      primaryPrevBtnBg: string;
-      primaryNextBtnHoverBg: string;
-    }>;
+    Tour?: ComponentTheme<TourToken>;
     Anchor?: ComponentTheme<{
       linkPaddingBlock: number;
       linkPaddingInlineStart: number;

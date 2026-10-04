@@ -727,3 +727,27 @@ export interface TooltipToken {
    */
   zIndexPopup: number;
 }
+
+// components/tour/style/index.ts
+export interface TourToken {
+  /**
+   * @desc 弹层 z-index
+   * @descEN Tour popup z-index
+   */
+  zIndexPopup: number;
+  /**
+   * @desc 关闭按钮尺寸
+   * @descEN Close button size
+   */
+  closeBtnSize: number;
+  /**
+   * @desc Primary 模式上一步按钮背景色
+   * @descEN Background color of previous button in primary type
+   */
+  primaryPrevBtnBg: string;
+  /**
+   * @desc Primary 模式下一步按钮悬浮背景色
+   * @descEN Hover background color of next button in primary type
+   */
+  primaryNextBtnHoverBg: string;
+}

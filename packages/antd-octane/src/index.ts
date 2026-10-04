@@ -362,7 +362,15 @@ export type {
 export { Timeline } from "./timeline";
 export type { TooltipProps, TooltipRef } from "./tooltip";
 export { Tooltip } from "./tooltip";
-export type { TourProps, TourStepProps } from "./tour";
+export type {
+  TourAlign,
+  TourButtonProps,
+  TourClosable,
+  TourMask,
+  TourPlacement,
+  TourProps,
+  TourStepProps,
+} from "./tour";
 export { Tour } from "./tour";
 export type {
   CopyConfig,
