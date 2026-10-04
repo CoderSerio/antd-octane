@@ -331,7 +331,18 @@ export function ComponentCompatibilityNotes() {
           和 title 留在外层 div，不生成默认二维码标签。
         </p>
       </details>
-
+      <details>
+        <summary>Result</summary>
+        <p>
+          支持成功、信息、警告、错误以及 403/404/500
+          状态；图标和三幅异常插画来自锁定版本的上游源码。未发布源码已按 antd
+          5.29.3 补齐显式参数、空值渲染、插画尺寸、图标作用范围、前缀和 Provider
+          样式合并。8 个公开示例与 24 组边界案例已对照默认、暗色、紧凑、
+          品牌、组件及嵌套主题，并检查桌面、窄屏、RTL、按钮更新与键盘行为。
+          本地站点当前使用 workspace 源码；这些定向案例不代表完整 API、动效、
+          SSR 或跨浏览器一致。
+        </p>
+      </details>
       <details>
         <summary>Segmented</summary>
         <p>

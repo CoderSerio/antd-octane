@@ -152,7 +152,7 @@ it("supports result HTTP statuses, custom icons, details and actions without liv
       详细说明
     </Result>,
   );
-  expect(container.querySelector(".ant-result-http")?.textContent).toBe("404");
+  expect(container.querySelector(".ant-result-image svg")).not.toBeNull();
   expect(container.querySelector(".ant-result-content")?.textContent).toBe(
     "详细说明",
   );

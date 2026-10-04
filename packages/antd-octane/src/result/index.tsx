@@ -1,95 +1,142 @@
 /** @jsxImportSource octane */
-import type { CSSProperties, HTMLAttributes, OctaneNode } from "octane";
-import { useComponentTokens } from "../_util/tokens";
-export interface ResultProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
-  status?: "success" | "error" | "info" | "warning" | "403" | "404" | "500";
+// Adapted from Ant Design 5.29.3 components/result/index.tsx (MIT).
+import type { CSSProperties, OctaneNode } from "octane";
+import {
+  CheckCircleFilled,
+  CloseCircleFilled,
+  ExclamationCircleFilled,
+  WarningFilled,
+} from "../_util/feedback-icons";
+import { devUseWarning } from "../_util/warning";
+import { useConfig } from "../config-provider";
+import NoFound from "./noFound";
+import ServerError from "./serverError";
+import Unauthorized from "./unauthorized";
+import useResultStyle from "./useResultStyle";
+
+export const IconMap = {
+  success: CheckCircleFilled,
+  error: CloseCircleFilled,
+  info: ExclamationCircleFilled,
+  warning: WarningFilled,
+};
+export const ExceptionMap = {
+  "404": NoFound,
+  "500": ServerError,
+  "403": Unauthorized,
+};
+export type ExceptionStatusType = 403 | 404 | 500 | "403" | "404" | "500";
+export type ResultStatusType = ExceptionStatusType | keyof typeof IconMap;
+export interface ResultProps {
+  icon?: OctaneNode;
+  status?: ResultStatusType;
   title?: OctaneNode;
   subTitle?: OctaneNode;
-  icon?: OctaneNode;
   extra?: OctaneNode;
-  children?: OctaneNode;
+  prefixCls?: string;
+  className?: string;
+  rootClassName?: string;
   style?: CSSProperties;
+  children?: OctaneNode;
 }
-export function Result({
-  status = "info",
-  title,
+
+function partClass(prefixCls: string, part: string) {
+  return [...new Set([`ant-result-${part}`, `${prefixCls}-${part}`])].join(" ");
+}
+function Icon({
+  prefixCls,
+  icon,
+  status,
+}: Pick<ResultProps, "icon"> & {
+  prefixCls: string;
+  status: ResultStatusType;
+}) {
+  const warning = devUseWarning("Result");
+  warning(
+    !(typeof icon === "string" && icon.length > 2),
+    "breaking",
+    `\`icon\` accepts OctaneNode instead of a string icon name. Please check \`${icon}\` at https://ant.design/components/icon`,
+  );
+  const Exception = ExceptionMap[String(status) as keyof typeof ExceptionMap];
+  if (Exception) {
+    return (
+      <div
+        className={`${partClass(prefixCls, "icon")} ${partClass(prefixCls, "image")}`}
+      >
+        <Exception />
+      </div>
+    );
+  }
+  if (icon === null || icon === false) return null;
+  const StatusIcon = IconMap[status as keyof typeof IconMap];
+  const label =
+    status === "success"
+      ? "check-circle"
+      : status === "error"
+        ? "close-circle"
+        : status === "warning"
+          ? "warning"
+          : "exclamation-circle";
+  return (
+    <div className={partClass(prefixCls, "icon")}>
+      {icon || <StatusIcon aria-label={label} />}
+    </div>
+  );
+}
+function Extra({
+  prefixCls,
+  extra,
+}: Pick<ResultProps, "extra"> & { prefixCls: string }) {
+  if (!extra) return null;
+  return <div className={partClass(prefixCls, "extra")}>{extra}</div>;
+}
+function InternalResult({
+  prefixCls: customPrefix,
+  className,
+  rootClassName,
   subTitle,
+  title,
+  style,
+  children,
+  status = "info",
   icon,
   extra,
-  children,
-  className,
-  style,
-  ...rest
 }: ResultProps) {
-  const { token: t, component: c, base } = useComponentTokens("Result");
-  const http = status === "403" || status === "404" || status === "500";
-  const color =
-    status === "success"
-      ? t.colorSuccess
-      : status === "error"
-        ? t.colorError
-        : status === "warning"
-          ? t.colorWarning
-          : t.colorInfo;
+  const config = useConfig();
+  const prefixCls = config.getPrefixCls("result", customPrefix);
+  const tokenStyle = useResultStyle(status);
   return (
     <div
-      {...rest}
-      className={["ant-result", `ant-result-${status}`, className]}
-      style={{
-        ...base,
-        "--ao-result-color": color,
-        "--ao-result-title-color": t.colorTextHeading,
-        "--ao-result-title-line": t.lineHeightHeading3,
-        "--ao-result-title-size": `${c?.titleFontSize ?? t.fontSizeHeading3}px`,
-        "--ao-result-subtitle-size": `${c?.subtitleFontSize ?? t.fontSize}px`,
-        "--ao-result-icon-size": `${c?.iconFontSize ?? t.fontSizeHeading3 * 3}px`,
-        "--ao-result-extra-margin": c?.extraMargin ?? `${t.paddingLG}px 0 0`,
-        "--ao-result-padding": `${t.paddingLG * 2}px ${t.paddingXL}px`,
-        "--ao-result-content-padding": `${t.paddingLG}px ${t.padding * 2.5}px`,
-        "--ao-result-content-bg": t.colorFillAlter,
-        "--ao-result-gap": `${t.marginXS}px`,
-        "--ao-result-block-gap": `${t.paddingLG}px`,
-        ...style,
-      }}
+      className={[
+        ...new Set([
+          "ant-result",
+          prefixCls,
+          `ant-result-${status}`,
+          `${prefixCls}-${status}`,
+          className,
+          config.result?.className,
+          rootClassName,
+          config.direction === "rtl" && "ant-result-rtl",
+          config.direction === "rtl" && `${prefixCls}-rtl`,
+        ]),
+      ]}
+      style={{ ...tokenStyle, ...config.result?.style, ...style }}
     >
-      {icon !== null && icon !== false && (
-        <div className="ant-result-icon">
-          {icon ??
-            (http ? (
-              <span className="ant-result-http">{status}</span>
-            ) : (
-              <svg viewBox="0 0 64 64" aria-hidden="true">
-                <circle cx="32" cy="32" r="30" fill="currentColor" />
-                <g
-                  fill="none"
-                  stroke="var(--ao-bg)"
-                  strokeWidth="5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  {status === "success" ? (
-                    <path d="m18 32 9 9 20-21" />
-                  ) : status === "error" ? (
-                    <path d="m22 22 20 20m0-20L22 42" />
-                  ) : status === "warning" ? (
-                    <path d="M32 18v18m0 9v1" />
-                  ) : (
-                    <path d="M32 29v17m0-29v1" />
-                  )}
-                </g>
-              </svg>
-            ))}
-        </div>
+      <Icon prefixCls={prefixCls} status={status} icon={icon} />
+      <div className={partClass(prefixCls, "title")}>{title}</div>
+      {subTitle && (
+        <div className={partClass(prefixCls, "subtitle")}>{subTitle}</div>
       )}
-      {title !== undefined && <div className="ant-result-title">{title}</div>}
-      {subTitle !== undefined && (
-        <div className="ant-result-subtitle">{subTitle}</div>
-      )}
-      {extra !== undefined && <div className="ant-result-extra">{extra}</div>}
-      {children !== undefined && (
-        <div className="ant-result-content">{children}</div>
+      <Extra prefixCls={prefixCls} extra={extra} />
+      {children && (
+        <div className={partClass(prefixCls, "content")}>{children}</div>
       )}
     </div>
   );
 }
+
+export const Result = Object.assign(InternalResult, {
+  PRESENTED_IMAGE_403: ExceptionMap["403"],
+  PRESENTED_IMAGE_404: ExceptionMap["404"],
+  PRESENTED_IMAGE_500: ExceptionMap["500"],
+});

@@ -24,6 +24,7 @@ import type {
   NotificationToken,
   PopconfirmToken,
   ProgressToken,
+  ResultToken,
 } from "./component-tokens";
 
 export type * from "./component-tokens";
@@ -188,12 +189,7 @@ export interface ThemeConfig {
     Tooltip?: ComponentTheme<TooltipToken>;
     Popover?: ComponentTheme<PopoverToken & { innerPadding: number | string }>;
     Progress?: ComponentTheme<ProgressToken>;
-    Result?: ComponentTheme<{
-      titleFontSize: number;
-      subtitleFontSize: number;
-      iconFontSize: number;
-      extraMargin: string;
-    }>;
+    Result?: ComponentTheme<ResultToken>;
     Breadcrumb?: ComponentTheme<{
       itemColor: string;
       lastItemColor: string;

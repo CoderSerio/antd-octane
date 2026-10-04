@@ -899,6 +899,7 @@ toc.progress = [
 ];
 
 toc.result = [
+  ["when-to-use", "何时使用"],
   ["examples", "代码演示"],
   ["basic", "成功与后续操作"],
   ["more", "异常页面"],
