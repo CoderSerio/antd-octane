@@ -56,7 +56,6 @@
           "(originalNode: OctaneNode, info: { transform: [TransformType](#transformtype), image: [ImgInfo](#imginfo) }) => OctaneNode",
           "-"
         ],
-        ["~~destroyOnClose~~", "关闭预览时销毁子元素", "boolean", "false"],
         ["destroyOnHidden", "关闭预览时销毁子元素", "boolean", "false"],
         [
           "onTransform",
@@ -104,7 +103,6 @@
         ["current", "当前预览图的 index", "number", "-"],
         ["mask", "缩略图遮罩", "OctaneNode", "-"],
         ["maskClassName", "缩略图遮罩类名", "string", "-"],
-        ["~~rootClassName~~", "预览图的根 DOM 类名，不做推荐了", "string", "-"],
         ["scaleStep", "`1 + scaleStep` 为缩放放大的每步倍数", "number", "0.5"],
         ["minScale", "最小缩放倍数", "number", "1"],
         ["maxScale", "最大放大倍数", "number", "50"],
