@@ -32,7 +32,6 @@
         ],
         ["color", "背景颜色", "string", "-"],
         ["defaultOpen", "默认是否显隐", "boolean", "false"],
-        ["~~destroyTooltipOnHide~~", "关闭后是否销毁 dom", "boolean", "false"],
         ["destroyOnHidden", "关闭后是否销毁 dom", "boolean", "false"],
         [
           "fresh",
@@ -57,24 +56,6 @@
           "鼠标移出后延时多少才隐藏 Tooltip，单位：秒",
           "number",
           "0.1"
-        ],
-        [
-          "~~overlayClassName~~",
-          "卡片类名, 请使用 `classNames={{ root: '' }}` 替换",
-          "string",
-          "-"
-        ],
-        [
-          "~~overlayStyle~~",
-          "卡片样式, 请使用 `styles={{ root: {} }}` 替换",
-          "CSSProperties",
-          "-"
-        ],
-        [
-          "~~overlayInnerStyle~~",
-          "卡片内容区域的样式对象, 请使用 `styles={{ body: {} }}` 替换",
-          "CSSProperties",
-          "-"
         ],
         [
           "placement",
