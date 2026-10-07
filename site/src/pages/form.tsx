@@ -14,7 +14,6 @@ export default function FormPage({ section }: { section?: string }) {
     <>
       <h1>
         Form <span>表单</span>
-        <small>Alpha</small>
       </h1>
       <p className="lead">收集平面字段的值，在提交时校验并反馈错误。</p>
       <DocMeta name="Form" />
