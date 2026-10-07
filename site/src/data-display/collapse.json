@@ -24,7 +24,6 @@
           "string[] | string<br/> number[] | number",
           "-"
         ],
-        ["~~destroyInactivePanel~~", "销毁折叠隐藏的面板", "boolean", "false"],
         ["destroyOnHidden", "销毁折叠隐藏的面板", "boolean", "false"],
         ["expandIcon", "自定义切换图标", "(panelProps) => OctaneNode", "-"],
         ["expandIconPosition", "设置图标位置", "`start` | `end`", "-"],
