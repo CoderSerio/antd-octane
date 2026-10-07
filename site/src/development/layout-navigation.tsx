@@ -97,6 +97,54 @@ const previews: Record<string, Preview[]> = {
       source: () => import("./demos/breadcrumb/overlay.tsx?raw"),
     },
   ],
+  dropdown: [
+    {
+      id: "extra",
+      title: "额外节点",
+      description: "带有快捷方式的下拉菜单。",
+      load: () => import("./demos/dropdown/extra"),
+      source: () => import("./demos/dropdown/extra.tsx?raw"),
+    },
+    {
+      id: "arrow",
+      title: "箭头",
+      description: "可以展示一个箭头。",
+      load: () => import("./demos/dropdown/arrow"),
+      source: () => import("./demos/dropdown/arrow.tsx?raw"),
+    },
+    {
+      id: "arrow-center",
+      title: "箭头指向",
+      description:
+        "设置 `arrow` 为 `{ pointAtCenter: true }` 后，箭头将指向目标元素的中心。",
+      load: () => import("./demos/dropdown/arrow-center"),
+      source: () => import("./demos/dropdown/arrow-center.tsx?raw"),
+    },
+    {
+      id: "dropdown-button",
+      title: "带下拉框的按钮",
+      description:
+        "左边是按钮，右边是额外的相关功能菜单。可设置 `icon` 属性来修改右边的图标。",
+      load: () => import("./demos/dropdown/dropdown-button"),
+      source: () => import("./demos/dropdown/dropdown-button.tsx?raw"),
+    },
+    {
+      id: "custom-dropdown",
+      title: "扩展菜单",
+      description:
+        "使用 `popupRender` 对下拉菜单进行自由扩展。如果你并不需要 Menu 内容，请直接使用 Popover 组件。",
+      load: () => import("./demos/dropdown/custom-dropdown"),
+      source: () => import("./demos/dropdown/custom-dropdown.tsx?raw"),
+    },
+    {
+      id: "loading",
+      title: "加载中状态",
+      description:
+        "添加 `loading` 属性即可让按钮处于加载状态，最后两个按钮演示点击后进入加载状态。",
+      load: () => import("./demos/dropdown/loading"),
+      source: () => import("./demos/dropdown/loading.tsx?raw"),
+    },
+  ],
   layout: [
     {
       id: "basic",
@@ -240,6 +288,23 @@ const order: Record<string, string[]> = {
     "separator",
     "overlay",
     "separator-component",
+  ],
+  dropdown: [
+    "basic",
+    "extra",
+    "placement",
+    "arrow",
+    "item",
+    "arrow-center",
+    "trigger",
+    "event",
+    "dropdown-button",
+    "custom-dropdown",
+    "sub-menu",
+    "overlay-open",
+    "context-menu",
+    "loading",
+    "selectable",
   ],
 };
 

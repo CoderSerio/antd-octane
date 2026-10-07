@@ -60,6 +60,7 @@ export type RenderEmptyHandler = (componentName?: string) => OctaneNode;
 
 /** Component defaults follow components/config-provider/context.ts in antd 5.29.3. */
 export interface ConfigComponentProps {
+  dropdown?: ComponentStyleConfig;
   breadcrumb?: ComponentStyleConfig;
   anchor?: ComponentStyleConfig;
   splitter?: ComponentStyleConfig;

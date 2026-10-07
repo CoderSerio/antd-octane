@@ -158,7 +158,7 @@ export type { DividerProps } from "./divider";
 export { Divider } from "./divider";
 export type { DrawerClassNames, DrawerProps, DrawerStyles } from "./drawer";
 export { Drawer } from "./drawer";
-export type { DropdownProps } from "./dropdown";
+export type { DropdownButtonProps, DropdownProps } from "./dropdown";
 export { Dropdown } from "./dropdown";
 export type { EmptyProps } from "./empty";
 export { Empty } from "./empty";

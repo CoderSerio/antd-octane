@@ -175,3 +175,64 @@ it("Breadcrumb creates menus and retains compound Item/Separator content", async
   );
   expect(container.textContent).toContain("Home:Current");
 });
+it("Dropdown renders custom popup content and keeps multiple selectable menus open", async () => {
+  const open = vi.fn();
+  await render(
+    <Dropdown
+      trigger={["click"]}
+      arrow
+      menu={{
+        multiple: true,
+        selectable: true,
+        items: [{ key: "one", label: "One" }],
+      }}
+      onOpenChange={open}
+      popupRender={(menus) => (
+        <section>
+          {menus}
+          <footer>Footer</footer>
+        </section>
+      )}
+    >
+      <button type="button">Actions</button>
+    </Dropdown>,
+  );
+  await act(() => button("Actions").click());
+  await act(() => button("One").click());
+  expect(document.querySelector<HTMLElement>(".ant-dropdown")?.hidden).toBe(
+    false,
+  );
+  expect(document.querySelector(".ant-dropdown footer")?.textContent).toBe(
+    "Footer",
+  );
+  expect(document.querySelector(".ant-dropdown-arrow")).not.toBeNull();
+  expect(open).toHaveBeenCalledTimes(1);
+});
+it("Dropdown.Button delegates the primary click and disabled state", async () => {
+  const click = vi.fn();
+  await render(
+    <Dropdown.Button
+      onClick={click}
+      disabled
+      menu={{ items: [{ key: "one", label: "One" }] }}
+    >
+      Action
+    </Dropdown.Button>,
+  );
+  expect(button("Action").disabled).toBe(true);
+  expect(
+    container.querySelectorAll<HTMLButtonElement>("button")[1].disabled,
+  ).toBe(true);
+  await act(() =>
+    root?.render(
+      <Dropdown.Button
+        onClick={click}
+        menu={{ items: [{ key: "one", label: "One" }] }}
+      >
+        Action
+      </Dropdown.Button>,
+    ),
+  );
+  await act(() => button("Action").click());
+  expect(click).toHaveBeenCalledOnce();
+});

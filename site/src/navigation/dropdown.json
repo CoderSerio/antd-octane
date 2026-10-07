@@ -1,0 +1,270 @@
+{
+  "version": "5.29.3",
+  "demoColumns": 2,
+  "api": [
+    {
+      "title": "Dropdown",
+      "rows": [
+        [
+          "arrow",
+          "下拉框箭头是否显示",
+          "boolean | { pointAtCenter: boolean }",
+          "false"
+        ],
+        ["autoAdjustOverflow", "下拉框被遮挡时自动调整位置", "boolean", "true"],
+        ["autoFocus", "打开后自动聚焦下拉框", "boolean", "false"],
+        ["disabled", "菜单是否禁用", "boolean", "-"],
+        ["destroyOnHidden", "关闭后是否销毁 Dropdown", "boolean", "false"],
+        [
+          "popupRender",
+          "自定义弹出框内容",
+          "(menus: OctaneNode) => OctaneNode",
+          "-"
+        ],
+        [
+          "getPopupContainer",
+          "菜单渲染父节点。默认渲染到 body 上，如果你遇到菜单滚动定位问题，试试修改为滚动的区域，并相对其定位。[示例](https://codepen.io/afc163/pen/zEjNOy?editors=0010)",
+          "(triggerNode: HTMLElement) => HTMLElement",
+          "() => document.body"
+        ],
+        ["menu", "菜单配置项", "[MenuProps](/components/menu-cn#api)", "-"],
+        ["overlayClassName", "下拉根元素的类名称", "string", "-"],
+        ["overlayStyle", "下拉根元素的样式", "CSSProperties", "-"],
+        [
+          "placement",
+          "菜单弹出位置：`bottom` `bottomLeft` `bottomRight` `top` `topLeft` `topRight`",
+          "string",
+          "`bottomLeft`"
+        ],
+        [
+          "trigger",
+          "触发下拉的行为，移动端不支持 hover",
+          "Array<`click`|`hover`|`contextMenu`>",
+          "[`hover`]"
+        ],
+        [
+          "open",
+          "菜单是否显示（[为什么?](/docs/react/faq#弹层类组件为什么要统一至-open-属性)）",
+          "boolean",
+          "-"
+        ],
+        [
+          "onOpenChange",
+          "菜单显示状态改变时调用，点击菜单按钮导致的消失不会触发",
+          "(open: boolean, info: { source: 'trigger' | 'menu' }) => void",
+          "-"
+        ]
+      ]
+    },
+    {
+      "title": "Dropdown.Button",
+      "rows": [
+        [
+          "buttonsRender",
+          "自定义左右两个按钮",
+          "(buttons: OctaneNode[]) => OctaneNode[]",
+          "-"
+        ],
+        [
+          "loading",
+          "设置按钮载入状态，和 [Button](/components/button-cn#api) 一致",
+          "boolean | { delay: number, icon: OctaneNode }",
+          "false"
+        ],
+        ["danger", "设置危险按钮", "boolean", "-"],
+        ["icon", "右侧的 icon", "OctaneNode", "-"],
+        [
+          "size",
+          "按钮大小，和 [Button](/components/button-cn#api) 一致",
+          "`large` | `middle` | `small`",
+          "`middle`"
+        ],
+        [
+          "type",
+          "按钮类型，和 [Button](/components/button-cn#api) 一致",
+          "`primary` | `dashed` | `link` | `text` | `default`",
+          "`default`"
+        ],
+        [
+          "onClick",
+          "点击左侧按钮的回调，和 [Button](/components/button-cn#api) 一致",
+          "(event: MouseEvent) => void",
+          "-"
+        ]
+      ]
+    }
+  ],
+  "tokens": {
+    "component": [
+      [
+        "paddingBlock",
+        "下拉菜单纵向内边距",
+        "PaddingBlock<string | number> | undefined",
+        "5"
+      ],
+      ["zIndexPopup", "下拉菜单 z-index", "number", "1050"]
+    ],
+    "global": [
+      [
+        "colorBgElevated",
+        "浮层容器背景色，在暗色模式下该 token 的色值会比 `colorBgContainer` 要亮一些。例如：模态框、弹出框、菜单等。",
+        "string",
+        "#ffffff"
+      ],
+      [
+        "colorError",
+        "用于表示操作失败的 Token 序列，如失败按钮、错误状态提示（Result）组件等。",
+        "string",
+        "#ff4d4f"
+      ],
+      [
+        "colorIcon",
+        "控制弱操作图标的颜色，例如 allowClear 或 Alert 关闭按钮。\n *",
+        "string",
+        "rgba(0,0,0,0.45)"
+      ],
+      [
+        "colorPrimary",
+        "品牌色是体现产品特性和传播理念最直观的视觉元素之一。在你完成品牌主色的选取之后，我们会自动帮你生成一套完整的色板，并赋予它们有效的设计语义",
+        "string",
+        "#1677ff"
+      ],
+      [
+        "colorPrimaryBorder",
+        "主色梯度下的描边用色，用在 Slider 等组件的描边上。",
+        "string",
+        "#91caff"
+      ],
+      [
+        "colorSplit",
+        "用于作为分割线的颜色，此颜色和 colorBorderSecondary 的颜色一致，但是用的是透明色。",
+        "string",
+        "rgba(5,5,5,0.06)"
+      ],
+      [
+        "colorText",
+        "最深的文本色。为了符合W3C标准，默认的文本颜色使用了该色，同时这个颜色也是最深的中性色。",
+        "string",
+        "rgba(0,0,0,0.88)"
+      ],
+      [
+        "colorTextDescription",
+        "控制文本描述字体颜色。",
+        "string",
+        "rgba(0,0,0,0.45)"
+      ],
+      [
+        "colorTextDisabled",
+        "控制禁用状态下的字体颜色。",
+        "string",
+        "rgba(0,0,0,0.25)"
+      ],
+      [
+        "colorTextLightSolid",
+        "控制带背景色的文本，例如 Primary Button 组件中的文本高亮颜色。",
+        "string",
+        "#fff"
+      ],
+      [
+        "borderRadiusLG",
+        "LG号圆角，用于组件中的一些大圆角，如 Card、Modal 等一些组件样式。",
+        "number",
+        "8"
+      ],
+      [
+        "borderRadiusSM",
+        "SM号圆角，用于组件小尺寸下的圆角，如 Button、Input、Select 等输入类控件在 small size 下的圆角",
+        "number",
+        "4"
+      ],
+      [
+        "borderRadiusXS",
+        "XS号圆角，用于组件中的一些小圆角，如 Segmented 、Arrow 等一些内部圆角的组件样式中。",
+        "number",
+        "2"
+      ],
+      [
+        "boxShadowSecondary",
+        "控制元素二级阴影样式。",
+        "string",
+        "\n      0 6px 16px 0 rgba(0, 0, 0, 0.08),\n      0 3px 6px -4px rgba(0, 0, 0, 0.12),\n      0 9px 28px 8px rgba(0, 0, 0, 0.05)\n    "
+      ],
+      [
+        "controlItemBgActive",
+        "控制组件项在激活状态下的背景颜色。",
+        "string",
+        "#e6f4ff"
+      ],
+      [
+        "controlItemBgActiveHover",
+        "控制组件项在鼠标悬浮且激活状态下的背景颜色。",
+        "string",
+        "#bae0ff"
+      ],
+      [
+        "controlItemBgHover",
+        "控制组件项在鼠标悬浮时的背景颜色。",
+        "string",
+        "rgba(0,0,0,0.04)"
+      ],
+      ["controlPaddingHorizontal", "控制元素水平内间距。", "number", "12"],
+      [
+        "fontFamily",
+        "Ant Design 的字体家族中优先使用系统默认的界面字体，同时提供了一套利于屏显的备用字体库，来维护在不同平台以及浏览器的显示下，字体始终保持良好的易读性和可读性，体现了友好、稳定和专业的特性。",
+        "string",
+        "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,\n'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',\n'Noto Color Emoji'"
+      ],
+      [
+        "fontSize",
+        "设计系统中使用最广泛的字体大小，文本梯度也将基于该字号进行派生。",
+        "number",
+        "14"
+      ],
+      [
+        "fontSizeIcon",
+        "控制选择器、级联选择器等中的操作图标字体大小。正常情况下与 fontSizeSM 相同。",
+        "number",
+        "12"
+      ],
+      ["fontSizeSM", "小号字体大小", "number", "12"],
+      ["lineHeight", "文本行高", "number", "1.5714285714285714"],
+      ["lineWidthFocus", "控制线条的宽度，当组件处于聚焦态时。", "number", "3"],
+      ["marginXS", "控制元素外边距，小尺寸。", "number", "8"],
+      ["marginXXS", "控制元素外边距，最小尺寸。", "number", "4"],
+      [
+        "motionDurationMid",
+        "动效播放速度，中速。用于中型元素动画交互",
+        "string",
+        "0.2s"
+      ],
+      [
+        "motionEaseInOutCirc",
+        "预设动效曲率",
+        "string",
+        "cubic-bezier(0.78, 0.14, 0.15, 0.86)"
+      ],
+      [
+        "motionEaseInQuint",
+        "预设动效曲率",
+        "string",
+        "cubic-bezier(0.755, 0.05, 0.855, 0.06)"
+      ],
+      [
+        "motionEaseOutCirc",
+        "预设动效曲率",
+        "string",
+        "cubic-bezier(0.08, 0.82, 0.17, 1)"
+      ],
+      [
+        "motionEaseOutQuint",
+        "预设动效曲率",
+        "string",
+        "cubic-bezier(0.23, 1, 0.32, 1)"
+      ],
+      ["padding", "控制元素的内间距。", "number", "16"],
+      ["paddingXS", "控制元素的特小内间距。", "number", "8"],
+      ["paddingXXS", "控制元素的极小内间距。", "number", "4"],
+      ["sizePopupArrow", "组件箭头的尺寸", "number", "16"]
+    ]
+  }
+}

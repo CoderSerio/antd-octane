@@ -389,5 +389,17 @@
     "sectionIntro": {
       "SeparatorType": "```ts\nconst item = {\n  type: 'separator', // Must have\n  separator: '/',\n};\n```"
     }
+  },
+  "Dropdown": {
+    "description": "向下弹出的列表。",
+    "when": "当页面上的操作命令过多时，用此组件可以收纳操作元素。点击或移入触点，会出现一个下拉菜单。可在列表中进行选择，并执行相应的命令。\n\n- 用于收罗一组命令操作。\n- Select 用于选择，而 Dropdown 是命令集合。",
+    "sectionHeadings": {
+      "Dropdown": 3,
+      "Dropdown.Button": 3
+    },
+    "sectionIntro": {
+      "Dropdown.Button": "属性与 Dropdown 的相同。还包含以下属性："
+    },
+    "afterApi": "## 注意\n\n请确保 `Dropdown` 的子元素能接受 `onMouseEnter`、`onMouseLeave`、`onFocus`、`onClick` 事件。"
   }
 }
