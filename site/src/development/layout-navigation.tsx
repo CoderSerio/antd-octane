@@ -194,6 +194,52 @@ const previews: Record<string, Preview[]> = {
       source: () => import("./demos/pagination/align.tsx?raw"),
     },
   ],
+  steps: [
+    {
+      id: "label-placement",
+      title: "标签放置位置",
+      description: "修改标签放置位置为 `vertical`。",
+      load: () => import("./demos/steps/label-placement"),
+      source: () => import("./demos/steps/label-placement.tsx?raw"),
+    },
+
+    {
+      id: "progress-dot",
+      title: "点状步骤条",
+      description: "包含步骤点的进度条。",
+      load: () => import("./demos/steps/progress-dot"),
+      source: () => import("./demos/steps/progress-dot.tsx?raw"),
+    },
+    {
+      id: "customized-progress-dot",
+      title: "自定义点状步骤条",
+      description: "为点状步骤条增加自定义展示。",
+      load: () => import("./demos/steps/customized-progress-dot"),
+      source: () => import("./demos/steps/customized-progress-dot.tsx?raw"),
+    },
+    {
+      id: "nav",
+      title: "导航步骤",
+      description: "导航类型的步骤条。",
+      load: () => import("./demos/steps/nav"),
+      source: () => import("./demos/steps/nav.tsx?raw"),
+    },
+    {
+      id: "progress",
+      title: "带有进度的步骤",
+      description: "带有进度的步骤。",
+      load: () => import("./demos/steps/progress"),
+      source: () => import("./demos/steps/progress.tsx?raw"),
+    },
+    {
+      id: "inline",
+      title: "内联步骤",
+      description:
+        "内联类型的步骤条，适用于列表内容场景中展示对象所在流程、当前状态的情况。",
+      load: () => import("./demos/steps/inline"),
+      source: () => import("./demos/steps/inline.tsx?raw"),
+    },
+  ],
   layout: [
     {
       id: "basic",
@@ -377,6 +423,22 @@ const order: Record<string, string[]> = {
     "total",
     "all",
     "itemRender",
+  ],
+  steps: [
+    "simple",
+    "small-size",
+    "icon",
+    "step-next",
+    "vertical",
+    "vertical-small",
+    "error",
+    "progress-dot",
+    "customized-progress-dot",
+    "clickable",
+    "nav",
+    "progress",
+    "label-placement",
+    "inline",
   ],
 };
 

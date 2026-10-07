@@ -428,5 +428,18 @@
       "Pagination": 0
     },
     "apiIntro": "```jsx\n<Pagination onChange={onChange} total={50} />\n```"
+  },
+  "Steps": {
+    "description": "引导用户按照流程完成任务的导航条。",
+    "when": "当任务复杂或者存在先后关系时，将其分解成一系列步骤，从而简化任务。",
+    "sectionHeadings": {
+      "Steps": 3,
+      "`type=\"inline\"`": 3,
+      "StepItem": 3
+    },
+    "sectionIntro": {
+      "Steps": "整体步骤条。",
+      "StepItem": "步骤条内的每一个步骤。"
+    }
   }
 }

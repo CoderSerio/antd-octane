@@ -48,6 +48,45 @@ async function key(node: HTMLElement, value: string) {
   );
 }
 
+it("Menu collapsed dimensions and Steps spacing follow compact tokens", async () => {
+  await render(
+    <ConfigProvider theme={{ algorithm: theme.compactAlgorithm }}>
+      <Menu
+        mode="inline"
+        inlineCollapsed
+        items={[{ key: "one", label: "One" }]}
+      />
+      <Steps
+        type="inline"
+        current={1}
+        items={[
+          { title: "One", description: "One" },
+          { title: "Two", description: "Two" },
+          { title: "Three", description: "Three" },
+        ]}
+      />
+    </ConfigProvider>,
+  );
+  const menu = container.querySelector<HTMLElement>(".ant-menu-root");
+  expect(menu?.style.getPropertyValue("--ao-menu-collapsed-width")).toBe(
+    "70px",
+  );
+  expect(menu?.style.getPropertyValue("--ao-menu-collapsed-icon-size")).toBe(
+    "14px",
+  );
+  const steps = container.querySelector<HTMLElement>(".ant-steps");
+  expect(steps?.style.getPropertyValue("--ao-steps-xs")).toBe("4px");
+  expect(steps?.style.getPropertyValue("--ao-steps-inline-font")).toBe("10px");
+  expect(container.querySelectorAll(".ant-steps-item-first")).toHaveLength(1);
+  expect(container.querySelectorAll(".ant-steps-item-last")).toHaveLength(1);
+  expect(
+    container.querySelector(".ant-steps-item-first")?.textContent,
+  ).toContain("One");
+  expect(
+    container.querySelector(".ant-steps-item-last")?.textContent,
+  ).toContain("Three");
+});
+
 it("Pagination simple slash and mini jump sizes retain their upstream spacing", async () => {
   await render(
     <Pagination total={500} defaultCurrent={3} simple={{ readOnly: true }} />,
@@ -535,4 +574,54 @@ it("Pagination defers blur when a go button is configured", async () => {
   expect(change).not.toHaveBeenCalled();
   await act(() => button("confirm").click());
   expect(change).toHaveBeenCalledWith(4, 10);
+});
+it("Steps supports custom dots, progress circles, inline overrides and legacy Step", async () => {
+  const dot = vi.fn((_node, info) => <b>{info.index}</b>);
+  await render(
+    <Steps
+      initial={2}
+      current={3}
+      progressDot={dot}
+      items={[{ title: "First" }, { title: "Second" }]}
+      responsive={false}
+    />,
+  );
+  expect(dot).toHaveBeenCalledWith(
+    expect.anything(),
+    expect.objectContaining({ index: 3, status: "process" }),
+  );
+  await act(() =>
+    root?.render(
+      <Steps
+        current={1}
+        percent={75}
+        items={[{ title: "First" }, { title: "Second" }]}
+        responsive={false}
+      />,
+    ),
+  );
+  expect(
+    container
+      .querySelector('.ant-steps-progress-icon [role="progressbar"]')
+      ?.getAttribute("aria-valuenow"),
+  ).toBe("75");
+  await act(() =>
+    root?.render(
+      <Steps type="inline" direction="vertical" percent={80}>
+        <Steps.Step
+          title="First"
+          description="Details"
+          icon="Icon"
+          subTitle="Subtitle"
+        />
+      </Steps>,
+    ),
+  );
+  expect(
+    container.querySelector(
+      ".ant-steps-horizontal.ant-steps-inline.ant-steps-dot",
+    ),
+  ).not.toBeNull();
+  expect(container.textContent).not.toContain("Icon");
+  expect(container.textContent).not.toContain("Subtitle");
 });

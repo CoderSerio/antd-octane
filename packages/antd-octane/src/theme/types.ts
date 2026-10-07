@@ -236,8 +236,18 @@ export interface ThemeConfig {
       separatorMargin: number;
     }>;
     Steps?: ComponentTheme<{
+      dotSize: number;
+      dotCurrentSize: number;
+      navArrowColor: string;
+      navContentMaxWidth: number | string;
+      inlineDotSize: number;
+      inlineTitleColor: string;
+      inlineTailColor: string;
       iconSize: number;
       iconSizeSM: number;
+      customIconSize: number;
+      customIconFontSize: number;
+      customIconTop: number;
       descriptionMaxWidth: number;
     }>;
     Pagination?: ComponentTheme<{
