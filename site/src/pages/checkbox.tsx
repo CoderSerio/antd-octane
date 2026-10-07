@@ -11,7 +11,6 @@ export default function CheckboxPage({ section }: { section?: string }) {
     <>
       <h1>
         Checkbox <span>多选框</span>
-        <small>Alpha</small>
       </h1>
       <p className="lead">在一组选项中进行多项选择。</p>
       <DocMeta name="Checkbox" />
