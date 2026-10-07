@@ -11,8 +11,7 @@
     "jsx": "react-jsx",
     "jsxImportSource": "octane",
     "noEmit": true,
-    "types": ["node", "vite/client"],
-    "paths": { "antd-octane": ["./packages/antd-octane/src/index.ts"] }
+    "types": ["node", "vite/client"]
   },
   "include": ["packages", "site", "tests", "vitest.config.ts"]
 }
