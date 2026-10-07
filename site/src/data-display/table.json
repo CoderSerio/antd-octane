@@ -345,12 +345,6 @@
           "展开的行变化时触发",
           "function(expandedRows)",
           "-"
-        ],
-        [
-          "~~expandedRowOffset~~",
-          "废弃：展开行的偏移列数，设置后会强制将其前面的列设为固定列。请改用 `Table.EXPAND_COLUMN` 并通过列顺序控制位置",
-          "number",
-          "-"
         ]
       ]
     },
