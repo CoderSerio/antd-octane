@@ -60,6 +60,8 @@ export type RenderEmptyHandler = (componentName?: string) => OctaneNode;
 
 /** Component defaults follow components/config-provider/context.ts in antd 5.29.3. */
 export interface ConfigComponentProps {
+  pagination?: ComponentStyleConfig &
+    Pick<import("../pagination").PaginationProps, "showSizeChanger">;
   menu?: ComponentStyleConfig;
   dropdown?: ComponentStyleConfig;
   breadcrumb?: ComponentStyleConfig;

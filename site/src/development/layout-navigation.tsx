@@ -177,6 +177,23 @@ const previews: Record<string, Preview[]> = {
       source: () => import("./demos/menu/switch-mode.tsx?raw"),
     },
   ],
+  pagination: [
+    {
+      id: "simple",
+      title: "简洁",
+      description: "简单的翻页。",
+      load: () => import("./demos/pagination/simple"),
+      source: () => import("./demos/pagination/simple.tsx?raw"),
+    },
+
+    {
+      id: "align",
+      title: "方向",
+      description: "",
+      load: () => import("./demos/pagination/align"),
+      source: () => import("./demos/pagination/align.tsx?raw"),
+    },
+  ],
   layout: [
     {
       id: "basic",
@@ -347,6 +364,19 @@ const order: Record<string, string[]> = {
     "theme",
     "submenu-theme",
     "switch-mode",
+  ],
+  pagination: [
+    "basic",
+    "align",
+    "more",
+    "changer",
+    "jump",
+    "mini",
+    "simple",
+    "controlled",
+    "total",
+    "all",
+    "itemRender",
   ],
 };
 

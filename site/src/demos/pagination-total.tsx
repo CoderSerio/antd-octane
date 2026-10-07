@@ -1,19 +1,23 @@
-import { Pagination, Space } from "antd-octane";
+import { Pagination } from "antd-octane";
 
 export function TotalDemo() {
   return (
-    <Space direction="vertical" size="large" style={{ width: "100%" }}>
+    <>
       <Pagination
         total={85}
-        showSizeChanger={false}
-        showTotal={(total) => `共 ${total} 条`}
-      />
-      <Pagination
-        total={85}
+        showTotal={(total) => `Total ${total} items`}
         defaultPageSize={20}
-        showSizeChanger={false}
-        showTotal={(total, range) => `${range[0]}–${range[1]} / ${total} 条`}
+        defaultCurrent={1}
       />
-    </Space>
+      <br />
+      <Pagination
+        total={85}
+        showTotal={(total, range) =>
+          `${range[0]}-${range[1]} of ${total} items`
+        }
+        defaultPageSize={20}
+        defaultCurrent={1}
+      />
+    </>
   );
 }

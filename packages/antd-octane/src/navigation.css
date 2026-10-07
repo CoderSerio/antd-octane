@@ -255,11 +255,88 @@
   :where(.ant-pagination ul) {
     gap: var(--ao-pagination-gap);
   }
-  :where(.ant-pagination-entry) {
-    display: inline-flex;
-    gap: var(--ao-pagination-gap);
+  :where(.ant-pagination-center ul) {
+    justify-content: center;
   }
-  :where(.ant-pagination button) {
+  :where(.ant-pagination-end ul) {
+    justify-content: flex-end;
+  }
+  :where(.ant-pagination-prev .anticon, .ant-pagination-next .anticon) {
+    font-size: 12px;
+  }
+  :where(.ant-pagination-size-changer-wrap) {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    height: var(--ao-pagination-size);
+  }
+  :where(.ant-pagination-size-changer-measure) {
+    display: inline-block;
+    padding-inline-start: var(--ao-pagination-measure-padding);
+    padding-inline-end: calc(
+      var(--ao-pagination-measure-padding) +
+      var(--ao-pagination-measure-arrow)
+    );
+    border: 1px solid transparent;
+    visibility: hidden;
+    white-space: pre;
+  }
+  :where(.ant-pagination-size-changer-wrap > .ant-select) {
+    position: absolute;
+    inset: 0;
+  }
+  :where(.ant-pagination-rtl .ant-pagination-size-changer > input) {
+    direction: ltr;
+    text-align: right;
+    padding-inline-start: 18px;
+    padding-inline-end: 0;
+  }
+  :where(.ant-pagination-options-quick-jumper) {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  :where(.ant-pagination-item-container) {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  :where(.ant-pagination-item-link-icon) {
+    position: absolute;
+    color: var(--ao-primary);
+    font-size: 12px;
+    opacity: 0;
+  }
+  :where(.ant-pagination-item-ellipsis) {
+    letter-spacing: 2px;
+    color: var(--ao-muted);
+  }
+  :where(.ant-pagination-jump:hover .ant-pagination-item-link-icon) {
+    opacity: 1;
+  }
+  :where(.ant-pagination-jump:hover .ant-pagination-item-ellipsis) {
+    opacity: 0;
+  }
+  @media only screen and (max-width: 992px) {
+    :where(
+        .ant-pagination-item-after-jump-prev,
+        .ant-pagination-item-before-jump-next
+      ) {
+      display: none;
+    }
+  }
+  @media only screen and (max-width: 576px) {
+    :where(.ant-pagination-options, .ant-pagination-options-quick-jumper) {
+      display: none;
+    }
+  }
+  :where(
+      .ant-pagination-prev > .ant-pagination-item-link,
+      .ant-pagination-next > .ant-pagination-item-link,
+      .ant-pagination-item > .ant-pagination-item-link,
+      .ant-pagination-jump > .ant-pagination-item-link
+    ) {
     box-sizing: border-box;
     display: inline-flex;
     align-items: center;
@@ -275,46 +352,112 @@
     line-height: calc(var(--ao-pagination-size) - 2px);
     cursor: pointer;
   }
-  :where(.ant-pagination button:hover) {
+  :where(
+      .ant-pagination-prev > .ant-pagination-item-link:hover,
+      .ant-pagination-next > .ant-pagination-item-link:hover,
+      .ant-pagination-item > .ant-pagination-item-link:hover,
+      .ant-pagination-jump > .ant-pagination-item-link:hover
+    ) {
     background: var(--ao-pagination-hover);
   }
-  :where(.ant-pagination-item button) {
+  :where(.ant-pagination-item > .ant-pagination-item-link) {
     background: var(--ao-pagination-bg);
   }
-  :where(.ant-pagination-item-active button) {
+  :where(
+      .ant-pagination-prev > a.ant-pagination-item-link,
+      .ant-pagination-next > a.ant-pagination-item-link
+    ) {
+    padding-inline: 0;
+    border: 0;
+    line-height: var(--ao-pagination-size);
+    color: var(--ao-pagination-link);
+  }
+  :where(.ant-pagination-jump > .ant-pagination-item-link) {
+    width: var(--ao-pagination-size);
+    padding-inline: 0;
+  }
+  :where(
+      .ant-pagination-prev > a.ant-pagination-item-link:hover,
+      .ant-pagination-next > a.ant-pagination-item-link:hover
+    ) {
+    background: transparent;
+    color: var(--ao-pagination-link-hover);
+  }
+  :where(.ant-pagination-item-active > .ant-pagination-item-link) {
     background: var(--ao-pagination-active-bg);
     border-color: var(--ao-primary);
     color: var(--ao-primary);
     font-weight: 600;
   }
-  :where(.ant-pagination button:disabled) {
+  :where(
+      .ant-pagination button:disabled,
+      .ant-pagination .ant-pagination-item-link[aria-disabled="true"]
+    ) {
     color: var(--ao-pagination-disabled);
     cursor: not-allowed;
   }
-  :where(.ant-pagination-disabled .ant-pagination-item-active button) {
+  :where(
+      .ant-pagination-disabled
+        .ant-pagination-item-active
+        > .ant-pagination-item-link
+    ) {
     background: var(--ao-pagination-disabled-bg);
     border-color: var(--ao-border);
   }
-  :where(.ant-pagination input, .ant-pagination select) {
+  :where(
+      .ant-pagination-options-quick-jumper input,
+      .ant-pagination-simple-pager input
+    ) {
     box-sizing: border-box;
     height: var(--ao-pagination-size);
     padding: 0 7px;
-    border: 1px solid var(--ao-border);
+    border: 1px solid var(--ao-pagination-input-border);
     border-radius: var(--ao-pagination-radius);
     background: var(--ao-bg);
     color: var(--ao-text);
     font: inherit;
   }
-  :where(.ant-pagination input) {
+  :where(
+      .ant-pagination-options-quick-jumper input,
+      .ant-pagination-simple-pager input
+    ) {
     width: 50px;
   }
   :where(.ant-pagination-simple-pager) {
     display: flex;
     align-items: center;
-    gap: 8px;
+    height: var(--ao-pagination-size);
+  }
+  :where(.ant-pagination-slash) {
+    margin-inline: var(--ao-pagination-slash-margin);
+  }
+  :where(.ant-pagination-simple-pager input) {
+    text-align: center;
+  }
+  :where(.ant-pagination-mini ul) {
+    gap: 0;
+  }
+  :where(.ant-pagination-options) {
+    margin-inline-start: var(--ao-pagination-gap);
+  }
+  :where(
+      .ant-pagination-mini .ant-pagination-prev > .ant-pagination-item-link,
+      .ant-pagination-mini .ant-pagination-next > .ant-pagination-item-link
+    ) {
+    padding-inline: 0;
+    width: var(--ao-pagination-size);
+  }
+  :where(
+      .ant-pagination-mini .ant-pagination-jump > .ant-pagination-item-link
+    ) {
+    width: var(--ao-pagination-normal-size);
+  }
+  :where(.ant-pagination-mini .ant-pagination-options) {
+    margin-inline-start: 2px;
   }
   :where(
       .ant-pagination button:focus-visible,
+      .ant-pagination .ant-pagination-item-link:focus-visible,
       .ant-pagination input:focus-visible,
       .ant-pagination select:focus-visible,
       .ant-breadcrumb a:focus-visible,

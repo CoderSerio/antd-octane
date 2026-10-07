@@ -48,6 +48,24 @@ async function key(node: HTMLElement, value: string) {
   );
 }
 
+it("Pagination simple slash and mini jump sizes retain their upstream spacing", async () => {
+  await render(
+    <Pagination total={500} defaultCurrent={3} simple={{ readOnly: true }} />,
+  );
+  expect(container.querySelector(".ant-pagination-slash")?.textContent).toBe(
+    "/",
+  );
+  expect(
+    container.querySelector(".ant-pagination-simple-pager input"),
+  ).toBeNull();
+  await act(() => root?.render(<Pagination size="small" total={500} />));
+  const pager = container.querySelector<HTMLElement>(".ant-pagination");
+  expect(pager?.style.getPropertyValue("--ao-pagination-size")).toBe("24px");
+  expect(pager?.style.getPropertyValue("--ao-pagination-normal-size")).toBe(
+    "32px",
+  );
+});
+
 it("standalone Breadcrumb separators keep their own slash default", async () => {
   await render(
     <Breadcrumb
@@ -66,6 +84,119 @@ it("standalone Breadcrumb separators keep their own slash default", async () => 
       (node) => node.textContent,
     ),
   ).toEqual([":", "/"]);
+});
+
+it("Pagination itemRender replaces the control structure without nesting buttons", async () => {
+  const change = vi.fn();
+  const renderItem = vi.fn((_page, type, original) =>
+    type === "next" ? <a href="#next">Next</a> : original,
+  );
+  await render(
+    <Pagination
+      total={100}
+      showSizeChanger={false}
+      itemRender={renderItem}
+      onChange={change}
+    />,
+  );
+  const next = container.querySelector<HTMLAnchorElement>(
+    ".ant-pagination-next > a",
+  );
+  expect(next).not.toBeNull();
+  expect(container.querySelector("button a, button button")).toBeNull();
+  expect(renderItem.mock.calls[0][2].type).toBe("button");
+  await key(next as HTMLElement, "Enter");
+  expect(change).toHaveBeenCalledExactlyOnceWith(2, 10);
+  await act(() =>
+    root?.render(
+      <Pagination
+        total={100}
+        disabled
+        itemRender={renderItem}
+        onChange={change}
+      />,
+    ),
+  );
+  await act(() =>
+    container
+      .querySelector<HTMLAnchorElement>(".ant-pagination-next > a")
+      ?.click(),
+  );
+  expect(change).toHaveBeenCalledTimes(1);
+});
+it("Pagination preserves supplied size-option order and custom go-button nodes", async () => {
+  const change = vi.fn();
+  await render(
+    <Pagination
+      total={200}
+      showSizeChanger
+      pageSizeOptions={[50, 10, 20]}
+      showQuickJumper={{ goButton: <button type="button">Go</button> }}
+      onChange={change}
+    />,
+  );
+  expect(container.querySelector("button button")).toBeNull();
+  const input = container.querySelector<HTMLInputElement>(
+    '[aria-label="跳转页码"]',
+  );
+  await act(() => {
+    if (!input) throw Error("Missing jumper");
+    input.value = "4";
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+  });
+  await act(() => button("Go").click());
+  expect(change).toHaveBeenCalledExactlyOnceWith(4, 10);
+  await act(() =>
+    container.querySelector<HTMLInputElement>('[role="combobox"]')?.click(),
+  );
+  expect(
+    [...container.querySelectorAll('[role="option"]')].map(
+      (n) => n.textContent,
+    ),
+  ).toEqual(["50 / page", "10 / page", "20 / page"]);
+});
+it("Pagination discards a pending quick jump when focus moves to a page control", async () => {
+  const change = vi.fn();
+  await render(<Pagination total={200} showQuickJumper onChange={change} />);
+  const input = container.querySelector<HTMLInputElement>(
+    '[aria-label="跳转页码"]',
+  );
+  await act(() => {
+    if (!input) throw Error("Missing jumper");
+    input.value = "9";
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+  });
+  await act(() =>
+    input?.dispatchEvent(
+      new FocusEvent("focusout", {
+        bubbles: true,
+        relatedTarget: container.querySelector(".ant-pagination-next button"),
+      }),
+    ),
+  );
+  expect(change).not.toHaveBeenCalled();
+  expect(input?.value).toBe("");
+});
+it("Pagination can clone the original control without duplicate change events", async () => {
+  const change = vi.fn();
+  await render(
+    <Pagination
+      total={100}
+      showSizeChanger={false}
+      itemRender={(_page, _type, original) =>
+        cloneElement(original as ElementDescriptor, {
+          className: "custom-control",
+        })
+      }
+      onChange={change}
+    />,
+  );
+  await act(() =>
+    container
+      .querySelector<HTMLButtonElement>(".ant-pagination-next button")
+      ?.click(),
+  );
+  expect(change).toHaveBeenCalledExactlyOnceWith(2, 10);
 });
 it("Menu keeps custom links outside buttons and suppresses disabled link navigation", async () => {
   const change = vi.fn();
@@ -359,4 +490,49 @@ it("Menu collapse restores inline open keys, accepts dark tokens and custom expa
     ),
   );
   expect(container.querySelector(".ant-menu-sub")).not.toBeNull();
+});
+it("Pagination renders all small page counts, read-only simple mode and configured size changer", async () => {
+  await render(
+    <ConfigProvider
+      componentSize="small"
+      pagination={{ showSizeChanger: { showSearch: false } }}
+    >
+      <Pagination total={70} align="end" showTitle={false} />
+    </ConfigProvider>,
+  );
+  expect(container.querySelectorAll(".ant-pagination-item")).toHaveLength(7);
+  expect(
+    container.querySelector(".ant-pagination-mini.ant-pagination-end"),
+  ).not.toBeNull();
+  expect(
+    container.querySelector('[aria-label="Next Page"]')?.hasAttribute("title"),
+  ).toBe(false);
+  expect(container.querySelector('[role="combobox"]')).not.toBeNull();
+  await act(() =>
+    root?.render(<Pagination total={50} simple={{ readOnly: true }} />),
+  );
+  expect(container.querySelector("input")).toBeNull();
+});
+it("Pagination defers blur when a go button is configured", async () => {
+  const change = vi.fn();
+  await render(
+    <Pagination
+      total={100}
+      showSizeChanger={false}
+      showQuickJumper={{ goButton: true }}
+      onChange={change}
+    />,
+  );
+  const input = container.querySelector<HTMLInputElement>("input");
+  if (!input) throw Error("Missing input");
+  await act(() => {
+    input.value = "4";
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+  });
+  await act(() =>
+    input.dispatchEvent(new FocusEvent("focusout", { bubbles: true })),
+  );
+  expect(change).not.toHaveBeenCalled();
+  await act(() => button("confirm").click());
+  expect(change).toHaveBeenCalledWith(4, 10);
 });
