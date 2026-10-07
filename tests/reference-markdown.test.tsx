@@ -26,6 +26,28 @@ afterEach(async () => {
   host?.remove();
 });
 
+it("preserves Grid's upstream design illustration before its overview and demos", async () => {
+  await render(<GridPage />);
+  expect(
+    [...host.querySelectorAll("h2")]
+      .slice(0, 3)
+      .map((node) => node.textContent),
+  ).toEqual(["设计理念", "概述", "代码演示"]);
+  const image = host.querySelector<HTMLImageElement>('img[alt="grid design"]');
+  expect(image?.getAttribute("src")).toBe(
+    "https://gw.alipayobjects.com/zos/bmw-prod/9189c9ef-c601-40dc-9960-c11dbb681888.svg",
+  );
+  expect(image?.getAttribute("draggable")).toBe("false");
+  expect(host.textContent).toContain(
+    "建议横向排列的盒子数量最多四个，最少一个",
+  );
+  expect(
+    readPageToc(host)
+      .slice(0, 3)
+      .map(({ title }) => title),
+  ).toEqual(["设计理念", "概述", "代码演示"]);
+});
+
 it("keeps a document image separate from adjacent paragraphs and resolves its URL", async () => {
   await render(
     <ReferenceMarkdown

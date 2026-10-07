@@ -1,39 +1,68 @@
-import { Col, Row, Space } from "antd-octane";
-import { useState } from "octane";
+import { Col, Divider, Row } from "antd-octane";
+import type { CSSProperties } from "octane";
+
+const style: CSSProperties = { background: "#0092ff", padding: "8px 0" };
 
 export function SpacingDemo() {
-  const [gutter, setGutter] = useState(16);
   return (
-    <Space direction="vertical" style={{ width: "100%" }}>
-      <label>
-        区块间隔：{gutter}px{" "}
-        <input
-          type="range"
-          min={0}
-          max={32}
-          step={8}
-          value={gutter}
-          onInput={(event) =>
-            setGutter(Number((event.target as HTMLInputElement).value))
-          }
-        />
-      </label>
-      <Row gutter={[gutter, gutter]}>
-        {[1, 2, 3, 4, 5, 6].map((number) => (
-          <Col key={number} span={8}>
-            <div
-              style={{
-                padding: 12,
-                textAlign: "center",
-                color: "#fff",
-                background: "#1677ff",
-              }}
-            >
-              col-8
-            </div>
-          </Col>
-        ))}
+    <>
+      <Divider orientation="left">Horizontal</Divider>
+      <Row gutter={16}>
+        <Col className="gutter-row" span={6}>
+          <div style={style}>col-6</div>
+        </Col>
+        <Col className="gutter-row" span={6}>
+          <div style={style}>col-6</div>
+        </Col>
+        <Col className="gutter-row" span={6}>
+          <div style={style}>col-6</div>
+        </Col>
+        <Col className="gutter-row" span={6}>
+          <div style={style}>col-6</div>
+        </Col>
       </Row>
-    </Space>
+      <Divider orientation="left">Responsive</Divider>
+      <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+        <Col className="gutter-row" span={6}>
+          <div style={style}>col-6</div>
+        </Col>
+        <Col className="gutter-row" span={6}>
+          <div style={style}>col-6</div>
+        </Col>
+        <Col className="gutter-row" span={6}>
+          <div style={style}>col-6</div>
+        </Col>
+        <Col className="gutter-row" span={6}>
+          <div style={style}>col-6</div>
+        </Col>
+      </Row>
+      <Divider orientation="left">Vertical</Divider>
+      <Row gutter={[16, 24]}>
+        <Col className="gutter-row" span={6}>
+          <div style={style}>col-6</div>
+        </Col>
+        <Col className="gutter-row" span={6}>
+          <div style={style}>col-6</div>
+        </Col>
+        <Col className="gutter-row" span={6}>
+          <div style={style}>col-6</div>
+        </Col>
+        <Col className="gutter-row" span={6}>
+          <div style={style}>col-6</div>
+        </Col>
+        <Col className="gutter-row" span={6}>
+          <div style={style}>col-6</div>
+        </Col>
+        <Col className="gutter-row" span={6}>
+          <div style={style}>col-6</div>
+        </Col>
+        <Col className="gutter-row" span={6}>
+          <div style={style}>col-6</div>
+        </Col>
+        <Col className="gutter-row" span={6}>
+          <div style={style}>col-6</div>
+        </Col>
+      </Row>
+    </>
   );
 }

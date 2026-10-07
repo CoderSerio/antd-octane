@@ -1,33 +1,60 @@
-import { Col, Row, Space } from "antd-octane";
+import { Col, Divider, Row } from "antd-octane";
+import type { OctaneNode } from "octane";
+
+function DemoBox(props: { value: number; children: OctaneNode }) {
+  return <p className={`height-${props.value}`}>{props.children}</p>;
+}
 
 export function AlignmentDemo() {
   return (
-    <Space direction="vertical" size="middle" style={{ width: "100%" }}>
-      {(["top", "middle", "bottom"] as const).map((align) => (
-        <div key={align}>
-          <p>align="{align}"，justify="space-around"</p>
-          <Row
-            align={align}
-            justify="space-around"
-            style={{ height: 120, background: "var(--subtle)" }}
-          >
-            {[40, 70, 100].map((height) => (
-              <Col key={height} span={6}>
-                <div
-                  style={{
-                    height,
-                    padding: 8,
-                    color: "#fff",
-                    background: "#1677ff",
-                  }}
-                >
-                  {height}px
-                </div>
-              </Col>
-            ))}
-          </Row>
-        </div>
-      ))}
-    </Space>
+    <>
+      <Divider orientation="left">Align Top</Divider>
+      <Row justify="center" align="top">
+        <Col span={4}>
+          <DemoBox value={100}>col-4</DemoBox>
+        </Col>
+        <Col span={4}>
+          <DemoBox value={50}>col-4</DemoBox>
+        </Col>
+        <Col span={4}>
+          <DemoBox value={120}>col-4</DemoBox>
+        </Col>
+        <Col span={4}>
+          <DemoBox value={80}>col-4</DemoBox>
+        </Col>
+      </Row>
+
+      <Divider orientation="left">Align Middle</Divider>
+      <Row justify="space-around" align="middle">
+        <Col span={4}>
+          <DemoBox value={100}>col-4</DemoBox>
+        </Col>
+        <Col span={4}>
+          <DemoBox value={50}>col-4</DemoBox>
+        </Col>
+        <Col span={4}>
+          <DemoBox value={120}>col-4</DemoBox>
+        </Col>
+        <Col span={4}>
+          <DemoBox value={80}>col-4</DemoBox>
+        </Col>
+      </Row>
+
+      <Divider orientation="left">Align Bottom</Divider>
+      <Row justify="space-between" align="bottom">
+        <Col span={4}>
+          <DemoBox value={100}>col-4</DemoBox>
+        </Col>
+        <Col span={4}>
+          <DemoBox value={50}>col-4</DemoBox>
+        </Col>
+        <Col span={4}>
+          <DemoBox value={120}>col-4</DemoBox>
+        </Col>
+        <Col span={4}>
+          <DemoBox value={80}>col-4</DemoBox>
+        </Col>
+      </Row>
+    </>
   );
 }

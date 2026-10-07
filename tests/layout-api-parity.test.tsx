@@ -133,6 +133,73 @@ it("Divider maps physical positions in RTL and applies numeric strings to the te
   expect(dividers[2].style.getPropertyValue("--ao-divider-edge")).toBe("5%");
 });
 
+it("Grid accepts CSS gutters and exposes native Row and Col refs", async () => {
+  let row: HTMLDivElement | null = null;
+  let col: HTMLDivElement | null = null;
+  await render(
+    <ConfigProvider
+      prefixCls="custom"
+      row={{ className: "configured-row" }}
+      col={{ style: { color: "red" } }}
+    >
+      <Row
+        gutter={["2rem", "1em"]}
+        ref={(node) => {
+          row = node;
+        }}
+      >
+        <Col
+          span={12}
+          ref={(node) => {
+            col = node;
+          }}
+        >
+          A
+        </Col>
+        <Col span={12}>B</Col>
+      </Row>
+    </ConfigProvider>,
+  );
+  const rowElement = container.querySelector<HTMLElement>(".ant-row");
+  const colElement = container.querySelector<HTMLElement>(".ant-col");
+  expect(rowElement).toBe(row);
+  expect(colElement).toBe(col);
+  expect(rowElement?.classList.contains("custom-row")).toBe(true);
+  expect(rowElement?.classList.contains("configured-row")).toBe(true);
+  expect(rowElement?.style.marginInline).toBe("calc(2rem / -2)");
+  expect(rowElement?.style.rowGap).toBe("1em");
+  expect(colElement?.style.paddingInline).toBe("calc(2rem / 2)");
+  expect(colElement?.style.color).toBe("red");
+});
+
+it("Grid accepts numeric string spans and responsive string spans", async () => {
+  vi.stubGlobal("matchMedia", (query: string) => ({
+    matches: query.includes("max-width"),
+    addEventListener() {},
+    removeEventListener() {},
+  }));
+  await render(
+    <Row>
+      <Col span="12" offset="6">
+        Numeric strings
+      </Col>
+    </Row>,
+  );
+  const col = container.querySelector<HTMLElement>(".ant-col");
+  expect(col?.style.flex).toBe("0 0 50%");
+  expect(col?.style.marginInlineStart).toBe("25%");
+  await act(() =>
+    root?.render(
+      <Row>
+        <Col xs="8">Responsive string</Col>
+      </Row>,
+    ),
+  );
+  expect(container.querySelector<HTMLElement>(".ant-col")?.style.flex).toBe(
+    "0 0 33.33333333333333%",
+  );
+});
+
 function splitterDimension() {
   vi.spyOn(HTMLElement.prototype, "clientWidth", "get").mockReturnValue(600);
   vi.spyOn(HTMLElement.prototype, "clientHeight", "get").mockReturnValue(300);

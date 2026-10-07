@@ -14,6 +14,16 @@ interface Preview {
 }
 
 const previews: Record<string, Preview[]> = {
+  grid: [
+    {
+      id: "gutter",
+      title: "区块间隔",
+      description:
+        "栅格常常需要和间隔进行配合，你可以使用 `Row` 的 `gutter` 属性，我们推荐使用 `(16+8n)px` 作为栅格间隔(n 是自然数)。\n\n如果要支持响应式，可以写成 `{ xs: 8, sm: 16, md: 24, lg: 32 }`。\n\n如果需要垂直间距，可以写成数组形式 `[水平间距, 垂直间距]` `[16, { xs: 8, sm: 16, md: 24, lg: 32 }]`。\n\n`Row` 的 `gutter` 属性可以设置为[字符串CSS单位](https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Values_and_Units)，例如：`px`、`rem`、`vw`、`vh` 等。",
+      load: () => import("./demos/grid/gutter"),
+      source: () => import("./demos/grid/gutter.tsx?raw"),
+    },
+  ],
   divider: [
     {
       id: "size",
@@ -36,6 +46,21 @@ const previews: Record<string, Preview[]> = {
 const order: Record<string, string[]> = {
   divider: ["basic", "orientation", "size", "plain", "vertical", "variant"],
   flex: ["basic", "alignment", "gap", "wrapping", "combination"],
+  grid: [
+    "basic",
+    "gutter",
+    "offset",
+    "sort",
+    "flex",
+    "flex-align",
+    "flex-order",
+    "flex-stretch",
+    "responsive",
+    "responsive-flex",
+    "responsive-more",
+    "playground",
+    "useBreakpoint",
+  ],
 };
 
 export async function augmentExamples(
