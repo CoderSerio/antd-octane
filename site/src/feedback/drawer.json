@@ -40,12 +40,6 @@
           "OctaneNode",
           "<CloseOutlined />"
         ],
-        [
-          "~~destroyOnClose~~",
-          "关闭时销毁 Drawer 里的子元素",
-          "boolean",
-          "false"
-        ],
         ["destroyOnHidden", "关闭时销毁 Drawer 里的子元素", "boolean", "false"],
         ["extra", "抽屉右上角的操作区域", "OctaneNode", "-"],
         ["footer", "抽屉的页脚", "OctaneNode", "-"],
