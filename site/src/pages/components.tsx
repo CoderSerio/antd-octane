@@ -64,7 +64,6 @@ import { BasicDemo as PreviewNotification } from "../demos/notification-basic";
 import { BasicDemo as PreviewPopconfirm } from "../demos/popconfirm-basic";
 import { BasicDemo as PreviewTour } from "../demos/tour-basic";
 import { usePageAnchor } from "../docs-ui";
-import { nav, orderComponentGroup } from "../navigation";
 
 function Preview({ name }: { name: string }) {
   switch (name) {
@@ -454,12 +453,7 @@ export default function ComponentsPage({ section }: { section?: string }) {
         ["feedback", "反馈"],
         ["other", "其他"],
       ].map(([id, group]) => {
-        const items = orderComponentGroup(
-          nav.filter(
-            (item) => item.category === "components" && item.group === group,
-          ),
-          group,
-        );
+        const items = componentCoverage.filter((item) => item.group === group);
         return (
           <section key={id}>
             <h2 id={id} tabIndex={-1}>
@@ -467,13 +461,26 @@ export default function ComponentsPage({ section }: { section?: string }) {
             </h2>
             <div className="component-catalog">
               {items.map((item) => (
-                <section key={item.id} className="component-card">
+                <section
+                  key={item.name}
+                  className={`component-card${item.implemented ? "" : " is-unavailable"}`}
+                >
                   <div className="component-preview">
-                    <Preview name={item.id} />
+                    {item.implemented && item.pageId ? (
+                      <Preview name={item.pageId} />
+                    ) : (
+                      <span className="component-preview-placeholder">
+                        上游参考
+                      </span>
+                    )}
                   </div>
-                  <a href={`#${item.id}`}>
+                  <a
+                    href={item.href ?? item.upstream}
+                    target={item.href ? undefined : "_blank"}
+                    rel={item.href ? undefined : "noreferrer"}
+                  >
                     <strong>{item.title}</strong>
-                    <span>查看文档 →</span>
+                    <span>{item.href ? "查看文档 →" : "上游文档 ↗"}</span>
                   </a>
                 </section>
               ))}
