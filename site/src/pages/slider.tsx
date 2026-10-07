@@ -9,7 +9,6 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Slider <span>滑动输入条</span>
-        <small>Alpha</small>
       </h1>
       <p className="lead">
         拖动滑块在数值区间中选择单值或范围，也可以使用方向键精确调整。
