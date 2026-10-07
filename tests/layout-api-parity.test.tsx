@@ -328,3 +328,135 @@ function splitterDimension() {
   vi.spyOn(HTMLElement.prototype, "clientWidth", "get").mockReturnValue(600);
   vi.spyOn(HTMLElement.prototype, "clientHeight", "get").mockReturnValue(300);
 }
+it("Splitter collapses past min and restores the previous distribution", async () => {
+  splitterDimension();
+  const onCollapse = vi.fn();
+  const onResize = vi.fn();
+  const onResizeEnd = vi.fn();
+  const onResizeStart = vi.fn();
+  await render(
+    <Splitter
+      onCollapse={onCollapse}
+      onResize={onResize}
+      onResizeEnd={onResizeEnd}
+      onResizeStart={onResizeStart}
+    >
+      <Splitter.Panel defaultSize="40%" min="20%" collapsible>
+        First
+      </Splitter.Panel>
+      <Splitter.Panel collapsible>Second</Splitter.Panel>
+    </Splitter>,
+  );
+  await act(() =>
+    container
+      .querySelector<HTMLButtonElement>('[aria-label="收起面板 1"]')
+      ?.click(),
+  );
+  expect(onCollapse).toHaveBeenLastCalledWith([true, false], [0, 600]);
+  expect(
+    container.querySelector<HTMLElement>(".ant-splitter-panel")?.style
+      .flexBasis,
+  ).toBe("0px");
+  expect(container.querySelector(".ant-splitter-panel-hidden")).not.toBeNull();
+  expect(
+    container.querySelector("[role=separator]")?.getAttribute("aria-disabled"),
+  ).toBe("true");
+  await act(() =>
+    container
+      .querySelector<HTMLButtonElement>('[aria-label="展开面板 1"]')
+      ?.click(),
+  );
+  expect(onCollapse).toHaveBeenLastCalledWith([false, false], [240, 360]);
+  expect(onResize).toHaveBeenLastCalledWith([240, 360]);
+  expect(onResizeEnd).toHaveBeenLastCalledWith([240, 360]);
+  expect(onResizeStart).not.toHaveBeenCalled();
+});
+
+it("Splitter keeps controlled panels fixed and honors icon visibility", async () => {
+  splitterDimension();
+  const onCollapse = vi.fn();
+  await render(
+    <Splitter onCollapse={onCollapse}>
+      <Splitter.Panel
+        size={200}
+        collapsible={{ end: true, showCollapsibleIcon: true }}
+      >
+        First
+      </Splitter.Panel>
+      <Splitter.Panel
+        size={400}
+        collapsible={{ start: true, showCollapsibleIcon: false }}
+      >
+        Second
+      </Splitter.Panel>
+    </Splitter>,
+  );
+  expect(
+    container.querySelectorAll(".ant-splitter-bar-collapse-bar"),
+  ).toHaveLength(2);
+  expect(
+    container.querySelectorAll(".ant-splitter-bar-collapse-bar-always-hidden"),
+  ).toHaveLength(1);
+  await act(() =>
+    container
+      .querySelector<HTMLButtonElement>('[aria-label="收起面板 1"]')
+      ?.click(),
+  );
+  expect(onCollapse).toHaveBeenCalledWith([true, false], [0, 600]);
+  expect(
+    container.querySelector<HTMLElement>(".ant-splitter-panel")?.style
+      .flexBasis,
+  ).toBe("200px");
+});
+
+it("lazy Splitter shows a constrained preview then applies size only on release", async () => {
+  splitterDimension();
+  const onResize = vi.fn();
+  const onResizeEnd = vi.fn();
+  await render(
+    <ConfigProvider direction="rtl">
+      <Splitter lazy onResize={onResize} onResizeEnd={onResizeEnd}>
+        <Splitter.Panel defaultSize="40%" max="50%">
+          First
+        </Splitter.Panel>
+        <Splitter.Panel>Second</Splitter.Panel>
+      </Splitter>
+    </ConfigProvider>,
+  );
+  const handle = container.querySelector("[role=separator]");
+  await act(() =>
+    handle?.dispatchEvent(
+      new PointerEvent("pointerdown", {
+        clientX: 100,
+        pointerId: 1,
+        button: 0,
+        bubbles: true,
+      }),
+    ),
+  );
+  await act(() =>
+    document.dispatchEvent(
+      new PointerEvent("pointermove", { clientX: 0, pointerId: 1 }),
+    ),
+  );
+  expect(
+    container.querySelector<HTMLElement>(".ant-splitter-panel")?.style
+      .flexBasis,
+  ).toBe("240px");
+  expect(
+    container.querySelector<HTMLElement>(".ant-splitter-bar-preview")?.style
+      .transform,
+  ).toBe("translateX(-60px)");
+  expect(onResize).not.toHaveBeenCalled();
+  await act(() =>
+    document.dispatchEvent(new PointerEvent("pointerup", { pointerId: 1 })),
+  );
+  expect(
+    container.querySelector<HTMLElement>(".ant-splitter-panel")?.style
+      .flexBasis,
+  ).toBe("300px");
+  expect(container.querySelector(".ant-splitter-bar-preview")).toBeNull();
+  expect(onResizeEnd).toHaveBeenCalledWith([300, 300]);
+  expect(onResize).not.toHaveBeenCalled();
+  expect(document.body.style.userSelect).toBe("");
+});

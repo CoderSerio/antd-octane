@@ -41,6 +41,46 @@ const previews: Record<string, Preview[]> = {
       source: () => import("./demos/divider/variant.tsx?raw"),
     },
   ],
+  splitter: [
+    {
+      id: "collapsible",
+      title: "可折叠",
+      description:
+        "配置 `collapsible` 提供快捷收缩能力。可以通过 `min` 限制收缩后不能通过拖拽展开。",
+      load: () => import("./demos/splitter/collapsible"),
+      source: () => import("./demos/splitter/collapsible.tsx?raw"),
+    },
+    {
+      id: "collapsibleIcon",
+      title: "可折叠图标显示",
+      description:
+        "配置 `collapsible.showCollapsibleIcon` 控制可折叠图标的显示方式。",
+      load: () => import("./demos/splitter/collapsibleIcon"),
+      source: () => import("./demos/splitter/collapsibleIcon.tsx?raw"),
+    },
+    {
+      id: "lazy",
+      title: "延迟渲染模式",
+      description:
+        "延迟渲染模式，拖拽时不会立即更新大小，而是等到松手时才更新。",
+      load: () => import("./demos/splitter/lazy"),
+      source: () => import("./demos/splitter/lazy.tsx?raw"),
+    },
+    {
+      id: "nested",
+      title: "复杂组合",
+      description: "复杂组合面板，快捷折叠，禁止改变大小",
+      load: () => import("./demos/splitter/group"),
+      source: () => import("./demos/splitter/group.tsx?raw"),
+    },
+    {
+      id: "multiple",
+      title: "多面板",
+      description: "多面板",
+      load: () => import("./demos/splitter/multiple"),
+      source: () => import("./demos/splitter/multiple.tsx?raw"),
+    },
+  ],
   layout: [
     {
       id: "basic",
@@ -156,6 +196,16 @@ const order: Record<string, string[]> = {
     "compact",
     "compact-buttons",
     "compact-vertical",
+  ],
+  splitter: [
+    "basic",
+    "controlled",
+    "more",
+    "collapsible",
+    "collapsibleIcon",
+    "multiple",
+    "nested",
+    "lazy",
   ],
 };
 

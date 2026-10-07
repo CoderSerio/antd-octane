@@ -1,3 +1,4 @@
+// Adapted from Ant Design 5.29.3 (MIT), components/splitter/demo/multiple.tsx.
 import { Flex, Splitter, Typography } from "antd-octane";
 
 const Desc = (props: Readonly<{ text?: string | number }>) => (
@@ -7,32 +8,23 @@ const Desc = (props: Readonly<{ text?: string | number }>) => (
       level={5}
       style={{ whiteSpace: "nowrap" }}
     >
-      {props.text}
+      Panel {props.text}
     </Typography.Title>
   </Flex>
 );
 
-export const BasicDemo = () => (
+const App = () => (
   <Splitter style={{ height: 200, boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)" }}>
-    <Splitter.Panel defaultSize="40%" min="20%" max="70%">
-      <Desc text="First" />
+    <Splitter.Panel collapsible>
+      <Desc text={1} />
+    </Splitter.Panel>
+    <Splitter.Panel collapsible={{ start: true }}>
+      <Desc text={2} />
     </Splitter.Panel>
     <Splitter.Panel>
-      <Desc text="Second" />
+      <Desc text={3} />
     </Splitter.Panel>
   </Splitter>
 );
 
-export const MoreDemo = () => (
-  <Splitter
-    layout="vertical"
-    style={{ height: 300, boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)" }}
-  >
-    <Splitter.Panel>
-      <Desc text="First" />
-    </Splitter.Panel>
-    <Splitter.Panel>
-      <Desc text="Second" />
-    </Splitter.Panel>
-  </Splitter>
-);
+export default App;

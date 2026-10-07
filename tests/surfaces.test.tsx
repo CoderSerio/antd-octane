@@ -42,13 +42,13 @@ it("Splitter inspects direct Panels and resizes neighbors with keyboard/minmax",
   expect(container.querySelectorAll(".ant-splitter-panel")).toHaveLength(3);
   const handles = container.querySelectorAll("[role=separator]");
   expect(handles).toHaveLength(2);
-  expect(handles[0].getAttribute("aria-valuenow")).toBe("240");
+  expect(handles[0].getAttribute("aria-valuenow")).toBe("40");
   await act(() =>
     handles[0].dispatchEvent(
       new KeyboardEvent("keydown", { key: "End", bubbles: true }),
     ),
   );
-  expect(handles[0].getAttribute("aria-valuenow")).toBe("300");
+  expect(handles[0].getAttribute("aria-valuenow")).toBe("50");
   expect(resized).toHaveBeenLastCalledWith([300, 200, 100]);
   await act(() =>
     handles[0].dispatchEvent(
@@ -73,7 +73,7 @@ it("controlled sizes reject changes without drift and disabled neighbor blocks r
     ),
   );
   expect(resized).toHaveBeenLastCalledWith([210, 390]);
-  expect(handle.getAttribute("aria-valuenow")).toBe("200");
+  expect(handle.getAttribute("aria-valuenow")).toBe("33");
   await render(
     <Splitter onResize={resized}>
       <Splitter.Panel resizable={false}>first</Splitter.Panel>
@@ -116,7 +116,7 @@ it("vertical pointer resizing cleans document listeners on unmount", async () =>
       new PointerEvent("pointermove", { clientY: 130, pointerId: 1 }),
     ),
   );
-  expect(handle.getAttribute("aria-valuenow")).toBe("180");
+  expect(handle.getAttribute("aria-valuenow")).toBe("60");
   await act(() =>
     document.dispatchEvent(new PointerEvent("pointerup", { pointerId: 1 })),
   );
@@ -135,10 +135,10 @@ it("vertical pointer resizing cleans document listeners on unmount", async () =>
   await act(() => root?.unmount());
   expect(document.body.style.userSelect).toBe("");
 });
-it("size allocation preserves constraints and percent inputs", () => {
+it("size allocation matches upstream explicit sizes, constrained empty panels and percent inputs", () => {
   expect(
     resolvePanelSizes([{ defaultSize: "25%", min: 100 }, { max: 400 }], 600),
-  ).toEqual([200, 400]);
+  ).toEqual([150, 400]);
   expect(resolvePanelSizes([{ size: 200 }, {}], 600)).toEqual([200, 400]);
 });
 it("watermark draws multiline canvas and keeps children interactive", async () => {
@@ -214,14 +214,14 @@ it("resize observer remeasures split proportions and disconnects", async () => {
       container
         .querySelector("[role=separator]")
         ?.getAttribute("aria-valuenow"),
-    ).toBe("300");
+    ).toBe("50");
     vi.spyOn(HTMLElement.prototype, "clientWidth", "get").mockReturnValue(800);
     await act(() => callback?.([], {} as ResizeObserver));
     expect(
       container
         .querySelector("[role=separator]")
         ?.getAttribute("aria-valuenow"),
-    ).toBe("400");
+    ).toBe("50");
     await act(() => root?.unmount());
     expect(disconnect).toHaveBeenCalled();
   } finally {

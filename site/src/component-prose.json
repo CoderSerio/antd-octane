@@ -353,5 +353,14 @@
     "sectionAfter": {
       "Layout.Sider": "#### breakpoint width\n\n```js\n{\n  xs: '480px',\n  sm: '576px',\n  md: '768px',\n  lg: '992px',\n  xl: '1200px',\n  xxl: '1600px',\n}\n```"
     }
+  },
+  "Splitter": {
+    "description": "自由切分指定区域",
+    "when": "- 可以水平或垂直地分隔区域。\n- 当需要自由拖拽调整各区域大小。\n- 当需要指定区域的最大最小宽高时。",
+    "sectionHeadings": {
+      "Splitter": 3,
+      "Panel": 3
+    },
+    "apiIntro": "> Splitter 组件需要通过子元素计算面板大小，因而其子元素仅支持 `Splitter.Panel`。"
   }
 }

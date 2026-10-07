@@ -37,6 +37,22 @@ export function ComponentCompatibilityNotes() {
         </p>
       </details>
       <details>
+        <summary>Splitter</summary>
+        <p>
+          未发布源码支持
+          Panel.collapsible、showCollapsibleIcon、lazy、onCollapse，
+          自定义前缀、Provider 样式和 RTL 拖拽方向。折叠可越过
+          min，展开时恢复尺寸； 分隔条数值表示累计百分比。lazy
+          在拖拽期间仅显示预览，结束时更新尺寸并调用
+          onResizeEnd。受控尺寸应由应用在对应回调中更新。
+          容器必须有可测量的宽高，子节点仅支持直接的 Splitter.Panel。
+          重叠分隔条、异常尺寸约束和跨 iframe 拖拽尚需进一步验证。
+          公共页目前保留基本用法、垂直布局、受控模式、多面板、复杂组合和禁用调整六个
+          可用案例；官方的 collapsible、collapsibleIcon 和 lazy
+          案例已在工作区源码中 完成定向对照，待发布后接入公共站点。
+        </p>
+      </details>
+      <details>
         <summary>Affix</summary>
         <p>
           未发布工作区实现按上游拆分测量工具、帧节流及主题样式，支持上、下偏移、目标滚动容器、状态回调和可取消的

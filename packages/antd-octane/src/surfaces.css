@@ -1,5 +1,8 @@
 @layer antd {
   :where(.ant-splitter) {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
     display: flex;
     width: 100%;
     height: 100%;
@@ -18,6 +21,13 @@
     box-sizing: border-box;
     scrollbar-width: thin;
     padding: 0 1px;
+  }
+  :where(.ant-splitter-panel-hidden) {
+    padding: 0;
+    overflow: hidden;
+  }
+  :where(.ant-splitter-panel:has(.ant-splitter:only-child)) {
+    overflow: hidden;
   }
   :where(.ant-splitter-bar) {
     position: relative;
@@ -55,7 +65,7 @@
     width: var(--ao-split-bar);
     height: var(--ao-split-handle);
     transform: translateY(-50%);
-    background: var(--ao-border);
+    background: var(--ao-split-handle-bg);
   }
   :where(
       .ant-splitter-bar-dragger:hover,
@@ -66,6 +76,103 @@
   :where(.ant-splitter-bar-dragger[aria-disabled="true"]) {
     cursor: default;
     pointer-events: none;
+  }
+  :where(.ant-splitter-bar-dragger[aria-disabled="true"])::after {
+    display: none;
+  }
+  :where(.ant-splitter-bar-dragger-active)::before {
+    background: var(--ao-split-active-hover);
+  }
+  :where(.ant-splitter-bar-preview) {
+    position: absolute;
+    height: 100%;
+    width: var(--ao-split-bar);
+    background: var(--ao-primary);
+    opacity: 0.2;
+    pointer-events: none;
+    z-index: 2;
+  }
+  :where(
+      .ant-splitter-vertical > .ant-splitter-bar > .ant-splitter-bar-preview
+    ) {
+    width: 100%;
+    height: var(--ao-split-bar);
+  }
+  :where(.ant-splitter-bar-collapse-bar) {
+    position: absolute;
+    top: 50%;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--ao-split-collapse-width);
+    height: var(--ao-split-collapse-height);
+    padding: 0;
+    border: 0;
+    border-radius: var(--ao-split-collapse-radius);
+    background: var(--ao-split-bg);
+    color: var(--ao-text);
+    font-size: var(--ao-split-collapse-width);
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(-50%);
+  }
+  :where(.ant-splitter-bar-collapse-bar-start) {
+    right: calc(var(--ao-split-trigger) / 2);
+  }
+  :where(.ant-splitter-bar-collapse-bar-end) {
+    left: calc(var(--ao-split-trigger) / 2);
+  }
+  :where(
+      .ant-splitter-bar-collapse-bar:hover,
+      .ant-splitter-bar-collapse-bar:focus-visible
+    ) {
+    background: var(--ao-split-active);
+    opacity: 1;
+  }
+  :where(.ant-splitter-bar-collapse-bar:active) {
+    background: var(--ao-split-active-hover);
+  }
+  :where(.ant-splitter-bar-collapse-bar-always-hidden) {
+    display: none;
+  }
+  :where(
+      .ant-splitter-bar-collapse-bar-always-visible,
+      .ant-splitter-bar:hover .ant-splitter-bar-collapse-bar-hover-only,
+      .ant-splitter-bar:focus-within .ant-splitter-bar-collapse-bar-hover-only
+    ) {
+    opacity: 1;
+  }
+  :where(
+      .ant-splitter-vertical
+        > .ant-splitter-bar
+        > .ant-splitter-bar-collapse-bar
+    ) {
+    left: 50%;
+    right: auto;
+    width: var(--ao-split-collapse-height);
+    height: var(--ao-split-collapse-width);
+    transform: translateX(-50%);
+  }
+  :where(
+      .ant-splitter-vertical
+        > .ant-splitter-bar
+        > .ant-splitter-bar-collapse-bar-start
+    ) {
+    top: auto;
+    bottom: calc(var(--ao-split-trigger) / 2);
+  }
+  :where(
+      .ant-splitter-vertical
+        > .ant-splitter-bar
+        > .ant-splitter-bar-collapse-bar-end
+    ) {
+    top: calc(var(--ao-split-trigger) / 2);
+  }
+  @media (hover: none) {
+    :where(.ant-splitter-bar-collapse-bar-hover-only) {
+      opacity: 1;
+    }
   }
   :where(
       .ant-splitter-vertical > .ant-splitter-bar > .ant-splitter-bar-dragger

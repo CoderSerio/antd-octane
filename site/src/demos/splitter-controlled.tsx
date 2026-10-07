@@ -1,32 +1,43 @@
-import { Button, Space, Splitter } from "antd-octane";
+import { Button, Flex, Splitter, Switch, Typography } from "antd-octane";
 import { useState } from "octane";
 
+const Desc = (props: Readonly<{ text?: string | number }>) => (
+  <Flex justify="center" align="center" style={{ height: "100%" }}>
+    <Typography.Title
+      type="secondary"
+      level={5}
+      style={{ whiteSpace: "nowrap" }}
+    >
+      {props.text}
+    </Typography.Title>
+  </Flex>
+);
+
 export function ControlledDemo() {
-  const [sizes, setSizes] = useState<(number | string)[]>(["40%", "60%"]);
+  const [sizes, setSizes] = useState<(number | string)[]>(["50%", "50%"]);
+  const [enabled, setEnabled] = useState(true);
   return (
-    <Space direction="vertical" style={{ width: "100%" }}>
-      <Button onClick={() => setSizes(["40%", "60%"])}>重置为 40% / 60%</Button>
+    <Flex vertical gap="middle">
       <Splitter
-        style={{
-          height: 200,
-          width: "100%",
-          boxShadow: "0 0 0 1px var(--line)",
-        }}
         onResize={setSizes}
+        style={{ height: 200, boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)" }}
       >
-        <Splitter.Panel size={sizes[0]} min="20%" style={{ padding: 16 }}>
-          First：
-          {typeof sizes[0] === "number"
-            ? `${Math.round(sizes[0])}px`
-            : sizes[0]}
+        <Splitter.Panel size={sizes[0]} resizable={enabled}>
+          <Desc text="First" />
         </Splitter.Panel>
-        <Splitter.Panel size={sizes[1]} min="20%" style={{ padding: 16 }}>
-          Second：
-          {typeof sizes[1] === "number"
-            ? `${Math.round(sizes[1])}px`
-            : sizes[1]}
+        <Splitter.Panel size={sizes[1]}>
+          <Desc text="Second" />
         </Splitter.Panel>
       </Splitter>
-    </Space>
+      <Flex gap="middle" justify="space-between">
+        <Switch
+          value={enabled}
+          onChange={() => setEnabled(!enabled)}
+          checkedChildren="Enabled"
+          unCheckedChildren="Disabled"
+        />
+        <Button onClick={() => setSizes(["50%", "50%"])}>Reset</Button>
+      </Flex>
+    </Flex>
   );
 }
