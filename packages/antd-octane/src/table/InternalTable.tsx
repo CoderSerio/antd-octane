@@ -770,10 +770,7 @@ function InternalTable<T extends object = Record<string, unknown>>({
     ? (paginationProp ?? {})
     : undefined;
   const pageSize = normalizePage(
-    paginationOptions?.pageSize ??
-      (paginationOptions?.defaultPageSize !== undefined
-        ? paginationOptions.defaultPageSize
-        : innerPageSize),
+    paginationOptions?.pageSize ?? innerPageSize,
     10,
   );
   const total = Math.max(
@@ -959,7 +956,7 @@ function InternalTable<T extends object = Record<string, unknown>>({
         if (childPartial) partial = true;
       });
       if (
-        checkedCount > 0 &&
+        (checkedCount > 0 || partial) &&
         (checkedCount < children.length || partial) &&
         !selectedKeySet.has(key)
       ) {
