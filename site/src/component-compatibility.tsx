@@ -77,6 +77,22 @@ export function ComponentCompatibilityNotes() {
         </p>
       </details>
       <details>
+        <summary>Dropdown / Menu</summary>
+        <p>
+          未发布源码已提供 Dropdown.arrow、popupRender、Dropdown.Button、
+          多选菜单的显隐规则及鼠标触发延迟；Menu 已提供浮层子菜单、
+          inlineCollapsed 与展开键恢复、theme、expandIcon、子菜单浮层配置、
+          水平溢出收纳与键盘进入/返回子菜单。Menu 使用 items 配置节点，尚未提供
+          Menu.Item、Menu.SubMenu 等组件子节点及 HOC 子节点收集接口。
+          回调中的事件和菜单引用使用原生 DOM，MenuInfo.item 不是 React
+          实例。复杂嵌套浮层的焦点与任意自定义节点 仍需继续对照。公共页的
+          Dropdown 目前发布 9 个上游示例，Menu 发布 4 个 上游示例；Dropdown
+          的箭头、额外节点、组合按钮、自定义菜单和加载示例，Menu
+          的收起、主题、子菜单主题与模式切换示例，仍待对应源码发布后接入。原生菜单对直接的链接或按钮
+          标签使用独立菜单项容器，避免交互元素嵌套在按钮中。
+        </p>
+      </details>
+      <details>
         <summary>Affix</summary>
         <p>
           未发布工作区实现按上游拆分测量工具、帧节流及主题样式，支持上、下偏移、目标滚动容器、状态回调和可取消的

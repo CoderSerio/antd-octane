@@ -35,6 +35,28 @@ const items = [
   { key: "sub", label: "Folder", children: [{ key: "child", label: "Child" }] },
   { key: "b", label: "Beta" },
 ];
+it("places submenu popups in the Menu getPopupContainer target", async () => {
+  const getPopupContainer = vi.fn((node: HTMLElement) => {
+    const target = node.closest<HTMLElement>("[data-popup-host]");
+    if (!target) throw new Error("Missing popup host");
+    return target;
+  });
+  await render(
+    <div data-popup-host>
+      <Menu
+        mode="vertical"
+        items={items}
+        defaultOpenKeys={["sub"]}
+        getPopupContainer={getPopupContainer}
+      />
+    </div>,
+  );
+  expect(getPopupContainer).toHaveBeenCalled();
+  const host = container.querySelector("[data-popup-host]");
+  const popup = document.querySelector(".ant-menu-submenu-popup");
+  expect(popup).not.toBeNull();
+  expect(host?.contains(popup)).toBe(true);
+});
 it("selects leaves, ignores disabled and preserves controlled selection", async () => {
   const click = vi.fn();
   await render(<Menu items={items} onClick={click} />);
@@ -61,7 +83,14 @@ it("roving focus skips disabled and enters and exits submenu by keyboard", async
 });
 it("controlled open state emits an intent without showing rejected children", async () => {
   const open = vi.fn();
-  await render(<Menu items={items} openKeys={[]} onOpenChange={open} />);
+  await render(
+    <Menu
+      items={items}
+      openKeys={[]}
+      onOpenChange={open}
+      triggerSubMenuAction="click"
+    />,
+  );
   await act(() => button("Folder").click());
   expect(open).toHaveBeenCalledWith(["sub"]);
   expect(document.querySelector(".ant-menu-sub")).toBeNull();
@@ -193,13 +222,14 @@ it("group auto keys stay distinct and hover closes after crossing boundaries", a
   );
   const trigger = button("Hover trigger").parentElement;
   if (!trigger) throw Error("Missing trigger wrapper");
+  vi.useFakeTimers();
   await act(() =>
     trigger.dispatchEvent(new MouseEvent("mouseenter", { bubbles: false })),
   );
+  await act(() => vi.advanceTimersByTime(150));
   expect(document.querySelector<HTMLElement>(".ant-dropdown")?.hidden).toBe(
     false,
   );
-  vi.useFakeTimers();
   await act(() =>
     trigger.dispatchEvent(new MouseEvent("mouseleave", { bubbles: false })),
   );

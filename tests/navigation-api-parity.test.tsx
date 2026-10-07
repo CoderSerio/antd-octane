@@ -67,6 +67,44 @@ it("standalone Breadcrumb separators keep their own slash default", async () => 
     ),
   ).toEqual([":", "/"]);
 });
+it("Menu keeps custom links outside buttons and suppresses disabled link navigation", async () => {
+  const change = vi.fn();
+  await render(
+    <Menu
+      onClick={change}
+      items={[
+        { key: "link", label: <a href="#linked">Link</a> },
+        {
+          key: "disabled",
+          disabled: true,
+          label: <a href="#disabled">Disabled</a>,
+        },
+      ]}
+    />,
+  );
+  expect(container.querySelector("button a")).toBeNull();
+  const link = container.querySelector<HTMLAnchorElement>('a[href="#linked"]');
+  expect(link?.tabIndex).toBe(-1);
+  await act(() => link?.click());
+  expect(change).toHaveBeenCalledOnce();
+  expect(change.mock.calls[0][0].item).toBe(
+    container.querySelector('[data-menu-key="link"]'),
+  );
+  const event = new MouseEvent("click", { bubbles: true, cancelable: true });
+  await act(() =>
+    container.querySelector('a[href="#disabled"]')?.dispatchEvent(event),
+  );
+  expect(event.defaultPrevented).toBe(true);
+  expect(change).toHaveBeenCalledOnce();
+});
+it("Menu normalizes numeric item keys for DOM and callback info", async () => {
+  const click = vi.fn();
+  await render(<Menu items={[{ key: 1, label: "One" }]} onClick={click} />);
+  const item = container.querySelector<HTMLElement>('[data-menu-key="1"]');
+  expect(item).not.toBeNull();
+  await act(() => item?.click());
+  expect(click.mock.lastCall?.[0].key).toBe("1");
+});
 it("Anchor accepts legacy links, per-item replace, fixed ink and provider style", async () => {
   const replace = vi.spyOn(history, "replaceState");
   await render(
@@ -235,4 +273,90 @@ it("Dropdown.Button delegates the primary click and disabled state", async () =>
   );
   await act(() => button("Action").click());
   expect(click).toHaveBeenCalledOnce();
+});
+it("vertical Menu opens a portal, preserves keyPath and restores the submenu title", async () => {
+  const click = vi.fn();
+  await render(
+    <Menu
+      triggerSubMenuAction="click"
+      onClick={click}
+      items={[
+        {
+          key: "parent",
+          label: "Parent",
+          children: [{ key: "child", label: "Child" }],
+        },
+      ]}
+    />,
+  );
+  await act(() => button("Parent").click());
+  expect(container.querySelector(".ant-menu-submenu-popup")).toBeNull();
+  expect(document.querySelector(".ant-menu-submenu-popup")).not.toBeNull();
+  await act(() => button("Child").click());
+  expect(click.mock.calls[0][0].keyPath).toEqual(["child", "parent"]);
+  expect(click.mock.calls[0][0].item).toBeInstanceOf(HTMLElement);
+});
+it("Menu keyboard navigation opens a submenu and returns focus to its title", async () => {
+  await render(
+    <Menu
+      items={[
+        {
+          key: "parent",
+          label: "Parent",
+          children: [{ key: "child", label: "Child" }],
+        },
+      ]}
+    />,
+  );
+  await key(button("Parent"), "ArrowRight");
+  expect(document.activeElement).toBe(button("Child"));
+  await key(button("Child"), "ArrowLeft");
+  expect(document.activeElement).toBe(button("Parent"));
+});
+it("Menu collapse restores inline open keys, accepts dark tokens and custom expand icons", async () => {
+  const items = [
+    {
+      key: "parent",
+      label: "Parent",
+      children: [{ key: "child", label: "Child" }],
+    },
+  ];
+  await render(
+    <ConfigProvider theme={{ components: { Menu: { darkItemBg: "#123456" } } }}>
+      <Menu
+        mode="inline"
+        theme="dark"
+        defaultOpenKeys={["parent"]}
+        items={items}
+        expandIcon={({ isOpen }: { isOpen: boolean }) =>
+          isOpen ? "Open" : "Closed"
+        }
+      />
+    </ConfigProvider>,
+  );
+  expect(
+    container
+      .querySelector<HTMLElement>(".ant-menu-root")
+      ?.style.getPropertyValue("--ao-menu-bg"),
+  ).toBe("#123456");
+  await act(() =>
+    root?.render(
+      <ConfigProvider
+        theme={{ components: { Menu: { darkItemBg: "#123456" } } }}
+      >
+        <Menu mode="inline" theme="dark" inlineCollapsed items={items} />
+      </ConfigProvider>,
+    ),
+  );
+  expect(container.querySelector(".ant-menu-sub")).toBeNull();
+  await act(() =>
+    root?.render(
+      <ConfigProvider
+        theme={{ components: { Menu: { darkItemBg: "#123456" } } }}
+      >
+        <Menu mode="inline" theme="dark" items={items} />
+      </ConfigProvider>,
+    ),
+  );
+  expect(container.querySelector(".ant-menu-sub")).not.toBeNull();
 });

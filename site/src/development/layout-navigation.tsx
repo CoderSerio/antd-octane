@@ -145,6 +145,38 @@ const previews: Record<string, Preview[]> = {
       source: () => import("./demos/dropdown/loading.tsx?raw"),
     },
   ],
+  menu: [
+    {
+      id: "inline-collapsed",
+      title: "缩起内嵌菜单",
+      description:
+        "内嵌菜单可以被缩起/展开。\n\n你可以在 [Layout](/components/layout-cn/#layout-demo-side) 里查看侧边布局结合的完整示例。",
+      load: () => import("./demos/menu/inline-collapsed"),
+      source: () => import("./demos/menu/inline-collapsed.tsx?raw"),
+    },
+    {
+      id: "theme",
+      title: "主题",
+      description: "内建了两套主题 `light` 和 `dark`，默认 `light`。",
+      load: () => import("./demos/menu/theme"),
+      source: () => import("./demos/menu/theme.tsx?raw"),
+    },
+    {
+      id: "submenu-theme",
+      title: "子菜单主题",
+      description:
+        "你可以通过 `theme` 属性来设置 SubMenu 的主题从而达到不同目录树下不同主题色的效果。该例子默认为根目录深色，子目录浅色效果。",
+      load: () => import("./demos/menu/submenu-theme"),
+      source: () => import("./demos/menu/submenu-theme.tsx?raw"),
+    },
+    {
+      id: "switch-mode",
+      title: "切换菜单类型",
+      description: "展示动态切换模式。",
+      load: () => import("./demos/menu/switch-mode"),
+      source: () => import("./demos/menu/switch-mode.tsx?raw"),
+    },
+  ],
   layout: [
     {
       id: "basic",
@@ -305,6 +337,16 @@ const order: Record<string, string[]> = {
     "context-menu",
     "loading",
     "selectable",
+  ],
+  menu: [
+    "horizontal",
+    "inline",
+    "inline-collapsed",
+    "sider-current",
+    "vertical",
+    "theme",
+    "submenu-theme",
+    "switch-mode",
   ],
 };
 

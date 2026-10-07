@@ -152,6 +152,18 @@ export interface ThemeConfig {
 
     Popconfirm?: ComponentTheme<PopconfirmToken>;
     Menu?: ComponentTheme<{
+      collapsedWidth: number;
+      popupBg: string;
+      darkPopupBg: string;
+      darkItemColor: string;
+      darkItemBg: string;
+      darkItemHoverBg: string;
+      darkItemHoverColor: string;
+      darkItemSelectedBg: string;
+      darkItemSelectedColor: string;
+      darkItemDisabledColor: string;
+      darkSubMenuItemBg: string;
+      darkGroupTitleColor: string;
       itemColor: string;
       itemBg: string;
       itemHoverColor: string;
@@ -166,6 +178,7 @@ export interface ThemeConfig {
       subMenuItemBg: string;
       groupTitleColor: string;
       iconSize: number;
+      collapsedIconSize: number;
       dangerItemColor: string;
     }>;
     Dropdown?: ComponentTheme<{

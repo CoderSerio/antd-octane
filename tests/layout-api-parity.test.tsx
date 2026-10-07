@@ -324,6 +324,92 @@ it("responsive zero-width Sider exposes its trigger without collapsible", async 
   );
 });
 
+it("Sider collapse controls nested Menu while explicit inlineCollapsed takes precedence", async () => {
+  const items = [
+    {
+      key: "parent",
+      label: "Parent",
+      children: [{ key: "child", label: "Child" }],
+    },
+  ];
+  await render(
+    <Layout.Sider collapsible>
+      <Menu mode="inline" defaultOpenKeys={["parent"]} items={items} />
+    </Layout.Sider>,
+  );
+  expect(container.querySelector(".ant-menu-sub")).not.toBeNull();
+  await act(() =>
+    container
+      .querySelector<HTMLButtonElement>('[aria-label="收起侧栏"]')
+      ?.click(),
+  );
+  expect(container.querySelector(".ant-menu-inline-collapsed")).not.toBeNull();
+  expect(container.querySelector(".ant-menu-sub")).toBeNull();
+  await act(() =>
+    container
+      .querySelector<HTMLButtonElement>('[aria-label="展开侧栏"]')
+      ?.click(),
+  );
+  expect(container.querySelector(".ant-menu-inline-collapsed")).toBeNull();
+  expect(container.querySelector(".ant-menu-sub")).not.toBeNull();
+  await act(() =>
+    root?.render(
+      <Layout.Sider collapsed>
+        <Menu
+          mode="inline"
+          inlineCollapsed={false}
+          defaultOpenKeys={["parent"]}
+          items={items}
+        />
+      </Layout.Sider>,
+    ),
+  );
+  expect(container.querySelector(".ant-menu-inline-collapsed")).toBeNull();
+  expect(container.querySelector(".ant-menu-sub")).not.toBeNull();
+});
+it("initially collapsed Menu honors defaultOpenKeys as popup submenus", async () => {
+  await render(
+    <Layout.Sider collapsed>
+      <Menu
+        mode="inline"
+        defaultOpenKeys={["parent"]}
+        items={[
+          {
+            key: "parent",
+            label: "Parent",
+            children: [{ key: "child", label: "Child" }],
+          },
+        ]}
+      />
+    </Layout.Sider>,
+  );
+  expect(container.querySelector(".ant-menu-inline-collapsed")).not.toBeNull();
+  expect(document.querySelector<HTMLElement>(".ant-dropdown")?.hidden).toBe(
+    false,
+  );
+  expect(document.querySelector(".ant-menu-popup-menu")?.textContent).toContain(
+    "Child",
+  );
+  await act(() =>
+    root?.render(
+      <Layout.Sider collapsed={false}>
+        <Menu
+          mode="inline"
+          defaultOpenKeys={["parent"]}
+          items={[
+            {
+              key: "parent",
+              label: "Parent",
+              children: [{ key: "child", label: "Child" }],
+            },
+          ]}
+        />
+      </Layout.Sider>,
+    ),
+  );
+  expect(container.querySelector(".ant-menu-sub")).not.toBeNull();
+});
+
 function splitterDimension() {
   vi.spyOn(HTMLElement.prototype, "clientWidth", "get").mockReturnValue(600);
   vi.spyOn(HTMLElement.prototype, "clientHeight", "get").mockReturnValue(300);
