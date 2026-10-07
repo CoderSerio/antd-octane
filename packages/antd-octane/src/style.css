@@ -1694,8 +1694,11 @@
     background: var(--ao-layout-bg);
     font-family: var(--ao-font);
     font-size: var(--ao-font-size);
-    line-height: normal;
+    line-height: inherit;
     color: inherit;
+  }
+  :where(.ant-layout *) {
+    box-sizing: border-box;
   }
   :where(.ant-layout-has-sider) {
     flex-direction: row;
@@ -1716,7 +1719,7 @@
     background: var(--ao-layout-footer-bg);
     color: var(--ao-text);
     font-size: var(--ao-font-size);
-    line-height: normal;
+    line-height: inherit;
   }
   :where(.ant-layout-content) {
     flex: auto;
@@ -1728,7 +1731,7 @@
     box-sizing: border-box;
     min-width: 0;
     background: var(--ao-layout-sider-bg);
-    color: var(--ao-layout-trigger-color);
+    color: var(--ao-text);
   }
   :where(.ant-layout-sider-light) {
     background: var(--ao-layout-light-bg);
@@ -1736,15 +1739,19 @@
   }
   :where(.ant-layout-sider-children) {
     height: 100%;
+    margin-top: -0.1px;
+    padding-top: 0.1px;
+  }
+  :where(.ant-layout-sider-zero-width .ant-layout-sider-children) {
     overflow: hidden;
   }
-  :where(.ant-layout-sider:has(.ant-layout-sider-trigger)) {
+  :where(.ant-layout-sider-has-trigger) {
     padding-bottom: var(--ao-layout-trigger-height);
   }
   :where(.ant-layout-sider-trigger) {
-    position: absolute;
-    inset-inline: 0;
+    position: fixed;
     bottom: 0;
+    z-index: 1;
     box-sizing: border-box;
     width: 100%;
     height: var(--ao-layout-trigger-height);
@@ -1754,20 +1761,55 @@
     color: var(--ao-layout-trigger-color);
     cursor: pointer;
     font: inherit;
+    line-height: var(--ao-layout-trigger-height);
     text-align: center;
   }
   :where(.ant-layout-sider-light .ant-layout-sider-trigger) {
     background: var(--ao-layout-light-trigger-bg);
     color: var(--ao-layout-light-trigger-color);
   }
-  :where(.ant-layout-sider-zero-trigger) {
-    inset-inline-start: 100%;
-    inset-inline-end: auto;
-    top: 0;
-    width: 40px;
+  :where(.ant-layout-sider-zero-width-trigger) {
+    position: absolute;
+    inset-inline-end: calc(var(--ao-layout-zero-trigger-width) * -1);
+    top: var(--ao-layout-header-height);
+    width: var(--ao-layout-zero-trigger-width);
+    height: var(--ao-layout-zero-trigger-height);
     z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    border-radius: 0 var(--ao-radius) var(--ao-radius) 0;
+    background: var(--ao-layout-sider-bg);
+    color: var(--ao-layout-trigger-color);
+    font: inherit;
+    font-size: var(--ao-layout-zero-trigger-font-size);
+    cursor: pointer;
   }
-  :where(.ant-layout-sider-trigger:focus-visible) {
+  :where(.ant-layout-sider-zero-width-trigger)::after {
+    position: absolute;
+    inset: 0;
+    content: "";
+    background: transparent;
+  }
+  :where(.ant-layout-sider-zero-width-trigger:hover)::after {
+    background: rgb(255 255 255 / 20%);
+  }
+  :where(.ant-layout-sider-zero-width-trigger-right) {
+    inset-inline-start: calc(var(--ao-layout-zero-trigger-width) * -1);
+    border-radius: var(--ao-radius) 0 0 var(--ao-radius);
+  }
+  :where(.ant-layout-sider-light .ant-layout-sider-zero-width-trigger) {
+    background: var(--ao-layout-light-trigger-bg);
+    color: var(--ao-layout-light-trigger-color);
+    border: 1px solid var(--ao-layout-bg);
+    border-inline-start: 0;
+  }
+  :where(
+      .ant-layout-sider-trigger:focus-visible,
+      .ant-layout-sider-zero-width-trigger:focus-visible
+    ) {
     outline: 2px solid var(--ao-focus);
     outline-offset: -2px;
   }

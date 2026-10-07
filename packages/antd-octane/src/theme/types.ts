@@ -250,6 +250,8 @@ export interface ThemeConfig {
       lightSiderBg: string;
       lightTriggerBg: string;
       lightTriggerColor: string;
+      zeroTriggerWidth: number;
+      zeroTriggerHeight: number;
     }>;
     Collapse?: ComponentTheme<CollapseToken>;
     Tabs?: ComponentTheme<{

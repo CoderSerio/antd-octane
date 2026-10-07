@@ -200,6 +200,83 @@ it("Grid accepts numeric string spans and responsive string spans", async () => 
   );
 });
 
+it("Layout renders semantic regions, DOM refs, prefix and context styles", async () => {
+  let header: HTMLElement | null = null;
+  await render(
+    <ConfigProvider
+      direction="rtl"
+      prefixCls="custom"
+      layout={{ className: "configured-layout", style: { color: "red" } }}
+    >
+      <Layout rootClassName="root-layout">
+        <Layout.Sider width="240" collapsible>
+          Side
+        </Layout.Sider>
+        <Layout>
+          <Layout.Header
+            ref={(node) => {
+              header = node;
+            }}
+          >
+            Header
+          </Layout.Header>
+          <Layout.Content>Body</Layout.Content>
+          <Layout.Footer>Footer</Layout.Footer>
+        </Layout>
+      </Layout>
+    </ConfigProvider>,
+  );
+  expect(container.querySelector("header")).toBe(header);
+  expect(container.querySelector("main")?.textContent).toBe("Body");
+  expect(container.querySelector("footer")?.textContent).toBe("Footer");
+  const layout = container.querySelector<HTMLElement>(".ant-layout");
+  expect(layout?.classList.contains("custom-layout-rtl")).toBe(true);
+  expect(layout?.classList.contains("root-layout")).toBe(true);
+  expect(layout?.style.color).toBe("red");
+  expect(container.querySelector<HTMLElement>("aside")?.style.width).toBe(
+    "240px",
+  );
+  expect(
+    container.querySelector(".ant-layout-sider-trigger .anticon-right"),
+  ).not.toBeNull();
+});
+
+it("responsive zero-width Sider exposes its trigger without collapsible", async () => {
+  vi.stubGlobal("matchMedia", () => ({
+    matches: true,
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+  }));
+  const onCollapse = vi.fn();
+  const onBreakpoint = vi.fn();
+  await render(
+    <Layout.Sider
+      breakpoint="md"
+      collapsedWidth={0}
+      onCollapse={onCollapse}
+      onBreakpoint={onBreakpoint}
+      zeroWidthTriggerStyle={{ top: 12, backgroundColor: "red" }}
+    >
+      Side
+    </Layout.Sider>,
+  );
+  expect(onBreakpoint).toHaveBeenCalledWith(true);
+  expect(onCollapse).toHaveBeenCalledWith(true, "responsive");
+  const trigger = container.querySelector<HTMLButtonElement>(
+    ".ant-layout-sider-zero-width-trigger",
+  );
+  expect(trigger?.style.top).toBe("12px");
+  expect(trigger?.style.backgroundColor).toBe("red");
+  expect(container.querySelector<HTMLElement>("aside")?.style.width).toBe(
+    "0px",
+  );
+  await act(() => trigger?.click());
+  expect(onCollapse).toHaveBeenLastCalledWith(false, "clickTrigger");
+  expect(container.querySelector<HTMLElement>("aside")?.style.width).toBe(
+    "200px",
+  );
+});
+
 function splitterDimension() {
   vi.spyOn(HTMLElement.prototype, "clientWidth", "get").mockReturnValue(600);
   vi.spyOn(HTMLElement.prototype, "clientHeight", "get").mockReturnValue(300);

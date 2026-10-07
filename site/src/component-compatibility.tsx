@@ -20,6 +20,23 @@ export function ComponentCompatibilityNotes() {
         </p>
       </details>
       <details>
+        <summary>Layout</summary>
+        <p>
+          未发布源码使用 header、main、footer、aside 语义化标签并提供 DOM 引用，
+          接入 prefixCls、rootClassName、RTL、Provider 样式及
+          zeroWidthTriggerStyle。
+          普通触发器固定在视口底部；零宽侧栏在响应式收起时显示展开触发器，
+          即使未指定 collapsible。服务端渲染时可显式指定 hasSider；
+          自动识别、宽度过渡与复杂嵌套布局仍需进一步对照。Sider 的收起状态传入
+          子级 Menu；显式 inlineCollapsed 优先，并在展开后恢复非受控的展开键。
+          Layout
+          公共页已接入上游的九个结构示例：基本、顶部、顶部与侧边两种组合、
+          侧边、固定头部、固定侧边栏、响应式和自定义触发器。零宽侧栏、主题联动及
+          复杂嵌套案例已在工作区对照夹具中完成，待对应源码发布并从 npm
+          验证后接入 公共站点。
+        </p>
+      </details>
+      <details>
         <summary>Affix</summary>
         <p>
           未发布工作区实现按上游拆分测量工具、帧节流及主题样式，支持上、下偏移、目标滚动容器、状态回调和可取消的

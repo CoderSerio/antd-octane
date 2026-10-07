@@ -41,6 +41,80 @@ const previews: Record<string, Preview[]> = {
       source: () => import("./demos/divider/variant.tsx?raw"),
     },
   ],
+  layout: [
+    {
+      id: "basic",
+      title: "基本结构",
+      description: "典型的页面布局。",
+      load: () => import("./demos/layout/basic"),
+      source: () => import("./demos/layout/basic.tsx?raw"),
+    },
+    {
+      id: "top",
+      title: "上中下布局",
+      description:
+        "最基本的『上-中-下』布局。\n\n一般主导航放置于页面的顶端，从左自右依次为：logo、一级导航项、辅助菜单（用户、设置、通知等）。通常将内容放在固定尺寸（例如：1200px）内，整个页面排版稳定，不受用户终端显示器影响；上下级的结构符合用户上下浏览的习惯，也是较为经典的网站导航模式。页面上下切分的方式提高了主工作区域的信息展示效率，但在纵向空间上会有一些牺牲。此外，由于导航栏水平空间的限制，不适合那些一级导航项很多的信息结构。",
+      load: () => import("./demos/layout/top"),
+      source: () => import("./demos/layout/top.tsx?raw"),
+    },
+    {
+      id: "top-side",
+      title: "顶部-侧边布局",
+      description: "拥有顶部导航及侧边栏的页面，多用于展示类网站。",
+      load: () => import("./demos/layout/top-side"),
+      source: () => import("./demos/layout/top-side.tsx?raw"),
+    },
+    {
+      id: "top-side-2",
+      title: "顶部-侧边布局-通栏",
+      description:
+        "同样拥有顶部导航及侧边栏，区别是两边未留边距，多用于应用型的网站。",
+      load: () => import("./demos/layout/top-side-2"),
+      source: () => import("./demos/layout/top-side-2.tsx?raw"),
+    },
+    {
+      id: "side",
+      title: "侧边布局",
+      description:
+        "侧边两列式布局。页面横向空间有限时，侧边导航可收起。\n\n侧边导航在页面布局上采用的是左右的结构，一般主导航放置于页面的左侧固定位置，辅助菜单放置于工作区顶部。内容根据浏览器终端进行自适应，能提高横向空间的使用率，但是整个页面排版不稳定。侧边导航的模式层级扩展性强，一、二、三级导航项目可以更为顺畅且具关联性的被展示，同时侧边导航可以固定，使得用户在操作和浏览中可以快速的定位和切换当前位置，有很高的操作效率。但这类导航横向页面内容的空间会被牺牲一部分。\n\n> 🛎️ 想要 3 分钟实现？试试 [ProLayout](https://procomponents.ant.design/components/layout)！",
+      load: () => import("./demos/layout/side"),
+      source: () => import("./demos/layout/side.tsx?raw"),
+      iframe: { demo: "development/layout/side", height: 360 },
+    },
+    {
+      id: "responsive",
+      title: "响应式布局",
+      description:
+        "Layout.Sider 支持响应式布局。\n\n> 说明：配置 `breakpoint` 属性即生效，视窗宽度小于 `breakpoint` 时 Sider 缩小为 `collapsedWidth` 宽度，若将 `collapsedWidth` 设置为 0，会出现特殊 trigger。",
+      load: () => import("./demos/layout/responsive"),
+      source: () => import("./demos/layout/responsive.tsx?raw"),
+    },
+    {
+      id: "fixed",
+      title: "固定头部",
+      description: "一般用于固定顶部导航，方便页面切换。",
+      load: () => import("./demos/layout/fixed"),
+      source: () => import("./demos/layout/fixed.tsx?raw"),
+      iframe: { demo: "development/layout/fixed", height: 360 },
+    },
+    {
+      id: "fixed-sider",
+      title: "固定侧边栏",
+      description: "当内容较长时，使用固定侧边栏可以提供更好的体验。",
+      load: () => import("./demos/layout/fixed-sider"),
+      source: () => import("./demos/layout/fixed-sider.tsx?raw"),
+      iframe: { demo: "development/layout/fixed-sider", height: 360 },
+    },
+
+    {
+      id: "custom-trigger",
+      title: "自定义触发器",
+      description:
+        "要使用自定义触发器，可以设置 `trigger={null}` 来隐藏默认设定。",
+      load: () => import("./demos/layout/custom-trigger"),
+      source: () => import("./demos/layout/custom-trigger.tsx?raw"),
+    },
+  ],
 };
 
 const order: Record<string, string[]> = {
@@ -60,6 +134,17 @@ const order: Record<string, string[]> = {
     "responsive-more",
     "playground",
     "useBreakpoint",
+  ],
+  layout: [
+    "basic",
+    "top",
+    "top-side",
+    "top-side-2",
+    "side",
+    "custom-trigger",
+    "responsive",
+    "fixed",
+    "fixed-sider",
   ],
 };
 

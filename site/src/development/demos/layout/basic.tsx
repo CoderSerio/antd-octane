@@ -1,6 +1,7 @@
+// Adapted from Ant Design 5.29.3 (MIT), components/layout/demo/basic.tsx.
+
 import { Flex, Layout } from "antd-octane";
 import type { CSSProperties } from "octane";
-import { useState } from "octane";
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -34,14 +35,14 @@ const footerStyle: CSSProperties = {
   backgroundColor: "#4096ff",
 };
 
-const layoutStyle: CSSProperties = {
+const layoutStyle = {
   borderRadius: 8,
   overflow: "hidden",
   width: "calc(50% - 8px)",
   maxWidth: "calc(50% - 8px)",
 };
 
-export const BasicDemo = () => (
+const App = () => (
   <Flex gap="middle" wrap>
     <Layout style={layoutStyle}>
       <Header style={headerStyle}>Header</Header>
@@ -84,28 +85,4 @@ export const BasicDemo = () => (
   </Flex>
 );
 
-export function MoreDemo() {
-  const [collapsed, set] = useState(false);
-  return (
-    <Layout style={{ minHeight: 240, width: "100%" }}>
-      <Layout.Sider
-        width={140}
-        collapsedWidth={64}
-        collapsible
-        collapsed={collapsed}
-        onCollapse={set}
-        breakpoint="md"
-      >
-        <div style={{ padding: 16 }}>{collapsed ? "O" : "Octane"}</div>
-      </Layout.Sider>
-      <Layout>
-        <Layout.Header style={{ paddingInline: 20, color: "#fff" }}>
-          应用布局
-        </Layout.Header>
-        <Layout.Content style={{ padding: 20 }}>
-          点击侧栏按钮或调整窗口宽度。
-        </Layout.Content>
-      </Layout>
-    </Layout>
-  );
-}
+export default App;
