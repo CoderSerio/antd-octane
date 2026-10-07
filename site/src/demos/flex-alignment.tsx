@@ -1,38 +1,48 @@
-import { Button, Flex } from "antd-octane";
+import { Button, Flex, type FlexProps, Segmented } from "antd-octane";
 import { useState } from "octane";
 
-const options = ["start", "center", "end", "space-between"] as const;
+const boxStyle = {
+  width: "100%",
+  height: 120,
+  borderRadius: 6,
+  border: "1px solid #40a9ff",
+};
+const justifyOptions = [
+  "flex-start",
+  "center",
+  "flex-end",
+  "space-between",
+  "space-around",
+  "space-evenly",
+];
+const alignOptions = ["flex-start", "center", "flex-end"];
 
 export function AlignmentDemo() {
-  const [justify, setJustify] = useState<(typeof options)[number]>("start");
+  const [justify, setJustify] = useState<FlexProps["justify"]>(
+    justifyOptions[0],
+  );
+  const [alignItems, setAlignItems] = useState<FlexProps["align"]>(
+    alignOptions[0],
+  );
   return (
-    <Flex vertical gap="middle" style={{ width: "100%" }}>
-      <Flex gap="small" wrap>
-        {options.map((option) => (
-          <Button
-            key={option}
-            size="small"
-            type={justify === option ? "primary" : "default"}
-            onClick={() => setJustify(option)}
-          >
-            {option}
-          </Button>
-        ))}
-      </Flex>
-      <Flex
-        justify={justify}
-        align="center"
-        gap="small"
-        style={{
-          width: "100%",
-          minHeight: 76,
-          padding: 8,
-          background: "color-mix(in srgb, currentColor 8%, transparent)",
-        }}
-      >
-        <Button size="small">一</Button>
-        <Button size="small">二</Button>
-        <Button size="small">三</Button>
+    <Flex gap="middle" align="start" vertical style={{ width: "100%" }}>
+      <p>Select justify :</p>
+      <Segmented
+        options={justifyOptions}
+        onChange={(value) => setJustify(String(value))}
+        style={{ maxWidth: "100%", overflowX: "auto" }}
+      />
+      <p>Select align :</p>
+      <Segmented
+        options={alignOptions}
+        onChange={(value) => setAlignItems(String(value))}
+        style={{ maxWidth: "100%", overflowX: "auto" }}
+      />
+      <Flex style={boxStyle} justify={justify} align={alignItems}>
+        <Button type="primary">Primary</Button>
+        <Button type="primary">Primary</Button>
+        <Button type="primary">Primary</Button>
+        <Button type="primary">Primary</Button>
       </Flex>
     </Flex>
   );

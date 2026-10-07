@@ -35,6 +35,7 @@ const previews: Record<string, Preview[]> = {
 
 const order: Record<string, string[]> = {
   divider: ["basic", "orientation", "size", "plain", "vertical", "variant"],
+  flex: ["basic", "alignment", "gap", "wrapping", "combination"],
 };
 
 export async function augmentExamples(

@@ -105,6 +105,7 @@ export interface ThemeConfig {
   token?: Partial<AliasToken>;
   algorithm?: MappingAlgorithm | MappingAlgorithm[];
   components?: {
+    Flex?: ComponentTheme;
     App?: ComponentTheme;
     Form?: ComponentTheme<FormToken>;
     Wave?: ComponentTheme;

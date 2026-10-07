@@ -29,6 +29,52 @@ afterEach(async () => {
   vi.unstubAllGlobals();
 });
 
+it("Flex supports native/custom roots, DOM refs and provider styling", async () => {
+  let element: HTMLElement | null = null;
+  function Section(props: HTMLAttributes<HTMLElement>) {
+    return <section {...props} />;
+  }
+  await render(
+    <ConfigProvider
+      direction="rtl"
+      prefixCls="custom"
+      flex={{ className: "provider", style: { padding: 3 } }}
+    >
+      <Flex
+        component={Section}
+        rootClassName="root"
+        gap="middle"
+        vertical
+        ref={(node) => {
+          element = node;
+        }}
+      >
+        <span>Child</span>
+      </Flex>
+    </ConfigProvider>,
+  );
+  const section = container.querySelector("section");
+  expect(element).toBe(section);
+  expect(section?.textContent).toBe("Child");
+  expect(section?.classList.contains("custom-flex")).toBe(true);
+  expect(section?.classList.contains("provider")).toBe(true);
+  expect(section?.classList.contains("root")).toBe(true);
+  expect(section?.style.gap).toBe("16px");
+  expect(section?.style.direction).toBe("rtl");
+  expect(section?.style.padding).toBe("3px");
+  await act(() =>
+    root?.render(
+      <Flex component="article" wrap="wrap-reverse">
+        Text
+      </Flex>,
+    ),
+  );
+  expect(container.firstElementChild?.tagName).toBe("ARTICLE");
+  expect((container.firstElementChild as HTMLElement).style.flexWrap).toBe(
+    "wrap-reverse",
+  );
+});
+
 it("Divider supports size inheritance, variants and default margins", async () => {
   await render(
     <ConfigProvider componentSize="small" divider={{ className: "provider" }}>

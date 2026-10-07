@@ -1,7 +1,13 @@
 /** @jsxImportSource octane */
-import type { CSSProperties, HTMLAttributes } from "octane";
+import type { CSSProperties, ElementType, HTMLAttributes, Ref } from "octane";
+import { componentClassName } from "../_util/componentClassName";
 import { useConfig } from "../config-provider";
-export interface FlexProps extends HTMLAttributes<HTMLDivElement> {
+import { resolveComponentAlias } from "../theme/resolve";
+export interface FlexProps extends HTMLAttributes<HTMLElement> {
+  ref?: Ref<HTMLElement>;
+  prefixCls?: string;
+  rootClassName?: string;
+  component?: ElementType;
   style?: CSSProperties;
   vertical?: boolean;
   wrap?: boolean | CSSProperties["flexWrap"];
@@ -17,12 +23,17 @@ export function Flex({
   align,
   flex,
   gap,
+  component: Component = "div",
+  prefixCls: customPrefixCls,
+  rootClassName,
   className,
   style,
   children,
   ...rest
 }: FlexProps) {
-  const { token } = useConfig();
+  const config = useConfig();
+  const token = resolveComponentAlias(config.theme, config.token, "Flex");
+  const prefixCls = config.getPrefixCls("flex", customPrefixCls);
   const spacing =
     gap === "small"
       ? token.paddingXS
@@ -32,21 +43,33 @@ export function Flex({
           ? token.paddingLG
           : gap;
   return (
-    <div
+    <Component
       {...rest}
-      className={["ant-flex", className]}
+      className={[
+        componentClassName("ant-flex", prefixCls),
+        vertical && componentClassName("ant-flex", prefixCls, "-vertical"),
+        config.direction === "rtl" &&
+          componentClassName("ant-flex", prefixCls, "-rtl"),
+        config.flex?.className,
+        className,
+        rootClassName,
+      ]}
       style={{
         display: "flex",
+        margin: 0,
+        padding: 0,
+        direction: config.direction,
         flexDirection: vertical ? "column" : "row",
         flexWrap: wrap === true ? "wrap" : wrap === false ? "nowrap" : wrap,
         justifyContent: justify,
         alignItems: align ?? (vertical ? "stretch" : "normal"),
         flex,
         gap: spacing,
+        ...config.flex?.style,
         ...style,
       }}
     >
       {children}
-    </div>
+    </Component>
   );
 }
