@@ -553,8 +553,7 @@
     font-size: var(--ao-divider-font-size);
     line-height: var(--ao-divider-line-height);
     border: 0;
-    border-block-start: var(--ao-divider-width) var(--ao-divider-style)
-      var(--ao-divider-color);
+    border-block-start: var(--ao-divider-width) solid var(--ao-divider-color);
   }
   :where(.ant-divider-horizontal) {
     display: flex;
@@ -563,43 +562,66 @@
     min-width: 100%;
     margin: var(--ao-divider-margin) 0;
   }
+  /* :where has zero specificity; type rules must override variant borders. */
+  :where(.ant-divider-dashed) {
+    background: none;
+    border-color: var(--ao-divider-color);
+    border-style: dashed;
+    border-width: var(--ao-divider-width) 0 0;
+  }
+  :where(.ant-divider-dotted) {
+    background: none;
+    border-color: var(--ao-divider-color);
+    border-style: dotted;
+    border-width: var(--ao-divider-width) 0 0;
+  }
   :where(.ant-divider-vertical) {
     position: relative;
     top: -0.06em;
     display: inline-block;
     height: 0.9em;
     margin-inline: var(--ao-divider-vertical-margin);
+    margin-block: 0;
     vertical-align: middle;
     border-block-start: 0;
     border-inline-start: var(--ao-divider-width) var(--ao-divider-style)
       var(--ao-divider-color);
   }
-  :where(.ant-divider-with-text) {
+  :where(.ant-divider-horizontal.ant-divider-with-text) {
+    display: flex;
     align-items: center;
+    margin: var(--ao-divider-margin) 0;
     white-space: nowrap;
     text-align: center;
+    color: var(--ao-divider-text);
     border-block-start: 0;
-    font-weight: var(--ao-divider-weight);
     border-block-start-color: var(--ao-divider-color);
+    font-weight: var(--ao-divider-weight);
+    font-size: var(--ao-divider-font-size);
   }
-  :where(.ant-divider-with-text)::before,
-  :where(.ant-divider-with-text)::after {
+  :where(.ant-divider-horizontal.ant-divider-with-text)::before,
+  :where(.ant-divider-horizontal.ant-divider-with-text)::after {
+    box-sizing: border-box;
     content: "";
     position: relative;
     width: 50%;
     border-block-start: var(--ao-divider-width) var(--ao-divider-style)
-      var(--ao-divider-color);
+      transparent;
+    border-block-start-color: inherit;
+    border-block-end: 0;
+    transform: translateY(50%);
   }
-  :where(.ant-divider-with-text-left)::before,
-  :where(.ant-divider-with-text-right)::after {
+  :where(.ant-divider-horizontal.ant-divider-with-text-start)::before,
+  :where(.ant-divider-horizontal.ant-divider-with-text-end)::after {
     width: var(--ao-divider-edge);
   }
-  :where(.ant-divider-with-text-left)::after,
-  :where(.ant-divider-with-text-right)::before {
-    flex: 1;
+  :where(.ant-divider-horizontal.ant-divider-with-text-start)::after,
+  :where(.ant-divider-horizontal.ant-divider-with-text-end)::before {
+    width: calc(100% - var(--ao-divider-edge));
   }
   :where(.ant-divider-inner-text) {
     display: inline-block;
+    padding-block: 0;
     padding-inline: var(--ao-divider-padding);
   }
   :where(.ant-switch) {

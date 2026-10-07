@@ -43,6 +43,16 @@ const projects = new Set([
   "Upload",
   "ColorPicker",
 ]);
+const upstreamSubtitles: Record<string, string> = {
+  Cascader: "级联选择",
+  ColorPicker: "颜色选择器",
+  DatePicker: "日期选择框",
+  Mentions: "提及",
+  TimePicker: "时间选择框",
+  Transfer: "穿梭框",
+  TreeSelect: "树选择",
+  Upload: "上传",
+};
 const floating = new Set([
   "Tour",
   "Modal",
@@ -68,6 +78,8 @@ export const componentCoverage = upstreamGroups.flatMap(([group, names]) =>
     return {
       name,
       group,
+      title: page?.title ?? `${name} ${upstreamSubtitles[name] ?? ""}`.trim(),
+      pageId: page?.id,
       implemented,
       href: page
         ? `#${page.id}`

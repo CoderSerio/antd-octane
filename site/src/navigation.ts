@@ -505,7 +505,15 @@ export const nav = [
   },
 ];
 
-const antdOrderedGroups = new Set(["导航", "数据展示", "反馈", "其他"]);
+const antdOrderedGroups = new Set([
+  "通用",
+  "布局",
+  "导航",
+  "数据录入",
+  "数据展示",
+  "反馈",
+  "其他",
+]);
 const componentDocTitle = (label: string) => label.split(" ", 1)[0] || label;
 
 export function orderComponentGroup<T extends { title: string }>(

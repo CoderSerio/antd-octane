@@ -40,6 +40,93 @@ Changes: removed the framework-specific default theme factory; replaced type-onl
 
 `src/button/tokens.ts` and Button CSS also adapt the defaults and state rules from Ant Design 5.29.3 `components/button/style`; they use static CSS variables instead of React/cssinjs hooks.
 
+The Flex, Space, Divider, Grid, Layout, Splitter, Anchor, Breadcrumb,
+Dropdown, Menu, Pagination, Steps and Tabs native components adapt Ant Design
+5.29.3 component behavior and style rules, including semantic item styles, RTL,
+Sider triggers, Splitter size allocation and collapse controls, dropdown menu
+rendering, menu focus, pagination page windows, steps variants and tab overflow.
+React hooks and cssinjs are replaced with Octane hooks, native DOM events and CSS
+variables. Pagination page-window and size-change behavior also reference
+`rc-pagination` 5.1.0; step and tab behavior reference `rc-steps` 6.0.1 and
+`rc-tabs` 15.7.0. Those MIT licenses are reproduced in the rc-component notices
+below; their React runtime is not bundled.
+
+Layout descendant box sizing, Anchor holder/nested-link spacing, Menu group and
+collapsed-icon spacing, Breadcrumb standalone separators, Pagination mini/simple
+spacing, Steps label/dot/custom-icon layouts and Tabs card/vertical sizing follow
+`components/{layout,anchor,menu,breadcrumb,pagination,steps,tabs}/style` and
+`components/breadcrumb/BreadcrumbSeparator.tsx` at that same Ant Design revision.
+Disabled editable-tab removal follows `rc-tabs@15.7.0/es/TabNavList/TabNode.js`.
+The native DOM keeps buttons for keyboard actions and separate popup wrappers.
+
+Arrow, bar, double-arrow and ellipsis SVG definitions in
+`src/_util/layout-icons.tsx` come from `@ant-design/icons-svg` 4.6.0 under the
+icon license reproduced below. Layout/navigation API, descriptions and token
+references in `site/src/layout/`, `site/src/navigation/` and
+`site/src/component-prose.json` are generated from the same pinned Ant Design
+sources; framework types are adapted and upstream release history is omitted.
+The five `site/src/demos/flex-*` examples adapt `components/flex/demo` basic,
+align, gap, wrap and combination. Imports and hooks use Octane; the combination
+copy describes the Octane library. The alignment controls and fixed-width card
+use scrolling containers on narrow layouts, preserving the sample's dimensions.
+Space, Divider, Grid and the first twelve Tabs examples adapt their same-version `components/*/demo`
+files. Space omits Upload and Compact combinations whose controls are not
+available from the published Octane package. Divider size/variant and Grid
+string-gutter examples await publication of the new runtime API. The workspace
+runtime now exposes Tabs `renderTabBar` and its per-node wrapper callback, but
+the public custom tab-bar and drag examples remain omitted until this API is
+published and verified from npm. Layout's basic structure and Splitter's size,
+vertical and controlled examples also adapt their same-version source; the
+remaining advanced examples stay out of the public site until their runtime
+APIs are published and verified.
+The eight Anchor examples adapt the official source, including the four 200px
+isolated documents. Local documentation anchor links are adjusted to their
+actual section IDs. Breadcrumb basic, withIcon, separator and separator-component
+examples adapt upstream; parameter, overlay and route demos await publication.
+Nine Dropdown examples and four Menu examples adapt their matching upstream
+sources, preserving menu items, events and state. Demos needing unpublished
+arrow, extra, compound-button, popup-render, collapse or theme APIs are omitted.
+Nine Steps examples adapt simple, small-size, icon, step-next, vertical,
+vertical-small, error, clickable and label-placement. The label-placement
+progress rows and the other five demos await publication of percent, progressDot
+and new type APIs. LoadingOutlined explicitly enables the Icon spin prop.
+The ten Pagination examples adapt basic, more, changer, jump, mini, simple,
+controlled, total, all and itemRender; align and the simple readOnly row await
+publication of their new runtime API.
+`site/src/development/demos/` adapts the remaining ordinary layout/navigation
+examples from the same Ant Design 5.29.3 sources for local development only.
+Production builds exclude this catalog until the corresponding APIs are
+published. React hooks and event types use Octane equivalents; Layout's side,
+fixed and fixed-sider examples use the upstream 360px isolated documents,
+while its other examples render in normal document flow. The custom Tabs bar uses native CSS sticky positioning
+and the draggable tab node uses native pointer events with the reference
+10px activation distance instead of React-specific third-party adapters.
+The SVG definitions in `site/src/development/icons.tsx` use the same icon
+license. The public demo captions preserve the pinned upstream wording, with
+release history omitted.
+
+The native documentation code preview adapts Ant Design 5.29.3 `.dumi/theme/common/CodePreview.tsx`, `LiveCode.tsx`, the Demo/Highlight styles and the preview collapse control. Language conversion uses the pinned TypeScript compiler with preserved JSX, formatted by the existing Biome build tool; both tools run at build time. Displayed examples omit tooling-only lint directives and retain their Octane imports.
+
+Layout/navigation document columns follow the upstream `index.zh-CN.md` demo
+metadata. Paragraph resets and the isolated preview browser frame adapt
+`.dumi/theme/common/styles/Common.tsx` and `.dumi/theme/common/BrowserFrame.tsx`
+from the same version, with CSS variables for native theme tokens.
+Isolated Anchor examples use the zero-padding viewport document and horizontal
+overflow rule from the same `Common.tsx` and `Reset.tsx` styles, so the upstream
+`100vw` sections do not gain an extra horizontal scrollbar.
+Reference API data and synchronization omit parameter rows marked deprecated
+in the upstream Markdown. The first Octane release documents current APIs
+without copying Ant Design's legacy parameter migration history.
+
+`site/src/demos/grid-demo.css` adapts the Grid demo presentation from
+`.dumi/theme/common/styles/Markdown.tsx`, using local CSS variables.
+The Grid documentation design section preserves the two introductory paragraphs
+and references the original grid illustration SVG linked from Ant Design 5.29.3
+`components/grid/index.zh-CN.md`, hosted by Ant Design at
+`https://gw.alipayobjects.com/zos/bmw-prod/9189c9ef-c601-40dc-9960-c11dbb681888.svg`.
+`site/src/demos/layout-navigation-icons.tsx` adapts named SVG definitions from
+`@ant-design/icons-svg` 4.6.0 using the published Octane createIcon factory.
+
 `src/input/tokens.ts` and the Input / Checkbox rules in `src/style.css` adapt Ant Design 5.29.3 `components/input/style/token.ts`, `components/input/style/index.ts`, `components/input/style/variants.ts` and `components/checkbox/style/index.ts`. They retain the supported token defaults and basic outlined/checkbox state rules, expressed as static CSS variables; framework hooks, unsupported variants and wave motion are not included.
 
 The component descriptions, usage guidance, API notes and demo captions in

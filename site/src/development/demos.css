@@ -1,0 +1,17 @@
+/* Ant Design 5.29.3 Layout demo logos, scoped to development examples. */
+.development-demo .demo-logo,
+.demo-content .demo-logo {
+  flex: none;
+  width: 120px;
+  height: 32px;
+  margin-inline-end: 24px;
+  background: rgb(255 255 255 / 20%);
+  border-radius: 6px;
+}
+.development-demo .demo-logo-vertical,
+.demo-content .demo-logo-vertical {
+  height: 32px;
+  margin: 16px;
+  background: rgb(255 255 255 / 20%);
+  border-radius: 6px;
+}

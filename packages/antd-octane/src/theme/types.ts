@@ -310,7 +310,7 @@ export interface ThemeConfig {
     Divider?: ComponentTheme<{
       textPaddingInline: string | number;
       orientationMargin: number;
-      verticalMarginInline: number;
+      verticalMarginInline: CSSProperties["marginInline"];
     }>;
     Switch?: ComponentTheme<{
       trackHeight: number;

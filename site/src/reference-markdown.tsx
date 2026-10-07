@@ -11,10 +11,26 @@ export function ReferenceMarkdown({
 }) {
   const { token } = theme.useToken();
   const lines = markdown.trim().split("\n");
-  const blocks: { kind: string; text: string }[] = [];
+  const blocks: { kind: string; text: string; src?: string }[] = [];
   for (let index = 0; index < lines.length; ) {
     const line = lines[index];
     if (!line.trim()) {
+      index += 1;
+      continue;
+    }
+    const image = line.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+    if (image) {
+      try {
+        const url = new URL(image[2], referenceUrl ?? "https://5x.ant.design/");
+        if (url.protocol === "https:" || url.protocol === "http:") {
+          blocks.push({ kind: "image", text: image[1], src: url.href });
+          index += 1;
+          continue;
+        }
+      } catch {
+        // Invalid image destinations remain ordinary text.
+      }
+      blocks.push({ kind: "literal", text: line });
       index += 1;
       continue;
     }
@@ -55,7 +71,7 @@ export function ReferenceMarkdown({
     while (
       index < lines.length &&
       lines[index].trim() &&
-      !/^(?:```|>|#{2,4}\s|- )/.test(lines[index])
+      !/^(?:```|>|#{2,4}\s|- |!\[)/.test(lines[index])
     ) {
       content.push(lines[index++]);
     }
@@ -68,6 +84,9 @@ export function ReferenceMarkdown({
     <div
       className="reference-prose"
       style={{
+        "--reference-link-color": token.colorLink,
+        "--reference-link-hover": token.colorLinkHover,
+        "--reference-link-active": token.colorLinkActive,
         "--api-note-color": token.colorTextSecondary,
         "--api-note-border": token.colorSplit,
         "--api-note-code-bg": token.colorFillTertiary,
@@ -76,6 +95,18 @@ export function ReferenceMarkdown({
       }}
     >
       {blocks.map((block, index) => {
+        if (block.kind === "literal") return <p key={index}>{block.text}</p>;
+        if (block.kind === "image")
+          return (
+            <div key={index} className="reference-image-block">
+              <img
+                className="reference-image"
+                src={block.src}
+                alt={block.text}
+                draggable={false}
+              />
+            </div>
+          );
         if (block.kind === "code")
           return <Code key={index} source={block.text} />;
         if (block.kind === "note") {

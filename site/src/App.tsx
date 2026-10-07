@@ -1,9 +1,10 @@
 import type { ThemeConfig } from "antd-octane";
 import { ConfigProvider, Input, Layout, theme, zhCN } from "antd-octane";
 import { useEffect, useMemo, useState } from "octane";
+import { preserveDemoAnchorRoute } from "./demo-navigation";
 import { Icon } from "./icons";
 import { nav, orderComponentGroup } from "./navigation";
-import { readPageToc, type TocSection } from "./page-toc";
+import { findActiveTocAnchor, readPageToc, type TocSection } from "./page-toc";
 import { RouteContent } from "./RouteContent";
 import { siteVersion } from "./site-version";
 import { ThemePanel } from "./ThemePanel";
@@ -112,10 +113,9 @@ function Shell(p: ShellProps) {
     let headings: HTMLElement[] = [];
     let scrollFrame = 0;
     const update = () => {
-      const above = headings.filter(
-        (node) => node.getBoundingClientRect().top <= 160,
+      setActiveAnchor(
+        findActiveTocAnchor(headings, window.location.hash.split("/")[1]),
       );
-      setActiveAnchor((above.at(-1) ?? headings[0])?.id ?? "");
     };
     const setup = () => {
       observer?.disconnect();
@@ -367,6 +367,7 @@ function Shell(p: ShellProps) {
               className="main"
               role="main"
               tabIndex={-1}
+              onClick={(event) => preserveDemoAnchorRoute(page, event)}
             >
               <RouteContent page={page} section={section} />
               {current && (
@@ -385,7 +386,7 @@ function Shell(p: ShellProps) {
                   )}
                 </nav>
               )}
-              <footer>
+              <footer className="site-footer">
                 Ant Design for Octane <span>独立社区探索 · MIT</span>
               </footer>
             </Layout.Content>

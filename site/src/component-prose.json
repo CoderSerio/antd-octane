@@ -297,5 +297,12 @@
       "ConfigProvider.useConfig()": 3,
       "组件配置": 3
     }
+  },
+  "Divider": {
+    "description": "区隔内容的分割线。",
+    "when": "- 对不同章节的文本段落进行分割。\n- 对行内文字/链接进行分割，例如表格的操作列。",
+    "sectionHeadings": {
+      "Divider": 0
+    }
   }
 }

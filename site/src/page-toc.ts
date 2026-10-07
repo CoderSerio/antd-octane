@@ -7,6 +7,23 @@ export interface TocSection extends TocLink {
   children: TocLink[];
 }
 
+/** Independent demo columns cannot use source order to pick the visible section. */
+export function findActiveTocAnchor(
+  headings: HTMLElement[],
+  requestedId?: string,
+  offset = 160,
+): string {
+  const above = headings
+    .map((node) => ({ node, top: node.getBoundingClientRect().top }))
+    .filter(({ top }) => top <= offset);
+  if (!above.length) return headings[0]?.id ?? "";
+  const nearest = Math.max(...above.map(({ top }) => top));
+  const candidates = above.filter(({ top }) => Math.abs(top - nearest) < 1);
+  return (
+    candidates.find(({ node }) => node.id === requestedId) ?? candidates[0]
+  ).node.id;
+}
+
 /** Match antd 5's H2 sections and H3 children, using the rendered document. */
 export function readPageToc(root: HTMLElement): TocSection[] {
   const sections: TocSection[] = [];
@@ -14,9 +31,26 @@ export function readPageToc(root: HTMLElement): TocSection[] {
     Array.from(root.querySelectorAll<HTMLElement>("[id]"), (node) => node.id),
   );
   let parent: TocSection | undefined;
-  for (const heading of root.querySelectorAll<HTMLElement>("h2, h3")) {
-    // Titles inside the running examples are not documentation sections.
-    if (heading.closest(".demo-stage, .demo-code")) continue;
+  // Demo columns have independent heights; the TOC keeps their source order.
+  const headings = Array.from(
+    root.querySelectorAll<HTMLElement>("h2, h3"),
+  ).filter((heading) => !heading.closest(".demo-stage, .demo-code"));
+  for (const grid of root.querySelectorAll(".demo-grid")) {
+    const positions = headings.flatMap((heading, index) =>
+      heading.closest(".demo-grid") === grid ? [index] : [],
+    );
+    const ordered = positions
+      .map((index) => headings[index])
+      .sort(
+        (a, b) =>
+          Number(a.closest<HTMLElement>(".demo-card")?.dataset.demoOrder ?? 0) -
+          Number(b.closest<HTMLElement>(".demo-card")?.dataset.demoOrder ?? 0),
+      );
+    positions.forEach((position, index) => {
+      headings[position] = ordered[index];
+    });
+  }
+  for (const heading of headings) {
     const title = heading.textContent?.replace(/\s+/g, " ").trim();
     if (!title) continue;
     if (heading.tagName === "H3" && !parent) continue;

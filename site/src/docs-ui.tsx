@@ -1,4 +1,4 @@
-import { theme } from "antd-octane";
+import { Tabs, theme } from "antd-octane";
 import type { OctaneNode } from "octane";
 import {
   Children,
@@ -7,12 +7,41 @@ import {
   useEffect,
   useState,
 } from "octane";
-import { upstreamSlug } from "./component-coverage";
+import { componentCoverage, upstreamSlug } from "./component-coverage";
 import { DemoIframe } from "./demo-frame";
+import {
+  type DemoSourceModule,
+  type DemoSourceVariants,
+  type SourceToken,
+  selectDemoSource,
+} from "./demo-source";
 import { Icon } from "./icons";
+import { toc } from "./navigation";
 import { readPageToc } from "./page-toc";
 
-function Highlight({ source }: { source: string }) {
+export { selectDemoSource } from "./demo-source";
+
+function Highlight({
+  source,
+  tokens,
+}: {
+  source: string;
+  tokens?: SourceToken[];
+}) {
+  if (tokens) {
+    return (
+      <>
+        {tokens.map((token, index) => (
+          <span
+            key={index}
+            className={token.kind ? `code-${token.kind}` : undefined}
+          >
+            {token.text}
+          </span>
+        ))}
+      </>
+    );
+  }
   const parts = source.split(
     /(\/\/[^\n]*|\/\*[\s\S]*?\*\/|"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|`(?:[^`\\]|\\.)*`|\b(?:import|from|export|default|function|return|const|let|if|else|type|interface|true|false|null|undefined|new|async|await)\b|\b\d+\b)/g,
   );
@@ -44,30 +73,46 @@ function Highlight({ source }: { source: string }) {
 export function Code({
   source,
   language = "tsx",
+  tokens,
+  compact = false,
 }: {
   source: string;
-  language?: "tsx" | "ts" | "bash" | "css" | "json" | "html";
+  language?: "tsx" | "jsx" | "ts" | "bash" | "css" | "json" | "html";
+  tokens?: SourceToken[];
+  compact?: boolean;
 }) {
   const [copied, setCopied] = useState(false);
   const [failed, setFailed] = useState(false);
   return (
-    <div className="code-wrap">
+    <div
+      className={["code-wrap", compact && "demo-source-wrap"]}
+      data-language={language}
+    >
       <span className="code-language">
-        {language === "bash"
-          ? "Shell"
-          : language === "css"
-            ? "CSS"
-            : language === "ts"
-              ? "TypeScript"
-              : language === "json"
-                ? "JSON"
-                : language === "html"
-                  ? "HTML"
-                  : "TSX"}
+        {compact
+          ? language
+          : language === "bash"
+            ? "Shell"
+            : language === "css"
+              ? "CSS"
+              : language === "ts"
+                ? "TypeScript"
+                : language === "json"
+                  ? "JSON"
+                  : language === "html"
+                    ? "HTML"
+                    : "TSX"}
       </span>
       <button
         className="copy-button"
         type="button"
+        aria-label={
+          compact
+            ? `复制${language === "jsx" ? "JavaScript" : "TypeScript"}代码`
+            : undefined
+        }
+        title={copied ? "已复制" : "复制代码"}
+        data-copied={copied || undefined}
         onClick={async () => {
           try {
             await navigator.clipboard.writeText(source);
@@ -78,156 +123,97 @@ export function Code({
           }
         }}
       >
-        {failed ? "请手动复制" : copied ? "已复制 ✓" : "复制代码"}
+        {failed ? (
+          "请手动复制"
+        ) : compact ? (
+          <Icon name={copied ? "check" : "copy"} />
+        ) : copied ? (
+          "已复制 ✓"
+        ) : (
+          "复制代码"
+        )}
       </button>
       <pre>
         <code>
-          <Highlight source={source} />
+          <Highlight source={source} tokens={tokens} />
         </code>
       </pre>
     </div>
   );
 }
 
-/**
- * Demo files intentionally keep related examples together so their shared
- * data and helpers stay in one place.  The antd site shows one source block
- * per example, though, so select the exported demo (and the helpers it uses)
- * before rendering or copying the code.
- */
-function findFunctionEnd(source: string, openBrace: number) {
-  let depth = 0;
-  let quote = "";
-  let escaped = false;
-  let lineComment = false;
-  let blockComment = false;
-
-  for (let index = openBrace; index < source.length; index += 1) {
-    const char = source[index];
-    const next = source[index + 1];
-
-    if (lineComment) {
-      if (char === "\n") lineComment = false;
-      continue;
-    }
-    if (blockComment) {
-      if (char === "*" && next === "/") {
-        blockComment = false;
-        index += 1;
-      }
-      continue;
-    }
-    if (quote) {
-      if (escaped) {
-        escaped = false;
-      } else if (char === "\\") {
-        escaped = true;
-      } else if (char === quote) {
-        quote = "";
-      }
-      continue;
-    }
-    if (char === "/" && next === "/") {
-      lineComment = true;
-      index += 1;
-      continue;
-    }
-    if (char === "/" && next === "*") {
-      blockComment = true;
-      index += 1;
-      continue;
-    }
-    if (char === '"' || char === "'" || char === "`") {
-      quote = char;
-      continue;
-    }
-    if (char === "{") depth += 1;
-    if (char === "}" && --depth === 0) return index + 1;
-  }
-  return source.length;
-}
-
-function trimUnusedImports(source: string) {
-  const withoutImports = source.replace(
-    /import\s+\{[\s\S]*?\}\s+from\s+["'][^"']+["'];?/g,
-    "",
-  );
-  return source.replace(
-    /import\s+\{([\s\S]*?)\}\s+from\s+(["'][^"']+["'])[ \t]*;?([ \t]*\r?\n)?/g,
-    (
-      _statement,
-      names: string,
-      moduleName: string,
-      lineBreak: string | undefined,
-    ) => {
-      const kept = names
-        .split(",")
-        .map((name) => name.trim())
-        .filter((name) => {
-          const identifier = name
-            .split(/\s+as\s+/i)
-            .at(-1)
-            ?.trim();
-          return (
-            identifier && new RegExp(`\\b${identifier}\\b`).test(withoutImports)
-          );
-        });
-      return kept.length
-        ? `import { ${kept.join(", ")} } from ${moduleName};${lineBreak ?? ""}`
-        : "";
+/** Ant Design's code language tabs and collapse row, using native Octane controls. */
+export function DemoCodePreview({
+  source,
+  variants,
+  onCollapse,
+  language: controlledLanguage,
+  onLanguageChange,
+}: {
+  source: string;
+  variants?: DemoSourceVariants;
+  onCollapse: () => void;
+  language?: string;
+  onLanguageChange?: (language: string) => void;
+}) {
+  const { token } = theme.useToken();
+  const [language, setLanguage] = useState("tsx");
+  const items = [
+    {
+      key: "tsx",
+      label: "TypeScript",
+      children: (
+        <Code source={source} tokens={variants?.typescriptTokens} compact />
+      ),
     },
+    ...(variants
+      ? [
+          {
+            key: "jsx",
+            label: "JavaScript",
+            children: (
+              <Code
+                source={variants.javascript}
+                tokens={variants.javascriptTokens}
+                language="jsx"
+                compact
+              />
+            ),
+          },
+        ]
+      : []),
+  ];
+  return (
+    <div
+      className="demo-source-preview"
+      style={{
+        "--demo-source-bg": token.colorBgContainer,
+        "--demo-source-text": token.colorText,
+        "--demo-source-muted": token.colorIcon,
+        "--demo-source-secondary": token.colorTextSecondary,
+        "--demo-source-elevated": token.colorBgElevated,
+        "--demo-source-success": token.colorSuccess,
+        "--demo-source-radius": `${token.borderRadius}px`,
+        "--demo-source-border": token.colorSplit,
+        "--demo-source-font-size": `${token.fontSize}px`,
+        "--demo-source-primary": token.colorPrimary,
+      }}
+    >
+      <Tabs
+        centered
+        className="demo-source-tabs"
+        activeKey={controlledLanguage ?? language}
+        onChange={(next) => {
+          setLanguage(next);
+          onLanguageChange?.(next);
+        }}
+        items={items}
+      />
+      <button className="demo-code-collapse" type="button" onClick={onCollapse}>
+        <Icon name="up" /> 收起
+      </button>
+    </div>
   );
-}
-
-export function selectDemoSource(source: string, exportName?: string) {
-  if (!exportName) return source;
-  const matches = Array.from(
-    source.matchAll(
-      /(^|\n)(export\s+)?function\s+([A-Za-z_$][\w$]*)\s*\([^)]*\)\s*\{/g,
-    ),
-  );
-  if (!matches.length) return source;
-
-  const functions = matches.map((match) => {
-    const start = (match.index ?? 0) + match[1].length;
-    const openBrace = (match.index ?? 0) + match[0].lastIndexOf("{");
-    return {
-      name: match[3],
-      exported: /^export\s+function/.test(source.slice(start, start + 32)),
-      start,
-      end: findFunctionEnd(source, openBrace),
-    };
-  });
-  const exported = new Map(
-    functions.filter((item) => item.exported).map((item) => [item.name, item]),
-  );
-  if (!exported.has(exportName)) return source;
-
-  const selected = new Set<string>();
-  const byName = new Map(functions.map((item) => [item.name, item]));
-  const visit = (name: string) => {
-    if (selected.has(name)) return;
-    const item = byName.get(name);
-    if (!item) return;
-    selected.add(name);
-    const body = source.slice(item.start, item.end);
-    for (const dependency of byName.keys()) {
-      if (dependency !== name && new RegExp(`\\b${dependency}\\b`).test(body)) {
-        visit(dependency);
-      }
-    }
-  };
-  visit(exportName);
-
-  const spans = functions.filter((item) => selected.has(item.name));
-  const chunks: string[] = [source.slice(0, functions[0].start)];
-  for (const item of spans.sort((left, right) => left.start - right.start)) {
-    chunks.push(source.slice(item.start, item.end));
-  }
-  const selectedSource = chunks.join("\n\n").replace(/\n{3,}/g, "\n\n");
-  return trimUnusedImports(selectedSource)
-    .replace(/\n{3,}/g, "\n\n")
-    .trim();
 }
 
 export function Demo({
@@ -238,6 +224,7 @@ export function Demo({
   iframe,
   source,
   sourceExport,
+  order,
   children,
 }: {
   id?: string;
@@ -245,26 +232,60 @@ export function Demo({
   description: string;
   descriptionMarkdown?: boolean;
   iframe?: { demo: string; height: number };
-  source: () => Promise<{ default: string }>;
+  source: () => Promise<DemoSourceModule>;
   sourceExport?: string;
+  order?: number;
   children: OctaneNode;
 }) {
   const { token } = theme.useToken();
+  const showBrowserFrame =
+    iframe &&
+    (iframe.demo.startsWith("layout-") ||
+      iframe.demo.startsWith("development/layout/") ||
+      iframe.demo.startsWith("anchor/"));
   const [text, setText] = useState<string | null>(null);
+  const [variants, setVariants] = useState<DemoSourceVariants>();
+  const [language, setLanguage] = useState("tsx");
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [failed, setFailed] = useState(false);
   const load = async () => {
-    const value =
-      text ?? selectDemoSource((await source()).default, sourceExport);
+    if (text !== null) return text;
+    const module = await source();
+    const value = selectDemoSource(module.default, sourceExport);
+    const forms = module.examples?.[sourceExport ?? ""] ?? module.code;
+    if (forms?.typescript === value) setVariants(forms);
     setText(value);
     return value;
   };
   return (
-    <section className="demo-card" id={id} tabIndex={-1}>
-      <div className="demo-stage" style={iframe ? { padding: 0 } : undefined}>
+    <section
+      className="demo-card"
+      id={id}
+      tabIndex={-1}
+      data-demo-order={order}
+    >
+      <div
+        className="demo-stage"
+        style={{
+          "--demo-link-color": token.colorLink,
+          "--demo-link-hover": token.colorLinkHover,
+          "--demo-link-active": token.colorLinkActive,
+          ...(iframe ? { padding: 0 } : {}),
+          ...(showBrowserFrame ? { overflow: "hidden" } : {}),
+        }}
+      >
         {iframe ? (
-          <DemoIframe title={title} demo={iframe.demo} height={iframe.height} />
+          <div
+            className={showBrowserFrame ? "demo-browser-frame" : undefined}
+            style={{ "--demo-frame-radius": `${token.borderRadiusSM}px` }}
+          >
+            <DemoIframe
+              title={title}
+              demo={iframe.demo}
+              height={iframe.height}
+            />
+          </div>
         ) : (
           <div className="demo-content">{children}</div>
         )}
@@ -314,7 +335,12 @@ export function Demo({
           aria-label={`复制${title}代码`}
           onClick={async () => {
             try {
-              await navigator.clipboard.writeText(await load());
+              const selectedSource = await load();
+              await navigator.clipboard.writeText(
+                language === "jsx" && variants
+                  ? variants.javascript
+                  : selectedSource,
+              );
               setCopied(true);
               setFailed(false);
             } catch {
@@ -346,7 +372,16 @@ export function Demo({
             </p>
           )}
           {text !== null ? (
-            <Code source={text} />
+            <DemoCodePreview
+              source={text}
+              variants={variants}
+              language={language}
+              onLanguageChange={(next) => {
+                setLanguage(next);
+                setCopied(false);
+              }}
+              onCollapse={() => setOpen(false)}
+            />
           ) : !failed ? (
             <p role="status">正在加载代码…</p>
           ) : null}
@@ -359,10 +394,39 @@ export function Demo({
 export function DemoGrid({
   children,
   columns = 2,
+  component,
 }: {
   children: OctaneNode;
   columns?: 1 | 2;
+  component?: string;
 }) {
+  const [developmentExamples, setDevelopmentExamples] = useState<
+    OctaneNode[] | null
+  >(null);
+  useEffect(() => {
+    if (!import.meta.env.DEV || !component) return;
+    let cancelled = false;
+    void import("./development/layout-navigation")
+      .then(({ augmentExamples }) =>
+        augmentExamples(component, Children.toArray(children)),
+      )
+      .then((examples) => {
+        if (!cancelled) setDevelopmentExamples(examples);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [component]);
+  useEffect(() => {
+    if (!developmentExamples) return;
+    window.dispatchEvent(new Event("docs:ready"));
+    const [page, section] = window.location.hash.slice(1).split("/");
+    if (page === component && section) {
+      const target = document.getElementById(section);
+      target?.scrollIntoView();
+      target?.focus({ preventScroll: true });
+    }
+  }, [developmentExamples]);
   const [wide, setWide] = useState(
     () => typeof window === "undefined" || window.innerWidth > 1024,
   );
@@ -373,14 +437,16 @@ export function DemoGrid({
     return () => window.removeEventListener("resize", update);
   }, []);
   const columnCount = wide ? columns : 1;
-  const examples = Children.toArray(children).map((child, index) =>
-    isValidElement(child)
-      ? cloneElement(child, { key: child.key ?? index })
-      : child,
+  const examples = (developmentExamples ?? Children.toArray(children)).map(
+    (child, index) =>
+      isValidElement(child)
+        ? cloneElement(child, { key: child.key ?? index, order: index })
+        : child,
   );
   return (
     <div
       className="demo-grid"
+      data-component={component}
       style={
         columnCount === 1
           ? { gridTemplateColumns: "minmax(0, 1fr)" }
@@ -529,6 +595,40 @@ export function ApiTable({
   );
 }
 
+/** Keep links to existing component documents within this site's route. */
+function localReferenceHref(url: URL) {
+  if (url.origin !== "https://5x.ant.design" || url.search) return undefined;
+  const slug = url.pathname.match(/^\/components\/([^/]+?)(?:-cn)?\/?$/)?.[1];
+  const page = componentCoverage.find(
+    ({ name, pageId }) => pageId && upstreamSlug(name) === slug,
+  );
+  if (!page?.pageId) return undefined;
+  const href = `#${page.pageId}`;
+  if (!url.hash) return href;
+  let fragment: string;
+  try {
+    fragment = decodeURIComponent(url.hash.slice(1));
+  } catch {
+    return href;
+  }
+  const prefix = `${slug}-demo-`;
+  if (fragment.startsWith(prefix)) fragment = fragment.slice(prefix.length);
+  if (page.pageId === "radio" && fragment === "radiobutton")
+    fragment = "button-sizes";
+  if (page.pageId === "anchor" && fragment.toLowerCase() === "targetoffset")
+    return `${href}/targetOffset`;
+  const anchors = [
+    "api",
+    "examples",
+    "tokens",
+    ...(toc[page.pageId] ?? []).map(([id]) => id),
+  ];
+  const section = anchors.find(
+    (id) => id.toLowerCase() === fragment.toLowerCase(),
+  );
+  return section ? `${href}/${section}` : href;
+}
+
 /** Render the inline syntax used in the pinned upstream API tables, without HTML injection. */
 export function ReferenceText({
   text,
@@ -568,7 +668,13 @@ export function ReferenceText({
         if (/^<https?:\/\//.test(part)) {
           const href = part.slice(1, -1);
           return (
-            <a key={key} href={href} target="_blank" rel="noreferrer">
+            <a
+              key={key}
+              className="reference-link"
+              href={href}
+              target="_blank"
+              rel="noreferrer"
+            >
               {href}
             </a>
           );
@@ -578,9 +684,20 @@ export function ReferenceText({
           const [, label, path] = link;
           const url = new URL(path, referenceUrl ?? "https://5x.ant.design/");
           if (!["https:", "http:"].includes(url.protocol)) return label;
+          const localHref = localReferenceHref(url);
           return (
-            <a key={key} href={url.href} target="_blank" rel="noreferrer">
-              {label}
+            <a
+              key={key}
+              className="reference-link"
+              href={localHref ?? url.href}
+              target={localHref ? undefined : "_blank"}
+              rel={localHref ? undefined : "noreferrer"}
+            >
+              <ReferenceText
+                text={label}
+                inlineCode={inlineCode}
+                referenceUrl={referenceUrl}
+              />
             </a>
           );
         }

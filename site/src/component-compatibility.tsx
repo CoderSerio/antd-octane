@@ -3,6 +3,23 @@ export function ComponentCompatibilityNotes() {
   return (
     <>
       <details>
+        <summary>Flex / Space / Divider / Grid</summary>
+        <p>
+          布局、导航的参数表与主题变量表采用 antd 5.29.3 的参考范围， 表格不表示
+          npm 版本已实现全部属性。未发布工作区源码已补齐 Flex.component、Space
+          的 item 语义化样式、Compact / Addon 的自定义前缀， Divider 的
+          size、variant、start / end 和 RTL 文字位置，以及 Grid 的 CSS 单位
+          gutter、Row / Col 引用与 Provider 样式。 Space 基础示例暂缺 Upload
+          组合；Compact 示例中的 Cascader、DatePicker、TimePicker、TreeSelect 和
+          ColorPicker 尚未实现。 其余官方组合使用已发布的组件
+          API，未用其他控件替代缺失组件。 Divider 的 size 与 variant
+          示例已接入本地开发预览，公开构建须等对应源码发布后接入。布局与导航
+          的本地预览按官方公开样例顺序补齐，并支持复制和展开源码。公开构建不包含
+          `site/src/development` 中尚未发布的案例。上游标记为 debug
+          的间距换行和完整菜单 案例不计入公共示例。
+        </p>
+      </details>
+      <details>
         <summary>Affix</summary>
         <p>
           未发布工作区实现按上游拆分测量工具、帧节流及主题样式，支持上、下偏移、目标滚动容器、状态回调和可取消的

@@ -4,7 +4,9 @@ import { ReferenceText } from "./docs-ui";
 import { ReferenceMarkdown } from "./reference-markdown";
 
 interface ComponentCopy {
+  description?: string;
   when?: string;
+  beforeExamples?: string;
   apiIntro?: string;
   afterApi?: string;
   sectionBefore?: Record<string, string>;
@@ -13,6 +15,10 @@ interface ComponentCopy {
   sectionHeadings?: Record<string, number>;
 }
 const references: Record<string, ComponentCopy> = copy;
+
+export function ComponentDescription({ component }: { component: string }) {
+  return <p className="lead">{references[component]?.description}</p>;
+}
 
 export function ComponentSectionHeading({
   component,
@@ -52,6 +58,7 @@ export function ComponentProse({
 }: {
   component: string;
   part:
+    | "beforeExamples"
     | "apiIntro"
     | "afterApi"
     | "sectionBefore"
