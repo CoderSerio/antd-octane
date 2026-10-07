@@ -116,12 +116,14 @@ it("Anchor tracks custom scroll positions and scrolls clicked links with targetO
   expect(move).toHaveBeenCalledWith({ top: -5, behavior: "smooth" });
   expect(change).toHaveBeenCalledWith("#position-two");
 });
-it("Anchor onClick can prevent navigation, getCurrentAnchor customizes selection", async () => {
+it("Anchor onClick prevents history updates while retaining target scrolling", async () => {
   const scroll = target(),
     section = document.createElement("section");
   section.id = "position-custom";
   scroll.append(section);
   const move = vi.spyOn(scroll, "scrollTo");
+  const push = vi.spyOn(history, "pushState");
+  const replace = vi.spyOn(history, "replaceState");
   await render(
     <Anchor
       affix={false}
@@ -132,7 +134,9 @@ it("Anchor onClick can prevent navigation, getCurrentAnchor customizes selection
     />,
   );
   await act(() => container.querySelector("a")?.click());
-  expect(move).not.toHaveBeenCalled();
+  expect(move).toHaveBeenCalledOnce();
+  expect(push).not.toHaveBeenCalled();
+  expect(replace).not.toHaveBeenCalled();
   expect(container.querySelector("a")?.getAttribute("aria-current")).toBe(
     "location",
   );

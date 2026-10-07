@@ -77,7 +77,7 @@ export type { AffixProps, AffixRef } from "./affix";
 export { Affix } from "./affix";
 export type { AlertProps, AlertRef } from "./alert";
 export { Alert } from "./alert";
-export type { AnchorItem, AnchorProps } from "./anchor";
+export type { AnchorItem, AnchorLinkProps, AnchorProps } from "./anchor";
 export { Anchor } from "./anchor";
 export type { AppContextValue, AppProps } from "./app";
 export { App } from "./app";

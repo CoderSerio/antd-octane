@@ -53,6 +53,18 @@ export function ComponentCompatibilityNotes() {
         </p>
       </details>
       <details>
+        <summary>Anchor</summary>
+        <p>
+          未发布源码已补齐 affix 对象配置、单个 item 的 replace、
+          showInkInFixed、Anchor.Link、自定义前缀、Provider 样式与活动滑块。
+          getCurrentAnchor 接收当前链接字符串，onChange 返回未映射的链接；
+          onClick 接收原生 MouseEvent。preventDefault 阻止历史记录更新，
+          仍执行目标滚动，与上游一致。八个官方示例已按源码适配，其中四个
+          使用与上游相同的 200px
+          独立文档。横向锚点滚动和嵌套滚动容器仍需进一步对照。
+        </p>
+      </details>
+      <details>
         <summary>Affix</summary>
         <p>
           未发布工作区实现按上游拆分测量工具、帧节流及主题样式，支持上、下偏移、目标滚动容器、状态回调和可取消的

@@ -362,5 +362,17 @@
       "Panel": 3
     },
     "apiIntro": "> Splitter 组件需要通过子元素计算面板大小，因而其子元素仅支持 `Splitter.Panel`。"
+  },
+  "Anchor": {
+    "description": "用于跳转到页面指定位置。",
+    "when": "需要展现当前页面上可供跳转的锚点链接，以及快速在锚点之间跳转。",
+    "sectionHeadings": {
+      "Anchor Props": 3,
+      "AnchorItem": 3,
+      "Link Props": 3
+    },
+    "sectionIntro": {
+      "Link Props": "建议使用 items 形式。"
+    }
   }
 }

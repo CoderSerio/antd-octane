@@ -207,6 +207,16 @@ const order: Record<string, string[]> = {
     "nested",
     "lazy",
   ],
+  anchor: [
+    "basic",
+    "horizontal",
+    "static",
+    "onClick",
+    "customizeHighlight",
+    "targetOffset",
+    "onChange",
+    "replace",
+  ],
 };
 
 export async function augmentExamples(
