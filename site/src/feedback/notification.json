@@ -5,7 +5,6 @@
       "title": "Notification",
       "rows": [
         ["actions", "自定义按钮组", "OctaneNode", "-"],
-        ["~~btn~~", "自定义按钮组，请使用 `actions` 替换", "OctaneNode", "-"],
         ["className", "自定义 CSS class", "string", "-"],
         ["closeIcon", "自定义关闭图标", "OctaneNode", "true"],
         ["description", "通知提醒内容，必选", "OctaneNode", "-"],
@@ -126,10 +125,10 @@
   ],
   "tokens": {
     "component": [
-      ["colorErrorBg", "错误提醒框容器背景色", "string", "—"],
-      ["colorInfoBg", "信息提醒框容器背景色", "string", "—"],
-      ["colorSuccessBg", "成功提醒框容器背景色", "string", "—"],
-      ["colorWarningBg", "警告提醒框容器背景色", "string", "—"],
+      ["colorErrorBg", "错误提醒框容器背景色", "string", "-"],
+      ["colorInfoBg", "信息提醒框容器背景色", "string", "-"],
+      ["colorSuccessBg", "成功提醒框容器背景色", "string", "-"],
+      ["colorWarningBg", "警告提醒框容器背景色", "string", "-"],
       ["width", "提醒框宽度", "string | number", "384"],
       ["zIndexPopup", "提醒框 z-index", "number", "2050"]
     ],
