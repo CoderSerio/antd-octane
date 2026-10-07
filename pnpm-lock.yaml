@@ -23,12 +23,12 @@ importers:
       antd:
         specifier: 5.29.3
         version: 5.29.3(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
-      happy-dom:
-        specifier: ^20.0.0
-        version: 20.14.5
       dayjs:
         specifier: 1.11.23
         version: 1.11.23
+      happy-dom:
+        specifier: ^20.0.0
+        version: 20.14.5
       octane:
         specifier: 0.4.3
         version: 0.4.3(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@5.9.3)(vite@8.3.1(@types/node@22.20.4))
@@ -71,9 +71,6 @@ importers:
       antd-octane:
         specifier: 0.1.0-alpha.7
         version: 0.1.0-alpha.7(octane@0.4.3(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@5.9.3)(vite@8.3.1(@types/node@22.20.4)))
-      dayjs:
-        specifier: 1.11.23
-        version: 1.11.23
       octane:
         specifier: 0.4.3
         version: 0.4.3(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@5.9.3)(vite@8.3.1(@types/node@22.20.4))
