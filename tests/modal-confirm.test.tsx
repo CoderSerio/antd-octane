@@ -8,6 +8,8 @@ import {
   type ModalInstance,
 } from "../packages/antd-octane/src/modal";
 
+import destroyFns from "../packages/antd-octane/src/modal/destroyFns";
+
 let root: Root | undefined;
 let container: HTMLDivElement;
 let api: ModalInstance;
@@ -388,3 +390,24 @@ it("static close-button cancellation uses original callbacks after the exit", as
   expect(events).toEqual(["afterClose:original", "cancel:original"]);
   expect(cancel).toHaveBeenCalledWith(expect.any(Function));
 });
+
+for (const closeAll of [false, true]) {
+  it(`cleans up static confirmations destroyed before first render (${closeAll ? "all" : "one"})`, async () => {
+    const afterClose = vi.fn();
+    const before = document.body.childElementCount;
+    const registrations = destroyFns.size;
+    let modal!: ReturnType<typeof Modal.confirm>;
+    await act(() => {
+      modal = Modal.confirm({ content: "Never mounted", afterClose });
+      if (closeAll) Modal.destroyAll();
+      else modal.destroy();
+      modal.destroy();
+      modal.update({ content: "Must not reopen" });
+    });
+    await flushStatic();
+    expect(document.body.childElementCount).toBe(before);
+    expect(destroyFns.size).toBe(registrations);
+    expect(afterClose).toHaveBeenCalledTimes(1);
+    expect(document.querySelector(".ant-modal-confirm")).toBeNull();
+  });
+}

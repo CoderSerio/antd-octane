@@ -43,6 +43,7 @@ export default function confirm(config: ModalFuncProps): ModalResult {
   let currentConfig: StaticConfig = { ...config, close, open: true };
   let timer: ReturnType<typeof setTimeout>;
   let holder: ReturnType<typeof mountStaticHolder> | undefined;
+  let destroyed = false;
   const scheduleRender = () => {
     clearTimeout(timer);
     timer = setTimeout(() => {
@@ -56,6 +57,9 @@ export default function confirm(config: ModalFuncProps): ModalResult {
     });
   };
   function destroy(...args: unknown[]) {
+    if (destroyed) return;
+    destroyed = true;
+    clearTimeout(timer);
     if (
       args.some(
         (arg) => (arg as { triggerCancel?: boolean } | null)?.triggerCancel,
@@ -68,6 +72,14 @@ export default function confirm(config: ModalFuncProps): ModalResult {
     void Promise.resolve().then(() => holder?.unmount());
   }
   function close(...args: unknown[]) {
+    if (destroyed) return;
+    // A dialog closed before its deferred first render has no exit motion.
+    // Release it directly instead of mounting a permanently hidden holder.
+    if (!holder) {
+      destroy(...args);
+      config.afterClose?.();
+      return;
+    }
     currentConfig = {
       ...currentConfig,
       open: false,
@@ -84,6 +96,7 @@ export default function confirm(config: ModalFuncProps): ModalResult {
   return {
     destroy: close,
     update(next) {
+      if (destroyed) return;
       currentConfig =
         typeof next === "function"
           ? next(currentConfig)
