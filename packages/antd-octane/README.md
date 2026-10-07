@@ -24,7 +24,7 @@ createRoot(document.getElementById("root")!).render(
 
 Vite 需要启用 `octane/compiler/vite` 导出的 `octane()` 插件；TypeScript 配置 `jsx: "react-jsx"` 与 `jsxImportSource: "octane"`。TSX 和 TSRX 使用同一套组件 API。Signal 可在消费组件中通过 `.get()` 读取，再把结果传给受控属性；组件属性暂不直接接受 `SignalHandle`。运行时不依赖 React。
 
-示例中使用的命名图标从 `antd-octane/icons` 导入，例如 `ClockCircleOutlined`、`MinusOutlined`、`PlusOutlined`、`UserOutlined` 和 `AntDesignOutlined`。这是 Octane 原生适配集合，不是 React `@ant-design/icons` 的完整替代包。
+开发分支新增 `antd-octane/icons` 命名图标入口，例如 `ClockCircleOutlined`、`MinusOutlined`、`PlusOutlined`、`UserOutlined` 和 `AntDesignOutlined`；这些入口尚未包含在已发布的 `0.1.0-alpha.7` 中，需等待后续包版本。它是 Octane 原生适配集合，不是 React `@ant-design/icons` 的完整替代包。
 
 ## 范围与文档
 
