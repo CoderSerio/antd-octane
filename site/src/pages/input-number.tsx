@@ -9,7 +9,6 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         InputNumber <span>数字输入框</span>
-        <small>Alpha</small>
       </h1>
       <p className="lead">输入数值，或通过键盘和步进按钮精确调整数量。</p>
       <DocMeta name="InputNumber" />
