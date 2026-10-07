@@ -13,7 +13,6 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Select <span>选择器</span>
-        <small>Alpha</small>
       </h1>
       <p className="lead">
         从有限选项中选择一个或多个值，也可以先输入文本过滤。
