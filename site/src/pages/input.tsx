@@ -19,7 +19,6 @@ export default function InputPage({ section }: { section?: string }) {
     <>
       <h1>
         Input <span>输入框</span>
-        <small>Alpha</small>
       </h1>
       <p className="lead">通过鼠标或键盘输入内容，是基础的表单域。</p>
       <DocMeta name="Input" />
