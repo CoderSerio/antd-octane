@@ -1,0 +1,53 @@
+{
+  "version": "5.29.3",
+  "demoColumns": 1,
+  "api": [
+    {
+      "title": "Space",
+      "rows": [
+        ["align", "对齐方式", "`start` | `end` |`center` |`baseline`", "-"],
+        [
+          "classNames",
+          "语义化 className",
+          "[Record<SemanticDOM, string>](#semantic-dom)",
+          "-"
+        ],
+        ["direction", "间距方向", "`vertical` | `horizontal`", "`horizontal`"],
+        ["size", "间距大小", "[Size](#size) | [Size[]](#size)", "`small`"],
+        ["split", "设置分隔符", "OctaneNode", "-"],
+        [
+          "styles",
+          "语义化 style",
+          "[Record<SemanticDOM, CSSProperties>](#semantic-dom)",
+          "-"
+        ],
+        ["wrap", "是否自动换行，仅在 `horizontal` 时有效", "boolean", "false"]
+      ]
+    },
+    {
+      "title": "Space.Compact",
+      "rows": [
+        ["block", "将宽度调整为父元素宽度的选项", "boolean", "false"],
+        [
+          "direction",
+          "指定排列方向",
+          "`vertical` | `horizontal`",
+          "`horizontal`"
+        ],
+        ["size", "子组件大小", "`large` | `middle` | `small`", "`middle`"]
+      ]
+    },
+    {
+      "title": "Space.Addon",
+      "rows": [["children", "自定义内容", "OctaneNode", "-"]]
+    }
+  ],
+  "tokens": {
+    "component": [],
+    "global": [
+      ["padding", "控制元素的内间距。", "number", "16"],
+      ["paddingLG", "控制元素的大内间距。", "number", "24"],
+      ["paddingXS", "控制元素的特小内间距。", "number", "8"]
+    ]
+  }
+}

@@ -64,6 +64,8 @@ export interface ConfigComponentProps {
   col?: ComponentStyleConfig;
   row?: ComponentStyleConfig;
   divider?: ComponentStyleConfig;
+  space?: ComponentStyleConfig &
+    Pick<import("../space").SpaceProps, "size" | "classNames" | "styles">;
   flex?: ComponentStyleConfig & Pick<import("../flex").FlexProps, "vertical">;
   button?: ComponentStyleConfig &
     Pick<

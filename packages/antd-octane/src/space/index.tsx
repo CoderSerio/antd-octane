@@ -19,9 +19,16 @@ import {
   useLayoutEffect,
   useRef,
 } from "octane";
+import { componentClassName } from "../_util/componentClassName";
 import { ConfigProvider, useConfig } from "../config-provider";
+import { resolveComponentAlias } from "../theme/resolve";
 export type SpaceSize = "small" | "middle" | "large" | number;
 export interface SpaceProps extends HTMLAttributes<HTMLDivElement> {
+  ref?: Ref<HTMLDivElement>;
+  prefixCls?: string;
+  rootClassName?: string;
+  classNames?: { item?: string };
+  styles?: { item?: CSSProperties };
   style?: CSSProperties;
   direction?: "horizontal" | "vertical";
   size?: SpaceSize | [SpaceSize, SpaceSize];
@@ -31,16 +38,23 @@ export interface SpaceProps extends HTMLAttributes<HTMLDivElement> {
 }
 function InternalSpace({
   direction = "horizontal",
-  size = "small",
+  size: customSize,
   align,
   wrap = false,
   split,
+  prefixCls: customPrefixCls,
+  rootClassName,
+  classNames,
+  styles,
   className,
   style,
   children,
   ...rest
 }: SpaceProps) {
-  const { token } = useConfig();
+  const config = useConfig();
+  const token = resolveComponentAlias(config.theme, config.token, "Space");
+  const size = customSize ?? config.space?.size ?? "small";
+  const prefixCls = config.getPrefixCls("space", customPrefixCls);
   const pixels = (value: SpaceSize) =>
     typeof value === "number"
       ? value
@@ -53,27 +67,57 @@ function InternalSpace({
   const items = Children.toArray(children).filter(
     (item) => item !== null && item !== undefined && typeof item !== "boolean",
   );
+  if (items.length === 0) return null;
   return (
     <div
       {...rest}
-      className={["ant-space", `ant-space-${direction}`, className]}
+      className={[
+        componentClassName("ant-space", prefixCls),
+        componentClassName("ant-space", prefixCls, `-${direction}`),
+        config.space?.className,
+        className,
+        rootClassName,
+      ]}
       style={{
         display: "inline-flex",
+        direction: config.direction,
         flexDirection: direction === "vertical" ? "column" : "row",
         alignItems:
-          align ?? (direction === "horizontal" ? "center" : undefined),
+          align === "start"
+            ? "flex-start"
+            : align === "end"
+              ? "flex-end"
+              : (align ?? (direction === "horizontal" ? "center" : undefined)),
         flexWrap: wrap ? "wrap" : undefined,
         columnGap: pixels(sizes[0]),
         rowGap: pixels(sizes[1]),
+        ...config.space?.style,
         ...style,
       }}
     >
       {items.map((child, index) => (
         <Fragment key={index}>
-          {index > 0 && split !== undefined && (
-            <span className="ant-space-split">{split}</span>
+          <div
+            className={[
+              componentClassName("ant-space", prefixCls, "-item"),
+              classNames?.item ?? config.space?.classNames?.item,
+            ]}
+            style={{ ...config.space?.styles?.item, ...styles?.item }}
+          >
+            {child}
+          </div>
+          {index < items.length - 1 && !!split && (
+            <span
+              className={
+                componentClassName("ant-space", prefixCls, "-item-split") +
+                ((classNames?.item ?? config.space?.classNames?.item)
+                  ? ` ${classNames?.item ?? config.space?.classNames?.item}-split`
+                  : "")
+              }
+            >
+              {split}
+            </span>
           )}
-          <div className="ant-space-item">{child}</div>
         </Fragment>
       ))}
     </div>
@@ -86,17 +130,20 @@ export interface SpaceCompactProps extends HTMLAttributes<HTMLDivElement> {
   direction?: "horizontal" | "vertical";
   block?: boolean;
   rootClassName?: string;
+  prefixCls?: string;
 }
 
 export interface SpaceAddonProps extends HTMLAttributes<HTMLDivElement> {
   ref?: Ref<HTMLDivElement>;
   style?: CSSProperties;
+  prefixCls?: string;
 }
 
 interface CompactBoundary {
   first: boolean;
   last: boolean;
   direction: "horizontal" | "vertical";
+  size?: "small" | "middle" | "large";
 }
 const CompactBoundaryContext = createContext<CompactBoundary | null>(null);
 
@@ -118,7 +165,9 @@ function syncCompactBoundaries(root: HTMLElement, boundary: CompactBoundary) {
     // Count text is outside the bordered input, so the inner control owns corners.
     const control = item.classList.contains("ant-input-count-wrapper")
       ? (item.firstElementChild as HTMLElement | null)
-      : item;
+      : item.classList.contains("ao-dropdown-trigger")
+        ? (item.firstElementChild as HTMLElement | null)
+        : item;
     if (!control) continue;
     const wanted = new Set([
       "ant-space-compact-item",
@@ -160,6 +209,7 @@ function InternalCompact({
   direction = "horizontal",
   block = false,
   rootClassName,
+  prefixCls: customPrefixCls,
   className,
   style,
   children,
@@ -167,6 +217,7 @@ function InternalCompact({
   ...rest
 }: SpaceCompactProps) {
   const config = useConfig();
+  const prefixCls = config.getPrefixCls("space-compact", customPrefixCls);
   const parent = useContext(CompactBoundaryContext);
   const nativeChildren = isChildrenBlock(children);
   const items = nativeChildren ? [] : compactChildren(children);
@@ -212,65 +263,91 @@ function InternalCompact({
       {...rest}
       ref={root}
       className={[
-        "ant-space-compact",
-        block && "ant-space-compact-block",
-        direction === "vertical" && "ant-space-compact-vertical",
+        componentClassName("ant-space-compact", prefixCls),
+        block && componentClassName("ant-space-compact", prefixCls, "-block"),
+        direction === "vertical" &&
+          componentClassName("ant-space-compact", prefixCls, "-vertical"),
+        config.direction === "rtl" &&
+          componentClassName("ant-space-compact", prefixCls, "-rtl"),
         className,
         rootClassName,
       ]}
       style={{
         "--ao-compact-line-width": `${config.token.lineWidth}px`,
+        direction: config.direction,
         ...style,
       }}
     >
       <ConfigProvider componentSize={mergedSize}>
-        {nativeChildren
-          ? children
-          : items.map((child, index) => {
-              const boundary: CompactBoundary = {
-                first: index === 0 && (!sameDirection || !!parent?.first),
-                last:
-                  index === items.length - 1 &&
-                  (!sameDirection || !!parent?.last),
-                direction,
-              };
-              const descriptor = isValidElement(child)
-                ? (child as ElementDescriptor<Record<string, unknown>>)
-                : null;
-              return (
-                <CompactBoundaryContext
-                  key={descriptor?.key ?? index}
-                  value={boundary}
-                >
-                  {descriptor
-                    ? cloneElement(descriptor, {
-                        className: [
-                          descriptor.props.className,
-                          "ant-space-compact-item",
-                          `ant-space-compact-${direction}-item`,
-                          boundary.first && "ant-space-compact-first-item",
-                          boundary.last && "ant-space-compact-last-item",
-                        ],
-                      })
-                    : child}
-                </CompactBoundaryContext>
-              );
-            })}
+        {nativeChildren ? (
+          <CompactBoundaryContext
+            value={{
+              first: !sameDirection || !!parent?.first,
+              last: !sameDirection || !!parent?.last,
+              direction,
+              size: mergedSize,
+            }}
+          >
+            {children}
+          </CompactBoundaryContext>
+        ) : (
+          items.map((child, index) => {
+            const boundary: CompactBoundary = {
+              first: index === 0 && (!sameDirection || !!parent?.first),
+              last:
+                index === items.length - 1 &&
+                (!sameDirection || !!parent?.last),
+              direction,
+              size: mergedSize,
+            };
+            const descriptor = isValidElement(child)
+              ? (child as ElementDescriptor<Record<string, unknown>>)
+              : null;
+            return (
+              <CompactBoundaryContext
+                key={descriptor?.key ?? index}
+                value={boundary}
+              >
+                {descriptor
+                  ? cloneElement(descriptor, {
+                      className: [
+                        descriptor.props.className,
+                        "ant-space-compact-item",
+                        `ant-space-compact-${direction}-item`,
+                        boundary.first && "ant-space-compact-first-item",
+                        boundary.last && "ant-space-compact-last-item",
+                      ],
+                    })
+                  : child}
+              </CompactBoundaryContext>
+            );
+          })
+        )}
       </ConfigProvider>
     </div>
   );
 }
 
-function Addon({ className, style, children, ...rest }: SpaceAddonProps) {
-  const { token, componentSize = "middle" } = useConfig();
+function Addon({
+  className,
+  style,
+  children,
+  prefixCls: customPrefixCls,
+  ...rest
+}: SpaceAddonProps) {
+  const config = useConfig();
+  const token = resolveComponentAlias(config.theme, config.token, "Space");
+  const componentSize = useContext(CompactBoundaryContext)?.size;
+  const prefixCls = config.getPrefixCls("space-addon", customPrefixCls);
   const small = componentSize === "small";
   const large = componentSize === "large";
   return (
     <div
       {...rest}
       className={[
-        "ant-space-addon",
-        `ant-space-addon-${componentSize}`,
+        componentClassName("ant-space-addon", prefixCls),
+        componentSize &&
+          componentClassName("ant-space-addon", prefixCls, `-${componentSize}`),
         className,
       ]}
       style={{
@@ -288,11 +365,8 @@ function Addon({ className, style, children, ...rest }: SpaceAddonProps) {
           : large
             ? token.fontSizeLG
             : token.fontSize,
-        minHeight: small
-          ? token.controlHeightSM
-          : large
-            ? token.controlHeightLG
-            : token.controlHeight,
+        margin: 0,
+        gap: 0,
         ...style,
       }}
     >

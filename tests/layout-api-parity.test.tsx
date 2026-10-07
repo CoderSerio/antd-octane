@@ -75,6 +75,53 @@ it("Flex supports native/custom roots, DOM refs and provider styling", async () 
   );
 });
 
+it("Space applies item semantics, provider gap defaults and split order", async () => {
+  await render(
+    <ConfigProvider
+      space={{
+        size: 12,
+        classNames: { item: "provider-item" },
+        styles: { item: { color: "red", padding: 2 } },
+      }}
+    >
+      <Space
+        prefixCls="custom-space"
+        rootClassName="root"
+        classNames={{ item: "local-item" }}
+        styles={{ item: { color: "blue" } }}
+        split="/"
+      >
+        <span>A</span>
+        {null}
+        <span>B</span>
+      </Space>
+    </ConfigProvider>,
+  );
+  const space = container.firstElementChild as HTMLElement;
+  expect(space.classList.contains("custom-space")).toBe(true);
+  expect(space.classList.contains("root")).toBe(true);
+  expect(space.style.columnGap).toBe("12px");
+  expect([...space.children].map((node) => node.textContent)).toEqual([
+    "A",
+    "/",
+    "B",
+  ]);
+  const item = space.firstElementChild as HTMLElement;
+  expect(item.classList.contains("local-item")).toBe(true);
+  expect(item.classList.contains("provider-item")).toBe(false);
+  expect(item.style.color).toBe("blue");
+  expect(item.style.padding).toBe("2px");
+  await act(() =>
+    root?.render(
+      <Space>
+        {null}
+        {false}
+      </Space>,
+    ),
+  );
+  expect(container.childElementCount).toBe(0);
+});
+
 it("Divider supports size inheritance, variants and default margins", async () => {
   await render(
     <ConfigProvider componentSize="small" divider={{ className: "provider" }}>

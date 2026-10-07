@@ -1,10 +1,16 @@
-import { Button, Space } from "antd-octane";
+import { Button, Popconfirm, Space } from "antd-octane";
 export function BasicDemo() {
   return (
     <Space>
-      <Button type="primary">保存</Button>
-      <Button>取消</Button>
-      <Button>更多</Button>
+      Space
+      <Button type="primary">Button</Button>
+      <Popconfirm
+        title="Are you sure delete this task?"
+        okText="Yes"
+        cancelText="No"
+      >
+        <Button>Confirm</Button>
+      </Popconfirm>
     </Space>
   );
 }

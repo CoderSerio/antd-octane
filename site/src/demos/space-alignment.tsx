@@ -1,22 +1,34 @@
 import { Button, Space } from "antd-octane";
-
 export function AlignmentDemo() {
   return (
-    <Space direction="vertical" size="large">
-      {(["start", "center", "end", "baseline"] as const).map((align) => (
-        <div key={align}>
-          <p>
-            <code>align="{align}"</code>
-          </p>
+    <div
+      style={{ display: "flex", flexWrap: "wrap", alignItems: "flex-start" }}
+    >
+      {(["center", "start", "end", "baseline"] as const).map((align) => (
+        <div
+          key={align}
+          style={{
+            flex: "none",
+            margin: "8px 4px",
+            padding: 4,
+            border: "1px solid #40a9ff",
+          }}
+        >
           <Space align={align}>
-            <span style={{ fontSize: 12 }}>文字</span>
-            <Button>按钮</Button>
-            <div style={{ padding: "20px 12px", background: "var(--subtle)" }}>
-              高区块
-            </div>
+            {align}
+            <Button type="primary">Primary</Button>
+            <span
+              style={{
+                display: "inline-block",
+                padding: "32px 8px 16px",
+                background: "rgba(150,150,150,0.2)",
+              }}
+            >
+              Block
+            </span>
           </Space>
         </div>
       ))}
-    </Space>
+    </div>
   );
 }

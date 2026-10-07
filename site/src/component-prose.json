@@ -306,6 +306,22 @@
     },
     "apiIntro": "> Flex 组件默认行为在水平模式下，为向上对齐，在垂直模式下，为拉伸对齐，你可以通过属性进行调整。"
   },
+  "Space": {
+    "description": "设置组件之间的间距。",
+    "when": "避免组件紧贴在一起，拉开统一的空间。\n\n- 适合行内元素的水平间距。\n- 可以设置各种水平对齐方式。\n- 需要表单组件之间紧凑连接且合并边框时，使用 Space.Compact。\n\n### 与 Flex 组件的区别\n\n- Space 为内联元素提供间距，其本身会为每一个子元素添加包裹元素用于内联对齐。适用于行、列中多个子元素的等距排列。\n- Flex 为块级元素提供间距，其本身不会添加包裹元素。适用于垂直或水平方向上的子元素布局，并提供了更多的灵活性和控制能力。",
+    "sectionHeadings": {
+      "Space": 3,
+      "Space.Compact": 3,
+      "Space.Addon": 3
+    },
+    "sectionBefore": {
+      "Space.Compact": "### Size\n\n`'small' | 'middle' | 'large' | number`"
+    },
+    "sectionIntro": {
+      "Space.Compact": "需要表单组件之间紧凑连接且合并边框时，使用 Space.Compact，支持的组件有：\n\n- Button\n- AutoComplete\n- Input/Input.Search\n- InputNumber\n- Select",
+      "Space.Addon": "用于在紧凑布局中创建自定义单元格。"
+    }
+  },
   "Divider": {
     "description": "区隔内容的分割线。",
     "when": "- 对不同章节的文本段落进行分割。\n- 对行内文字/链接进行分割，例如表格的操作列。",

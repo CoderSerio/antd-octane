@@ -1,4 +1,11 @@
 /* biome-ignore-all lint/complexity/noImportantStyles: Joined corners override the controls' inline token radii. */
+.ant-flex:empty,
+.ant-space-item:empty {
+  display: none;
+}
+.ant-space-item > .ant-badge-standalone:only-child {
+  display: block;
+}
 .ant-space-compact {
   display: inline-flex;
   align-items: stretch;

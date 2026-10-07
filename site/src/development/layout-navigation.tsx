@@ -146,6 +146,17 @@ const order: Record<string, string[]> = {
     "fixed",
     "fixed-sider",
   ],
+  space: [
+    "basic",
+    "vertical",
+    "sizes",
+    "alignment",
+    "layout",
+    "split",
+    "compact",
+    "compact-buttons",
+    "compact-vertical",
+  ],
 };
 
 export async function augmentExamples(

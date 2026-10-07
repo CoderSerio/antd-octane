@@ -1,29 +1,39 @@
-import { Button, Space } from "antd-octane";
+import { Button, Radio, Slider, Space } from "antd-octane";
 import { useState } from "octane";
-
-const sizes = ["small", "middle", "large"] as const;
-
 export function SizesDemo() {
-  const [size, setSize] = useState<(typeof sizes)[number]>("middle");
+  const [size, setSize] = useState<"small" | "middle" | "large" | "customize">(
+    "small",
+  );
+  const [customSize, setCustomSize] = useState(0);
   return (
-    <Space direction="vertical" size="large" style={{ width: "100%" }}>
-      <Space size="small" wrap>
-        {sizes.map((option) => (
-          <Button
-            key={option}
-            size="small"
-            type={size === option ? "primary" : "default"}
-            onClick={() => setSize(option)}
-          >
-            {option}
-          </Button>
+    <>
+      <Radio.Group
+        value={size}
+        onChange={(event) => setSize(event.target.value as typeof size)}
+      >
+        {["small", "middle", "large", "customize"].map((item) => (
+          <Radio key={item} value={item}>
+            {item}
+          </Radio>
         ))}
+      </Radio.Group>
+      <br />
+      <br />
+      {size === "customize" && (
+        <>
+          <Slider
+            value={customSize}
+            onChange={(value) => setCustomSize(Number(value))}
+          />
+          <br />
+        </>
+      )}
+      <Space size={size !== "customize" ? size : customSize}>
+        <Button type="primary">Primary</Button>
+        <Button>Default</Button>
+        <Button type="dashed">Dashed</Button>
+        <Button type="link">Link</Button>
       </Space>
-      <Space size={size} wrap>
-        <Button>保存</Button>
-        <Button>预览</Button>
-        <Button>取消</Button>
-      </Space>
-    </Space>
+    </>
   );
 }
