@@ -57,10 +57,10 @@ export default function ApiConventions({ section }: { section?: string }) {
       </h2>
       <p>
         Form 已支持平面字段绑定与同步/异步规则校验；嵌套字段和动态列表仍待实现。
-        Table 已提供基础表格、排序、筛选、分页和展开能力。Modal 同时提供声明式
-        open/onOk/onCancel、Modal.confirm 和 Modal.useModal；Message 与
-        Notification 同时支持静态方法、hook/holder 和
-        App.useApp()，具体未覆盖范围以 各组件页的支持说明为准。
+        Table 尚未实现。Modal 已提供声明式
+        open/onOk/onCancel；Modal.confirm、Modal.useModal
+        尚未支持。消息与通知可使用 hook/holder 或 App.useApp()
+        实例，不能照搬全局静态调用。
       </p>
       <div className="notice">
         <strong>Octane 版本约定</strong>

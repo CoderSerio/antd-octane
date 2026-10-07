@@ -1,25 +1,12 @@
 import { Divider } from "antd-octane";
-
 export function BasicDemo() {
   return (
-    <>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nonne
-        merninisti licere mihi ista probare, quae sunt a te dicta? Refert tamen,
-        quo modo.
-      </p>
+    <div style={{ width: "100%" }}>
+      <p>将内容划分为清晰的阅读区块。</p>
       <Divider />
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nonne
-        merninisti licere mihi ista probare, quae sunt a te dicta? Refert tamen,
-        quo modo.
-      </p>
-      <Divider dashed />
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nonne
-        merninisti licere mihi ista probare, quae sunt a te dicta? Refert tamen,
-        quo modo.
-      </p>
-    </>
+      <p>主题变量决定分割线颜色。</p>
+      <Divider />
+      <p>分隔线本身是静态语义，不提供拖拽交互。</p>
+    </div>
   );
 }

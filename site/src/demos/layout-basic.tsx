@@ -1,89 +1,16 @@
-import { Flex, Layout } from "antd-octane";
-import type { CSSProperties } from "octane";
+import { Layout } from "antd-octane";
 import { useState } from "octane";
-
-const { Header, Footer, Sider, Content } = Layout;
-
-const headerStyle: CSSProperties = {
-  textAlign: "center",
-  color: "#fff",
-  height: 64,
-  paddingInline: 48,
-  lineHeight: "64px",
-  backgroundColor: "#4096ff",
-};
-
-const contentStyle: CSSProperties = {
-  textAlign: "center",
-  minHeight: 120,
-  lineHeight: "120px",
-  color: "#fff",
-  backgroundColor: "#0958d9",
-};
-
-const siderStyle: CSSProperties = {
-  textAlign: "center",
-  lineHeight: "120px",
-  color: "#fff",
-  backgroundColor: "#1677ff",
-};
-
-const footerStyle: CSSProperties = {
-  textAlign: "center",
-  color: "#fff",
-  backgroundColor: "#4096ff",
-};
-
-const layoutStyle: CSSProperties = {
-  borderRadius: 8,
-  overflow: "hidden",
-  width: "calc(50% - 8px)",
-  maxWidth: "calc(50% - 8px)",
-};
-
-export const BasicDemo = () => (
-  <Flex gap="middle" wrap>
-    <Layout style={layoutStyle}>
-      <Header style={headerStyle}>Header</Header>
-      <Content style={contentStyle}>Content</Content>
-      <Footer style={footerStyle}>Footer</Footer>
+export function BasicDemo() {
+  return (
+    <Layout style={{ width: "100%" }}>
+      <Layout.Header style={{ color: "#fff" }}>Header</Layout.Header>
+      <Layout.Content style={{ padding: 24, minHeight: 100 }}>
+        Content
+      </Layout.Content>
+      <Layout.Footer>Footer</Layout.Footer>
     </Layout>
-
-    <Layout style={layoutStyle}>
-      <Header style={headerStyle}>Header</Header>
-      <Layout>
-        <Sider width="25%" style={siderStyle}>
-          Sider
-        </Sider>
-        <Content style={contentStyle}>Content</Content>
-      </Layout>
-      <Footer style={footerStyle}>Footer</Footer>
-    </Layout>
-
-    <Layout style={layoutStyle}>
-      <Header style={headerStyle}>Header</Header>
-      <Layout>
-        <Content style={contentStyle}>Content</Content>
-        <Sider width="25%" style={siderStyle}>
-          Sider
-        </Sider>
-      </Layout>
-      <Footer style={footerStyle}>Footer</Footer>
-    </Layout>
-
-    <Layout style={layoutStyle}>
-      <Sider width="25%" style={siderStyle}>
-        Sider
-      </Sider>
-      <Layout>
-        <Header style={headerStyle}>Header</Header>
-        <Content style={contentStyle}>Content</Content>
-        <Footer style={footerStyle}>Footer</Footer>
-      </Layout>
-    </Layout>
-  </Flex>
-);
-
+  );
+}
 export function MoreDemo() {
   const [collapsed, set] = useState(false);
   return (

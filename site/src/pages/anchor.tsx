@@ -1,122 +1,119 @@
-import { ComponentDescription, ComponentWhenToUse } from "../component-prose";
-import {
-  ComponentApiTables,
-  ComponentTokenTable,
-} from "../component-reference";
-import Demo0 from "../demos/anchor/basic";
-import Demo4 from "../demos/anchor/customizeHighlight";
-import Demo1 from "../demos/anchor/horizontal";
-import Demo6 from "../demos/anchor/onChange";
-import Demo3 from "../demos/anchor/onClick";
-import Demo7 from "../demos/anchor/replace";
-import Demo2 from "../demos/anchor/static";
-import Demo5 from "../demos/anchor/targetOffset";
-import { Demo, DemoGrid, DocMeta, usePageAnchor } from "../docs-ui";
-import reference from "../navigation/anchor.json";
+import { BasicDemo, MoreDemo } from "../demos/anchor-basic";
+import { CustomActiveDemo } from "../demos/anchor-custom-active";
+import { CustomClickDemo } from "../demos/anchor-custom-click";
+import { HistoryDemo } from "../demos/anchor-history";
+import { NestedDemo } from "../demos/anchor-nested";
+import { OffsetDemo } from "../demos/anchor-offset";
+import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
   return (
     <>
       <h1>
         Anchor <span>锚点</span>
+        <small>Alpha</small>
       </h1>
-      <ComponentDescription component="Anchor" />
+      <p className="lead">通过页内链接定位内容，并随滚动高亮当前章节。</p>
       <DocMeta name="Anchor" />
-      <ComponentWhenToUse component="Anchor" />
       <h2 id="examples" tabIndex={-1}>
         代码演示
       </h2>
-      <DemoGrid
-        component="anchor"
-        columns={reference.demoColumns === 2 ? 2 : 1}
-      >
+      <div className="demo-grid">
         <Demo
           id="basic"
-          title="基本"
-          description={"最简单的用法。"}
-          descriptionMarkdown
-          iframe={{ demo: "anchor/basic", height: 200 }}
-          source={() => import("../demos/anchor/basic.tsx?raw")}
+          title="容器内定位"
+          description="affix=false 保持静态位置；点击导航或滚动独立内容容器。"
+          source={() => import("../demos/anchor-basic.tsx?raw")}
         >
-          <Demo0 />
+          <BasicDemo />
         </Demo>
         <Demo
-          id="horizontal"
-          title="横向 Anchor"
-          description={"横向 Anchor。"}
-          descriptionMarkdown
-          iframe={{ demo: "anchor/horizontal", height: 200 }}
-          source={() => import("../demos/anchor/horizontal.tsx?raw")}
+          id="more"
+          title="横向导航"
+          description="direction=horizontal 排列单层锚点；此示例链接到当前页面的章节。"
+          source={() => import("../demos/anchor-basic.tsx?raw")}
         >
-          <Demo1 />
+          <MoreDemo />
         </Demo>
         <Demo
-          id="static"
-          title="静态位置"
-          description={"不浮动，状态不随页面滚动变化。"}
-          descriptionMarkdown
-          source={() => import("../demos/anchor/static.tsx?raw")}
+          id="nested"
+          title="嵌套与链接改变"
+          description="children 形成嵌套导航，onChange 报告滚动或点击导致的当前链接变化。"
+          source={() => import("../demos/anchor-nested.tsx?raw")}
         >
-          <Demo2 />
+          <NestedDemo />
         </Demo>
         <Demo
-          id="onClick"
-          title="自定义 onClick 事件"
-          description={"点击锚点不记录历史。"}
-          descriptionMarkdown
-          source={() => import("../demos/anchor/onClick.tsx?raw")}
+          id="custom-click"
+          title="自定义点击"
+          description="onClick 可阻止默认滚动与 URL 改写，再交由业务处理。"
+          source={() => import("../demos/anchor-custom-click.tsx?raw")}
         >
-          <Demo3 />
+          <CustomClickDemo />
         </Demo>
         <Demo
-          id="customizeHighlight"
-          title="自定义锚点高亮"
-          description={"自定义锚点高亮。"}
-          descriptionMarkdown
-          source={() => import("../demos/anchor/customizeHighlight.tsx?raw")}
+          id="custom-active"
+          title="自定义高亮"
+          description="getCurrentAnchor 可覆盖滚动计算结果，固定高亮指定链接。"
+          source={() => import("../demos/anchor-custom-active.tsx?raw")}
         >
-          <Demo4 />
+          <CustomActiveDemo />
         </Demo>
         <Demo
-          id="targetOffset"
-          title="设置锚点滚动偏移量"
-          description={"锚点目标滚动到屏幕正中间。"}
-          descriptionMarkdown
-          iframe={{ demo: "anchor/targetOffset", height: 200 }}
-          source={() => import("../demos/anchor/targetOffset.tsx?raw")}
+          id="offset"
+          title="滚动偏移"
+          description="targetOffset 控制目标与滚动容器顶部的距离。"
+          source={() => import("../demos/anchor-offset.tsx?raw")}
         >
-          <Demo5 />
+          <OffsetDemo />
         </Demo>
         <Demo
-          id="onChange"
-          title="监听锚点链接改变"
-          description={"监听锚点链接改变"}
-          descriptionMarkdown
-          source={() => import("../demos/anchor/onChange.tsx?raw")}
+          id="history"
+          title="替换历史记录"
+          description="replace 控制点击锚点时替换当前 hash，还是新增历史记录。"
+          source={() => import("../demos/anchor-history.tsx?raw")}
         >
-          <Demo6 />
+          <HistoryDemo />
         </Demo>
-        <Demo
-          id="replace"
-          title="替换历史中的 href"
-          description={
-            "替换浏览器历史记录中的路径，后退按钮将返回到上一页而不是上一个锚点。"
-          }
-          descriptionMarkdown
-          iframe={{ demo: "anchor/replace", height: 200 }}
-          source={() => import("../demos/anchor/replace.tsx?raw")}
-        >
-          <Demo7 />
-        </Demo>
-      </DemoGrid>
+      </div>
       <h2 id="api" tabIndex={-1}>
         API
       </h2>
-      <ComponentApiTables component="Anchor" sections={reference.api} />
+      <ApiTable
+        rows={[
+          ["items", "链接列表，支持 children", "AnchorItem[]", "[]"],
+          ["affix", "使用 Affix 固定导航", "boolean", "true"],
+          ["getContainer", "滚动容器", "() => Window | HTMLElement", "window"],
+          [
+            "offsetTop / targetOffset",
+            "固定位置 / 滚动目标偏移",
+            "number",
+            "0 / offsetTop",
+          ],
+          ["bounds", "激活判定容差", "number", "5"],
+          ["getCurrentAnchor", "自定义当前链接", "(activeLink) => string", "—"],
+          ["direction", "布局方向", "vertical | horizontal", "vertical"],
+          ["onClick / onChange", "点击 / 激活项改变", "function", "—"],
+          ["replace", "替换历史而非新增", "boolean", "false"],
+          [
+            "items[].key / href / title / target",
+            "稳定键值、链接、标题与打开目标",
+            "string | number / string / OctaneNode / string",
+            "—",
+          ],
+        ]}
+      />
       <h2 id="tokens" tabIndex={-1}>
-        主题变量（Design Token）
+        主题与支持范围
       </h2>
-      <ComponentTokenTable component="Anchor" tokens={reference.tokens} />
+      <p>
+        支持 linkPaddingBlock、linkPaddingInlineStart 及全局主色。items
+        内部哈希链接滚动，普通外部链接保留浏览器行为；横向模式不渲染嵌套子链接。当前高亮为静态边线，不提供滚动滑块动画、旧
+        Anchor.Link、showInkInFixed 或自定义 ink。getCurrentAnchor
+        接收当前计算的链接字符串，不提供上游的候选链接数组参数；onClick 接收原生
+        MouseEvent。普通页内点击使用 History API 改写 hash；路由型应用可在
+        onClick 中接管。
+      </p>
     </>
   );
 }

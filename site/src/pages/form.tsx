@@ -14,6 +14,7 @@ export default function FormPage({ section }: { section?: string }) {
     <>
       <h1>
         Form <span>表单</span>
+        <small>Alpha</small>
       </h1>
       <p className="lead">收集平面字段的值，在提交时校验并反馈错误。</p>
       <DocMeta name="Form" />
@@ -98,18 +99,6 @@ export default function FormPage({ section }: { section?: string }) {
       </h2>
       <ApiTable
         rows={[
-          [
-            "Form.disabled",
-            "设置表单组件禁用；仅对 antd-octane 组件有效",
-            "boolean",
-            "false",
-          ],
-          [
-            "Form.size",
-            "设置字段组件的尺寸；仅对 antd-octane 组件有效",
-            "small | middle | large",
-            "—",
-          ],
           [
             "Form.initialValues",
             "初始字段值；重置时恢复",
@@ -268,18 +257,6 @@ interface FormValidationError {
         getValueFromEvent 接收 trigger 的完整参数列表，必须同步返回字段值。
         自定义控件应正确处理受控值与事件，并转发 id 或为复合控件提供可访问名称。
         数组字段请用 initialValues 设置数组初值；不根据属性名推断空数组。
-      </p>
-      <p>
-        disabled 与 size 通过上下文传递，未设置时继承父级配置；显式
-        disabled=false 可覆盖父级禁用。ConfigProvider.useConfig() 读取当前生效的
-        componentDisabled 与 componentSize。
-      </p>
-      <p>
-        未发布源码已补 Form 与 Form.Item 的 prefixCls、rootClassName、colon，
-        Form.Item 可覆盖 layout。标签、必填标记、help / extra 间距及三种基本布局
-        参考 antd 5.29.3，支持全部 10 个 Form 组件 Token 的嵌套覆盖。 Form.Item
-        独立使用时也解析组件主题。labelCol / wrapperCol
-        网格布局、可配置响应式列及校验动效仍未提供。
       </p>
       <p>
         输入、设置值、重置、真实规则变化或更新的校验请求会使旧校验失效。失效结果

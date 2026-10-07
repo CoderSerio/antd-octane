@@ -1,146 +1,71 @@
-import { ComponentWhenToUse } from "../component-prose";
-import {
-  ComponentApiTables,
-  ComponentTokenTable,
-} from "../component-reference";
-import reference from "../data-display/card.json";
-import {
-  BasicDemo,
-  BorderlessDemo,
-  FlexibleDemo,
-  GridDemo,
-  InColumnDemo,
-  InnerDemo,
-  LoadingDemo,
-  MetaDemo,
-  SimpleDemo,
-  TabsDemo,
-} from "../demos/card-basic";
-import { Demo, DemoGrid, DocMeta, usePageAnchor } from "../docs-ui";
+import { BasicDemo, MoreDemo } from "../demos/card-basic";
+import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
   return (
     <>
       <h1>
         Card <span>卡片</span>
+        <small>Alpha</small>
       </h1>
-      <p className="lead">通用卡片容器。</p>
+      <p className="lead">将相关信息和操作组合在一个容器内。</p>
       <DocMeta name="Card" />
-      <ComponentWhenToUse component="Card" />
+      <h2 id="when" tabIndex={-1}>
+        何时使用
+      </h2>
+      <p>适用于信息概览、项目列表和独立内容区块。</p>
       <h2 id="examples" tabIndex={-1}>
         代码演示
       </h2>
-      <DemoGrid>
+      <div className="demo-grid">
         <Demo
           id="basic"
-          title={"典型卡片"}
-          description={"包含标题、内容、操作区域。"}
-          descriptionMarkdown
+          title="基本使用"
+          description="常用形态与状态，主题配置跟随页面切换。"
           source={() => import("../demos/card-basic.tsx?raw")}
-          sourceExport="BasicDemo"
         >
           <BasicDemo />
         </Demo>
         <Demo
-          id="border-less"
-          title={"无边框"}
-          description={"在灰色背景上使用无边框的卡片。"}
-          descriptionMarkdown
+          id="more"
+          title="组合与交互"
+          description="结合业务内容验证配置和交互。"
           source={() => import("../demos/card-basic.tsx?raw")}
-          sourceExport="BorderlessDemo"
         >
-          <BorderlessDemo />
+          <MoreDemo />
         </Demo>
-        <Demo
-          id="simple"
-          title={"简洁卡片"}
-          description={"只包含内容区域。"}
-          descriptionMarkdown
-          source={() => import("../demos/card-basic.tsx?raw")}
-          sourceExport="SimpleDemo"
-        >
-          <SimpleDemo />
-        </Demo>
-        <Demo
-          id="flexible-content"
-          title={"更灵活的内容展示"}
-          description={"可以利用 `Card.Meta` 支持更灵活的内容。"}
-          descriptionMarkdown
-          source={() => import("../demos/card-basic.tsx?raw")}
-          sourceExport="FlexibleDemo"
-        >
-          <FlexibleDemo />
-        </Demo>
-        <Demo
-          id="in-column"
-          title={"栅格卡片"}
-          description={"在系统概览页面常常和栅格进行配合。"}
-          descriptionMarkdown
-          source={() => import("../demos/card-basic.tsx?raw")}
-          sourceExport="InColumnDemo"
-        >
-          <InColumnDemo />
-        </Demo>
-        <Demo
-          id="loading"
-          title={"预加载的卡片"}
-          description={"数据读入前会有文本块样式。"}
-          descriptionMarkdown
-          source={() => import("../demos/card-basic.tsx?raw")}
-          sourceExport="LoadingDemo"
-        >
-          <LoadingDemo />
-        </Demo>
-        <Demo
-          id="grid-card"
-          title={"网格型内嵌卡片"}
-          description={"一种常见的卡片内容区隔模式。"}
-          descriptionMarkdown
-          source={() => import("../demos/card-basic.tsx?raw")}
-          sourceExport="GridDemo"
-        >
-          <GridDemo />
-        </Demo>
-        <Demo
-          id="inner"
-          title={"内部卡片"}
-          description={"可以放在普通卡片内部，展示多层级结构的信息。"}
-          descriptionMarkdown
-          source={() => import("../demos/card-basic.tsx?raw")}
-          sourceExport="InnerDemo"
-        >
-          <InnerDemo />
-        </Demo>
-        <Demo
-          id="tabs"
-          title={"带页签的卡片"}
-          description={"可承载更多内容。"}
-          descriptionMarkdown
-          source={() => import("../demos/card-basic.tsx?raw")}
-          sourceExport="TabsDemo"
-        >
-          <TabsDemo />
-        </Demo>
-        <Demo
-          id="meta"
-          title={"支持更多内容配置"}
-          description={"一种支持封面、头像、标题和描述信息的卡片。"}
-          descriptionMarkdown
-          source={() => import("../demos/card-basic.tsx?raw")}
-          sourceExport="MetaDemo"
-        >
-          <MetaDemo />
-        </Demo>
-      </DemoGrid>
+      </div>
       <h2 id="api" tabIndex={-1}>
         API
       </h2>
-      <ComponentApiTables component="Card" sections={reference.api} />
-
+      <ApiTable
+        rows={[
+          ["title / extra / cover", "标题、附加操作与封面", "OctaneNode", "—"],
+          [
+            "size / bordered / hoverable",
+            "尺寸、边框和悬停阴影",
+            "default | small / boolean / boolean",
+            "default / true / false",
+          ],
+          ["loading", "显示加载占位，暂时隐藏内容", "boolean", "false"],
+          ["actions", "底部操作项", "OctaneNode[]", "—"],
+          [
+            "styles / classNames",
+            "header、body、cover、actions 样式与类",
+            "object",
+            "—",
+          ],
+          ["Card.Meta", "avatar、title、description", "OctaneNode", "—"],
+        ]}
+      />
       <h2 id="tokens" tabIndex={-1}>
-        主题变量（Design Token）
+        主题与支持范围
       </h2>
-      <ComponentTokenTable component="Card" tokens={reference.tokens} />
+      <p>
+        支持头部背景/字号/高度/内边距、内容内边距、actionsBg、extraColor 组件
+        token。保留 headStyle / bodyStyle。暂不支持 Card.Grid、tabList、inner
+        类型完整样式及完整 Skeleton 动画；type=inner 目前仅切换头部背景。
+      </p>
     </>
   );
 }

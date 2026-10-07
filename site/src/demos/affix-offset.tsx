@@ -43,7 +43,7 @@ export function OffsetDemo() {
           ref={affix}
           target={target}
           offsetTop={offset}
-          onChange={(value) => setFixed(!!value)}
+          onChange={setFixed}
         >
           <Button type="primary">始终可见的保存操作</Button>
         </Affix>

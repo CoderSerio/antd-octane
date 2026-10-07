@@ -1,78 +1,90 @@
-import { ComponentWhenToUse } from "../component-prose";
-import {
-  ReferenceApiTables,
-  ReferenceTokenTable,
-} from "../component-reference";
-import Demo0 from "../demos/watermark/basic";
-import Demo4 from "../demos/watermark/custom";
-import Demo2 from "../demos/watermark/image";
-import Demo1 from "../demos/watermark/multi-line";
-import Demo3 from "../demos/watermark/portal";
-import { Demo, DemoGrid, DocMeta, usePageAnchor } from "../docs-ui";
+import { BasicDemo, MoreDemo } from "../demos/watermark-basic";
+import { ConfigDemo } from "../demos/watermark-config";
+import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
   return (
     <>
       <h1>
         Watermark <span>水印</span>
+        <small>Alpha</small>
       </h1>
-      <p className="lead">给页面的某个区域加上水印。</p>
+      <p className="lead">为内容区叠加重复文字或图片，标记用途与来源。</p>
       <DocMeta name="Watermark" />
-      <ComponentWhenToUse component="Watermark" />
-      <h2 id="examples">代码演示</h2>
-      <DemoGrid columns={1}>
+      <h2 id="examples" tabIndex={-1}>
+        代码演示
+      </h2>
+      <div className="demo-grid">
         <Demo
-          id={"basic"}
-          title={"基本"}
-          description={"最简单的用法。"}
-          descriptionMarkdown
-          source={() => import("../demos/watermark/basic.tsx?raw")}
+          id="basic"
+          title="多行文字水印"
+          description="可交互示例，可切换全局主题观察效果。"
+          source={() => import("../demos/watermark-basic.tsx?raw")}
         >
-          <Demo0 />
+          <BasicDemo />
         </Demo>
         <Demo
-          id={"multi-line"}
-          title={"多行水印"}
-          description={"通过 `content` 设置 字符串数组 指定多行文字水印内容。"}
-          descriptionMarkdown
-          source={() => import("../demos/watermark/multi-line.tsx?raw")}
+          id="more"
+          title="图片、间距与旋转"
+          description="通过按钮改变配置，观察内容和布局的更新。"
+          source={() => import("../demos/watermark-basic.tsx?raw")}
         >
-          <Demo1 />
+          <MoreDemo />
         </Demo>
         <Demo
-          id={"image"}
-          title={"图片水印"}
-          description={
-            "通过 `image` 指定图片地址。为保证图片高清且不被拉伸，请设置 width 和 height, 并上传至少两倍的宽高的 logo 图片地址。"
-          }
-          descriptionMarkdown
-          source={() => import("../demos/watermark/image.tsx?raw")}
+          id="config"
+          title="水印参数预览"
+          description="编辑水印文字并切换字号与间距，检查覆盖层不妨碍输入。"
+          source={() => import("../demos/watermark-config.tsx?raw")}
         >
-          <Demo2 />
+          <ConfigDemo />
         </Demo>
-        <Demo
-          id={"custom"}
-          title={"自定义配置"}
-          description={"通过自定义参数配置预览水印效果。"}
-          descriptionMarkdown
-          source={() => import("../demos/watermark/custom.tsx?raw")}
-        >
-          <Demo4 />
-        </Demo>
-        <Demo
-          id={"portal"}
-          title={"Modal 与 Drawer"}
-          description={"在 Modal 与 Drawer 中使用。"}
-          descriptionMarkdown
-          source={() => import("../demos/watermark/portal.tsx?raw")}
-        >
-          <Demo3 />
-        </Demo>
-      </DemoGrid>
-      <h2 id="api">API</h2>
-      <ReferenceApiTables component="Watermark" />
-      <h2 id="tokens">主题变量（Design Token）</h2>
-      <ReferenceTokenTable component="Watermark" />
+      </div>
+      <h2 id="api" tabIndex={-1}>
+        API
+      </h2>
+      <ApiTable
+        rows={[
+          [
+            "content",
+            "文字或多行文字；图片失败时回退内容",
+            "string | string[]",
+            "—",
+          ],
+          ["image", "图片地址；跨域图片需允许 CORS", "string", "—"],
+          [
+            "width / height",
+            "单个水印内容尺寸",
+            "number",
+            "文字测量 / 图片120×64",
+          ],
+          ["rotate", "旋转角度", "number", "-22"],
+          [
+            "gap / offset",
+            "重复图案间距 / 背景偏移",
+            "[number, number]",
+            "[100,100] / [0,0]",
+          ],
+          [
+            "font",
+            "颜色、字号、字重、字体、样式与对齐",
+            "object",
+            "继承全局字体及弱化文字色",
+          ],
+          ["zIndex", "水印层级", "number", "9"],
+        ]}
+      />
+      <h2 id="tokens" tabIndex={-1}>
+        主题与支持范围
+      </h2>
+      <p>
+        使用原生 canvas
+        生成重复背景并适配设备像素比；文字颜色、字体随全局主题更新。图片水印自行提供透明度。背景覆盖层不接收指针事件。暂不支持
+        inherit、弹层自动继承、语义 styles/classNames 和上游交错布局算法。
+      </p>
+      <p>
+        水印只用于视觉标记，不是访问控制或防泄漏措施；不提供防篡改能力。图片应来自可信且允许跨域读取的地址；加载或导出失败时回退文字。
+      </p>
     </>
   );
 }

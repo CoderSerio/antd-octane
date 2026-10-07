@@ -1,29 +1,15 @@
-import { Flex, Radio } from "antd-octane";
-import { useState } from "octane";
-
-const baseStyle = { width: "25%", height: 54 };
-
+import { Button, Flex } from "antd-octane";
 export function BasicDemo() {
-  const [value, setValue] = useState("horizontal");
   return (
-    <Flex gap="middle" vertical style={{ width: "100%" }}>
-      <Radio.Group
-        value={value}
-        onChange={(event) => setValue(String(event.target.value))}
-      >
-        <Radio value="horizontal">horizontal</Radio>
-        <Radio value="vertical">vertical</Radio>
-      </Radio.Group>
-      <Flex vertical={value === "vertical"}>
-        {Array.from({ length: 4 }, (_, index) => (
-          <div
-            key={index}
-            style={{
-              ...baseStyle,
-              backgroundColor: index % 2 ? "#1677ff" : "#1677ffbf",
-            }}
-          />
-        ))}
+    <Flex vertical gap="middle" style={{ width: "100%" }}>
+      <Flex gap="small" wrap>
+        <Button type="primary">提交</Button>
+        <Button>取消</Button>
+        <Button>保存草稿</Button>
+      </Flex>
+      <Flex justify="space-between" align="center">
+        <span>左右分布</span>
+        <Button size="small">查看</Button>
       </Flex>
     </Flex>
   );

@@ -1,12 +1,11 @@
 import { fileURLToPath } from "node:url";
 import { octane } from "octane/compiler/vite";
 import { defineConfig } from "vite";
-import { demoSourcePlugin } from "./demo-source-plugin";
 
 export default defineConfig({
   root: fileURLToPath(new URL(".", import.meta.url)),
   base: "./",
-  plugins: [demoSourcePlugin(), octane()],
+  plugins: [octane()],
   resolve: {
     dedupe: ["octane"],
   },

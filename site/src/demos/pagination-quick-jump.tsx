@@ -1,27 +1,20 @@
-import type { PaginationProps } from "antd-octane";
-import { Pagination } from "antd-octane";
-
-const onChange: PaginationProps["onChange"] = (pageNumber) => {
-  console.log("Page: ", pageNumber);
-};
+import { Pagination, Space } from "antd-octane";
+import { useState } from "octane";
 
 export function QuickJumpDemo() {
+  const [current, setCurrent] = useState(1);
   return (
-    <>
+    <Space direction="vertical" style={{ width: "100%" }}>
       <Pagination
-        showQuickJumper
-        defaultCurrent={2}
         total={500}
-        onChange={onChange}
-      />
-      <br />
-      <Pagination
+        current={current}
+        onChange={setCurrent}
         showQuickJumper
-        defaultCurrent={2}
-        total={500}
-        onChange={onChange}
-        disabled
+        showSizeChanger={false}
       />
-    </>
+      <p aria-live="polite">
+        第 {current} 页；输入页码后按 Enter，或移开焦点提交。
+      </p>
+    </Space>
   );
 }

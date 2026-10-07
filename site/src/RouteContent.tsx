@@ -3,14 +3,6 @@ import { useEffect, useState } from "octane";
 type PageComponent = (props: {
   section?: string;
 }) => import("octane").OctaneNode;
-
-function isStaleDynamicImport(error: unknown) {
-  const message = error instanceof Error ? error.message : String(error);
-  return /(?:failed to fetch dynamically imported module|importing a module script failed|chunkloaderror|loading chunk)/i.test(
-    message,
-  );
-}
-
 const pages: Record<string, () => Promise<{ default: PageComponent }>> = {
   tailwindcss: () => import("./pages/tailwindcss"),
   "for-agents": () => import("./pages/for-agents"),
@@ -22,15 +14,10 @@ const pages: Record<string, () => Promise<{ default: PageComponent }>> = {
   anchor: () => import("./pages/anchor"),
   "float-button": () => import("./pages/float-button"),
   image: () => import("./pages/image"),
-  calendar: () => import("./pages/calendar"),
-  table: () => import("./pages/table"),
-  tree: () => import("./pages/tree"),
   carousel: () => import("./pages/carousel"),
   splitter: () => import("./pages/splitter"),
   watermark: () => import("./pages/watermark"),
   app: () => import("./pages/app"),
-  "config-provider": () => import("./pages/config-provider"),
-  util: () => import("./pages/util"),
   icon: () => import("./pages/icon"),
 
   message: () => import("./pages/message"),
@@ -109,17 +96,8 @@ export function RouteContent({
         .then((module) => {
           if (active) setLoaded({ id: page, Page: module.default });
         })
-        .catch((error) => {
-          if (!active) return;
-          if (isStaleDynamicImport(error)) {
-            const reloadKey = `ao-route-reload:${page}`;
-            if (sessionStorage.getItem(reloadKey) !== window.location.href) {
-              sessionStorage.setItem(reloadKey, window.location.href);
-              window.location.reload();
-              return;
-            }
-          }
-          setFailed(true);
+        .catch(() => {
+          if (active) setFailed(true);
         });
     return () => {
       active = false;
@@ -136,9 +114,9 @@ export function RouteContent({
   if (failed)
     return (
       <div className="notice" role="alert">
-        文档加载失败，可能是本地重新构建后浏览器仍在使用旧的动态资源。
+        文档加载失败。
         <button type="button" onClick={() => window.location.reload()}>
-          刷新页面
+          重新加载页面
         </button>
       </div>
     );

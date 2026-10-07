@@ -106,7 +106,7 @@ const apiRows = [
   ["htmlType", "原生 button 类型", "button | submit | reset", "button"],
   ["href / target / rel", "链接地址与打开方式", "string", "—"],
   ["onClick", "点击回调，使用原生事件", "(event: MouseEvent) => void", "—"],
-  ["ref", "原生 button 或 a 元素，可调用 focus、blur", "Ref<ButtonRef>", "—"],
+  ["ref", "focus、blur 与 nativeElement", "Ref<ButtonRef>", "—"],
   ["className / style", "自定义类名与样式", "ClassValue / CSSProperties", "—"],
 ];
 export default function ButtonPage({ section }: { section?: string }) {
@@ -256,16 +256,11 @@ export default function ButtonPage({ section }: { section?: string }) {
       </h2>
       <div className="notice">
         <p>
-          未发布源码已接入共用 wave、单字符串中文标签的自动空格、color / variant
-          及默认 LoadingOutlined 图标。Button.Group、语义 classNames / styles
-          API 与加载图标进入、离场时的宽度动画尚未实现。
+          尚未实现 wave 点击动效、自动中文空格、Button.Group 和 color /
+          variant、语义 classNames / styles API。
           contentLineHeight、onlyIconSize、groupBorderColor 和 paddingBlock
           等未列出的 组件 token 不支持。事件使用原生 DOM 事件，不提供 React
           SyntheticEvent。
-        </p>
-        <p>
-          未发布源码已支持 prefixCls / rootClassName，图标包裹与加载图标沿用
-          组件前缀。静态样式保留 ant-* 别名。
         </p>
       </div>
       <h2 id="faq" tabIndex={-1}>

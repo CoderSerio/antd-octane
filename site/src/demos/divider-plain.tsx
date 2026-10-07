@@ -2,34 +2,11 @@ import { Divider } from "antd-octane";
 
 export function PlainDemo() {
   return (
-    <>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nonne
-        merninisti licere mihi ista probare, quae sunt a te dicta? Refert tamen,
-        quo modo.
-      </p>
-      <Divider plain>Text</Divider>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nonne
-        merninisti licere mihi ista probare, quae sunt a te dicta? Refert tamen,
-        quo modo.
-      </p>
-      <Divider orientation="left" plain>
-        Left Text
-      </Divider>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nonne
-        merninisti licere mihi ista probare, quae sunt a te dicta? Refert tamen,
-        quo modo.
-      </p>
-      <Divider orientation="right" plain>
-        Right Text
-      </Divider>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nonne
-        merninisti licere mihi ista probare, quae sunt a te dicta? Refert tamen,
-        quo modo.
-      </p>
-    </>
+    <div style={{ width: "100%" }}>
+      <Divider>标题样式</Divider>
+      <p>默认标题使用较大的字号与字重。</p>
+      <Divider plain>正文样式</Divider>
+      <p>plain 使用正文的字号与字重，适合次要分组。</p>
+    </div>
   );
 }

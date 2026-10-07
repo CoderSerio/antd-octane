@@ -1,86 +1,109 @@
-import { ComponentWhenToUse } from "../component-prose";
-import {
-  ReferenceApiTables,
-  ReferenceTokenTable,
-} from "../component-reference";
-import Demo2 from "../demos/skeleton/active";
-import Demo0 from "../demos/skeleton/basic";
-import Demo4 from "../demos/skeleton/children";
-import Demo1 from "../demos/skeleton/complex";
-import Demo3 from "../demos/skeleton/element";
-import Demo5 from "../demos/skeleton/list";
-import { Demo, DemoGrid, DocMeta, usePageAnchor } from "../docs-ui";
+import { BasicDemo, MoreDemo } from "../demos/skeleton-basic";
+import { ElementSizesDemo, LayoutDemo } from "../demos/skeleton-layout";
+import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
   return (
     <>
       <h1>
         Skeleton <span>骨架屏</span>
+        <small>Alpha</small>
       </h1>
-      <p className="lead">在需要等待加载内容的位置提供一个占位图形组合。</p>
+      <p className="lead">首次加载时展示内容结构，减少等待过程中的布局突变。</p>
       <DocMeta name="Skeleton" />
-      <ComponentWhenToUse component="Skeleton" />
-      <h2 id="examples">代码演示</h2>
-      <DemoGrid columns={1}>
+      <h2 id="examples" tabIndex={-1}>
+        代码演示
+      </h2>
+      <div className="demo-grid">
         <Demo
-          id={"basic"}
-          title={"基本"}
-          description={"最简单的占位效果。"}
-          descriptionMarkdown
-          source={() => import("../demos/skeleton/basic.tsx?raw")}
+          id="basic"
+          title="内容占位"
+          description="切换加载状态查看占位与实际内容。段落行数可以按内容结构配置。"
+          source={() => import("../demos/skeleton-basic.tsx?raw")}
         >
-          <Demo0 />
+          <BasicDemo />
         </Demo>
         <Demo
-          id={"complex"}
-          title={"复杂的组合"}
-          description={"更复杂的组合。"}
-          descriptionMarkdown
-          source={() => import("../demos/skeleton/complex.tsx?raw")}
+          id="more"
+          title="独立占位组件"
+          description="用头像、按钮、输入框、图片和自定义节点组合出与实际内容相近的结构。"
+          source={() => import("../demos/skeleton-basic.tsx?raw")}
         >
-          <Demo1 />
+          <MoreDemo />
         </Demo>
         <Demo
-          id={"active"}
-          title={"动画效果"}
-          description={"显示动画效果。"}
-          descriptionMarkdown
-          source={() => import("../demos/skeleton/active.tsx?raw")}
+          id="layout"
+          title="按内容结构配置"
+          description="独立设置头像形状、标题宽度与每行段落宽度；可以切换圆角与动画。"
+          source={() => import("../demos/skeleton-layout.tsx?raw")}
         >
-          <Demo2 />
+          <LayoutDemo />
         </Demo>
         <Demo
-          id={"element"}
-          title={"按钮/头像/输入框/图像/自定义节点"}
-          description={"骨架按钮、头像、输入框、图像和自定义节点。"}
-          descriptionMarkdown
-          source={() => import("../demos/skeleton/element.tsx?raw")}
+          id="element-sizes"
+          title="独立占位尺寸"
+          description="头像使用数值尺寸，按钮和输入框使用预设尺寸；输入框可撑满容器。"
+          source={() => import("../demos/skeleton-layout.tsx?raw")}
         >
-          <Demo3 />
+          <ElementSizesDemo />
         </Demo>
-        <Demo
-          id={"children"}
-          title={"包含子组件"}
-          description={"加载占位图包含子组件。"}
-          descriptionMarkdown
-          source={() => import("../demos/skeleton/children.tsx?raw")}
-        >
-          <Demo4 />
-        </Demo>
-        <Demo
-          id={"list"}
-          title={"列表"}
-          description={"在列表组件中使用加载占位符。"}
-          descriptionMarkdown
-          source={() => import("../demos/skeleton/list.tsx?raw")}
-        >
-          <Demo5 />
-        </Demo>
-      </DemoGrid>
-      <h2 id="api">API</h2>
-      <ReferenceApiTables component="Skeleton" />
-      <h2 id="tokens">主题变量（Design Token）</h2>
-      <ReferenceTokenTable component="Skeleton" />
+      </div>
+      <h2 id="api" tabIndex={-1}>
+        API
+      </h2>
+      <ApiTable
+        rows={[
+          [
+            "loading",
+            "为 true 时展示骨架，为 false 时显示 children",
+            "boolean",
+            "true",
+          ],
+          ["active / round", "启用动画 / 圆角样式", "boolean", "false"],
+          [
+            "avatar",
+            "头像占位及大小、形状",
+            "boolean | { size?, shape? }",
+            "false",
+          ],
+          ["title", "标题占位及宽度", "boolean | { width?, style? }", "true"],
+          [
+            "paragraph",
+            "段落占位、行数与每行宽度",
+            "boolean | { rows?, width?, style? }",
+            "true",
+          ],
+          [
+            "Skeleton.Button",
+            "按钮占位，支持 active、size、shape、block",
+            "组件",
+            "—",
+          ],
+          [
+            "Skeleton.Avatar / Input",
+            "头像 / 输入框占位，size 支持预设值或数值；Input 支持 block",
+            "组件",
+            "—",
+          ],
+          [
+            "Skeleton.Image / Node",
+            "图片 / 自定义节点占位，支持 active、style",
+            "组件",
+            "—",
+          ],
+        ]}
+      />
+      <h2 id="tokens" tabIndex={-1}>
+        主题与支持范围
+      </h2>
+      <p>
+        支持全局字体、间距、圆角与动效配置，以及 Skeleton 的
+        gradientFromColor、gradientToColor、titleHeight、blockRadius、paragraphMarginTop、paragraphLiHeight
+        token；同时兼容旧的 color / colorGradientEnd。图片占位图为独立绘制。
+        独立占位元素仅表达加载形状，不是可点击按钮或可输入控件；请用 loading
+        控制 Skeleton 包裹的实际内容。主组件不提供独立 Button/Input 的
+        size、block 属性，也暂不支持语义 classNames/styles 配置。
+      </p>
     </>
   );
 }

@@ -14,6 +14,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         AutoComplete <span>自动完成</span>
+        <small>Alpha</small>
       </h1>
       <p className="lead">自由输入文本，同时从建议列表中补全内容。</p>
       <DocMeta name="AutoComplete" />

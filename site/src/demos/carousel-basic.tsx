@@ -1,64 +1,51 @@
-import { Button, Carousel, Space } from "antd-octane";
-import type { CSSProperties } from "octane";
-import { useState } from "octane";
+import { Button, Carousel, type CarouselRef, Space } from "antd-octane";
+import { useRef, useState } from "octane";
 
-// Adapted from Ant Design 5.29.3 components/carousel/demo (MIT).
-const contentStyle: CSSProperties = {
-  margin: 0,
-  height: "160px",
-  color: "#fff",
-  lineHeight: "160px",
-  textAlign: "center",
-  background: "#364d79",
-};
-function Slides() {
-  return [1, 2, 3, 4].map((number) => (
-    <div key={number}>
-      <h3 style={contentStyle}>{number}</h3>
+function Slide({ number }: { number: number }) {
+  return (
+    <div
+      style={{
+        height: 180,
+        display: "grid",
+        placeItems: "center",
+        background: ["#364d79", "#135200", "#531dab"][number - 1],
+        color: "white",
+        fontSize: 28,
+      }}
+    >
+      {number}
     </div>
-  ));
+  );
 }
 export function BasicDemo() {
-  return <Carousel>{Slides()}</Carousel>;
-}
-export function AutoplayDemo() {
-  return <Carousel autoplay>{Slides()}</Carousel>;
-}
-export function PositionDemo() {
-  const [position, setPosition] = useState<"top" | "bottom" | "left" | "right">(
-    "bottom",
-  );
+  const ref = useRef<CarouselRef | null>(null);
+  const [current, setCurrent] = useState(0);
   return (
     <Space direction="vertical" style={{ width: "100%" }}>
+      <Carousel ref={ref} arrows infinite={false} afterChange={setCurrent}>
+        <Slide number={1} />
+        <Slide number={2} />
+        <Slide number={3} />
+      </Carousel>
       <Space>
-        {(["top", "bottom", "left", "right"] as const).map((value) => (
-          <Button
-            key={value}
-            type={value === position ? "primary" : "default"}
-            onClick={() => setPosition(value)}
-          >
-            {value}
-          </Button>
-        ))}
+        <Button onClick={() => ref.current?.prev()} disabled={current === 0}>
+          上一页
+        </Button>
+        <Button onClick={() => ref.current?.goTo(0)}>回到第一页</Button>
+        <Button onClick={() => ref.current?.next()} disabled={current === 2}>
+          下一页
+        </Button>
       </Space>
-      <Carousel dotPosition={position}>{Slides()}</Carousel>
+      <p aria-live="polite">当前第 {current + 1} 张</p>
     </Space>
   );
 }
-export function FadeDemo() {
-  return <Carousel effect="fade">{Slides()}</Carousel>;
-}
-export function ArrowsDemo() {
+export function MoreDemo() {
   return (
-    <Carousel arrows infinite={false}>
-      {Slides()}
-    </Carousel>
-  );
-}
-export function DotDurationDemo() {
-  return (
-    <Carousel autoplay={{ dotDuration: true }} autoplaySpeed={5000}>
-      {Slides()}
+    <Carousel autoplay autoplaySpeed={3000} arrows>
+      <Slide number={1} />
+      <Slide number={2} />
+      <Slide number={3} />
     </Carousel>
   );
 }

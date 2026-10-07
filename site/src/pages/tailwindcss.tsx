@@ -62,13 +62,6 @@ export default function TailwindPage({ section }: { section?: string }) {
         有不同优先级，不能只靠调换 import
         顺序解决所有冲突。不要再次把组件样式包进 layer(antd)，它本身已经分层。
       </p>
-      <p>
-        当前已发布的 alpha 包没有公开 StyleProvider
-        入口；本工作树正在验证的源码版 仅为 App 和 Modal 提供
-        `antd-octane/style` 下的原生 `StyleProvider layer`
-        选择，用于把这两类动态注册样式放入 antd 层。它尚未随 alpha
-        包发布，应用应 继续使用上面的已发布接入方式，等入口发布后再引入。
-      </p>
       <h2 id="usage" tabIndex={-1}>
         从布局工具类开始
       </h2>
@@ -118,9 +111,8 @@ export default function TailwindPage({ section }: { section?: string }) {
           不要安装 @antdv-next/tailwind、Vue 插件或 React 适配层来接入本库。
         </li>
         <li>
-          不要生成不存在的 @antd-octane/tailwind、cssVar 或 prefixCls 配置。
-          当前已发布 alpha 包也没有 StyleProvider；App 包裹组件不是启用 Tailwind
-          的必要条件。
+          不要生成不存在的 @antd-octane/tailwind、StyleProvider、cssVar 或
+          prefixCls 配置。App 包裹组件也不是启用 Tailwind 的必要条件。
         </li>
         <li>
           不要依赖内部 --ao-* 变量作为稳定公共接口；需要 token 时使用

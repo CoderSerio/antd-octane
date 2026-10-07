@@ -87,12 +87,12 @@ export default function Example() {
       </h2>
       <ul className="prose-list">
         <li>
-          Modal 支持声明式 open、Modal.confirm、Modal.useModal 和
-          Modal.destroyAll。
+          Modal 支持声明式 open；尚无 Modal.confirm、Modal.useModal 或
+          App.useApp().modal。
         </li>
         <li>
-          消息和通知支持全局静态方法、App.useApp() 以及对应的 hook/holder；
-          静态调用的 holderRender、容器和主题配置仍按组件页说明设置。
+          消息和通知使用实例 API，不支持全局静态 message.success /
+          notification.open。
         </li>
         <li>
           主题支持 seed token、算法和已实现组件配置；不支持

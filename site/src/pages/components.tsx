@@ -7,7 +7,6 @@ import {
   Badge,
   Breadcrumb,
   Button,
-  Calendar,
   Card,
   Carousel,
   Checkbox,
@@ -41,16 +40,13 @@ import {
   Statistic,
   Steps,
   Switch,
-  Table,
   Tabs,
   Tag,
   Timeline,
   Tooltip,
-  Tree,
   Typography,
   Watermark,
 } from "antd-octane";
-import dayjs from "dayjs";
 import { componentCoverage, upstreamGroups } from "../component-coverage";
 import { BasicDemo as PreviewApp } from "../demos/app-basic";
 import { BasicDemo as PreviewDrawer } from "../demos/drawer-basic";
@@ -64,6 +60,7 @@ import { BasicDemo as PreviewNotification } from "../demos/notification-basic";
 import { BasicDemo as PreviewPopconfirm } from "../demos/popconfirm-basic";
 import { BasicDemo as PreviewTour } from "../demos/tour-basic";
 import { usePageAnchor } from "../docs-ui";
+import { nav } from "../navigation";
 
 function Preview({ name }: { name: string }) {
   switch (name) {
@@ -104,40 +101,6 @@ function Preview({ name }: { name: string }) {
       );
     case "image":
       return <PreviewImage />;
-    case "calendar":
-      return (
-        <Calendar
-          fullscreen={false}
-          defaultValue={dayjs("2025-12-10")}
-          style={{ width: 240 }}
-        />
-      );
-    case "table":
-      return (
-        <Table
-          size="small"
-          pagination={false}
-          columns={[
-            { title: "姓名", dataIndex: "name" },
-            { title: "状态", dataIndex: "status" },
-          ]}
-          dataSource={[{ key: "1", name: "张三", status: "进行中" }]}
-          style={{ width: "100%" }}
-        />
-      );
-    case "tree":
-      return (
-        <Tree
-          defaultExpandedKeys={["project"]}
-          treeData={[
-            {
-              key: "project",
-              title: "项目",
-              children: [{ key: "page", title: "页面" }],
-            },
-          ]}
-        />
-      );
     case "carousel":
       return (
         <Carousel style={{ width: "100%" }}>
@@ -453,7 +416,9 @@ export default function ComponentsPage({ section }: { section?: string }) {
         ["feedback", "反馈"],
         ["other", "其他"],
       ].map(([id, group]) => {
-        const items = componentCoverage.filter((item) => item.group === group);
+        const items = nav.filter(
+          (item) => item.category === "components" && item.group === group,
+        );
         return (
           <section key={id}>
             <h2 id={id} tabIndex={-1}>
@@ -461,26 +426,13 @@ export default function ComponentsPage({ section }: { section?: string }) {
             </h2>
             <div className="component-catalog">
               {items.map((item) => (
-                <section
-                  key={item.name}
-                  className={`component-card${item.implemented ? "" : " is-unavailable"}`}
-                >
+                <section key={item.id} className="component-card">
                   <div className="component-preview">
-                    {item.implemented && item.pageId ? (
-                      <Preview name={item.pageId} />
-                    ) : (
-                      <span className="component-preview-placeholder">
-                        上游参考
-                      </span>
-                    )}
+                    <Preview name={item.id} />
                   </div>
-                  <a
-                    href={item.href ?? item.upstream}
-                    target={item.href ? undefined : "_blank"}
-                    rel={item.href ? undefined : "noreferrer"}
-                  >
+                  <a href={`#${item.id}`}>
                     <strong>{item.title}</strong>
-                    <span>{item.href ? "查看文档 →" : "上游文档 ↗"}</span>
+                    <span>查看文档 →</span>
                   </a>
                 </section>
               ))}

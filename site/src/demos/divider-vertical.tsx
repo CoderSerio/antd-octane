@@ -2,14 +2,12 @@ import { Divider } from "antd-octane";
 
 export function VerticalDemo() {
   return (
-    <>
-      Text
+    <div>
+      <a href="#start">快速开始</a>
       <Divider type="vertical" />
-      {/* biome-ignore lint/a11y/useValidAnchor: Upstream Divider demo uses a placeholder link. */}
-      <a href="#">Link</a>
+      <a href="#theme">主题</a>
       <Divider type="vertical" />
-      {/* biome-ignore lint/a11y/useValidAnchor: Upstream Divider demo uses a placeholder link. */}
-      <a href="#">Link</a>
-    </>
+      <a href="#compatibility">兼容说明</a>
+    </div>
   );
 }

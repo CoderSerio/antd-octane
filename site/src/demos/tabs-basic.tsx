@@ -1,28 +1,48 @@
-import type { TabsProps } from "antd-octane";
-import { Tabs } from "antd-octane";
-
-const onChange = (key: string) => {
-  console.log(key);
-};
-
-const items: TabsProps["items"] = [
-  {
-    key: "1",
-    label: "Tab 1",
-    children: "Content of Tab Pane 1",
-  },
-  {
-    key: "2",
-    label: "Tab 2",
-    children: "Content of Tab Pane 2",
-  },
-  {
-    key: "3",
-    label: "Tab 3",
-    children: "Content of Tab Pane 3",
-  },
-];
-
+import { Input, Tabs } from "antd-octane";
+import { useState } from "octane";
 export function BasicDemo() {
-  return <Tabs defaultActiveKey="1" items={items} onChange={onChange} />;
+  return (
+    <Tabs
+      style={{ width: "100%" }}
+      items={[
+        { key: "overview", label: "概览", children: "项目概览内容" },
+        {
+          key: "settings",
+          label: "设置",
+          children: (
+            <Input aria-label="标签页输入" defaultValue="切换后仍保留" />
+          ),
+        },
+        { key: "disabled", label: "暂不可用", disabled: true },
+      ]}
+    />
+  );
+}
+export function MoreDemo() {
+  const [items, set] = useState([
+    { key: "1", label: "页面 1", children: "第一个页面" },
+    { key: "2", label: "页面 2", children: "第二个页面" },
+  ]);
+  const [next, setNext] = useState(3);
+  return (
+    <Tabs
+      style={{ width: "100%" }}
+      type="editable-card"
+      items={items}
+      onEdit={(key, action) => {
+        if (action === "remove") set(items.filter((item) => item.key !== key));
+        else {
+          set([
+            ...items,
+            {
+              key: String(next),
+              label: `页面 ${next}`,
+              children: `新页面 ${next}`,
+            },
+          ]);
+          setNext(next + 1);
+        }
+      }}
+    />
+  );
 }

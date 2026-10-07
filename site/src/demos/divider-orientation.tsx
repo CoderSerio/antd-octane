@@ -2,46 +2,14 @@ import { Divider } from "antd-octane";
 
 export function OrientationDemo() {
   return (
-    <>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nonne
-        merninisti licere mihi ista probare, quae sunt a te dicta? Refert tamen,
-        quo modo.
-      </p>
-      <Divider>Text</Divider>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nonne
-        merninisti licere mihi ista probare, quae sunt a te dicta? Refert tamen,
-        quo modo.
-      </p>
-      <Divider orientation="left">Left Text</Divider>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nonne
-        merninisti licere mihi ista probare, quae sunt a te dicta? Refert tamen,
-        quo modo.
-      </p>
-      <Divider orientation="right">Right Text</Divider>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nonne
-        merninisti licere mihi ista probare, quae sunt a te dicta? Refert tamen,
-        quo modo.
-      </p>
-      <Divider orientation="left" orientationMargin="0">
-        Left Text with 0 orientationMargin
+    <div style={{ width: "100%" }}>
+      <Divider orientation="left">左侧标题</Divider>
+      <p>从标题开始阅读这一组内容。</p>
+      <Divider orientation="center">居中标题</Divider>
+      <Divider orientation="right" orientationMargin={24}>
+        右侧标题
       </Divider>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nonne
-        merninisti licere mihi ista probare, quae sunt a te dicta? Refert tamen,
-        quo modo.
-      </p>
-      <Divider orientation="right" orientationMargin={50}>
-        Right Text with 50px orientationMargin
-      </Divider>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nonne
-        merninisti licere mihi ista probare, quae sunt a te dicta? Refert tamen,
-        quo modo.
-      </p>
-    </>
+      <p>orientationMargin 可设置数字像素值或 CSS 长度。</p>
+    </div>
   );
 }

@@ -1,30 +1,19 @@
-import type { PaginationProps } from "antd-octane";
-import { Pagination } from "antd-octane";
-
-const onShowSizeChange: PaginationProps["onShowSizeChange"] = (
-  current,
-  pageSize,
-) => {
-  console.log(current, pageSize);
-};
+import { Pagination, Space } from "antd-octane";
+import { useState } from "octane";
 
 export function SizeChangeDemo() {
+  const [message, setMessage] = useState("尚未改变每页条数");
   return (
-    <>
+    <Space direction="vertical" style={{ width: "100%" }}>
       <Pagination
-        showSizeChanger
-        onShowSizeChange={onShowSizeChange}
-        defaultCurrent={3}
         total={500}
-      />
-      <br />
-      <Pagination
         showSizeChanger
-        onShowSizeChange={onShowSizeChange}
-        defaultCurrent={3}
-        total={500}
-        disabled
+        pageSizeOptions={[10, 20, 50]}
+        onShowSizeChange={(current, size) =>
+          setMessage(`第 ${current} 页，每页 ${size} 条`)
+        }
       />
-    </>
+      <p aria-live="polite">{message}</p>
+    </Space>
   );
 }

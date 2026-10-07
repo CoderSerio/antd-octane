@@ -1,26 +1,27 @@
-import { Breadcrumb } from "antd-octane";
-import { HomeOutlined, UserOutlined } from "./layout-navigation-icons";
+import { Breadcrumb, Icon } from "antd-octane";
 
 export function IconsDemo() {
   return (
     <Breadcrumb
       items={[
         {
-          href: "",
-          title: <HomeOutlined />,
-        },
-        {
-          href: "",
+          key: "home",
+          href: "#overview",
           title: (
             <>
-              <UserOutlined />
-              <span>Application List</span>
+              <Icon viewBox="0 0 24 24">
+                <path
+                  fill="none"
+                  stroke="currentColor"
+                  d="M3 10 12 3l9 7v11h-7v-7h-4v7H3z"
+                />
+              </Icon>{" "}
+              首页
             </>
           ),
         },
-        {
-          title: "Application",
-        },
+        { key: "components", href: "#components", title: "组件" },
+        { key: "breadcrumb", title: "面包屑" },
       ]}
     />
   );

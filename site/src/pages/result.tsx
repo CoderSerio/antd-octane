@@ -1,106 +1,80 @@
-import { ComponentWhenToUse } from "../component-prose";
-import {
-  ReferenceApiTables,
-  ReferenceTokenTable,
-} from "../component-reference";
-import Demo3 from "../demos/result/403";
-import Demo4 from "../demos/result/404";
-import Demo5 from "../demos/result/500";
-import Demo7 from "../demos/result/customIcon";
-import Demo6 from "../demos/result/error";
-import Demo1 from "../demos/result/info";
-import Demo0 from "../demos/result/success";
-import Demo2 from "../demos/result/warning";
-import { Demo, DemoGrid, DocMeta, usePageAnchor } from "../docs-ui";
+import { BasicDemo, MoreDemo } from "../demos/result-basic";
+import { CustomIconDemo, ErrorDetailsDemo } from "../demos/result-details";
+import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
   return (
     <>
       <h1>
         Result <span>结果</span>
+        <small>Alpha</small>
       </h1>
-      <p className="lead">用于反馈一系列操作任务的处理结果。</p>
+      <p className="lead">在流程结束后说明结果，并给用户清晰的下一步操作。</p>
       <DocMeta name="Result" />
-      <ComponentWhenToUse component="Result" />
-      <h2 id="examples">代码演示</h2>
-      <DemoGrid columns={1}>
+      <h2 id="examples" tabIndex={-1}>
+        代码演示
+      </h2>
+      <div className="demo-grid">
         <Demo
-          id={"success"}
-          title={"Success"}
-          description={"成功的结果。"}
-          descriptionMarkdown
-          source={() => import("../demos/result/success.tsx?raw")}
+          id="basic"
+          title="成功与后续操作"
+          description="结果标题说明已完成的事项；主要按钮提供下一步入口，次要按钮允许重新开始。"
+          source={() => import("../demos/result-basic.tsx?raw")}
         >
-          <Demo0 />
+          <BasicDemo />
         </Demo>
         <Demo
-          id={"info"}
-          title={"Info"}
-          description={"展示处理结果。"}
-          descriptionMarkdown
-          source={() => import("../demos/result/info.tsx?raw")}
+          id="more"
+          title="异常页面"
+          description="切换状态码查看不同异常说明；状态图示为本库独立绘制。"
+          source={() => import("../demos/result-basic.tsx?raw")}
         >
-          <Demo1 />
+          <MoreDemo />
         </Demo>
         <Demo
-          id={"warning"}
-          title={"Warning"}
-          description={"警告类型的结果。"}
-          descriptionMarkdown
-          source={() => import("../demos/result/warning.tsx?raw")}
+          id="error-details"
+          title="错误详情与重新检查"
+          description="使用 children 列出需要修正的问题，主要操作重新检查后更新结果。"
+          source={() => import("../demos/result-details.tsx?raw")}
         >
-          <Demo2 />
+          <ErrorDetailsDemo />
         </Demo>
         <Demo
-          id={"403"}
-          title={"403"}
-          description={"你没有此页面的访问权限。"}
-          descriptionMarkdown
-          source={() => import("../demos/result/403.tsx?raw")}
+          id="custom-icon"
+          title="警告结果与自定义图标"
+          description="业务图标可以替换默认图案；status 继续表达结果的语义。"
+          source={() => import("../demos/result-details.tsx?raw")}
         >
-          <Demo3 />
+          <CustomIconDemo />
         </Demo>
-        <Demo
-          id={"404"}
-          title={"404"}
-          description={"此页面未找到。"}
-          descriptionMarkdown
-          source={() => import("../demos/result/404.tsx?raw")}
-        >
-          <Demo4 />
-        </Demo>
-        <Demo
-          id={"500"}
-          title={"500"}
-          description={"服务器发生了错误。"}
-          descriptionMarkdown
-          source={() => import("../demos/result/500.tsx?raw")}
-        >
-          <Demo5 />
-        </Demo>
-        <Demo
-          id={"error"}
-          title={"Error"}
-          description={"复杂的错误反馈。"}
-          descriptionMarkdown
-          source={() => import("../demos/result/error.tsx?raw")}
-        >
-          <Demo6 />
-        </Demo>
-        <Demo
-          id={"customIcon"}
-          title={"自定义 icon"}
-          description={"自定义 icon。"}
-          descriptionMarkdown
-          source={() => import("../demos/result/customIcon.tsx?raw")}
-        >
-          <Demo7 />
-        </Demo>
-      </DemoGrid>
-      <h2 id="api">API</h2>
-      <ReferenceApiTables component="Result" />
-      <h2 id="tokens">主题变量（Design Token）</h2>
-      <ReferenceTokenTable component="Result" />
+      </div>
+      <h2 id="api" tabIndex={-1}>
+        API
+      </h2>
+      <ApiTable
+        rows={[
+          [
+            "status",
+            "结果状态",
+            "success | error | info | warning | 403 | 404 | 500",
+            "info",
+          ],
+          ["title / subTitle", "标题 / 补充说明", "OctaneNode", "—"],
+          ["icon", "自定义状态图标", "OctaneNode", "按状态显示"],
+          ["extra", "操作区域", "OctaneNode", "—"],
+          ["children", "补充内容区域", "OctaneNode", "—"],
+        ]}
+      />
+      <h2 id="tokens" tabIndex={-1}>
+        主题与支持范围
+      </h2>
+      <p>
+        支持全局颜色、间距与字体，以及 Result 的
+        titleFontSize、subtitleFontSize、iconFontSize、extraMargin
+        token。普通状态图标为本库绘制；HTTP
+        状态默认使用状态码文字，没有移植上游完整插画。 Result
+        不会自动跳转、重试或朗读结果变化；相关操作与动态反馈由应用管理。
+      </p>
     </>
   );
 }

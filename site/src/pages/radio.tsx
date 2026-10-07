@@ -9,6 +9,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Radio <span>单选框</span>
+        <small>Alpha</small>
       </h1>
       <p className="lead">从互斥选项中选择一个，支持普通样式和按钮样式。</p>
       <DocMeta name="Radio" />
@@ -120,12 +121,6 @@ export default function Page({ section }: { section?: string }) {
         集成、wireframe、完整波纹与按压动效，以及语义化 styles/classNames。
         没有专用 vertical 属性，纵向排列由 CSS 实现。Group
         子项的选中状态由组值决定， 不应同时给子项设置独立 checked。
-      </p>
-      <p>
-        未发布源码已支持 Radio / Radio.Group 的 prefixCls / rootClassName、
-        ConfigProvider.radio 样式默认值与共用波纹。Radio 自身的 disabled=false
-        可覆盖上下文；Group 对象选项按上游使用 option.disabled ||
-        group.disabled。静态样式保留 ant-* 别名。
       </p>
     </>
   );

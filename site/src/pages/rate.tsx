@@ -9,6 +9,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Rate <span>评分</span>
+        <small>Alpha</small>
       </h1>
       <p className="lead">展示评分，或收集用户对内容的评价。</p>
       <DocMeta name="Rate" />

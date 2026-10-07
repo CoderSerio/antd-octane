@@ -1,5 +1,5 @@
 import { Pagination } from "antd-octane";
 
 export function UncontrolledDemo() {
-  return <Pagination defaultCurrent={1} total={50} />;
+  return <Pagination defaultCurrent={1} total={50} showSizeChanger={false} />;
 }

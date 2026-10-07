@@ -1,116 +1,80 @@
-import { ComponentWhenToUse } from "../component-prose";
-import {
-  ReferenceApiTables,
-  ReferenceTokenTable,
-} from "../component-reference";
-import Demo0 from "../demos/spin/basic";
-import Demo5 from "../demos/spin/custom-indicator";
-import Demo4 from "../demos/spin/delayAndDebounce";
-import Demo7 from "../demos/spin/fullscreen";
-import Demo2 from "../demos/spin/nested";
-import Demo6 from "../demos/spin/percent";
-import Demo1 from "../demos/spin/size";
-import Demo3 from "../demos/spin/tip";
-import { Demo, DemoGrid, DocMeta, usePageAnchor } from "../docs-ui";
+import { BasicDemo, MoreDemo } from "../demos/spin-basic";
+import { FullscreenDemo } from "../demos/spin-fullscreen";
+import { IndicatorDemo } from "../demos/spin-indicator";
+import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
   return (
     <>
       <h1>
         Spin <span>加载中</span>
+        <small>Alpha</small>
       </h1>
-      <p className="lead">用于页面和区块的加载中状态。</p>
+      <p className="lead">内容正在异步加载时，提供明确的等待反馈。</p>
       <DocMeta name="Spin" />
-      <ComponentWhenToUse component="Spin" />
-      <h2 id="examples">代码演示</h2>
-      <DemoGrid>
+      <h2 id="examples" tabIndex={-1}>
+        代码演示
+      </h2>
+      <div className="demo-grid">
         <Demo
-          id={"basic"}
-          title={"基本用法"}
-          description={"一个简单的 loading 状态。"}
-          descriptionMarkdown
-          source={() => import("../demos/spin/basic.tsx?raw")}
+          id="basic"
+          title="三种尺寸"
+          description="根据使用空间选择尺寸；页面内容的加载建议在容器内展示。"
+          source={() => import("../demos/spin-basic.tsx?raw")}
         >
-          <Demo0 />
+          <BasicDemo />
         </Demo>
         <Demo
-          id={"size"}
-          title={"各种大小"}
-          description={
-            "小的用于文本加载，默认用于卡片容器级加载，大的用于**页面级**加载。"
-          }
-          descriptionMarkdown
-          source={() => import("../demos/spin/size.tsx?raw")}
+          id="more"
+          title="局部加载与延迟"
+          description="加载切换后等待 200ms 再展示指示器，减少短暂请求引起的闪烁。"
+          source={() => import("../demos/spin-basic.tsx?raw")}
         >
-          <Demo1 />
+          <MoreDemo />
         </Demo>
         <Demo
-          id={"nested"}
-          title={"卡片加载中"}
-          description={
-            "可以直接把内容内嵌到 `Spin` 中，将现有容器变为加载状态。"
-          }
-          descriptionMarkdown
-          source={() => import("../demos/spin/nested.tsx?raw")}
+          id="fullscreen"
+          title="全屏刷新反馈"
+          description="短时间刷新整个工作区时使用全屏遮罩，任务完成后由应用关闭。"
+          source={() => import("../demos/spin-fullscreen.tsx?raw")}
         >
-          <Demo2 />
+          <FullscreenDemo />
         </Demo>
         <Demo
-          id={"tip"}
-          title={"自定义描述文案"}
-          description={"自定义描述文案。"}
-          descriptionMarkdown
-          source={() => import("../demos/spin/tip.tsx?raw")}
+          id="indicator"
+          title="自定义指示器"
+          description="indicator 替换默认四点图案；提示与内容加载状态仍由 Spin 管理，自定义图标不会自动获得动画。"
+          source={() => import("../demos/spin-indicator.tsx?raw")}
         >
-          <Demo3 />
+          <IndicatorDemo />
         </Demo>
-        <Demo
-          id={"delayAndDebounce"}
-          title={"延迟"}
-          description={
-            "延迟显示 loading 效果。当 spinning 状态在 `delay` 时间内结束，则不显示 loading 状态。"
-          }
-          descriptionMarkdown
-          source={() => import("../demos/spin/delayAndDebounce.tsx?raw")}
-        >
-          <Demo4 />
-        </Demo>
-        <Demo
-          id={"custom-indicator"}
-          title={"自定义指示符"}
-          description={"使用自定义指示符。"}
-          descriptionMarkdown
-          source={() => import("../demos/spin/custom-indicator.tsx?raw")}
-        >
-          <Demo5 />
-        </Demo>
-        <Demo
-          id={"percent"}
-          title={"进度"}
-          description={
-            '展示进度，当设置 `percent="auto"` 时会预估一个永远不会停止的进度条。'
-          }
-          descriptionMarkdown
-          source={() => import("../demos/spin/percent.tsx?raw")}
-        >
-          <Demo6 />
-        </Demo>
-        <Demo
-          id={"fullscreen"}
-          title={"全屏"}
-          description={
-            "`fullscreen` 属性非常适合创建流畅的页面加载器。它添加了半透明覆盖层，并在其中心放置了一个旋转加载符号。"
-          }
-          descriptionMarkdown
-          source={() => import("../demos/spin/fullscreen.tsx?raw")}
-        >
-          <Demo7 />
-        </Demo>
-      </DemoGrid>
-      <h2 id="api">API</h2>
-      <ReferenceApiTables component="Spin" />
-      <h2 id="tokens">主题变量（Design Token）</h2>
-      <ReferenceTokenTable component="Spin" />
+      </div>
+      <h2 id="api" tabIndex={-1}>
+        API
+      </h2>
+      <ApiTable
+        rows={[
+          ["spinning", "是否加载中", "boolean", "true"],
+          ["size", "指示器尺寸", "small | default | large", "default"],
+          ["delay", "延迟显示指示器，单位毫秒", "number", "0"],
+          ["tip", "嵌套内容或全屏模式的提示", "OctaneNode", "—"],
+          ["indicator", "自定义加载图标", "OctaneNode", "默认指示器"],
+          ["fullscreen", "全屏遮罩", "boolean", "false"],
+          ["wrapperClassName", "嵌套内容外层的类名", "string", "—"],
+        ]}
+      />
+      <h2 id="tokens" tabIndex={-1}>
+        主题与支持范围
+      </h2>
+      <p>
+        支持 Spin 的 dotSize、dotSizeSM、dotSizeLG、contentHeight
+        token，继承全局主色与动效设置。tip 需要配合 children 或 fullscreen
+        使用；暂不支持 percent / auto 进度和 setDefaultIndicator
+        静态方法。全屏层采用固定定位，尚未接入共享 portal；带 transform
+        的祖先可能限制其覆盖范围。 嵌套模式加载期间会将内容设为
+        inert，防止误操作；全屏模式由应用维护 spinning 状态，不会自行结束。
+        示例仅在加载时挂载全屏 Spin，也便于在任务结束时移除相关节点。
+      </p>
     </>
   );
 }

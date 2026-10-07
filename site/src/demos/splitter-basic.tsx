@@ -1,38 +1,40 @@
-import { Flex, Splitter, Typography } from "antd-octane";
+import { Splitter } from "antd-octane";
 
-const Desc = (props: Readonly<{ text?: string | number }>) => (
-  <Flex justify="center" align="center" style={{ height: "100%" }}>
-    <Typography.Title
-      type="secondary"
-      level={5}
-      style={{ whiteSpace: "nowrap" }}
+const panelStyle = { padding: 16 };
+export function BasicDemo() {
+  return (
+    <Splitter
+      style={{
+        height: 220,
+        width: "100%",
+        boxShadow: "0 0 0 1px var(--line)",
+      }}
     >
-      {props.text}
-    </Typography.Title>
-  </Flex>
-);
-
-export const BasicDemo = () => (
-  <Splitter style={{ height: 200, boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)" }}>
-    <Splitter.Panel defaultSize="40%" min="20%" max="70%">
-      <Desc text="First" />
-    </Splitter.Panel>
-    <Splitter.Panel>
-      <Desc text="Second" />
-    </Splitter.Panel>
-  </Splitter>
-);
-
-export const MoreDemo = () => (
-  <Splitter
-    layout="vertical"
-    style={{ height: 300, boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)" }}
-  >
-    <Splitter.Panel>
-      <Desc text="First" />
-    </Splitter.Panel>
-    <Splitter.Panel>
-      <Desc text="Second" />
-    </Splitter.Panel>
-  </Splitter>
-);
+      <Splitter.Panel defaultSize="35%" min="20%" max="70%" style={panelStyle}>
+        目录区域
+      </Splitter.Panel>
+      <Splitter.Panel style={panelStyle}>
+        拖动中间分隔线，调整编辑区域。分隔线也可以通过方向键调整。
+      </Splitter.Panel>
+    </Splitter>
+  );
+}
+export function MoreDemo() {
+  return (
+    <Splitter
+      layout="vertical"
+      style={{
+        height: 300,
+        width: "100%",
+        boxShadow: "0 0 0 1px var(--line)",
+      }}
+    >
+      <Splitter.Panel defaultSize="50%" min="20%" style={panelStyle}>
+        First
+      </Splitter.Panel>
+      <Splitter.Panel min="20%" style={panelStyle}>
+        Second
+      </Splitter.Panel>
+    </Splitter>
+  );
+}

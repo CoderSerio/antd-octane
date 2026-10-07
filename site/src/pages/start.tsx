@@ -111,8 +111,8 @@ export default function StartPage({ section }: { section?: string }) {
         <a className="text-link" href="#form">
           Form
         </a>
-        已提供平面字段、同步与异步校验的基础版，Table 也已接入文档和运行示例；
-        DatePicker 等尚未实现。请先查阅各组件的支持范围，不能直接照搬上游示例。
+        已提供平面字段、同步与异步校验的基础版；Table、DatePicker 等尚未实现。
+        请先查阅各组件的支持范围，不能直接照搬上游示例。
       </p>
       <h2 id="troubleshooting" tabIndex={-1}>
         遇到问题

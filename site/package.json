@@ -4,7 +4,6 @@
   "type": "module",
   "dependencies": {
     "antd-octane": "0.1.0-alpha.7",
-    "dayjs": "1.11.23",
     "octane": "0.4.3"
   }
 }

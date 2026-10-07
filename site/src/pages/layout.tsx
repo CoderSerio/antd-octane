@@ -1,144 +1,110 @@
-import {
-  ComponentDescription,
-  ComponentProse,
-  ComponentWhenToUse,
-} from "../component-prose";
-import {
-  ComponentApiTables,
-  ComponentTokenTable,
-} from "../component-reference";
-import { BasicDemo } from "../demos/layout-basic";
+import { BasicDemo, MoreDemo } from "../demos/layout-basic";
 import { CustomTriggerDemo } from "../demos/layout-custom-trigger";
-import FixedDemo from "../demos/layout-fixed";
-import FixedSiderDemo from "../demos/layout-fixed-sider";
-import ResponsiveDemo from "../demos/layout-responsive";
-import SideDemo from "../demos/layout-side";
-import TopDemo from "../demos/layout-top";
-import TopSideDemo from "../demos/layout-top-side";
-import TopSide2Demo from "../demos/layout-top-side-2";
-import { Demo, DemoGrid, DocMeta, usePageAnchor } from "../docs-ui";
-import reference from "../layout/layout.json";
+import { HeaderSiderDemo } from "../demos/layout-header-sider";
+import { StickyHeaderDemo } from "../demos/layout-sticky-header";
+import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
   return (
     <>
       <h1>
         Layout <span>布局</span>
+        <small>Alpha</small>
       </h1>
-      <ComponentDescription component="Layout" />
+      <p className="lead">组合页头、侧栏、内容和页脚，搭建应用页面。</p>
       <DocMeta name="Layout" />
-      <ComponentWhenToUse component="Layout" />
-      <ComponentProse component="Layout" part="beforeExamples" />
       <h2 id="examples" tabIndex={-1}>
         代码演示
       </h2>
-      <DemoGrid
-        component="layout"
-        columns={reference.demoColumns === 2 ? 2 : 1}
-      >
+      <div className="demo-grid">
         <Demo
           id="basic"
-          title={"基本结构"}
-          description={"典型的页面布局。"}
+          title="上下结构"
+          description="使用 Header、Content 和 Footer 组成页面，尺寸与背景随主题调整。"
           source={() => import("../demos/layout-basic.tsx?raw")}
-          descriptionMarkdown
         >
           <BasicDemo />
         </Demo>
         <Demo
-          id="top"
-          title={"上中下布局"}
-          description={
-            "最基本的『上-中-下』布局。\n\n一般主导航放置于页面的顶端，从左自右依次为：logo、一级导航项、辅助菜单（用户、设置、通知等）。通常将内容放在固定尺寸（例如：1200px）内，整个页面排版稳定，不受用户终端显示器影响；上下级的结构符合用户上下浏览的习惯，也是较为经典的网站导航模式。页面上下切分的方式提高了主工作区域的信息展示效率，但在纵向空间上会有一些牺牲。此外，由于导航栏水平空间的限制，不适合那些一级导航项很多的信息结构。"
-          }
-          source={() => import("../demos/layout-top.tsx?raw")}
-          descriptionMarkdown
+          id="more"
+          title="响应式侧栏"
+          description="点击底部按钮收起侧栏；窗口小于 md 断点时自动收起，onCollapse 同步受控状态。"
+          source={() => import("../demos/layout-basic.tsx?raw")}
         >
-          <TopDemo />
+          <MoreDemo />
         </Demo>
         <Demo
-          id="top-side"
-          title={"顶部-侧边布局"}
-          description={"拥有顶部导航及侧边栏的页面，多用于展示类网站。"}
-          source={() => import("../demos/layout-top-side.tsx?raw")}
-          descriptionMarkdown
+          id="header-sider"
+          title="顶部与侧边布局"
+          description="Header 在外层，Sider 与 Content 在内层，组合通栏页头和侧栏。"
+          source={() => import("../demos/layout-header-sider.tsx?raw")}
         >
-          <TopSideDemo />
-        </Demo>
-        <Demo
-          id="top-side-2"
-          title={"顶部-侧边布局-通栏"}
-          description={
-            "同样拥有顶部导航及侧边栏，区别是两边未留边距，多用于应用型的网站。"
-          }
-          source={() => import("../demos/layout-top-side-2.tsx?raw")}
-          descriptionMarkdown
-        >
-          <TopSide2Demo />
-        </Demo>
-        <Demo
-          id="side"
-          title={"侧边布局"}
-          description={
-            "侧边两列式布局。页面横向空间有限时，侧边导航可收起。\n\n侧边导航在页面布局上采用的是左右的结构，一般主导航放置于页面的左侧固定位置，辅助菜单放置于工作区顶部。内容根据浏览器终端进行自适应，能提高横向空间的使用率，但是整个页面排版不稳定。侧边导航的模式层级扩展性强，一、二、三级导航项目可以更为顺畅且具关联性的被展示，同时侧边导航可以固定，使得用户在操作和浏览中可以快速的定位和切换当前位置，有很高的操作效率。但这类导航横向页面内容的空间会被牺牲一部分。\n\n> 🛎️ 想要 3 分钟实现？试试 [ProLayout](https://procomponents.ant.design/components/layout)！"
-          }
-          source={() => import("../demos/layout-side.tsx?raw")}
-          iframe={{ demo: "layout-side", height: 360 }}
-          descriptionMarkdown
-        >
-          <SideDemo />
+          <HeaderSiderDemo />
         </Demo>
         <Demo
           id="custom-trigger"
-          title={"自定义触发器"}
-          description={
-            "要使用自定义触发器，可以设置 `trigger={null}` 来隐藏默认设定。"
-          }
+          title="自定义触发器"
+          description="trigger=null 隐藏内置按钮，通过页头按钮控制侧栏。"
           source={() => import("../demos/layout-custom-trigger.tsx?raw")}
-          descriptionMarkdown
         >
           <CustomTriggerDemo />
         </Demo>
         <Demo
-          id="responsive"
-          title={"响应式布局"}
-          description={
-            "Layout.Sider 支持响应式布局。\n\n> 说明：配置 `breakpoint` 属性即生效，视窗宽度小于 `breakpoint` 时 Sider 缩小为 `collapsedWidth` 宽度，若将 `collapsedWidth` 设置为 0，会出现特殊 trigger。"
-          }
-          source={() => import("../demos/layout-responsive.tsx?raw")}
-          descriptionMarkdown
+          id="sticky-header"
+          title="固定头部"
+          description="使用应用 CSS 的 sticky 固定头部；演示在独立滚动容器内运行。"
+          source={() => import("../demos/layout-sticky-header.tsx?raw")}
         >
-          <ResponsiveDemo />
+          <StickyHeaderDemo />
         </Demo>
-        <Demo
-          id="fixed"
-          title={"固定头部"}
-          description={"一般用于固定顶部导航，方便页面切换。"}
-          source={() => import("../demos/layout-fixed.tsx?raw")}
-          iframe={{ demo: "layout-fixed", height: 360 }}
-          descriptionMarkdown
-        >
-          <FixedDemo />
-        </Demo>
-        <Demo
-          id="fixed-sider"
-          title={"固定侧边栏"}
-          description={"当内容较长时，使用固定侧边栏可以提供更好的体验。"}
-          source={() => import("../demos/layout-fixed-sider.tsx?raw")}
-          iframe={{ demo: "layout-fixed-sider", height: 360 }}
-          descriptionMarkdown
-        >
-          <FixedSiderDemo />
-        </Demo>
-      </DemoGrid>
+      </div>
       <h2 id="api" tabIndex={-1}>
         API
       </h2>
-      <ComponentApiTables component="Layout" sections={reference.api} />
+      <ApiTable
+        rows={[
+          ["Layout.hasSider", "声明包含侧栏；默认自动识别", "boolean", "自动"],
+          ["Header / Footer / Content", "布局区域", "Layout 子组件", "—"],
+          [
+            "Sider.width / collapsedWidth",
+            "展开和收起宽度",
+            "number | string",
+            "200 / 80",
+          ],
+          [
+            "collapsed / defaultCollapsed",
+            "受控状态 / 初始状态",
+            "boolean",
+            "— / false",
+          ],
+          [
+            "collapsible / trigger / reverseArrow",
+            "收起按钮配置；null 隐藏",
+            "boolean / OctaneNode / boolean",
+            "false / 默认 / false",
+          ],
+          [
+            "breakpoint / onBreakpoint",
+            "响应式阈值及回调",
+            "xs…xxl / (broken) => void",
+            "—",
+          ],
+          [
+            "onCollapse / theme",
+            "收起回调和侧栏风格",
+            "(collapsed, type) => void / dark | light",
+            "— / dark",
+          ],
+        ]}
+      />
       <h2 id="tokens" tabIndex={-1}>
-        主题变量（Design Token）
+        主题与支持范围
       </h2>
-      <ComponentTokenTable component="Layout" tokens={reference.tokens} />
+      <p>
+        支持 Layout 头部、主体、底部、侧栏和 trigger 主题变量。Sider
+        触发器定位在当前侧栏底部，未实现上游固定在视口底部的定位方式、zeroWidthTriggerStyle、反向文档布局和完整过渡动画。固定头部与固定侧栏属于应用的
+        CSS 布局，需要自行指定滚动容器、定位和占位尺寸。
+      </p>
     </>
   );
 }

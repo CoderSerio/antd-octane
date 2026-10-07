@@ -1,10 +1,11 @@
-import { Divider, Space, Typography } from "antd-octane";
+import { Divider, Space } from "antd-octane";
+
 export function SplitDemo() {
   return (
     <Space split={<Divider type="vertical" />}>
-      <Typography.Link>Link</Typography.Link>
-      <Typography.Link>Link</Typography.Link>
-      <Typography.Link>Link</Typography.Link>
+      <a href="#start">快速开始</a>
+      <a href="#theme">主题定制</a>
+      <a href="#compatibility">支持范围</a>
     </Space>
   );
 }
