@@ -109,6 +109,39 @@
     outline: 2px solid var(--ao-focus);
     outline-offset: 2px;
   }
+  :where(.ant-float-btn:disabled),
+  :where(.ant-float-btn[aria-disabled="true"]) {
+    color: var(--ao-float-disabled, rgba(0, 0, 0, 0.25));
+    background: var(--ao-float-disabled-bg, rgba(0, 0, 0, 0.04));
+    cursor: not-allowed;
+  }
+  :where(.ant-float-btn-badge-wrapper) {
+    position: relative;
+    display: inline-flex;
+  }
+  :where(.ant-float-btn-badge) {
+    position: absolute;
+    inset-block-start: -6px;
+    inset-inline-end: -6px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    color: #fff;
+    font-size: 11px;
+    line-height: 16px;
+    text-align: center;
+    white-space: nowrap;
+    background: var(--ao-float-badge, #ff4d4f);
+    border-radius: 10px;
+    box-sizing: border-box;
+  }
+  :where(.ant-float-btn-badge-dot) {
+    min-width: 8px;
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border-radius: 50%;
+  }
   :where(.ant-float-btn-group) {
     border: 0;
     padding: 0;
@@ -132,5 +165,18 @@
   :where(.ant-float-btn-group .ant-float-btn) {
     position: relative;
     inset: auto;
+  }
+  :where(.ant-float-btn-group-bottom) {
+    flex-direction: column-reverse;
+  }
+  :where(.ant-float-btn-group-left) {
+    flex-direction: row;
+  }
+  :where(.ant-float-btn-group-right) {
+    flex-direction: row-reverse;
+  }
+  :where(.ant-float-btn-group-left .ant-float-btn-group-items),
+  :where(.ant-float-btn-group-right .ant-float-btn-group-items) {
+    flex-direction: row;
   }
 }
