@@ -105,8 +105,8 @@ export interface ThemeConfig {
   token?: Partial<AliasToken>;
   algorithm?: MappingAlgorithm | MappingAlgorithm[];
   components?: {
-    Space?: ComponentTheme;
     Flex?: ComponentTheme;
+    Space?: ComponentTheme;
     App?: ComponentTheme;
     Form?: ComponentTheme<FormToken>;
     Wave?: ComponentTheme;
@@ -279,6 +279,7 @@ export interface ThemeConfig {
     }>;
     Collapse?: ComponentTheme<CollapseToken>;
     Tabs?: ComponentTheme<{
+      zIndexPopup: number;
       horizontalMargin: string;
       horizontalItemGutter: number;
       itemColor: string;
@@ -293,7 +294,12 @@ export interface ThemeConfig {
       horizontalItemPaddingSM: string;
       horizontalItemPaddingLG: string;
       cardBg: string;
+      cardHeight: number;
+      cardHeightSM: number;
+      cardHeightLG: number;
       cardPadding: string;
+      cardPaddingSM: string;
+      cardPaddingLG: string;
     }>;
     Empty?: ComponentTheme;
     Statistic?: ComponentTheme<StatisticToken>;

@@ -1832,11 +1832,86 @@
     margin: var(--ao-tabs-horizontal-margin);
   }
   :where(.ant-tabs-nav-list) {
+    position: relative;
     display: flex;
     gap: var(--ao-tabs-gap);
     overflow: auto;
     min-width: 0;
-    scrollbar-width: thin;
+    scrollbar-width: none;
+  }
+  :where(.ant-tabs-nav-list)::-webkit-scrollbar {
+    display: none;
+  }
+  :where(.ant-tabs-nav-more) {
+    border: 0;
+    background: transparent;
+    align-self: stretch;
+    padding: 8px 16px;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+  }
+  :where(.ant-tabs-nav > .ao-dropdown-trigger) {
+    display: flex;
+    align-self: stretch;
+  }
+  :where(.ant-tabs-dropdown .ant-dropdown-menu) {
+    padding-inline: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  :where(.ant-tabs-dropdown .ant-menu-item) {
+    min-width: 120px;
+    height: auto;
+    min-height: 0;
+    padding-block: 4px;
+    border-radius: 0;
+    line-height: var(--ao-line);
+  }
+  :where(.ant-tabs-ink-bar) {
+    position: absolute;
+    pointer-events: none;
+    background: var(--ao-tabs-ink);
+  }
+  :where(.ant-tabs-ink-bar-animated) {
+    transition:
+      left var(--ao-tabs-motion-duration),
+      top var(--ao-tabs-motion-duration),
+      width var(--ao-tabs-motion-duration),
+      height var(--ao-tabs-motion-duration);
+  }
+  :where(
+      .ant-tabs-card .ant-tabs-ink-bar,
+      .ant-tabs-editable-card .ant-tabs-ink-bar
+    ) {
+    display: none;
+  }
+  :where(.ant-tabs-content) {
+    position: relative;
+    width: 100%;
+  }
+  :where(.ant-tabs-tabpane-hidden) {
+    display: none;
+  }
+  :where(.ant-tabs-switch-enter-start) {
+    opacity: 0;
+  }
+  :where(.ant-tabs-switch-enter-active) {
+    opacity: 1;
+    transition: opacity var(--ao-tabs-motion-duration);
+  }
+  :where(.ant-tabs-switch-leave) {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  :where(.ant-tabs-switch-leave-start) {
+    opacity: 1;
+  }
+  :where(.ant-tabs-switch-leave-active) {
+    opacity: 0;
+    transition: opacity var(--ao-tabs-motion-duration);
   }
   :where(.ant-tabs-centered .ant-tabs-nav-list) {
     margin-inline: auto;
@@ -1849,6 +1924,7 @@
     align-items: center;
     padding: var(--ao-tabs-padding);
     font-size: var(--ao-tabs-font-size);
+    line-height: var(--ao-tabs-title-line);
     color: var(--ao-tabs-color);
   }
   :where(.ant-tabs-tab-btn) {
@@ -1868,29 +1944,6 @@
   }
   :where(.ant-tabs-tab-active .ant-tabs-tab-btn) {
     color: var(--ao-tabs-selected);
-  }
-  :where(.ant-tabs-line .ant-tabs-tab-active)::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    inset-inline: 0;
-    height: 2px;
-    background: var(--ao-tabs-ink);
-  }
-  :where(.ant-tabs-line.ant-tabs-indicator-custom .ant-tabs-tab-active)::after {
-    inset-inline: auto;
-    inset-inline-start: 50%;
-    width: var(--ao-tabs-indicator-size);
-    transform: translateX(-50%);
-  }
-  :where(.ant-tabs-line.ant-tabs-indicator-start .ant-tabs-tab-active)::after {
-    inset-inline-start: 0;
-    transform: none;
-  }
-  :where(.ant-tabs-line.ant-tabs-indicator-end .ant-tabs-tab-active)::after {
-    inset-inline-start: auto;
-    inset-inline-end: 0;
-    transform: none;
   }
   :where(.ant-tabs-tab-btn:hover:not(:disabled)) {
     color: var(--ao-tabs-hover);
@@ -1946,6 +1999,7 @@
     ) {
     background: var(--ao-bg);
     border-bottom-color: var(--ao-bg);
+    color: var(--ao-tabs-selected);
   }
   :where(.ant-tabs-tab-remove, .ant-tabs-nav-add) {
     border: 0;
@@ -1955,23 +2009,29 @@
     cursor: pointer;
   }
   :where(.ant-tabs-tab-remove) {
-    margin-inline-start: 8px;
-    padding: 0 2px;
+    margin-inline-start: var(--ao-tabs-remove-margin);
+    margin-inline-end: -4px;
+    padding: 2px 6px;
+    font-size: var(--ao-tabs-remove-size);
+    line-height: 1;
   }
   :where(.ant-tabs-nav-add) {
-    padding: 8px 12px;
+    min-width: var(--ao-tabs-card-height);
+    min-height: var(--ao-tabs-card-height);
+    padding: 0;
+    margin-inline-start: 2px;
+    border: 1px solid var(--ao-border);
+    border-radius: var(--ao-radius) var(--ao-radius) 0 0;
+    background: transparent;
+    color: var(--ao-text);
     align-self: stretch;
   }
   :where(.ant-tabs-bottom .ant-tabs-nav) {
     order: 1;
-    margin-top: 16px;
+    margin-top: var(--ao-tabs-margin);
     margin-bottom: 0;
     border-bottom: 0;
-    border-top: 1px solid var(--ao-border);
-  }
-  :where(.ant-tabs-bottom.ant-tabs-line .ant-tabs-tab-active)::after {
-    bottom: auto;
-    top: -1px;
+    box-shadow: inset 0 1px 0 var(--ao-border);
   }
   :where(.ant-tabs-left, .ant-tabs-right) {
     flex-direction: row;
@@ -1982,38 +2042,40 @@
     margin-bottom: 0;
     border-bottom: 0;
   }
+  :where(
+      .ant-tabs-left .ant-tabs-nav > .ao-dropdown-trigger,
+      .ant-tabs-right .ant-tabs-nav > .ao-dropdown-trigger
+    ) {
+    flex-direction: column;
+  }
   :where(.ant-tabs-left .ant-tabs-nav) {
-    border-inline-end: 1px solid var(--ao-border);
-    margin-inline-end: 24px;
+    box-shadow: inset -1px 0 0 var(--ao-border);
+    margin-inline-end: 0;
   }
   :where(.ant-tabs-right .ant-tabs-nav) {
     order: 1;
+    box-shadow: inset 1px 0 0 var(--ao-border);
+    margin-inline-start: 0;
+  }
+  :where(.ant-tabs-left .ant-tabs-content-holder) {
+    margin-inline-start: -1px;
     border-inline-start: 1px solid var(--ao-border);
-    margin-inline-start: 24px;
+    padding-inline-start: var(--ao-tabs-vertical-content-padding);
+  }
+  :where(.ant-tabs-right .ant-tabs-content-holder) {
+    margin-inline-end: -1px;
+    border-inline-end: 1px solid var(--ao-border);
+    padding-inline-end: var(--ao-tabs-vertical-content-padding);
   }
   :where(
       .ant-tabs-left .ant-tabs-nav-list,
       .ant-tabs-right .ant-tabs-nav-list
     ) {
     flex-direction: column;
-    gap: 16px;
+    gap: var(--ao-tabs-margin);
   }
   :where(.ant-tabs-left .ant-tabs-tab, .ant-tabs-right .ant-tabs-tab) {
-    padding: 8px 24px;
-  }
-  :where(.ant-tabs-left.ant-tabs-line .ant-tabs-tab-active)::after {
-    height: auto;
-    width: 2px;
-    inset-block: 0;
-    inset-inline-start: auto;
-    inset-inline-end: -1px;
-  }
-  :where(.ant-tabs-right.ant-tabs-line .ant-tabs-tab-active)::after {
-    height: auto;
-    width: 2px;
-    inset-block: 0;
-    inset-inline-start: -1px;
-    inset-inline-end: auto;
+    padding: var(--ao-tabs-vertical-padding);
   }
   :where(.ant-empty) {
     box-sizing: border-box;

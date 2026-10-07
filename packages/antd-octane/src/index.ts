@@ -386,7 +386,16 @@ export {
   TableSummaryCell,
   TableSummaryRow,
 } from "./table";
-export type { TabItem, TabPaneProps, TabsProps } from "./tabs";
+export type {
+  TabItem,
+  TabPaneProps,
+  TabsAnimatedConfig,
+  TabsEditableConfig,
+  TabsMoreProps,
+  TabsProps,
+  TabsRenderTabBar,
+  TabsTabBarProps,
+} from "./tabs";
 export { Tabs } from "./tabs";
 export type {
   CheckableTagProps,

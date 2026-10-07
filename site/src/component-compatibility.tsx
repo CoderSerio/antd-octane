@@ -93,6 +93,25 @@ export function ComponentCompatibilityNotes() {
         </p>
       </details>
       <details>
+        <summary>Pagination / Steps / Tabs</summary>
+        <p>
+          未发布源码已提供 Pagination.align、responsive、showTitle， simple /
+          showSizeChanger / showQuickJumper 的对象配置和原生 Octane Select。
+          条数改变时 onShowSizeChange 返回改变前的页码，onChange
+          返回限制后的页码。itemRender 直接返回自定义节点，不再嵌套按钮；
+          快速跳转移焦至页码按钮时清空输入，不提前跳页。Pagination 公共页目前
+          发布 10 个上游示例，对齐方向示例须等新增 API 发布。 Steps 已提供
+          progressDot、navigation / inline、percent 及
+          Steps.Step；公共页目前发布 9 个上游示例，progress、progress-dot、
+          customized-progress-dot、nav 和 inline
+          示例等待对应源码发布后接入。Tabs
+          已提供原生引用、函数指示条、溢出菜单、popupClassName、
+          onTabScroll、renderTabBar、按 pane 控制的动画以及自定义页签头对照；
+          公共页目前发布 12 个上游示例，自定义页签头和拖拽示例等待发布后接入。
+          参数参考表不代表 npm 已实现全部能力。
+        </p>
+      </details>
+      <details>
         <summary>Affix</summary>
         <p>
           未发布工作区实现按上游拆分测量工具、帧节流及主题样式，支持上、下偏移、目标滚动容器、状态回调和可取消的

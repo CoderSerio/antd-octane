@@ -441,5 +441,14 @@
       "Steps": "整体步骤条。",
       "StepItem": "步骤条内的每一个步骤。"
     }
+  },
+  "Tabs": {
+    "description": "选项卡切换组件。",
+    "when": "提供平级的区域将大块内容进行收纳和展现，保持界面整洁。\n\nAnt Design 依次提供了三级选项卡，分别用于不同的场景。\n\n- 卡片式的页签，提供可关闭的样式，常用于容器顶部。\n- 既可用于容器顶部，也可用于容器内部，是最通用的 Tabs。\n- [Radio.Button](/components/radio-cn/#radio-demo-radiobutton) 可作为更次级的页签来使用。",
+    "sectionHeadings": {
+      "Tabs": 3,
+      "TabItemType": 3,
+      "MoreProps": 3
+    }
   }
 }

@@ -314,6 +314,22 @@ const previews: Record<string, Preview[]> = {
       source: () => import("./demos/layout/custom-trigger.tsx?raw"),
     },
   ],
+  tabs: [
+    {
+      id: "custom-tab-bar",
+      title: "自定义页签头",
+      description: "通过 `renderTabBar` 自定义页签头，实现吸顶效果。",
+      load: () => import("./demos/tabs/custom-tab-bar"),
+      source: () => import("./demos/tabs/custom-tab-bar.tsx?raw"),
+    },
+    {
+      id: "custom-tab-bar-node",
+      title: "可拖拽标签",
+      description: "通过 `renderTabBar` 自定义页签节点，实现标签可拖拽排序。",
+      load: () => import("./demos/tabs/custom-tab-bar-node"),
+      source: () => import("./demos/tabs/custom-tab-bar-node.tsx?raw"),
+    },
+  ],
 };
 
 const order: Record<string, string[]> = {
@@ -439,6 +455,22 @@ const order: Record<string, string[]> = {
     "progress",
     "label-placement",
     "inline",
+  ],
+  tabs: [
+    "basic",
+    "disabled",
+    "centered",
+    "icon",
+    "custom-indicator",
+    "slide",
+    "extra",
+    "size",
+    "position",
+    "card",
+    "editable-card",
+    "custom-add-trigger",
+    "custom-tab-bar",
+    "custom-tab-bar-node",
   ],
 };
 

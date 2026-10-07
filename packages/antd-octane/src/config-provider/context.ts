@@ -60,21 +60,31 @@ export type RenderEmptyHandler = (componentName?: string) => OctaneNode;
 
 /** Component defaults follow components/config-provider/context.ts in antd 5.29.3. */
 export interface ConfigComponentProps {
-  steps?: ComponentStyleConfig;
-  pagination?: ComponentStyleConfig &
-    Pick<import("../pagination").PaginationProps, "showSizeChanger">;
-  menu?: ComponentStyleConfig;
-  dropdown?: ComponentStyleConfig;
-  breadcrumb?: ComponentStyleConfig;
-  anchor?: ComponentStyleConfig;
-  splitter?: ComponentStyleConfig;
-  layout?: ComponentStyleConfig;
-  col?: ComponentStyleConfig;
-  row?: ComponentStyleConfig;
-  divider?: ComponentStyleConfig;
+  flex?: ComponentStyleConfig & Pick<import("../flex").FlexProps, "vertical">;
   space?: ComponentStyleConfig &
     Pick<import("../space").SpaceProps, "size" | "classNames" | "styles">;
-  flex?: ComponentStyleConfig & Pick<import("../flex").FlexProps, "vertical">;
+  divider?: ComponentStyleConfig;
+  row?: ComponentStyleConfig;
+  col?: ComponentStyleConfig;
+  layout?: ComponentStyleConfig;
+  splitter?: ComponentStyleConfig;
+  anchor?: ComponentStyleConfig;
+  breadcrumb?: ComponentStyleConfig;
+  dropdown?: ComponentStyleConfig;
+  menu?: ComponentStyleConfig;
+  pagination?: ComponentStyleConfig &
+    Pick<import("../pagination").PaginationProps, "showSizeChanger">;
+  steps?: ComponentStyleConfig;
+  tabs?: ComponentStyleConfig &
+    Pick<
+      import("../tabs").TabsProps,
+      | "indicator"
+      | "indicatorSize"
+      | "addIcon"
+      | "removeIcon"
+      | "more"
+      | "moreIcon"
+    >;
   button?: ComponentStyleConfig &
     Pick<
       import("../button").ButtonProps,

@@ -47,6 +47,35 @@ async function key(node: HTMLElement, value: string) {
     ),
   );
 }
+it("Tabs card sizing uses theme heights and hides disabled removal actions", async () => {
+  await render(
+    <ConfigProvider
+      theme={{
+        components: {
+          Tabs: { cardHeightSM: 30, cardPaddingSM: "3px 9px" },
+        },
+      }}
+    >
+      <Tabs
+        type="editable-card"
+        size="small"
+        items={[
+          { key: "one", label: "One", children: "One" },
+          { key: "two", label: "Two", children: "Two", disabled: true },
+        ]}
+      />
+    </ConfigProvider>,
+  );
+  const tabs = container.querySelector<HTMLElement>(".ant-tabs");
+  expect(tabs?.style.getPropertyValue("--ao-tabs-card-height")).toBe("30px");
+  expect(tabs?.style.getPropertyValue("--ao-tabs-card-padding")).toBe(
+    "3px 9px",
+  );
+  expect(container.querySelectorAll(".ant-tabs-tab-remove")).toHaveLength(1);
+  expect(
+    container.querySelector(".ant-tabs-tab-disabled .ant-tabs-tab-remove"),
+  ).toBeNull();
+});
 
 it("Menu collapsed dimensions and Steps spacing follow compact tokens", async () => {
   await render(
@@ -624,4 +653,263 @@ it("Steps supports custom dots, progress circles, inline overrides and legacy St
   ).not.toBeNull();
   expect(container.textContent).not.toContain("Icon");
   expect(container.textContent).not.toContain("Subtitle");
+});
+it("Tabs respects an initially disabled active item and null/false close icons", async () => {
+  await render(
+    <Tabs
+      type="editable-card"
+      items={[
+        {
+          key: "a",
+          label: "First",
+          disabled: true,
+          children: "A",
+          closeIcon: null,
+        },
+        { key: "b", label: "Second", closeIcon: false },
+        { key: "c", label: "Third" },
+      ]}
+    />,
+  );
+  expect(container.querySelector('[aria-selected="true"]')?.textContent).toBe(
+    "First",
+  );
+  expect(container.querySelectorAll(".ant-tabs-tab-remove")).toHaveLength(1);
+});
+it("Tabs calls indicator functions with the tab dimensions and forwards its native root", async () => {
+  vi.spyOn(HTMLElement.prototype, "offsetWidth", "get").mockReturnValue(120);
+  const size = vi.fn((origin: number) => origin - 20);
+  let native: HTMLDivElement | null = null;
+  await render(
+    <Tabs
+      indicator={{ size }}
+      ref={(ref) => {
+        native = ref?.nativeElement ?? null;
+      }}
+      items={[{ key: "a", label: "A" }]}
+    />,
+  );
+  expect(size).toHaveBeenCalledWith(120);
+  expect(native).toBe(container.querySelector(".ant-tabs"));
+  expect(
+    container
+      .querySelector<HTMLElement>(".ant-tabs")
+      ?.style.getPropertyValue("--ao-tabs-indicator-size"),
+  ).toBe("100px");
+});
+it("Tabs creates panels lazily, caches visited panels and applies item presentation", async () => {
+  await render(
+    <Tabs
+      items={[
+        { key: "a", label: "First", children: "A" },
+        {
+          key: "b",
+          label: "Second",
+          children: "B",
+          className: "custom-pane",
+          style: { height: 200 },
+        },
+        { key: "c", label: "Third", children: "C", forceRender: true },
+      ]}
+    />,
+  );
+  expect(container.querySelectorAll('[role="tabpanel"]')).toHaveLength(2);
+  expect(container.querySelector(".custom-pane")).toBeNull();
+  await act(() => button("Second").click());
+  expect(container.querySelectorAll('[role="tabpanel"]')).toHaveLength(3);
+  const panel = container.querySelector<HTMLElement>(".custom-pane");
+  expect(panel?.style.height).toBe("200px");
+  expect(panel?.tabIndex).toBe(0);
+  await act(() => button("First").click());
+  expect(panel?.hidden).toBe(true);
+  expect(panel?.textContent).toBe("B");
+  expect(panel?.tabIndex).toBe(-1);
+});
+it("Tabs removes an inactive panel when destroyOnHidden is enabled", async () => {
+  await render(
+    <Tabs
+      destroyOnHidden
+      items={[
+        { key: "a", label: "First", children: "A" },
+        { key: "b", label: "Second", children: "B" },
+      ]}
+    />,
+  );
+  const first = container.querySelector('[role="tabpanel"]');
+  await act(() => button("Second").click());
+  expect(container.querySelectorAll('[role="tabpanel"]')).toHaveLength(1);
+  expect(first?.isConnected).toBe(false);
+  expect(container.querySelector('[role="tabpanel"]')?.textContent).toBe("B");
+});
+
+it("Tabs renderTabBar preserves default navigation and accepts per-tab wrappers", async () => {
+  const change = vi.fn();
+  const click = vi.fn();
+  let nativeBar: HTMLDivElement | null = null;
+  const renderBar: NonNullable<TabsProps["renderTabBar"]> = (
+    props,
+    DefaultTabBar,
+  ) => (
+    <div data-custom-tab-bar="true">
+      <DefaultTabBar
+        {...props}
+        ref={(node) => {
+          nativeBar = node;
+        }}
+        className="custom-bar"
+        style={{ background: "rgb(240, 240, 240)" }}
+      >
+        {(node) => (
+          <div
+            data-wrapped-tab={node.props["data-node-key"]}
+            style={{ position: "relative" }}
+          >
+            {node}
+          </div>
+        )}
+      </DefaultTabBar>
+    </div>
+  );
+  await render(
+    <Tabs
+      prefixCls="custom-tabs"
+      renderTabBar={renderBar}
+      animated={{}}
+      onChange={change}
+      onTabClick={click}
+      items={[
+        { key: "a", label: "First", children: "Panel A" },
+        { key: "b", label: "Second", children: "Panel B" },
+      ]}
+    />,
+  );
+  const bar = container.querySelector<HTMLElement>(".ant-tabs-nav");
+  expect(nativeBar).toBe(bar);
+  expect(bar?.classList.contains("custom-tabs-nav")).toBe(true);
+  expect(bar?.style.background).toBe("rgb(240, 240, 240)");
+  expect(container.querySelectorAll("[data-wrapped-tab]")).toHaveLength(2);
+  expect(container.querySelector(".ant-tabs-ink-bar-animated")).not.toBeNull();
+  await act(() => button("Second").click());
+  expect(change).toHaveBeenLastCalledWith("b");
+  expect(click.mock.calls.at(-1)?.[0]).toBe("b");
+  expect(container.querySelector(".ant-tabs-nav")).toBe(bar);
+  expect(container.querySelector(".ant-tabs-tabpane-active")?.textContent).toBe(
+    "Panel B",
+  );
+  await key(button("Second"), "Home");
+  expect(document.activeElement).toBe(button("First"));
+});
+
+it("Tabs allows a fully custom tab bar to use the same selection callback", async () => {
+  let received:
+    | Parameters<NonNullable<TabsProps["renderTabBar"]>>[0]
+    | undefined;
+  await render(
+    <Tabs
+      items={[
+        { key: "a", label: "A", children: "Panel A" },
+        { key: "b", label: "B", children: "Panel B" },
+      ]}
+      renderTabBar={(props) => {
+        received = props;
+        return (
+          <button
+            type="button"
+            onClick={(event) => props.onTabClick("b", event)}
+          >
+            Choose B
+          </button>
+        );
+      }}
+    />,
+  );
+  expect(received?.activeKey).toBe("a");
+  expect(received?.animated).toEqual({ inkBar: true, tabPane: false });
+  expect(received?.panes).toHaveLength(2);
+  expect(container.querySelector(".ant-tabs-nav")).toBeNull();
+  await act(() => button("Choose B").click());
+  expect(received?.activeKey).toBe("b");
+  expect(container.querySelector(".ant-tabs-tabpane-active")?.textContent).toBe(
+    "Panel B",
+  );
+});
+
+it("Tabs opacity motion retains the leaving pane until its transition finishes", async () => {
+  vi.useFakeTimers();
+  const frames: FrameRequestCallback[] = [];
+  vi.spyOn(globalThis, "requestAnimationFrame").mockImplementation(
+    (callback) => {
+      frames.push(callback);
+      return frames.length;
+    },
+  );
+  vi.spyOn(globalThis, "cancelAnimationFrame").mockImplementation(() => {});
+  await render(
+    <Tabs
+      animated={{ tabPane: true }}
+      destroyOnHidden
+      items={[
+        {
+          key: "a",
+          label: "First",
+          children: "Panel A",
+          destroyOnHidden: false,
+        },
+        { key: "b", label: "Second", children: "Panel B" },
+      ]}
+    />,
+  );
+  expect(container.querySelector("[class*=tabs-switch]")).toBeNull();
+  await act(() => button("Second").click());
+  const leaving = container.querySelector<HTMLElement>(
+    ".ant-tabs-switch-leave-start",
+  );
+  expect(leaving?.hidden).toBe(false);
+  expect(leaving?.getAttribute("aria-hidden")).toBe("true");
+  expect(
+    container.querySelector(".ant-tabs-switch-enter-start"),
+  ).not.toBeNull();
+  await act(() =>
+    frames.splice(0).forEach((frame) => {
+      frame(0);
+    }),
+  );
+  await act(() =>
+    frames.splice(0).forEach((frame) => {
+      frame(16);
+    }),
+  );
+  expect(
+    container.querySelector(".ant-tabs-switch-leave-active"),
+  ).not.toBeNull();
+  expect(
+    container.querySelector(".ant-tabs-switch-enter-active"),
+  ).not.toBeNull();
+  await act(() => vi.advanceTimersByTime(400));
+  expect(container.querySelectorAll('[role="tabpanel"]')).toHaveLength(1);
+  expect(container.querySelector('[role="tabpanel"]')?.textContent).toBe(
+    "Panel B",
+  );
+});
+
+it("Tabs disables pane motion with the theme motion token", async () => {
+  await render(
+    <ConfigProvider theme={{ token: { motion: false } }}>
+      <Tabs
+        animated
+        items={[
+          { key: "a", label: "First", children: "A" },
+          { key: "b", label: "Second", children: "B" },
+        ]}
+      />
+    </ConfigProvider>,
+  );
+  await act(() => button("Second").click());
+  expect(container.querySelector("[class*=tabs-switch]")).toBeNull();
+  expect(container.querySelector('[role="tabpanel"][hidden]')).not.toBeNull();
+  expect(
+    container
+      .querySelector<HTMLElement>(".ant-tabs")
+      ?.style.getPropertyValue("--ao-tabs-motion-duration"),
+  ).toBe("0s");
 });

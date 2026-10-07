@@ -1,95 +1,157 @@
-import { BasicDemo, MoreDemo } from "../demos/tabs-basic";
-import { ApiTable, Demo, DocMeta, usePageAnchor } from "../docs-ui";
+import { ComponentDescription, ComponentWhenToUse } from "../component-prose";
+import {
+  ComponentApiTables,
+  ComponentTokenTable,
+} from "../component-reference";
+import { BasicDemo } from "../demos/tabs-basic";
+import { CardDemo } from "../demos/tabs-card";
+import { CenteredDemo } from "../demos/tabs-centered";
+import { CustomAddTriggerDemo } from "../demos/tabs-custom-add-trigger";
+import { CustomIndicatorDemo } from "../demos/tabs-custom-indicator";
+import { DisabledDemo } from "../demos/tabs-disabled";
+import { EditableCardDemo } from "../demos/tabs-editable-card";
+import { ExtraDemo } from "../demos/tabs-extra";
+import { IconDemo } from "../demos/tabs-icon";
+import { PositionDemo } from "../demos/tabs-position";
+import { SizeDemo } from "../demos/tabs-size";
+import { SlideDemo } from "../demos/tabs-slide";
+import { Demo, DemoGrid, DocMeta, usePageAnchor } from "../docs-ui";
+import reference from "../navigation/tabs.json";
 export default function Page({ section }: { section?: string }) {
   usePageAnchor(section);
   return (
     <>
       <h1>
         Tabs <span>标签页</span>
-        <small>Alpha</small>
       </h1>
-      <p className="lead">在相关内容之间切换，保留各页的输入状态。</p>
+      <ComponentDescription component="Tabs" />
       <DocMeta name="Tabs" />
+      <ComponentWhenToUse component="Tabs" />
       <h2 id="examples" tabIndex={-1}>
         代码演示
       </h2>
-      <div className="demo-grid">
+      <DemoGrid component="tabs" columns={reference.demoColumns === 2 ? 2 : 1}>
         <Demo
           id="basic"
-          title="切换与键盘操作"
-          description="方向键移动标签焦点，Enter 或 Space 激活。切换回来后，设置页保留输入内容。"
+          title="基本"
+          description={"默认选中第一项。"}
+          descriptionMarkdown
           source={() => import("../demos/tabs-basic.tsx?raw")}
         >
           <BasicDemo />
         </Demo>
         <Demo
-          id="more"
-          title="新增和关闭标签"
-          description="通过 onEdit 更新 items；关闭当前标签后切换到可用页面，并恢复标签焦点。"
-          source={() => import("../demos/tabs-basic.tsx?raw")}
+          id="disabled"
+          title="禁用"
+          description={"禁用某一项。"}
+          descriptionMarkdown
+          source={() => import("../demos/tabs-disabled.tsx?raw")}
         >
-          <MoreDemo />
+          <DisabledDemo />
         </Demo>
-      </div>
+        <Demo
+          id="centered"
+          title="居中"
+          description={"标签居中展示。"}
+          descriptionMarkdown
+          source={() => import("../demos/tabs-centered.tsx?raw")}
+        >
+          <CenteredDemo />
+        </Demo>
+        <Demo
+          id="icon"
+          title="图标"
+          description={"有图标的标签。"}
+          descriptionMarkdown
+          source={() => import("../demos/tabs-icon.tsx?raw")}
+        >
+          <IconDemo />
+        </Demo>
+        <Demo
+          id="custom-indicator"
+          title="指示条"
+          description={"设置 `indicator` 属性，自定义指示条宽度和对齐方式。"}
+          descriptionMarkdown
+          source={() => import("../demos/tabs-custom-indicator.tsx?raw")}
+        >
+          <CustomIndicatorDemo />
+        </Demo>
+        <Demo
+          id="slide"
+          title="滑动"
+          description={"可以左右、上下滑动，容纳更多标签。"}
+          descriptionMarkdown
+          source={() => import("../demos/tabs-slide.tsx?raw")}
+        >
+          <SlideDemo />
+        </Demo>
+        <Demo
+          id="extra"
+          title="附加内容"
+          description={"可以在页签两边添加附加操作。"}
+          descriptionMarkdown
+          source={() => import("../demos/tabs-extra.tsx?raw")}
+        >
+          <ExtraDemo />
+        </Demo>
+        <Demo
+          id="size"
+          title="大小"
+          description={"大号页签用在页头区域，小号用在弹出框等较狭窄的容器内。"}
+          descriptionMarkdown
+          source={() => import("../demos/tabs-size.tsx?raw")}
+        >
+          <SizeDemo />
+        </Demo>
+        <Demo
+          id="position"
+          title="位置"
+          description={
+            '有四个位置，`tabPosition="left|right|top|bottom"`。在移动端下，`left|right` 会自动切换成 `top`。'
+          }
+          descriptionMarkdown
+          source={() => import("../demos/tabs-position.tsx?raw")}
+        >
+          <PositionDemo />
+        </Demo>
+        <Demo
+          id="card"
+          title="卡片式页签"
+          description={"另一种样式的页签，不提供对应的垂直样式。"}
+          descriptionMarkdown
+          source={() => import("../demos/tabs-card.tsx?raw")}
+        >
+          <CardDemo />
+        </Demo>
+        <Demo
+          id="editable-card"
+          title="新增和关闭页签"
+          description={
+            "只有卡片样式的页签支持新增和关闭选项。使用 `closable={false}` 禁止关闭。"
+          }
+          descriptionMarkdown
+          source={() => import("../demos/tabs-editable-card.tsx?raw")}
+        >
+          <EditableCardDemo />
+        </Demo>
+        <Demo
+          id="custom-add-trigger"
+          title="自定义新增页签触发器"
+          description={"隐藏默认的页签增加图标，给自定义触发器绑定事件。"}
+          descriptionMarkdown
+          source={() => import("../demos/tabs-custom-add-trigger.tsx?raw")}
+        >
+          <CustomAddTriggerDemo />
+        </Demo>
+      </DemoGrid>
       <h2 id="api" tabIndex={-1}>
         API
       </h2>
-      <ApiTable
-        rows={[
-          ["items", "标签及面板配置", "TabItem[]", "[]"],
-          [
-            "activeKey / defaultActiveKey / onChange",
-            "受控值、初始值与变化回调",
-            "string / string / (key) => void",
-            "首个可用项",
-          ],
-          [
-            "type",
-            "线条、卡片或可编辑卡片",
-            "line | card | editable-card",
-            "line",
-          ],
-          [
-            "tabPosition / size / centered",
-            "位置、尺寸和居中",
-            "top | bottom | left | right / Size / boolean",
-            "top / middle / false",
-          ],
-          [
-            "destroyOnHidden / forceRender",
-            "销毁非活动页 / item 预渲染",
-            "boolean",
-            "false",
-          ],
-          [
-            "onEdit / hideAdd",
-            "可编辑卡片增删回调和新增按钮",
-            "(keyOrEvent, action) => void / boolean",
-            "— / false",
-          ],
-          [
-            "tabBarGutter / tabBarStyle / tabBarExtraContent",
-            "标签间距、样式与附加内容",
-            "number / CSSProperties / OctaneNode",
-            "—",
-          ],
-          [
-            "removeIcon / rootClassName",
-            "自定义关闭图标 / 根节点附加类名",
-            "OctaneNode / string",
-            "× / —",
-          ],
-        ]}
-      />
+      <ComponentApiTables component="Tabs" sections={reference.api} />
       <h2 id="tokens" tabIndex={-1}>
-        主题与支持范围
+        主题变量（Design Token）
       </h2>
-      <p>
-        支持已声明的文字、间距、选中颜色、指示线和卡片背景
-        token。方向键/Home/End 移动焦点，Enter/Space
-        激活；超出空间的标签可滚动。暂不支持动画指示条、自定义
-        indicator、overflow 更多菜单、renderTabBar、TabPane 旧语法和 ref 契约。
-      </p>
+      <ComponentTokenTable component="Tabs" tokens={reference.tokens} />
     </>
   );
 }
