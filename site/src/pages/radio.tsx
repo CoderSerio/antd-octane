@@ -9,7 +9,6 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Radio <span>单选框</span>
-        <small>Alpha</small>
       </h1>
       <p className="lead">从互斥选项中选择一个，支持普通样式和按钮样式。</p>
       <DocMeta name="Radio" />
