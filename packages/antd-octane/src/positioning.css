@@ -3,21 +3,41 @@
     box-sizing: border-box;
     font: var(--ao-font-size) / var(--ao-line) var(--ao-font);
     color: var(--ao-text);
+    margin-block-start: calc(-1 * var(--ao-anchor-holder));
+    padding-block-start: var(--ao-anchor-holder);
   }
   :where(.ant-anchor) {
     position: relative;
+    padding-inline-start: 2px;
+  }
+  :where(
+      .ant-anchor-wrapper:not(.ant-anchor-wrapper-horizontal) .ant-anchor
+    )::before {
+    position: absolute;
+    inset-inline-start: 0;
+    top: 0;
+    height: 100%;
     border-inline-start: 2px solid var(--ao-border);
+    content: "";
   }
   :where(.ant-anchor-link) {
     padding: var(--ao-anchor-pb) 0 var(--ao-anchor-pb) var(--ao-anchor-pi);
   }
   :where(.ant-anchor-link-title) {
     display: block;
+    position: relative;
+    margin-block-end: var(--ao-anchor-title-margin);
     overflow: hidden;
     color: var(--ao-text);
     text-decoration: none;
     white-space: nowrap;
     text-overflow: ellipsis;
+  }
+  :where(.ant-anchor-link-title:only-child) {
+    margin-block-end: 0;
+  }
+  :where(.ant-anchor-link .ant-anchor-link) {
+    padding-block: var(--ao-anchor-secondary);
   }
   :where(
       .ant-anchor-link-title:hover,
@@ -25,19 +45,53 @@
     ) {
     color: var(--ao-primary);
   }
-  :where(.ant-anchor-link-active > .ant-anchor-link-title) {
-    border-inline-start: 2px solid var(--ao-primary);
-    margin-inline-start: calc(-1 * var(--ao-anchor-pi) - 2px);
-    padding-inline-start: var(--ao-anchor-pi);
+  :where(.ant-anchor-ink) {
+    position: absolute;
+    inset-inline-start: 0;
+    width: 2px;
+    background: var(--ao-primary);
+    opacity: 0;
+    transform: translateY(-50%);
+    transition:
+      top 0.3s,
+      height 0.3s,
+      left 0.3s,
+      width 0.3s;
+    pointer-events: none;
+  }
+  :where(.ant-anchor-ink-visible) {
+    opacity: 1;
+  }
+  :where(.ant-anchor-fixed .ant-anchor-ink) {
+    display: none;
   }
   :where(.ant-anchor-horizontal) {
     display: flex;
-    flex-wrap: wrap;
-    border-inline-start: 0;
+    white-space: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  :where(.ant-anchor-wrapper-horizontal) {
+    position: relative;
+  }
+  :where(.ant-anchor-wrapper-horizontal)::before {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
     border-bottom: 1px solid var(--ao-border);
+    content: "";
   }
   :where(.ant-anchor-horizontal > .ant-anchor-link) {
-    padding: var(--ao-anchor-pb) var(--ao-anchor-pi);
+    padding: var(--ao-anchor-pb) 0 var(--ao-anchor-pb) var(--ao-anchor-pi);
+  }
+  :where(.ant-anchor-horizontal > .ant-anchor-link:first-of-type) {
+    padding-inline: 0;
+  }
+  :where(.ant-anchor-horizontal > .ant-anchor-ink) {
+    top: auto;
+    bottom: 0;
+    height: 2px;
+    transform: none;
   }
   :where(
       .ant-anchor-horizontal .ant-anchor-link-active > .ant-anchor-link-title
@@ -45,7 +99,6 @@
     margin: 0;
     padding: 0;
     border-inline-start: 0;
-    border-bottom: 2px solid var(--ao-primary);
   }
   :where(.ant-float-btn) {
     position: fixed;
@@ -109,6 +162,39 @@
     outline: 2px solid var(--ao-focus);
     outline-offset: 2px;
   }
+  :where(.ant-float-btn:disabled),
+  :where(.ant-float-btn[aria-disabled="true"]) {
+    color: var(--ao-float-disabled, rgba(0, 0, 0, 0.25));
+    background: var(--ao-float-disabled-bg, rgba(0, 0, 0, 0.04));
+    cursor: not-allowed;
+  }
+  :where(.ant-float-btn-badge-wrapper) {
+    position: relative;
+    display: inline-flex;
+  }
+  :where(.ant-float-btn-badge) {
+    position: absolute;
+    inset-block-start: -6px;
+    inset-inline-end: -6px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    color: #fff;
+    font-size: 11px;
+    line-height: 16px;
+    text-align: center;
+    white-space: nowrap;
+    background: var(--ao-float-badge, #ff4d4f);
+    border-radius: 10px;
+    box-sizing: border-box;
+  }
+  :where(.ant-float-btn-badge-dot) {
+    min-width: 8px;
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border-radius: 50%;
+  }
   :where(.ant-float-btn-group) {
     border: 0;
     padding: 0;
@@ -132,5 +218,18 @@
   :where(.ant-float-btn-group .ant-float-btn) {
     position: relative;
     inset: auto;
+  }
+  :where(.ant-float-btn-group-bottom) {
+    flex-direction: column-reverse;
+  }
+  :where(.ant-float-btn-group-left) {
+    flex-direction: row;
+  }
+  :where(.ant-float-btn-group-right) {
+    flex-direction: row-reverse;
+  }
+  :where(.ant-float-btn-group-left .ant-float-btn-group-items),
+  :where(.ant-float-btn-group-right .ant-float-btn-group-items) {
+    flex-direction: row;
   }
 }

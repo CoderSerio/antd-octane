@@ -7,6 +7,7 @@ import {
   Checkbox,
   ConfigProvider,
   Input,
+  Radio,
   theme,
 } from "../packages/antd-octane/src";
 
@@ -28,6 +29,49 @@ function getInput() {
   if (!node) throw new Error("Expected an input");
   return node;
 }
+
+it("checkables retain their activation when a click ancestor changes state", async () => {
+  const change = vi.fn();
+  function Example() {
+    const [count, setCount] = useState(0);
+    return (
+      // biome-ignore lint/a11y/noStaticElementInteractions lint/a11y/useKeyWithClickEvents: observe bubbling from the native checkable, without adding a separate interactive target.
+      <div onClick={() => setCount((old) => old + 1)}>
+        <Checkbox onChange={(event) => change(event.target.checked)} />
+        <output>{count}</output>
+      </div>
+    );
+  }
+  await render(<Example />);
+  await act(() => getInput().click());
+  expect(change).toHaveBeenLastCalledWith(true);
+  expect(getInput().checked).toBe(true);
+  await act(() => getInput().click());
+  expect(change).toHaveBeenLastCalledWith(false);
+  expect(getInput().checked).toBe(false);
+  expect(container.querySelector("output")?.textContent).toBe("2");
+});
+
+it("a native click records checked before an ancestor can reset its DOM value", async () => {
+  const change = vi.fn();
+  for (const Control of [Checkbox, Radio]) {
+    await render(
+      // biome-ignore lint/a11y/noStaticElementInteractions lint/a11y/useKeyWithClickEvents: simulate an ancestor write during native checkable activation.
+      <div
+        onClick={(event) => {
+          (event.target as HTMLInputElement).checked = false;
+        }}
+      >
+        <Control onChange={(event) => change(event.target.checked)} />
+      </div>,
+    );
+    await act(() => getInput().click());
+    expect(change).toHaveBeenLastCalledWith(true);
+    expect(getInput().checked).toBe(true);
+    await act(() => root?.unmount());
+    container.remove();
+  }
+});
 async function type(input: HTMLInputElement, value: string) {
   await act(() => {
     input.value = value;

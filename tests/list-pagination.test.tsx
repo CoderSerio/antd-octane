@@ -16,6 +16,7 @@ afterEach(async () => {
   container?.remove();
 });
 const data = ["A", "B", "C", "D", "E"];
+const renderItem = (item: string) => <List.Item>{item}</List.Item>;
 const visible = () =>
   [...container.querySelectorAll(".ant-list-items > li")].map(
     (node) => node.textContent,
@@ -23,7 +24,7 @@ const visible = () =>
 async function next() {
   const buttons = [...container.querySelectorAll<HTMLButtonElement>("button")];
   const button = buttons.find(
-    (node) => node.getAttribute("aria-label") === "下一页",
+    (node) => node.getAttribute("aria-label") === "Next Page",
   );
   if (!button) throw Error("Missing next");
   await act(() => button.click());
@@ -33,6 +34,7 @@ it("paginates local data and keeps top/bottom pagers synchronized", async () => 
   await render(
     <List
       dataSource={data}
+      renderItem={renderItem}
       pagination={{ defaultPageSize: 2, position: "both", onChange: change }}
     />,
   );
@@ -53,6 +55,7 @@ it("rejects controlled navigation until parent accepts it", async () => {
   await render(
     <List
       dataSource={data}
+      renderItem={renderItem}
       pagination={{ pageSize: 2, current: 1, onChange: change }}
     />,
   );
@@ -63,6 +66,7 @@ it("rejects controlled navigation until parent accepts it", async () => {
     root?.render(
       <List
         dataSource={data}
+        renderItem={renderItem}
         pagination={{ pageSize: 2, current: 2, onChange: change }}
       />,
     ),
@@ -73,13 +77,18 @@ it("retains server page data and clamps a shrinking local dataset", async () => 
   await render(
     <List
       dataSource={["Remote A", "Remote B"]}
+      renderItem={renderItem}
       pagination={{ total: 100, pageSize: 2, current: 4 }}
     />,
   );
   expect(visible()).toEqual(["Remote A", "Remote B"]);
   await act(() =>
     root?.render(
-      <List dataSource={data} pagination={{ pageSize: 2, current: 10 }} />,
+      <List
+        dataSource={data}
+        renderItem={renderItem}
+        pagination={{ pageSize: 2, current: 10 }}
+      />,
     ),
   );
   expect(visible()).toEqual(["E"]);

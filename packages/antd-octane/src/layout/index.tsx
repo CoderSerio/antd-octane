@@ -1,5 +1,5 @@
 /** @jsxImportSource octane */
-import type { CSSProperties, HTMLAttributes, OctaneNode } from "octane";
+import type { CSSProperties, HTMLAttributes, OctaneNode, Ref } from "octane";
 import {
   createContext,
   useCallback,
@@ -8,11 +8,22 @@ import {
   useId,
   useState,
 } from "octane";
+import { componentClassName } from "../_util/componentClassName";
+import {
+  BarsOutlined,
+  LeftOutlined,
+  RightOutlined,
+} from "../_util/layout-icons";
 import type { Breakpoint } from "../_util/responsive";
 import { useMediaQuery } from "../_util/responsive";
 import { useComponentTokens } from "../_util/tokens";
 import { useConfig } from "../config-provider";
-export interface LayoutProps extends HTMLAttributes<HTMLDivElement> {
+import { SiderCollapseContext } from "./context";
+export interface LayoutProps<T extends HTMLElement = HTMLElement>
+  extends HTMLAttributes<T> {
+  ref?: Ref<T>;
+  prefixCls?: string;
+  rootClassName?: string;
   hasSider?: boolean;
   style?: CSSProperties;
 }
@@ -39,16 +50,23 @@ function useLayoutVariables() {
     "--ao-layout-light-trigger-bg": c?.lightTriggerBg ?? t.colorBgContainer,
     "--ao-layout-light-trigger-color": c?.lightTriggerColor ?? t.colorText,
     "--ao-layout-trigger-height": `${c?.triggerHeight ?? t.controlHeightLG + t.marginXXS * 2}px`,
+    "--ao-layout-zero-trigger-width": `${c?.zeroTriggerWidth ?? t.controlHeightLG}px`,
+    "--ao-layout-zero-trigger-height": `${c?.zeroTriggerHeight ?? t.controlHeightLG}px`,
+    "--ao-layout-zero-trigger-font-size": `${t.fontSizeXL}px`,
   };
 }
 function InternalLayout({
   hasSider,
   children,
   className,
+  prefixCls: customPrefixCls,
+  rootClassName,
   style,
   ...rest
-}: LayoutProps) {
+}: LayoutProps<HTMLDivElement>) {
   const [siders, setSiders] = useState<string[]>([]);
+  const config = useConfig();
+  const prefixCls = config.getPrefixCls("layout", customPrefixCls);
   const register = useCallback((id: string) => {
     setSiders((previous) =>
       previous.includes(id) ? previous : [...previous, id],
@@ -60,39 +78,88 @@ function InternalLayout({
     <div
       {...rest}
       className={[
-        "ant-layout",
-        (hasSider ?? siders.length > 0) && "ant-layout-has-sider",
+        componentClassName("ant-layout", prefixCls),
+        (hasSider ?? siders.length > 0) &&
+          componentClassName("ant-layout", prefixCls, "-has-sider"),
+        config.direction === "rtl" &&
+          componentClassName("ant-layout", prefixCls, "-rtl"),
+        config.layout?.className,
         className,
+        rootClassName,
       ]}
-      style={{ ...useLayoutVariables(), ...style }}
+      style={{
+        ...useLayoutVariables(),
+        direction: config.direction,
+        ...config.layout?.style,
+        ...style,
+      }}
     >
       <SiderContext value={register}>{children}</SiderContext>
     </div>
   );
 }
-function Header({ className, style, ...props }: LayoutProps) {
+function Header({
+  className,
+  style,
+  prefixCls: customPrefixCls,
+  rootClassName,
+  hasSider: _hasSider,
+  ...props
+}: LayoutProps) {
+  const prefixCls =
+    customPrefixCls ?? `${useConfig().getPrefixCls("layout")}-header`;
   return (
-    <div
+    <header
       {...props}
-      className={["ant-layout-header", className]}
+      className={[
+        componentClassName("ant-layout-header", prefixCls),
+        className,
+        rootClassName,
+      ]}
       style={{ ...useLayoutVariables(), ...style }}
     />
   );
 }
-function Footer({ className, style, ...props }: LayoutProps) {
+function Footer({
+  className,
+  style,
+  prefixCls: customPrefixCls,
+  rootClassName,
+  hasSider: _hasSider,
+  ...props
+}: LayoutProps) {
+  const prefixCls =
+    customPrefixCls ?? `${useConfig().getPrefixCls("layout")}-footer`;
   return (
-    <div
+    <footer
       {...props}
-      className={["ant-layout-footer", className]}
+      className={[
+        componentClassName("ant-layout-footer", prefixCls),
+        className,
+        rootClassName,
+      ]}
       style={{ ...useLayoutVariables(), ...style }}
     />
   );
 }
-function Content({ className, style, ...props }: LayoutProps) {
+function Content({
+  className,
+  style,
+  prefixCls: customPrefixCls,
+  rootClassName,
+  hasSider: _hasSider,
+  ...props
+}: LayoutProps) {
+  const prefixCls =
+    customPrefixCls ?? `${useConfig().getPrefixCls("layout")}-content`;
   return (
-    <div
+    <main
       {...props}
-      className={["ant-layout-content", className]}
+      className={[
+        componentClassName("ant-layout-content", prefixCls),
+        className,
+        rootClassName,
+      ]}
       style={{ ...useLayoutVariables(), ...style }}
     />
   );
@@ -112,6 +179,7 @@ export interface SiderProps extends Omit<LayoutProps, "hasSider"> {
     type: "clickTrigger" | "responsive",
   ) => void;
   onBreakpoint?: (broken: boolean) => void;
+  zeroWidthTriggerStyle?: CSSProperties;
 }
 function Sider({
   width = 200,
@@ -125,6 +193,9 @@ function Sider({
   breakpoint,
   onCollapse,
   onBreakpoint,
+  zeroWidthTriggerStyle,
+  prefixCls: customPrefixCls,
+  rootClassName,
   className,
   style,
   children,
@@ -134,6 +205,7 @@ function Sider({
   const id = useId();
   useEffect(() => register?.(id), [register, id]);
   const config = useConfig();
+  const prefixCls = config.getPrefixCls("layout-sider", customPrefixCls);
   const thresholds = {
     xs: config.token.screenXS,
     sm: config.token.screenSM,
@@ -159,41 +231,84 @@ function Sider({
     if (broken !== current) change(broken, "responsive");
   }, [matched]);
   const actual = current ? collapsedWidth : width;
-  const dimension = typeof actual === "number" ? `${actual}px` : actual;
+  const dimension = Number.isFinite(Number(actual))
+    ? `${actual}px`
+    : String(actual);
+  const zeroWidth = Number.parseFloat(String(collapsedWidth)) === 0;
+  const showTrigger =
+    trigger !== null && (collapsible || (broken && zeroWidth));
+  const reverseIcon = (config.direction === "rtl") === !reverseArrow;
+  const DefaultIcon = current
+    ? reverseIcon
+      ? LeftOutlined
+      : RightOutlined
+    : reverseIcon
+      ? RightOutlined
+      : LeftOutlined;
   return (
-    <div
+    <aside
       {...rest}
       className={[
-        "ant-layout-sider",
-        theme === "light" && "ant-layout-sider-light",
-        current && "ant-layout-sider-collapsed",
+        componentClassName("ant-layout-sider", prefixCls),
+        componentClassName("ant-layout-sider", prefixCls, `-${theme}`),
+        current &&
+          componentClassName("ant-layout-sider", prefixCls, "-collapsed"),
+        collapsible &&
+          trigger !== null &&
+          !zeroWidth &&
+          componentClassName("ant-layout-sider", prefixCls, "-has-trigger"),
+        broken && componentClassName("ant-layout-sider", prefixCls, "-below"),
+        Number.parseFloat(dimension) === 0 &&
+          componentClassName("ant-layout-sider", prefixCls, "-zero-width"),
         className,
+        rootClassName,
       ]}
       style={{
         ...useLayoutVariables(),
+        direction: config.direction,
+        ...style,
         flex: `0 0 ${dimension}`,
         maxWidth: dimension,
         minWidth: dimension,
         width: dimension,
-        ...style,
       }}
     >
-      <div className="ant-layout-sider-children">{children}</div>
-      {collapsible && trigger !== null && (
+      <div
+        className={componentClassName(
+          "ant-layout-sider",
+          prefixCls,
+          "-children",
+        )}
+      >
+        <SiderCollapseContext value={current}>{children}</SiderCollapseContext>
+      </div>
+      {showTrigger && (
         <button
           className={[
-            "ant-layout-sider-trigger",
-            (actual === 0 || actual === "0") && "ant-layout-sider-zero-trigger",
+            zeroWidth
+              ? componentClassName(
+                  "ant-layout-sider",
+                  prefixCls,
+                  "-zero-width-trigger",
+                )
+              : componentClassName("ant-layout-sider", prefixCls, "-trigger"),
+            zeroWidth &&
+              componentClassName(
+                "ant-layout-sider",
+                prefixCls,
+                `-zero-width-trigger-${reverseArrow ? "right" : "left"}`,
+              ),
           ]}
+          style={zeroWidth ? zeroWidthTriggerStyle : { width: dimension }}
           type="button"
           aria-label={current ? "展开侧栏" : "收起侧栏"}
           aria-expanded={!current}
           onClick={() => change(!current, "clickTrigger")}
         >
-          {trigger ?? (current !== reverseArrow ? "›" : "‹")}
+          {trigger || (zeroWidth ? <BarsOutlined /> : <DefaultIcon />)}
         </button>
       )}
-    </div>
+    </aside>
   );
 }
 export const Layout = Object.assign(InternalLayout, {

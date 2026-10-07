@@ -9,6 +9,24 @@
   :where(.ant-modal-root[hidden], .ant-drawer[hidden]) {
     display: none;
   }
+  /* Drawer common styles set fonts but inherit the surrounding line height. */
+  :where(.ant-drawer) {
+    line-height: inherit;
+    pointer-events: none;
+  }
+  :where(.ant-drawer-inline) {
+    position: absolute;
+  }
+  :where(.ant-drawer-content-wrapper-hidden) {
+    display: none;
+  }
+  :where([class^="ant-drawer"], [class*=" ant-drawer"]) {
+    box-sizing: border-box;
+  }
+  :where(.ant-drawer-mask) {
+    z-index: var(--ao-drawer-z);
+    pointer-events: auto;
+  }
   :where(.ao-dialog-mask) {
     position: absolute;
     inset: 0;
@@ -20,52 +38,106 @@
     overflow: auto;
     outline: 0;
   }
-  :where(.ant-modal) {
-    position: relative;
-    box-sizing: border-box;
-    max-width: calc(100% - 32px);
-    margin: 100px auto 24px;
-    outline: none;
-    pointer-events: auto;
+  /* rc-dialog stacks its fixed mask and wrapper; its root is not a stacking context. */
+  :where(.ant-modal-root) {
+    position: static;
+    inset: auto;
+    z-index: auto;
+    line-height: inherit;
+    color: inherit;
   }
-  :where(.ant-modal-centered .ao-dialog-wrap) {
-    display: flex;
-    align-items: center;
+  :where(.ant-modal-mask, .ant-modal-wrap) {
+    box-sizing: border-box;
+    position: fixed;
+    z-index: var(--ao-dialog-z);
+  }
+  :where(.ant-modal, .ant-modal *, .ant-modal *::before, .ant-modal *::after) {
+    box-sizing: border-box;
+  }
+  :where(.ant-modal) {
+    font: var(--ao-font-size) / var(--ao-line) var(--ao-font);
+    color: var(--ao-text);
+    position: relative;
+    top: 100px;
+    box-sizing: border-box;
+    max-width: calc(100vw - var(--ao-modal-viewport-gap));
+    margin: var(--ao-modal-margin-block) auto;
+    padding-bottom: var(--ao-dialog-bottom-padding);
+    outline: none;
+    pointer-events: none;
+  }
+  :where(.ao-dialog-wrap.ant-modal-centered) {
+    text-align: center;
+  }
+  :where(.ant-modal-centered)::before {
+    display: inline-block;
+    width: 0;
+    height: 100%;
+    vertical-align: middle;
+    content: "";
   }
   :where(.ant-modal-centered .ant-modal) {
-    margin: 24px auto;
+    display: inline-block;
+    top: 0;
+    padding-bottom: 0;
+    text-align: start;
+    vertical-align: middle;
   }
   :where(.ant-modal-content) {
+    box-sizing: border-box;
     position: relative;
     padding: var(--ao-dialog-padding);
     background: var(--ao-dialog-bg);
+    background-clip: padding-box;
+    border: 0;
+    pointer-events: auto;
     border-radius: var(--ao-dialog-radius);
     box-shadow: var(--ao-dialog-shadow);
   }
-  :where(.ant-modal-header) {
-    margin-bottom: var(--ao-dialog-gap);
-    background: var(--ao-dialog-header);
+  :where(.ant-modal-mask) {
+    height: 100%;
+    pointer-events: none;
   }
-  :where(.ant-modal-close + .ant-modal-header) {
-    padding-inline-end: 24px;
+  :where(.ant-modal-header) {
+    color: var(--ao-text);
+    margin-bottom: var(--ao-modal-header-gap);
+    background: var(--ao-dialog-header);
+    border-radius: var(--ao-dialog-radius) var(--ao-dialog-radius) 0 0;
+    padding: var(--ao-modal-header-padding);
+    border-bottom: var(--ao-modal-header-border);
   }
   :where(.ant-modal-title) {
+    margin: 0;
     color: var(--ao-dialog-title);
     font-size: var(--ao-dialog-title-size);
-    font-weight: 600;
+    font-weight: var(--ao-modal-weight);
     line-height: var(--ao-dialog-title-line);
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
   }
   :where(.ant-modal-body) {
-    overflow-wrap: anywhere;
+    font-size: var(--ao-font-size);
+    line-height: var(--ao-line);
+    overflow-wrap: break-word;
+    padding: var(--ao-modal-body-padding);
+  }
+  .ant-modal-body :where(.ant-modal-body-skeleton) {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: var(--ao-dialog-margin) auto;
   }
   :where(.ant-modal-footer) {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 8px;
-    margin-top: 12px;
+    text-align: end;
+    margin-top: var(--ao-modal-footer-gap);
+    padding: var(--ao-modal-footer-padding);
+    border-top: var(--ao-modal-footer-border);
+    border-radius: var(--ao-modal-footer-radius);
     background: var(--ao-dialog-footer);
+  }
+  :where(.ant-modal-footer > .ant-btn + .ant-btn) {
+    margin-inline-start: var(--ao-dialog-button-gap);
   }
   :where(.ao-dialog-close) {
     display: inline-flex;
@@ -93,17 +165,58 @@
   }
   :where(.ant-modal-close) {
     position: absolute;
-    top: 12px;
-    inset-inline-end: 12px;
+    top: var(--ao-modal-close-offset);
+    inset-inline-end: var(--ao-modal-close-offset);
+    z-index: var(--ao-modal-close-z);
+    padding: 0;
+    color: var(--ao-modal-close-color);
+    font-weight: var(--ao-modal-weight);
+    line-height: 1;
+    text-decoration: none;
+    background: transparent;
+    border-radius: var(--ao-modal-close-radius);
+    width: var(--ao-modal-close-size);
+    height: var(--ao-modal-close-size);
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+    transition:
+      color var(--ao-motion-mid),
+      background-color var(--ao-motion-mid);
+  }
+  :where(.ant-modal-close-x) {
+    display: flex;
+    font-size: var(--ao-modal-close-font);
+    font-style: normal;
+    line-height: var(--ao-modal-close-size);
+    justify-content: center;
+    text-transform: none;
+    text-rendering: auto;
+  }
+  :where(.ant-modal-close:disabled) {
+    pointer-events: none;
+  }
+  :where(.ant-modal-close:hover) {
+    color: var(--ao-modal-close-hover);
+    background-color: var(--ao-modal-close-hover-bg);
+  }
+  :where(.ant-modal-close:active) {
+    background-color: var(--ao-modal-close-active-bg);
+  }
+  :where(.ant-modal-close:focus-visible) {
+    outline: var(--ao-modal-focus);
+    outline-offset: 1px;
+  }
+  :where(.ant-modal-hidden) {
+    display: none;
   }
   :where(.ant-drawer-content-wrapper) {
     position: absolute;
     box-sizing: border-box;
-    max-width: 100%;
-    max-height: 100%;
-    outline: none;
+    max-width: 100vw;
+    z-index: var(--ao-drawer-z);
     box-shadow: var(--ao-dialog-shadow);
-    pointer-events: auto;
+    transition: all var(--ao-motion-slow, 0.3s);
   }
   :where(.ant-drawer-left .ant-drawer-content-wrapper) {
     left: 0;
@@ -126,56 +239,348 @@
     right: 0;
   }
   :where(.ant-drawer-content) {
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    overflow: auto;
     background: var(--ao-dialog-bg);
+    pointer-events: auto;
   }
   :where(.ant-drawer-header) {
     display: flex;
-    flex: none;
+    flex: 0;
     align-items: center;
-    gap: 16px;
-    padding: 16px var(--ao-drawer-padding);
-    border-bottom: 1px solid var(--ao-border);
+    padding: var(--ao-drawer-header-padding);
+    font-size: var(--ao-drawer-title-size);
+    line-height: var(--ao-drawer-title-line);
+    border-bottom: var(--ao-drawer-border);
   }
   :where(.ant-drawer-header-title) {
     display: flex;
     flex: 1;
     min-width: 0;
     align-items: center;
-    gap: 12px;
+    min-height: 0;
   }
   :where(.ant-drawer-title) {
     flex: 1;
     font-size: var(--ao-drawer-title-size);
     line-height: var(--ao-drawer-title-line);
-    font-weight: 600;
-    overflow-wrap: anywhere;
+    font-weight: var(--ao-drawer-weight);
+    margin: 0;
   }
   :where(.ant-drawer-close) {
+    display: inline-flex;
+    width: var(--ao-drawer-close-size);
+    height: var(--ao-drawer-close-size);
+    border-radius: var(--ao-drawer-close-radius);
+    justify-content: center;
+    align-items: center;
+    color: var(--ao-drawer-close-color);
+    font-weight: var(--ao-drawer-weight);
+    font-size: var(--ao-drawer-title-size);
+    font-style: normal;
+    line-height: 1;
+    text-align: center;
+    text-transform: none;
+    text-decoration: none;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    transition: all var(--ao-motion-mid);
+    text-rendering: auto;
+    margin-inline-end: var(--ao-drawer-close-gap);
+  }
+  :where(.ant-drawer-close:hover) {
+    color: var(--ao-drawer-close-hover-color);
+    background-color: var(--ao-drawer-close-hover-bg);
+  }
+  :where(.ant-drawer-close:active) {
+    background-color: var(--ao-drawer-close-active-bg);
+  }
+  :where(.ant-drawer-close:focus-visible) {
+    outline: var(--ao-drawer-focus);
+    outline-offset: 1px;
+  }
+  :where(.ant-drawer-close .anticon) {
+    line-height: 1;
+  }
+  :where(.ant-drawer-close svg) {
+    line-height: 1;
+  }
+  :where(.ant-drawer-extra) {
     flex: none;
-    width: 24px;
-    height: 24px;
   }
   :where(.ant-drawer-body) {
-    line-height: normal;
     flex: 1;
+    min-width: 0;
     min-height: 0;
     padding: var(--ao-drawer-padding);
     overflow: auto;
-    overflow-wrap: anywhere;
+  }
+  :where(.ant-drawer-body) .ant-drawer-body-skeleton {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
   }
   :where(.ant-drawer-footer) {
-    flex: none;
+    flex-shrink: 0;
     padding: var(--ao-drawer-footer-padding);
-    border-top: 1px solid var(--ao-border);
+    border-top: var(--ao-drawer-border);
   }
-  @media (max-width: 575px) {
-    :where(.ant-modal) {
-      margin-block-start: 16px;
-    }
+}
+
+/* Ant Design 5.29.3 modal zoom/fade and drawer panel/mask motion. */
+@layer antd {
+  :where(
+      .ant-modal[data-native-motion="true"][data-motion-phase="appear"],
+      .ant-modal[data-native-motion="true"][data-motion-phase="enter"]
+    ) {
+    animation: ao-modal-zoom-in var(--ao-motion-slow, 0.3s)
+      var(--ao-motion-out-circ) both paused;
+    user-select: none;
+  }
+  :where(.ant-modal[data-native-motion="true"][data-motion-phase="leave"]) {
+    animation: ao-modal-zoom-out var(--ao-motion-mid, 0.2s)
+      var(--ao-motion-in-out-circ) both paused;
+  }
+  :where(.ant-modal[data-motion-phase="leave"] .ant-modal-content) {
+    pointer-events: none;
+  }
+  :where(
+      .ao-dialog-mask[data-native-motion="true"][data-motion-phase="appear"],
+      .ao-dialog-mask[data-native-motion="true"][data-motion-phase="enter"]
+    ) {
+    animation: ao-dialog-fade-in
+      var(--ao-motion-mid, var(--ao-motion-slow, 0.3s)) linear both paused;
+  }
+  :where(
+      .ao-dialog-mask[data-native-motion="true"][data-motion-phase="leave"]
+    ) {
+    animation: ao-dialog-fade-out
+      var(--ao-motion-mid, var(--ao-motion-slow, 0.3s)) linear both paused;
+  }
+  :where(
+      .ant-modal[data-native-motion="true"][data-motion-active="true"],
+      .ao-dialog-mask[data-native-motion="true"][data-motion-active="true"]
+    ) {
+    animation-play-state: running;
+  }
+  :where(
+      .ant-drawer-content-wrapper[data-motion-phase="appear"],
+      .ant-drawer-content-wrapper[data-motion-phase="enter"],
+      .ant-drawer-content-wrapper[data-motion-phase="leave"]
+    ) {
+    transition: all var(--ao-motion-slow, 0.3s);
+  }
+  :where(
+      .ant-drawer-content-wrapper[data-motion-phase="appear"],
+      .ant-drawer-content-wrapper[data-motion-phase="enter"]
+    ) {
+    opacity: 0.7;
+  }
+  :where(
+      .ant-drawer-content-wrapper[data-motion-phase="appear"][data-motion-active="true"],
+      .ant-drawer-content-wrapper[data-motion-phase="enter"][data-motion-active="true"]
+    ) {
+    opacity: 1;
+    /* biome-ignore lint/complexity/noImportantStyles: Enter/leave motion takes precedence over the nested drawer push transform. */
+    transform: none !important;
+  }
+  :where(
+      .ant-drawer-content-wrapper[data-motion-phase="leave"][data-motion-active="true"]
+    ) {
+    opacity: 0.7;
+  }
+  :where(
+      .ant-drawer-left
+        .ant-drawer-content-wrapper[data-motion-phase="appear"]:not(
+          [data-motion-active]
+        ),
+      .ant-drawer-left
+        .ant-drawer-content-wrapper[data-motion-phase="enter"]:not(
+          [data-motion-active]
+        ),
+      .ant-drawer-left
+        .ant-drawer-content-wrapper[data-motion-phase="leave"][data-motion-active="true"]
+    ) {
+    /* biome-ignore lint/complexity/noImportantStyles: Enter/leave motion takes precedence over the nested drawer push transform. */
+    transform: translateX(-100%) !important;
+  }
+  :where(
+      .ant-drawer-right
+        .ant-drawer-content-wrapper[data-motion-phase="appear"]:not(
+          [data-motion-active]
+        ),
+      .ant-drawer-right
+        .ant-drawer-content-wrapper[data-motion-phase="enter"]:not(
+          [data-motion-active]
+        ),
+      .ant-drawer-right
+        .ant-drawer-content-wrapper[data-motion-phase="leave"][data-motion-active="true"]
+    ) {
+    /* biome-ignore lint/complexity/noImportantStyles: Enter/leave motion takes precedence over the nested drawer push transform. */
+    transform: translateX(100%) !important;
+  }
+  :where(
+      .ant-drawer-top
+        .ant-drawer-content-wrapper[data-motion-phase="appear"]:not(
+          [data-motion-active]
+        ),
+      .ant-drawer-top
+        .ant-drawer-content-wrapper[data-motion-phase="enter"]:not(
+          [data-motion-active]
+        ),
+      .ant-drawer-top
+        .ant-drawer-content-wrapper[data-motion-phase="leave"][data-motion-active="true"]
+    ) {
+    /* biome-ignore lint/complexity/noImportantStyles: Enter/leave motion takes precedence over the nested drawer push transform. */
+    transform: translateY(-100%) !important;
+  }
+  :where(
+      .ant-drawer-bottom
+        .ant-drawer-content-wrapper[data-motion-phase="appear"]:not(
+          [data-motion-active]
+        ),
+      .ant-drawer-bottom
+        .ant-drawer-content-wrapper[data-motion-phase="enter"]:not(
+          [data-motion-active]
+        ),
+      .ant-drawer-bottom
+        .ant-drawer-content-wrapper[data-motion-phase="leave"][data-motion-active="true"]
+    ) {
+    /* biome-ignore lint/complexity/noImportantStyles: Enter/leave motion takes precedence over the nested drawer push transform. */
+    transform: translateY(100%) !important;
+  }
+}
+@keyframes ao-modal-zoom-in {
+  from {
+    transform: scale(0.2);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes ao-modal-zoom-out {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0.2);
+    opacity: 0;
+  }
+}
+@keyframes ao-dialog-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes ao-dialog-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@layer antd {
+  :where(.ao-confirm-hide-header .ant-modal-header) {
+    display: none;
+  }
+  :where(.ant-modal-confirm .ant-modal-body) {
+    padding: var(--ao-confirm-body-padding);
+  }
+  :where(.ant-modal-confirm-body) {
+    display: flex;
+    align-items: start;
+    flex-wrap: nowrap;
+  }
+  :where(.ant-modal-confirm-rtl) {
+    direction: rtl;
+  }
+  :where(
+      .ant-modal-confirm-body-wrapper::before,
+      .ant-modal-confirm-body-wrapper::after
+    ) {
+    display: table;
+    content: "";
+  }
+  :where(.ant-modal-confirm-body-wrapper::after) {
+    clear: both;
+  }
+  :where(.ant-modal-confirm-body > .anticon svg) {
+    display: block;
+    line-height: 1;
+  }
+  :where(.ant-modal-confirm-content) {
+    color: var(--ao-text);
+    font-size: var(--ao-font-size);
+    line-height: var(--ao-line);
+  }
+  :where(.ant-modal-confirm-body > .anticon) {
+    flex: none;
+    font-size: var(--ao-confirm-icon-size);
+    margin-inline-end: var(--ao-confirm-icon-gap);
+    margin-top: var(--ao-confirm-icon-top);
+    color: var(--ao-warning);
+  }
+  :where(.ant-modal-confirm-body-has-title > .anticon) {
+    margin-top: var(--ao-confirm-icon-title-top);
+  }
+  :where(.ant-modal-confirm-info .ant-modal-confirm-body > .anticon) {
+    color: var(--ao-confirm-info);
+  }
+  :where(.ant-modal-confirm-success .ant-modal-confirm-body > .anticon) {
+    color: var(--ao-success);
+  }
+  :where(.ant-modal-confirm-error .ant-modal-confirm-body > .anticon) {
+    color: var(--ao-error);
+  }
+  :where(.ant-modal-confirm-paragraph) {
+    display: flex;
+    flex-direction: column;
+    flex: auto;
+    row-gap: var(--ao-confirm-paragraph-gap);
+    max-width: calc(100% - var(--ao-confirm-paragraph-margin));
+  }
+  :where(.ant-modal-confirm-body > .anticon + .ant-modal-confirm-paragraph) {
+    max-width: calc(
+      100% -
+      var(--ao-confirm-icon-size) -
+      var(--ao-confirm-paragraph-margin)
+    );
+  }
+  :where(.ant-modal-confirm-title) {
+    display: block;
+    color: var(--ao-confirm-title-color);
+    font-weight: var(--ao-confirm-weight);
+    font-size: var(--ao-dialog-title-size);
+    line-height: var(--ao-dialog-title-line);
+  }
+  :where(.ant-modal-confirm-btns) {
+    text-align: end;
+    margin-top: var(--ao-confirm-btns-margin);
+  }
+  :where(.ant-modal-confirm-btns .ant-btn + .ant-btn) {
+    margin-inline-start: var(--ao-dialog-button-gap);
+  }
+  :where(.ant-modal-close .anticon, .ant-modal-close svg) {
+    line-height: 1;
+  }
+  :where(.ant-drawer-close-end) {
+    margin-inline-start: var(--ao-drawer-close-gap);
+    margin-inline-end: 0;
+  }
+  :where(.ant-modal-rtl, .ant-modal-wrap-rtl, .ant-drawer-rtl) {
+    direction: rtl;
   }
 }

@@ -39,12 +39,26 @@ it("opens, cancels and confirms with original trigger behavior", async () => {
   await click("打开");
   expect(popup().hidden).toBe(false);
   expect(trigger).toHaveBeenCalledOnce();
-  await click("取消");
+  await click("Cancel");
   expect(cancel).toHaveBeenCalledOnce();
+  await act(() =>
+    popup()?.dispatchEvent(
+      Object.assign(new Event("animationend", { bubbles: true }), {
+        animationName: "ao-floating-zoom-out",
+      }),
+    ),
+  );
   expect(popup().hidden).toBe(true);
   await click("打开");
-  await click("确定");
+  await click("OK");
   expect(confirm).toHaveBeenCalledOnce();
+  await act(() =>
+    popup()?.dispatchEvent(
+      Object.assign(new Event("animationend", { bubbles: true }), {
+        animationName: "ao-floating-zoom-out",
+      }),
+    ),
+  );
   expect(popup().hidden).toBe(true);
 });
 it("waits for async success and allows retry after rejection", async () => {
@@ -63,13 +77,20 @@ it("waits for async success and allows retry after rejection", async () => {
     </Popconfirm>,
   );
   await click("打开");
-  await click("确定");
+  await click("OK");
   expect(popup().querySelector(".ant-btn-loading")).not.toBeNull();
   await act(() => reject(Error("retry")));
   expect(popup().hidden).toBe(false);
   expect(popup().querySelector(".ant-btn-loading")).toBeNull();
-  await click("确定");
+  await click("OK");
   await act(() => resolve());
+  await act(() =>
+    popup()?.dispatchEvent(
+      Object.assign(new Event("animationend", { bubbles: true }), {
+        animationName: "ao-floating-zoom-out",
+      }),
+    ),
+  );
   expect(popup().hidden).toBe(true);
 });
 it("respects disabled and a controlled owner rejecting close", async () => {
@@ -86,8 +107,8 @@ it("respects disabled and a controlled owner rejecting close", async () => {
       <button type="button">打开</button>
     </Popconfirm>,
   );
-  await click("确定");
-  expect(change).toHaveBeenCalledWith(false);
+  await click("OK");
+  expect(change).toHaveBeenCalledWith(false, expect.any(MouseEvent));
   expect(popup().hidden).toBe(false);
 });
 it("an earlier async action cannot close a newly opened popup", async () => {
@@ -105,7 +126,7 @@ it("an earlier async action cannot close a newly opened popup", async () => {
     </Popconfirm>,
   );
   await click("打开");
-  await click("确定");
+  await click("OK");
   await act(() =>
     document.dispatchEvent(
       new KeyboardEvent("keydown", { key: "Escape", bubbles: true }),

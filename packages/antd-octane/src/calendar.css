@@ -1,0 +1,472 @@
+@layer antd {
+  :where(.ant-picker-calendar) {
+    box-sizing: border-box;
+    width: 100%;
+    color: var(--ao-calendar-text);
+    background: var(--ao-calendar-full-bg);
+    font-family: var(--ao-font);
+    font-size: var(--ao-calendar-font-size);
+    line-height: var(--ao-calendar-line-height);
+  }
+  :where(.ant-picker-calendar *),
+  :where(.ant-picker-calendar *)::before,
+  :where(.ant-picker-calendar *)::after {
+    box-sizing: border-box;
+  }
+  :where(.ant-picker-calendar-header) {
+    display: flex;
+    justify-content: flex-end;
+    padding: var(--ao-calendar-header-padding-y) 0;
+  }
+  :where(.ant-picker-calendar) .ant-picker-calendar-year-select {
+    width: auto;
+    min-width: var(--ao-calendar-year-width);
+  }
+  :where(.ant-picker-calendar) .ant-picker-calendar-month-select {
+    width: auto;
+    min-width: var(--ao-calendar-month-width);
+    margin-inline-start: var(--ao-calendar-header-gap);
+  }
+  /* Select/style/single.ts and variants.ts in Ant Design 5.29.3.
+     Scoped here while the shared native Select retains its current structure. */
+  :where(.ant-picker-calendar-header) .ant-select {
+    height: var(--ao-calendar-select-height);
+    padding-inline: var(--ao-calendar-select-padding);
+    border-width: var(--ao-calendar-select-line-width);
+    border-style: var(--ao-calendar-select-line-type);
+    border-radius: var(--ao-calendar-select-radius);
+    background: var(--ao-calendar-select-bg);
+    cursor: pointer;
+  }
+  :where(.ant-picker-calendar-header)
+    .ant-select:not(.ant-select-disabled):hover {
+    border-color: var(--ao-calendar-select-hover-border);
+  }
+  :where(.ant-picker-calendar-header)
+    .ant-select:not(.ant-select-disabled):focus-within {
+    border-color: var(--ao-calendar-select-focus-border);
+    box-shadow: 0 0 0 var(--ao-calendar-select-focus-width)
+      var(--ao-calendar-select-focus-color);
+  }
+  :where(.ant-picker-calendar-header) .ant-select.ant-select-disabled {
+    background: var(--ao-select-disabled);
+    cursor: not-allowed;
+  }
+  :where(.ant-picker-calendar-header) .ant-select > input {
+    width: 0;
+    flex: 1;
+    height: calc(
+      var(--ao-calendar-select-height) -
+      2 *
+      var(--ao-calendar-select-line-width)
+    );
+    padding-inline-end: var(--ao-calendar-select-arrow-padding);
+  }
+  :where(.ant-picker-calendar-header) .ant-select .ant-select-arrow {
+    position: absolute;
+    top: 50%;
+    inset-inline-end: var(--ao-calendar-select-arrow-end);
+    width: var(--ao-calendar-select-arrow-size);
+    height: var(--ao-calendar-select-arrow-size);
+    margin-inline-start: 0;
+    margin-top: calc(var(--ao-calendar-select-arrow-size) / -2);
+    color: var(--ao-calendar-select-arrow-color);
+    font-size: 0;
+    line-height: 1;
+  }
+  /* @ant-design/icons-svg 4.6.0 / es/asn/DownOutlined.js (MIT), exact path/viewBox.
+     Keep provenance and license in THIRD_PARTY_NOTICES.md. */
+  :where(.ant-picker-calendar-header) .ant-select .ant-select-arrow::before {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: currentColor;
+    mask:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='64 64 896 896'%3E%3Cpath d='M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z'/%3E%3C/svg%3E")
+      center / contain no-repeat;
+    content: "";
+  }
+  :where(.ant-picker-calendar-mode-switch) {
+    margin-inline-start: var(--ao-calendar-header-gap);
+  }
+  :where(.ant-picker-calendar-rtl) {
+    direction: rtl;
+  }
+  :where(.ant-picker-calendar .ant-picker-panel) {
+    display: block;
+    width: 100%;
+    background: var(--ao-calendar-panel-bg);
+    border: 0;
+    border-top: var(--ao-calendar-line-width) var(--ao-calendar-line-type)
+      var(--ao-calendar-border);
+    border-radius: 0;
+  }
+  :where(
+      .ant-picker-calendar .ant-picker-date-panel,
+      .ant-picker-calendar .ant-picker-month-panel
+    ) {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+  }
+  :where(.ant-picker-calendar .ant-picker-body) {
+    padding: var(--ao-calendar-padding-xs) 0;
+  }
+  :where(.ant-picker-calendar .ant-picker-content) {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+  }
+  :where(.ant-picker-calendar .ant-picker-month-panel .ant-picker-content) {
+    height: var(--ao-calendar-month-height);
+  }
+  :where(.ant-picker-calendar .ant-picker-content th) {
+    height: auto;
+    padding: 0 var(--ao-calendar-week-heading-padding-inline)
+      var(--ao-calendar-week-heading-padding-bottom) 0;
+    text-align: end;
+    font-weight: 400;
+    line-height: var(--ao-calendar-week-height);
+  }
+  :where(.ant-picker-calendar .ant-picker-content td) {
+    position: relative;
+    padding: 0;
+    vertical-align: middle;
+  }
+  :where(.ant-picker-calendar .ant-picker-cell) {
+    cursor: pointer;
+  }
+  :where(.ant-picker-calendar .ant-picker-cell-disabled) {
+    color: var(--ao-calendar-muted);
+    cursor: not-allowed;
+  }
+  :where(.ant-picker-calendar .ant-picker-cell:not(.ant-picker-cell-in-view)) {
+    color: var(--ao-calendar-muted);
+  }
+  :where(.ant-picker-calendar .ant-picker-cell-inner) {
+    position: relative;
+    z-index: 2;
+    display: inline-block;
+    min-width: var(--ao-calendar-cell-height);
+    height: var(--ao-calendar-cell-height);
+    line-height: var(--ao-calendar-cell-height);
+    border-radius: var(--ao-calendar-control-radius-sm);
+    transition: background var(--ao-calendar-motion-mid);
+  }
+  :where(.ant-picker-calendar .ant-picker-month-panel .ant-picker-cell-inner) {
+    width: var(--ao-calendar-month-cell-width);
+    padding-inline: var(--ao-calendar-month-cell-padding-inline);
+  }
+  :where(
+      .ant-picker-calendar
+        .ant-picker-cell-in-view.ant-picker-cell-selected:not(
+          .ant-picker-cell-disabled
+        )
+        .ant-picker-cell-inner
+    ) {
+    color: var(--ao-calendar-selected-text);
+    background: var(--ao-calendar-primary);
+  }
+  :where(
+      .ant-picker-calendar
+        .ant-picker-cell-in-view.ant-picker-cell-selected.ant-picker-cell-disabled
+        .ant-picker-cell-inner
+    ) {
+    background: var(--ao-calendar-selected-disabled-bg);
+  }
+  :where(
+      .ant-picker-calendar
+        .ant-picker-cell-in-view.ant-picker-cell-today
+        .ant-picker-cell-inner
+    )::before {
+    position: absolute;
+    inset: 0;
+    border: var(--ao-calendar-line-width) var(--ao-calendar-line-type)
+      var(--ao-calendar-primary);
+    border-radius: inherit;
+    content: "";
+    pointer-events: none;
+  }
+  :where(.ant-picker-calendar-full .ant-picker-calendar-date-today)::before {
+    display: none;
+  }
+  :where(.ant-picker-calendar-date) {
+    display: block;
+    width: auto;
+    height: auto;
+    margin: 0 var(--ao-calendar-date-margin);
+    padding: var(--ao-calendar-date-padding-block)
+      var(--ao-calendar-date-padding-inline) 0;
+    border: 0;
+    border-top: var(--ao-calendar-border-width-bold)
+      var(--ao-calendar-line-type) var(--ao-calendar-border);
+    border-radius: 0;
+    text-align: end;
+    transition: background var(--ao-calendar-motion-slow);
+  }
+  :where(.ant-picker-calendar-date-value) {
+    height: var(--ao-calendar-date-value-height);
+    line-height: var(--ao-calendar-date-value-height);
+    transition: color var(--ao-calendar-motion-slow);
+  }
+  :where(.ant-picker-calendar-date-content) {
+    position: static;
+    width: auto;
+    height: var(--ao-calendar-date-content-height);
+    overflow-y: auto;
+    color: var(--ao-calendar-text);
+    text-align: start;
+    line-height: var(--ao-calendar-line-height);
+  }
+  :where(.ant-picker-calendar-date-today) {
+    border-color: var(--ao-calendar-primary);
+  }
+  :where(
+      .ant-picker-calendar
+        .ant-picker-cell:not(.ant-picker-cell-disabled):not(
+          .ant-picker-cell-selected
+        ):hover
+        .ant-picker-cell-inner
+    ) {
+    background: var(--ao-calendar-hover-bg);
+  }
+  :where(
+      .ant-picker-calendar-full
+        .ant-picker-cell-in-view.ant-picker-cell-selected
+        .ant-picker-calendar-date
+    ) {
+    color: inherit;
+    background: var(--ao-calendar-active-bg);
+  }
+  :where(
+      .ant-picker-calendar-full
+        .ant-picker-cell-selected
+        .ant-picker-calendar-date-value
+    ) {
+    color: var(--ao-calendar-primary);
+  }
+  :where(.ant-picker-calendar-full .ant-picker-panel) {
+    display: block;
+    width: 100%;
+    text-align: end;
+    background: var(--ao-calendar-full-bg);
+    border: 0;
+  }
+  :where(.ant-picker-calendar-full .ant-picker-cell)::before {
+    display: none;
+  }
+  :where(.ant-picker-calendar-full .ant-picker-content th),
+  :where(.ant-picker-calendar-full .ant-picker-content td) {
+    padding: 0;
+  }
+  :where(.ant-picker-calendar-full .ant-picker-content th) {
+    padding-inline-end: var(--ao-calendar-week-heading-padding-inline);
+    padding-bottom: var(--ao-calendar-week-heading-padding-bottom);
+  }
+  :where(.ant-picker-calendar-full .ant-picker-cell-week) {
+    width: 40px;
+    color: var(--ao-calendar-muted);
+    text-align: center;
+  }
+  :where(
+      .ant-picker-calendar-full .ant-picker-cell-week .ant-picker-cell-inner
+    ) {
+    display: block;
+    width: 100%;
+    height: var(--ao-calendar-full-cell-height);
+    border-top: var(--ao-calendar-border-width-bold)
+      var(--ao-calendar-line-type) var(--ao-calendar-border);
+    border-radius: 0;
+  }
+  :where(
+      .ant-picker-calendar-full
+        .ant-picker-cell:not(.ant-picker-cell-disabled):not(
+          .ant-picker-cell-selected
+        ):hover
+        .ant-picker-calendar-date-today
+    ) {
+    background: var(--ao-calendar-hover-bg);
+  }
+  :where(.ant-picker-calendar-mini) {
+    border-radius: var(--ao-calendar-radius-lg);
+  }
+  :where(.ant-picker-calendar-mini .ant-picker-calendar-header) {
+    padding-inline: var(--ao-calendar-header-padding-inline);
+  }
+  :where(.ant-picker-calendar-mini .ant-picker-panel) {
+    border-radius: 0 0 var(--ao-calendar-radius-lg) var(--ao-calendar-radius-lg);
+  }
+  :where(.ant-picker-calendar-mini .ant-picker-cell)::before {
+    pointer-events: none;
+  }
+  :where(.ant-picker-calendar-mini .ant-picker-content) {
+    height: var(--ao-calendar-mini-height);
+    text-align: center;
+  }
+  :where(.ant-picker-calendar-mini .ant-picker-content th) {
+    height: auto;
+    padding: 0;
+    text-align: center;
+    line-height: var(--ao-calendar-week-height);
+  }
+  :where(.ant-picker-calendar-mini .ant-picker-cell-inner) {
+    position: relative;
+    z-index: 2;
+    display: inline-block;
+    min-width: var(--ao-calendar-cell-height);
+    height: var(--ao-calendar-cell-height);
+    line-height: var(--ao-calendar-cell-height);
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: var(--ao-calendar-control-radius-sm);
+    text-align: center;
+  }
+  :where(.ant-picker-calendar-mini .ant-picker-cell) {
+    position: relative;
+    padding: var(--ao-calendar-cell-padding) 0;
+    vertical-align: middle;
+  }
+  :where(.ant-picker-calendar-mini .ant-picker-calendar-date-value) {
+    height: auto;
+    line-height: inherit;
+  }
+  :where(.ant-picker-calendar-mini .ant-picker-calendar-date-content) {
+    height: auto;
+    overflow: visible;
+  }
+  :where(
+      .ant-picker-calendar-mini .ant-picker-cell-selected .ant-picker-cell-inner
+    ) {
+    color: var(--ao-calendar-selected-text);
+    background: var(--ao-calendar-primary);
+  }
+  :where(
+      .ant-picker-calendar-mini
+        .ant-picker-cell-selected
+        .ant-picker-calendar-date-value
+    ) {
+    color: var(--ao-calendar-selected-text);
+    background: transparent;
+  }
+  :where(
+      .ant-picker-calendar-mini
+        .ant-picker-cell-selected:hover
+        .ant-picker-cell-inner
+    ) {
+    background: var(--ao-calendar-primary);
+  }
+  :where(
+      .ant-picker-calendar-mini
+        .ant-picker-cell-in-view.ant-picker-cell-today
+        .ant-picker-cell-inner
+    )::before {
+    position: absolute;
+    inset: 0;
+    border: var(--ao-calendar-line-width) var(--ao-calendar-line-type)
+      var(--ao-calendar-primary);
+    border-radius: inherit;
+    content: "";
+    pointer-events: none;
+  }
+  :where(.ant-picker-calendar-mini .ant-picker-cell-disabled)::before {
+    position: absolute;
+    top: 50%;
+    inset-inline: 0;
+    height: var(--ao-calendar-cell-height);
+    background: var(--ao-calendar-cell-disabled-bg);
+    transform: translateY(-50%);
+    content: "";
+    pointer-events: none;
+  }
+  :where(.ant-picker-calendar-mini .ant-picker-month-panel .ant-picker-cell) {
+    padding-block: var(--ao-calendar-month-padding);
+    vertical-align: middle;
+  }
+  :where(
+      .ant-picker-calendar-mini .ant-picker-month-panel .ant-picker-cell-inner
+    ) {
+    display: inline-block;
+    width: var(--ao-calendar-month-cell-width);
+    height: var(--ao-calendar-month-cell-height);
+    padding: 0 var(--ao-calendar-month-cell-padding-inline);
+    border-radius: var(--ao-calendar-month-radius);
+    line-height: var(--ao-calendar-month-cell-height);
+  }
+  :where(
+      .ant-picker-calendar-mini
+        .ant-picker-month-panel
+        .ant-picker-calendar-date-value
+    ) {
+    display: block;
+    width: auto;
+    height: var(--ao-calendar-month-cell-height);
+    color: inherit;
+    background: transparent;
+    line-height: inherit;
+  }
+  :where(
+      .ant-picker-calendar-mini
+        .ant-picker-month-panel
+        .ant-picker-cell-selected
+        .ant-picker-cell-inner
+    ) {
+    color: var(--ao-calendar-selected-text);
+    background: var(--ao-calendar-primary);
+  }
+  :where(.ant-picker-calendar-week-label) {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    opacity: 0;
+  }
+  :where(.ant-picker-calendar-narrow .ant-picker-calendar-header) {
+    display: block;
+  }
+  :where(.ant-picker-calendar-narrow) .ant-picker-calendar-year-select {
+    width: 50%;
+  }
+  :where(.ant-picker-calendar-narrow) .ant-picker-calendar-month-select {
+    width: calc(50% - var(--ao-calendar-padding-xs));
+  }
+  :where(.ant-picker-calendar-narrow .ant-picker-calendar-mode-switch) {
+    width: 100%;
+    margin-top: var(--ao-calendar-header-gap);
+    margin-inline-start: 0;
+  }
+  :where(.ant-picker-calendar-narrow .ant-picker-calendar-mode-switch > label) {
+    width: 50%;
+    text-align: center;
+  }
+  :where(
+      .ant-picker-calendar-full
+        .ant-picker-cell:not(.ant-picker-cell-selected)
+        .ant-picker-calendar-date-today
+        .ant-picker-calendar-date-value
+    ) {
+    color: var(--ao-calendar-text);
+  }
+  :where(
+      .ant-picker-calendar-mini
+        .ant-picker-cell-selected.ant-picker-cell-disabled
+        .ant-picker-cell-inner
+    ) {
+    color: var(--ao-calendar-muted);
+    background: var(--ao-calendar-selected-disabled-bg);
+  }
+  :where(
+      .ant-picker-calendar-mini
+        .ant-picker-cell-selected.ant-picker-cell-disabled
+        .ant-picker-calendar-date-value
+    ) {
+    color: inherit;
+  }
+  :where(
+      .ant-picker-calendar
+        .ant-picker-cell-disabled.ant-picker-cell-today
+        .ant-picker-cell-inner
+    )::before {
+    border-color: var(--ao-calendar-muted);
+  }
+}

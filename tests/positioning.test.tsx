@@ -48,16 +48,25 @@ it("Affix pins to custom target, preserves placeholder and restores on scrolling
     content = holder.firstElementChild as HTMLElement;
   let top = 80;
   vi.spyOn(holder, "getBoundingClientRect").mockImplementation(
-    () => ({ top, bottom: top + 32, width: 100, left: 20 }) as DOMRect,
+    () =>
+      ({ top, bottom: top + 32, width: 100, height: 32, left: 20 }) as DOMRect,
   );
   vi.spyOn(content, "getBoundingClientRect").mockReturnValue({
     height: 32,
   } as DOMRect);
-  await act(() => ref.current?.updatePosition());
+  await act(async () => {
+    ref.current?.updatePosition();
+    await new Promise(requestAnimationFrame);
+  });
   expect(content.style.top).toBe("110px");
-  expect(holder.style.height).toBe("32px");
+  expect(
+    holder.querySelector<HTMLElement>('[aria-hidden="true"]')?.style.height,
+  ).toBe("32px");
   top = 130;
-  await act(() => ref.current?.updatePosition());
+  await act(async () => {
+    ref.current?.updatePosition();
+    await new Promise(requestAnimationFrame);
+  });
   expect(content.style.position).toBe("");
   expect(change).toHaveBeenLastCalledWith(false);
 });
@@ -107,12 +116,14 @@ it("Anchor tracks custom scroll positions and scrolls clicked links with targetO
   expect(move).toHaveBeenCalledWith({ top: -5, behavior: "smooth" });
   expect(change).toHaveBeenCalledWith("#position-two");
 });
-it("Anchor onClick can prevent navigation, getCurrentAnchor customizes selection", async () => {
+it("Anchor onClick prevents history updates while retaining target scrolling", async () => {
   const scroll = target(),
     section = document.createElement("section");
   section.id = "position-custom";
   scroll.append(section);
   const move = vi.spyOn(scroll, "scrollTo");
+  const push = vi.spyOn(history, "pushState");
+  const replace = vi.spyOn(history, "replaceState");
   await render(
     <Anchor
       affix={false}
@@ -123,7 +134,9 @@ it("Anchor onClick can prevent navigation, getCurrentAnchor customizes selection
     />,
   );
   await act(() => container.querySelector("a")?.click());
-  expect(move).not.toHaveBeenCalled();
+  expect(move).toHaveBeenCalledOnce();
+  expect(push).not.toHaveBeenCalled();
+  expect(replace).not.toHaveBeenCalled();
   expect(container.querySelector("a")?.getAttribute("aria-current")).toBe(
     "location",
   );

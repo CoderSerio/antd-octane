@@ -1,6 +1,7 @@
 import type { ElementDescriptor, Root } from "octane";
 import { act, createRoot } from "octane";
 import { afterEach, expect, it, vi } from "vitest";
+import { App } from "../packages/antd-octane/src/app";
 import {
   ConfigProvider,
   useConfig,
@@ -54,6 +55,83 @@ function NotificationDemo() {
 function ThemeReader() {
   return <span data-color={useConfig().token.colorPrimary}>context</span>;
 }
+it("direct notice hooks remain independent of surrounding App defaults", async () => {
+  function DirectHooks() {
+    const [messageApi, messageHolder] = message.useMessage();
+    const [notificationApi, notificationHolder] =
+      notification.useNotification();
+    api = messageApi;
+    notices = notificationApi;
+    return (
+      <>
+        {messageHolder}
+        {notificationHolder}
+      </>
+    );
+  }
+  await render(
+    <App message={{ maxCount: 1 }} notification={{ maxCount: 1 }}>
+      <DirectHooks />
+    </App>,
+  );
+  await act(() => {
+    for (const value of ["one", "two"]) {
+      api.info({ content: value, duration: 0 });
+      notices.open({ message: value, duration: 0 });
+    }
+  });
+  expect(document.querySelectorAll(".ant-message-notice")).toHaveLength(2);
+  expect(document.querySelectorAll(".ant-notification-notice")).toHaveLength(2);
+});
+it("static holder App settings override global defaults and config updates", async () => {
+  ConfigProvider.config({
+    holderRender: (children) => (
+      <ConfigProvider theme={{ token: { motion: false } }} prefixCls="static">
+        <App message={{ maxCount: 1 }} notification={{ maxCount: 1 }}>
+          {children}
+        </App>
+      </ConfigProvider>
+    ),
+  });
+  try {
+    await act(() => {
+      message.config({ maxCount: 4, duration: 0 });
+      notification.config({ maxCount: 4, duration: 0 });
+      for (const value of ["one", "two"]) {
+        message.info(value);
+        notification.open({ message: value });
+      }
+    });
+    expect(document.querySelectorAll(".static-message-notice")).toHaveLength(1);
+    expect(
+      document.querySelectorAll(".static-notification-notice"),
+    ).toHaveLength(1);
+    await act(() => {
+      message.config({ maxCount: 5 });
+      notification.config({ maxCount: 5 });
+      message.info("three");
+      notification.open({ message: "three" });
+    });
+    expect(document.querySelectorAll(".static-message-notice")).toHaveLength(1);
+    expect(
+      document.querySelectorAll(".static-notification-notice"),
+    ).toHaveLength(1);
+    expect(
+      document.querySelector(".static-message-notice")?.textContent,
+    ).toContain("three");
+    expect(
+      document.querySelector(".static-notification-notice")?.textContent,
+    ).toContain("three");
+  } finally {
+    await act(() => {
+      message.destroy();
+      notification.destroy();
+      ConfigProvider.config({ holderRender: undefined });
+      message.config({ maxCount: undefined, duration: 3 });
+      notification.config({ maxCount: undefined, duration: 4.5 });
+    });
+  }
+});
 it("message holder preserves local context across portal and resolves callable thenable", async () => {
   await render(<MessageDemo />);
   let close: ReturnType<MessageInstance["open"]> | undefined;
@@ -73,7 +151,7 @@ it("message holder preserves local context across portal and resolves callable t
   expect(await close).toBe(true);
   expect(document.querySelector(".ant-message")).toBeNull();
 });
-it("same key updates in place and maxCount evicts earliest with callback", async () => {
+it("same key updates in place and maxCount silently evicts earliest", async () => {
   await render(<MessageDemo />);
   const close = vi.fn();
   await act(() => {
@@ -89,7 +167,7 @@ it("same key updates in place and maxCount evicts earliest with callback", async
     api.info({ key: "three", content: "third", duration: 0 });
   });
   expect(document.querySelectorAll(".ant-message-notice")).toHaveLength(2);
-  expect(close).toHaveBeenCalledOnce();
+  expect(close).not.toHaveBeenCalled();
   await act(() => api.destroy());
   expect(document.querySelector(".ant-message")).toBeNull();
 });
@@ -147,15 +225,28 @@ it("unmount removes portals and timers, retained API cannot leak new notices", a
   expect(clear).toHaveBeenCalled();
   await act(() => vi.advanceTimersByTime(10001));
   clear.mockRestore();
-  expect(await api.info("after unmount")).toBe(true);
+  const warning = vi.spyOn(console, "error").mockImplementation(() => {});
+  const settled = vi.fn();
+  const afterUnmount = api.info("after unmount");
+  expect(afterUnmount.then(settled)).toBeUndefined();
+  afterUnmount();
+  await act(() => vi.advanceTimersByTime(10001));
+  expect(settled).not.toHaveBeenCalled();
+  expect(document.querySelector(".ant-message")).toBeNull();
+  expect(warning).toHaveBeenCalledWith(
+    expect.stringContaining("before contextHolder is mounted"),
+  );
+  warning.mockRestore();
 });
-it("same key restarts duration and settles all outstanding close handles", async () => {
+it("same key restarts duration and settles only the latest close handle", async () => {
   vi.useFakeTimers();
   await render(<MessageDemo />);
   let first: ReturnType<MessageInstance["open"]> | undefined;
   let second: typeof first;
+  const firstSettled = vi.fn();
   await act(() => {
     first = api.open({ key: "job", content: "before", duration: 1 });
+    first.then(firstSettled);
   });
   await act(() => vi.advanceTimersByTime(800));
   await act(() => {
@@ -167,10 +258,10 @@ it("same key restarts duration and settles all outstanding close handles", async
   );
   await act(() => vi.advanceTimersByTime(701));
   expect(document.querySelector(".ant-message")).toBeNull();
-  expect(await first).toBe(true);
   expect(await second).toBe(true);
+  expect(firstSettled).not.toHaveBeenCalled();
 });
-it("hover and focus jointly pause until both have left", async () => {
+it("only hover pauses notification duration; keyboard focus does not pause", async () => {
   vi.useFakeTimers();
   await render(<NotificationDemo />);
   await act(() =>
@@ -186,8 +277,5 @@ it("hover and focus jointly pause until both have left", async () => {
   await act(() => button.focus());
   await act(() => el.dispatchEvent(new MouseEvent("mouseleave")));
   await act(() => vi.advanceTimersByTime(1500));
-  expect(document.querySelector(".ant-notification")).not.toBeNull();
-  await act(() => button.blur());
-  await act(() => vi.advanceTimersByTime(1001));
   expect(document.querySelector(".ant-notification")).toBeNull();
 });

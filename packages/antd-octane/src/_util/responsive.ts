@@ -40,8 +40,12 @@ function observe(queries: string[]) {
   observers.set(key, store);
   return store;
 }
-export function useBreakpoint(enabled = true) {
-  const { token } = useConfig();
+export function useBreakpoint(
+  enabled = true,
+  componentToken?: ReturnType<typeof useConfig>["token"],
+) {
+  const config = useConfig();
+  const token = componentToken ?? config.token;
   const [screens, setScreens] = useState<Screens>({});
   const queries = useMemo(
     () => [

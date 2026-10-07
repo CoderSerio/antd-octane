@@ -124,7 +124,7 @@ it("excludes empty Space items while preserving zero and separators", async () =
     </Space>,
   );
   expect(container.querySelectorAll(".ant-space-item")).toHaveLength(2);
-  expect(container.querySelectorAll(".ant-space-split")).toHaveLength(1);
+  expect(container.querySelectorAll(".ant-space-item-split")).toHaveLength(1);
   expect(container.textContent).toBe("0/Second");
 });
 it("Flex does not wrap children and uses configured spacing", async () => {

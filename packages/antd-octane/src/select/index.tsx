@@ -8,9 +8,17 @@ import {
   useRef,
   useState,
 } from "octane";
+import { componentClassName } from "../_util/componentClassName";
+import { DownOutlined } from "../_util/feedback-icons";
 import { positionPopup } from "../_util/floating";
 import { useComponentTokens } from "../_util/tokens";
+import { devUseWarning } from "../_util/warning";
 import { useConfig } from "../config-provider";
+import {
+  getPopupContainerElement,
+  type PopupContainer,
+} from "../config-provider/context";
+import { Empty } from "../empty";
 
 export type SelectValue = string | number;
 export interface SelectOption {
@@ -25,7 +33,9 @@ export interface SelectRef {
   blur: () => void;
 }
 interface SelectCommonProps {
-  options: SelectOption[];
+  options?: SelectOption[];
+  prefixCls?: string;
+  rootClassName?: string;
   onSelect?: (value: SelectValue, option: SelectOption) => void;
   open?: boolean;
   defaultOpen?: boolean;
@@ -42,6 +52,9 @@ interface SelectCommonProps {
   status?: "error" | "warning";
   notFoundContent?: OctaneNode;
   getPopupContainer?: (trigger: HTMLElement) => HTMLElement;
+  /** @deprecated Use popupMatchSelectWidth instead. */
+  dropdownMatchSelectWidth?: boolean | number;
+  popupMatchSelectWidth?: boolean | number;
   id?: string;
   "aria-label"?: string;
   "aria-labelledby"?: string;
@@ -73,6 +86,23 @@ function optionText(option: SelectOption) {
 
 export function Select(props: SelectComponentProps) {
   const config = useConfig();
+  const warning = devUseWarning("Select");
+  warning.deprecated(
+    !("dropdownMatchSelectWidth" in props),
+    "dropdownMatchSelectWidth",
+    "popupMatchSelectWidth",
+  );
+  const options = props.options ?? [];
+  const prefixCls = config.getPrefixCls("select", props.prefixCls);
+  const cls = (suffix = "") =>
+    componentClassName("ant-select", prefixCls, suffix);
+  const getPopupContainer = props.getPopupContainer ?? config.getPopupContainer;
+  const popupMatchSelectWidth =
+    props.popupMatchSelectWidth ??
+    props.dropdownMatchSelectWidth ??
+    config.popupMatchSelectWidth ??
+    true;
+  const popupOverflow = config.popupOverflow ?? "viewport";
   const { token: t, component: c, base } = useComponentTokens("Select");
   const listId = `ao-select-${useId()}`;
   const host = useRef<HTMLDivElement | null>(null);
@@ -85,10 +115,12 @@ export function Select(props: SelectComponentProps) {
   const [innerOpen, setInnerOpen] = useState(props.defaultOpen ?? false);
   const [innerSearch, setInnerSearch] = useState("");
   const [active, setActive] = useState<SelectValue | null>(null);
-  const [target, setTarget] = useState<HTMLElement | null>(null);
-  const [position, setPosition] = useState<{ x: number; y: number } | null>(
-    null,
-  );
+  const [target, setTarget] = useState<PopupContainer | null>(null);
+  const [position, setPosition] = useState<{
+    x: number;
+    y: number;
+    right?: number;
+  } | null>(null);
   const disabled = props.disabled ?? config.componentDisabled ?? false;
   const size = props.size ?? config.componentSize ?? "middle";
   const multiple = props.mode === "multiple";
@@ -104,13 +136,13 @@ export function Select(props: SelectComponentProps) {
       : [singleValue];
   const open = !disabled && (props.open ?? innerOpen);
   const search = props.searchValue ?? innerSearch;
-  const selected = props.options.find((option) => option.value === singleValue);
+  const selected = options.find((option) => option.value === singleValue);
   const optionFor = (selectedValue: SelectValue) =>
-    props.options.find((option) => option.value === selectedValue) ?? {
+    options.find((option) => option.value === selectedValue) ?? {
       value: selectedValue,
       label: String(selectedValue),
     };
-  const filtered = props.options.filter((option) => {
+  const filtered = options.filter((option) => {
     if (!showSearch || !search || props.filterOption === false) return true;
     if (typeof props.filterOption === "function")
       return props.filterOption(search, option);
@@ -186,35 +218,75 @@ export function Select(props: SelectComponentProps) {
   };
   useLayoutEffect(() => {
     if (host.current)
-      setTarget(props.getPopupContainer?.(host.current) ?? document.body);
-  }, [props.getPopupContainer]);
+      setTarget(getPopupContainer?.(host.current) ?? document.body);
+  }, [getPopupContainer]);
   useLayoutEffect(() => {
     if (!open || !host.current || !popup.current || !target) return;
     const trigger = host.current;
     const list = popup.current;
     const update = () => {
+      const listRect = list.getBoundingClientRect();
+      const targetElement = getPopupContainerElement(target);
+      const scrollRegion =
+        popupOverflow === "scroll" && targetElement !== document.body
+          ? (() => {
+              const rect = targetElement.getBoundingClientRect();
+              return {
+                left: rect.left + targetElement.clientLeft,
+                top: rect.top + targetElement.clientTop,
+                width: targetElement.clientWidth,
+                height: targetElement.clientHeight,
+              };
+            })()
+          : undefined;
       const next = positionPopup(
         trigger.getBoundingClientRect(),
-        list.getBoundingClientRect(),
+        listRect,
         { width: window.innerWidth, height: window.innerHeight },
-        "bottomLeft",
+        config.direction === "rtl" ? "bottomRight" : "bottomLeft",
         true,
         4,
+        {
+          align: {
+            htmlRegion: popupOverflow === "scroll" ? "scroll" : "visible",
+          },
+          scrollRegion,
+        },
       );
-      if (target !== document.body) {
+      let containingWidth = window.innerWidth;
+      if (
+        targetElement === document.body &&
+        (getComputedStyle(targetElement).position || "static") === "static"
+      ) {
+        next.x += window.scrollX;
+        next.y += window.scrollY;
+      } else {
         const containingBlock =
           (list.offsetParent as HTMLElement | null) ??
-          (getComputedStyle(target).position === "static"
+          (getComputedStyle(targetElement).position === "static"
             ? document.body
-            : target);
+            : targetElement);
         const rect = containingBlock.getBoundingClientRect();
+        containingWidth =
+          rect.width -
+          containingBlock.clientLeft -
+          Number.parseFloat(getComputedStyle(containingBlock).borderRightWidth);
         next.x +=
           containingBlock.scrollLeft - rect.left - containingBlock.clientLeft;
         next.y +=
           containingBlock.scrollTop - rect.top - containingBlock.clientTop;
       }
+      // rc-trigger floors the active inset; RTL uses right rather than left.
+      const right =
+        config.direction === "rtl"
+          ? Math.floor(containingWidth - next.x - listRect.width)
+          : undefined;
+      next.x = Math.floor(next.x);
+      next.y = Math.floor(next.y);
       setPosition((old) =>
-        old?.x === next.x && old?.y === next.y ? old : { x: next.x, y: next.y },
+        old?.x === next.x && old?.y === next.y && old?.right === right
+          ? old
+          : { x: next.x, y: next.y, right },
       );
     };
     update();
@@ -244,7 +316,9 @@ export function Select(props: SelectComponentProps) {
     open,
     target,
     filtered.length,
-    props.getPopupContainer,
+    getPopupContainer,
+    config.direction,
+    popupOverflow,
     props.open,
     props.onOpenChange,
     props.searchValue,
@@ -269,19 +343,47 @@ export function Select(props: SelectComponentProps) {
       id={listId}
       role="listbox"
       aria-multiselectable={multiple || undefined}
-      className="ant-select-dropdown"
+      className={[
+        cls("-dropdown"),
+        config.direction === "rtl" && cls("-dropdown-rtl"),
+        props.rootClassName,
+      ]}
+      dir={config.direction}
       style={{
         ...base,
-        position: target === document.body ? "fixed" : "absolute",
-        left: position?.x ?? 0,
+        position: "absolute",
+        left: position?.right === undefined ? (position?.x ?? 0) : "auto",
+        right: position?.right,
         top: position?.y ?? 0,
-        minWidth: host.current?.getBoundingClientRect().width ?? 0,
+        width:
+          typeof popupMatchSelectWidth === "number"
+            ? popupMatchSelectWidth
+            : popupMatchSelectWidth
+              ? (host.current?.getBoundingClientRect().width ?? 0)
+              : undefined,
+        minWidth:
+          popupMatchSelectWidth === false
+            ? (host.current?.getBoundingClientRect().width ?? 0)
+            : undefined,
         visibility: position ? undefined : "hidden",
         zIndex: c?.zIndexPopup ?? t.zIndexPopupBase + 50,
         "--ao-select-popup": t.colorBgElevated,
-        "--ao-select-hover": t.controlItemBgHover,
-        "--ao-select-selected": t.controlItemBgActive,
+        "--ao-select-popup-padding": `${t.paddingXXS}px`,
+        "--ao-select-option-radius": `${t.borderRadiusSM}px`,
+        "--ao-select-disabled": t.colorTextDisabled,
+        "--ao-select-disabled-bg": t.colorBgContainerDisabled,
+        "--ao-select-hover": c?.optionActiveBg ?? t.controlItemBgHover,
+        "--ao-select-selected": c?.optionSelectedBg ?? t.controlItemBgActive,
+        "--ao-select-selected-color": c?.optionSelectedColor ?? t.colorText,
+        "--ao-select-selected-weight":
+          c?.optionSelectedFontWeight ?? t.fontWeightStrong,
         "--ao-select-shadow": t.boxShadowSecondary,
+        "--ao-select-option-height": `${c?.optionHeight ?? t.controlHeight}px`,
+        "--ao-select-option-padding":
+          c?.optionPadding ??
+          `${(t.controlHeight - t.fontSize * t.lineHeight) / 2}px ${t.controlPaddingHorizontal}px`,
+        "--ao-select-option-font": `${c?.optionFontSize ?? t.fontSize}px`,
+        "--ao-select-option-line": c?.optionLineHeight ?? t.lineHeight,
       }}
     >
       {filtered.length ? (
@@ -294,11 +396,11 @@ export function Select(props: SelectComponentProps) {
             aria-selected={selectedValues.includes(option.value)}
             aria-disabled={option.disabled || undefined}
             className={[
-              "ant-select-item-option",
-              option.value === activeValue && "ant-select-item-option-active",
+              cls("-item-option"),
+              option.value === activeValue && cls("-item-option-active"),
               selectedValues.includes(option.value) &&
-                "ant-select-item-option-selected",
-              option.disabled && "ant-select-item-option-disabled",
+                cls("-item-option-selected"),
+              option.disabled && cls("-item-option-disabled"),
             ]}
             title={option.title}
             onMouseDown={(event) => event.preventDefault()}
@@ -311,8 +413,19 @@ export function Select(props: SelectComponentProps) {
           </div>
         ))
       ) : (
-        <div className="ant-select-item-empty">
-          {props.notFoundContent ?? "无匹配结果"}
+        <div className={cls("-item-empty")}>
+          {props.notFoundContent !== undefined
+            ? props.notFoundContent
+            : config.renderEmpty?.("Select") || (
+                <Empty
+                  image={Empty.PRESENTED_IMAGE_SIMPLE}
+                  className={componentClassName(
+                    "ant-empty",
+                    config.getPrefixCls("empty"),
+                    "-small",
+                  )}
+                />
+              )}
         </div>
       )}
     </div>
@@ -322,6 +435,7 @@ export function Select(props: SelectComponentProps) {
       ref={input}
       id={props.id}
       role="combobox"
+      className={cls("-selection-search-input")}
       aria-label={
         props["aria-label"] ??
         (props["aria-labelledby"] ? undefined : props.placeholder)
@@ -430,16 +544,16 @@ export function Select(props: SelectComponentProps) {
     return (
       <span
         key={`${typeof selectedValue}:${selectedValue}`}
-        className="ant-select-selection-item"
+        className={cls("-selection-item")}
         title={option.title ?? optionText(option)}
       >
-        <span className="ant-select-selection-item-content">
+        <span className={cls("-selection-item-content")}>
           {option.label ?? selectedValue}
         </span>
         {!disabled && !option.disabled && (
           <button
             type="button"
-            className="ant-select-selection-item-remove"
+            className={cls("-selection-item-remove")}
             aria-label={`移除 ${optionText(option)}`}
             onMouseDown={(event) => event.preventDefault()}
             onClick={(event) => {
@@ -463,33 +577,59 @@ export function Select(props: SelectComponentProps) {
         changeOpen(true);
       }}
       className={[
-        "ant-select",
-        multiple && "ant-select-multiple",
-        `ant-select-${size}`,
-        props.status && `ant-select-status-${props.status}`,
-        disabled && "ant-select-disabled",
-        open && "ant-select-open",
+        cls(),
+        cls(multiple ? "-multiple" : "-single"),
+        cls(`-${size}`),
+        size !== "middle" && cls(size === "large" ? "-lg" : "-sm"),
+        config.direction === "rtl" && cls("-rtl"),
+        props.status && cls(`-status-${props.status}`),
+        disabled && cls("-disabled"),
+        open && cls("-open"),
+        config.select?.className,
         props.className,
+        props.rootClassName,
       ]}
+      dir={config.direction}
       style={{
         ...base,
         "--ao-select-height": `${height}px`,
+        "--ao-select-baseline-height": `${height - t.lineWidth * 2}px`,
         "--ao-select-border":
           props.status === "error"
             ? t.colorError
             : props.status === "warning"
               ? t.colorWarning
               : t.colorBorder,
-        "--ao-select-hover-border": t.colorPrimaryHover,
-        "--ao-select-focus": t.colorPrimary,
+        "--ao-select-hover-border": c?.hoverBorderColor ?? t.colorPrimaryHover,
+        "--ao-select-focus":
+          props.status === "error"
+            ? t.colorError
+            : props.status === "warning"
+              ? t.colorWarning
+              : (c?.activeBorderColor ?? t.colorPrimary),
+        "--ao-select-outline":
+          props.status === "error"
+            ? t.colorErrorOutline
+            : props.status === "warning"
+              ? t.colorWarningOutline
+              : (c?.activeOutlineColor ?? t.controlOutline),
+        "--ao-select-outline-width": `${t.controlOutlineWidth}px`,
         "--ao-select-disabled": t.colorBgContainerDisabled,
+        "--ao-select-disabled-color": t.colorTextDisabled,
+        "--ao-select-placeholder": t.colorTextPlaceholder,
         "--ao-select-selection-bg": t.colorFillSecondary,
         "--ao-select-selection-border": t.colorBorderSecondary,
+        "--ao-radius": `${t.borderRadius}px`,
+        "--ao-select-arrow-size": `${t.fontSizeIcon}px`,
+        "--ao-select-arrow-color": t.colorTextQuaternary,
+        "--ao-select-arrow-inset": `${t.paddingSM - t.lineWidth}px`,
+        "--ao-bg": c?.selectorBg ?? t.colorBgContainer,
+        ...config.select?.style,
         ...props.style,
       }}
     >
       {multiple ? (
-        <span className="ant-select-selection-overflow">
+        <span className={cls("-selection-overflow")}>
           {selectedItems}
           {field}
         </span>
@@ -499,7 +639,7 @@ export function Select(props: SelectComponentProps) {
       {props.allowClear && !disabled && selectedValues.length > 0 && (
         <button
           type="button"
-          className="ant-select-clear"
+          className={cls("-clear")}
           aria-label="清除选择"
           onMouseDown={(event) => event.preventDefault()}
           onClick={(event) => {
@@ -520,13 +660,13 @@ export function Select(props: SelectComponentProps) {
           ×
         </button>
       )}
-      <span className="ant-select-arrow" aria-hidden="true">
-        ⌄
+      <span className={cls("-arrow")} aria-hidden="true">
+        <DownOutlined />
       </span>
       {multiple && (
         <span
           id={`${listId}-selection`}
-          className="ant-select-selection-summary"
+          className={cls("-selection-summary")}
           role="status"
         >
           {selectedValues.length

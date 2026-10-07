@@ -24,6 +24,8 @@ createRoot(document.getElementById("root")!).render(
 
 Vite 需要启用 `octane/compiler/vite` 导出的 `octane()` 插件；TypeScript 配置 `jsx: "react-jsx"` 与 `jsxImportSource: "octane"`。TSX 和 TSRX 使用同一套组件 API。Signal 可在消费组件中通过 `.get()` 读取，再把结果传给受控属性；组件属性暂不直接接受 `SignalHandle`。运行时不依赖 React。
 
+开发分支新增 `antd-octane/icons` 命名图标入口，例如 `ClockCircleOutlined`、`MinusOutlined`、`PlusOutlined`、`UserOutlined` 和 `AntDesignOutlined`；这些入口尚未包含在已发布的 `0.1.0-alpha.7` 中，需等待后续包版本。它是 Octane 原生适配集合，不是 React `@ant-design/icons` 的完整替代包。
+
 ## 范围与文档
 
 以 Ant Design **5.29.3** 为参考，提供 58 项基础实现（包含 ConfigProvider），以及默认、暗色、紧凑主题算法。Button 支持图标位置与延迟加载；Input / TextArea 支持基础字符计数。Select 提供单选、多选、搜索和键盘操作，尚不支持 tags、labelInValue 和虚拟列表。AutoComplete 支持自由文本输入与建议选项。Form 支持平面字段、自定义属性/事件映射、同步与异步规则校验及提交/重置，尚不支持嵌套路径、动态列表和字段依赖。Space.Compact / Addon 可组合紧凑控件。Alpha 不代表完整 API 兼容，API 可能调整；复杂组件、SSR 和无障碍验证仍有未完成项。

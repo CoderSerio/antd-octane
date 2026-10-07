@@ -16,6 +16,7 @@ afterEach(async () => {
   container?.remove();
   vi.unstubAllGlobals();
   vi.restoreAllMocks();
+  vi.useRealTimers();
 });
 async function button(label: string) {
   const button = container.querySelector<HTMLButtonElement>(
@@ -180,6 +181,7 @@ it("keeps keyed list item input state when data reorders", async () => {
   expect(container.querySelectorAll(".ant-list-items > li")).toHaveLength(2);
 });
 it("shows custom empty content, suppresses it while loading, keeps header and footer", async () => {
+  vi.useFakeTimers();
   await render(
     <List
       dataSource={[]}
@@ -192,9 +194,10 @@ it("shows custom empty content, suppresses it while loading, keeps header and fo
   await act(() =>
     root?.render(<List dataSource={[]} loading header="头部" footer="尾部" />),
   );
-  expect(
-    container.querySelector('[role="status"]')?.getAttribute("aria-busy"),
-  ).toBe("true");
+  await act(() => vi.advanceTimersByTime(0));
+  expect(container.querySelector(".ant-spin")?.getAttribute("aria-busy")).toBe(
+    "true",
+  );
   expect(container.textContent).not.toContain("暂无数据");
   expect(container.querySelector(".ant-list")?.getAttribute("aria-busy")).toBe(
     "true",

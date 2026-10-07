@@ -27,7 +27,7 @@ async function key(element: Element | null, key: string) {
     ),
   );
 }
-it("Segmented selects numeric values, keeps a form name and skips disabled options with arrows", async () => {
+it("Segmented selects numeric values, keeps a form name and matches rc-segmented arrow navigation", async () => {
   const change = vi.fn();
   await render(
     <Segmented
@@ -40,13 +40,16 @@ it("Segmented selects numeric values, keeps a form name and skips disabled optio
   expect(inputs[0].checked).toBe(true);
   expect(inputs[0].name).toBe("period");
   await key(inputs[0], "ArrowRight");
-  expect(change).toHaveBeenLastCalledWith(3);
+  // rc-segmented 2.7.1 moves by index, including a disabled option.
+  expect(change).toHaveBeenLastCalledWith(2);
+  expect(inputs[1].checked).toBe(true);
+  await key(inputs[1], "ArrowRight");
   expect(inputs[2].checked).toBe(true);
-  expect(document.activeElement).toBe(inputs[2]);
+  await key(inputs[2], "End");
+  expect(change).toHaveBeenCalledTimes(2);
+  expect(inputs[2].checked).toBe(true);
   await key(inputs[2], "ArrowRight");
   expect(inputs[0].checked).toBe(true);
-  await key(inputs[0], "End");
-  expect(inputs[2].checked).toBe(true);
 });
 it("Segmented respects controlled rejection and disabled groups", async () => {
   const change = vi.fn();

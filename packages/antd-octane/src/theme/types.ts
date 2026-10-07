@@ -1,7 +1,42 @@
+import type {
+  AffixToken,
+  AlertToken,
+  AvatarToken,
+  BadgeToken,
+  CalendarToken,
+  CardToken,
+  CarouselToken,
+  CollapseToken,
+  DescriptionsToken,
+  DrawerToken,
+  ImageToken,
+  ListToken,
+  MessageToken,
+  ModalToken,
+  NotificationToken,
+  PopconfirmToken,
+  PopoverToken,
+  ProgressToken,
+  ResultToken,
+  SegmentedToken,
+  SkeletonToken,
+  SpinToken,
+  StatisticToken,
+  TableToken,
+  TagToken,
+  TimelineToken,
+  TooltipToken,
+  TourToken,
+  TreeToken,
+} from "./component-tokens";
+
+export type * from "./component-tokens";
+
 import type { CSSProperties } from "octane";
+import type { ComponentToken as FormToken } from "../form/tokens";
 import type { AliasToken, MapToken, SeedToken } from "./vendor/interface";
 
-export type { AliasToken, MapToken, SeedToken };
+export type { AliasToken, FormToken, MapToken, SeedToken };
 export type MappingAlgorithm = (
   seed: SeedToken,
   previous?: MapToken,
@@ -70,36 +105,44 @@ export interface ThemeConfig {
   token?: Partial<AliasToken>;
   algorithm?: MappingAlgorithm | MappingAlgorithm[];
   components?: {
-    Select?: ComponentTheme<{ zIndexPopup: number }>;
-    QRCode?: ComponentTheme;
-    Tour?: ComponentTheme<{
+    Flex?: ComponentTheme;
+    Space?: ComponentTheme;
+    App?: ComponentTheme;
+    Form?: ComponentTheme<FormToken>;
+    Wave?: ComponentTheme;
+    Select?: ComponentTheme<{
       zIndexPopup: number;
-      closeBtnSize: number;
-      primaryPrevBtnBg: string;
-      primaryNextBtnHoverBg: string;
+      optionHeight: number;
+      optionPadding: string | number;
+      optionFontSize: number;
+      optionLineHeight: string | number;
+      optionActiveBg: string;
+      optionSelectedBg: string;
+      optionSelectedColor: string;
+      optionSelectedFontWeight: CSSProperties["fontWeight"];
+      hoverBorderColor: string;
+      activeBorderColor: string;
+      activeOutlineColor: string;
+      selectorBg: string;
     }>;
+    Table?: ComponentTheme<TableToken>;
+    Tree?: ComponentTheme<TreeToken>;
+    Calendar?: ComponentTheme<CalendarToken>;
+    QRCode?: ComponentTheme;
+    Tour?: ComponentTheme<TourToken>;
     Anchor?: ComponentTheme<{
       linkPaddingBlock: number;
       linkPaddingInlineStart: number;
     }>;
-    Affix?: ComponentTheme<{ zIndexPopup: number }>;
+    Affix?: ComponentTheme<AffixToken>;
     FloatButton?: ComponentTheme;
-    Image?: ComponentTheme<{
-      previewOperationColor: string;
-      previewOperationColorDisabled: string;
-      previewOperationHoverColor: string;
-      previewOperationSize: number;
-      previewOperationSizeZoom: number;
-      previewOperationBg: string;
-    }>;
-    Carousel?: ComponentTheme<{
-      dotWidth: number;
-      dotHeight: number;
-      dotActiveWidth: number;
-      dotGap: number;
-      arrowSize: number;
-      arrowOffset: number;
-    }>;
+    Image?: ComponentTheme<
+      ImageToken & {
+        previewOperationSizeZoom: number;
+        previewOperationBg: string;
+      }
+    >;
+    Carousel?: ComponentTheme<CarouselToken>;
     Splitter?: ComponentTheme<{
       splitBarSize: number;
       splitTriggerSize: number;
@@ -107,8 +150,20 @@ export interface ThemeConfig {
       resizeSpinnerSize: number;
     }>;
 
-    Popconfirm?: ComponentTheme<{ zIndexPopup: number }>;
+    Popconfirm?: ComponentTheme<PopconfirmToken>;
     Menu?: ComponentTheme<{
+      collapsedWidth: number;
+      popupBg: string;
+      darkPopupBg: string;
+      darkItemColor: string;
+      darkItemBg: string;
+      darkItemHoverBg: string;
+      darkItemHoverColor: string;
+      darkItemSelectedBg: string;
+      darkItemSelectedColor: string;
+      darkItemDisabledColor: string;
+      darkSubMenuItemBg: string;
+      darkGroupTitleColor: string;
       itemColor: string;
       itemBg: string;
       itemHoverColor: string;
@@ -123,6 +178,7 @@ export interface ThemeConfig {
       subMenuItemBg: string;
       groupTitleColor: string;
       iconSize: number;
+      collapsedIconSize: number;
       dangerItemColor: string;
     }>;
     Dropdown?: ComponentTheme<{
@@ -130,25 +186,10 @@ export interface ThemeConfig {
       controlItemBgActive: string;
       zIndexPopup: number;
     }>;
-    Modal?: ComponentTheme<{
-      contentBg: string;
-      headerBg: string;
-      titleColor: string;
-      titleFontSize: number;
-      titleLineHeight: number;
-      footerBg: string;
-    }>;
-    Drawer?: ComponentTheme<{
-      footerPaddingBlock: number;
-      footerPaddingInline: number;
-      zIndexPopup: number;
-    }>;
-    Message?: ComponentTheme<{
-      contentBg: string;
-      contentPadding: string | number;
-      zIndexPopup: number;
-    }>;
-    Notification?: ComponentTheme<{ width: number; zIndexPopup: number }>;
+    Modal?: ComponentTheme<ModalToken>;
+    Drawer?: ComponentTheme<DrawerToken>;
+    Message?: ComponentTheme<MessageToken>;
+    Notification?: ComponentTheme<NotificationToken>;
 
     InputNumber?: ComponentTheme<
       InputToken & {
@@ -182,25 +223,10 @@ export interface ThemeConfig {
       dotActiveBorderColor: string;
       trackBgDisabled: string;
     }>;
-    Tooltip?: ComponentTheme<{ zIndexPopup: number }>;
-    Popover?: ComponentTheme<{
-      zIndexPopup: number;
-      titleMinWidth: number;
-      innerPadding: number | string;
-    }>;
-    Progress?: ComponentTheme<{
-      defaultColor: string;
-      remainingColor: string;
-      circleTextColor: string;
-      circleTextFontSize: string;
-      lineBorderRadius: number;
-    }>;
-    Result?: ComponentTheme<{
-      titleFontSize: number;
-      subtitleFontSize: number;
-      iconFontSize: number;
-      extraMargin: string;
-    }>;
+    Tooltip?: ComponentTheme<TooltipToken>;
+    Popover?: ComponentTheme<PopoverToken & { innerPadding: number | string }>;
+    Progress?: ComponentTheme<ProgressToken>;
+    Result?: ComponentTheme<ResultToken>;
     Breadcrumb?: ComponentTheme<{
       itemColor: string;
       lastItemColor: string;
@@ -210,8 +236,18 @@ export interface ThemeConfig {
       separatorMargin: number;
     }>;
     Steps?: ComponentTheme<{
+      dotSize: number;
+      dotCurrentSize: number;
+      navArrowColor: string;
+      navContentMaxWidth: number | string;
+      inlineDotSize: number;
+      inlineTitleColor: string;
+      inlineTailColor: string;
       iconSize: number;
       iconSizeSM: number;
+      customIconSize: number;
+      customIconFontSize: number;
+      customIconTop: number;
       descriptionMaxWidth: number;
     }>;
     Pagination?: ComponentTheme<{
@@ -238,16 +274,12 @@ export interface ThemeConfig {
       lightSiderBg: string;
       lightTriggerBg: string;
       lightTriggerColor: string;
+      zeroTriggerWidth: number;
+      zeroTriggerHeight: number;
     }>;
-    Collapse?: ComponentTheme<{
-      headerBg: string;
-      headerPadding: string;
-      contentBg: string;
-      contentPadding: string;
-      borderlessContentBg: string;
-      borderlessContentPadding: string;
-    }>;
+    Collapse?: ComponentTheme<CollapseToken>;
     Tabs?: ComponentTheme<{
+      zIndexPopup: number;
       horizontalMargin: string;
       horizontalItemGutter: number;
       itemColor: string;
@@ -262,29 +294,17 @@ export interface ThemeConfig {
       horizontalItemPaddingSM: string;
       horizontalItemPaddingLG: string;
       cardBg: string;
+      cardHeight: number;
+      cardHeightSM: number;
+      cardHeightLG: number;
       cardPadding: string;
+      cardPaddingSM: string;
+      cardPaddingLG: string;
     }>;
     Empty?: ComponentTheme;
-    Statistic?: ComponentTheme<{
-      titleFontSize: number;
-      contentFontSize: number;
-    }>;
-    Timeline?: ComponentTheme<{
-      tailColor: string;
-      tailWidth: number;
-      dotBorderWidth: number;
-      dotBg: string;
-      itemPaddingBottom: number;
-    }>;
-    Descriptions?: ComponentTheme<{
-      labelColor: string;
-      labelBg: string;
-      contentColor: string;
-      titleColor: string;
-      titleMarginBottom: number;
-      itemPaddingBottom: number;
-      itemPaddingEnd: number;
-    }>;
+    Statistic?: ComponentTheme<StatisticToken>;
+    Timeline?: ComponentTheme<TimelineToken>;
+    Descriptions?: ComponentTheme<DescriptionsToken>;
     Radio?: ComponentTheme<{
       radioSize: number;
       dotSize: number;
@@ -299,99 +319,31 @@ export interface ThemeConfig {
       buttonPaddingInline: number;
       wrapperMarginInlineEnd: number;
     }>;
-    Tag?: ComponentTheme<{ defaultBg: string; defaultColor: string }>;
-    Alert?: ComponentTheme<{
-      withDescriptionIconSize: number;
-      defaultPadding: string;
-      withDescriptionPadding: string;
-    }>;
-    Card?: ComponentTheme<{
-      headerBg: string;
-      headerFontSize: number;
-      headerFontSizeSM: number;
-      headerHeight: number;
-      headerHeightSM: number;
-      actionsBg: string;
-      extraColor: string;
-      bodyPadding: number;
-      bodyPaddingSM: number;
-      headerPadding: number;
-      headerPaddingSM: number;
-    }>;
-    Badge?: ComponentTheme<{
-      indicatorZIndex: string | number;
-      indicatorHeight: number;
-      indicatorHeightSM: number;
-      dotSize: number;
-      textFontSize: number;
-      textFontSizeSM: number;
-      textFontWeight: CSSProperties["fontWeight"];
-      statusSize: number;
-    }>;
-    Avatar?: ComponentTheme<{
-      containerSize: number;
-      containerSizeLG: number;
-      containerSizeSM: number;
-      textFontSize: number;
-      textFontSizeLG: number;
-      textFontSizeSM: number;
-      iconFontSize: number;
-      iconFontSizeLG: number;
-      iconFontSizeSM: number;
-    }>;
+    Tag?: ComponentTheme<TagToken>;
+    Alert?: ComponentTheme<AlertToken>;
+    Card?: ComponentTheme<CardToken>;
+    Badge?: ComponentTheme<BadgeToken>;
+    Avatar?: ComponentTheme<AvatarToken>;
     Typography?: ComponentTheme<{
       titleMarginTop: string | number;
       titleMarginBottom: string | number;
     }>;
-    Segmented?: ComponentTheme<{
-      trackPadding: number;
-      trackBg: string;
-      itemColor: string;
-      itemHoverColor: string;
-      itemHoverBg: string;
-      itemSelectedBg: string;
-      itemActiveBg: string;
-      itemSelectedColor: string;
-    }>;
+    Segmented?: ComponentTheme<SegmentedToken>;
     Rate?: ComponentTheme<{
       starColor: string;
       starSize: number;
       starHoverScale: string;
       starBg: string;
     }>;
-    Spin?: ComponentTheme<{
-      dotSize: number;
-      dotSizeSM: number;
-      dotSizeLG: number;
-      contentHeight: number;
-    }>;
-    Skeleton?: ComponentTheme<{
-      gradientFromColor: string;
-      gradientToColor: string;
-      color: string;
-      colorGradientEnd: string;
-      titleHeight: number;
-      blockRadius: number;
-      paragraphMarginTop: number;
-      paragraphLiHeight: number;
-    }>;
-    List?: ComponentTheme<{
-      contentWidth: number;
-      itemPadding: string;
-      itemPaddingSM: string;
-      itemPaddingLG: string;
-      headerBg: string;
-      footerBg: string;
-      emptyTextPadding: number;
-      metaMarginBottom: number;
-      avatarMarginRight: number;
-      titleMarginBottom: number;
-      descriptionFontSize: number;
-    }>;
+    Spin?: ComponentTheme<SpinToken>;
+    Skeleton?: ComponentTheme<
+      SkeletonToken & { color: string; colorGradientEnd: string }
+    >;
+    List?: ComponentTheme<ListToken>;
     Divider?: ComponentTheme<{
       textPaddingInline: string | number;
       orientationMargin: number;
-      verticalMarginInline: number;
+      verticalMarginInline: CSSProperties["marginInline"];
     }>;
     Switch?: ComponentTheme<{
       trackHeight: number;

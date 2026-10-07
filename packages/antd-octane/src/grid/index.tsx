@@ -1,6 +1,7 @@
 /** @jsxImportSource octane */
-import type { CSSProperties, HTMLAttributes } from "octane";
+import type { CSSProperties, HTMLAttributes, Ref } from "octane";
 import { createContext, useContext } from "octane";
+import { componentClassName } from "../_util/componentClassName";
 import type { Responsive, Screens } from "../_util/responsive";
 import {
   breakpoints,
@@ -8,11 +9,17 @@ import {
   useBreakpoint,
 } from "../_util/responsive";
 import { useConfig } from "../config-provider";
+
+type Gutter = number | string | Responsive<number | string>;
+const halfGutter = (value: number | string, negative = false) =>
+  typeof value === "number"
+    ? value / (negative ? -2 : 2)
+    : `calc(${value} / ${negative ? -2 : 2})`;
 export interface RowProps extends HTMLAttributes<HTMLDivElement> {
-  gutter?:
-    | number
-    | Responsive<number>
-    | [number | Responsive<number>, number | Responsive<number>];
+  ref?: Ref<HTMLDivElement>;
+  prefixCls?: string;
+  rootClassName?: string;
+  gutter?: Gutter | [Gutter, Gutter];
   align?:
     | "top"
     | "middle"
@@ -38,7 +45,7 @@ export interface RowProps extends HTMLAttributes<HTMLDivElement> {
   style?: CSSProperties;
 }
 const RowContext = createContext<{
-  gutter: number;
+  gutter: number | string;
   screens: Screens;
   wrap: boolean;
 } | null>(null);
@@ -50,9 +57,13 @@ export function Row({
   className,
   style,
   children,
+  prefixCls: customPrefixCls,
+  rootClassName,
   ...rest
 }: RowProps) {
-  const { token } = useConfig();
+  const config = useConfig();
+  const { token } = config;
+  const prefixCls = config.getPrefixCls("row", customPrefixCls);
   const screens = useBreakpoint();
   const gutters = Array.isArray(gutter) ? gutter : [gutter, 0];
   const x = responsiveValue(gutters[0], screens, 0);
@@ -61,14 +72,20 @@ export function Row({
   return (
     <div
       {...rest}
-      className={["ant-row", className]}
+      className={[
+        componentClassName("ant-row", prefixCls),
+        config.row?.className,
+        className,
+        rootClassName,
+      ]}
       style={{
         fontFamily: token.fontFamily,
         fontSize: token.fontSize,
+        direction: config.direction,
         display: "flex",
         flexFlow: wrap ? "row wrap" : "row nowrap",
         minWidth: 0,
-        marginInline: x ? -x / 2 : undefined,
+        marginInline: x ? halfGutter(x, true) : undefined,
         rowGap: y,
         alignItems:
           alignment === "top"
@@ -82,6 +99,7 @@ export function Row({
           ({ start: "flex-start", end: "flex-end" } as Record<string, string>)[
             responsiveValue(justify, screens, "start")
           ] ?? responsiveValue(justify, screens, "start"),
+        ...config.row?.style,
         ...style,
       }}
     >
@@ -90,20 +108,23 @@ export function Row({
   );
 }
 export interface ColSize {
-  span?: number;
-  offset?: number;
-  order?: number;
-  push?: number;
-  pull?: number;
+  span?: number | string;
+  offset?: number | string;
+  order?: number | string;
+  push?: number | string;
+  pull?: number | string;
   flex?: CSSProperties["flex"];
 }
 export interface ColProps extends HTMLAttributes<HTMLDivElement>, ColSize {
-  xs?: number | ColSize;
-  sm?: number | ColSize;
-  md?: number | ColSize;
-  lg?: number | ColSize;
-  xl?: number | ColSize;
-  xxl?: number | ColSize;
+  prefixCls?: string;
+  rootClassName?: string;
+  ref?: Ref<HTMLDivElement>;
+  xs?: number | string | ColSize;
+  sm?: number | string | ColSize;
+  md?: number | string | ColSize;
+  lg?: number | string | ColSize;
+  xl?: number | string | ColSize;
+  xxl?: number | string | ColSize;
   style?: CSSProperties;
 }
 export function Col({
@@ -122,9 +143,13 @@ export function Col({
   className,
   style,
   children,
+  prefixCls: customPrefixCls,
+  rootClassName,
   ...rest
 }: ColProps) {
   const row = useContext(RowContext);
+  const config = useConfig();
+  const prefixCls = config.getPrefixCls("col", customPrefixCls);
   const standalone = useBreakpoint(!row);
   const screens = row?.screens ?? standalone;
   const responsive = { xs, sm, md, lg, xl, xxl };
@@ -134,11 +159,21 @@ export function Col({
     if (screens[bp] && value !== undefined)
       size = {
         ...size,
-        ...(typeof value === "number" ? { span: value } : value),
+        ...(typeof value === "number" || typeof value === "string"
+          ? { span: value }
+          : value),
       };
   }
+  const numeric = (value: number | string | undefined) => {
+    const result = typeof value === "number" ? value : Number(value);
+    return Number.isFinite(result) ? result : undefined;
+  };
+  const spanValue = numeric(size.span);
+  const offsetValue = numeric(size.offset);
+  const pushValue = numeric(size.push);
+  const pullValue = numeric(size.pull);
   const percentage =
-    size.span === undefined ? undefined : `${(size.span / 24) * 100}%`;
+    spanValue === undefined ? undefined : `${(spanValue / 24) * 100}%`;
   const flexValue =
     typeof size.flex === "number"
       ? `${size.flex} ${size.flex} auto`
@@ -149,25 +184,31 @@ export function Col({
   return (
     <div
       {...rest}
-      className={["ant-col", className]}
+      className={[
+        componentClassName("ant-col", prefixCls),
+        config.col?.className,
+        className,
+        rootClassName,
+      ]}
       style={{
         boxSizing: "border-box",
         position: "relative",
-        display: size.span === 0 ? "none" : undefined,
+        display: spanValue === 0 ? "none" : undefined,
         maxWidth: percentage,
         minHeight: 1,
-        paddingInline: row?.gutter ? row.gutter / 2 : undefined,
+        paddingInline: row?.gutter ? halfGutter(row.gutter) : undefined,
         flex: flexValue ?? (percentage ? `0 0 ${percentage}` : undefined),
         minWidth: row?.wrap === false ? 0 : undefined,
-        marginInlineStart: size.offset
-          ? `${(size.offset / 24) * 100}%`
+        marginInlineStart: offsetValue
+          ? `${(offsetValue / 24) * 100}%`
           : undefined,
-        insetInlineStart: size.push
-          ? `${(size.push / 24) * 100}%`
-          : size.pull
-            ? `${(-size.pull / 24) * 100}%`
+        insetInlineStart: pushValue
+          ? `${(pushValue / 24) * 100}%`
+          : pullValue
+            ? `${(-pullValue / 24) * 100}%`
             : undefined,
         order: size.order,
+        ...config.col?.style,
         ...style,
       }}
     >

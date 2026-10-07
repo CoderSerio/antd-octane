@@ -1,9 +1,12 @@
 /** @jsxImportSource octane */
 import type { OctaneNode } from "octane";
 import { useEffect, useRef, useState } from "octane";
+import { resolvePresetColor } from "../_util/colors";
+import { ExclamationCircleFilled } from "../_util/feedback-icons";
 import { Floating, type FloatingProps } from "../_util/floating";
 import { useComponentTokens } from "../_util/tokens";
 import { Button, type ButtonProps } from "../button";
+import { useConfig } from "../config-provider";
 export interface PopconfirmProps extends FloatingProps {
   title: OctaneNode | (() => OctaneNode);
   description?: OctaneNode | (() => OctaneNode);
@@ -11,33 +14,37 @@ export interface PopconfirmProps extends FloatingProps {
   disabled?: boolean;
   okText?: OctaneNode;
   cancelText?: OctaneNode;
-  okType?: ButtonProps["type"];
+  okType?: ButtonProps["type"] | "danger";
   showCancel?: boolean;
   okButtonProps?: ButtonProps;
   cancelButtonProps?: ButtonProps;
   // biome-ignore lint/suspicious/noConfusingVoidType: Confirm handlers may complete synchronously or return an async operation.
   onConfirm?: (event: MouseEvent) => void | Promise<unknown>;
   onCancel?: (event: MouseEvent) => void;
+  onPopupClick?: (event: MouseEvent) => void;
 }
 export function Popconfirm({
   title,
   description,
   icon,
+  color,
   disabled = false,
-  okText = "确定",
-  cancelText = "取消",
+  okText,
+  cancelText,
   okType = "primary",
   showCancel = true,
   okButtonProps,
   cancelButtonProps,
   onConfirm,
   onCancel,
+  onPopupClick,
   open: controlled,
   defaultOpen = false,
   onOpenChange,
   overlayClassName,
   ...props
 }: PopconfirmProps) {
+  const config = useConfig();
   const { token: t, component: c, base } = useComponentTokens("Popconfirm");
   const [internal, setInternal] = useState(defaultOpen);
   const [pending, setPending] = useState(false);
@@ -52,13 +59,13 @@ export function Popconfirm({
     [],
   );
   const open = !disabled && (controlled ?? internal);
-  const change = (next: boolean) => {
+  const change = (next: boolean, event?: Event) => {
     if (disabled || next === open) return;
     request.current++;
     busy.current = false;
     setPending(false);
     if (controlled === undefined) setInternal(next);
-    onOpenChange?.(next);
+    onOpenChange?.(next, event);
   };
   useEffect(() => {
     if (!open) {
@@ -78,7 +85,8 @@ export function Popconfirm({
         void Promise.resolve(result)
           .then(
             () => {
-              if (alive.current && request.current === ticket) change(false);
+              if (alive.current && request.current === ticket)
+                change(false, event);
             },
             () => {},
           )
@@ -88,7 +96,7 @@ export function Popconfirm({
               setPending(false);
             }
           });
-      } else change(false);
+      } else change(false, event);
     } catch {
       busy.current = false;
       setPending(false);
@@ -99,6 +107,15 @@ export function Popconfirm({
   return (
     <Floating
       {...props}
+      className={[config.popconfirm?.className, props.className]
+        .filter(Boolean)
+        .join(" ")}
+      style={{ ...config.popconfirm?.style, ...props.style }}
+      classNames={{ ...config.popconfirm?.classNames, ...props.classNames }}
+      styles={{
+        root: { ...config.popconfirm?.styles?.root, ...props.styles?.root },
+        body: { ...config.popconfirm?.styles?.body, ...props.styles?.body },
+      }}
       kind="popover"
       trigger={props.trigger ?? "click"}
       open={open}
@@ -109,7 +126,9 @@ export function Popconfirm({
       zIndex={props.zIndex ?? c?.zIndexPopup ?? t.zIndexPopupBase + 60}
       popupStyle={{
         ...base,
-        "--ao-popup-bg": t.colorBgElevated,
+        "--ao-popup-bg": color
+          ? resolvePresetColor(color, t)
+          : t.colorBgElevated,
         "--ao-popup-color": t.colorText,
         "--ao-popup-radius": `${t.borderRadiusLG}px`,
         "--ao-popup-shadow": t.boxShadowSecondary,
@@ -121,23 +140,11 @@ export function Popconfirm({
         "--ao-confirm-heading": t.colorTextHeading,
       }}
       content={
-        <div className="ant-popconfirm-inner-content">
+        // biome-ignore lint/a11y/noStaticElementInteractions lint/a11y/useKeyWithClickEvents: Upstream onPopupClick exposes clicks anywhere within the confirm popup.
+        <div className="ant-popconfirm-inner-content" onClick={onPopupClick}>
           <div className="ant-popconfirm-message">
             <span className="ant-popconfirm-message-icon" aria-hidden="true">
-              {icon === undefined ? (
-                <svg
-                  aria-hidden="true"
-                  width="14"
-                  height="14"
-                  viewBox="0 0 16 16"
-                  fill="currentColor"
-                >
-                  <circle cx="8" cy="8" r="7" />
-                  <path d="M8 4v5m0 2v1" stroke="white" stroke-width="1.5" />
-                </svg>
-              ) : (
-                icon
-              )}
+              {icon === undefined ? <ExclamationCircleFilled /> : icon}
             </span>
             <div>
               <div className="ant-popconfirm-title">{heading}</div>
@@ -156,15 +163,16 @@ export function Popconfirm({
                   cancelButtonProps?.onClick?.(event);
                   if (event.defaultPrevented) return;
                   onCancel?.(event);
-                  change(false);
+                  change(false, event);
                 }}
               >
-                {cancelText}
+                {cancelText ?? config.locale.Popconfirm?.cancelText ?? "Cancel"}
               </Button>
             )}
             <Button
               size="small"
-              type={okType}
+              type={okType === "danger" ? "default" : okType}
+              danger={okType === "danger"}
               {...okButtonProps}
               loading={pending || okButtonProps?.loading}
               onClick={(event) => {
@@ -172,7 +180,7 @@ export function Popconfirm({
                 if (!event.defaultPrevented) confirm(event);
               }}
             >
-              {okText}
+              {okText ?? config.locale.Popconfirm?.okText ?? "OK"}
             </Button>
           </div>
         </div>

@@ -1,37 +1,82 @@
 /** @jsxImportSource octane */
-import type { CSSProperties, HTMLAttributes, OctaneNode } from "octane";
+// Ant Design 5.29.3 List/index.tsx (MIT), adapted to Octane.
+import type { CSSProperties, HTMLAttributes, OctaneNode, Ref } from "octane";
 import { Fragment, useState } from "octane";
-import type { Breakpoint } from "../_util/responsive";
-import { responsiveValue, useBreakpoint } from "../_util/responsive";
+import cssSize from "../_util/css-size";
+import { breakpoints, useBreakpoint, useMediaQuery } from "../_util/responsive";
 import { useComponentTokens } from "../_util/tokens";
+import { useConfig } from "../config-provider";
 import { Empty } from "../empty";
+import { Row, type RowProps } from "../grid";
 import { Pagination, type PaginationProps } from "../pagination";
 import { Spin, type SpinProps } from "../spin";
+import { ListContext } from "./context";
+import { ListItem } from "./Item";
+
+export type { ListConsumerProps } from "./context";
+export type { ListItemMetaProps, ListItemProps } from "./Item";
+
+export type ColumnCount = number;
+export type ColumnType =
+  | "gutter"
+  | "column"
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "xxl";
+export type ListSize = "small" | "default" | "large";
+export type ListItemLayout = "horizontal" | "vertical";
+export interface ListGridType {
+  gutter?: RowProps["gutter"];
+  column?: ColumnCount;
+  xs?: ColumnCount;
+  sm?: ColumnCount;
+  md?: ColumnCount;
+  lg?: ColumnCount;
+  xl?: ColumnCount;
+  xxl?: ColumnCount;
+}
+export interface ListLocale {
+  emptyText: OctaneNode;
+}
+
+export type ListPaginationPosition = "top" | "bottom" | "both";
+export type ListPaginationAlign = "start" | "center" | "end";
+export type ListPaginationConfig = PaginationProps & {
+  position?: ListPaginationPosition;
+  align?: ListPaginationAlign;
+};
+
 export interface ListProps<T>
-  extends Omit<HTMLAttributes<HTMLDivElement>, "children"> {
+  extends Omit<HTMLAttributes<HTMLDivElement>, "children" | "ref"> {
+  ref?: Ref<HTMLDivElement>;
+  prefixCls?: string;
   children?: OctaneNode;
   dataSource?: T[];
   renderItem?: (item: T, index: number) => OctaneNode;
   rowKey?: keyof T | ((item: T) => string | number);
   header?: OctaneNode;
   footer?: OctaneNode;
+  extra?: OctaneNode;
   loadMore?: OctaneNode;
-  pagination?:
-    | false
-    | (PaginationProps & { position?: "top" | "bottom" | "both" });
+  rootClassName?: string;
+  pagination?: false | ListPaginationConfig;
   bordered?: boolean;
   split?: boolean;
-  size?: "small" | "default" | "large";
-  itemLayout?: "horizontal" | "vertical";
+  size?: ListSize;
+  itemLayout?: ListItemLayout;
   loading?: boolean | SpinProps;
-  locale?: { emptyText?: OctaneNode };
-  grid?: { gutter?: number; column?: number } & Partial<
-    Record<Breakpoint, number>
-  >;
+  locale?: ListLocale;
+  grid?: ListGridType;
   style?: CSSProperties;
 }
+
 function InternalList<T>({
-  dataSource,
+  ref,
+  prefixCls,
+  dataSource = [],
   renderItem,
   rowKey,
   children,
@@ -41,17 +86,34 @@ function InternalList<T>({
   pagination = false,
   bordered = false,
   split = true,
-  size = "default",
-  itemLayout = "horizontal",
+  size: customSize,
+  itemLayout,
   loading = false,
   locale,
   grid,
   className,
+  rootClassName,
   style,
   ...rest
 }: ListProps<T>) {
+  const config = useConfig();
+  const configSize = config.componentSize;
+  const size =
+    customSize ??
+    (configSize === "middle" ? "default" : configSize) ??
+    "default";
   const { token: t, component: c, base } = useComponentTokens("List");
-  const screens = useBreakpoint(!!grid);
+  const prefix = config.getPrefixCls("list", prefixCls);
+  const cls = (suffix: string) =>
+    prefix === "ant-list"
+      ? `ant-list-${suffix}`
+      : `${prefix}-${suffix} ant-list-${suffix}`;
+  const smallScreen = useMediaQuery(`(max-width: ${t.screenSM}px)`);
+  const mediumScreen = useMediaQuery(`(max-width: ${t.screenMD}px)`);
+  const needResponsive = Object.keys(grid || {}).some((key) =>
+    breakpoints.includes(key as (typeof breakpoints)[number]),
+  );
+  const screens = useBreakpoint(needResponsive);
   const options = pagination || {};
   const [page, setPage] = useState(options.defaultCurrent ?? 1);
   const [pageSize, setPageSize] = useState(options.defaultPageSize ?? 10);
@@ -60,45 +122,62 @@ function InternalList<T>({
   const sizeValue = positive(options.pageSize ?? pageSize, 10);
   const total = options.total ?? dataSource?.length ?? 0;
   const currentPage = Math.min(
-    positive(options.current ?? page, 1),
-    Math.max(1, Math.ceil(total / sizeValue)),
+    options.current ?? page,
+    Math.ceil(total / sizeValue),
   );
+  const start = (currentPage - 1) * sizeValue;
   const visibleData =
-    pagination && dataSource && dataSource.length > sizeValue
-      ? dataSource.slice((currentPage - 1) * sizeValue, currentPage * sizeValue)
+    pagination && dataSource.length > start
+      ? dataSource.slice(start, start + sizeValue)
       : dataSource;
-  const { position: paginationPosition = "bottom", ...paginationOptions } =
-    options;
+  const {
+    position: paginationPosition = "bottom",
+    align: paginationAlign = "end",
+    ...paginationOptions
+  } = options;
   const pager = () => (
-    <div className="ant-list-pagination">
+    <div
+      className={[
+        prefix !== "ant-list" && `${prefix}-pagination`,
+        "ant-list-pagination",
+      ]}
+      style={{
+        justifyContent:
+          paginationAlign === "start"
+            ? "flex-start"
+            : paginationAlign === "center"
+              ? "center"
+              : "flex-end",
+      }}
+    >
       <Pagination
         {...paginationOptions}
         total={total}
         current={currentPage}
         pageSize={sizeValue}
         onChange={(next, nextSize) => {
-          if (options.current === undefined) setPage(next);
-          if (options.pageSize === undefined) setPageSize(nextSize);
+          setPage(next);
+          setPageSize(nextSize);
           options.onChange?.(next, nextSize);
+        }}
+        onShowSizeChange={(next, nextSize) => {
+          setPage(next);
+          setPageSize(nextSize);
+          options.onShowSizeChange?.(next, nextSize);
         }}
       />
     </div>
   );
 
-  const columns = Math.max(
-    1,
-    grid
-      ? responsiveValue<number>(
-          Object.fromEntries(
-            Object.entries(grid).filter(
-              ([key]) => key !== "gutter" && key !== "column",
-            ),
-          ),
-          screens,
-          grid.column ?? 1,
-        )
-      : 1,
-  );
+  // Upstream resolves only the highest active breakpoint, then falls back to column.
+  const currentBreakpoint = [...breakpoints]
+    .reverse()
+    .find((breakpoint) => screens[breakpoint]);
+  const columnCount =
+    grid && ((currentBreakpoint && grid[currentBreakpoint]) || grid.column);
+  const colStyle = columnCount
+    ? { width: `${100 / columnCount}%`, maxWidth: `${100 / columnCount}%` }
+    : undefined;
   const padding =
     size === "small"
       ? (c?.itemPaddingSM ??
@@ -108,143 +187,160 @@ function InternalList<T>({
           `${t.paddingContentVerticalLG}px ${t.paddingContentHorizontalLG}px`)
         : (c?.itemPadding ?? `${t.paddingContentVertical}px 0`);
   const spinProps =
-    typeof loading === "object"
-      ? { spinning: true, ...loading }
-      : { spinning: loading };
-  const empty = dataSource
-    ? dataSource.length === 0
-    : children === undefined || children === null;
+    typeof loading === "object" ? loading : { spinning: loading };
+  const empty = !visibleData?.length && !children && !spinProps.spinning;
+  const hasContentAfterItems = !!(loadMore || pagination || footer);
+  const renderedItems = visibleData.map((item, index) => {
+    const itemKey =
+      typeof rowKey === "function"
+        ? rowKey(item)
+        : rowKey
+          ? item[rowKey]
+          : (item as { key?: string | number }).key;
+    return (
+      <Fragment
+        key={
+          typeof itemKey === "string" || typeof itemKey === "number"
+            ? itemKey || `list-item-${index}`
+            : `list-item-${index}`
+        }
+      >
+        {renderItem?.(item, index) ?? null}
+      </Fragment>
+    );
+  });
   return (
-    <div
-      {...rest}
-      aria-busy={spinProps.spinning}
-      className={[
-        "ant-list",
-        spinProps.spinning && "ant-list-loading",
-        size !== "default" && "ant-list-sized",
-        footer !== undefined && "ant-list-has-footer",
-        bordered && "ant-list-bordered",
-        split && "ant-list-split",
-        itemLayout === "vertical" && "ant-list-vertical",
-        grid && "ant-list-grid",
-        className,
-      ]}
-      style={{
-        ...base,
-        "--ao-list-padding": padding,
-        "--ao-list-loading-height": `${t.controlHeight}px`,
-        "--ao-list-head-padding":
-          size === "default" ? `${t.paddingSM}px 0` : padding,
-        "--ao-list-inner-radius": `${Math.max(0, t.borderRadiusLG - t.lineWidth)}px`,
-        "--ao-list-inline": `${t.paddingLG}px`,
-        "--ao-list-header": c?.headerBg ?? "transparent",
-        "--ao-list-footer": c?.footerBg ?? "transparent",
-        "--ao-list-empty": `${c?.emptyTextPadding ?? t.padding}px`,
-        "--ao-list-avatar": `${c?.avatarMarginRight ?? t.padding}px`,
-        "--ao-list-meta": `${c?.metaMarginBottom ?? t.padding}px`,
-        "--ao-list-title": `${c?.titleMarginBottom ?? t.paddingSM}px`,
-        "--ao-list-description": `${c?.descriptionFontSize ?? t.fontSize}px`,
-        "--ao-list-heading": t.colorTextHeading,
-        "--ao-list-content-width": `${c?.contentWidth ?? 220}px`,
-        "--ao-list-heading-size": `${t.fontSizeLG}px`,
-        "--ao-list-border": t.colorBorder,
-        "--ao-list-gutter": `${grid?.gutter ?? 0}px`,
-        "--ao-list-columns": columns,
-        ...style,
-      }}
-    >
-      {header !== undefined && <div className="ant-list-header">{header}</div>}
-      {pagination && paginationPosition !== "bottom" && pager()}
-      <Spin {...spinProps}>
-        {empty ? (
-          !spinProps.spinning && (
-            <div className="ant-list-empty-text">
-              {locale?.emptyText ?? (
+    <ListContext value={{ grid, itemLayout }}>
+      <div
+        {...rest}
+        ref={ref}
+        aria-busy={spinProps.spinning}
+        className={[
+          prefix !== "ant-list" && prefix,
+          "ant-list",
+          size === "large" && prefix !== "ant-list" && `${prefix}-lg`,
+          size === "small" && prefix !== "ant-list" && `${prefix}-sm`,
+          size === "large" && "ant-list-lg",
+          size === "small" && "ant-list-sm",
+          spinProps.spinning && cls("loading"),
+          size !== "default" && "ant-list-sized",
+          !!footer && "ant-list-has-footer",
+          hasContentAfterItems && cls("something-after-last-item"),
+          bordered && cls("bordered"),
+          split && cls("split"),
+          itemLayout === "vertical" && cls("vertical"),
+          grid && cls("grid"),
+          config.direction === "rtl" && cls("rtl"),
+          smallScreen && "ant-list-screen-sm",
+          mediumScreen && "ant-list-screen-md",
+          config.list?.className,
+          className,
+          rootClassName,
+        ]}
+        style={{
+          ...base,
+          "--ao-list-padding": padding,
+          "--ao-list-loading-height": `${t.controlHeight}px`,
+          "--ao-list-head-padding":
+            bordered && size !== "default" ? padding : `${t.paddingSM}px 0`,
+          "--ao-list-inner-radius": `${Math.max(0, t.borderRadiusLG - t.lineWidth)}px`,
+          "--ao-list-inline": `${t.paddingLG}px`,
+          "--ao-list-header": c?.headerBg ?? "transparent",
+          "--ao-list-footer": c?.footerBg ?? "transparent",
+          "--ao-list-empty": cssSize(c?.emptyTextPadding) ?? `${t.padding}px`,
+          "--ao-list-avatar": cssSize(c?.avatarMarginRight) ?? `${t.padding}px`,
+          "--ao-list-action-start": `${t.marginXXL}px`,
+          "--ao-list-action-padding": `${t.paddingXS}px`,
+          "--ao-list-meta": cssSize(c?.metaMarginBottom) ?? `${t.padding}px`,
+          "--ao-list-title":
+            cssSize(c?.titleMarginBottom) ?? `${t.paddingSM}px`,
+          "--ao-list-description":
+            cssSize(c?.descriptionFontSize) ?? `${t.fontSize}px`,
+          "--ao-list-heading": t.colorText,
+          "--ao-list-text-description": t.colorTextDescription,
+          "--ao-list-text-disabled": t.colorTextDisabled,
+          "--ao-list-title-margin": `${t.marginXXS}px`,
+          "--ao-list-action-split-height": `${(t.fontHeight ?? Math.round(t.fontSize * t.lineHeight)) - t.marginXXS * 2}px`,
+          "--ao-list-action-vertical-padding": `${t.padding}px`,
+          "--ao-list-margin-lg": `${t.marginLG}px`,
+          "--ao-list-margin": `${t.margin}px`,
+          "--ao-list-line-width": `${t.lineWidth}px`,
+          "--ao-list-line-type": t.lineType,
+          "--ao-list-border-radius": `${t.borderRadiusLG}px`,
+          "--ao-list-line-lg": t.lineHeightLG,
+          "--ao-list-content-width": cssSize(c?.contentWidth) ?? "220px",
+          "--ao-list-heading-size": `${t.fontSizeLG}px`,
+          "--ao-list-border": t.colorBorder,
+          "--ao-list-split": t.colorSplit,
+          ...config.list?.style,
+          ...style,
+        }}
+      >
+        {pagination && paginationPosition !== "bottom" && pager()}
+        {!!header && (
+          <div
+            className={[
+              prefix !== "ant-list" && `${prefix}-header`,
+              "ant-list-header",
+            ]}
+          >
+            {header}
+          </div>
+        )}
+        <Spin {...spinProps}>
+          {empty ? (
+            <div
+              className={[
+                prefix !== "ant-list" && `${prefix}-empty-text`,
+                "ant-list-empty-text",
+              ]}
+            >
+              {locale?.emptyText || config.renderEmpty?.("List") || (
                 <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
               )}
             </div>
-          )
-        ) : (
-          <ul className="ant-list-items">
-            {visibleData
-              ? visibleData.map((item, index) => (
-                  <Fragment
-                    key={
-                      typeof rowKey === "function"
-                        ? rowKey(item)
-                        : rowKey
-                          ? String(item[rowKey])
-                          : index
-                    }
-                  >
-                    {renderItem ? (
-                      renderItem(item, index)
-                    ) : (
-                      <Item>{String(item)}</Item>
-                    )}
-                  </Fragment>
-                ))
-              : children}
-          </ul>
+          ) : visibleData?.length ? (
+            grid ? (
+              <Row
+                gutter={grid.gutter}
+                style={{ fontFamily: "inherit", fontSize: "inherit" }}
+              >
+                {renderedItems.map((item, index) => (
+                  <div key={item.key ?? `list-item-${index}`} style={colStyle}>
+                    {item}
+                  </div>
+                ))}
+              </Row>
+            ) : (
+              <ul
+                className={[
+                  prefix !== "ant-list" && `${prefix}-items`,
+                  "ant-list-items",
+                ]}
+              >
+                {renderedItems}
+              </ul>
+            )
+          ) : spinProps.spinning ? (
+            <div style={{ minHeight: 53 }} />
+          ) : null}
+          {children}
+        </Spin>
+        {!!footer && (
+          <div
+            className={[
+              prefix !== "ant-list" && `${prefix}-footer`,
+              "ant-list-footer",
+            ]}
+          >
+            {footer}
+          </div>
         )}
-      </Spin>
-      {loadMore}
-      {pagination && paginationPosition !== "top" && pager()}
-      {footer !== undefined && <div className="ant-list-footer">{footer}</div>}
-    </div>
-  );
-}
-export interface ListItemProps extends HTMLAttributes<HTMLLIElement> {
-  actions?: OctaneNode[];
-  extra?: OctaneNode;
-  style?: CSSProperties;
-}
-function Item({ actions, extra, children, className, ...rest }: ListItemProps) {
-  return (
-    <li {...rest} className={["ant-list-item", className]}>
-      <div className="ant-list-item-main">{children}</div>
-      {actions?.length ? (
-        <ul className="ant-list-item-action">
-          {actions.map((action, index) => (
-            <li key={index}>{action}</li>
-          ))}
-        </ul>
-      ) : null}
-      {extra !== undefined && (
-        <div className="ant-list-item-extra">{extra}</div>
-      )}
-    </li>
-  );
-}
-export interface ListItemMetaProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
-  avatar?: OctaneNode;
-  title?: OctaneNode;
-  description?: OctaneNode;
-}
-function Meta({
-  avatar,
-  title,
-  description,
-  className,
-  ...rest
-}: ListItemMetaProps) {
-  return (
-    <div {...rest} className={["ant-list-item-meta", className]}>
-      {avatar !== undefined && (
-        <div className="ant-list-item-meta-avatar">{avatar}</div>
-      )}
-      <div className="ant-list-item-meta-content">
-        {title !== undefined && (
-          <h4 className="ant-list-item-meta-title">{title}</h4>
-        )}
-        {description !== undefined && (
-          <div className="ant-list-item-meta-description">{description}</div>
-        )}
+        {loadMore || (pagination && paginationPosition !== "top" && pager())}
       </div>
-    </div>
+    </ListContext>
   );
 }
 export const List = Object.assign(InternalList, {
-  Item: Object.assign(Item, { Meta }),
+  Item: ListItem,
 });

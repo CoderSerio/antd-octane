@@ -64,7 +64,10 @@
       "components/splitter/style",
       "components/watermark/style",
       "components/qr-code/style",
-      "components/tour/style"
+      "components/tour/style",
+      "components/table/style",
+      "components/tree/style",
+      "components/calendar/style"
     ],
     "destination": [
       "packages/antd-octane/src/button/tokens.ts",
@@ -74,7 +77,23 @@
       "packages/antd-octane/src/loading.css",
       "packages/antd-octane/src/feedback.css",
       "packages/antd-octane/src/spin/index.tsx",
+      "packages/antd-octane/src/spin/Indicator.tsx",
+      "packages/antd-octane/src/spin/Looper.tsx",
+      "packages/antd-octane/src/spin/Progress.tsx",
+      "packages/antd-octane/src/spin/usePercent.ts",
+      "packages/antd-octane/src/spin/useSpinStyle.ts",
       "packages/antd-octane/src/skeleton/index.tsx",
+      "packages/antd-octane/src/skeleton/interface.ts",
+      "packages/antd-octane/src/skeleton/Skeleton.tsx",
+      "packages/antd-octane/src/skeleton/Element.tsx",
+      "packages/antd-octane/src/skeleton/Title.tsx",
+      "packages/antd-octane/src/skeleton/Paragraph.tsx",
+      "packages/antd-octane/src/skeleton/Avatar.tsx",
+      "packages/antd-octane/src/skeleton/Button.tsx",
+      "packages/antd-octane/src/skeleton/Input.tsx",
+      "packages/antd-octane/src/skeleton/Image.tsx",
+      "packages/antd-octane/src/skeleton/Node.tsx",
+      "packages/antd-octane/src/skeleton/useSkeletonStyle.ts",
       "packages/antd-octane/src/progress/index.tsx",
       "packages/antd-octane/src/result/index.tsx",
       "packages/antd-octane/src/choice.css",
@@ -98,6 +117,10 @@
       "packages/antd-octane/src/dropdown/index.tsx",
       "packages/antd-octane/src/message/index.tsx",
       "packages/antd-octane/src/notification/index.tsx",
+      "packages/antd-octane/src/notification/interface.ts",
+      "packages/antd-octane/src/notification/useNotification.tsx",
+      "packages/antd-octane/src/notification/PureContent.tsx",
+      "packages/antd-octane/src/notification/util.tsx",
       "packages/antd-octane/src/popconfirm/index.tsx",
       "packages/antd-octane/src/dialog.css",
       "packages/antd-octane/src/menu.css",
@@ -115,9 +138,15 @@
       "packages/antd-octane/src/positioning.css",
       "packages/antd-octane/src/media.css",
       "packages/antd-octane/src/surfaces.css",
-      "packages/antd-octane/src/tour.css"
+      "packages/antd-octane/src/tour.css",
+      "packages/antd-octane/src/table.css",
+      "packages/antd-octane/src/tree.css",
+      "packages/antd-octane/src/collapse.css",
+      "packages/antd-octane/src/calendar.css",
+      "packages/antd-octane/src/carousel.css",
+      "packages/antd-octane/src/qr-code.css"
     ],
-    "notes": "Supported defaults and state styles adapted to static CSS variables; see THIRD_PARTY_NOTICES.md and docs/compatibility.md."
+    "notes": "Supported defaults and state styles adapted to static CSS variables; see THIRD_PARTY_NOTICES.md and site/src/pages/compatibility.tsx."
   },
   "qr-code-generator": {
     "source": "https://github.com/nayuki/QR-Code-generator",
@@ -125,5 +154,301 @@
     "path": "typescript-javascript/qrcodegen.ts",
     "destination": "packages/antd-octane/src/qr-code/vendor/qrcodegen.ts",
     "changes": "Export the three merged qrcodegen namespace declarations for ES module consumption. Algorithm bodies and original MIT notice preserved."
+  },
+  "data-display-reference": {
+    "version": "5.29.3",
+    "commit": "14f397749dca177e5495dc9d1c2f7debfb639545",
+    "source": [
+      "components/*/index.zh-CN.md",
+      "components/tooltip/shared/sharedProps.zh-CN.md",
+      "es/version/token-meta.json",
+      "es/version/token.json",
+      "components/*/style/index.ts"
+    ],
+    "destination": [
+      "site/src/data-display",
+      "packages/antd-octane/src/theme/component-tokens.ts"
+    ],
+    "notes": "MIT API tables and component token interfaces, adapted to Octane node and CSS types. Four table columns retained. Reproducible via scripts/sync-display-reference.mjs with a pinned source checkout."
+  },
+  "avatar-demo-icons": {
+    "version": "4.6.0",
+    "source": "@ant-design/icons-svg/es/asn/{UserOutlined,AntDesignOutlined}.js",
+    "destination": ["site/src/demos/avatar-icons.tsx"],
+    "notes": "MIT icon geometry used by the antd 5.29.3 Avatar demos. Runtime adapted with native createIcon."
+  },
+  "data-display-runtime": {
+    "version": "5.29.3",
+    "commit": "14f397749dca177e5495dc9d1c2f7debfb639545",
+    "source": [
+      "components/avatar/{Avatar,AvatarGroup}.tsx",
+      "components/avatar/AvatarContext.ts",
+      "components/badge/{index,Ribbon,ScrollNumber,SingleNumber}.tsx",
+      "components/calendar/{generateCalendar,Header,index}.tsx",
+      "components/card/{Card,Grid,Meta}.tsx",
+      "components/collapse/{Collapse,CollapsePanel}.tsx",
+      "components/descriptions/{index,Cell,Row}.tsx",
+      "components/descriptions/DescriptionsContext.ts",
+      "components/descriptions/hooks/{useItems,useRow}.ts",
+      "components/empty/{index,empty,simple}.tsx",
+      "components/image/{index,PreviewGroup}.tsx",
+      "components/list/{index,Item}.tsx",
+      "components/list/context.ts",
+      "components/qr-code/{index,QrcodeStatus}.tsx",
+      "components/segmented/index.tsx",
+      "components/statistic/{Statistic,Number,Countdown,Timer}.tsx",
+      "components/timeline/{Timeline,TimelineItem}.tsx",
+      "components/timeline/useItems.ts",
+      "components/tooltip/index.tsx",
+      "components/popover/index.tsx",
+      "components/tour/{index,panelRender}.tsx",
+      "components/tour/interface.ts",
+      "components/table/{InternalTable,Table}.tsx",
+      "components/table/{Column,ColumnGroup}.ts",
+      "components/table/hooks/{useSorter,useSelection}.tsx",
+      "components/table/hooks/useFilter",
+      "components/tree/{Tree,DirectoryTree}.tsx",
+      "components/tree/utils/dropIndicator.tsx",
+      "components/_util/motion.ts",
+      "components/_util/hooks/useClosable.tsx",
+      "components/form/context.tsx",
+      "components/form/hooks/useVariants.ts",
+      "components/locale/{en_US,zh_CN,useLocale}.ts"
+    ],
+    "destination": [
+      "packages/antd-octane/src/avatar",
+      "packages/antd-octane/src/badge",
+      "packages/antd-octane/src/calendar",
+      "packages/antd-octane/src/card",
+      "packages/antd-octane/src/carousel",
+      "packages/antd-octane/src/collapse",
+      "packages/antd-octane/src/descriptions",
+      "packages/antd-octane/src/empty",
+      "packages/antd-octane/src/image",
+      "packages/antd-octane/src/list",
+      "packages/antd-octane/src/popover",
+      "packages/antd-octane/src/qr-code",
+      "packages/antd-octane/src/segmented",
+      "packages/antd-octane/src/statistic",
+      "packages/antd-octane/src/table",
+      "packages/antd-octane/src/tag",
+      "packages/antd-octane/src/timeline",
+      "packages/antd-octane/src/tooltip",
+      "packages/antd-octane/src/tour",
+      "packages/antd-octane/src/tree",
+      "packages/antd-octane/src/config-provider",
+      "packages/antd-octane/src/locale",
+      "packages/antd-octane/src/form/context.ts",
+      "packages/antd-octane/src/form/hooks/useVariants.ts"
+    ],
+    "notes": "Source contracts, module structure, artwork and supported lifecycle/style behavior adapted to Octane. React runtime dependencies remain development references. Source API descriptions do not certify complete parity; see component support sections."
+  },
+  "rc-runtime-references": {
+    "rc-collapse": {
+      "version": "3.9.0",
+      "source": ["es/hooks/useItems.js", "es/Panel.js", "es/PanelContent.js"],
+      "destination": "packages/antd-octane/src/collapse"
+    },
+    "rc-tree": {
+      "version": "5.13.1",
+      "source": [
+        "es/Tree.js",
+        "es/TreeNode.js",
+        "es/NodeList.js",
+        "es/MotionTreeNode.js",
+        "es/util.js",
+        "es/utils/treeUtil.js"
+      ],
+      "destination": "packages/antd-octane/src/tree"
+    },
+    "rc-image": {
+      "version": "7.12.0",
+      "source": [
+        "es/Image.js",
+        "es/Preview.js",
+        "es/PreviewGroup.js",
+        "es/Operations.js",
+        "es/hooks",
+        "es/getFixScaleEleTransPosition.js"
+      ],
+      "destination": "packages/antd-octane/src/image"
+    },
+    "rc-menu": {
+      "version": "9.16.1",
+      "source": [
+        "es/Menu.js",
+        "es/MenuItem.js",
+        "es/SubMenu/index.js",
+        "es/SubMenu/SubMenuList.js",
+        "es/placements.js",
+        "es/hooks/useAccessibility.js",
+        "es/hooks/useActive.js"
+      ],
+      "destination": "packages/antd-octane/src/table/FilterMenu.tsx",
+      "notes": "Table filter menu selection, submenu and keyboard behavior reference; native Octane implementation."
+    },
+    "rc-dropdown": {
+      "version": "4.2.1",
+      "source": ["es/hooks/useAccessibility.js"],
+      "destination": "packages/antd-octane/src/table/useFilterDropdownAccessibility.ts",
+      "notes": "Native Table filter Escape, Tab and overlay focus attempt behavior."
+    },
+    "rc-table": {
+      "version": "7.54.0",
+      "source": ["es/Table.js", "es/Body", "es/Footer", "es/VirtualTable"],
+      "destination": "packages/antd-octane/src/table"
+    },
+    "rc-virtual-list": {
+      "version": "3.19.2",
+      "source": [
+        "es/List.js",
+        "es/hooks/useHeights.js",
+        "es/hooks/useScrollTo.js"
+      ],
+      "destination": [
+        "packages/antd-octane/src/tree/NodeList.tsx",
+        "packages/antd-octane/src/table"
+      ]
+    },
+    "rc-segmented": {
+      "version": "2.7.1",
+      "source": ["es/index.js", "es/MotionThumb.js"],
+      "destination": "packages/antd-octane/src/segmented"
+    },
+    "rc-picker": {
+      "version": "4.11.3",
+      "source": [
+        "es/generate/dayjs.js",
+        "es/locale/en_US.js",
+        "es/locale/zh_CN.js",
+        "es/PickerPanel"
+      ],
+      "destination": [
+        "packages/antd-octane/src/calendar",
+        "packages/antd-octane/src/locale"
+      ]
+    },
+    "rc-dialog": {
+      "version": "9.6.0",
+      "source": [
+        "es/Dialog/index.js",
+        "es/Dialog/Content/index.js",
+        "es/Dialog/Content/Panel.js",
+        "es/util.js"
+      ],
+      "destination": [
+        "packages/antd-octane/src/_util/dialog.tsx",
+        "packages/antd-octane/src/image/preview.tsx"
+      ]
+    },
+    "rc-util": {
+      "version": "5.44.4",
+      "source": [
+        "es/Children/toArray.js",
+        "es/pickAttrs.js",
+        "es/hooks/useMergedState.js"
+      ],
+      "destination": "packages/antd-octane/src"
+    },
+    "@ant-design/react-slick": {
+      "version": "1.1.2",
+      "source": [
+        "lib/default-props.js",
+        "lib/slider.js",
+        "lib/track.js",
+        "lib/dots.js",
+        "lib/arrows.js",
+        "lib/inner-slider.js",
+        "lib/utils/innerSliderUtils.js"
+      ],
+      "destination": "packages/antd-octane/src/carousel"
+    },
+    "@rc-component/trigger": {
+      "version": "2.3.1",
+      "source": [
+        "es/hooks/useAlign.js",
+        "es/hooks/useWinClick.js",
+        "es/context.js",
+        "es/index.js",
+        "es/Popup"
+      ],
+      "destination": [
+        "packages/antd-octane/src/_util/floating.tsx",
+        "packages/antd-octane/src/_util/getLayoutSize.ts",
+        "packages/antd-octane/src/_util/getPopupContainerSize.ts",
+        "packages/antd-octane/src/tour/index.tsx"
+      ]
+    },
+    "@rc-component/tour": {
+      "version": "1.15.1",
+      "source": [
+        "es/Tour.js",
+        "es/Mask.js",
+        "es/hooks/useTarget.js",
+        "es/hooks/useClosable.js"
+      ],
+      "destination": "packages/antd-octane/src/tour"
+    },
+    "@rc-component/qrcode": {
+      "version": "1.1.3",
+      "source": [
+        "es/QRCodeCanvas.js",
+        "es/QRCodeSVG.js",
+        "es/hooks/useQRCode.js",
+        "es/utils.js"
+      ],
+      "destination": "packages/antd-octane/src/qr-code"
+    },
+    "notes": "Only source conventions and algorithms are adapted. Renderers, state, refs, motion and portals are native Octane; none of these React runtimes is bundled."
+  },
+  "data-display-icons": {
+    "version": "4.6.0",
+    "source": "@ant-design/icons-svg/es/asn",
+    "icons": [
+      "CloseOutlined",
+      "LoadingOutlined",
+      "RightOutlined",
+      "EyeOutlined",
+      "LeftOutlined",
+      "SwapOutlined",
+      "RotateLeftOutlined",
+      "RotateRightOutlined",
+      "ZoomInOutlined",
+      "ZoomOutOutlined",
+      "CaretDownFilled",
+      "FileOutlined",
+      "FolderOutlined",
+      "FolderOpenOutlined",
+      "HolderOutlined",
+      "MinusSquareOutlined",
+      "PlusSquareOutlined",
+      "ReloadOutlined",
+      "FilterFilled",
+      "SearchOutlined",
+      "CaretUpOutlined",
+      "CaretDownOutlined",
+      "DownOutlined"
+    ],
+    "destination": [
+      "packages/antd-octane/src/tag/closable.tsx",
+      "packages/antd-octane/src/timeline/index.tsx",
+      "packages/antd-octane/src/collapse/CollapsePanel.tsx",
+      "packages/antd-octane/src/image/icons.tsx",
+      "packages/antd-octane/src/tree/icons.ts",
+      "packages/antd-octane/src/tour/utils.ts",
+      "packages/antd-octane/src/qr-code/QRCodeStatus.tsx",
+      "packages/antd-octane/src/table/FilterDropdown.tsx",
+      "packages/antd-octane/src/table/FilterMenu.tsx",
+      "packages/antd-octane/src/table/InternalTable.tsx",
+      "packages/antd-octane/src/calendar.css"
+    ],
+    "notes": "Original MIT SVG geometry; Octane renderers and no React icon runtime."
+  },
+  "qrcode-react-helpers": {
+    "source": "https://github.com/zpao/qrcode.react",
+    "via": "@rc-component/qrcode 1.1.3",
+    "license": "ISC",
+    "destination": "packages/antd-octane/src/qr-code/utils.ts",
+    "notes": "Path generation, excavation and image calculations inherited through the pinned rc renderer. Full ISC notice retained in THIRD_PARTY_NOTICES.md."
   }
 }

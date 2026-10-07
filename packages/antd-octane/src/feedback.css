@@ -1,114 +1,306 @@
 @layer antd {
   :where(.ant-progress) {
     box-sizing: border-box;
-    display: inline-flex;
-    align-items: center;
-    position: relative;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
     color: var(--ao-text);
     font-family: var(--ao-font);
-    font-size: var(--ao-progress-font);
-    line-height: 1;
+    font-size: var(--ao-font-size);
+    line-height: var(--ao-line);
+    list-style: none;
+  }
+  :where(.ant-progress, .ant-progress *) {
+    box-sizing: border-box;
+  }
+  :where(.ant-progress)::before,
+  :where(.ant-progress)::after,
+  :where(.ant-progress *)::before,
+  :where(.ant-progress *)::after {
+    box-sizing: border-box;
   }
   :where(.ant-progress-line) {
-    line-height: var(--ao-line);
-    min-height: 1lh;
+    position: relative;
     width: 100%;
+    font-size: var(--ao-progress-font);
   }
   :where(.ant-progress-outer) {
-    flex: 1;
-    min-width: 0;
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
   }
-  :where(.ant-progress-line .ant-progress-inner) {
+  :where(.ant-progress-inner) {
     position: relative;
+    display: inline-block;
+    width: 100%;
+    flex: 1;
     overflow: hidden;
-    background: var(--ao-progress-trail);
+    vertical-align: middle;
+    background-color: var(--ao-progress-trail);
     border-radius: var(--ao-progress-radius);
   }
+  :where(
+      .ant-progress-inner:not(.ant-progress-circle-gradient)
+        .ant-progress-circle-path
+    ) {
+    stroke: var(--ao-progress-color);
+  }
   :where(.ant-progress-bg, .ant-progress-success-bg) {
+    position: relative;
+    background: var(--ao-progress-color);
+    border-radius: var(--ao-progress-radius);
+    transition: all var(--ao-progress-slow) var(--ao-progress-ease);
+  }
+  :where(.ant-progress-success-bg) {
     position: absolute;
     inset-block-start: 0;
     inset-inline-start: 0;
-    border-radius: var(--ao-progress-radius);
-    transition: width 0.3s ease;
+    background-color: var(--ao-progress-success);
   }
-  :where(.ant-progress-line .ant-progress-text) {
-    line-height: 1;
+  :where(.ant-progress-text) {
+    display: inline-block;
     width: 2em;
-    margin-inline-start: 8px;
+    margin-inline-start: var(--ao-progress-text-gap);
+    color: var(--ao-text);
+    line-height: 1;
     white-space: nowrap;
     text-align: start;
-  }
-  :where(.ant-progress-circle, .ant-progress-dashboard) {
     vertical-align: middle;
+    word-break: normal;
+  }
+  :where(.ant-progress-text .anticon) {
+    font-size: var(--ao-font-size);
+  }
+  :where(.ant-progress-text .anticon svg) {
+    box-sizing: content-box;
+    line-height: 1;
+  }
+  :where(.ant-progress foreignObject div) {
+    box-sizing: content-box;
+  }
+  :where(.ant-progress .ao-floating-trigger) {
+    display: inline-block;
+    vertical-align: bottom;
+  }
+  :where(.ant-progress .ao-floating-trigger > .ant-progress-inner) {
+    display: inline-block;
+  }
+  :where(.ant-progress-text-outer) {
+    width: max-content;
+  }
+  :where(.ant-progress-text-outer.ant-progress-text-start) {
+    margin-inline-start: 0;
+    margin-inline-end: var(--ao-progress-text-gap);
+  }
+  :where(.ant-progress-text-inner) {
+    display: flex;
     justify-content: center;
-  }
-  :where(
-      .ant-progress-circle .ant-progress-inner,
-      .ant-progress-dashboard .ant-progress-inner
-    ) {
-    width: 100%;
-    aspect-ratio: 1;
-  }
-  :where(.ant-progress svg) {
-    display: block;
+    align-items: center;
     width: 100%;
     height: 100%;
+    margin-inline-start: 0;
+    padding: 0 var(--ao-progress-inner-padding);
+  }
+  :where(.ant-progress-text-inner.ant-progress-text-start) {
+    justify-content: start;
+  }
+  :where(.ant-progress-text-inner.ant-progress-text-end) {
+    justify-content: end;
+  }
+  :where(.ant-progress-bg) {
+    overflow: hidden;
+  }
+  :where(.ant-progress-bg)::after {
+    content: "";
+    background: var(--ao-progress-stroke-color, inherit);
+    height: 100%;
+    width: calc(1 / var(--ao-progress-percent) * 100%);
+    display: block;
+  }
+  :where(.ant-progress-bg-inner) {
+    min-width: max-content;
+  }
+  :where(.ant-progress-bg-inner)::after {
+    content: none;
+  }
+  :where(.ant-progress-layout-bottom) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  :where(.ant-progress-layout-bottom .ant-progress-text) {
+    width: max-content;
+    margin-inline-start: 0;
+    margin-top: var(--ao-progress-bottom-gap);
+  }
+  :where(.ant-progress-status-active .ant-progress-bg)::before {
+    position: absolute;
+    inset: 0;
+    background-color: var(--ao-bg);
+    border-radius: var(--ao-progress-radius);
+    opacity: 0;
+    animation: ao-progress-active 2.4s var(--ao-progress-active-ease) infinite;
+    content: "";
   }
   :where(
-      .ant-progress-circle .ant-progress-text,
-      .ant-progress-dashboard .ant-progress-text
-    ) {
-    position: absolute;
-    inset-inline: 0;
-    text-align: center;
-    color: var(--ao-progress-text);
+      .ant-progress-rtl.ant-progress-status-active .ant-progress-bg
+    )::before {
+    animation-name: ao-progress-active-rtl;
   }
-  :where(.ant-progress-circle-path, .ant-progress-circle-success) {
-    transition: stroke-dasharray 0.3s ease;
+  :where(.ant-progress-status-exception .ant-progress-bg) {
+    background-color: var(--ao-progress-error);
+  }
+  :where(.ant-progress-status-exception .ant-progress-text) {
+    color: var(--ao-progress-error);
+  }
+  :where(
+      .ant-progress-status-exception
+        .ant-progress-inner:not(.ant-progress-circle-gradient)
+        .ant-progress-circle-path
+    ) {
+    stroke: var(--ao-progress-error);
+  }
+  :where(.ant-progress-status-success .ant-progress-bg) {
+    background-color: var(--ao-progress-success);
+  }
+  :where(.ant-progress-status-success .ant-progress-text) {
+    color: var(--ao-progress-success);
+  }
+  :where(
+      .ant-progress-status-success
+        .ant-progress-inner:not(.ant-progress-circle-gradient)
+        .ant-progress-circle-path
+    ) {
+    stroke: var(--ao-progress-success);
+  }
+  :where(.ant-progress-bg-inner .ant-progress-text-inner) {
+    color: #fff;
+  }
+  :where(
+      .ant-progress-bg-inner .ant-progress-text-inner.ant-progress-text-bright
+    ) {
+    color: rgba(0, 0, 0, 0.45);
+  }
+  :where(.ant-progress-circle-trail) {
+    stroke: var(--ao-progress-trail);
+  }
+  :where(.ant-progress-circle .ant-progress-inner) {
+    position: relative;
+    line-height: 1;
+    background-color: transparent;
+  }
+  :where(.ant-progress-circle .ant-progress-text) {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    color: var(--ao-progress-text);
+    font-size: var(--ao-progress-circle-text);
+    line-height: 1;
+    white-space: normal;
+    text-align: center;
+    transform: translateY(-50%);
+  }
+  :where(.ant-progress-circle .ant-progress-text .anticon) {
+    font-size: var(--ao-progress-circle-icon);
+  }
+  :where(
+      .ant-progress-circle.ant-progress-status-exception .ant-progress-text
+    ) {
+    color: var(--ao-progress-error);
+  }
+  :where(.ant-progress-circle.ant-progress-status-success .ant-progress-text) {
+    color: var(--ao-progress-success);
+  }
+  :where(.ant-progress-inline-circle) {
+    line-height: 1;
+  }
+  :where(.ant-progress-inline-circle .ant-progress-inner) {
+    vertical-align: bottom;
+  }
+  :where(.ant-progress-steps) {
+    display: inline-block;
   }
   :where(.ant-progress-steps-outer) {
     display: flex;
-    gap: 2px;
+    flex-direction: row;
+    align-items: center;
   }
   :where(.ant-progress-steps-item) {
-    flex: none;
-    min-width: 2px;
-    background: var(--ao-progress-trail);
+    flex-shrink: 0;
+    min-width: var(--ao-progress-step-gap);
+    margin-inline-end: var(--ao-progress-step-gap);
+    background-color: var(--ao-progress-trail);
+    transition: all var(--ao-progress-slow);
   }
-  :where(.ant-progress-status-active .ant-progress-bg)::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: #fff;
-    animation: ao-progress-active 2.4s ease infinite;
+  :where(.ant-progress-steps-item-active) {
+    background-color: var(--ao-progress-color);
+  }
+  :where(
+      .ant-progress-small.ant-progress-line,
+      .ant-progress-small.ant-progress-line .ant-progress-text .anticon
+    ) {
+    font-size: var(--ao-progress-font-sm);
+  }
+  :where(.ant-progress-rtl) {
+    direction: rtl;
+  }
+  :where(
+      .ant-result,
+      .ant-result [class^="ant-result"],
+      .ant-result [class*=" ant-result"]
+    ),
+  :where(
+      .ant-result,
+      .ant-result [class^="ant-result"],
+      .ant-result [class*=" ant-result"]
+    )::before,
+  :where(
+      .ant-result,
+      .ant-result [class^="ant-result"],
+      .ant-result [class*=" ant-result"]
+    )::after {
+    box-sizing: border-box;
   }
   :where(.ant-result) {
-    box-sizing: border-box;
-    padding: var(--ao-result-padding);
     font-family: var(--ao-font);
     font-size: var(--ao-font-size);
-    line-height: normal;
-    color: inherit;
+    padding: var(--ao-result-padding);
   }
-  :where(.ant-result-icon) {
-    margin-block-end: var(--ao-result-block-gap);
+  :where(.ant-result-rtl) {
+    direction: rtl;
+  }
+  :where(.ant-result .ant-result-image) {
+    width: 250px;
+    height: 295px;
+    margin: auto;
+  }
+  :where(.ant-result .ant-result-icon) {
+    margin-bottom: var(--ao-result-block-gap);
     text-align: center;
-    color: var(--ao-result-color);
+  }
+  :where(.ant-result .ant-result-icon) > :where(.anticon) {
     font-size: var(--ao-result-icon-size);
-    line-height: 1;
   }
-  :where(.ant-result-icon svg) {
-    display: block;
-    margin-inline: auto;
-    height: 1em;
-    width: 1em;
+  :where(
+      .ant-result-success,
+      .ant-result-error,
+      .ant-result-info,
+      .ant-result-warning
+    )
+    .ant-result-icon
+    > :where(.anticon) {
+    color: var(--ao-result-color);
   }
-  :where(.ant-result-http) {
+  :where(.ant-result .anticon, .ant-result .anticon *) {
+    box-sizing: content-box;
+  }
+  :where(.ant-result .anticon svg) {
     display: inline-block;
-    font-size: 1.75em;
-    font-weight: 600;
-    letter-spacing: 0.06em;
+    line-height: 1;
   }
   :where(.ant-result-title) {
     font-size: var(--ao-result-title-size);
@@ -128,10 +320,39 @@
     text-align: center;
   }
   :where(.ant-result-extra) > * {
-    margin-inline-end: var(--ao-result-gap);
+    margin-inline-end: var(--ao-result-extra-gap);
   }
   :where(.ant-result-extra) > :last-child {
     margin-inline-end: 0;
+  }
+  :where(.ant-result a:not(.ant-btn, .ant-typography)) {
+    color: var(--ao-result-link);
+    text-decoration: var(--ao-result-link-decoration);
+    background-color: transparent;
+    outline: none;
+    cursor: pointer;
+    transition: color var(--ao-result-link-motion);
+  }
+  :where(.ant-result a:not(.ant-btn, .ant-typography):hover) {
+    color: var(--ao-result-link-hover);
+  }
+  :where(.ant-result a:not(.ant-btn, .ant-typography):active) {
+    color: var(--ao-result-link-active);
+  }
+  :where(
+      .ant-result a:not(.ant-btn, .ant-typography):hover,
+      .ant-result a:not(.ant-btn, .ant-typography):active
+    ) {
+    text-decoration: var(--ao-result-link-hover-decoration);
+    outline: 0;
+  }
+  :where(.ant-result a:not(.ant-btn, .ant-typography):focus) {
+    text-decoration: var(--ao-result-link-focus-decoration);
+    outline: 0;
+  }
+  :where(.ant-result a:not(.ant-btn, .ant-typography)[disabled]) {
+    color: var(--ao-result-link-disabled);
+    cursor: not-allowed;
   }
   :where(.ant-result-content) {
     margin-block-start: var(--ao-result-block-gap);
@@ -140,16 +361,29 @@
   }
   @keyframes ao-progress-active {
     0% {
-      transform: scaleX(0);
-      transform-origin: left;
+      transform: translateX(-100%) scaleX(0);
       opacity: 0.1;
     }
     20% {
-      transform: scaleX(0);
+      transform: translateX(-100%) scaleX(0);
       opacity: 0.5;
     }
     100% {
-      transform: scaleX(1);
+      transform: translateX(0) scaleX(1);
+      opacity: 0;
+    }
+  }
+  @keyframes ao-progress-active-rtl {
+    0% {
+      transform: translateX(100%) scaleX(0);
+      opacity: 0.1;
+    }
+    20% {
+      transform: translateX(100%) scaleX(0);
+      opacity: 0.5;
+    }
+    100% {
+      transform: translateX(0) scaleX(1);
       opacity: 0;
     }
   }
@@ -165,5 +399,25 @@
     :where(.ant-progress-status-active .ant-progress-bg)::before {
       animation: none;
     }
+  }
+}
+/* Ant Design 5.29.3 Alert closes by collapsing its measured maximum height. */
+@layer antd {
+  :where(.ant-alert[data-motion-phase="leave"]) {
+    overflow: hidden;
+    opacity: 1;
+    transition:
+      max-height var(--ao-motion-slow, 0.3s) var(--ao-motion-in-out-circ),
+      opacity var(--ao-motion-slow, 0.3s) var(--ao-motion-in-out-circ),
+      padding-top var(--ao-motion-slow, 0.3s) var(--ao-motion-in-out-circ),
+      padding-bottom var(--ao-motion-slow, 0.3s) var(--ao-motion-in-out-circ),
+      margin-bottom var(--ao-motion-slow, 0.3s) var(--ao-motion-in-out-circ);
+  }
+  :where(.ant-alert[data-motion-phase="leave"][data-motion-active="true"]) {
+    /* biome-ignore lint/complexity/noImportantStyles: Upstream collapse motion overrides caller margins until removal. */
+    margin-bottom: 0 !important;
+    padding-top: 0;
+    padding-bottom: 0;
+    opacity: 0;
   }
 }

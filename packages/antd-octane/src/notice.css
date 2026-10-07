@@ -2,7 +2,6 @@
   :where(.ant-message, .ant-notification) {
     position: fixed;
     box-sizing: border-box;
-    pointer-events: none;
     display: flex;
     flex-direction: column;
     gap: var(--ao-notice-gap);
@@ -12,120 +11,244 @@
     overflow: visible;
   }
   :where(.ant-message) {
-    inset-inline: 8px;
+    pointer-events: none;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-height: none;
     align-items: center;
     gap: 0;
   }
   :where(.ant-notification) {
     width: var(--ao-notice-width);
-    max-width: calc(100vw - 48px);
-    gap: var(--ao-notice-large-gap);
+    max-width: calc(100vw - var(--ao-notice-edge) * 2);
+    gap: 0;
+    margin-right: var(--ao-notice-edge);
   }
   :where(.ant-notification-topLeft, .ant-notification-bottomLeft) {
-    left: 24px;
+    left: 0;
+    margin-right: 0;
+    margin-left: var(--ao-notice-edge);
   }
   :where(.ant-notification-topRight, .ant-notification-bottomRight) {
-    right: 24px;
+    right: 0;
   }
   :where(.ant-notification-top, .ant-notification-bottom) {
+    margin-inline: 0;
     left: 50%;
     transform: translateX(-50%);
   }
   :where(.ant-message-notice, .ant-notification-notice) {
-    pointer-events: auto;
     flex: none;
     max-width: 100%;
     box-sizing: border-box;
   }
-  :where(.ant-message-notice) {
+  :where(.ant-message-notice-wrapper) {
     padding: var(--ao-notice-outer-padding);
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    flex: none;
+  }
+  :where(.ant-message-notice) {
+    display: block;
+    text-align: center;
   }
   :where(.ant-message-notice-content) {
-    display: flex;
-    align-items: center;
-    gap: var(--ao-notice-gap);
+    pointer-events: all;
+    display: inline-block;
     padding: var(--ao-notice-padding);
     background: var(--ao-notice-bg);
     border-radius: var(--ao-radius);
     box-shadow: var(--ao-notice-shadow);
-    overflow-wrap: anywhere;
   }
-  :where(.ant-notification-notice-content) {
+  :where(.ant-message-custom-content) {
     display: flex;
-    align-items: flex-start;
-    gap: var(--ao-notice-large-gap);
+    align-items: center;
+  }
+  :where(.ant-message-custom-content > .anticon) {
+    margin-inline-end: var(--ao-notice-gap);
+    font-size: var(--ao-notice-message-icon);
+  }
+  :where(.ant-message-info, .ant-message-loading) > .anticon {
+    color: var(--ao-notice-info);
+  }
+  :where(.ant-message-success) > .anticon {
+    color: var(--ao-notice-success);
+  }
+  :where(.ant-message-warning) > .anticon {
+    color: var(--ao-notice-warning);
+  }
+  :where(.ant-message-error) > .anticon {
+    color: var(--ao-notice-error);
   }
   :where(.ant-notification-notice-wrapper) {
+    position: relative;
+    transition:
+      transform 0.2s,
+      opacity 0.2s;
     flex: none;
     pointer-events: auto;
     background: var(--ao-notice-bg);
     border-radius: var(--ao-radius);
     box-shadow: var(--ao-notice-shadow);
+    margin-bottom: var(--ao-notice-large-gap);
+  }
+  :where(.ant-notification-stack > .ant-notification-notice-wrapper) {
+    position: absolute;
+    inset-inline: 0;
+    transition:
+      transform var(--ao-motion-slow, 0.3s),
+      backdrop-filter 0s;
+    will-change: transform, opacity;
+  }
+  :where(
+      .ant-notification-stack:not(.ant-notification-stack-expanded)
+        > .ant-notification-notice-wrapper:not(:nth-last-child(-n + 3))
+    ) {
+    opacity: 0;
+    overflow: hidden;
+    color: transparent;
+    pointer-events: none;
+  }
+  :where(
+      .ant-notification-stack:not(.ant-notification-stack-expanded)
+        > .ant-notification-notice-wrapper:nth-last-child(2),
+      .ant-notification-stack:not(.ant-notification-stack-expanded)
+        > .ant-notification-notice-wrapper:nth-last-child(3)
+    ) {
+    overflow: hidden;
+    background: var(--ao-notice-blur-bg);
+    backdrop-filter: blur(10px);
+  }
+  :where(
+      .ant-notification-stack:not(.ant-notification-stack-expanded)
+        > .ant-notification-notice-wrapper:nth-last-child(2)
+        > .ant-notification-notice,
+      .ant-notification-stack:not(.ant-notification-stack-expanded)
+        > .ant-notification-notice-wrapper:nth-last-child(3)
+        > .ant-notification-notice
+    ) {
+    opacity: 0;
+    transition: opacity var(--ao-motion-mid, 0.2s);
+  }
+  :where(
+      .ant-notification-stack-expanded > .ant-notification-notice-wrapper
+    )::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    bottom: calc(var(--ao-notice-large-gap) * -1);
+    height: var(--ao-notice-large-gap);
+    pointer-events: auto;
   }
   :where(.ant-notification-notice) {
-    position: relative;
     padding: var(--ao-notice-padding-lg);
     border-radius: var(--ao-radius);
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
+    overflow: hidden;
   }
-  :where(.ao-notice-icon) {
-    color: var(--ao-notice-info);
-    display: inline-flex;
-    flex: none;
-    font-size: var(--ao-notice-message-icon);
-    line-height: 1.5;
-    align-items: center;
-    align-self: flex-start;
-    min-height: 22px;
-  }
-  :where(.ant-notification .ao-notice-icon) {
+  :where(.ant-notification-notice-icon) {
+    position: absolute;
     font-size: var(--ao-notice-icon-size);
-    min-height: var(--ao-notice-icon-size);
+    line-height: 1;
   }
-  :where(.ant-message-notice-success, .ant-notification-notice-success)
-    .ao-notice-icon {
+  :where(.ant-notification-notice-icon-success.anticon) {
     color: var(--ao-notice-success);
   }
-  :where(.ant-message-notice-error, .ant-notification-notice-error)
-    .ao-notice-icon {
-    color: var(--ao-notice-error);
+  :where(.ant-notification-notice-icon-info.anticon) {
+    color: var(--ao-notice-info);
   }
-  :where(.ant-message-notice-warning, .ant-notification-notice-warning)
-    .ao-notice-icon {
+  :where(.ant-notification-notice-icon-warning.anticon) {
     color: var(--ao-notice-warning);
   }
-  :where(.ant-notification-notice-body) {
-    flex: 1;
-    min-width: 0;
+  :where(.ant-notification-notice-icon-error.anticon) {
+    color: var(--ao-notice-error);
+  }
+  :where(
+      .ant-notification-notice-with-icon .ant-notification-notice-message,
+      .ant-notification-notice-with-icon .ant-notification-notice-description
+    ) {
+    margin-inline-start: var(--ao-notice-icon-offset);
   }
   :where(.ant-notification-notice-message) {
-    padding-inline-end: 24px;
+    box-sizing: border-box;
     font-size: var(--ao-notice-title-size);
     line-height: var(--ao-notice-title-line);
     color: var(--ao-notice-heading);
-    margin-bottom: var(--ao-notice-gap);
+  }
+  :where(.ant-notification-notice-closable .ant-notification-notice-message) {
+    padding-inline-end: var(--ao-notice-close-end);
+  }
+  :where(.ant-notification-notice-description) {
+    margin-top: var(--ao-notice-gap);
+    color: var(--ao-text);
   }
   :where(.ant-notification-notice-actions) {
-    margin-top: var(--ao-notice-large-gap);
-    display: flex;
-    justify-content: flex-end;
-    gap: var(--ao-notice-gap);
+    float: right;
+    margin-top: var(--ao-notice-action-gap);
   }
   :where(.ant-notification-notice-close) {
     position: absolute;
-    top: 16px;
-    right: 16px;
+    top: var(--ao-notice-close-top);
+    inset-inline-end: var(--ao-notice-close-end);
     border: 0;
     background: transparent;
-    color: var(--ao-muted);
-    width: 24px;
-    height: 24px;
-    font-size: 20px;
+    color: var(--ao-notice-close-color);
+    width: var(--ao-notice-close-size);
+    height: var(--ao-notice-close-size);
+    font-size: var(--ao-font-size);
+    line-height: inherit;
+    font-family: inherit;
+    border-radius: var(--ao-notice-close-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    transition:
+      background-color var(--ao-motion-mid, 0.2s),
+      color var(--ao-motion-mid, 0.2s);
     cursor: pointer;
   }
+  :where(.ant-notification-notice-close:hover) {
+    color: var(--ao-notice-close-hover);
+    background: var(--ao-notice-hover-bg);
+  }
+  :where(.ant-notification-notice-close:active) {
+    background: var(--ao-notice-active-bg);
+  }
   :where(.ant-notification-notice-close:focus-visible) {
-    outline: 2px solid var(--ao-primary);
-    border-radius: 4px;
+    outline: var(--ao-notice-focus-width) solid var(--ao-notice-focus-color);
+    outline-offset: 1px;
+    transition:
+      outline-offset 0s,
+      outline 0s;
+  }
+  :where(.ant-notification-rtl, .ant-message-rtl) {
+    direction: rtl;
+  }
+  :where(.ant-notification-notice-progress) {
+    position: absolute;
+    display: block;
+    appearance: none;
+    inline-size: calc(100% - var(--ao-radius) * 2);
+    left: var(--ao-radius);
+    right: var(--ao-radius);
+    bottom: 0;
+    block-size: 2px;
+    border: 0;
+  }
+  :where(.ant-notification-notice-progress),
+  :where(.ant-notification-notice-progress)::-webkit-progress-bar {
+    border-radius: var(--ao-radius);
+    background-color: rgb(0 0 0 / 4%);
+  }
+  :where(.ant-notification-notice-progress)::-moz-progress-bar {
+    background: var(--ao-notice-progress-bg);
+  }
+  :where(.ant-notification-notice-progress)::-webkit-progress-value {
+    border-radius: var(--ao-radius);
+    background: var(--ao-notice-progress-bg);
   }
   :where(.ao-notice-loading) {
     width: 1em;
@@ -140,6 +263,166 @@
     to {
       transform: rotate(360deg);
     }
+  }
+  :where(.ao-message-loading-icon) {
+    animation: ao-notice-spin 1s linear infinite;
+  }
+  :where(
+      .ant-message-move-up-appear,
+      .ant-message-move-up-enter,
+      .ant-message-move-up-leave
+    ) {
+    animation-fill-mode: forwards;
+    animation-duration: var(--ao-motion-slow);
+    animation-timing-function: var(--ao-motion-ease-in-out-circ);
+    animation-play-state: paused;
+  }
+  :where(.ant-message-move-up-appear, .ant-message-move-up-enter) {
+    animation-name: ao-message-move-in;
+  }
+  :where(.ant-message-move-up-leave) {
+    animation-name: ao-message-move-out;
+  }
+  :where(
+      .ant-message-move-up-appear-active,
+      .ant-message-move-up-enter-active,
+      .ant-message-move-up-leave-active
+    ) {
+    animation-play-state: running;
+  }
+  @keyframes ao-message-move-in {
+    from {
+      padding: 0;
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    to {
+      padding: var(--ao-notice-outer-padding);
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  @keyframes ao-message-move-out {
+    from {
+      max-height: 150px;
+      padding: var(--ao-notice-outer-padding);
+      opacity: 1;
+    }
+    to {
+      max-height: 0;
+      padding: 0;
+      opacity: 0;
+    }
+  }
+  :where(.ant-notification-fade-appear, .ant-notification-fade-enter) {
+    opacity: 0;
+  }
+  :where(
+      .ant-notification-fade-appear,
+      .ant-notification-fade-enter,
+      .ant-notification-fade-leave
+    ) {
+    animation-duration: var(--ao-motion-mid);
+    animation-timing-function: var(--ao-motion-ease-in-out);
+    animation-fill-mode: both;
+    animation-play-state: paused;
+  }
+  :where(
+      .ant-notification-fade-appear-active,
+      .ant-notification-fade-enter-active,
+      .ant-notification-fade-leave-active
+    ) {
+    animation-play-state: running;
+  }
+  :where(.ant-notification-topRight, .ant-notification-bottomRight)
+    :where(
+      .ant-notification-fade-appear-active,
+      .ant-notification-fade-enter-active
+    ) {
+    animation-name: ao-notification-right-in;
+  }
+  :where(.ant-notification-topLeft, .ant-notification-bottomLeft)
+    :where(
+      .ant-notification-fade-appear-active,
+      .ant-notification-fade-enter-active
+    ) {
+    animation-name: ao-notification-left-in;
+  }
+  :where(.ant-notification-top)
+    :where(
+      .ant-notification-fade-appear-active,
+      .ant-notification-fade-enter-active
+    ) {
+    animation-name: ao-notification-top-in;
+  }
+  :where(.ant-notification-bottom)
+    :where(
+      .ant-notification-fade-appear-active,
+      .ant-notification-fade-enter-active
+    ) {
+    animation-name: ao-notification-bottom-in;
+  }
+  :where(.ant-notification-fade-leave-active) {
+    animation-name: ao-notification-out;
+  }
+  @keyframes ao-notification-right-in {
+    from {
+      transform: translate3d(100%, 0, 0);
+      opacity: 0;
+    }
+    to {
+      transform: translate3d(0, 0, 0);
+      opacity: 1;
+    }
+  }
+  @keyframes ao-notification-left-in {
+    from {
+      transform: translate3d(-100%, 0, 0);
+      opacity: 0;
+    }
+    to {
+      transform: translate3d(0, 0, 0);
+      opacity: 1;
+    }
+  }
+  @keyframes ao-notification-top-in {
+    from {
+      top: -150px;
+      opacity: 0;
+    }
+    to {
+      top: 0;
+      opacity: 1;
+    }
+  }
+  @keyframes ao-notification-bottom-in {
+    from {
+      bottom: -150px;
+      opacity: 0;
+    }
+    to {
+      bottom: 0;
+      opacity: 1;
+    }
+  }
+  @keyframes ao-notification-out {
+    from {
+      max-height: 150px;
+      margin-bottom: var(--ao-notice-large-gap);
+    }
+    to {
+      max-height: 0;
+      margin-bottom: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+      opacity: 0;
+    }
+  }
+  :where(.ant-notification-fade-leave, .ant-message-move-up-leave) {
+    overflow: hidden;
+  }
+  :where([data-motion-disabled]) {
+    transition: none;
   }
   @media (prefers-reduced-motion: reduce) {
     :where(.ao-notice-loading) {
