@@ -9,7 +9,6 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Switch <span>开关</span>
-        <small>Alpha</small>
       </h1>
       <p className="lead">
         立即切换两种状态；如果修改需要提交，请使用 Checkbox。
