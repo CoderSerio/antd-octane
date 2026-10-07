@@ -5,11 +5,30 @@ export function SeparatorItemsDemo() {
     <Breadcrumb
       separator=""
       items={[
-        { key: "home", title: "首页", href: "#overview" },
-        { key: "first-divider", type: "separator", separator: ":" },
-        { key: "components", title: "组件", href: "#components" },
-        { key: "second-divider", type: "separator", separator: ">" },
-        { key: "current", title: "当前页面" },
+        {
+          title: "Location",
+        },
+        {
+          type: "separator",
+          separator: ":",
+        },
+        {
+          href: "",
+          title: "Application Center",
+        },
+        {
+          type: "separator",
+        },
+        {
+          href: "",
+          title: "Application List",
+        },
+        {
+          type: "separator",
+        },
+        {
+          title: "An Application",
+        },
       ]}
     />
   );

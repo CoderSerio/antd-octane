@@ -65,6 +65,18 @@ export function ComponentCompatibilityNotes() {
         </p>
       </details>
       <details>
+        <summary>Breadcrumb</summary>
+        <p>
+          未发布源码已补齐 items.menu、dropdownProps、path 拼接、params、
+          itemRender 与 Breadcrumb.Item / Separator，支持原生下拉菜单和 Provider
+          样式。路由链接使用原生浏览器导航；框架路由集成应由 itemRender 提供。
+          公共页目前发布 4 个上游示例：basic、withIcon、separator、
+          separator-component；withParams、overlay、debug-routes 及
+          component-token 等依赖新增 API
+          或文档主题能力的示例，等待对应源码发布。
+        </p>
+      </details>
+      <details>
         <summary>Affix</summary>
         <p>
           未发布工作区实现按上游拆分测量工具、帧节流及主题样式，支持上、下偏移、目标滚动容器、状态回调和可取消的

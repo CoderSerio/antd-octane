@@ -81,6 +81,22 @@ const previews: Record<string, Preview[]> = {
       source: () => import("./demos/splitter/multiple.tsx?raw"),
     },
   ],
+  breadcrumb: [
+    {
+      id: "withParams",
+      title: "带有参数的",
+      description: "带有路由参数的。",
+      load: () => import("./demos/breadcrumb/withParams"),
+      source: () => import("./demos/breadcrumb/withParams.tsx?raw"),
+    },
+    {
+      id: "overlay",
+      title: "带下拉菜单的面包屑",
+      description: "面包屑支持下拉菜单。",
+      load: () => import("./demos/breadcrumb/overlay"),
+      source: () => import("./demos/breadcrumb/overlay.tsx?raw"),
+    },
+  ],
   layout: [
     {
       id: "basic",
@@ -216,6 +232,14 @@ const order: Record<string, string[]> = {
     "targetOffset",
     "onChange",
     "replace",
+  ],
+  breadcrumb: [
+    "basic",
+    "withIcon",
+    "withParams",
+    "separator",
+    "overlay",
+    "separator-component",
   ],
 };
 

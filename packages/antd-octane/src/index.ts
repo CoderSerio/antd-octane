@@ -90,7 +90,11 @@ export type {
 export { Avatar } from "./avatar";
 export type { BadgeProps, BadgeRibbonProps, ScrollNumberProps } from "./badge";
 export { Badge } from "./badge";
-export type { BreadcrumbItem, BreadcrumbProps } from "./breadcrumb";
+export type {
+  BreadcrumbItem,
+  BreadcrumbItemProps,
+  BreadcrumbProps,
+} from "./breadcrumb";
 export { Breadcrumb } from "./breadcrumb";
 export type {
   CalendarCellInfo,

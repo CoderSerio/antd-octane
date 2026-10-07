@@ -374,5 +374,20 @@
     "sectionIntro": {
       "Link Props": "建议使用 items 形式。"
     }
+  },
+  "Breadcrumb": {
+    "description": "显示当前页面在系统层级结构中的位置，并能向上返回。",
+    "when": "- 当系统拥有超过两级以上的层级结构时；\n- 当需要告知用户『你在哪里』时；\n- 当需要向上导航的功能时。\n\n```jsx\nreturn <Breadcrumb items={[{ title: 'sample' }]} />;\n```",
+    "sectionHeadings": {
+      "Breadcrumb": 3,
+      "RouteItemType": 3,
+      "SeparatorType": 3
+    },
+    "sectionBefore": {
+      "RouteItemType": "### ItemType\n\n> type ItemType = Omit<[RouteItemType](#routeitemtype), 'title' | 'path'> | [SeparatorType](#separatortype)"
+    },
+    "sectionIntro": {
+      "SeparatorType": "```ts\nconst item = {\n  type: 'separator', // Must have\n  separator: '/',\n};\n```"
+    }
   }
 }

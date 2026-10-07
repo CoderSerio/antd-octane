@@ -47,6 +47,26 @@ async function key(node: HTMLElement, value: string) {
     ),
   );
 }
+
+it("standalone Breadcrumb separators keep their own slash default", async () => {
+  await render(
+    <Breadcrumb
+      separator=""
+      items={[
+        { title: "Location" },
+        { type: "separator", separator: ":" },
+        { title: "Application" },
+        { type: "separator" },
+        { title: "Details" },
+      ]}
+    />,
+  );
+  expect(
+    [...container.querySelectorAll(".ant-breadcrumb-separator")].map(
+      (node) => node.textContent,
+    ),
+  ).toEqual([":", "/"]);
+});
 it("Anchor accepts legacy links, per-item replace, fixed ink and provider style", async () => {
   const replace = vi.spyOn(history, "replaceState");
   await render(
@@ -90,4 +110,68 @@ it("Anchor onChange receives the source link while getCurrentAnchor customizes t
   expect(
     container.querySelector('[aria-current="location"]')?.textContent,
   ).toBe("Highlight");
+});
+it("Breadcrumb substitutes params, builds route paths and exposes itemRender paths", async () => {
+  const itemRender = vi.fn((item, _params, _items, paths) => (
+    <span>
+      {item.title}: {paths.join("/")}
+    </span>
+  ));
+  const items = [
+    { title: "Home", path: "/home" },
+    { title: "User", path: ":id" },
+  ];
+  await render(<Breadcrumb params={{ id: 42 }} items={items} />);
+  expect(container.querySelectorAll("a")[1].getAttribute("href")).toBe(
+    "#/home/42",
+  );
+  await act(() =>
+    root?.render(
+      <Breadcrumb params={{ id: 42 }} items={items} itemRender={itemRender} />,
+    ),
+  );
+  expect(itemRender).toHaveBeenLastCalledWith(items[1], { id: 42 }, items, [
+    "home",
+    "42",
+  ]);
+});
+it("Breadcrumb keeps falsy route parameters in titles and paths", async () => {
+  await render(
+    <Breadcrumb
+      params={{ id: 0, enabled: false }}
+      items={[{ title: "User :id :enabled", path: ":id/:enabled" }]}
+    />,
+  );
+  const link = container.querySelector<HTMLAnchorElement>("a");
+  expect(link?.getAttribute("href")).toBe("#/0/false");
+  expect(link?.textContent).toBe("User 0 false");
+});
+it("Breadcrumb creates menus and retains compound Item/Separator content", async () => {
+  await render(
+    <Breadcrumb
+      items={[
+        {
+          title: "Projects",
+          menu: { items: [{ title: "Settings", key: "settings" }] },
+          dropdownProps: { trigger: ["click"] },
+        },
+      ]}
+    />,
+  );
+  await act(() =>
+    container
+      .querySelector<HTMLElement>(".ant-breadcrumb-overlay-link")
+      ?.click(),
+  );
+  expect(button("Settings")).toBeDefined();
+  await act(() =>
+    root?.render(
+      <Breadcrumb>
+        <Breadcrumb.Item href="#home">Home</Breadcrumb.Item>
+        <Breadcrumb.Separator>:</Breadcrumb.Separator>
+        <Breadcrumb.Item>Current</Breadcrumb.Item>
+      </Breadcrumb>,
+    ),
+  );
+  expect(container.textContent).toContain("Home:Current");
 });

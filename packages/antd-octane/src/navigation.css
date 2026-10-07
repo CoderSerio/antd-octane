@@ -24,23 +24,45 @@
     color: var(--ao-breadcrumb-last);
   }
   :where(.ant-breadcrumb a, .ant-breadcrumb button) {
+    display: inline-block;
+    height: var(--ao-breadcrumb-height);
     color: var(--ao-breadcrumb-link);
     text-decoration: none;
-    padding: 0 4px;
-    margin-inline: -4px;
+    padding: 0 var(--ao-breadcrumb-padding);
+    margin-inline: calc(-1 * var(--ao-breadcrumb-margin));
     border: 0;
     background: transparent;
-    border-radius: 4px;
+    border-radius: var(--ao-breadcrumb-radius);
     font: inherit;
     cursor: pointer;
   }
   :where(.ant-breadcrumb a:hover, .ant-breadcrumb button:hover) {
     color: var(--ao-breadcrumb-hover);
-    background: var(--ao-border);
+    background: var(--ao-breadcrumb-hover-bg);
   }
   :where(.ant-breadcrumb-separator) {
     margin-inline: var(--ao-breadcrumb-gap);
     color: var(--ao-breadcrumb-separator);
+  }
+  :where(.ant-breadcrumb-overlay-link) {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    height: var(--ao-breadcrumb-height);
+    padding-inline: var(--ao-breadcrumb-padding);
+    margin-inline: calc(-1 * var(--ao-breadcrumb-margin));
+    border-radius: var(--ao-breadcrumb-radius);
+  }
+  :where(.ant-breadcrumb-overlay-link:hover) {
+    color: var(--ao-breadcrumb-hover);
+    background: var(--ao-breadcrumb-hover-bg);
+  }
+  :where(.ant-breadcrumb-overlay-link a:hover) {
+    background: transparent;
+  }
+  :where(.ant-breadcrumb-overlay-link > .anticon) {
+    font-size: 12px;
   }
   :where(.ant-steps) {
     font-size: 0;
