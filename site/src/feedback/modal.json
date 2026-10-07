@@ -38,12 +38,6 @@
           "<CloseOutlined />"
         ],
         ["confirmLoading", "确定按钮 loading", "boolean", "false"],
-        [
-          "~~destroyOnClose~~",
-          "关闭时销毁 Modal 里的子元素",
-          "boolean",
-          "false"
-        ],
         ["destroyOnHidden", "关闭时销毁 Modal 里的子元素", "boolean", "false"],
         [
           "focusTriggerAfterClose",
