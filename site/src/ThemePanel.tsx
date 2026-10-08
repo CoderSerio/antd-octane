@@ -100,10 +100,8 @@ export function ThemePanel(p: ShellProps & { onClose: () => void }) {
       <Button
         className="panel-link"
         type="text"
-        onClick={() => {
-          p.onClose();
-          window.location.hash = "theme";
-        }}
+        href="#theme"
+        onClick={p.onClose}
       >
         了解主题迁移 →
       </Button>

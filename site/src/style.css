@@ -875,7 +875,7 @@
     .header-links {
       gap: 16px;
     }
-    .theme-entry > span,
+    .theme-entry-label,
     .doc-search kbd {
       display: none;
     }

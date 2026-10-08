@@ -238,7 +238,7 @@ function Shell(p: ShellProps) {
             onClick={() => setThemeOpen(true)}
           >
             <Icon name="theme" />
-            <span>主题实验室</span>
+            <span className="theme-entry-label">主题实验室</span>
           </Button>
           <Button
             type="text"
