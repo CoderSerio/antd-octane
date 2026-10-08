@@ -219,6 +219,7 @@ export function RangePicker(props: RangePickerProps) {
     next[active] = date;
     edited.current[active] = true;
     stage(next, active);
+    setCursor(date);
     if (
       !needsConfirmation &&
       (active === 1 || edited.current[1 - active] || disabled[1 - active])
@@ -228,8 +229,10 @@ export function RangePicker(props: RangePickerProps) {
     }
     if (active === 0 && !disabled[1]) {
       setActive(1);
-      setCursor(next[1] ?? date);
       inputs.current[1]?.focus();
+      // Focus dispatches synchronously through the previous render's handler.
+      // Apply the new draft's cursor after that handler has completed.
+      setCursor(next[1] ?? date);
     }
   };
   const leave = (event: FocusEvent) => {
@@ -445,8 +448,8 @@ export function RangePicker(props: RangePickerProps) {
                   }
                   stage(dates, index);
                   activate(1);
-                  setCursor(dates[1] ?? dates[0] ?? dayjs().startOf("day"));
                   inputs.current[1]?.focus();
+                  setCursor(dates[1] ?? dates[0] ?? dayjs().startOf("day"));
                 } else finish(dates);
               }
             }}

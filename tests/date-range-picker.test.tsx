@@ -307,3 +307,44 @@ it("automatically completes when the end was typed before selecting the start", 
   await date("2025-06-12");
   expect(change.mock.calls[0]?.[1]).toEqual(["2025-06-12", "2025-06-22"]);
 });
+it("keeps the chosen future month when an empty range advances focus to the end", async () => {
+  await render(<DatePicker.RangePicker defaultOpen />);
+  await act(() => input(0).focus());
+  for (let i = 0; i < 2; i++)
+    await act(() =>
+      required(
+        document.querySelector<HTMLButtonElement>('[aria-label="Next month"]'),
+      ).click(),
+    );
+  const chosen = dayjs().add(2, "month").date(15);
+  await date(chosen.format("YYYY-MM-DD"));
+  expect(document.activeElement).toBe(input(1));
+  expect(document.querySelector("table")?.getAttribute("aria-label")).toBe(
+    chosen.format("YYYY-MM"),
+  );
+});
+it.each([
+  false,
+  true,
+])("moves the visible month to Today while confirmation stays open (disabled end: %s)", async (disabledEnd) => {
+  await render(
+    <DatePicker.RangePicker
+      defaultOpen
+      needConfirm
+      disabled={[false, disabledEnd]}
+      defaultValue={[dayjs("2020-01-10"), dayjs("2030-01-20")]}
+    />,
+  );
+  if (!disabledEnd) await act(() => input(1).click());
+  await act(() =>
+    required(
+      [...document.querySelectorAll("button")].find(
+        (button) => button.textContent === "Today",
+      ),
+    ).click(),
+  );
+  expect(document.querySelector("table")?.getAttribute("aria-label")).toBe(
+    dayjs().format("YYYY-MM"),
+  );
+  expect(document.querySelector('[role="dialog"]')).not.toBeNull();
+});
