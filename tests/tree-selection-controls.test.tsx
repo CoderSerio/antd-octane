@@ -228,3 +228,55 @@ it("Form binds both value shapes and reset restores initial selections", async (
     [...host.querySelectorAll("input")].map((input) => input.value),
   ).toEqual(["Apple", "Parent / Apple"]);
 });
+
+it("nested picker portal stays inside its Popover owner", async () => {
+  const { Popover } = await import("../packages/antd-octane/src/popover");
+  const visible = vi.fn();
+  await render(
+    <Popover
+      defaultOpen
+      trigger="click"
+      onOpenChange={visible}
+      content={<TreeSelect treeData={tree} defaultOpen treeDefaultExpandAll />}
+    >
+      <button type="button">Outer</button>
+    </Popover>,
+  );
+  const row = [
+    ...document.querySelectorAll(".ant-tree-node-content-wrapper"),
+  ].find((node) => node.textContent === "Apple");
+  if (!row) throw Error("Missing nested tree row");
+  await act(() =>
+    row.dispatchEvent(new PointerEvent("pointerdown", { bubbles: true })),
+  );
+  expect(visible).not.toHaveBeenCalledWith(false);
+  await click(row);
+  expect(visible).not.toHaveBeenCalledWith(false);
+});
+it("multiple search preserves selections hidden by the filter", async () => {
+  const change = vi.fn();
+  await render(
+    <TreeSelect
+      multiple
+      defaultValue={["p"]}
+      treeData={tree}
+      showSearch
+      onChange={change}
+    />,
+  );
+  await click(host.querySelector("input"));
+  await search("apple");
+  await click(
+    [...document.querySelectorAll(".ant-tree-node-content-wrapper")].find(
+      (node) => node.textContent === "Apple",
+    ) ?? null,
+  );
+  expect(change).toHaveBeenLastCalledWith(["p", "a"]);
+  await search("parent");
+  await click(
+    [...document.querySelectorAll(".ant-tree-node-content-wrapper")].find(
+      (node) => node.textContent === "Parent",
+    ) ?? null,
+  );
+  expect(change).toHaveBeenLastCalledWith(["a"]);
+});

@@ -27,6 +27,10 @@ import { devUseWarning } from "./warning";
 // their logical parent even when both popup elements are mounted in body.
 const FloatingParentContext = createContext<string | undefined>(undefined);
 
+export function useFloatingParentId() {
+  return useContext(FloatingParentContext);
+}
+
 function containsNestedPopup(id: string, target: EventTarget | null) {
   const element =
     target instanceof Element

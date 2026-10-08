@@ -13,7 +13,7 @@ import {
   getPopupContainerElement,
   type PopupContainer,
 } from "../config-provider/context";
-import { positionPopup } from "./floating";
+import { positionPopup, useFloatingParentId } from "./floating";
 import { useComponentTokens } from "./tokens";
 
 export interface HierarchyPickerRef {
@@ -52,6 +52,7 @@ export function HierarchyPicker(
   },
 ) {
   const config = useConfig();
+  const parentPopupId = useFloatingParentId();
   const { token: t, base } = useComponentTokens("Select");
   const host = useRef<HTMLDivElement | null>(null);
   const input = useRef<HTMLInputElement | null>(null);
@@ -260,6 +261,7 @@ export function HierarchyPicker(
         createPortal(
           <div
             id={popupId}
+            data-ao-floating-parent={parentPopupId}
             role="dialog"
             aria-label={
               props["aria-label"]
