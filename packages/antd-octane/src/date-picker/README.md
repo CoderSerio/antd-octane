@@ -2,6 +2,9 @@
 
 This development branch implements `DatePicker` and `TimePicker` for Octane. These exports are not available in the currently published package. Both use Dayjs values and share a native input, popup, and controlled-state implementation. They are a supported subset of the Ant Design API, not a complete rc-picker port.
 
+Applications that import `dayjs` should declare it directly (for example
+`pnpm add dayjs@1.11.23`), rather than rely on a transitive dependency.
+
 ```tsx
 import dayjs from "dayjs";
 import { DatePicker, TimePicker } from "antd-octane";
