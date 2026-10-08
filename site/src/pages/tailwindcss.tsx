@@ -111,8 +111,10 @@ export default function TailwindPage({ section }: { section?: string }) {
           不要安装 @antdv-next/tailwind、Vue 插件或 React 适配层来接入本库。
         </li>
         <li>
-          不要生成不存在的 @antd-octane/tailwind、StyleProvider、cssVar 或
-          prefixCls 配置。App 包裹组件也不是启用 Tailwind 的必要条件。
+          不要生成不存在的 @antd-octane/tailwind 包或主题 cssVar 配置。
+          antd-octane/style 的 StyleProvider 仅控制 App/Modal 原生样式的 layer；
+          ConfigProvider.prefixCls 也不替代 CSS 层级配置。App 不是启用 Tailwind
+          的必要条件。
         </li>
         <li>
           不要依赖内部 --ao-* 变量作为稳定公共接口；需要 token 时使用

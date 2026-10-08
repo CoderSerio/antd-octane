@@ -56,11 +56,12 @@ export default function ApiConventions({ section }: { section?: string }) {
         后续 API 的边界
       </h2>
       <p>
-        Form 已支持平面字段绑定与同步/异步规则校验；嵌套字段和动态列表仍待实现。
-        Table 的基础实现仍在开发源码，本站 npm 版本暂不可用。Modal 已提供声明式
-        open/onOk/onCancel；Modal.confirm、Modal.useModal
-        在本站安装版本中尚未支持。消息与通知可使用 hook/holder 或 App.useApp()
-        实例，不能照搬全局静态调用。
+        Form 支持 NamePath 嵌套字段、直接依赖和同步/异步规则校验；Form.List
+        仍未提供。 Table
+        支持排序、筛选、分页和行选择；服务端请求由应用管理。Modal 已提供声明式
+        open/onOk/onCancel，以及确认类静态方法和 Modal.useModal。
+        消息与通知也提供静态调用；这些独立 holder 不会自动继承调用处上下文，
+        需要上下文时使用 hook/holder 或 App.useApp() 实例。
       </p>
       <div className="notice">
         <strong>Octane 版本约定</strong>

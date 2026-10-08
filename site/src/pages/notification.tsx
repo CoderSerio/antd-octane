@@ -73,6 +73,12 @@ export default function Page({ section }: { section?: string }) {
             "—",
           ],
           [
+            "notification.config",
+            "配置静态入口的默认值；hook 使用自身配置",
+            "(config) => void",
+            "—",
+          ],
+          [
             "api.destroy(key?)",
             "关闭指定通知或全部通知",
             "(key?) => void",
@@ -103,6 +109,13 @@ export default function Page({ section }: { section?: string }) {
             "OctaneNode / boolean / () => void",
             "× / true / —",
           ],
+          ["showProgress", "显示剩余关闭时间进度", "boolean", "false"],
+          [
+            "hook config.stack",
+            "堆叠与展开阈值",
+            "boolean | { threshold: number }",
+            "true（阈值 3）",
+          ],
           ["role", "朗读方式", "alert | status", "alert"],
           [
             "hook config",
@@ -117,15 +130,17 @@ export default function Page({ section }: { section?: string }) {
       </h2>
       <p>
         支持 Notification.width、zIndexPopup
-        与全局颜色、字体、间距和圆角。通知操作区支持正常键盘访问，聚焦通知内控件时暂停倒计时。
+        与全局颜色、字体、间距和圆角。通知操作区支持键盘访问；倒计时由
+        pauseOnHover 控制悬停暂停，聚焦控件不会自动暂停。
       </p>
       <p>
-        本版提供 hook 实例与 App.useApp().notification，不提供静态
-        open/success/config 方法。App 必须位于使用方的祖先组件，ConfigProvider
-        应包裹 App，才能让共享实例继承主题。原生 portal
-        保留上下文；自定义容器仍使用固定定位，带 transform
-        的祖先可能限制覆盖范围。暂不支持
-        RTL、prefixCls、堆叠收缩、进度条和完整进出场动效。默认图标为独立绘制。
+        提供 hook、App.useApp().notification 与静态 notification.open / success
+        / config 等入口。需要主题与业务上下文时优先使用 App 或 hook，并渲染
+        contextHolder。 静态调用不会自动继承调用处上下文；可用
+        ConfigProvider.config({"{ holderRender }"}) 包装静态 holder。支持
+        RTL、prefixCls 和进出场动效；通知支持 stack（默认阈值
+        3）、悬停展开、showProgress 和 pauseOnHover。
+        自定义容器仍使用固定定位，带 transform 的祖先可能限制覆盖范围。
       </p>
       <p>
         超过 maxCount 时关闭最早一条；同 key 更新会重启倒计时。卸载 holder

@@ -1,5 +1,90 @@
 export const nav = [
   {
+    id: "cascader",
+    title: "Cascader 级联选择",
+    category: "components",
+    group: "数据录入",
+    keywords: "Cascader 级联选择",
+  },
+  {
+    id: "color-picker",
+    title: "ColorPicker 颜色选择器",
+    category: "components",
+    group: "数据录入",
+    keywords: "ColorPicker 颜色选择器",
+  },
+  {
+    id: "mentions",
+    title: "Mentions 提及",
+    category: "components",
+    group: "数据录入",
+    keywords: "Mentions 提及",
+  },
+  {
+    id: "time-picker",
+    title: "TimePicker 时间选择器",
+    category: "components",
+    group: "数据录入",
+    keywords: "TimePicker 时间选择器",
+  },
+  {
+    id: "transfer",
+    title: "Transfer 穿梭框",
+    category: "components",
+    group: "数据录入",
+    keywords: "Transfer 穿梭框",
+  },
+  {
+    id: "tree-select",
+    title: "TreeSelect 树选择",
+    category: "components",
+    group: "数据录入",
+    keywords: "TreeSelect 树选择",
+  },
+  {
+    id: "upload",
+    title: "Upload 上传",
+    category: "components",
+    group: "数据录入",
+    keywords: "Upload 上传",
+  },
+  {
+    id: "date-picker",
+    title: "DatePicker 日期选择",
+    category: "components",
+    group: "数据录入",
+    keywords: "DatePicker 日期选择",
+  },
+  {
+    id: "calendar",
+    title: "Calendar 日历",
+    category: "components",
+    group: "数据展示",
+    keywords: "Calendar 日历",
+  },
+  {
+    id: "table",
+    title: "Table 表格",
+    category: "components",
+    group: "数据展示",
+    keywords: "Table 表格",
+  },
+  {
+    id: "tree",
+    title: "Tree 树形控件",
+    category: "components",
+    group: "数据展示",
+    keywords: "Tree 树形控件",
+  },
+  {
+    id: "util",
+    title: "Util 类型工具",
+    category: "components",
+    group: "其他",
+    keywords: "Util 类型工具",
+  },
+
+  {
     id: "start",
     title: "开始使用",
     category: "guide",
@@ -489,6 +574,7 @@ export const toc: Record<string, [string, string][]> = {
     ["build", "仓库构建与验证"],
   ],
   changelog: [
+    ["alpha-8", "0.1.0-alpha.8"],
     ["alpha-7", "0.1.0-alpha.7"],
     ["alpha-6", "0.1.0-alpha.6"],
     ["alpha-5", "0.1.0-alpha.5"],
@@ -770,6 +856,7 @@ toc.list = [
 ];
 
 toc.spin = [
+  ["percent", "百分比与自动进度"],
   ["examples", "代码演示"],
   ["basic", "三种尺寸"],
   ["more", "局部加载与延迟"],
@@ -818,6 +905,7 @@ toc.segmented = [
 ];
 
 toc.select = [
+  ["groups", "分组选项与加载标记"],
   ["examples", "代码演示"],
   ["basic", "基本用法"],
   ["controlled", "搜索与受控值"],
@@ -848,6 +936,7 @@ toc["auto-complete"] = [
 ];
 
 toc.form = [
+  ["nested", "嵌套字段与依赖校验"],
   ["when", "何时使用"],
   ["examples", "代码演示"],
   ["basic", "填写并提交"],
@@ -1129,4 +1218,96 @@ toc["for-agents"] = [
   ["context", "Agent 上下文"],
   ["usage", "状态与反馈"],
   ["boundaries", "API 边界"],
+];
+
+toc.cascader = [
+  ["when", "何时使用"],
+  ["examples", "代码演示"],
+  ["basic", "受控地区路径"],
+  ["search", "搜索与字段映射"],
+  ["api", "API"],
+  ["scope", "行为与支持范围"],
+];
+toc["color-picker"] = [
+  ["when", "何时使用"],
+  ["examples", "代码演示"],
+  ["basic", "受控颜色与清除"],
+  ["presets", "预设与完成事件"],
+  ["api", "API"],
+  ["scope", "行为与支持范围"],
+];
+toc.mentions = [
+  ["when", "何时使用"],
+  ["examples", "代码演示"],
+  ["basic", "受控成员提及"],
+  ["prefix", "标签前缀与搜索"],
+  ["api", "API"],
+  ["scope", "行为与支持范围"],
+];
+toc["time-picker"] = [
+  ["when", "何时使用"],
+  ["examples", "代码演示"],
+  ["basic", "受控时间"],
+  ["steps", "步长与禁用时间"],
+  ["api", "API"],
+  ["scope", "行为与支持范围"],
+];
+toc.transfer = [
+  ["when", "何时使用"],
+  ["examples", "代码演示"],
+  ["basic", "受控目标列表"],
+  ["search", "搜索与受控勾选"],
+  ["api", "API"],
+  ["scope", "行为与支持范围"],
+];
+toc["tree-select"] = [
+  ["when", "何时使用"],
+  ["examples", "代码演示"],
+  ["basic", "单选与清除"],
+  ["multiple", "搜索与独立多选"],
+  ["api", "API"],
+  ["scope", "行为与支持范围"],
+];
+toc.upload = [
+  ["when", "何时使用"],
+  ["examples", "代码演示"],
+  ["basic", "受控列表与请求生命周期"],
+  ["dragger", "拖放、数量限制与移除规则"],
+  ["api", "API"],
+  ["scope", "行为与支持范围"],
+];
+toc["date-picker"] = [
+  ["examples", "代码演示"],
+  ["basic", "基础示例"],
+  ["more", "进阶示例"],
+  ["api", "API"],
+  ["scope", "支持边界"],
+];
+toc.calendar = [
+  ["examples", "代码演示"],
+  ["basic", "基础示例"],
+  ["more", "进阶示例"],
+  ["api", "API"],
+  ["scope", "支持边界"],
+];
+toc.table = [
+  ["examples", "代码演示"],
+  ["basic", "基础示例"],
+  ["more", "进阶示例"],
+  ["api", "API"],
+  ["scope", "支持边界"],
+];
+toc.tree = [
+  ["examples", "代码演示"],
+  ["basic", "基础示例"],
+  ["more", "进阶示例"],
+  ["api", "API"],
+  ["scope", "支持边界"],
+];
+toc.util = [
+  ["examples", "代码演示"],
+  ["basic", "基础示例"],
+  ["more", "进阶示例"],
+  ["api", "API"],
+  ["scope", "支持边界"],
 ];

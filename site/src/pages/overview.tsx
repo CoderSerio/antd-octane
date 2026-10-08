@@ -44,7 +44,8 @@ export default function Overview({ section }: { section?: string }) {
       </h2>
       <p>
         已通过 npm 的 alpha 标签发布，安装前可查询当前版本。当前实现
-        基础输入、布局、选择、信息展示和 Form 平面字段基础版，以及
+        基础输入、布局、选择、信息展示、Form 嵌套字段、Table
+        与日期选择等支持子集，以及
         ConfigProvider。每个组件页列出当前支持范围与已知差异；目录项数量不代表
         API、视觉或无障碍已完全对齐。
       </p>

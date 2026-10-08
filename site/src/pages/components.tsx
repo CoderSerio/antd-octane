@@ -49,21 +49,58 @@ import {
 } from "antd-octane";
 import { componentCoverage, upstreamGroups } from "../component-coverage";
 import { BasicDemo as PreviewApp } from "../demos/app-basic";
+import { BasicDemo as PreviewCalendar } from "../demos/calendar-business";
+import { BasicDemo as PreviewCascader } from "../demos/cascader-basic";
+import { BasicDemo as PreviewColorPicker } from "../demos/color-picker-basic";
+import { BasicDemo as PreviewDatePicker } from "../demos/date-picker-business";
 import { BasicDemo as PreviewDrawer } from "../demos/drawer-basic";
 import { BasicDemo as PreviewDropdown } from "../demos/dropdown-basic";
 import { BasicDemo as PreviewIcon } from "../demos/icon-basic";
 import { BasicDemo as PreviewImage } from "../demos/image-basic";
+import { BasicDemo as PreviewMentions } from "../demos/mentions-basic";
 import { BasicDemo as PreviewMenu } from "../demos/menu-basic";
 import { BasicDemo as PreviewMessage } from "../demos/message-basic";
 import { BasicDemo as PreviewModal } from "../demos/modal-basic";
 import { BasicDemo as PreviewNotification } from "../demos/notification-basic";
 import { BasicDemo as PreviewPopconfirm } from "../demos/popconfirm-basic";
+import { BasicDemo as PreviewTable } from "../demos/table-business";
+import { BasicDemo as PreviewTimePicker } from "../demos/time-picker-basic";
 import { BasicDemo as PreviewTour } from "../demos/tour-basic";
+import { BasicDemo as PreviewTransfer } from "../demos/transfer-basic";
+import { BasicDemo as PreviewTree } from "../demos/tree-business";
+import { BasicDemo as PreviewTreeSelect } from "../demos/tree-select-basic";
+import { BasicDemo as PreviewUpload } from "../demos/upload-basic";
+import { BasicDemo as PreviewUtil } from "../demos/util-types";
 import { usePageAnchor } from "../docs-ui";
 import { nav } from "../navigation";
 
 function Preview({ name }: { name: string }) {
   switch (name) {
+    case "cascader":
+      return <PreviewCascader />;
+    case "color-picker":
+      return <PreviewColorPicker />;
+    case "mentions":
+      return <PreviewMentions />;
+    case "time-picker":
+      return <PreviewTimePicker />;
+    case "transfer":
+      return <PreviewTransfer />;
+    case "tree-select":
+      return <PreviewTreeSelect />;
+    case "upload":
+      return <PreviewUpload />;
+    case "date-picker":
+      return <PreviewDatePicker />;
+    case "calendar":
+      return <PreviewCalendar />;
+    case "table":
+      return <PreviewTable />;
+    case "tree":
+      return <PreviewTree />;
+    case "util":
+      return <PreviewUtil />;
+
     case "tour":
       return <PreviewTour />;
     case "qr-code":
@@ -402,13 +439,7 @@ export default function ComponentsPage({ section }: { section?: string }) {
         当前为开发预览。每个组件页提供可运行示例、API 和支持范围。 按 Ant Design
         5.x 的 {componentCoverage.length} 个文档条目核对， 当前{" "}
         {componentCoverage.filter((item) => item.implemented).length} 项已随本站
-        npm 版本提供支持子集，另有{" "}
-        {
-          componentCoverage.filter(
-            (item) => !item.implemented && item.sourceImplemented,
-          ).length
-        }{" "}
-        项已在开发源码提供基础实现、等待发布。
+        npm 版本提供支持子集。条目覆盖不代表全部上游 API 或视觉细节兼容。
         <a href="#components/coverage">查看完整覆盖清单 →</a>
       </p>
       {[

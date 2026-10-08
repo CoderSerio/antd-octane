@@ -10,11 +10,17 @@ export default async function verify(page) {
   await page.reload();
   await page.getByRole("switch", { name: "切换加载状态" }).waitFor();
   await page.waitForFunction(
-    () => document.querySelector(".ant-spin-container")?.inert === true,
+    () =>
+      document
+        .querySelector(".ant-spin-container")
+        ?.classList.contains("ant-spin-blur") === true,
   );
   await page.getByRole("switch", { name: "切换加载状态" }).click();
   await page.waitForFunction(
-    () => document.querySelector(".ant-spin-container")?.inert === false,
+    () =>
+      document
+        .querySelector(".ant-spin-container")
+        ?.classList.contains("ant-spin-blur") === false,
   );
   assert(
     await page.getByText("项目概览", { exact: true }).isVisible(),

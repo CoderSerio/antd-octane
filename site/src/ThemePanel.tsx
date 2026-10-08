@@ -1,4 +1,4 @@
-import { Button, Form, Input, Slider, Switch, theme } from "antd-octane";
+import { Button, ColorPicker, Form, Slider, Switch, theme } from "antd-octane";
 import { useEffect } from "octane";
 import type { ShellProps } from "./App";
 export function ThemePanel(p: ShellProps & { onClose: () => void }) {
@@ -47,13 +47,19 @@ export function ThemePanel(p: ShellProps & { onClose: () => void }) {
       </div>
       <Form.Item
         name="primary"
+        getValueFromEvent={(_color, css: string) => css}
         label={
           <>
             自定义品牌色 <code>{p.primary}</code>
           </>
         }
       >
-        <Input id="primary-color" type="color" aria-label="自定义品牌色" />
+        <ColorPicker
+          id="primary-color"
+          aria-label="自定义品牌色"
+          disabledAlpha
+          showText
+        />
       </Form.Item>
       <Form.Item
         name="radius"

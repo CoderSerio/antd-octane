@@ -44,12 +44,12 @@ export default function Compatibility({ section }: { section?: string }) {
           ],
           [
             "Message / Notification",
-            "hook、contextHolder、计时器、更新和关闭；不含静态API/堆叠",
+            "hook/App/静态入口、计时器与动效；Notification 支持堆叠/进度，Message 不含堆叠",
             "基础实现",
           ],
           [
             "Modal / Drawer",
-            "受控浮层、焦点管理、滚动锁；不含静态API/动画",
+            "受控浮层、焦点与滚动锁；Modal 另支持静态确认、useModal、响应式宽度与动效",
             "基础实现",
           ],
           [
@@ -74,7 +74,7 @@ export default function Compatibility({ section }: { section?: string }) {
           ],
           [
             "Form",
-            "平面字段、自定义值/事件映射、同步与异步规则、提交与重置；不含嵌套路径、动态列表",
+            "NamePath 嵌套字段、局部校验/重置、直接依赖、自定义映射和异步规则；不含 Form.List / useWatch",
             "基础实现",
           ],
           [
@@ -84,7 +84,7 @@ export default function Compatibility({ section }: { section?: string }) {
           ],
           [
             "Select",
-            "单选与多选、搜索、受控值、键盘与清除；不含 tags、labelInValue、虚拟列表",
+            "单选/多选、一层分组、loading 与过滤字段；不含 tags、labelInValue、嵌套分组、虚拟列表",
             "基础实现",
           ],
           ["Radio", "单选、选择组、按钮样式与键盘", "基础实现"],
@@ -124,19 +124,19 @@ export default function Compatibility({ section }: { section?: string }) {
           ["ConfigProvider", "主题、尺寸、禁用与嵌套作用域", "基础实现"],
           [
             "Calendar / Table / Tree / Util",
-            "开发源码已有基础实现；见组件总览中的源码链接",
-            "待发布",
+            "日历面板、表格与行选择、树选择/勾选和编译期类型提取；详见各组件边界",
+            "基础实现",
           ],
           [
             "Cascader / ColorPicker / DatePicker / Mentions / TimePicker / Transfer / TreeSelect / Upload",
-            "开发源码已有支持子集；高级能力与限制见各自源码说明",
-            "待发布",
+            "路径/树选择、纯色、日期/日期范围/单值时间、提及、穿梭与上传；高级限制见各组件页",
+            "基础实现",
           ],
         ].map(([component, scope, status]) => [
           component,
           scope,
           status,
-          status === "待发布" ? "尚未随本站版本发布" : siteVersion,
+          siteVersion,
         ])}
       />
       <p>
@@ -192,12 +192,13 @@ export function ProfileForm() {
       </Demo>
       <ul className="prose-list">
         <li>
-          Modal.confirm / Modal.useModal：改为应用状态控制 open 的
-          <a href="#modal">声明式 Modal</a>，由 onOk / onCancel 关闭；不只是替换
-          import。
+          <a href="#modal">Modal.confirm / Modal.useModal</a>{" "}
+          已提供；需要继承上下文时 使用 hook 并渲染 holder，或使用
+          App.useApp().modal。声明式 Modal 仍由 onOk / onCancel 更新应用的
+          open。
         </li>
         <li>
-          message.success / notification.info 静态调用：改用
+          message.success / notification.info 静态调用已提供；需要上下文时优先用
           <a href="#message">message.useMessage</a>、
           <a href="#notification">notification.useNotification</a> 的实例与
           holder，或在 App 内用<a href="#app">App.useApp()</a>。
@@ -213,15 +214,17 @@ export function ProfileForm() {
         待验证能力
       </h2>
       <p>
-        SSR、prefixCls、cssVar、hashed、StyleProvider、Tailwind / StyleX
-        完整消费、模态静态方法和复杂表单能力尚未完成。Input.OTP、完整计数与
-        variant，以及日期选择等复杂输入组件仍未提供。Form
-        当前支持平面字段和异步规则，嵌套字段与动态列表仍待实现；Select
+        SSR、主题 cssVar/hashed 和 StyleX 工具链消费尚未完成。 ConfigProvider
+        提供 prefixCls/getPrefixCls，但各组件支持需单独核对。 antd-octane/style
+        的 StyleProvider 只控制原生 App/Modal 样式的 layer， 不代表完整 cssinjs
+        兼容。Input.OTP、自定义计数和 variant 仍未提供。
+        日期与时间选择只提供文档列出的子集。Form
+        当前支持嵌套字段、直接依赖和异步规则，动态列表仍待实现；Select
         已支持单选与多选，标签模式、labelInValue 和虚拟列表仍待实现。
       </p>
       <p>
-        Spin 暂不支持自动进度，fullscreen 尚未接入共享 portal；Progress
-        暂不支持圆形分段、percentPosition 与逐段颜色数组。Result
+        Spin 支持数值与模拟自动进度，fullscreen 尚未接入共享 portal；Progress
+        支持圆形分段、线形 percentPosition 和线形分段颜色数组。Result
         的状态图示独立绘制，不提供上游完整插画。具体参数与 token
         以各组件页面为准。
       </p>

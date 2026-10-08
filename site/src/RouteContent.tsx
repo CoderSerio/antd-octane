@@ -6,6 +6,18 @@ type PageComponent = (props: {
   section?: string;
 }) => import("octane").OctaneNode;
 const pages: Record<string, () => Promise<{ default: PageComponent }>> = {
+  cascader: () => import("./pages/cascader"),
+  "color-picker": () => import("./pages/color-picker"),
+  mentions: () => import("./pages/mentions"),
+  "time-picker": () => import("./pages/time-picker"),
+  transfer: () => import("./pages/transfer"),
+  "tree-select": () => import("./pages/tree-select"),
+  upload: () => import("./pages/upload"),
+  "date-picker": () => import("./pages/date-picker"),
+  calendar: () => import("./pages/calendar"),
+  table: () => import("./pages/table"),
+  tree: () => import("./pages/tree"),
+  util: () => import("./pages/util"),
   tailwindcss: () => import("./pages/tailwindcss"),
   "for-agents": () => import("./pages/for-agents"),
   contributing: () => import("./pages/contributing"),

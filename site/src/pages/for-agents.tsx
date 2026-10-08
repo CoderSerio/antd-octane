@@ -87,21 +87,25 @@ export default function Example() {
       </h2>
       <ul className="prose-list">
         <li>
-          Modal 支持声明式 open；尚无 Modal.confirm、Modal.useModal 或
-          App.useApp().modal。
+          Modal 提供声明式 open、静态确认、Modal.useModal 和
+          App.useApp().modal。 声明式 onOk 不自动等待 Promise，确认框 API
+          有独立的异步关闭合同。
         </li>
         <li>
-          消息和通知使用实例 API，不支持全局静态 message.success /
-          notification.open。
+          消息和通知均支持实例与静态 API；需要业务上下文时使用 App 或 hook
+          并渲染 holder。不要假定静态调用自动继承调用处的 ConfigProvider。
         </li>
         <li>
-          主题支持 seed token、算法和已实现组件配置；不支持
-          StyleProvider、cssVar、hashed、prefixCls 或 SSR 样式契约。
+          主题支持 seed token、算法和已实现组件配置；ConfigProvider 提供
+          prefixCls， 各组件仍需核对。antd-octane/style 的 StyleProvider 仅提供
+          App/Modal 样式的 layer 控制；没有主题 cssVar、hashed 或 SSR 样式契约。
         </li>
         <li>
-          Form 支持平面字段、直接子组件及同步/异步规则；Checkbox、Switch
-          字段需设置 valuePropName="checked"。不生成 Form.List 或嵌套 name
-          路径。
+          Form 支持 NamePath
+          嵌套路径、直接依赖、字段级操作及同步/异步规则；Checkbox、Switch
+          字段需设置
+          valuePropName="checked"。嵌套路径使用数组，不将点分字符串当作路径。
+          不生成未提供的 Form.List 或 useWatch。
         </li>
         <li>
           不推断未导出的组件、上游子组件、事件、ref 或 token

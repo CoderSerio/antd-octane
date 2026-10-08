@@ -33,38 +33,7 @@ export const upstreamSlug = (name: string) =>
   specialSlugs[name] ?? name.toLowerCase();
 // Development source can be ahead of the npm version installed by this site.
 // Keep runtime demos pinned to npm; link source-only entries to their scope.
-const sourceOnly: Record<string, { path: string; scope: string }> = {
-  Calendar: { path: "calendar", scope: "日期/月面板与日期适配器" },
-  Table: { path: "table", scope: "表格、分页、排序过滤与行选择" },
-  Tree: { path: "tree", scope: "树节点展开、选择与勾选" },
-  Util: { path: "_util/type.ts", scope: "GetProps / GetProp / GetRef 类型" },
-  Cascader: {
-    path: "cascader/README.md",
-    scope: "单路径级联、搜索与键盘；不含多选、异步加载",
-  },
-  ColorPicker: {
-    path: "color-picker/README.md",
-    scope: "纯色、透明度与预设；不含渐变",
-  },
-  DatePicker: {
-    path: "date-picker/README.md",
-    scope: "Dayjs 日期与范围；不含 showTime",
-  },
-  Mentions: { path: "mentions/README.md", scope: "提及建议、键盘与输入法" },
-  TimePicker: {
-    path: "time-picker/README.md",
-    scope: "24 小时时分秒；不含范围、12 小时制",
-  },
-  Transfer: { path: "transfer/README.md", scope: "双列表移动、搜索与选择" },
-  TreeSelect: {
-    path: "tree-select/README.md",
-    scope: "树形单选/多选与搜索；不含勾选联动、异步加载",
-  },
-  Upload: {
-    path: "upload/README.md",
-    scope: "文件列表、拖放与请求生命周期；不含目录上传",
-  },
-};
+const sourceOnly: Record<string, { path: string; scope: string }> = {};
 export const componentCoverage = upstreamGroups.flatMap(([group, names]) =>
   names.split(" ").map((name) => {
     const page = nav.find(
