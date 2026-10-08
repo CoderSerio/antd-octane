@@ -249,9 +249,9 @@ it("nested picker portal stays inside its Popover owner", async () => {
   await act(() =>
     row.dispatchEvent(new PointerEvent("pointerdown", { bubbles: true })),
   );
-  expect(visible).not.toHaveBeenCalledWith(false);
+  expect(visible.mock.calls.some(([open]) => open === false)).toBe(false);
   await click(row);
-  expect(visible).not.toHaveBeenCalledWith(false);
+  expect(visible.mock.calls.some(([open]) => open === false)).toBe(false);
 });
 it("multiple search preserves selections hidden by the filter", async () => {
   const change = vi.fn();

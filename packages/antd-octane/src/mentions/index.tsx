@@ -13,7 +13,7 @@ import {
   useRef,
   useState,
 } from "octane";
-import { positionPopup } from "../_util/floating";
+import { positionPopup, useFloatingParentId } from "../_util/floating";
 import { useComponentTokens } from "../_util/tokens";
 import { useConfig } from "../config-provider";
 import { inputVariables } from "../input/tokens";
@@ -193,6 +193,7 @@ function MentionsInternal({
   ...textareaProps
 }: MentionsProps) {
   const config = useConfig();
+  const parentPopupId = useFloatingParentId();
   const [locale] = useLocale("Mentions");
   const { token: t, component: c, base } = useComponentTokens("Select");
   const id = `ao-mentions-${useId()}`;
@@ -421,6 +422,7 @@ function MentionsInternal({
       ref={popup}
       id={id}
       role="listbox"
+      data-ao-floating-parent={parentPopupId}
       className={["ant-mentions-dropdown", popupClassName]}
       style={{
         ...base,
