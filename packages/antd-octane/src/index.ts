@@ -40,6 +40,7 @@ export type {
   FormRule,
   FormValidationError,
   FormValues,
+  NamePath,
 } from "./form";
 export { Form } from "./form";
 export type { Locale } from "./locale";
