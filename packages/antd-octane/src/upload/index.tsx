@@ -141,6 +141,10 @@ function UploadBase(
   const enabled = useRef(!disabled);
   enabled.current = !disabled;
   const batchSequence = useRef(0);
+  const interceptionGeneration = useRef(0);
+  useLayoutEffect(() => {
+    if (disabled) interceptionGeneration.current++;
+  }, [disabled]);
   const [dragging, setDragging] = useState(false);
   const [inner, setInner] = useState<UploadFile[]>(props.defaultFileList ?? []);
   const files = props.fileList ?? inner;
@@ -190,10 +194,16 @@ function UploadBase(
     for (const uid of removals.current.keys())
       if (!files.some((file) => file.uid === uid)) removals.current.delete(uid);
   }, [files]);
-  const upload = async (original: File, batch: File[], batchId: number) => {
+  const upload = async (
+    original: File,
+    batch: File[],
+    batchId: number,
+    generation: number,
+  ) => {
     const stale = () =>
       !alive.current ||
       !enabled.current ||
+      generation !== interceptionGeneration.current ||
       (latest.current.maxCount === 1 && batchId !== batchSequence.current);
     if (stale()) return;
     const uid = `upload-${Date.now()}-${++sequence}`;
@@ -297,9 +307,10 @@ function UploadBase(
     if (!latest.current.multiple) batch = batch.slice(0, 1);
     if (!batch.length) return;
     const batchId = ++batchSequence.current;
+    const generation = interceptionGeneration.current;
     for (const file of batch) {
       if (!alive.current || !enabled.current) break;
-      await upload(file, batch, batchId);
+      await upload(file, batch, batchId, generation);
     }
   };
   const remove = async (file: UploadFile) => {

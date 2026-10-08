@@ -586,3 +586,40 @@ it("cancels a pending remove decision when an owner removes and re-adds its uid"
   await act(() => resolve(true));
   expect(host.textContent).toContain("new.txt");
 });
+
+it("does not revive pending interception after disable then re-enable", async () => {
+  let resolve!: (value: boolean) => void;
+  let toggle!: (value: boolean) => void;
+  const request = vi.fn();
+  function Demo() {
+    const [disabled, setDisabled] = useState(false);
+    toggle = setDisabled;
+    return (
+      <Upload
+        disabled={disabled}
+        beforeUpload={() =>
+          new Promise<boolean>((done) => {
+            resolve = done;
+          })
+        }
+        customRequest={request}
+      />
+    );
+  }
+  await render(<Demo />);
+  await choose("pending.txt");
+  await act(() => toggle(true));
+  await act(() => toggle(false));
+  await act(async () => {
+    resolve(true);
+    await new Promise((done) => setTimeout(done, 0));
+  });
+  expect(request).not.toHaveBeenCalled();
+  await choose("fresh.txt");
+  await act(async () => {
+    resolve(true);
+    await new Promise((done) => setTimeout(done, 0));
+  });
+  expect(request).toHaveBeenCalledOnce();
+  expect(request.mock.calls[0][0].file.name).toBe("fresh.txt");
+});
