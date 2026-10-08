@@ -111,7 +111,8 @@ export default function StartPage({ section }: { section?: string }) {
         <a className="text-link" href="#form">
           Form
         </a>
-        已提供平面字段、同步与异步校验的基础版；Table、DatePicker 等尚未实现。
+        已提供平面字段、同步与异步校验的基础版；Table、DatePicker
+        等在开发源码中已有基础实现，尚未发布到本站使用的 npm 版本。
         请先查阅各组件的支持范围，不能直接照搬上游示例。
       </p>
       <h2 id="troubleshooting" tabIndex={-1}>

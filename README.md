@@ -56,6 +56,12 @@ export function App() {
 每个组件页和[兼容与迁移](https://coderserio.github.io/antd-octane/#compatibility)说明具体支持范围。
 Octane 支持 SSR；本库尚未完成全部组件及客户端 hydration 验证。跨浏览器与辅助技术兼容也仍需验证。
 
+开发源码比本站固定的 npm 版本更新。Calendar、Table、Tree、Util，以及
+Cascader、ColorPicker、DatePicker、Mentions、TimePicker、Transfer、TreeSelect、Upload
+已有基础实现，尚未随本站版本发布。新组件的支持范围和限制见
+[`packages/antd-octane/src/`](packages/antd-octane/src/) 下各组件 README；
+组件目录覆盖不代表完整 API 或视觉对齐。
+
 ## 开发与贡献
 
 

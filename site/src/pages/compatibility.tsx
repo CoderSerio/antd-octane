@@ -122,12 +122,21 @@ export default function Compatibility({ section }: { section?: string }) {
             "基础实现",
           ],
           ["ConfigProvider", "主题、尺寸、禁用与嵌套作用域", "基础实现"],
-          ["Table / DatePicker", "表格与日期选择器", "未实现"],
+          [
+            "Calendar / Table / Tree / Util",
+            "开发源码已有基础实现；见组件总览中的源码链接",
+            "待发布",
+          ],
+          [
+            "Cascader / ColorPicker / DatePicker / Mentions / TimePicker / Transfer / TreeSelect / Upload",
+            "开发源码已有支持子集；高级能力与限制见各自源码说明",
+            "待发布",
+          ],
         ].map(([component, scope, status]) => [
           component,
           scope,
           status,
-          status === "未实现" ? "—" : siteVersion,
+          status === "待发布" ? "尚未随本站版本发布" : siteVersion,
         ])}
       />
       <p>
