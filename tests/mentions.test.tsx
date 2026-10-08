@@ -2,6 +2,7 @@ import type { ElementDescriptor, Root } from "octane";
 import { act, createRoot, useState } from "octane";
 import { afterEach, expect, it, vi } from "vitest";
 import {
+  ConfigProvider,
   getMentions,
   Mentions,
   type MentionsOption,
@@ -194,4 +195,60 @@ it("extracts completed mentions with configured prefixes and separator", () => {
     { prefix: "@", value: "alice" },
     { prefix: "#", value: "topic" },
   ]);
+});
+
+it("drops stale suggestions when a controlled owner replaces the text", async () => {
+  const change = vi.fn();
+  await render(<Mentions options={options} value="@al" onChange={change} />);
+  await type("@al");
+  expect(field().getAttribute("aria-expanded")).toBe("true");
+  await render(<Mentions options={options} value="Reset" onChange={change} />);
+  expect(document.querySelector('[role="listbox"]')).toBeNull();
+  await key("Enter");
+  expect(change).not.toHaveBeenCalled();
+  expect(field().value).toBe("Reset");
+});
+
+it("does not select suggestions measured from a rejected controlled edit", async () => {
+  const change = vi.fn();
+  await render(<Mentions options={options} value="Fixed" onChange={change} />);
+  await type("@al");
+  expect(field().value).toBe("Fixed");
+  expect(document.querySelector('[role="listbox"]')).toBeNull();
+  await key("Enter");
+  expect(change).toHaveBeenCalledTimes(1);
+});
+
+it("inherits disabled, size, variant and popup container, and cleans up on unmount", async () => {
+  const target = document.createElement("div");
+  document.body.append(target);
+  const getPopupContainer = () => target;
+  try {
+    await render(
+      <ConfigProvider
+        componentDisabled
+        componentSize="small"
+        variant="filled"
+        getPopupContainer={getPopupContainer}
+      >
+        <Mentions options={options} />
+      </ConfigProvider>,
+    );
+    expect(field().disabled).toBe(true);
+    expect(
+      container.querySelector(".ant-mentions-small.ant-mentions-filled"),
+    ).not.toBeNull();
+    await render(
+      <ConfigProvider componentDisabled getPopupContainer={getPopupContainer}>
+        <Mentions options={options} disabled={false} />
+      </ConfigProvider>,
+    );
+    await type("@al");
+    expect(target.querySelector('[role="listbox"]')).not.toBeNull();
+    await act(() => root?.unmount());
+    root = undefined;
+    expect(target.childElementCount).toBe(0);
+  } finally {
+    target.remove();
+  }
 });

@@ -74,6 +74,7 @@ export interface MentionsProps
 }
 
 interface Measure {
+  text: string;
   location: number;
   prefix: string;
   query: string;
@@ -100,7 +101,9 @@ function findMeasure(
   }
   if (location < 0) return null;
   const query = before.slice(location + prefix.length);
-  return validate(query, split) ? { location, prefix, query, cursor } : null;
+  return validate(query, split)
+    ? { text, location, prefix, query, cursor }
+    : null;
 }
 
 function insertMention(
@@ -172,7 +175,7 @@ function MentionsInternal({
   autoSize = false,
   size,
   status,
-  variant = "outlined",
+  variant,
   disabled: localDisabled,
   readOnly,
   rows = 1,
@@ -201,7 +204,7 @@ function MentionsInternal({
   const [innerValue, setInnerValue] = useState(defaultValue);
   const [measure, setMeasure] = useState<Measure | null>(null);
   const [active, setActive] = useState(0);
-  const [target, setTarget] = useState<HTMLElement | null>(null);
+  const [target, setTarget] = useState<HTMLElement | ShadowRoot | null>(null);
   const [position, setPosition] = useState<{ x: number; y: number } | null>(
     null,
   );
@@ -210,7 +213,7 @@ function MentionsInternal({
   const actualSize = size ?? config.componentSize ?? "middle";
   const text = value ?? innerValue;
   const prefixes = Array.isArray(prefix) ? prefix : [prefix];
-  const visible = !blocked && measure !== null;
+  const visible = !blocked && measure !== null && measure.text === text;
   const filtered = measure
     ? options.filter((option) =>
         filterOption === false
@@ -267,7 +270,7 @@ function MentionsInternal({
     setMeasure(null);
   };
   const choose = (option: MentionsOption) => {
-    if (!measure || blocked || option.disabled) return;
+    if (!measure || !visible || option.disabled) return;
     const next = insertMention(text, measure, option.value, split);
     changeValue(next.value);
     setMeasure(null);
@@ -282,8 +285,11 @@ function MentionsInternal({
 
   useLayoutEffect(() => {
     if (host.current)
-      setTarget(getPopupContainer?.(host.current) ?? document.body);
-  }, [getPopupContainer]);
+      setTarget(
+        (getPopupContainer ?? config.getPopupContainer)?.(host.current) ??
+          document.body,
+      );
+  }, [getPopupContainer, config.getPopupContainer]);
   useLayoutEffect(() => {
     const element = field.current;
     if (!element || !autoSize) return;
@@ -361,9 +367,10 @@ function MentionsInternal({
       if (target !== document.body) {
         const containingBlock =
           (list.offsetParent as HTMLElement | null) ??
-          (getComputedStyle(target).position === "static"
-            ? document.body
-            : target);
+          (target instanceof HTMLElement &&
+          getComputedStyle(target).position !== "static"
+            ? target
+            : document.body);
         const rect = containingBlock.getBoundingClientRect();
         next.x +=
           containingBlock.scrollLeft - rect.left - containingBlock.clientLeft;
@@ -464,7 +471,7 @@ function MentionsInternal({
       className={[
         "ant-mentions",
         `ant-mentions-${actualSize}`,
-        `ant-mentions-${variant}`,
+        `ant-mentions-${variant ?? config.variant ?? "outlined"}`,
         status && `ant-mentions-status-${status}`,
         disabled && "ant-mentions-disabled",
         readOnly && "ant-mentions-readonly",

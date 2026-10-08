@@ -1,6 +1,10 @@
 import "../../packages/antd-octane/src/style.css";
 import { createRoot, useState } from "octane";
-import { Mentions } from "../../packages/antd-octane/src";
+import {
+  ConfigProvider,
+  Mentions,
+  theme,
+} from "../../packages/antd-octane/src";
 
 const options = [
   { value: "alice", label: "Alice" },
@@ -58,4 +62,20 @@ if (new URLSearchParams(location.search).get("renderer") === "antd") {
     );
   }
   createReactRoot(root).render(h(UpstreamFixture));
-} else createRoot(root).render(<NativeFixture />);
+} else {
+  const mode = new URLSearchParams(location.search).get("theme");
+  createRoot(root).render(
+    <ConfigProvider
+      theme={{
+        algorithm:
+          mode === "dark"
+            ? theme.darkAlgorithm
+            : mode === "compact"
+              ? theme.compactAlgorithm
+              : theme.defaultAlgorithm,
+      }}
+    >
+      <NativeFixture />
+    </ConfigProvider>,
+  );
+}
