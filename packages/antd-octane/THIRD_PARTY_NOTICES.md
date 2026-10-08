@@ -33,6 +33,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
+The new native Cascader, TreeSelect, DatePicker, TimePicker, Mentions, Transfer,
+and Upload subsets reference Ant Design 5.29.3's public component contracts.
+They use Octane implementations and existing local tree/popup/date utilities;
+React/rc-component implementations are not runtime dependencies. Supported
+subsets and deliberate differences are documented beside each component.
+
+`src/color-picker` is an original Octane solid-color implementation referencing
+Ant Design 5.29.3's ColorPicker value and callback APIs. Color conversion uses
+the existing MIT-licensed `@ant-design/fast-color` dependency. It does not copy
+the upstream React picker or gradient implementation.
+
 `src/theme/vendor` contains Ant Design 5.29.3 theme algorithms, seed/map/alias token types and alias formatting.
 Upstream: https://github.com/ant-design/ant-design/tree/14f397749dca177e5495dc9d1c2f7debfb639545/components/theme
 

@@ -3,11 +3,36 @@ import type { Locale } from ".";
 
 const locale: Locale = {
   locale: "zh-cn",
+  Mentions: { notFoundContent: "无匹配结果", clear: "清除提及内容" },
   Modal: { okText: "确定", cancelText: "取消", justOkText: "知道了" },
   Popconfirm: { okText: "确定", cancelText: "取消" },
   global: {
     placeholder: "请选择",
     close: "关闭",
+  },
+  DatePicker: {
+    locale: "zh-cn",
+    placeholder: "请选择日期",
+    clear: "清除",
+    today: "今天",
+    ok: "确定",
+    previousMonth: "上个月",
+    nextMonth: "下个月",
+    hour: "时",
+    minute: "分",
+    second: "秒",
+  },
+  TimePicker: {
+    locale: "zh-cn",
+    placeholder: "请选择时间",
+    clear: "清除",
+    today: "今天",
+    ok: "确定",
+    previousMonth: "上个月",
+    nextMonth: "下个月",
+    hour: "时",
+    minute: "分",
+    second: "秒",
   },
   Calendar: {
     lang: {

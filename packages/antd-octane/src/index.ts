@@ -45,6 +45,8 @@ export { Form } from "./form";
 export type { Locale } from "./locale";
 export { default as enUS } from "./locale/en_US";
 export { default as zhCN } from "./locale/zh_CN";
+export type { MentionsOption, MentionsProps, MentionsRef } from "./mentions";
+export { getMentions, Mentions } from "./mentions";
 export type {
   AliasToken,
   ButtonToken,
@@ -129,6 +131,13 @@ export type {
 } from "./carousel";
 export { Carousel } from "./carousel";
 export type {
+  CascaderOption,
+  CascaderProps,
+  CascaderRef,
+  CascaderValue,
+} from "./cascader";
+export { Cascader } from "./cascader";
+export type {
   CheckboxChangeEvent,
   CheckboxGroupProps,
   CheckboxOption,
@@ -146,6 +155,15 @@ export type {
   ExpandIconPosition,
 } from "./collapse";
 export { Collapse } from "./collapse";
+export type {
+  ColorFormatType,
+  ColorPickerProps,
+  ColorValue,
+  HSB,
+} from "./color-picker";
+export { Color, ColorPicker } from "./color-picker";
+export type { DatePickerProps, PickerLocale, PickerRef } from "./date-picker";
+export { DatePicker } from "./date-picker";
 export type {
   DescriptionsContextProps,
   DescriptionsItem,
@@ -405,6 +423,12 @@ export type {
 } from "./tag";
 export { Tag } from "./tag";
 export type {
+  DisabledTimes,
+  TimePickerProps,
+  TimePickerRef,
+} from "./time-picker";
+export { TimePicker } from "./time-picker";
+export type {
   TimeLineItemProps,
   TimelineItem,
   TimelineItemProps,
@@ -423,6 +447,12 @@ export type {
   TourStepProps,
 } from "./tour";
 export { Tour } from "./tour";
+export type {
+  TransferDirection,
+  TransferItem,
+  TransferProps,
+} from "./transfer";
+export { Transfer } from "./transfer";
 export type {
   DirectoryTreeExpandAction,
   DirectoryTreeProps,
@@ -453,6 +483,13 @@ export type {
 } from "./tree";
 export { DirectoryTree, Tree, TreeNode } from "./tree";
 export type {
+  TreeSelectNode,
+  TreeSelectProps,
+  TreeSelectRef,
+  TreeSelectValue,
+} from "./tree-select";
+export { TreeSelect } from "./tree-select";
+export type {
   CopyConfig,
   EditConfig,
   EllipsisConfig,
@@ -461,5 +498,12 @@ export type {
   TypographyProps,
 } from "./typography";
 export { Typography } from "./typography";
+export type {
+  UploadFile,
+  UploadProps,
+  UploadRequest,
+  UploadRequestOptions,
+} from "./upload";
+export { Upload } from "./upload";
 export type { WatermarkProps } from "./watermark";
 export { Watermark } from "./watermark";

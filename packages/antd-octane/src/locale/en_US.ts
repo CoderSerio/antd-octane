@@ -3,11 +3,39 @@ import type { Locale } from ".";
 
 const locale: Locale = {
   locale: "en",
+  Mentions: {
+    notFoundContent: "No matches found",
+    clear: "Clear mention content",
+  },
   Modal: { okText: "OK", cancelText: "Cancel", justOkText: "OK" },
   Popconfirm: { okText: "OK", cancelText: "Cancel" },
   global: {
     placeholder: "Please select",
     close: "Close",
+  },
+  DatePicker: {
+    locale: "en",
+    placeholder: "Select date",
+    clear: "Clear",
+    today: "Today",
+    ok: "OK",
+    previousMonth: "Previous month",
+    nextMonth: "Next month",
+    hour: "Hour",
+    minute: "Minute",
+    second: "Second",
+  },
+  TimePicker: {
+    locale: "en",
+    placeholder: "Select time",
+    clear: "Clear",
+    today: "Today",
+    ok: "OK",
+    previousMonth: "Previous month",
+    nextMonth: "Next month",
+    hour: "Hour",
+    minute: "Minute",
+    second: "Second",
   },
   Calendar: {
     lang: {

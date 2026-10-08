@@ -1,4 +1,5 @@
 import type { CalendarLocale } from "../calendar";
+import type { PickerLocale } from "../date-picker";
 import type { TableLocale } from "../table";
 
 /** Locale fields consumed by the native data display components. */
@@ -6,7 +7,10 @@ export interface Locale {
   locale: string;
   global?: { placeholder?: string; close?: string };
   Calendar?: CalendarLocale;
+  DatePicker?: PickerLocale;
+  TimePicker?: PickerLocale;
   Table?: TableLocale;
+  Mentions?: { notFoundContent?: string; clear?: string };
   Empty?: { description?: string };
   Image?: { preview?: string };
   Modal?: { okText?: string; cancelText?: string; justOkText?: string };

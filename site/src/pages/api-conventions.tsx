@@ -57,9 +57,9 @@ export default function ApiConventions({ section }: { section?: string }) {
       </h2>
       <p>
         Form 已支持平面字段绑定与同步/异步规则校验；嵌套字段和动态列表仍待实现。
-        Table 尚未实现。Modal 已提供声明式
+        Table 的基础实现仍在开发源码，本站 npm 版本暂不可用。Modal 已提供声明式
         open/onOk/onCancel；Modal.confirm、Modal.useModal
-        尚未支持。消息与通知可使用 hook/holder 或 App.useApp()
+        在本站安装版本中尚未支持。消息与通知可使用 hook/holder 或 App.useApp()
         实例，不能照搬全局静态调用。
       </p>
       <div className="notice">

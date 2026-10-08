@@ -64,10 +64,18 @@ try {
     join(directory, "main.tsx"),
     `
 import { createRoot } from 'octane';
-import { AutoComplete, Affix, Anchor, FloatButton, Image, Carousel, Splitter, Watermark, App, Icon, QRCode, Tour, Modal, Drawer, Menu, Dropdown, Popconfirm, message, notification, Button, InputNumber, Slider, Input, Select, Form, Checkbox, Switch, Flex, Space, Divider, Radio, Tag, Alert, Card, Avatar, Badge, Spin, Skeleton, Progress, Result, Typography, List, Row, Col, Layout, Collapse, Tabs, Empty, Statistic, Timeline, Descriptions, Segmented, Rate, Breadcrumb, Steps, Pagination, Tooltip, Popover, ConfigProvider, theme } from 'antd-octane';
+import { AutoComplete, Mentions, Affix, Anchor, FloatButton, Image, Carousel, Splitter, Watermark, App, Icon, QRCode, Tour, Modal, Drawer, Menu, Dropdown, Popconfirm, message, notification, Button, InputNumber, Slider, Input, Select, Form, Checkbox, Switch, Flex, Space, Divider, Radio, Tag, Alert, Card, Avatar, Badge, Spin, Skeleton, Progress, Result, Typography, List, Row, Col, Layout, Collapse, Tabs, Empty, Statistic, Timeline, Descriptions, Segmented, Rate, Breadcrumb, Steps, Pagination, Tooltip, Popover, ConfigProvider, theme } from 'antd-octane';
 import { AntDesignOutlined, ClockCircleOutlined, MinusOutlined, PlusOutlined, QuestionOutlined, UserOutlined } from 'antd-octane/icons';
+import { Calendar, Cascader, ColorPicker, DatePicker, TimePicker, Transfer, TreeSelect, Tree, Table, Upload } from 'antd-octane';
 import 'antd-octane/style.css';
 import { StyleProvider, type StyleProviderProps } from 'antd-octane/style';
+// @ts-expect-error Range pickers are deliberately not exposed yet.
+const unsupportedRange = DatePicker.RangePicker;
+// @ts-expect-error Gradient mode has no implementation.
+const unsupportedColor = <ColorPicker mode="gradient" />;
+// @ts-expect-error TreeSelect checkbox conduction is not implemented.
+const unsupportedTree = <TreeSelect treeCheckable />;
+void [unsupportedRange, unsupportedColor, unsupportedTree];
 const packedStyleProvider: StyleProviderProps = { layer: true };
 // @ts-expect-error StyleProvider layer is boolean.
 const invalidStyleProvider: StyleProviderProps = { layer: 'antd' };
@@ -329,6 +337,7 @@ createRoot(document.getElementById('root')!).render(
     <Select {...multipleProps} />
     <Space.Compact size="small"><Space.Addon>https://</Space.Addon><Input /><Button>Go</Button></Space.Compact>
     <AutoComplete options={[{value:'Octane'}]} onChange={(text) => void text} onSelect={(text,option) => void option.value} />
+    <Mentions options={[{value:'alice'}]} defaultValue="Packed @a" onChange={(text) => void text} />
     <Form initialValues={{name:'Packed'}} onFinish={(values) => void values.name}>
       <Form.Item name="name" label="Name" rules={[{required:true}, {validator: async (_rule,value) => { if (!value) throw new Error("Required"); }}]}><Input /></Form.Item>
       <Form.Item name="enabled" label="Enabled" valuePropName="checked"><Switch /></Form.Item>
@@ -348,6 +357,19 @@ createRoot(document.getElementById('root')!).render(
     <Watermark content="Packed">Content</Watermark>
     <App><AppConsumer /></App>
     <Icon viewBox="0 0 24 24"><path d="M2 12h20" /></Icon>
+
+    <section id="new-components">
+      <ColorPicker defaultValue="#1677ff" showText />
+      <DatePicker aria-label="Packed date" value={null} />
+      <TimePicker aria-label="Packed time" defaultValue={null} minuteStep={15} />
+      <Cascader aria-label="Packed cascader" options={[{ value:'p', label:'Parent', children:[{value:'leaf',label:'Leaf'}] }]} defaultValue={['p','leaf']} />
+      <TreeSelect aria-label="Packed tree select" treeData={[{value:'leaf',title:'Tree leaf'}]} defaultValue="leaf" />
+      <Transfer dataSource={[{key:'one',title:'Transfer one'}]} targetKeys={[]} />
+      <Upload beforeUpload={() => Upload.LIST_IGNORE}><Button>Upload file</Button></Upload>
+      <Calendar fullscreen={false} />
+      <Tree treeData={[{key:'tree',title:'Standalone tree'}]} />
+      <Table dataSource={[{key:'row',name:'Table row'}]} columns={[{title:'Name',dataIndex:'name'}]} pagination={false} />
+    </section>
     <QRCode value="Packed" /><QRCode type="svg" value="Packed SVG" />
     <Tour open={false} steps={[{title:'Packed tour',description:'Ready'}]} />
     <NoticeConsumer />
@@ -380,7 +402,8 @@ createRoot(document.getElementById('root')!).render(
     `import { createRoot } from 'octane';
 import { useSignal$ } from 'octane/signals/client';
 import { StyleProvider } from 'antd-octane/style';
-import { AutoComplete, Affix, Alert, Anchor, App, Breadcrumb, Button, Checkbox, ConfigProvider, Divider, Drawer, Dropdown, Flex, FloatButton, Form, Icon, Input, InputNumber, Layout, Menu, Modal, Pagination, Popconfirm, Progress, Radio, Rate, Result, Row, Col, Select, Skeleton, Slider, Space, Spin, Splitter, Steps, Switch, Tabs, Typography, Watermark, message, notification, Carousel } from 'antd-octane';
+import { AutoComplete, Mentions, Affix, Alert, Anchor, App, Breadcrumb, Button, Checkbox, ConfigProvider, Divider, Drawer, Dropdown, Flex, FloatButton, Form, Icon, Input, InputNumber, Layout, Menu, Modal, Pagination, Popconfirm, Progress, Radio, Rate, Result, Row, Col, Select, Skeleton, Slider, Space, Spin, Splitter, Steps, Switch, Tabs, Typography, Watermark, message, notification, Carousel } from 'antd-octane';
+import { Calendar, Cascader, ColorPicker, DatePicker, TimePicker, Transfer, TreeSelect, Tree, Table, Upload } from 'antd-octane';
 import 'antd-octane/style.css';
 
 function Page() @{
@@ -395,6 +418,7 @@ function Page() @{
   <StyleProvider layer><main>
     <Button id="signal-update" onClick={() => { value$.set('updated'); checked$.set(true); number$.set(3); current$.set(2); selected$.set('second'); selectedMany$.set(['first','second']); }}>Update</Button>
     <AutoComplete id="signal-autocomplete" value={value$.get()} onChange={(next) => value$.set(next)} options={[{value:"updated"}]} />
+    <Mentions id="signal-mentions" value={value$.get()} onChange={(next) => value$.set(next)} options={[{value:"updated"}]} />
     <Input id="signal-input" value={value$.get()} onChange={(event) => value$.set(event.target.value)} />
     <Form initialValues={{profile:'Signal form'}}>
       <Form.Item name="profile" label="Profile" required><Input /></Form.Item>
@@ -448,6 +472,19 @@ function Page() @{
       {messageHolder}{notificationHolder}
       <Button onClick={() => { messages.success('message ready'); notifications.info({ message: 'notification ready' }); }}>show notices</Button>
     </section>
+
+    <section id="new-components">
+      <ColorPicker defaultValue="#1677ff" showText />
+      <DatePicker aria-label="Packed date" value={null} />
+      <TimePicker aria-label="Packed time" defaultValue={null} minuteStep={15} />
+      <Cascader aria-label="Packed cascader" options={[{ value:'p', label:'Parent', children:[{value:'leaf',label:'Leaf'}] }]} defaultValue={['p','leaf']} />
+      <TreeSelect aria-label="Packed tree select" treeData={[{value:'leaf',title:'Tree leaf'}]} defaultValue="leaf" />
+      <Transfer dataSource={[{key:'one',title:'Transfer one'}]} targetKeys={[]} />
+      <Upload beforeUpload={() => Upload.LIST_IGNORE}><Button>Upload file</Button></Upload>
+      <Calendar fullscreen={false} />
+      <Tree treeData={[{key:'tree',title:'Standalone tree'}]} />
+      <Table dataSource={[{key:'row',name:'Table row'}]} columns={[{title:'Name',dataIndex:'name'}]} pagination={false} />
+    </section>
     <section id="other">
       <Affix><span>affix child</span></Affix>
       <App><span>app child</span></App>
@@ -499,9 +536,14 @@ try {
   for (const expected of ['typed text', 'divider content', 'flex child', 'grid child', 'layout header', 'layout content', 'Anchor target', 'Home', 'Current', 'Menu item', 'Start', 'alert content', 'result content', 'skeleton child', 'spin child', 'watermark child', 'affix child', 'app child', 'config child']) {
     if (!text.includes(expected)) throw new Error('TSRX component content missing: ' + expected);
   }
+  for (const selector of ['.ant-color-picker', '.ao-single-picker', '.ant-cascader', '.ant-tree-select', '.ant-transfer', '.ant-upload', '.ant-picker-calendar', '.ant-tree', '.ant-table']) {
+    if (!win.document.querySelector('#new-components ' + selector)) throw new Error('Packed new component missing: ' + selector);
+  }
+  if (win.document.querySelector('#new-components button button')) throw new Error('Upload nested interactive triggers');
   win.document.querySelector('#signal-update')?.click();
   await new Promise((done) => setTimeout(done, 30));
   if (win.document.querySelector('#signal-autocomplete')?.value !== 'updated') throw new Error('TSRX Signal-driven AutoComplete did not update');
+  if (win.document.querySelector('#signal-mentions')?.value !== 'updated') throw new Error('TSRX Signal-driven Mentions did not update');
   const autoInput = win.document.querySelector('#signal-autocomplete');
   autoInput.value = 'free text';
   autoInput.dispatchEvent(new win.Event('input', {bubbles:true}));

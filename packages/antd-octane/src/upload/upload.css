@@ -1,0 +1,42 @@
+@layer antd {
+  :where(.ant-upload-custom-trigger) {
+    display: inline-block;
+    cursor: pointer;
+  }
+  :where(.ant-upload-custom-trigger[aria-disabled="true"]) {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  :where(.ant-upload-trigger, .ant-upload-list button) {
+    font: inherit;
+    color: inherit;
+    background: var(--ao-upload-bg);
+    border: 1px solid var(--ao-upload-border);
+    border-radius: 6px;
+    padding: 4px 12px;
+    cursor: pointer;
+  }
+  :where(.ant-upload button:disabled) {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  :where(.ant-upload-list) {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0;
+  }
+  :where(.ant-upload-list li) {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 4px 0;
+  }
+  :where(.ant-upload-list li > span:first-child) {
+    overflow-wrap: anywhere;
+  }
+  :where(.ant-upload-list [role="alert"]) {
+    color: var(--ao-upload-error);
+  }
+}

@@ -401,10 +401,14 @@ export default function ComponentsPage({ section }: { section?: string }) {
       <p className="intro">
         当前为开发预览。每个组件页提供可运行示例、API 和支持范围。 按 Ant Design
         5.x 的 {componentCoverage.length} 个文档条目核对， 当前{" "}
-        {componentCoverage.filter((item) => item.implemented).length}{" "}
-        项已提供支持子集，仍有{" "}
-        {componentCoverage.filter((item) => !item.implemented).length}{" "}
-        项待推进。
+        {componentCoverage.filter((item) => item.implemented).length} 项已随本站
+        npm 版本提供支持子集，另有{" "}
+        {
+          componentCoverage.filter(
+            (item) => !item.implemented && item.sourceImplemented,
+          ).length
+        }{" "}
+        项已在开发源码提供基础实现、等待发布。
         <a href="#components/coverage">查看完整覆盖清单 →</a>
       </p>
       {[
@@ -444,8 +448,9 @@ export default function ComponentsPage({ section }: { section?: string }) {
         完整覆盖清单
       </h2>
       <p>
-        「已提供」表示可以从包中使用，具体功能仍可能只是子集，不代表完整
-        API、子组件、交互或主题兼容；目录覆盖数量不是功能完成百分比。点击本库文档检查具体支持范围；尚未实现的项目只链接上游参考。
+        「npm 已提供」对应本站安装的版本；「源码已提供」尚未随该 npm
+        版本发布，链接到仓库支持范围，不能直接照搬到当前安装包。两者均不代表完整
+        API、子组件、交互或主题兼容，目录覆盖数量不是功能完成百分比。
       </p>
       {upstreamGroups.map(([group]) => (
         <section key={group} className="coverage-group">
@@ -456,7 +461,7 @@ export default function ComponentsPage({ section }: { section?: string }) {
               .map((item) => (
                 <li key={item.name}>
                   <a
-                    href={item.href ?? item.upstream}
+                    href={item.href ?? item.sourceHref ?? item.upstream}
                     target={item.href ? undefined : "_blank"}
                     rel={item.href ? undefined : "noreferrer"}
                   >
@@ -468,6 +473,7 @@ export default function ComponentsPage({ section }: { section?: string }) {
                   >
                     {item.status}
                   </span>
+                  {item.scope && <small>{item.scope}</small>}
                 </li>
               ))}
           </ul>
