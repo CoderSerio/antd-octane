@@ -233,3 +233,13 @@ it("drag tracks only its pointer and removes document listeners on unmount", asy
   await act(() => document.dispatchEvent(pointer("pointermove", 1, 90)));
   expect(change).toHaveBeenCalledTimes(count);
 });
+
+it("external transparent-to-cleared updates discard stale draft and validation", async () => {
+  await render(<ColorPicker value="#00000000" open />);
+  await edit("invalid");
+  await enter();
+  expect(input("Color value").getAttribute("aria-invalid")).toBe("true");
+  await render(<ColorPicker value={null} open />);
+  expect(input("Color value").value).toBe("");
+  expect(input("Color value").getAttribute("aria-invalid")).toBeNull();
+});

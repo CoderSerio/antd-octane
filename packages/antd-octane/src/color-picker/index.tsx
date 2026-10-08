@@ -78,6 +78,7 @@ export function ColorPicker(props: ColorPickerProps) {
   const [invalid, setInvalid] = useState(false);
   const lastValue = useRef(color.toHexString());
   const lastFormat = useRef(format);
+  const lastCleared = useRef(color.cleared);
   const dragCleanup = useRef<(() => void) | undefined>();
   const latest = useRef(color);
   const panel = useRef<HTMLDivElement | null>(null);
@@ -87,14 +88,16 @@ export function ColorPicker(props: ColorPickerProps) {
   useEffect(() => {
     if (
       lastValue.current !== color.toHexString() ||
-      lastFormat.current !== format
+      lastFormat.current !== format ||
+      lastCleared.current !== color.cleared
     ) {
       setDraft(undefined);
       setInvalid(false);
       lastValue.current = color.toHexString();
       lastFormat.current = format;
+      lastCleared.current = color.cleared;
     }
-  }, [color.toHexString(), format]);
+  }, [color.toHexString(), color.cleared, format]);
   useEffect(() => {
     if (!opened || disabled) dragCleanup.current?.();
     return () => dragCleanup.current?.();
