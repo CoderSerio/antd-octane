@@ -147,6 +147,13 @@ export type {
 } from "./collapse";
 export { Collapse } from "./collapse";
 export type {
+  ColorFormatType,
+  ColorPickerProps,
+  ColorValue,
+  HSB,
+} from "./color-picker";
+export { Color, ColorPicker } from "./color-picker";
+export type {
   DescriptionsContextProps,
   DescriptionsItem,
   DescriptionsItemProps,

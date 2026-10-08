@@ -128,6 +128,7 @@ export interface ThemeConfig {
     Table?: ComponentTheme<TableToken>;
     Tree?: ComponentTheme<TreeToken>;
     Calendar?: ComponentTheme<CalendarToken>;
+    ColorPicker?: ComponentTheme;
     QRCode?: ComponentTheme;
     Tour?: ComponentTheme<TourToken>;
     Anchor?: ComponentTheme<{
