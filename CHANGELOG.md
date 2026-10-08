@@ -8,6 +8,8 @@
 - 新增 Cascader、ColorPicker、DatePicker / DatePicker.RangePicker、TimePicker、Mentions、Transfer、TreeSelect 和 Upload 原生实现。日期范围支持草稿、自动或显式确认、禁用日期与端点；上传支持 Dragger、数量限制、取消请求和过期异步结果处理。
 - Form 支持嵌套 NamePath、setFieldValue、局部 resetFields / validateFields 和直接字段依赖校验；Select 支持分组选项、loading 和 optionFilterProp。
 - 官网使用已发布组件实现页面/代码加载反馈、失败恢复、主题抽屉与表单，以及示例中的选项、滑块和按钮；保留原生表单互操作示例。
+- 修复 Spin 百分比和自动进度圆环的容器居中；保留普通圆点、自定义指示器和全屏模式的布局。页面及代码加载反馈也在各自区域内居中。
+- Table 保留调用方提供的行选择和全选无障碍标签；补齐 alpha.8 在 Vite 开发模式下所需的 Day.js 显式预构建配置。
 - 源码包候选版本为 alpha.8。文档站暂时继续安装 alpha.7；待 npm 发布和独立安装验证通过后，再接入新增组件页面和 API 示例。
 
 ## 0.1.0-alpha.7 — 2026-10-02

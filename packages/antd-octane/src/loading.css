@@ -77,7 +77,9 @@
   }
   :where(.ant-spin-dot-progress) {
     position: absolute;
-    inset: 0;
+    top: 0;
+    inset-inline-start: 50%;
+    margin-inline-start: calc(var(--ao-spin-size) / -2);
   }
   :where(.ant-spin-dot) {
     position: relative;
@@ -162,7 +164,10 @@
     height: 100%;
     max-height: var(--ao-spin-height);
   }
-  :where(.ant-spin-nested-loading > div > .ant-spin .ant-spin-dot) {
+  :where(
+      .ant-spin-nested-loading > div > .ant-spin .ant-spin-dot,
+      .ant-spin-nested-loading > div > .ant-spin .ant-spin-dot-progress
+    ) {
     position: absolute;
     top: 50%;
     inset-inline-start: 50%;
@@ -175,7 +180,13 @@
     text-shadow: 0 1px 2px var(--ao-bg);
     padding-top: calc((var(--ao-spin-size) - var(--ao-font-size)) / 2 + 2px);
   }
-  :where(.ant-spin-nested-loading > div > .ant-spin-show-text .ant-spin-dot) {
+  :where(
+      .ant-spin-nested-loading > div > .ant-spin-show-text .ant-spin-dot,
+      .ant-spin-nested-loading
+        > div
+        > .ant-spin-show-text
+        .ant-spin-dot-progress
+    ) {
     margin-top: calc(var(--ao-spin-size) / -2 - 10px);
   }
   :where(.ant-spin-nested-loading .ant-spin-container) {

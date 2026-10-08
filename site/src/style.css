@@ -725,19 +725,34 @@
     font-size: 12px;
     font-weight: 400;
   }
+  .page-loading,
+  .code-loading {
+    display: grid;
+    place-items: center;
+  }
   .page-loading {
     min-height: 60vh;
     padding: 32px 0;
   }
   .code-loading {
+    min-height: 180px;
     padding: 24px;
   }
   .loading-label {
+    grid-area: 1 / 1;
+    z-index: 1;
     display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    text-align: center;
     gap: 16px;
-    margin-bottom: 24px;
     color: var(--muted);
+  }
+  .loading-skeleton {
+    grid-area: 1 / 1;
+    width: 100%;
+    opacity: 0.35;
   }
   .theme-drawer {
     --muted: currentColor;

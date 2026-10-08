@@ -1,7 +1,6 @@
-# Mentions (unreleased source)
+# Mentions (alpha.8)
 
-This implementation is on the development branch; it is not available in the
-currently published alpha.7 package. The public site must wait for publication.
+This native Octane implementation is included from 0.1.0-alpha.8.
 
 Supported: controlled/uncontrolled text, options with disabled entries, multiple
 prefixes, filtering/search callbacks, caret insertion, keyboard selection and

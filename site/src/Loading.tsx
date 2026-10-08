@@ -12,7 +12,7 @@ export function Loading({ code = false }: { code?: boolean }) {
         <Spin size={code ? "small" : "large"} />
         <span>{code ? "正在加载代码…" : "正在加载文档…"}</span>
       </div>
-      <div aria-hidden="true">
+      <div className="loading-skeleton" aria-hidden="true">
         <Skeleton active title={!code} paragraph={{ rows: code ? 3 : 5 }} />
       </div>
     </div>

@@ -1,6 +1,6 @@
-# Upload (unreleased source)
+# Upload (alpha.8)
 
-Development implementation; not shipped in alpha.7. Supports native file selection,
+Included from 0.1.0-alpha.8. Supports native file selection,
 accept/multiple, controlled fileList (or defaultFileList), beforeUpload including
 async transforms, false (list only), and Upload.LIST_IGNORE (no list or request).
 The browser's accept hint is not server-side file validation. Supply action for
@@ -19,7 +19,7 @@ parity are not implemented. Custom children (including Button) use a keyboard-ac
 disabled children are inert. The default trigger remains a native button.
 
 
-## Drag and drop and file limits (unreleased)
+## Drag and drop and file limits (alpha.8)
 
 `Upload.Dragger` shares the same file pipeline and list API. Its focusable drop
 area opens the file chooser on Enter/Space; native interactive children retain
@@ -53,6 +53,5 @@ unique and stable for the lifetime of each file.
 </Upload.Dragger>
 ```
 
-The upload endpoint must be supplied by the application. These APIs are not yet
-available from the site's published alpha.7 package. `itemRender` is still omitted;
+The upload endpoint must be supplied by the application. `itemRender` is still omitted;
 preview/download actions and a custom list rendering contract are not implemented.

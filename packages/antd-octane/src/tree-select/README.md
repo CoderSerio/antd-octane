@@ -1,6 +1,6 @@
-# TreeSelect（未发布源码）
+# TreeSelect（alpha.8）
 
-此入口属于下一版源码，已发布的 `0.1.0-alpha.7` 不提供它。以 Ant Design
+此入口从 `0.1.0-alpha.8` 起提供。以 Ant Design
 5.29.3 为 API 参考；当前是原生 Octane 支持子集，不代表完整上游对齐。
 
 支持 `treeData`、`fieldNames`（value/label/children）、字符串/数字唯一值，

@@ -1,6 +1,6 @@
-# Cascader（未发布源码）
+# Cascader（alpha.8）
 
-此入口属于下一版源码，已发布的 `0.1.0-alpha.7` 不提供它。以 Ant Design
+此入口从 `0.1.0-alpha.8` 起提供。以 Ant Design
 5.29.3 为 API 参考，当前仅提供原生 Octane 单路径选择子集。
 
 支持 options、fieldNames（value/label/children）、value/defaultValue 路径数组、

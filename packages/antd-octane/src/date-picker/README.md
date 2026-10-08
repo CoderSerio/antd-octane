@@ -1,6 +1,6 @@
-# Date and time pickers (unreleased)
+# Date and time pickers (alpha.8)
 
-This development branch implements `DatePicker`, `DatePicker.RangePicker`, and `TimePicker` for Octane. These exports are not available in the currently published package. All use Dayjs values and native inputs, popups, and controlled state. They are a supported subset of the Ant Design API, not a complete rc-picker port.
+Version 0.1.0-alpha.8 includes `DatePicker`, `DatePicker.RangePicker`, and `TimePicker` for Octane. All use Dayjs values and native inputs, popups, and controlled state. They are a supported subset of the Ant Design API, not a complete rc-picker port.
 
 Applications that import `dayjs` should declare it directly (for example
 `pnpm add dayjs@1.11.23`), rather than rely on a transitive dependency.

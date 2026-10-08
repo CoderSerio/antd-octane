@@ -1,6 +1,6 @@
-# Transfer (unreleased source)
+# Transfer (alpha.8)
 
-Development-branch implementation; not present in the published alpha.7 package.
+This native Octane implementation is included from 0.1.0-alpha.8.
 `targetKeys` is controlled: accept `onChange`'s next keys to move items.
 `selectedKeys` may be controlled or omitted for local checkbox selection.
 The two callback selections are source/target keys; disabled items cannot move.

@@ -48,6 +48,8 @@ Run it with the same `playwright-cli run-code` method as `compare.mjs`, substitu
 
 `compare-feedback.mjs` 对照 Spin、Skeleton、Progress、Result 五组主题下的 770 项基础尺寸、文字与间距值（含显式组件 token）；不覆盖全部形态、插画或动画。`verify-feedback.mjs` 检查实际文档的加载切换、骨架切换、进度增减、结果状态、窄屏溢出和暗色/紧凑主题。
 
+`spin-position.html` 与 `verify-spin-position.mjs` 检查 Spin 的真实几何位置，覆盖普通圆点、百分比和自动进度、自定义图标、提示、RTL、全屏、尺寸、主题及窄屏；内联 Spin 保持指示器尺寸。运行 `pnpm dev:compare` 后，使用上述 Playwright CLI 方法调用脚本默认导出。
+
 `compare-controls.mjs` 对照 Segmented、Rate、Breadcrumb、Pagination、Steps 五组主题下的 770 项稳定样式。Pagination 的内容内边距对应上游链接节点，容器属性对应上游页码项，避免不同 DOM 结构导致错误结论。
 
 `verify-controls.mjs` 验证这一批组件的真实交互、List 内置分页、完整目录及移动端溢出。`verify-floating.mjs` 验证 Tooltip / Popover 的悬停、聚焦、Escape、内外点击和受控关闭；十二方位在桌面和手机宽度下检查视口边界。这些检查不代表完整动效或所有 API 兼容。

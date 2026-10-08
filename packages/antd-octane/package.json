@@ -41,7 +41,7 @@
     "url": "git+https://github.com/CoderSerio/antd-octane.git",
     "directory": "packages/antd-octane"
   },
-  "homepage": "https://github.com/CoderSerio/antd-octane#readme",
+  "homepage": "https://coderserio.github.io/antd-octane/",
   "bugs": {
     "url": "https://github.com/CoderSerio/antd-octane/issues"
   },
