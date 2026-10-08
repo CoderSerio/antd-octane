@@ -536,7 +536,7 @@ try {
   for (const expected of ['typed text', 'divider content', 'flex child', 'grid child', 'layout header', 'layout content', 'Anchor target', 'Home', 'Current', 'Menu item', 'Start', 'alert content', 'result content', 'skeleton child', 'spin child', 'watermark child', 'affix child', 'app child', 'config child']) {
     if (!text.includes(expected)) throw new Error('TSRX component content missing: ' + expected);
   }
-  for (const selector of ['.ant-color-picker', '.ant-picker', '.ant-cascader', '.ant-tree-select', '.ant-transfer', '.ant-upload', '.ant-picker-calendar', '.ant-tree', '.ant-table']) {
+  for (const selector of ['.ant-color-picker', '.ao-single-picker', '.ant-cascader', '.ant-tree-select', '.ant-transfer', '.ant-upload', '.ant-picker-calendar', '.ant-tree', '.ant-table']) {
     if (!win.document.querySelector('#new-components ' + selector)) throw new Error('Packed new component missing: ' + selector);
   }
   if (win.document.querySelector('#new-components button button')) throw new Error('Upload nested interactive triggers');
