@@ -154,10 +154,12 @@ function pathOf(name: NamePath): (string | number)[] {
     !path.length ||
     path.some(
       (part) =>
+        (typeof part !== "string" && typeof part !== "number") ||
         part === "__proto__" ||
         part === "constructor" ||
         part === "prototype" ||
-        (typeof part === "number" && (!Number.isSafeInteger(part) || part < 0)),
+        (typeof part === "number" &&
+          (!Number.isInteger(part) || part < 0 || part >= 2 ** 32 - 1)),
     )
   )
     throw new Error("Form: invalid or unsafe NamePath");
@@ -199,6 +201,16 @@ function setAt(values: FormValues, name: NamePath, value: unknown): FormValues {
   const put = (current: unknown, index: number): unknown => {
     if (index === path.length) return copy(value);
     const part = path[index];
+    if (Array.isArray(current)) {
+      const indexValue = Number(part);
+      if (
+        !Number.isInteger(indexValue) ||
+        indexValue < 0 ||
+        indexValue >= 2 ** 32 - 1 ||
+        String(indexValue) !== String(part)
+      )
+        throw new Error("Form: invalid NamePath array index");
+    }
     const result = Array.isArray(current)
       ? [...current]
       : plain(current)

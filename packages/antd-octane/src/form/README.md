@@ -2,7 +2,7 @@
 
 本页描述未发布源码能力，npm alpha.7 尚不包含嵌套 NamePath、dependencies 和字段级操作。现有生产站点继续展示已发布版本。
 
-`name`、`getFieldValue`、`setFieldValue` 接受 `string | number | (string | number)[]`。字符串 `"user.name"` 是完整的字面键，嵌套字段写作 `["user", "name"]`。数字路径段在缺少容器时创建数组；字符串数字段创建对象键。空路径、负数/非整数索引，以及 `__proto__`、`constructor`、`prototype` 路径段不受支持，会抛出错误。
+`name`、`getFieldValue`、`setFieldValue` 接受 `string | number | (string | number)[]`。字符串 `"user.name"` 是完整的字面键，嵌套字段写作 `["user", "name"]`。数字路径段在缺少容器时创建数组；字符串数字段创建对象键。数字路径段（包括顶层数字字段）必须是 0 到 4294967294 的整数。已有数组仅接受数字索引或其规范字符串形式（如 `"0"`），不接受 `"length"`、`"01"` 等附加属性；普通对象仍可使用这些字符串键。空路径、非字符串/数字路径段、越界/非整数索引，以及 `__proto__`、`constructor`、`prototype` 路径段不受支持，会抛出错误。
 
 ```tsx
 const [form] = Form.useForm();

@@ -3,7 +3,11 @@ import type { ElementDescriptor, Root } from "octane";
 import { act, createRoot } from "octane";
 import { afterEach, expect, it, vi } from "vitest";
 import { DatePicker } from "../packages/antd-octane/src/date-picker";
-import { Form, type FormInstance } from "../packages/antd-octane/src/form";
+import {
+  Form,
+  type FormInstance,
+  type NamePath,
+} from "../packages/antd-octane/src/form";
 import { Input } from "../packages/antd-octane/src/input";
 import { TreeSelect } from "../packages/antd-octane/src/tree-select";
 import { Upload } from "../packages/antd-octane/src/upload";
@@ -303,4 +307,53 @@ it("invalidates a pending nested validation when its parent is replaced or reset
     values: { user: { name: "original" } },
   });
   expect(host.querySelector('[role="alert"]')).toBeNull();
+});
+
+it("rejects malformed runtime paths and non-array numeric indexes without changing values", async () => {
+  let form!: FormInstance;
+  function Example() {
+    [form] = Form.useForm();
+    return (
+      <Form
+        form={form}
+        initialValues={{ user: { name: "Ada" }, rows: ["first"] }}
+      />
+    );
+  }
+  await render(<Example />);
+  for (const path of [
+    ["user", null],
+    ["user", {}],
+    ["user", true],
+    ["user", undefined],
+    ["user", new String("__proto__")],
+    ["rows", 4294967295],
+    4294967295,
+    ["rows", Number.MAX_SAFE_INTEGER],
+  ]) {
+    expect(() =>
+      form.setFieldValue(path as unknown as NamePath, "wrong"),
+    ).toThrow("NamePath");
+    expect(form.getFieldsValue()).toEqual({
+      user: { name: "Ada" },
+      rows: ["first"],
+    });
+  }
+  await act(() => form.setFieldValue(["byId", "4294967295"], "object key"));
+  expect(form.getFieldValue(["byId", "4294967295"])).toBe("object key");
+});
+it("rejects non-index properties on existing arrays instead of dropping the value on copy", async () => {
+  let form!: FormInstance;
+  function Example() {
+    [form] = Form.useForm();
+    return <Form form={form} initialValues={{ rows: ["first"] }} />;
+  }
+  await render(<Example />);
+  for (const key of ["label", "length", "4294967295", "01"]) {
+    expect(() => form.setFieldValue(["rows", key], "wrong")).toThrow(
+      "NamePath",
+    );
+  }
+  await act(() => form.setFieldValue(["rows", "0"], "updated"));
+  expect(form.getFieldsValue()).toEqual({ rows: ["updated"] });
 });
