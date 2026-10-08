@@ -175,9 +175,6 @@
     cursor: pointer;
     padding: 4px;
   }
-  .home-swatches button[aria-pressed="true"] {
-    border-color: var(--swatch);
-  }
   .home-swatches .home-swatch-fill {
     width: 20px;
     height: 20px;

@@ -175,12 +175,9 @@ export function Demo({
                 "复制失败，请手动复制代码。"
               ) : (
                 <>
-                  代码加载失败。
-                  <Button
-                    size="small"
-                    onClick={() => void load().catch(() => setFailed(true))}
-                  >
-                    重试加载
+                  代码加载失败，请重新加载页面后再查看。
+                  <Button size="small" onClick={() => window.location.reload()}>
+                    重新加载页面
                   </Button>
                 </>
               )}

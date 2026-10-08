@@ -109,6 +109,9 @@ export default function Home({ section }: { section?: string }) {
                 type="text"
                 aria-label={c.name}
                 aria-pressed={color === c.value}
+                style={{
+                  borderColor: color === c.value ? c.value : "transparent",
+                }}
                 onClick={() => setColor(c.value)}
               >
                 <span
