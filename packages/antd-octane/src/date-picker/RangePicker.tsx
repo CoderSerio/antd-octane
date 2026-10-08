@@ -67,6 +67,7 @@ export function RangePicker(props: RangePickerProps) {
     null,
   ]);
   const composing = useRef(false);
+  const edited = useRef<[boolean, boolean]>([false, false]);
   const pendingFocus = useRef(false);
   const panelId = useId();
   const { token } = useComponentTokens("Input");
@@ -86,6 +87,7 @@ export function RangePicker(props: RangePickerProps) {
     props.onOpenChange?.(next);
   };
   const reset = () => {
+    edited.current = [false, false];
     setDraft(value);
     setTexts(strings(value));
     setInvalid(false);
@@ -142,14 +144,14 @@ export function RangePicker(props: RangePickerProps) {
       type: "date",
       from: dates[1 - index] ?? undefined,
     });
-  const parse = (): DateRange | undefined => {
+  const parse = (replacing?: 0 | 1): DateRange | undefined => {
     const result: DateRange = [null, null];
     for (const index of [0, 1] as const) {
       if (disabled[index]) {
         result[index] = value[index];
         continue;
       }
-      if (!texts[index].trim()) continue;
+      if (index === replacing || !texts[index].trim()) continue;
       const parsed = dayjs(texts[index], format, localeName, true);
       if (!parsed.isValid()) return;
       result[index] = parsed;
@@ -195,6 +197,7 @@ export function RangePicker(props: RangePickerProps) {
       setTexts(strings(dates));
       setInvalid(false);
     }
+    edited.current = [false, false];
     setOpen(false);
     inputs.current[active]?.focus();
   };
@@ -208,10 +211,18 @@ export function RangePicker(props: RangePickerProps) {
   };
   const select = (date: Dayjs) => {
     if (!allowed(date, active, draft)) return;
-    const next: DateRange = [...draft];
+    const next = parse(active);
+    if (!next) {
+      setInvalid(true);
+      return;
+    }
     next[active] = date;
+    edited.current[active] = true;
     stage(next, active);
-    if (!needsConfirmation && (active === 1 || disabled[1]) && valid(next)) {
+    if (
+      !needsConfirmation &&
+      (active === 1 || edited.current[1 - active] || disabled[1 - active])
+    ) {
       finish(next);
       return;
     }
@@ -400,7 +411,17 @@ export function RangePicker(props: RangePickerProps) {
               const next: [string, string] = [...texts];
               next[index] = event.currentTarget.value;
               setTexts(next);
-              setInvalid(false);
+              edited.current[index] = true;
+              const text = next[index].trim();
+              const date = text
+                ? dayjs(next[index], format, localeName, true)
+                : null;
+              if (!date || date.isValid()) {
+                const dates: DateRange = [...draft];
+                dates[index] = date;
+                setDraft(dates);
+                setInvalid(false);
+              } else setInvalid(true);
             }}
             onKeyDown={(event) => {
               if (composing.current || event.isComposing) return;

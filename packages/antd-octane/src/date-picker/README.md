@@ -1,6 +1,6 @@
 # Date and time pickers (unreleased)
 
-This development branch implements `DatePicker`, `DatePicker.RangePicker`, and `TimePicker` for Octane. These exports are not available in the currently published package. Both use Dayjs values and share a native input, popup, and controlled-state implementation. They are a supported subset of the Ant Design API, not a complete rc-picker port.
+This development branch implements `DatePicker`, `DatePicker.RangePicker`, and `TimePicker` for Octane. These exports are not available in the currently published package. All use Dayjs values and native inputs, popups, and controlled state. They are a supported subset of the Ant Design API, not a complete rc-picker port.
 
 Applications that import `dayjs` should declare it directly (for example
 `pnpm add dayjs@1.11.23`), rather than rely on a transitive dependency.
@@ -42,7 +42,7 @@ The default time popup shows all three columns, even when the display format omi
 
 ## Date ranges
 
-`DatePicker.RangePicker` collects one `[Dayjs | null, Dayjs | null]` tuple. Use `value={null}` for a controlled empty range; `undefined` selects uncontrolled state. Both endpoints share a popup and a draft. Selecting the start moves to the end; selecting a valid end commits automatically by default. Set `needConfirm` to keep panel selections provisional until OK. Enter in the end input also commits a valid typed range. `onCalendarChange` reports provisional tuples and `{ range: "start" | "end" }`; `onChange` reports only committed values. Clearing reports `(null, ["", ""])`.
+`DatePicker.RangePicker` collects one `[Dayjs | null, Dayjs | null]` tuple. Use `value={null}` for a controlled empty range; `undefined` selects uncontrolled state. Both endpoints share a popup and a draft. Selecting the start moves to the end; completing a valid pair commits automatically by default, including when the end was edited first. Set `needConfirm` to keep panel selections provisional until OK. Enter in the end input also commits a valid typed range. `onCalendarChange` reports provisional tuples and `{ range: "start" | "end" }`; `onChange` reports only committed values. Clearing reports `(null, ["", ""])`.
 
 ```tsx
 <DatePicker.RangePicker
@@ -54,6 +54,6 @@ The default time popup shows all three columns, even when the display format omi
 
 Both dates are required by default. `allowEmpty={[true, false]}` permits an empty start; enabling either empty endpoint defaults to confirmation so a partial range is deliberate. An explicit `needConfirm={false}` restores automatic end selection. The start must not follow the end; reversed ranges remain uncommitted rather than being automatically reordered. `disabledDate(date, { type: "date", from })` receives the other endpoint when present and applies to text and panel selections. `disabled={[true, false]}` locks the existing start while allowing the end to change; clearing the entire range is unavailable while either endpoint is disabled.
 
-Escape, outside clicks, or leaving the complete widget discard the shared draft. Parent value changes replace the draft, including while open. ArrowDown enters the calendar for the focused endpoint; the single-date calendar keyboard shortcuts apply. Use the two labelled endpoint buttons to switch dates in the popup. Form.Item collects the tuple as one field. `placeholder` accepts two labels, with defaults from `locale.rangePlaceholder`. Ref focus targets the first enabled input.
+Valid typed dates join the shared draft without requiring Enter before switching endpoints. Invalid text stays visible and prevents the other endpoint from silently replacing it. Escape, outside clicks, or leaving the complete widget discard the shared draft. Parent value changes replace the draft, including while open. ArrowDown enters the calendar for the focused endpoint; the single-date calendar keyboard shortcuts apply. Use the two labelled endpoint buttons to switch dates in the popup. Form.Item collects the tuple as one field. `placeholder` accepts two labels, with defaults from `locale.rangePlaceholder`. Ref focus targets the first enabled input.
 
 This range implementation uses one calendar panel. It does not expose range time selection, presets, automatic ordering options, multiple ranges, or independently controlled panel dates. These unsupported props are omitted from its types.

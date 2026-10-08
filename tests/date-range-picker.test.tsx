@@ -275,3 +275,35 @@ it("switches the open calendar when keyboard focus moves to the other endpoint",
   expect(input(1).getAttribute("aria-expanded")).toBe("true");
   expect(input(0).getAttribute("aria-expanded")).toBe("false");
 });
+it("retains a typed start when clicking the end calendar without pressing Enter", async () => {
+  const change = vi.fn();
+  await render(
+    <DatePicker.RangePicker defaultValue={initial} onChange={change} />,
+  );
+  await type(0, "2025-06-12");
+  await act(() => input(1).click());
+  await date("2025-06-22");
+  expect(change.mock.calls[0]?.[1]).toEqual(["2025-06-12", "2025-06-22"]);
+});
+it("preserves invalid typed text when the other endpoint is selected", async () => {
+  const change = vi.fn();
+  await render(
+    <DatePicker.RangePicker defaultValue={initial} onChange={change} />,
+  );
+  await type(0, "2025-02-31");
+  await act(() => input(1).click());
+  await date("2025-06-22");
+  expect(change).not.toHaveBeenCalled();
+  expect(input(0).value).toBe("2025-02-31");
+  expect(input(0).getAttribute("aria-invalid")).toBe("true");
+});
+it("automatically completes when the end was typed before selecting the start", async () => {
+  const change = vi.fn();
+  await render(
+    <DatePicker.RangePicker defaultValue={initial} onChange={change} />,
+  );
+  await type(1, "2025-06-22");
+  await act(() => input(0).click());
+  await date("2025-06-12");
+  expect(change.mock.calls[0]?.[1]).toEqual(["2025-06-12", "2025-06-22"]);
+});
