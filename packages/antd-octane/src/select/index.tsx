@@ -9,7 +9,7 @@ import {
   useState,
 } from "octane";
 import { componentClassName } from "../_util/componentClassName";
-import { DownOutlined } from "../_util/feedback-icons";
+import { DownOutlined, LoadingOutlined } from "../_util/feedback-icons";
 import { positionPopup } from "../_util/floating";
 import { useComponentTokens } from "../_util/tokens";
 import { devUseWarning } from "../_util/warning";
@@ -27,13 +27,21 @@ export interface SelectOption {
   disabled?: boolean;
   title?: string;
 }
+export interface SelectOptionGroup {
+  label: OctaneNode;
+  options: SelectOption[];
+  key?: string | number;
+}
+export type SelectOptionItem = SelectOption | SelectOptionGroup;
 export interface SelectRef {
   nativeElement: HTMLDivElement | null;
   focus: () => void;
   blur: () => void;
 }
 interface SelectCommonProps {
-  options?: SelectOption[];
+  options?: SelectOptionItem[];
+  loading?: boolean;
+  optionFilterProp?: "label" | "value" | "title";
   prefixCls?: string;
   rootClassName?: string;
   onSelect?: (value: SelectValue, option: SelectOption) => void;
@@ -92,7 +100,10 @@ export function Select(props: SelectComponentProps) {
     "dropdownMatchSelectWidth",
     "popupMatchSelectWidth",
   );
-  const options = props.options ?? [];
+  const entries = props.options ?? [];
+  const options = entries.flatMap((entry) =>
+    "options" in entry ? entry.options : [entry],
+  );
   const prefixCls = config.getPrefixCls("select", props.prefixCls);
   const cls = (suffix = "") =>
     componentClassName("ant-select", prefixCls, suffix);
@@ -142,14 +153,36 @@ export function Select(props: SelectComponentProps) {
       value: selectedValue,
       label: String(selectedValue),
     };
-  const filtered = options.filter((option) => {
-    if (!showSearch || !search || props.filterOption === false) return true;
+  const searchEnabled = showSearch && search && props.filterOption !== false;
+  const matches = (option: SelectOption) => {
+    if (!searchEnabled) return true;
     if (typeof props.filterOption === "function")
       return props.filterOption(search, option);
-    return optionText(option)
-      .toLocaleLowerCase()
-      .includes(search.toLocaleLowerCase());
+    const prop = props.optionFilterProp ?? "label";
+    const text =
+      prop === "label" ? optionText(option) : String(option[prop] ?? "");
+    return text.toLocaleLowerCase().includes(search.toLocaleLowerCase());
+  };
+  const filteredEntries = entries.flatMap((entry): SelectOptionItem[] => {
+    if (!("options" in entry)) return matches(entry) ? [entry] : [];
+    // Group names participate in default label filtering. Custom predicates
+    // keep the existing leaf-only callback contract.
+    const groupMatches =
+      searchEnabled &&
+      typeof props.filterOption !== "function" &&
+      (props.optionFilterProp ?? "label") === "label" &&
+      (typeof entry.label === "string" || typeof entry.label === "number") &&
+      String(entry.label)
+        .toLocaleLowerCase()
+        .includes(search.toLocaleLowerCase());
+    const children = groupMatches
+      ? entry.options
+      : entry.options.filter(matches);
+    return children.length ? [{ ...entry, options: children }] : [];
   });
+  const filtered = filteredEntries.flatMap((entry) =>
+    "options" in entry ? entry.options : [entry],
+  );
   const enabled = filtered.filter((option) => !option.disabled);
   const activeValue = enabled.some((option) => option.value === active)
     ? active
@@ -326,7 +359,8 @@ export function Select(props: SelectComponentProps) {
   ]);
   useLayoutEffect(() => {
     if (!open || activeIndex < 0) return;
-    const option = popup.current?.children[activeIndex];
+    const option =
+      popup.current?.querySelectorAll('[role="option"]')[activeIndex];
     if (option instanceof HTMLElement)
       option.scrollIntoView({ block: "nearest" });
   }, [open, target, activeIndex]);
@@ -337,12 +371,43 @@ export function Select(props: SelectComponentProps) {
       : size === "small"
         ? t.controlHeightSM
         : t.controlHeight;
+  const optionIndexes = new Map(
+    filtered.map((option, index) => [option.value, index]),
+  );
+  const renderOption = (option: SelectOption) => {
+    const index = optionIndexes.get(option.value);
+    return (
+      // biome-ignore lint/a11y/useFocusableInteractive lint/a11y/useKeyWithClickEvents: Keyboard selection stays on the combobox through aria-activedescendant.
+      <div
+        key={`${typeof option.value}:${option.value}`}
+        id={`${listId}-option-${index}`}
+        role="option"
+        aria-selected={selectedValues.includes(option.value)}
+        aria-disabled={option.disabled || undefined}
+        className={[
+          cls("-item-option"),
+          option.value === activeValue && cls("-item-option-active"),
+          selectedValues.includes(option.value) && cls("-item-option-selected"),
+          option.disabled && cls("-item-option-disabled"),
+        ]}
+        title={option.title}
+        onMouseDown={(event) => event.preventDefault()}
+        onMouseEnter={() => {
+          if (!option.disabled) setActive(option.value);
+        }}
+        onClick={() => select(option)}
+      >
+        {option.label ?? option.value}
+      </div>
+    );
+  };
   const list = (
     <div
       ref={popup}
       id={listId}
       role="listbox"
       aria-multiselectable={multiple || undefined}
+      aria-busy={props.loading || undefined}
       className={[
         cls("-dropdown"),
         config.direction === "rtl" && cls("-dropdown-rtl"),
@@ -382,50 +447,51 @@ export function Select(props: SelectComponentProps) {
         "--ao-select-option-padding":
           c?.optionPadding ??
           `${(t.controlHeight - t.fontSize * t.lineHeight) / 2}px ${t.controlPaddingHorizontal}px`,
+        "--ao-select-group-color": t.colorTextDescription,
+        "--ao-select-group-font": `${t.fontSizeSM}px`,
         "--ao-select-option-font": `${c?.optionFontSize ?? t.fontSize}px`,
         "--ao-select-option-line": c?.optionLineHeight ?? t.lineHeight,
       }}
     >
       {filtered.length ? (
-        filtered.map((option, index) => (
-          // biome-ignore lint/a11y/useFocusableInteractive lint/a11y/useKeyWithClickEvents: Keyboard selection stays on the combobox through aria-activedescendant.
-          <div
-            key={`${typeof option.value}:${option.value}`}
-            id={`${listId}-option-${index}`}
-            role="option"
-            aria-selected={selectedValues.includes(option.value)}
-            aria-disabled={option.disabled || undefined}
-            className={[
-              cls("-item-option"),
-              option.value === activeValue && cls("-item-option-active"),
-              selectedValues.includes(option.value) &&
-                cls("-item-option-selected"),
-              option.disabled && cls("-item-option-disabled"),
-            ]}
-            title={option.title}
-            onMouseDown={(event) => event.preventDefault()}
-            onMouseEnter={() => {
-              if (!option.disabled) setActive(option.value);
-            }}
-            onClick={() => select(option)}
-          >
-            {option.label ?? option.value}
-          </div>
-        ))
+        filteredEntries.map((entry, groupIndex) =>
+          "options" in entry ? (
+            // biome-ignore lint/a11y/useSemanticElements: ARIA option groups inside a listbox are not form fieldsets.
+            <div
+              key={entry.key ?? `group-${groupIndex}`}
+              role="group"
+              aria-labelledby={`${listId}-group-${groupIndex}`}
+            >
+              {/* biome-ignore lint/a11y/noStaticElementInteractions: Prevent blur on nonselectable group headings. */}
+              <div
+                id={`${listId}-group-${groupIndex}`}
+                className={cls("-item-group")}
+                onMouseDown={(event) => event.preventDefault()}
+              >
+                {entry.label}
+              </div>
+              {entry.options.map(renderOption)}
+            </div>
+          ) : (
+            renderOption(entry)
+          ),
+        )
       ) : (
         <div className={cls("-item-empty")}>
-          {props.notFoundContent !== undefined
-            ? props.notFoundContent
-            : config.renderEmpty?.("Select") || (
-                <Empty
-                  image={Empty.PRESENTED_IMAGE_SIMPLE}
-                  className={componentClassName(
-                    "ant-empty",
-                    config.getPrefixCls("empty"),
-                    "-small",
-                  )}
-                />
+          {props.notFoundContent !== undefined ? (
+            props.notFoundContent
+          ) : config.renderEmpty ? (
+            config.renderEmpty("Select")
+          ) : (
+            <Empty
+              image={Empty.PRESENTED_IMAGE_SIMPLE}
+              className={componentClassName(
+                "ant-empty",
+                config.getPrefixCls("empty"),
+                "-small",
               )}
+            />
+          )}
         </div>
       )}
     </div>
@@ -447,6 +513,7 @@ export function Select(props: SelectComponentProps) {
           .join(" ") || undefined
       }
       aria-haspopup="listbox"
+      aria-busy={props.loading || undefined}
       aria-expanded={open}
       aria-controls={open ? listId : undefined}
       aria-activedescendant={
@@ -585,6 +652,7 @@ export function Select(props: SelectComponentProps) {
         props.status && cls(`-status-${props.status}`),
         disabled && cls("-disabled"),
         open && cls("-open"),
+        props.loading && cls("-loading"),
         config.select?.className,
         props.className,
         props.rootClassName,
@@ -661,7 +729,7 @@ export function Select(props: SelectComponentProps) {
         </button>
       )}
       <span className={cls("-arrow")} aria-hidden="true">
-        <DownOutlined />
+        {props.loading ? <LoadingOutlined spin /> : <DownOutlined />}
       </span>
       {multiple && (
         <span

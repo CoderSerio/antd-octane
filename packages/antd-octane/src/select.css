@@ -217,3 +217,12 @@
     white-space: nowrap;
   }
 }
+
+@layer antd {
+  :where(.ant-select-item-group) {
+    padding: var(--ao-select-option-padding);
+    color: var(--ao-select-group-color);
+    font-size: var(--ao-select-group-font);
+    line-height: var(--ao-select-option-line);
+  }
+}

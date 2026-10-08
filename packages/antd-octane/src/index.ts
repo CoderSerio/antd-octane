@@ -327,6 +327,8 @@ export type {
   MultipleSelectProps,
   SelectComponentProps,
   SelectOption,
+  SelectOptionGroup,
+  SelectOptionItem,
   SelectProps,
   SelectRef,
   SelectValue,
