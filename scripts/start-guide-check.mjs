@@ -92,6 +92,7 @@ try {
     JSON.stringify({
       name: "start-guide-consumer",
       private: true,
+      type: "module",
       dependencies,
       devDependencies,
     }),

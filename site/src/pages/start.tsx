@@ -43,10 +43,15 @@ export default function StartPage({ section }: { section?: string }) {
       <p>在已有 Octane 项目中执行：</p>
       <Code language="bash" source="pnpm add antd-octane@alpha octane@0.4.3" />
       <p>
+        npm 默认 latest 标签仍指向旧版 0.1.0-alpha.0；省略 @alpha
+        会安装该旧版，可能缺少本站示例的 API。请保留标签或固定所需的已发布版本。
+      </p>
+      <p>
         需要固定版本时，先用 npm view antd-octane dist-tags.alpha
         查看当前发布版本，再将 antd-octane@alpha
-        替换为对应版本号。新建项目可先创建空目录，执行 pnpm init，
-        再安装上述依赖和以下开发工具。
+        替换为对应版本号。新建项目可先创建空目录，执行 pnpm init， 在
+        package.json 中设置 <code>{'"type": "module"'}</code>，
+        再安装上述依赖和以下开发工具，以 ESM 方式加载 Vite 配置。
       </p>
       <Code language="bash" source="pnpm add -D vite@8 typescript@5.9" />
       <h2 id="configure" tabIndex={-1}>

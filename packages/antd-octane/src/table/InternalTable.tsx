@@ -1840,7 +1840,11 @@ function InternalTable<T extends object = Record<string, unknown>>({
       checked={pageAllSelected}
       indeterminate={pageIndeterminate}
       disabled={titleCheckboxProps.disabled ?? changeablePageRows.length === 0}
-      aria-label={mergedLocale.selectAll ?? "Select current page"}
+      aria-label={
+        titleCheckboxProps["aria-label"] ??
+        mergedLocale.selectAll ??
+        "Select current page"
+      }
       onChange={(event) => {
         togglePageSelection(event.target.checked);
         titleCheckboxProps.onChange?.(event);
@@ -2111,7 +2115,9 @@ function InternalTable<T extends object = Record<string, unknown>>({
               checked={selected}
               value={String(key)}
               name={`table-selection-${tableId}`}
-              aria-label={`Select row ${index + 1}`}
+              aria-label={
+                checkboxProps["aria-label"] ?? `Select row ${index + 1}`
+              }
               onClick={(event) => {
                 event.stopPropagation();
                 checkboxProps.onClick?.(event);
@@ -2135,7 +2141,9 @@ function InternalTable<T extends object = Record<string, unknown>>({
               skipGroup
               checked={selected}
               indeterminate={halfSelectedKeySet.has(key)}
-              aria-label={`Select row ${index + 1}`}
+              aria-label={
+                checkboxProps["aria-label"] ?? `Select row ${index + 1}`
+              }
               onClick={(event) => {
                 event.stopPropagation();
                 checkboxProps.onClick?.(event);
