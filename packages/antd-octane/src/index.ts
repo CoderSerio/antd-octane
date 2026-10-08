@@ -155,8 +155,6 @@ export type {
   ExpandIconPosition,
 } from "./collapse";
 export { Collapse } from "./collapse";
-export type { DatePickerProps, PickerLocale, PickerRef } from "./date-picker";
-export { DatePicker } from "./date-picker";
 export type {
   ColorFormatType,
   ColorPickerProps,
@@ -164,6 +162,8 @@ export type {
   HSB,
 } from "./color-picker";
 export { Color, ColorPicker } from "./color-picker";
+export type { DatePickerProps, PickerLocale, PickerRef } from "./date-picker";
+export { DatePicker } from "./date-picker";
 export type {
   DescriptionsContextProps,
   DescriptionsItem,
