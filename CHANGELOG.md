@@ -2,6 +2,14 @@
 
 此文件记录 `antd-octane` 的版本变化；标注「待发布」的条目尚不可从 npm 安装。组件支持范围与限制见[兼容与迁移](site/src/pages/compatibility.tsx)。
 
+## 0.1.0-alpha.8 — 待发布
+
+- 新增 Calendar、Table、Tree 与 GetProps / GetProp / GetRef 类型工具，并扩展现有组件 API；各组件仍以公开类型和支持范围说明为准。
+- 新增 Cascader、ColorPicker、DatePicker / DatePicker.RangePicker、TimePicker、Mentions、Transfer、TreeSelect 和 Upload 原生实现。日期范围支持草稿、自动或显式确认、禁用日期与端点；上传支持 Dragger、数量限制、取消请求和过期异步结果处理。
+- Form 支持嵌套 NamePath、setFieldValue、局部 resetFields / validateFields 和直接字段依赖校验；Select 支持分组选项、loading 和 optionFilterProp。
+- 官网使用已发布组件实现页面/代码加载反馈、失败恢复、主题抽屉与表单，以及示例中的选项、滑块和按钮；保留原生表单互操作示例。
+- 源码包候选版本为 alpha.8。文档站暂时继续安装 alpha.7；待 npm 发布和独立安装验证通过后，再接入新增组件页面和 API 示例。
+
 ## 0.1.0-alpha.7 — 2026-10-02
 
 - 修复 Checkbox.Group / Radio.Group 的 options 形式在全局禁用配置下忽略显式 `disabled={false}` 的问题；单独禁用的选项仍不可操作。

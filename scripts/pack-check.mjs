@@ -69,8 +69,8 @@ import { AntDesignOutlined, ClockCircleOutlined, MinusOutlined, PlusOutlined, Qu
 import { Calendar, Cascader, ColorPicker, DatePicker, TimePicker, Transfer, TreeSelect, Tree, Table, Upload } from 'antd-octane';
 import 'antd-octane/style.css';
 import { StyleProvider, type StyleProviderProps } from 'antd-octane/style';
-// @ts-expect-error Range pickers are deliberately not exposed yet.
-const unsupportedRange = DatePicker.RangePicker;
+// @ts-expect-error Time ranges are deliberately not exposed yet.
+const unsupportedRange = TimePicker.RangePicker;
 // @ts-expect-error Gradient mode has no implementation.
 const unsupportedColor = <ColorPicker mode="gradient" />;
 // @ts-expect-error TreeSelect checkbox conduction is not implemented.
@@ -338,8 +338,9 @@ createRoot(document.getElementById('root')!).render(
     <Space.Compact size="small"><Space.Addon>https://</Space.Addon><Input /><Button>Go</Button></Space.Compact>
     <AutoComplete options={[{value:'Octane'}]} onChange={(text) => void text} onSelect={(text,option) => void option.value} />
     <Mentions options={[{value:'alice'}]} defaultValue="Packed @a" onChange={(text) => void text} />
-    <Form initialValues={{name:'Packed'}} onFinish={(values) => void values.name}>
+    <Form initialValues={{name:'Packed', user:{owner:'a'}}} onFinish={(values) => void values.name}>
       <Form.Item name="name" label="Name" rules={[{required:true}, {validator: async (_rule,value) => { if (!value) throw new Error("Required"); }}]}><Input /></Form.Item>
+      <Form.Item name={['user', 'owner']} label="Owner" dependencies={['name']}><Select loading options={[{label:'Team',options:[{value:'a',label:'Alice'}]}]} optionFilterProp="label" /></Form.Item>
       <Form.Item name="enabled" label="Enabled" valuePropName="checked"><Switch /></Form.Item>
       <Button htmlType="submit">Save</Button>
     </Form>
@@ -361,11 +362,13 @@ createRoot(document.getElementById('root')!).render(
     <section id="new-components">
       <ColorPicker defaultValue="#1677ff" showText />
       <DatePicker aria-label="Packed date" value={null} />
+      <DatePicker.RangePicker value={null} needConfirm />
       <TimePicker aria-label="Packed time" defaultValue={null} minuteStep={15} />
       <Cascader aria-label="Packed cascader" options={[{ value:'p', label:'Parent', children:[{value:'leaf',label:'Leaf'}] }]} defaultValue={['p','leaf']} />
       <TreeSelect aria-label="Packed tree select" treeData={[{value:'leaf',title:'Tree leaf'}]} defaultValue="leaf" />
       <Transfer dataSource={[{key:'one',title:'Transfer one'}]} targetKeys={[]} />
       <Upload beforeUpload={() => Upload.LIST_IGNORE}><Button>Upload file</Button></Upload>
+      <Upload.Dragger maxCount={2} multiple beforeUpload={() => false}>Drop local files</Upload.Dragger>
       <Calendar fullscreen={false} />
       <Tree treeData={[{key:'tree',title:'Standalone tree'}]} />
       <Table dataSource={[{key:'row',name:'Table row'}]} columns={[{title:'Name',dataIndex:'name'}]} pagination={false} />
@@ -420,8 +423,8 @@ function Page() @{
     <AutoComplete id="signal-autocomplete" value={value$.get()} onChange={(next) => value$.set(next)} options={[{value:"updated"}]} />
     <Mentions id="signal-mentions" value={value$.get()} onChange={(next) => value$.set(next)} options={[{value:"updated"}]} />
     <Input id="signal-input" value={value$.get()} onChange={(event) => value$.set(event.target.value)} />
-    <Form initialValues={{profile:'Signal form'}}>
-      <Form.Item name="profile" label="Profile" required><Input /></Form.Item>
+    <Form initialValues={{user:{profile:'Signal form'}}}>
+      <Form.Item name={['user','profile']} label="Profile" required><Input /></Form.Item>
     </Form>
     <Switch checked={checked$.get()} onChange={(next) => checked$.set(next)} />
     <Checkbox checked={checked$.get()} onChange={(event) => checked$.set(event.target.checked)}>checkable</Checkbox>
@@ -476,11 +479,13 @@ function Page() @{
     <section id="new-components">
       <ColorPicker defaultValue="#1677ff" showText />
       <DatePicker aria-label="Packed date" value={null} />
+      <DatePicker.RangePicker value={null} needConfirm />
       <TimePicker aria-label="Packed time" defaultValue={null} minuteStep={15} />
       <Cascader aria-label="Packed cascader" options={[{ value:'p', label:'Parent', children:[{value:'leaf',label:'Leaf'}] }]} defaultValue={['p','leaf']} />
       <TreeSelect aria-label="Packed tree select" treeData={[{value:'leaf',title:'Tree leaf'}]} defaultValue="leaf" />
       <Transfer dataSource={[{key:'one',title:'Transfer one'}]} targetKeys={[]} />
       <Upload beforeUpload={() => Upload.LIST_IGNORE}><Button>Upload file</Button></Upload>
+      <Upload.Dragger maxCount={2} multiple beforeUpload={() => false}>Drop local files</Upload.Dragger>
       <Calendar fullscreen={false} />
       <Tree treeData={[{key:'tree',title:'Standalone tree'}]} />
       <Table dataSource={[{key:'row',name:'Table row'}]} columns={[{title:'Name',dataIndex:'name'}]} pagination={false} />
@@ -536,7 +541,7 @@ try {
   for (const expected of ['typed text', 'divider content', 'flex child', 'grid child', 'layout header', 'layout content', 'Anchor target', 'Home', 'Current', 'Menu item', 'Start', 'alert content', 'result content', 'skeleton child', 'spin child', 'watermark child', 'affix child', 'app child', 'config child']) {
     if (!text.includes(expected)) throw new Error('TSRX component content missing: ' + expected);
   }
-  for (const selector of ['.ant-color-picker', '.ao-single-picker', '.ant-cascader', '.ant-tree-select', '.ant-transfer', '.ant-upload', '.ant-picker-calendar', '.ant-tree', '.ant-table']) {
+  for (const selector of ['.ant-color-picker', '.ao-single-picker', '.ao-range-picker', '.ant-cascader', '.ant-tree-select', '.ant-transfer', '.ant-upload', '.ant-picker-calendar', '.ant-tree', '.ant-table']) {
     if (!win.document.querySelector('#new-components ' + selector)) throw new Error('Packed new component missing: ' + selector);
   }
   if (win.document.querySelector('#new-components button button')) throw new Error('Upload nested interactive triggers');
