@@ -77,6 +77,20 @@ export function SinglePicker(props: Props) {
     setText(print(value));
     setInvalid(false);
   }, [value?.valueOf(), format, localeName]);
+  const previousPanel = useRef({ open: false, value: value?.valueOf() });
+  useEffect(() => {
+    const previous = previousPanel.current;
+    const valueChanged = previous.value !== value?.valueOf();
+    previousPanel.current = { open, value: value?.valueOf() };
+    // A parent change supersedes a draft; unrelated renders must not reset it.
+    if (open && (!previous.open || valueChanged)) {
+      setCursor(
+        value?.isValid()
+          ? value
+          : dayjs().startOf(props.kind === "date" ? "day" : "hour"),
+      );
+    }
+  }, [open, value?.valueOf()]);
   const setOpen = (next: boolean) => {
     if (disabled || next === open) return;
     if (next)
@@ -371,7 +385,7 @@ export function SinglePicker(props: Props) {
         if (next) setOpen(true);
         else cancel();
       }}
-      trigger="click"
+      trigger={[]}
       placement="bottomLeft"
       arrow={false}
       fresh

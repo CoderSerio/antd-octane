@@ -362,3 +362,77 @@ it("keeps keyboard focus on the intended date across month boundaries", async ()
   );
   expect(change.mock.lastCall?.[1]).toBe("2024-03-02");
 });
+it("syncs external values into an open time panel without retaining stale confirmation", async () => {
+  const change = vi.fn();
+  await act(() =>
+    root.render(
+      <TimePicker
+        open
+        value={dayjs("2025-01-01T10:00:00")}
+        onChange={change}
+      />,
+    ),
+  );
+  const hour = () =>
+    required(document.querySelector<HTMLSelectElement>('[aria-label="Hour"]'));
+  await act(() => {
+    hour().value = "11";
+    hour().dispatchEvent(new Event("change", { bubbles: true }));
+  });
+  // An unrelated rerender must preserve the in-progress draft.
+  await act(() =>
+    root.render(
+      <TimePicker
+        open
+        value={dayjs("2025-01-01T10:00:00")}
+        onChange={change}
+        size="large"
+      />,
+    ),
+  );
+  expect(hour().value).toBe("11");
+  await act(() =>
+    root.render(
+      <TimePicker
+        open
+        value={dayjs("2030-06-15T15:30:00")}
+        onChange={change}
+      />,
+    ),
+  );
+  expect(hour().value).toBe("15");
+  await act(() =>
+    required(
+      [...document.querySelectorAll("button")].find(
+        (button) => button.textContent === "OK",
+      ),
+    ).click(),
+  );
+  expect(change).not.toHaveBeenCalled();
+});
+it("resets drafts when a parent closes and reopens the picker", async () => {
+  const value = dayjs("2025-01-15");
+  await act(() => root.render(<DatePicker open value={value} />));
+  await act(() =>
+    required(
+      document.querySelector<HTMLButtonElement>('[aria-label="Next month"]'),
+    ).click(),
+  );
+  expect(
+    document.querySelector(".ao-picker-grid")?.getAttribute("aria-label"),
+  ).toBe("2025-02");
+  await act(() => root.render(<DatePicker open={false} value={value} />));
+  await act(() => root.render(<DatePicker open value={value} />));
+  expect(
+    document.querySelector(".ao-picker-grid")?.getAttribute("aria-label"),
+  ).toBe("2025-01");
+});
+it("keeps an open input editable when clicked again", async () => {
+  const open = vi.fn();
+  await act(() => root.render(<DatePicker onOpenChange={open} />));
+  await act(() => input().click());
+  expect(input().getAttribute("aria-expanded")).toBe("true");
+  await act(() => input().click());
+  expect(input().getAttribute("aria-expanded")).toBe("true");
+  expect(open.mock.calls).toEqual([[true]]);
+});
