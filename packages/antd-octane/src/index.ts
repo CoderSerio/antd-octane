@@ -155,6 +155,8 @@ export type {
   ExpandIconPosition,
 } from "./collapse";
 export { Collapse } from "./collapse";
+export type { DatePickerProps, PickerLocale, PickerRef } from "./date-picker";
+export { DatePicker } from "./date-picker";
 export type {
   ColorFormatType,
   ColorPickerProps,
@@ -420,6 +422,12 @@ export type {
   TagProps,
 } from "./tag";
 export { Tag } from "./tag";
+export type {
+  DisabledTimes,
+  TimePickerProps,
+  TimePickerRef,
+} from "./time-picker";
+export { TimePicker } from "./time-picker";
 export type {
   TimeLineItemProps,
   TimelineItem,

@@ -1,0 +1,119 @@
+.ao-single-picker {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  max-width: 100%;
+  color: var(--ao-picker-color);
+  background: var(--ao-picker-bg);
+  border: 1px solid var(--ao-picker-border);
+  border-radius: 6px;
+  font: inherit;
+}
+.ao-single-picker input {
+  min-width: 0;
+  width: 160px;
+  padding: 6px 10px;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+.ao-single-picker-small input {
+  padding: 2px 6px;
+}
+.ao-single-picker-large input {
+  padding: 10px 12px;
+}
+.ao-single-picker:focus-within {
+  border-color: var(--ao-picker-primary);
+}
+.ao-single-picker-error {
+  border-color: var(--ao-picker-error);
+}
+.ao-single-picker-warning {
+  border-color: var(--ao-picker-warning);
+}
+.ao-single-picker button,
+.ao-single-picker-panel button {
+  font: inherit;
+  cursor: pointer;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+.ao-single-picker button:focus-visible,
+.ao-single-picker-panel button:focus-visible {
+  outline: 2px solid var(--ao-picker-primary);
+  outline-offset: -2px;
+}
+.ao-single-picker-panel button:disabled,
+.ao-single-picker-panel button[aria-disabled="true"],
+.ao-single-picker button:disabled,
+.ao-single-picker button[aria-disabled="true"],
+.ao-single-picker input:disabled {
+  color: var(--ao-picker-disabled);
+  cursor: not-allowed;
+}
+.ao-single-picker-panel {
+  width: 280px;
+  max-width: calc(100vw - 24px);
+  padding: 8px;
+  box-sizing: border-box;
+  background: var(--ao-picker-bg);
+  border: 1px solid var(--ao-picker-border);
+  border-radius: 8px;
+}
+.ao-single-picker-panel header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 8px;
+}
+.ao-picker-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  text-align: center;
+}
+.ao-picker-grid button {
+  width: 100%;
+  padding: 6px 0;
+}
+.ao-picker-grid button[aria-pressed="true"] {
+  background: var(--ao-picker-primary);
+  color: white;
+}
+.ao-picker-outside {
+  opacity: 0.5;
+}
+.ao-picker-time-columns {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.ao-picker-time-columns label {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+}
+.ao-picker-time-columns select {
+  width: 100%;
+  font: inherit;
+  color: inherit;
+  background: inherit;
+  border: 1px solid var(--ao-picker-border);
+}
+
+.ao-picker-grid {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+.ao-picker-grid td {
+  padding: 0;
+  text-align: center;
+}
