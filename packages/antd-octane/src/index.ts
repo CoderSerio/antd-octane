@@ -448,6 +448,12 @@ export type {
 } from "./tour";
 export { Tour } from "./tour";
 export type {
+  TransferDirection,
+  TransferItem,
+  TransferProps,
+} from "./transfer";
+export { Transfer } from "./transfer";
+export type {
   DirectoryTreeExpandAction,
   DirectoryTreeProps,
   Key,

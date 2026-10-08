@@ -1,0 +1,81 @@
+@layer antd {
+  :where(.ant-transfer) {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--ao-transfer-color);
+    max-width: 100%;
+  }
+  :where(.ant-transfer-list) {
+    width: 180px;
+    height: 240px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--ao-transfer-border);
+    border-radius: 6px;
+    background: var(--ao-transfer-bg);
+  }
+  :where(.ant-transfer-list header) {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    border-bottom: 1px solid var(--ao-transfer-border);
+  }
+  :where(.ant-transfer-list header span:last-child) {
+    margin-inline-start: auto;
+  }
+  :where(.ant-transfer-list ul) {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow: auto;
+    flex: 1;
+  }
+  :where(.ant-transfer-list label) {
+    display: flex;
+    gap: 8px;
+    padding: 6px 8px;
+    cursor: pointer;
+    overflow-wrap: anywhere;
+  }
+  :where(.ant-transfer-list label[aria-disabled="true"]) {
+    color: var(--ao-transfer-disabled);
+    cursor: not-allowed;
+  }
+  :where(.ant-transfer input) {
+    accent-color: var(--ao-transfer-primary);
+  }
+  :where(.ant-transfer-search) {
+    min-width: 0;
+    margin: 8px;
+    width: calc(100% - 16px);
+    color: inherit;
+    background: inherit;
+    border: 1px solid var(--ao-transfer-border);
+    padding: 4px;
+  }
+  :where(.ant-transfer-operations) {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  :where(.ant-transfer-operations button) {
+    font: inherit;
+    color: inherit;
+    background: var(--ao-transfer-bg);
+    border: 1px solid var(--ao-transfer-border);
+    border-radius: 4px;
+    padding: 4px 8px;
+    cursor: pointer;
+  }
+  :where(.ant-transfer-operations button:disabled) {
+    color: var(--ao-transfer-disabled);
+    cursor: not-allowed;
+  }
+  :where(.ant-transfer-empty) {
+    margin: auto;
+    padding: 8px;
+  }
+}
