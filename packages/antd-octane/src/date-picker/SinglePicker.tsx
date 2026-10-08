@@ -199,6 +199,15 @@ export function SinglePicker(props: Props) {
   const contents = open ? (
     <div
       style={variables}
+      onMouseDown={(event) => {
+        // Keep focus for clicks on panel chrome/buttons, including browsers that
+        // do not focus buttons. Editable controls retain their native behavior.
+        if (
+          event.target instanceof Element &&
+          !event.target.closest("input,select,textarea,[contenteditable=true]")
+        )
+          event.preventDefault();
+      }}
       ref={(node) => {
         panel.current = node;
         if (node && pendingFocus.current)

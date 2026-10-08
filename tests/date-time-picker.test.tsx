@@ -436,3 +436,40 @@ it("keeps an open input editable when clicked again", async () => {
   expect(input().getAttribute("aria-expanded")).toBe("true");
   expect(open.mock.calls).toEqual([[true]]);
 });
+it("prevents panel chrome mouse presses from blurring the picker", async () => {
+  await act(() =>
+    root.render(<DatePicker defaultOpen defaultValue={dayjs("2025-01-15")} />),
+  );
+  for (const selector of ["header span", '[data-date="2025-01-16"]']) {
+    const target = required(
+      document.querySelector<HTMLElement>(
+        `.ao-single-picker-panel ${selector}`,
+      ),
+    );
+    const event = new MouseEvent("mousedown", {
+      bubbles: true,
+      cancelable: true,
+    });
+    await act(() => target.dispatchEvent(event));
+    expect(event.defaultPrevented).toBe(true);
+  }
+  expect(input().getAttribute("aria-expanded")).toBe("true");
+});
+it("retains native mouse focus for time columns and dismisses outside", async () => {
+  await act(() => root.render(<TimePicker defaultOpen />));
+  const target = required(
+    document.querySelector<HTMLSelectElement>('[aria-label="Hour"]'),
+  );
+  const event = new MouseEvent("mousedown", {
+    bubbles: true,
+    cancelable: true,
+  });
+  await act(() => target.dispatchEvent(event));
+  expect(event.defaultPrevented).toBe(false);
+  await act(() =>
+    document.body.dispatchEvent(
+      new PointerEvent("pointerdown", { bubbles: true }),
+    ),
+  );
+  expect(input().getAttribute("aria-expanded")).toBe("false");
+});
