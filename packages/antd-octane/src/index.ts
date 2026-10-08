@@ -502,6 +502,7 @@ export type {
 } from "./typography";
 export { Typography } from "./typography";
 export type {
+  UploadDraggerProps,
   UploadFile,
   UploadProps,
   UploadRequest,

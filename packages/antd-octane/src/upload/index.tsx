@@ -33,6 +33,7 @@ export interface UploadProps {
   name?: string;
   accept?: string;
   multiple?: boolean;
+  maxCount?: number;
   disabled?: boolean;
   fileList?: UploadFile[];
   defaultFileList?: UploadFile[];
@@ -107,9 +108,40 @@ function request(options: UploadRequestOptions): UploadRequest {
   };
 }
 let sequence = 0;
-function UploadInternal(props: UploadProps) {
+export interface UploadDraggerProps extends UploadProps {
+  onDrop?: (event: DragEvent) => void;
+  height?: number;
+}
+function accepts(file: File, accept?: string) {
+  if (!accept?.trim()) return true;
+  return accept.split(",").some((part) => {
+    const pattern = part.trim().toLowerCase();
+    if (pattern === "*" || pattern === "*/*") return true;
+    if (pattern.startsWith("."))
+      return file.name.toLowerCase().endsWith(pattern);
+    if (pattern.endsWith("/*"))
+      return file.type.toLowerCase().startsWith(pattern.slice(0, -1));
+    return !!pattern && file.type.toLowerCase() === pattern;
+  });
+}
+function UploadBase(
+  props: UploadProps & {
+    drag?: boolean;
+    dragHeight?: number;
+    onDrop?: (event: DragEvent) => void;
+  },
+) {
   const config = useConfig();
   const disabled = props.disabled ?? config.componentDisabled ?? false;
+  if (
+    props.maxCount !== undefined &&
+    (!Number.isInteger(props.maxCount) || props.maxCount < 1)
+  )
+    throw new RangeError("Upload maxCount must be a positive integer");
+  const enabled = useRef(!disabled);
+  enabled.current = !disabled;
+  const batchSequence = useRef(0);
+  const [dragging, setDragging] = useState(false);
   const [inner, setInner] = useState<UploadFile[]>(props.defaultFileList ?? []);
   const files = props.fileList ?? inner;
   const latest = useRef(props);
@@ -155,9 +187,15 @@ function UploadInternal(props: UploadProps) {
   useLayoutEffect(() => {
     for (const uid of requests.current.keys())
       if (!files.some((file) => file.uid === uid)) abort(uid);
+    for (const uid of removals.current.keys())
+      if (!files.some((file) => file.uid === uid)) removals.current.delete(uid);
   }, [files]);
-  const upload = async (original: File, batch: File[]) => {
-    if (!alive.current) return;
+  const upload = async (original: File, batch: File[], batchId: number) => {
+    const stale = () =>
+      !alive.current ||
+      !enabled.current ||
+      (latest.current.maxCount === 1 && batchId !== batchSequence.current);
+    if (stale()) return;
     const uid = `upload-${Date.now()}-${++sequence}`;
     let transformed: Awaited<
       ReturnType<NonNullable<UploadProps["beforeUpload"]>>
@@ -167,7 +205,7 @@ function UploadInternal(props: UploadProps) {
     } catch {
       transformed = false;
     }
-    if (!alive.current || transformed === LIST_IGNORE) return;
+    if (stale() || transformed === LIST_IGNORE) return;
     const file: UploadFile = {
       uid,
       name: original.name,
@@ -178,12 +216,21 @@ function UploadInternal(props: UploadProps) {
         ? {}
         : { status: "uploading" as const, percent: 0 }),
     };
-    emit(file, [...current.current, file]);
+    const proposed = [...current.current, file];
+    const limit = latest.current.maxCount;
+    const next =
+      limit === 1
+        ? proposed.slice(-1)
+        : limit
+          ? proposed.slice(0, limit)
+          : proposed;
+    // A truncated file never starts a transport or produces an onChange event.
+    if (!next.some((item) => item.uid === uid)) return;
+    emit(file, next);
     if (transformed === false) return;
     // Give a controlled owner a commit to accept the proposed list before I/O.
     await new Promise<void>((resolve) => queueMicrotask(resolve));
-    if (!alive.current || !current.current.some((item) => item.uid === uid))
-      return;
+    if (stale() || !current.current.some((item) => item.uid === uid)) return;
     const active: { abort?: () => void } = {};
     requests.current.set(uid, active);
     const update = (
@@ -244,6 +291,17 @@ function UploadInternal(props: UploadProps) {
       );
     }
   };
+  const enqueue = async (incoming: File[]) => {
+    if (!alive.current || !enabled.current) return;
+    let batch = incoming.filter((file) => accepts(file, latest.current.accept));
+    if (!latest.current.multiple) batch = batch.slice(0, 1);
+    if (!batch.length) return;
+    const batchId = ++batchSequence.current;
+    for (const file of batch) {
+      if (!alive.current || !enabled.current) break;
+      await upload(file, batch, batchId);
+    }
+  };
   const remove = async (file: UploadFile) => {
     if (disabled) return;
     const token = Symbol();
@@ -293,15 +351,10 @@ function UploadInternal(props: UploadProps) {
         onChange={(event) => {
           const batch = Array.from(event.currentTarget.files ?? []);
           event.currentTarget.value = "";
-          void (async () => {
-            for (const file of batch) {
-              if (!alive.current) break;
-              await upload(file, batch);
-            }
-          })();
+          void enqueue(batch);
         }}
       />
-      {props.children === undefined ? (
+      {props.children === undefined && !props.drag ? (
         <button
           type="button"
           className="ant-upload-trigger"
@@ -314,7 +367,37 @@ function UploadInternal(props: UploadProps) {
       ) : (
         // biome-ignore lint/a11y/useSemanticElements: Custom children may already be native buttons; avoid invalid nested buttons.
         <span
-          className="ant-upload-custom-trigger"
+          className={[
+            "ant-upload-custom-trigger",
+            props.drag && "ant-upload-drag",
+            dragging && !disabled && "ant-upload-drag-hover",
+          ]}
+          style={
+            props.dragHeight === undefined
+              ? undefined
+              : { height: props.dragHeight, minHeight: 0 }
+          }
+          onDragOver={(event) => {
+            if (!props.drag) return;
+            event.preventDefault();
+            if (event.dataTransfer)
+              event.dataTransfer.dropEffect = disabled ? "none" : "copy";
+            if (!disabled) setDragging(true);
+          }}
+          onDragLeave={(event) => {
+            if (
+              !event.currentTarget.contains(event.relatedTarget as Node | null)
+            )
+              setDragging(false);
+          }}
+          onDrop={(event) => {
+            if (!props.drag) return;
+            event.preventDefault();
+            setDragging(false);
+            if (disabled) return;
+            props.onDrop?.(event);
+            void enqueue(Array.from(event.dataTransfer?.files ?? []));
+          }}
           role="button"
           tabIndex={disabled ? -1 : 0}
           aria-label={props["aria-label"] ?? "Choose files"}
@@ -331,7 +414,9 @@ function UploadInternal(props: UploadProps) {
             }
           }}
         >
-          <span inert={disabled}>{props.children}</span>
+          <span inert={disabled}>
+            {props.children ?? "Click or drag files here to upload"}
+          </span>
         </span>
       )}
       {props.showUploadList !== false && (
@@ -368,6 +453,13 @@ function UploadInternal(props: UploadProps) {
     </div>
   );
 }
+function UploadInternal(props: UploadProps) {
+  return <UploadBase {...props} />;
+}
+function Dragger(props: UploadDraggerProps) {
+  return <UploadBase {...props} drag dragHeight={props.height} />;
+}
 export const Upload = Object.assign(UploadInternal, {
+  Dragger,
   LIST_IGNORE: LIST_IGNORE as typeof LIST_IGNORE,
 });

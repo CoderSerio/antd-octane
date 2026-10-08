@@ -40,6 +40,33 @@ function Demo() {
             <Button>Disabled document</Button>
           </Upload>
         </div>
+        <div id="dragger-upload">
+          <Upload.Dragger
+            action="/local-upload"
+            aria-label="Drop documents"
+            accept=".txt"
+            multiple
+            maxCount={2}
+          >
+            Drop text documents or press Enter to choose (maximum two).
+          </Upload.Dragger>
+        </div>
+        <div id="dragger-single">
+          <Upload.Dragger
+            action="/local-upload"
+            aria-label="Replace document"
+            maxCount={1}
+          />
+        </div>
+        <div id="dragger-disabled">
+          <Upload.Dragger
+            disabled
+            action="/local-upload"
+            aria-label="Disabled drop area"
+          >
+            Disabled drop area
+          </Upload.Dragger>
+        </div>
         <ConfigProvider componentDisabled>
           <Upload aria-label="Disabled upload" />
         </ConfigProvider>

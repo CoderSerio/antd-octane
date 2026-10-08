@@ -364,3 +364,225 @@ it("default XHR posts FormData, reports HTTP failure and clears callbacks on abo
   expect(canceled.onload).toBeNull();
   expect(canceled.upload.onprogress).toBeNull();
 });
+
+it("Dragger filters dropped files and blocks default navigation even when disabled", async () => {
+  const request = vi.fn(),
+    drop = vi.fn();
+  await render(
+    <Upload.Dragger
+      multiple
+      accept=".txt,image/*"
+      customRequest={request}
+      onDrop={drop}
+    />,
+  );
+  const trigger = host.querySelector<HTMLElement>('[role="button"]');
+  if (!trigger) throw Error("Missing drop area");
+  const over = new Event("dragover", { bubbles: true, cancelable: true });
+  await act(() => trigger.dispatchEvent(over));
+  expect(over.defaultPrevented).toBe(true);
+  const event = new Event("drop", { bubbles: true, cancelable: true });
+  Object.defineProperty(event, "dataTransfer", {
+    value: {
+      files: [
+        new File(["a"], "a.TXT"),
+        new File(["b"], "b.png", { type: "image/png" }),
+        new File(["c"], "c.pdf", { type: "application/pdf" }),
+      ],
+    },
+  });
+  await act(async () => {
+    trigger.dispatchEvent(event);
+    await new Promise((resolve) => setTimeout(resolve, 0));
+  });
+  expect(event.defaultPrevented).toBe(true);
+  expect(request).toHaveBeenCalledTimes(2);
+  expect(drop).toHaveBeenCalledOnce();
+  await render(
+    <Upload.Dragger disabled customRequest={request} onDrop={drop} />,
+  );
+  const disabled = host.querySelector<HTMLElement>('[role="button"]');
+  if (!disabled) throw Error("Missing disabled drop area");
+  const blocked = new Event("drop", { bubbles: true, cancelable: true });
+  Object.defineProperty(blocked, "dataTransfer", {
+    value: { files: [new File(["d"], "d.txt")] },
+  });
+  await act(() => disabled.dispatchEvent(blocked));
+  expect(blocked.defaultPrevented).toBe(true);
+  expect(request).toHaveBeenCalledTimes(2);
+  expect(drop).toHaveBeenCalledOnce();
+  expect(disabled.tabIndex).toBe(-1);
+});
+it("Dragger limits a drop to one file unless multiple is enabled", async () => {
+  const request = vi.fn();
+  await render(<Upload.Dragger customRequest={request} />);
+  const trigger = host.querySelector('[role="button"]');
+  if (!trigger) throw Error("Missing drop area");
+  const event = new Event("drop", { bubbles: true, cancelable: true });
+  Object.defineProperty(event, "dataTransfer", {
+    value: { files: [new File(["a"], "a.txt"), new File(["b"], "b.txt")] },
+  });
+  await act(async () => {
+    trigger.dispatchEvent(event);
+    await new Promise((resolve) => setTimeout(resolve, 0));
+  });
+  expect(request).toHaveBeenCalledOnce();
+  expect(host.querySelectorAll("li")).toHaveLength(1);
+});
+it("maxCount=1 replaces and aborts in-flight files, ignoring their late results", async () => {
+  const calls: UploadRequestOptions[] = [];
+  const abort = vi.fn();
+  const change = vi.fn();
+  await render(
+    <Upload
+      multiple
+      maxCount={1}
+      customRequest={(options) => {
+        calls.push(options);
+        return { abort };
+      }}
+      onChange={change}
+    />,
+  );
+  await choose("a.txt", "b.txt");
+  expect(host.querySelectorAll("li")).toHaveLength(1);
+  expect(host.querySelector("li")?.textContent).toContain("b.txt");
+  expect(abort).toHaveBeenCalledOnce();
+  const count = change.mock.calls.length;
+  await act(() => calls[0].onSuccess("late"));
+  expect(change).toHaveBeenCalledTimes(count);
+});
+it("maxCount>1 keeps existing files and truncates excess without starting requests", async () => {
+  const request = vi.fn(),
+    change = vi.fn();
+  await render(
+    <Upload
+      multiple
+      maxCount={2}
+      defaultFileList={[{ uid: "old", name: "old.txt" }]}
+      customRequest={request}
+      onChange={change}
+    />,
+  );
+  await choose("a.txt", "b.txt", "c.txt");
+  expect(host.querySelectorAll("li")).toHaveLength(2);
+  expect(request).toHaveBeenCalledOnce();
+  expect(change).toHaveBeenCalledOnce();
+  expect(host.textContent).not.toContain("b.txt");
+});
+it("does not cancel the old controlled request if its replacement is rejected", async () => {
+  const abort = vi.fn();
+  let accept = true;
+  const calls: UploadRequestOptions[] = [];
+  function Demo() {
+    const [files, setFiles] = useState<UploadFile[]>([]);
+    return (
+      <Upload
+        maxCount={1}
+        fileList={files}
+        onChange={(info) => {
+          if (accept) setFiles(info.fileList);
+        }}
+        customRequest={(options) => {
+          calls.push(options);
+          return { abort };
+        }}
+      />
+    );
+  }
+  await render(<Demo />);
+  await choose("a.txt");
+  accept = false;
+  await choose("b.txt");
+  expect(calls).toHaveLength(1);
+  expect(abort).not.toHaveBeenCalled();
+  expect(host.textContent).toContain("a.txt");
+});
+it("a stale beforeUpload cannot overwrite the latest single-file selection", async () => {
+  let resolve!: (value: boolean) => void;
+  const request = vi.fn();
+  await render(
+    <Upload
+      maxCount={1}
+      beforeUpload={(file) =>
+        file.name === "a.txt"
+          ? new Promise<boolean>((done) => {
+              resolve = done;
+            })
+          : true
+      }
+      customRequest={request}
+    />,
+  );
+  await choose("a.txt");
+  await choose("b.txt");
+  await act(async () => {
+    resolve(true);
+    await Promise.resolve();
+  });
+  expect(host.querySelectorAll("li")).toHaveLength(1);
+  expect(host.textContent).toContain("b.txt");
+  expect(request).toHaveBeenCalledOnce();
+});
+it("does not replace an existing file for LIST_IGNORE or disable-pending interception", async () => {
+  let resolve!: (value: boolean) => void;
+  const request = vi.fn();
+  let disable!: () => void;
+  function Demo() {
+    const [disabled, setDisabled] = useState(false);
+    disable = () => setDisabled(true);
+    return (
+      <Upload
+        disabled={disabled}
+        maxCount={1}
+        defaultFileList={[{ uid: "old", name: "old.txt" }]}
+        customRequest={request}
+        beforeUpload={(file) =>
+          file.name === "ignore.txt"
+            ? Upload.LIST_IGNORE
+            : new Promise<boolean>((done) => {
+                resolve = done;
+              })
+        }
+      />
+    );
+  }
+  await render(<Demo />);
+  await choose("ignore.txt");
+  expect(host.textContent).toContain("old.txt");
+  await choose("pending.txt");
+  await act(() => disable());
+  await act(async () => {
+    resolve(true);
+    await Promise.resolve();
+  });
+  expect(request).not.toHaveBeenCalled();
+  expect(host.textContent).toContain("old.txt");
+});
+it("cancels a pending remove decision when an owner removes and re-adds its uid", async () => {
+  let resolve!: (value: boolean) => void;
+  let replace!: (files: UploadFile[]) => void;
+  function Demo() {
+    const [files, setFiles] = useState<UploadFile[]>([
+      { uid: "same", name: "old.txt" },
+    ]);
+    replace = setFiles;
+    return (
+      <Upload
+        fileList={files}
+        onChange={(info) => setFiles(info.fileList)}
+        onRemove={() =>
+          new Promise<boolean>((done) => {
+            resolve = done;
+          })
+        }
+      />
+    );
+  }
+  await render(<Demo />);
+  await remove("old.txt");
+  await act(() => replace([]));
+  await act(() => replace([{ uid: "same", name: "new.txt" }]));
+  await act(() => resolve(true));
+  expect(host.textContent).toContain("new.txt");
+});
