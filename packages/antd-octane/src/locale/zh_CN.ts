@@ -11,6 +11,7 @@ const locale: Locale = {
     close: "关闭",
   },
   DatePicker: {
+    rangePlaceholder: ["开始日期", "结束日期"],
     locale: "zh-cn",
     placeholder: "请选择日期",
     clear: "清除",

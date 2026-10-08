@@ -13,6 +13,7 @@ import generateConfig from "../calendar/dayjs";
 import { useConfig } from "../config-provider";
 import useLocale from "../locale/useLocale";
 import { Popover } from "../popover";
+import { DatePanel } from "./DatePanel";
 import type { DatePickerProps, TimePickerProps } from "./interface";
 
 type Props = DatePickerProps & TimePickerProps & { kind: "date" | "time" };
@@ -178,13 +179,6 @@ export function SinglePicker(props: Props) {
       focusCell(next);
     }
   };
-  const start = generateConfig.locale.getWeekFirstDate(
-    localeName,
-    cursor.startOf("month"),
-  );
-  const weekdayNames =
-    generateConfig.locale.getShortWeekDays?.(localeName) ?? [];
-  const weekStart = generateConfig.locale.getWeekFirstDay(localeName);
   const units = ["hour", "minute", "second"] as const;
   const variables = {
     "--ao-picker-bg": token.colorBgContainer,
@@ -244,83 +238,18 @@ export function SinglePicker(props: Props) {
       className="ao-single-picker-panel"
     >
       {props.kind === "date" ? (
-        <>
-          <header>
-            <button
-              type="button"
-              aria-label={locale.previousMonth}
-              onClick={() => setCursor(cursor.subtract(1, "month"))}
-            >
-              ‹
-            </button>
-            <span aria-live="polite">
-              {cursor.locale(localeName).format("MMMM YYYY")}
-            </span>
-            <button
-              type="button"
-              aria-label={locale.nextMonth}
-              onClick={() => setCursor(cursor.add(1, "month"))}
-            >
-              ›
-            </button>
-          </header>
-          <div className="ao-picker-weekdays">
-            {Array.from({ length: 7 }, (_, i) => (
-              <span key={i}>{weekdayNames[(weekStart + i) % 7]}</span>
-            ))}
-          </div>
-          <table
-            aria-label={cursor.format("YYYY-MM")}
-            className="ao-picker-grid"
-          >
-            <tbody>
-              {Array.from({ length: 6 }, (_, row) => (
-                <tr key={row}>
-                  {Array.from({ length: 7 }, (_, col) => {
-                    const date = start.add(row * 7 + col, "day");
-                    const active = date.isSame(cursor, "day");
-                    const unavailable = !allowed(date);
-                    return (
-                      <td key={col}>
-                        <button
-                          type="button"
-                          aria-pressed={value?.isSame(date, "day") ?? false}
-                          data-date={date.format("YYYY-MM-DD")}
-                          data-active={active ? "true" : undefined}
-                          tabIndex={active ? 0 : -1}
-                          aria-label={date
-                            .locale(localeName)
-                            .format("YYYY-MM-DD dddd")}
-                          aria-disabled={unavailable}
-                          className={
-                            date.month() === cursor.month()
-                              ? undefined
-                              : "ao-picker-outside"
-                          }
-                          onKeyDown={dateKey}
-                          onClick={() => {
-                            if (commit(date)) input.current?.focus();
-                          }}
-                        >
-                          {date.date()}
-                        </button>
-                      </td>
-                    );
-                  })}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <button
-            type="button"
-            disabled={!allowed(dayjs().startOf("day"))}
-            onClick={() => {
-              if (commit(dayjs().startOf("day"))) input.current?.focus();
-            }}
-          >
-            {locale.today}
-          </button>
-        </>
+        <DatePanel
+          cursor={cursor}
+          selected={value ? [value] : []}
+          locale={locale}
+          localeName={localeName}
+          allowed={allowed}
+          setCursor={setCursor}
+          onKeyDown={dateKey}
+          onSelect={(date) => {
+            if (commit(date)) input.current?.focus();
+          }}
+        />
       ) : (
         <>
           <div className="ao-picker-time-columns">

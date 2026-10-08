@@ -163,7 +163,13 @@ export type {
   HSB,
 } from "./color-picker";
 export { Color, ColorPicker } from "./color-picker";
-export type { DatePickerProps, PickerLocale, PickerRef } from "./date-picker";
+export type {
+  DatePickerProps,
+  DateRange,
+  PickerLocale,
+  PickerRef,
+  RangePickerProps,
+} from "./date-picker";
 export { DatePicker } from "./date-picker";
 export type {
   DescriptionsContextProps,

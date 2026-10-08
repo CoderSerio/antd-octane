@@ -25,13 +25,21 @@ export const valid = (
 );
 // @ts-expect-error The single DatePicker accepts Dayjs, not serialized dates.
 export const stringValue = <DatePicker value="2025-01-01" />;
-// @ts-expect-error Range selection is not implemented.
+// @ts-expect-error The single picker does not accept a tuple.
 export const range = <DatePicker value={[value, value]} />;
 // @ts-expect-error Date/time composition is not implemented.
 export const showTime = <DatePicker showTime />;
 // @ts-expect-error Multiple selection is not implemented.
 export const multiple = <DatePicker multiple />;
-// @ts-expect-error This release exposes no RangePicker stub.
-export const rangePicker = DatePicker.RangePicker;
+export const rangePicker = <DatePicker.RangePicker value={[value, value]} />;
 // @ts-expect-error Only 24-hour time controls are implemented.
 export const twelveHour = <TimePicker use12Hours />;
+
+// @ts-expect-error Range time selection is not implemented.
+export const rangeTime = <DatePicker.RangePicker showTime />;
+export const rangeStrings = (
+  // @ts-expect-error Range values must contain Dayjs instances.
+  <DatePicker.RangePicker value={["2025-01-01", null]} />
+);
+// @ts-expect-error Time ranges are not implemented.
+export const timeRange = <TimePicker.RangePicker />;
