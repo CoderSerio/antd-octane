@@ -9,6 +9,9 @@ import {
   type MentionsRef,
 } from "../packages/antd-octane/src";
 
+import enUS from "../packages/antd-octane/src/locale/en_US";
+import zhCN from "../packages/antd-octane/src/locale/zh_CN";
+
 let root: Root | undefined;
 let container: HTMLDivElement;
 const options: MentionsOption[] = [
@@ -251,4 +254,66 @@ it("inherits disabled, size, variant and popup container, and cleans up on unmou
   } finally {
     target.remove();
   }
+});
+
+it("updates empty and clear labels when the provider locale changes", async () => {
+  let switchLocale!: () => void;
+  function Demo() {
+    const [english, setEnglish] = useState(true);
+    switchLocale = () => setEnglish(false);
+    return (
+      <ConfigProvider locale={english ? enUS : zhCN}>
+        <Mentions allowClear options={[]} />
+      </ConfigProvider>
+    );
+  }
+  await render(<Demo />);
+  await type("@missing");
+  expect(document.querySelector(".ant-mentions-empty")?.textContent).toBe(
+    "No matches found",
+  );
+  expect(
+    container.querySelector(".ant-mentions-clear")?.getAttribute("aria-label"),
+  ).toBe("Clear mention content");
+  await act(() => switchLocale());
+  expect(document.querySelector(".ant-mentions-empty")?.textContent).toBe(
+    "无匹配结果",
+  );
+  expect(
+    container.querySelector(".ant-mentions-clear")?.getAttribute("aria-label"),
+  ).toBe("清除提及内容");
+});
+it("honors custom locale text and explicit notFoundContent, including null", async () => {
+  const locale = {
+    ...enUS,
+    Mentions: { notFoundContent: "Nobody here", clear: "Remove mention" },
+  };
+  await render(
+    <ConfigProvider locale={locale}>
+      <Mentions allowClear />
+    </ConfigProvider>,
+  );
+  await type("@missing");
+  expect(document.querySelector(".ant-mentions-empty")?.textContent).toBe(
+    "Nobody here",
+  );
+  expect(
+    container.querySelector(".ant-mentions-clear")?.getAttribute("aria-label"),
+  ).toBe("Remove mention");
+  await render(
+    <ConfigProvider locale={locale}>
+      <Mentions notFoundContent="Custom empty" />
+    </ConfigProvider>,
+  );
+  await type("@missing");
+  expect(document.querySelector(".ant-mentions-empty")?.textContent).toBe(
+    "Custom empty",
+  );
+  await render(
+    <ConfigProvider locale={locale}>
+      <Mentions notFoundContent={null} />
+    </ConfigProvider>,
+  );
+  await type("@missing");
+  expect(document.querySelector(".ant-mentions-empty")?.textContent).toBe("");
 });

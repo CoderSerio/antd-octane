@@ -17,6 +17,7 @@ import { positionPopup } from "../_util/floating";
 import { useComponentTokens } from "../_util/tokens";
 import { useConfig } from "../config-provider";
 import { inputVariables } from "../input/tokens";
+import { useLocale } from "../locale";
 
 export interface MentionsOption {
   value: string;
@@ -167,7 +168,7 @@ function MentionsInternal({
   filterOption,
   validateSearch = (query, delimiter) =>
     !delimiter || !query.includes(delimiter),
-  notFoundContent = "无匹配结果",
+  notFoundContent,
   placement = "bottom",
   getPopupContainer,
   popupClassName,
@@ -192,6 +193,7 @@ function MentionsInternal({
   ...textareaProps
 }: MentionsProps) {
   const config = useConfig();
+  const [locale] = useLocale("Mentions");
   const { token: t, component: c, base } = useComponentTokens("Select");
   const id = `ao-mentions-${useId()}`;
   const host = useRef<HTMLDivElement | null>(null);
@@ -460,7 +462,11 @@ function MentionsInternal({
           </div>
         ))
       ) : (
-        <div className="ant-mentions-empty">{notFoundContent}</div>
+        <div className="ant-mentions-empty">
+          {notFoundContent === undefined
+            ? (locale.notFoundContent ?? "无匹配结果")
+            : notFoundContent}
+        </div>
       )}
     </div>
   );
@@ -579,7 +585,7 @@ function MentionsInternal({
         <button
           type="button"
           className="ant-mentions-clear"
-          aria-label="清除提及内容"
+          aria-label={locale.clear ?? "清除提及内容"}
           onMouseDown={(event) => event.preventDefault()}
           onClick={() => {
             changeValue("");

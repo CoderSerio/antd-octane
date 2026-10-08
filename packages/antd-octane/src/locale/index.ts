@@ -10,6 +10,7 @@ export interface Locale {
   DatePicker?: PickerLocale;
   TimePicker?: PickerLocale;
   Table?: TableLocale;
+  Mentions?: { notFoundContent?: string; clear?: string };
   Empty?: { description?: string };
   Image?: { preview?: string };
   Modal?: { okText?: string; cancelText?: string; justOkText?: string };

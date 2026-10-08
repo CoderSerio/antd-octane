@@ -3,6 +3,10 @@ import type { Locale } from ".";
 
 const locale: Locale = {
   locale: "en",
+  Mentions: {
+    notFoundContent: "No matches found",
+    clear: "Clear mention content",
+  },
   Modal: { okText: "OK", cancelText: "Cancel", justOkText: "OK" },
   Popconfirm: { okText: "OK", cancelText: "Cancel" },
   global: {

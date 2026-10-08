@@ -14,3 +14,8 @@ no independent Mentions component-token API yet. Default, dark and compact
 browser checks are limited checks, not full Ant Design visual parity. Legacy
 Mentions.Option children, loading UI and advanced dropdown rendering are not
 implemented. Use `options`; do not infer support from upstream's complete API.
+
+Empty results and the clear button label follow `ConfigProvider.locale.Mentions`
+(`notFoundContent` and `clear`). The `notFoundContent` prop overrides locale text;
+explicit `null` suppresses it. The built-in English and Chinese locales provide
+both labels, and the component follows the provider's default language.
