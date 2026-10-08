@@ -55,7 +55,9 @@ export function NestedDemo() {
           重置联系信息
         </Button>
       </Space>
-      <p role="status">{saved || "尚未提交"}</p>
+      <p role="status" style={{ overflowWrap: "anywhere" }}>
+        {saved || "尚未提交"}
+      </p>
     </Form>
   );
 }
