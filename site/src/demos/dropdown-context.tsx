@@ -1,4 +1,4 @@
-import { Dropdown } from "antd-octane";
+import { Button, Dropdown } from "antd-octane";
 import { useState } from "octane";
 
 export function ContextDemo() {
@@ -15,18 +15,18 @@ export function ContextDemo() {
           onClick: (info) => setAction(info.key),
         }}
       >
-        <button
-          type="button"
+        <Button
+          type="dashed"
+          block
           style={{
-            width: "100%",
+            height: "auto",
             padding: 32,
-            border: "1px dashed var(--line)",
             background: "var(--subtle)",
             color: "inherit",
           }}
         >
           右键打开菜单；键盘可按 ↓
-        </button>
+        </Button>
       </Dropdown>
       <p aria-live="polite">本地操作：{action}</p>
     </div>

@@ -1,23 +1,24 @@
-import { Flex } from "antd-octane";
+import { Flex, Select } from "antd-octane";
 import { useState } from "octane";
 
 export function CrossAxisDemo() {
   const [align, setAlign] = useState("center");
   return (
     <Flex vertical gap="middle" style={{ width: "100%" }}>
-      <label>
-        align：
-        <select
+      <Flex align="center" gap="small" wrap>
+        <span>align：</span>
+        <Select
+          aria-label="交叉轴对齐方式"
           value={align}
-          onChange={(event) =>
-            setAlign((event.target as HTMLSelectElement).value)
-          }
-        >
-          {["flex-start", "center", "flex-end", "stretch"].map((value) => (
-            <option key={value}>{value}</option>
-          ))}
-        </select>
-      </label>
+          options={["flex-start", "center", "flex-end", "stretch"].map(
+            (value) => ({ value }),
+          )}
+          onChange={(value) => {
+            if (typeof value === "string") setAlign(value);
+          }}
+          style={{ width: 160 }}
+        />
+      </Flex>
       <Flex
         align={align}
         gap="small"

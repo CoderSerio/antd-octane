@@ -183,7 +183,7 @@ export default function ButtonPage({ section }: { section?: string }) {
         <Demo
           id="native-form-link"
           title="原生提交与链接"
-          description="htmlType 明确控制表单行为；href 切换为原生链接，target=_blank 自动添加安全 rel。"
+          description="这里刻意保留原生 form 与 required input，验证 Button 的提交、浏览器必填校验和重置互操作；业务表单可使用 Form/Input。href 切换为原生链接，target=_blank 自动添加安全 rel。"
           source={() => import("../demos/button-native-form-link.tsx?raw")}
         >
           <NativeFormLinkDemo />

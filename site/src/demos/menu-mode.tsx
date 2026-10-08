@@ -1,4 +1,4 @@
-import { Menu, Space } from "antd-octane";
+import { Menu, Select, Space } from "antd-octane";
 import { useState } from "octane";
 
 export function ModeDemo() {
@@ -7,19 +7,25 @@ export function ModeDemo() {
   );
   return (
     <Space direction="vertical" style={{ width: "100%" }}>
-      <label>
-        mode：
-        <select
+      <Space wrap>
+        <span>mode：</span>
+        <Select
+          aria-label="菜单模式"
           value={mode}
-          onChange={(event) =>
-            setMode((event.target as HTMLSelectElement).value as typeof mode)
-          }
-        >
-          <option value="inline">inline</option>
-          <option value="vertical">vertical</option>
-          <option value="horizontal">horizontal</option>
-        </select>
-      </label>
+          options={["inline", "vertical", "horizontal"].map((value) => ({
+            value,
+          }))}
+          onChange={(value) => {
+            if (
+              value === "inline" ||
+              value === "vertical" ||
+              value === "horizontal"
+            )
+              setMode(value);
+          }}
+          style={{ width: 160 }}
+        />
+      </Space>
       <Menu
         mode={mode}
         defaultSelectedKeys={["one"]}

@@ -13,6 +13,7 @@ export function NativeFormLinkDemo() {
         onReset={() => setResult("表单已重置")}
       >
         <Space wrap>
+          {/* Keep native input here to demonstrate browser validation/reset interoperability. */}
           <input
             name="name"
             aria-label="姓名"
