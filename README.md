@@ -56,11 +56,13 @@ export function App() {
 每个组件页和[兼容与迁移](https://coderserio.github.io/antd-octane/#compatibility)说明具体支持范围。
 Octane 支持 SSR；本库尚未完成全部组件及客户端 hydration 验证。跨浏览器与辅助技术兼容也仍需验证。
 
-开发源码比本站固定的 npm 版本更新。Calendar、Table、Tree、Util，以及
-Cascader、ColorPicker、DatePicker、Mentions、TimePicker、Transfer、TreeSelect、Upload
-已有基础实现，尚未随本站版本发布。新组件的支持范围和限制见
-[`packages/antd-octane/src/`](packages/antd-octane/src/) 下各组件 README；
-组件目录覆盖不代表完整 API 或视觉对齐。
+文档站固定使用已发布的 `0.1.0-alpha.8`。Calendar、Table、Tree、Util，
+以及 Cascader、ColorPicker、DatePicker、Mentions、TimePicker、Transfer、TreeSelect、Upload
+均有组件页面和可运行示例。Form 提供嵌套字段与局部操作；Select 提供分组、加载标记和过滤字段。
+每页注明支持边界，组件目录覆盖不代表完整 API、视觉、无障碍或 SSR 对齐。
+
+Vite 开发模式需在 `optimizeDeps.include` 显式配置 Day.js 核心与六个插件，即使只从包根导入 Button。
+完整配置见[开始使用](https://coderserio.github.io/antd-octane/#start)和[包 README](packages/antd-octane/README.md)。
 
 ## 开发与贡献
 

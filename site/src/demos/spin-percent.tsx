@@ -21,7 +21,9 @@ export function PercentDemo() {
         min={0}
         max={100}
         value={percent}
-        onChange={setPercent}
+        onChange={(value) => {
+          if (typeof value === "number") setPercent(value);
+        }}
         disabled={auto}
         aria-label="加载进度百分比"
       />

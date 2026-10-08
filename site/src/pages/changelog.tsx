@@ -22,6 +22,22 @@ export default function ChangelogPage({ section }: { section?: string }) {
         </a>
         。
       </p>
+      <h2 id="alpha-8" tabIndex={-1}>
+        0.1.0-alpha.8 · 2026-10-08
+      </h2>
+      <p>
+        新增 Calendar、Table、Tree、类型工具，以及
+        Cascader、ColorPicker、DatePicker / RangePicker、
+        TimePicker、Mentions、Transfer、TreeSelect 和 Upload 支持子集。Form
+        新增嵌套路径、 局部校验/重置和直接依赖；Select 新增分组、loading 与
+        optionFilterProp。
+      </p>
+      <p>
+        修复 Table 自定义选择标签、Spin 进度环与页面加载反馈居中；补齐 Vite
+        开发模式的七项 Day.js 预构建入口。本站固定安装已发布的
+        alpha.8，新增组件页、独立示例与主题颜色选择器， 并同步
+        Modal、App、消息通知、Progress 等已实现能力及其限制。
+      </p>
       <h2 id="alpha-7" tabIndex={-1}>
         0.1.0-alpha.7 · 2026-10-02
       </h2>

@@ -69,8 +69,11 @@ importers:
   site:
     dependencies:
       antd-octane:
-        specifier: 0.1.0-alpha.7
-        version: 0.1.0-alpha.7(octane@0.4.3(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@5.9.3)(vite@8.3.1(@types/node@22.20.4)))
+        specifier: 0.1.0-alpha.8
+        version: 0.1.0-alpha.8(octane@0.4.3(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@5.9.3)(vite@8.3.1(@types/node@22.20.4)))
+      dayjs:
+        specifier: 1.11.23
+        version: 1.11.23
       octane:
         specifier: 0.4.3
         version: 0.4.3(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@5.9.3)(vite@8.3.1(@types/node@22.20.4))
@@ -765,8 +768,8 @@ packages:
   alien-signals@3.2.0:
     resolution: {integrity: sha512-5J9+NpCLHgic4xnZtI8SznvNagwJsZSvRFsAwoLlLw+Edaqa4upCiOC19P8Vx2DqmEvqK2qJBMtI8+9eXOEb/A==}
 
-  antd-octane@0.1.0-alpha.7:
-    resolution: {integrity: sha512-xhj9/XJhWdfInP61vee/G8awb++OwEpsOyOtY4/2iV7U6JXEay7/3OkPV+ymprhypvVpzBi6BH7Q/fGdxP39LA==}
+  antd-octane@0.1.0-alpha.8:
+    resolution: {integrity: sha512-sFyIXltw5z2G/Dahf5fqndi6GVFeHBvxRTzUtdRK86QK3q/fVQioa5YW4bXTJoORB2+Gzup+80klep5546i2Tg==}
     peerDependencies:
       octane: 0.4.3
 
@@ -1938,11 +1941,12 @@ snapshots:
 
   alien-signals@3.2.0: {}
 
-  antd-octane@0.1.0-alpha.7(octane@0.4.3(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@5.9.3)(vite@8.3.1(@types/node@22.20.4))):
+  antd-octane@0.1.0-alpha.8(octane@0.4.3(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@5.9.3)(vite@8.3.1(@types/node@22.20.4))):
     dependencies:
       '@ant-design/colors': 7.2.1
       '@ant-design/fast-color': 2.0.6
       csstype: 3.2.3
+      dayjs: 1.11.23
       octane: 0.4.3(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@5.9.3)(vite@8.3.1(@types/node@22.20.4))
 
   antd@5.29.3(react-dom@19.3.0(react@19.3.0))(react@19.3.0):

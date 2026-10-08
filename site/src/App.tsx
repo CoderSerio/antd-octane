@@ -410,7 +410,7 @@ function Shell(p: ShellProps) {
         onClose={() => setThemeOpen(false)}
         width="min(380px, 100vw)"
         rootClassName="theme-drawer"
-        bodyStyle={{ padding: 24 }}
+        styles={{ body: { padding: 24 } }}
         destroyOnHidden
       >
         <ThemePanel {...p} onClose={() => setThemeOpen(false)} />
