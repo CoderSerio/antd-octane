@@ -77,8 +77,33 @@ export default function Page({ section }: { section?: string }) {
           [
             "width / centered",
             "宽度 / 垂直居中",
-            "number | string / boolean",
+            "number | string | Partial<Record<Breakpoint, number | string>> / boolean",
             "520 / false",
+          ],
+          [
+            "Modal.confirm / info / success / error / warning",
+            "独立静态确认框，返回 destroy/update；不会自动继承业务上下文",
+            "(config) => { destroy, update }",
+            "—",
+          ],
+          [
+            "Modal.useModal",
+            "返回实例和需渲染的 holder；确认结果支持 then<boolean>",
+            "[ModalInstance, OctaneNode]",
+            "—",
+          ],
+          ["Modal.destroyAll", "关闭静态及 hook 确认框", "() => void", "—"],
+          [
+            "modalRender / footer",
+            "包装面板 / 底部节点或渲染函数",
+            "(node) => OctaneNode / OctaneNode | callback",
+            "—",
+          ],
+          [
+            "styles / classNames",
+            "语义部位样式与类名",
+            "Semantic styles / classNames",
+            "—",
           ],
           ["zIndex", "浮层层级", "number", "主题默认层级"],
           ["style / bodyStyle", "面板 / 内容区样式", "CSSProperties", "—"],
@@ -126,16 +151,17 @@ export default function Page({ section }: { section?: string }) {
       <p>
         支持 Modal 的
         contentBg、headerBg、titleColor、titleFontSize、titleLineHeight、footerBg
-        及全局字体、阴影、背景和圆角。当前是受控组件，不提供静态 confirm/info
-        等方法、useModal、App.useApp().modal、响应式 width、modalRender、footer
-        渲染函数或语义 styles/classNames。onOk 不自动等待
-        Promise，异步状态由应用通过 confirmLoading 与 open 管理。
+        及全局字体、阴影、背景和圆角。支持声明式弹窗、静态确认框、useModal 和
+        App.useApp().modal。声明式 onOk 不自动等待 Promise，异步状态由应用通过
+        confirmLoading 与 open 管理；确认框回调可返回
+        Promise，成功后关闭，拒绝时保留。 hook/App 的确认结果还可通过 then
+        读取是否确认。
       </p>
       <p>
         原生 portal 保留 ConfigProvider 上下文；打开时锁定 body
         滚动，嵌套浮层分别释放锁。Tab 焦点保持在最上层，Escape
-        只通知最上层关闭。当前无进出场动画，afterOpenChange 表示 DOM
-        显示状态已更新。getContainer=false 保留原地 DOM，但定位仍为
+        只通知最上层关闭。支持进出场动效，afterOpenChange
+        在显示状态转换完成后通知。 getContainer=false 保留原地 DOM，但定位仍为
         fixed；自定义容器不替代 body
         滚动锁。关闭默认保留已挂载的子树；destroyOnHidden 可用于清空表单状态。
       </p>

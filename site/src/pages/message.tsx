@@ -79,6 +79,12 @@ export default function Page({ section }: { section?: string }) {
             "—",
           ],
           [
+            "message.config",
+            "配置静态入口的默认值；hook 使用自身配置",
+            "(config) => void",
+            "—",
+          ],
+          [
             "api.destroy(key?)",
             "关闭指定消息或全部消息",
             "(key?) => void",
@@ -119,12 +125,12 @@ export default function Page({ section }: { section?: string }) {
         放入局部 ConfigProvider。
       </p>
       <p>
-        本版提供 hook 实例与 App.useApp().message，不提供静态
-        open/success/config 方法。App 必须位于使用方的祖先组件，ConfigProvider
-        应包裹 App，才能让共享实例继承主题。原生 portal
-        保留上下文；自定义容器仍使用固定定位，带 transform
-        的祖先可能限制覆盖范围。暂不支持
-        RTL、prefixCls、堆叠收缩、进度条和完整进出场动效。默认图标为独立绘制。
+        提供 hook、App.useApp().message 与静态 message.open / success / config
+        等入口。需要主题与业务上下文时优先使用 App 或 hook，并渲染
+        contextHolder。 静态调用不会自动继承调用处上下文；可用
+        ConfigProvider.config({"{ holderRender }"}) 包装静态 holder。支持
+        RTL、prefixCls 和进出场动效；消息暂不提供堆叠收缩或进度条。
+        自定义容器仍使用固定定位，带 transform 的祖先可能限制覆盖范围。
       </p>
       <p>
         超过 maxCount 时关闭最早一条；同 key 更新会重启倒计时。卸载 holder

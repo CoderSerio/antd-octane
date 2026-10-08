@@ -2,7 +2,7 @@
 
 此文件记录 `antd-octane` 的版本变化；标注「待发布」的条目尚不可从 npm 安装。组件支持范围与限制见[兼容与迁移](site/src/pages/compatibility.tsx)。
 
-## 0.1.0-alpha.8 — 待发布
+## 0.1.0-alpha.8 — 2026-10-08
 
 - 新增 Calendar、Table、Tree 与 GetProps / GetProp / GetRef 类型工具，并扩展现有组件 API；各组件仍以公开类型和支持范围说明为准。
 - 新增 Cascader、ColorPicker、DatePicker / DatePicker.RangePicker、TimePicker、Mentions、Transfer、TreeSelect 和 Upload 原生实现。日期范围支持草稿、自动或显式确认、禁用日期与端点；上传支持 Dragger、数量限制、取消请求和过期异步结果处理。
@@ -10,7 +10,7 @@
 - 官网使用已发布组件实现页面/代码加载反馈、失败恢复、主题抽屉与表单，以及示例中的选项、滑块和按钮；保留原生表单互操作示例。
 - 修复 Spin 百分比和自动进度圆环的容器居中；保留普通圆点、自定义指示器和全屏模式的布局。页面及代码加载反馈也在各自区域内居中。
 - Table 保留调用方提供的行选择和全选无障碍标签；补齐 alpha.8 在 Vite 开发模式下所需的 Day.js 显式预构建配置。
-- 源码包候选版本为 alpha.8。文档站暂时继续安装 alpha.7；待 npm 发布和独立安装验证通过后，再接入新增组件页面和 API 示例。
+- 文档站升级至已通过 registry 精确安装验证的 alpha.8，接入十二个组件页面及相应基础/进阶示例，并补充 Form 嵌套字段、Select 分组与 Spin 进度示例。主题抽屉使用 ColorPicker；同步已实现 API 与保留限制。
 
 ## 0.1.0-alpha.7 — 2026-10-02
 

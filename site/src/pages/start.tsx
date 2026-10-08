@@ -61,9 +61,16 @@ export default function StartPage({ section }: { section?: string }) {
       <Code
         language="ts"
         source={
-          'import { defineConfig } from "vite";\nimport { octane } from "octane/compiler/vite";\n\nexport default defineConfig({ plugins: [octane()] });'
+          'import { defineConfig } from "vite";\nimport { octane } from "octane/compiler/vite";\n\nexport default defineConfig({\n  plugins: [octane()],\n  optimizeDeps: {\n    include: [\n      "antd-octane > dayjs",\n      "antd-octane > dayjs/plugin/advancedFormat",\n      "antd-octane > dayjs/plugin/customParseFormat",\n      "antd-octane > dayjs/plugin/localeData",\n      "antd-octane > dayjs/plugin/weekday",\n      "antd-octane > dayjs/plugin/weekOfYear",\n      "antd-octane > dayjs/plugin/weekYear",\n    ],\n  },\n});'
         }
       />
+      <p>
+        请完整保留这七项预构建入口。组件包发布原始 TSX，由 Octane 编译； Day.js
+        核心和插件需要 Vite 在开发模式转换为 ESM，即使只从包根导入 Button
+        也需要配置。 修改后使用 <code>pnpm exec vite --force</code>{" "}
+        重启。生产构建通过不代表开发服务器首次加载正常。 直接导入 dayjs
+        的应用还应执行 <code>pnpm add dayjs@1.11.23</code>。
+      </p>
       <p>创建 tsconfig.json；已有项目请合并以下配置：</p>
       <Code
         language="json"
@@ -116,14 +123,18 @@ export default function StartPage({ section }: { section?: string }) {
         <a className="text-link" href="#form">
           Form
         </a>
-        已提供平面字段、同步与异步校验的基础版；Table、DatePicker
-        等在开发源码中已有基础实现，尚未发布到本站使用的 npm 版本。
-        请先查阅各组件的支持范围，不能直接照搬上游示例。
+        已支持嵌套字段、局部操作与同步/异步校验；Table、DatePicker
+        等也已提供支持子集。 请先查阅各组件的支持范围，不能直接照搬上游示例。
       </p>
       <h2 id="troubleshooting" tabIndex={-1}>
         遇到问题
       </h2>
       <ul className="prose-list">
+        <li>
+          <strong>开发页面白屏或 Day.js 没有 default 导出：</strong>核对上面七项
+          optimizeDeps.include，保留显式入口，不用 dayjs/plugin/* 通配代替。
+          修改后执行 pnpm exec vite --force，并重新打开开发页面验证按钮交互。
+        </li>
         <li>
           <strong>按钮没有样式：</strong>检查应用入口是否导入{" "}
           <code>antd-octane/style.css</code>。已导入时检查应用 CSS 是否覆盖了

@@ -3,6 +3,7 @@ import { ControlledDemo } from "../demos/select-controlled";
 import { SelectControlledOpenDemo } from "../demos/select-controlled-open";
 import { SelectCoordinatedDemo } from "../demos/select-coordinated";
 import { SelectFilterEmptyDemo } from "../demos/select-filter-empty";
+import { GroupedDemo } from "../demos/select-groups";
 import { ControlledMultipleDemo, MultipleDemo } from "../demos/select-multiple";
 import { SelectSizesStatusDemo } from "../demos/select-sizes-status";
 import { ApiTable, Code, Demo, DocMeta, usePageAnchor } from "../docs-ui";
@@ -93,6 +94,14 @@ export default function Page({ section }: { section?: string }) {
         >
           <ControlledMultipleDemo />
         </Demo>
+        <Demo
+          id="groups"
+          title="分组选项与加载标记"
+          description="组名参与默认标签搜索，键盘跳过组标题和禁用项。"
+          source={() => import("../demos/select-groups.tsx?raw")}
+        >
+          <GroupedDemo />
+        </Demo>
       </div>
       <h2 id="api" tabIndex={-1}>
         API
@@ -101,9 +110,21 @@ export default function Page({ section }: { section?: string }) {
         rows={[
           [
             "options",
-            "选项，包含 value、label、disabled、title",
-            "SelectOption[]",
-            "必填",
+            "叶选项或一层分组；值在完整列表中唯一",
+            "SelectOptionItem[]",
+            "[]",
+          ],
+          [
+            "loading",
+            "显示加载标记与 aria-busy，不禁用已有选项",
+            "boolean",
+            "false",
+          ],
+          [
+            "optionFilterProp",
+            "内置过滤使用的字段",
+            "label | value | title",
+            "label",
           ],
           ["mode", "选择模式；省略为单选", "multiple", "—"],
           [
@@ -166,8 +187,8 @@ export default function Page({ section }: { section?: string }) {
         选项与回调类型
       </h2>
       <p>
-        SelectValue、SelectOption 可从 antd-octane 导入；label 使用 Octane
-        节点。单选与多选回调签名不同：
+        SelectValue、SelectOption、SelectOptionGroup、SelectOptionItem 可从
+        antd-octane 导入；label 使用 Octane 节点。单选与多选回调签名不同：
       </p>
       <Code
         language="ts"
@@ -180,6 +201,12 @@ interface SelectOption {
   disabled?: boolean;
   title?: string;
 }
+interface SelectOptionGroup {
+  label: OctaneNode;
+  options: SelectOption[];
+  key?: string | number;
+}
+type SelectOptionItem = SelectOption | SelectOptionGroup;
 // 单选 onChange（清除时 value 为 undefined）
 type SingleChange = (value: SelectValue | undefined, option?: SelectOption) => void;
 // mode="multiple" 的 onChange（清除时两个数组均为空）
@@ -193,7 +220,9 @@ type MultipleChange = (values: SelectValue[], options: SelectOption[]) => void;`
         关闭；禁用选项不可选或移除。非搜索模式 Home / End
         跳到首尾，搜索模式保留文本光标行为。多选搜索为空时 Backspace
         移除最后一个可移除项。搜索默认按文本标签过滤，非文本标签按 value
-        过滤。尚未实现 tags、labelInValue、选项分组、虚拟列表和完整上游样式。
+        过滤，也匹配分组标题。分组标题不可选，键盘跳过分组和禁用项。 自定义
+        filterOption 只接收叶选项，组名不会绕过自定义过滤。 尚未实现
+        tags、labelInValue、嵌套分组、虚拟列表、自定义选项渲染和完整上游样式。
         带搜索时可用 searchValue/onSearch 控制搜索文本；这与已选中的 value
         是两份独立状态。
       </p>
@@ -201,7 +230,11 @@ type MultipleChange = (values: SelectValue[], options: SelectOption[]) => void;`
         联动选项由应用负责同步：改变 options 不会自动清空已有
         value。单选清除回调传入 undefined，受控场景可将其转换为
         null；多选传入空数组。远程搜索可通过 onSearch 更新 options
-        并关闭内置过滤，但目前没有内置请求、loading 或防抖能力。
+        并关闭内置过滤，用 loading
+        展示请求状态。请求、取消、过期响应和防抖由应用负责； loading
+        不会禁止选择，需要阻止编辑时同时设置 disabled。
+        <code>notFoundContent={"{null}"}</code>{" "}
+        可隐藏空结果提示，加载状态不会替换应用的空内容。
       </p>
     </>
   );

@@ -56,7 +56,7 @@ export default function Page({ section }: { section?: string }) {
           [
             "App.useApp()",
             "在 App 子树内调用",
-            "{ message, notification }",
+            "{ message, notification, modal }",
             "—",
           ],
           [
@@ -65,7 +65,7 @@ export default function Page({ section }: { section?: string }) {
             "MessageConfig / NotificationConfig",
             "—",
           ],
-          ["component", "是否包裹 div", '"div" | false', "div"],
+          ["component", "包裹元素或关闭包裹", "ElementType | false", "div"],
           [
             "className / style",
             "容器样式；component=false 时不生效",
@@ -78,11 +78,12 @@ export default function Page({ section }: { section?: string }) {
         主题与支持范围
       </h2>
       <p>
-        ConfigProvider 应位于 App 外层；内部 contextHolder 会继承主题。暂不提供
-        App.useApp().modal、useModal、任意 component 标签、SSR 契约或完整 antd
-        reset 样式。在 App 外调用 useApp 会抛出明确错误。 嵌套 App
-        各自持有独立消息与通知实例；useApp 返回最近一层 App
-        的实例，离开该子树时对应 holder 和计时器会被清理。
+        ConfigProvider 应位于 App 外层；内部 contextHolder 会继承主题。useApp
+        返回 message、notification 和 modal，嵌套 App 各自持有实例。请只在 App
+        子树中调用； 外部默认上下文仅有空 API 对象，不能调用消息或确认方法。
+        component 可设为元素类型或 false；关闭包裹后容器 className/style
+        不生效。 离开子树时对应 holder 和计时器会被清理。SSR
+        与完整上游样式兼容仍待验证。
       </p>
     </>
   );

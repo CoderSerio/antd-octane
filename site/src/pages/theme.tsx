@@ -104,9 +104,12 @@ export default function ThemePage({ section }: { section?: string }) {
           迁移边界
         </strong>
         <p>
-          尚不支持 cssVar、hashed、prefixCls、StyleProvider 和 SSR
-          样式契约。原有 Less、DOM 选择器覆盖、React
-          主题插件需要单独适配。Button 未实现的组件 token 不会被描述为已兼容。
+          ConfigProvider 支持 prefixCls；自定义前缀仍需逐组件核对输出和样式。
+          antd-octane/style 的 StyleProvider 目前只有 layer
+          配置，作用于原生注册的 App/Modal 样式，不是完整 cssinjs
+          替代。尚不提供主题 cssVar、hashed 或 SSR 样式契约。原有 Less、DOM
+          选择器覆盖、React 主题插件需要单独适配。Button 未实现的组件 token
+          不会被描述为已兼容。
         </p>
       </div>
     </>

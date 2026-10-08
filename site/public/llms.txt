@@ -14,9 +14,33 @@
 - [定制主题](./#theme): token 与算法。
 - [组件总览](./#components): 查找所需组件，再阅读该组件 API 和支持范围。
 - [参与贡献](./#contributing): 本地开发与仓库验证。
-- [App](./#app): 上下文消息与通知实例；不提供 modal 实例。
-- [Modal](./#modal): 声明式弹窗；没有 confirm/useModal。
-- [Form](./#form): 平面字段绑定、同步/异步校验、提交和重置；不支持动态列表与嵌套路径。
+- [App](./#app): message、notification 与 modal 上下文实例；在 App 子树中调用 useApp。
+- [Modal](./#modal): 声明式弹窗、静态确认、useModal；声明式与确认框的 Promise 关闭行为不同。
+- [Form](./#form): NamePath 嵌套字段、局部校验/重置、直接依赖、同步/异步规则；不支持 Form.List 或 useWatch。
+- [Select](./#select): 单选/多选、一层分组、loading、optionFilterProp；不支持 tags、labelInValue 或虚拟列表。
+- [Table](./#table): 分页、排序、过滤和行选择；请求与持久化由应用管理。
+- [DatePicker](./#date-picker): Dayjs 日期及单个日期范围，不支持 showTime 或其他 picker 模式。
+- [Upload](./#upload): 文件列表、Dragger、请求生命周期；端点、授权和服务端校验由应用提供。
+
+## Vite 开发配置
+
+安装 `antd-octane@alpha` 和 `octane@0.4.3`，启用 `octane/compiler/vite` 插件，并保留以下七项显式预构建入口：
+
+```ts
+optimizeDeps: {
+  include: [
+    "antd-octane > dayjs",
+    "antd-octane > dayjs/plugin/advancedFormat",
+    "antd-octane > dayjs/plugin/customParseFormat",
+    "antd-octane > dayjs/plugin/localeData",
+    "antd-octane > dayjs/plugin/weekday",
+    "antd-octane > dayjs/plugin/weekOfYear",
+    "antd-octane > dayjs/plugin/weekYear",
+  ],
+}
+```
+
+即使只从包根导入 Button，也需要转换这些嵌套 CommonJS 依赖。不要用 `dayjs/plugin/*` 通配代替。修改后用 `pnpm exec vite --force` 重启并验证开发页面交互；生产构建通过不能代替开发模式检查。直接导入 dayjs 的应用应直接安装 `dayjs@1.11.23`。完整配置见开始使用页面。
 
 ## 核对源码
 

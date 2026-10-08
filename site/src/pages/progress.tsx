@@ -74,7 +74,7 @@ export default function Page({ section }: { section?: string }) {
           [
             "strokeColor / trailColor",
             "进度颜色 / 底色",
-            "string | 渐变配置 / string",
+            "string | string[] | 渐变配置 / string",
             "主题值",
           ],
           [
@@ -84,7 +84,25 @@ export default function Page({ section }: { section?: string }) {
             "default / 随形态变化",
           ],
           ["strokeLinecap", "线段端点样式", "round | butt | square", "round"],
-          ["steps", "线形进度条的分段数量", "number", "—"],
+          [
+            "steps",
+            "线形或圆形分段；圆形可设置间隙",
+            "number | { count: number; gap: number }",
+            "—",
+          ],
+          [
+            "rounding",
+            "线形分段的已完成段数取整",
+            "(step: number) => number",
+            "Math.round",
+          ],
+          [
+            "percentPosition",
+            "线形百分比位置",
+            "{ align?: start | center | end; type?: inner | outer }",
+            "—",
+          ],
+          ["width", "旧版圆形宽度，建议用 size", "number", "—"],
           [
             "gapDegree / gapPosition",
             "圆形缺口角度 / 位置",
@@ -98,10 +116,12 @@ export default function Page({ section }: { section?: string }) {
       </h2>
       <p>
         跟随全局颜色与暗色、紧凑算法，支持 Progress 组件
-        token：defaultColor、remainingColor、circleTextColor、circleTextFontSize、lineBorderRadius。支持线形分段；分段模式暂不支持渐变与逐段颜色数组，暂不支持圆形分段、percentPosition、rounding、旧
-        width 属性和完整的上游语义样式配置。渐变 direction
-        仅作用于线形，分段数量最多为 1000。 线形 format
-        的信息区当前保留固定宽度，适合简短百分比；较长业务说明请放在进度条旁的独立文本中。
+        token：defaultColor、remainingColor、circleTextColor、circleTextFontSize、lineBorderRadius。
+        支持线形和圆形分段；线形分段接受逐段颜色数组和
+        rounding，不接受渐变配置。 其它形态传颜色数组时只取首色。渐变 direction
+        仅作用于线形。 percentPosition
+        配置线形信息的位置；长业务说明仍适合放在旁边的独立文本中。
+        尚未提供完整的上游语义样式配置。
       </p>
     </>
   );
