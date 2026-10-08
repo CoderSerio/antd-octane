@@ -40,6 +40,7 @@ export type {
   FormRule,
   FormValidationError,
   FormValues,
+  NamePath,
 } from "./form";
 export { Form } from "./form";
 export type { Locale } from "./locale";
@@ -162,7 +163,13 @@ export type {
   HSB,
 } from "./color-picker";
 export { Color, ColorPicker } from "./color-picker";
-export type { DatePickerProps, PickerLocale, PickerRef } from "./date-picker";
+export type {
+  DatePickerProps,
+  DateRange,
+  PickerLocale,
+  PickerRef,
+  RangePickerProps,
+} from "./date-picker";
 export { DatePicker } from "./date-picker";
 export type {
   DescriptionsContextProps,
@@ -327,6 +334,8 @@ export type {
   MultipleSelectProps,
   SelectComponentProps,
   SelectOption,
+  SelectOptionGroup,
+  SelectOptionItem,
   SelectProps,
   SelectRef,
   SelectValue,
@@ -499,6 +508,7 @@ export type {
 } from "./typography";
 export { Typography } from "./typography";
 export type {
+  UploadDraggerProps,
   UploadFile,
   UploadProps,
   UploadRequest,

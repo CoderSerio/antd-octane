@@ -16,7 +16,11 @@ export function BasicDemo() {
       }}
     >
       <div style={{ height: 80, padding: 16 }}>向下滚动查看固定效果</div>
-      <Affix target={target} offsetTop={8} onChange={setFixed}>
+      <Affix
+        target={target}
+        offsetTop={8}
+        onChange={(value) => setFixed(!!value)}
+      >
         <Button type="primary">{fixed ? "已固定" : "滚动后固定"}</Button>
       </Affix>
       <div style={{ height: 500, padding: 16 }}>

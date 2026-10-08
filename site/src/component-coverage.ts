@@ -48,7 +48,7 @@ const sourceOnly: Record<string, { path: string; scope: string }> = {
   },
   DatePicker: {
     path: "date-picker/README.md",
-    scope: "Dayjs 单日期；不含范围、showTime",
+    scope: "Dayjs 日期与范围；不含 showTime",
   },
   Mentions: { path: "mentions/README.md", scope: "提及建议、键盘与输入法" },
   TimePicker: {
@@ -62,7 +62,7 @@ const sourceOnly: Record<string, { path: string; scope: string }> = {
   },
   Upload: {
     path: "upload/README.md",
-    scope: "文件列表与请求生命周期；不含 Dragger、目录上传",
+    scope: "文件列表、拖放与请求生命周期；不含目录上传",
   },
 };
 export const componentCoverage = upstreamGroups.flatMap(([group, names]) =>

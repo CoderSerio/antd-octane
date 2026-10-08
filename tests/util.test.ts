@@ -12,7 +12,7 @@ import type {
   GetRef,
   Select,
   SelectComponentProps,
-  SelectOption,
+  SelectOptionItem,
   SelectProps,
   SelectRef,
   Table,
@@ -35,10 +35,10 @@ it("GetProps extracts component and compound component props or retains a props 
 it("GetProp removes nullish values for both components and props objects", () => {
   expectTypeOf<
     GetProp<SelectProps, "options">[number]
-  >().toEqualTypeOf<SelectOption>();
+  >().toEqualTypeOf<SelectOptionItem>();
   expectTypeOf<
     GetProp<typeof Select, "options">[number]
-  >().toEqualTypeOf<SelectOption>();
+  >().toEqualTypeOf<SelectOptionItem>();
   expectTypeOf<
     GetProp<{ onChange?: ((value: number) => void) | null }, "onChange">
   >().toEqualTypeOf<(value: number) => void>();

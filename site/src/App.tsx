@@ -1,5 +1,12 @@
 import type { ThemeConfig } from "antd-octane";
-import { ConfigProvider, Input, Layout, theme } from "antd-octane";
+import {
+  Button,
+  ConfigProvider,
+  Drawer,
+  Input,
+  Layout,
+  theme,
+} from "antd-octane";
 import { useEffect, useMemo, useState } from "octane";
 import { Icon } from "./icons";
 import { nav, toc } from "./navigation";
@@ -51,6 +58,7 @@ export interface ShellProps {
 function Shell(p: ShellProps) {
   const [route, setRoute] = useState(window.location.hash.slice(1) || "home");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [themeOpen, setThemeOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [activeAnchor, setActiveAnchor] = useState("");
   const [page, section] = route.split("/");
@@ -66,9 +74,7 @@ function Shell(p: ShellProps) {
     const update = () => {
       setRoute(window.location.hash.slice(1) || "home");
       setMenuOpen(false);
-      (
-        document.getElementById("theme-dialog") as HTMLDialogElement | null
-      )?.close();
+      setThemeOpen(false);
       setQuery("");
     };
     const shortcut = (event: KeyboardEvent) => {
@@ -131,13 +137,13 @@ function Shell(p: ShellProps) {
       data-theme={p.dark ? "dark" : "light"}
       style={{ "--accent": p.primary }}
     >
-      <button
-        type="button"
+      <Button
+        type="text"
         className="skip-link"
         onClick={() => document.getElementById("main-content")?.focus()}
       >
         跳到内容
-      </button>
+      </Button>
       <header className="header">
         <a
           href="#home"
@@ -224,29 +230,25 @@ function Shell(p: ShellProps) {
           <a className="version" href="#changelog" title="本站使用的组件库版本">
             {siteVersion}
           </a>
-          <button
-            type="button"
+          <Button
+            type="text"
             className="theme-entry"
             aria-label="主题实验室"
             title="主题实验室"
-            onClick={() =>
-              (
-                document.getElementById("theme-dialog") as HTMLDialogElement
-              ).showModal()
-            }
+            onClick={() => setThemeOpen(true)}
           >
             <Icon name="theme" />
-            <span>主题实验室</span>
-          </button>
-          <button
-            type="button"
+            <span className="theme-entry-label">主题实验室</span>
+          </Button>
+          <Button
+            type="text"
             className="theme-toggle"
             aria-label="切换暗色主题"
             aria-pressed={p.dark}
             onClick={() => p.setDark(!p.dark)}
           >
             <Icon name={p.dark ? "sun" : "moon"} />
-          </button>
+          </Button>
           <a
             className="github-link"
             aria-label="GitHub 仓库"
@@ -266,14 +268,14 @@ function Shell(p: ShellProps) {
       ) : (
         <>
           <div className="mobile-toolbar">
-            <button
-              type="button"
+            <Button
+              type="text"
               aria-expanded={menuOpen}
               aria-controls="doc-sidebar"
               onClick={() => setMenuOpen(!menuOpen)}
             >
               ☰ 文档导航
-            </button>
+            </Button>
             <span>{current?.title}</span>
           </div>
           <Layout className="workspace">
@@ -402,9 +404,17 @@ function Shell(p: ShellProps) {
           </Layout>
         </>
       )}
-      <dialog id="theme-dialog" aria-labelledby="theme-title">
-        <ThemePanel {...p} />
-      </dialog>
+      <Drawer
+        title="主题实验室"
+        open={themeOpen}
+        onClose={() => setThemeOpen(false)}
+        width="min(380px, 100vw)"
+        rootClassName="theme-drawer"
+        bodyStyle={{ padding: 24 }}
+        destroyOnHidden
+      >
+        <ThemePanel {...p} onClose={() => setThemeOpen(false)} />
+      </Drawer>
     </div>
   );
 }

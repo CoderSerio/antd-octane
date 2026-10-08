@@ -21,6 +21,7 @@ import { SizeContextProvider } from "../config-provider/SizeContext";
 import { type Variant, VariantContext } from "./context";
 import { useFormStyle } from "./style";
 
+export type NamePath = string | number | (string | number)[];
 export type FormValues = Record<string, unknown>;
 export interface FormRule {
   required?: boolean;
@@ -31,7 +32,7 @@ export interface FormRule {
   validator?: (rule: FormRule, value: unknown) => void | Promise<void>;
 }
 export interface FormFieldError {
-  name: string;
+  name: NamePath;
   errors: string[];
 }
 export interface FormValidationError {
@@ -40,11 +41,12 @@ export interface FormValidationError {
   outOfDate?: boolean;
 }
 export interface FormInstance {
-  getFieldValue: (name: string) => unknown;
+  getFieldValue: (name: NamePath) => unknown;
   getFieldsValue: () => FormValues;
   setFieldsValue: (values: FormValues) => void;
-  resetFields: () => void;
-  validateFields: () => Promise<FormValues>;
+  setFieldValue: (name: NamePath, value: unknown) => void;
+  resetFields: (names?: NamePath[]) => void;
+  validateFields: (names?: NamePath[]) => Promise<FormValues>;
 }
 interface Snapshot {
   values: FormValues;
@@ -54,9 +56,13 @@ interface FormStore extends FormInstance {
   subscribe: (listener: () => void) => () => void;
   snapshot: () => Snapshot;
   initialize: (values: FormValues) => void;
-  register: (name: string, rules: FormRule[]) => () => void;
-  setRules: (name: string, rules: FormRule[]) => void;
-  setFieldValue: (name: string, value: unknown) => FormValues;
+  register: (
+    name: NamePath,
+    rules: FormRule[],
+    dependencies: NamePath[],
+  ) => () => void;
+  setRules: (name: NamePath, rules: FormRule[]) => void;
+  setFieldValue: (name: NamePath, value: unknown) => FormValues;
 }
 
 function empty(value: unknown) {
@@ -142,39 +148,161 @@ function sameRules(previous: FormRule[], next: FormRule[]) {
   );
 }
 
-function createFormStore(initialValues: FormValues = {}): FormStore {
-  let initial: FormValues = { ...initialValues };
-  let state: Snapshot = { values: { ...initialValues }, errors: {} };
-  const listeners = new Set<() => void>();
-  const rules = new Map<string, FormRule[]>();
-  const emit = () =>
-    listeners.forEach((listener) => {
-      listener();
-    });
-  const update = (next: Snapshot) => {
-    state = next;
-    emit();
+function pathOf(name: NamePath): (string | number)[] {
+  const path = Array.isArray(name) ? [...name] : [name];
+  if (
+    !path.length ||
+    path.some(
+      (part) =>
+        (typeof part !== "string" && typeof part !== "number") ||
+        part === "__proto__" ||
+        part === "constructor" ||
+        part === "prototype" ||
+        (typeof part === "number" &&
+          (!Number.isInteger(part) || part < 0 || part >= 2 ** 32 - 1)),
+    )
+  )
+    throw new Error("Form: invalid or unsafe NamePath");
+  return path;
+}
+const keyOf = (name: NamePath) => JSON.stringify(pathOf(name));
+const labelOf = (name: NamePath) => pathOf(name).join(".");
+function plain(value: unknown): value is FormValues {
+  return (
+    value !== null &&
+    typeof value === "object" &&
+    (Object.getPrototypeOf(value) === Object.prototype ||
+      Object.getPrototypeOf(value) === null)
+  );
+}
+function copy<T>(value: T): T {
+  if (Array.isArray(value)) return value.map(copy) as T;
+  if (plain(value))
+    return Object.fromEntries(
+      Object.entries(value).map(([key, item]) => [key, copy(item)]),
+    ) as T;
+  return value;
+}
+function getAt(values: unknown, name: NamePath): unknown {
+  let value = values;
+  for (const part of pathOf(name)) {
+    if (
+      value === null ||
+      typeof value !== "object" ||
+      !Object.hasOwn(value, part)
+    )
+      return undefined;
+    value = (value as FormValues)[part];
+  }
+  return value;
+}
+function setAt(values: FormValues, name: NamePath, value: unknown): FormValues {
+  const path = pathOf(name);
+  const put = (current: unknown, index: number): unknown => {
+    if (index === path.length) return copy(value);
+    const part = path[index];
+    if (Array.isArray(current)) {
+      const indexValue = Number(part);
+      if (
+        !Number.isInteger(indexValue) ||
+        indexValue < 0 ||
+        indexValue >= 2 ** 32 - 1 ||
+        String(indexValue) !== String(part)
+      )
+        throw new Error("Form: invalid NamePath array index");
+    }
+    const result = Array.isArray(current)
+      ? [...current]
+      : plain(current)
+        ? { ...current }
+        : typeof part === "number"
+          ? []
+          : {};
+    (result as FormValues)[part] = put(getAt(current, part), index + 1);
+    return result;
   };
-  let revision = 0;
-  let validationRun = 0;
-  const fieldRuns = new Map<string, number>();
-  const invalidate = (name: string) => {
-    const run = (fieldRuns.get(name) ?? 0) + 1;
-    fieldRuns.set(name, run);
+  return put(values, 0) as FormValues;
+}
+function mergeValues(previous: FormValues, next: FormValues): FormValues {
+  let result = { ...previous };
+  for (const [key, value] of Object.entries(next)) {
+    pathOf(key);
+    result = setAt(
+      result,
+      key,
+      plain(value)
+        ? mergeValues(plain(previous[key]) ? previous[key] : {}, value)
+        : value,
+    );
+  }
+  return result;
+}
+function contains(parent: NamePath, child: NamePath) {
+  const a = pathOf(parent),
+    b = pathOf(child);
+  return (
+    a.length <= b.length &&
+    a.every((part, index) => String(part) === String(b[index]))
+  );
+}
+const related = (a: NamePath, b: NamePath) => contains(a, b) || contains(b, a);
+function selectedValues(values: FormValues, names?: NamePath[]) {
+  return names
+    ? names.reduce<FormValues>(
+        (result, name) => setAt(result, name, getAt(values, name)),
+        {},
+      )
+    : copy(values);
+}
+function createFormStore(initialValues: FormValues = {}): FormStore {
+  let initial = copy(initialValues);
+  let state: Snapshot = { values: copy(initial), errors: {} };
+  const listeners = new Set<() => void>();
+  const fields = new Map<
+    string,
+    { name: NamePath; rules: FormRule[]; dependencies: NamePath[] }
+  >();
+  let revision = 0,
+    validationRun = 0;
+  const runs = new Map<string, number>();
+  const invalidate = (key: string) => {
+    const run = (runs.get(key) ?? 0) + 1;
+    runs.set(key, run);
     return run;
   };
-  const changedErrors = (name: string, value: unknown) => {
-    const run = invalidate(name);
-    if (!state.errors[name]) return;
-    const fieldRules = rules.get(name) ?? [];
-    const errors = ruleErrors(name, value, fieldRules);
-    if (fieldRules.some((rule) => rule.validator)) {
-      void validateRules(name, value, fieldRules).then((messages) => {
-        if (fieldRuns.get(name) !== run || !rules.has(name)) return;
-        update({ ...state, errors: { ...state.errors, [name]: messages } });
-      });
+  const update = (next: Snapshot) => {
+    state = next;
+    for (const listener of listeners) listener();
+  };
+  const change = (values: FormValues, changed: NamePath[]) => {
+    revision++;
+    const errors = { ...state.errors };
+    const jobs: (() => void)[] = [];
+    for (const [key, field] of fields) {
+      const dependent = field.dependencies.some((dependency) =>
+        changed.some((name) => related(name, dependency)),
+      );
+      if (!dependent && !changed.some((name) => related(name, field.name)))
+        continue;
+      const token = invalidate(key);
+      if (!dependent && !state.errors[key]) continue;
+      const value = getAt(values, field.name);
+      errors[key] = ruleErrors(labelOf(field.name), value, field.rules);
+      if (field.rules.some((rule) => rule.validator))
+        jobs.push(() => {
+          void validateRules(labelOf(field.name), value, field.rules).then(
+            (messages) => {
+              if (runs.get(key) !== token || !fields.has(key)) return;
+              update({
+                ...state,
+                errors: { ...state.errors, [key]: messages },
+              });
+            },
+          );
+        });
     }
-    return errors;
+    update({ values, errors });
+    for (const job of jobs) job();
   };
   return {
     subscribe(listener) {
@@ -185,97 +313,113 @@ function createFormStore(initialValues: FormValues = {}): FormStore {
     initialize(values) {
       revision++;
       validationRun++;
-      for (const name of rules.keys()) invalidate(name);
-      initial = { ...values };
-      update({ values: { ...values }, errors: {} });
+      for (const key of fields.keys()) invalidate(key);
+      initial = copy(values);
+      update({ values: copy(values), errors: {} });
     },
-    register(name, nextRules) {
+    register(name, rules, dependencies) {
+      const key = keyOf(name);
       validationRun++;
-      invalidate(name);
-      rules.set(
-        name,
-        nextRules.map((rule) => ({ ...rule })),
-      );
+      invalidate(key);
+      fields.set(key, {
+        name: copy(name),
+        rules: rules.map((rule) => ({ ...rule })),
+        dependencies: copy(dependencies),
+      });
       return () => {
-        rules.delete(name);
-        invalidate(name);
-        if (state.errors[name]) {
+        fields.delete(key);
+        invalidate(key);
+        if (state.errors[key]) {
           const errors = { ...state.errors };
-          delete errors[name];
+          delete errors[key];
           update({ ...state, errors });
         }
       };
     },
-    setRules(name, nextRules) {
-      const copied = nextRules.map((rule) => ({ ...rule }));
-      if (sameRules(rules.get(name) ?? [], nextRules)) {
-        rules.set(name, copied);
-        return;
+    setRules(name, rules) {
+      const key = keyOf(name),
+        field = fields.get(key);
+      if (!field) return;
+      if (!sameRules(field.rules, rules)) {
+        validationRun++;
+        invalidate(key);
       }
-      validationRun++;
-      invalidate(name);
-      rules.set(name, copied);
+      field.rules = rules.map((rule) => ({ ...rule }));
     },
-    getFieldValue: (name) => state.values[name],
-    getFieldsValue: () => ({ ...state.values }),
+    getFieldValue: (name) => copy(getAt(state.values, name)),
+    getFieldsValue: () => copy(state.values),
     setFieldValue(name, value) {
-      revision++;
-      const values = { ...state.values, [name]: value };
-      const messages = changedErrors(name, value);
-      const errors = messages
-        ? { ...state.errors, [name]: messages }
-        : state.errors;
-      update({ values, errors });
-      return { ...values };
+      change(setAt(state.values, name, value), [name]);
+      return copy(state.values);
     },
     setFieldsValue(values) {
-      revision++;
-      const merged = { ...state.values, ...values };
-      const errors = { ...state.errors };
-      for (const name of Object.keys(values)) {
-        const messages = changedErrors(name, merged[name]);
-        if (messages) errors[name] = messages;
-      }
-      update({ values: merged, errors });
+      change(mergeValues(state.values, values), Object.keys(values));
     },
-    resetFields() {
+    resetFields(names) {
       revision++;
       validationRun++;
-      for (const name of rules.keys()) invalidate(name);
-      update({ values: { ...initial }, errors: {} });
+      let values = names ? state.values : copy(initial);
+      const errors = names ? { ...state.errors } : {};
+      for (const name of names ?? [])
+        values = setAt(values, name, getAt(initial, name));
+      for (const [key, field] of fields) {
+        // Reset also invalidates dependency validators; it does not start new validation.
+        if (
+          !names ||
+          names.some(
+            (name) =>
+              related(name, field.name) ||
+              field.dependencies.some((dependency) =>
+                related(name, dependency),
+              ),
+          )
+        ) {
+          invalidate(key);
+          delete errors[key];
+        }
+      }
+      update({ values, errors });
     },
-    async validateFields() {
-      const run = ++validationRun;
-      const valueRevision = revision;
-      const values = { ...state.values };
-      const entries = [...rules.entries()];
-      const tokens = entries.map(([name]) => invalidate(name));
+    async validateFields(names) {
+      const run = ++validationRun,
+        valueRevision = revision;
+      const values = copy(state.values);
+      const entries = [...fields.entries()].filter(
+        ([, field]) =>
+          !names || names.some((name) => contains(name, field.name)),
+      );
+      const tokens = entries.map(([key]) => invalidate(key));
       const results = await Promise.all(
-        entries.map(([name, fieldRules]) =>
-          validateRules(name, values[name], fieldRules),
+        entries.map(([, field]) =>
+          validateRules(
+            labelOf(field.name),
+            getAt(values, field.name),
+            field.rules,
+          ),
         ),
       );
-      const errors: Record<string, string[]> = {};
+      const errors = names ? { ...state.errors } : {};
       const errorFields: FormFieldError[] = [];
-      entries.forEach(([name], index) => {
+      entries.forEach(([key, field], index) => {
         const messages = results[index] ?? [];
+        delete errors[key];
         if (messages.length) {
-          errors[name] = messages;
-          errorFields.push({ name, errors: messages });
+          errors[key] = messages;
+          errorFields.push({ name: copy(field.name), errors: messages });
         }
       });
       const outOfDate =
         valueRevision !== revision ||
         run !== validationRun ||
-        entries.some(([name], index) => fieldRuns.get(name) !== tokens[index]);
+        entries.some(([key], index) => runs.get(key) !== tokens[index]);
       if (!outOfDate) update({ ...state, errors });
       if (errorFields.length || outOfDate)
         throw {
-          values: { ...state.values },
+          values: copy(state.values),
           errorFields,
           ...(outOfDate ? { outOfDate: true } : {}),
         } satisfies FormValidationError;
-      return values;
+      return selectedValues(values, names);
     },
   };
 }
@@ -375,9 +519,11 @@ function FormRoot(props: FormProps) {
                   .then(props.onFinish, (error: FormValidationError) => {
                     props.onFinishFailed?.(error);
                     const first = error.errorFields[0]?.name;
-                    if (first && !error.outOfDate)
+                    if (first !== undefined && !error.outOfDate)
                       document
-                        .getElementById(fieldIds.get(first) ?? `${id}-${first}`)
+                        .getElementById(
+                          fieldIds.get(keyOf(first)) ?? `${id}-${first}`,
+                        )
                         ?.focus();
                   });
               }}
@@ -400,7 +546,8 @@ export interface FormItemProps {
   rootClassName?: string;
   layout?: "horizontal" | "vertical" | "inline";
   colon?: boolean;
-  name?: string;
+  name?: NamePath;
+  dependencies?: NamePath[];
   label?: OctaneNode;
   rules?: FormRule[];
   required?: boolean;
@@ -447,37 +594,42 @@ function FormItem(props: FormItemProps) {
     context?.store.snapshot ?? getEmptySnapshot,
   );
   const generatedId = useId();
-  const name = props.name;
+  const nameKey = props.name === undefined ? undefined : keyOf(props.name);
+  const name = useMemo(() => props.name, [nameKey]);
+  const dependencyKey = JSON.stringify((props.dependencies ?? []).map(pathOf));
+  const dependencies = useMemo(() => props.dependencies ?? [], [dependencyKey]);
   const rules = useMemo(
     () => props.rules ?? (props.required ? [{ required: true }] : []),
     [props.rules, props.required],
   );
   const required = props.required ?? rules.some((rule) => rule.required);
   useEffect(() => {
-    if (name) return context?.store.register(name, rules);
-  }, [context?.store, name]);
+    if (name !== undefined)
+      return context?.store.register(name, rules, dependencies);
+  }, [context?.store, name, dependencies]);
   useEffect(() => {
-    if (name) context?.store.setRules(name, rules);
+    if (name !== undefined) context?.store.setRules(name, rules);
   }, [context?.store, name, rules]);
   const child = props.children;
   const valuePropName = props.valuePropName ?? "value";
   const descriptor = isValidElement(child)
     ? (child as ElementDescriptor<Record<string, unknown>>)
     : null;
-  const id = name
-    ? ((descriptor?.props?.id as string | undefined) ??
-      `${context?.id ?? `ao-form-${generatedId}`}-${name}`)
-    : undefined;
+  const id =
+    name !== undefined
+      ? ((descriptor?.props?.id as string | undefined) ??
+        `${context?.id ?? `ao-form-${generatedId}`}-${Array.isArray(name) ? encodeURIComponent(keyOf(name)) : name}`)
+      : undefined;
   const fieldIds = context?.fieldIds;
   useEffect(() => {
-    if (!name || !id || !fieldIds) return;
-    fieldIds.set(name, id);
+    if (nameKey === undefined || !id || !fieldIds) return;
+    fieldIds.set(nameKey, id);
     return () => {
-      if (fieldIds.get(name) === id) fieldIds.delete(name);
+      if (fieldIds.get(nameKey) === id) fieldIds.delete(nameKey);
     };
-  }, [fieldIds, name, id]);
+  }, [fieldIds, nameKey, id]);
   const helpId = id ? `${id}-help` : undefined;
-  const errors = name ? (snapshot.errors[name] ?? []) : [];
+  const errors = nameKey !== undefined ? (snapshot.errors[nameKey] ?? []) : [];
   const hasHelp = props.help !== undefined && props.help !== null;
   const hasAdditional = hasHelp || errors.length > 0;
   const itemRef = useRef<HTMLDivElement | null>(null);
@@ -505,7 +657,7 @@ function FormItem(props: FormItemProps) {
   }, [props.extra]);
   const trigger = props.trigger ?? "onChange";
   const original = descriptor?.props?.[trigger];
-  const value = name ? snapshot.values[name] : undefined;
+  const value = name !== undefined ? getAt(snapshot.values, name) : undefined;
   const valueProps = props.getValueProps
     ? props.getValueProps(value)
     : {
@@ -518,7 +670,7 @@ function FormItem(props: FormItemProps) {
               : undefined),
       };
   const control =
-    name && context && descriptor
+    name !== undefined && context && descriptor
       ? cloneElement(descriptor, {
           id: descriptor.props?.id ?? id,
           ...valueProps,
@@ -534,7 +686,7 @@ function FormItem(props: FormItemProps) {
               ? props.getValueFromEvent(...args)
               : fromChange(args[0], valuePropName);
             const all = context.store.setFieldValue(name, value);
-            context.onValuesChange?.({ [name]: value }, all);
+            context.onValuesChange?.(setAt({}, name, value), all);
             if (typeof original === "function") original(...args);
           },
         })

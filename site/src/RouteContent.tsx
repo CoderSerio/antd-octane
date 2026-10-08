@@ -1,4 +1,6 @@
+import { Button, Result } from "antd-octane";
 import { useEffect, useState } from "octane";
+import { Loading } from "./Loading";
 
 type PageComponent = (props: {
   section?: string;
@@ -86,10 +88,10 @@ export function RouteContent({
     id: string;
     Page: PageComponent;
   } | null>(null);
-  const [failed, setFailed] = useState(false);
+  const [failed, setFailed] = useState<string | null>(null);
   useEffect(() => {
     let active = true;
-    setFailed(false);
+    setFailed(null);
     const load = Object.hasOwn(pages, page) ? pages[page] : undefined;
     if (load)
       void load()
@@ -97,7 +99,7 @@ export function RouteContent({
           if (active) setLoaded({ id: page, Page: module.default });
         })
         .catch(() => {
-          if (active) setFailed(true);
+          if (active) setFailed(page);
         });
     return () => {
       active = false;
@@ -106,25 +108,31 @@ export function RouteContent({
   const Page = loaded?.id === page ? loaded.Page : null;
   if (!Object.hasOwn(pages, page))
     return (
-      <>
-        <h1>页面不存在</h1>
-        <a href="#overview">返回项目介绍</a>
-      </>
+      <Result
+        status="404"
+        title="页面不存在"
+        subTitle="请从文档导航选择一个页面。"
+        extra={
+          <Button type="primary" href="#overview">
+            返回项目介绍
+          </Button>
+        }
+      />
     );
-  if (failed)
+  if (failed === page)
     return (
-      <div className="notice" role="alert">
-        文档加载失败。
-        <button type="button" onClick={() => window.location.reload()}>
-          重新加载页面
-        </button>
+      <div role="alert">
+        <Result
+          status="error"
+          title="文档加载失败"
+          subTitle="请检查网络后重新加载页面。"
+          extra={
+            <Button onClick={() => window.location.reload()}>
+              重新加载页面
+            </Button>
+          }
+        />
       </div>
     );
-  return Page ? (
-    <Page section={section} />
-  ) : (
-    <p className="page-loading" role="status">
-      正在加载文档…
-    </p>
-  );
+  return Page ? <Page section={section} /> : <Loading />;
 }

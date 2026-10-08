@@ -14,6 +14,7 @@ const locale: Locale = {
     close: "Close",
   },
   DatePicker: {
+    rangePlaceholder: ["Start date", "End date"],
     locale: "en",
     placeholder: "Select date",
     clear: "Clear",

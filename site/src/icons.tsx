@@ -1,3 +1,5 @@
+import { Icon as AntIcon } from "antd-octane";
+
 const paths = {
   search: "M21 21l-5-5M19 10.5a8.5 8.5 0 1 1-17 0 8.5 8.5 0 0 1 17 0Z",
   code: "m8 7-5 5 5 5m8-10 5 5-5 5m-3-13-2 16",
@@ -13,17 +15,15 @@ const paths = {
 };
 export function Icon({ name }: { name: keyof typeof paths }) {
   return (
-    <svg
-      className="doc-icon"
-      aria-hidden="true"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d={paths[name]} />
-    </svg>
+    <AntIcon className="doc-icon" viewBox="0 0 24 24">
+      <path
+        d={paths[name]}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </AntIcon>
   );
 }

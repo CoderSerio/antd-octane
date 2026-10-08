@@ -1,5 +1,24 @@
 @layer antd {
-  :where(.ant-upload-custom-trigger) {
+  :where(.ant-upload-drag) {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 120px;
+    padding: 16px;
+    border: 1px dashed var(--ao-upload-border);
+    border-radius: 6px;
+    background: var(--ao-upload-bg);
+    text-align: center;
+  }
+  :where(.ant-upload-drag-hover) {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+
+  :where(.ant-upload-custom-trigger:not(.ant-upload-drag)) {
     display: inline-block;
     cursor: pointer;
   }

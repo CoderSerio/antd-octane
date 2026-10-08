@@ -117,3 +117,15 @@
   padding: 0;
   text-align: center;
 }
+
+.ao-range-picker input {
+  width: 140px;
+}
+.ao-range-picker-endpoints {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.ao-picker-grid button[data-in-range="true"] {
+  background: var(--ao-picker-range);
+}

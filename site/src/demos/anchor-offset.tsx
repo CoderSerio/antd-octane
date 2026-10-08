@@ -1,4 +1,4 @@
-import { Anchor, Space } from "antd-octane";
+import { Anchor, Select, Space } from "antd-octane";
 import { useCallback, useRef, useState } from "octane";
 
 const items = [
@@ -12,19 +12,18 @@ export function OffsetDemo() {
   const [offset, setOffset] = useState(40);
   return (
     <Space direction="vertical" style={{ width: "100%" }}>
-      <label>
-        targetOffset：
-        <select
+      <Space wrap>
+        <span>targetOffset：</span>
+        <Select
+          aria-label="锚点目标偏移"
           value={offset}
-          onChange={(event) =>
-            setOffset(Number((event.target as HTMLSelectElement).value))
-          }
-        >
-          <option value={0}>0px</option>
-          <option value={40}>40px</option>
-          <option value={80}>80px</option>
-        </select>
-      </label>
+          options={[0, 40, 80].map((value) => ({ value, label: `${value}px` }))}
+          onChange={(value) => {
+            if (typeof value === "number") setOffset(value);
+          }}
+          style={{ width: 120 }}
+        />
+      </Space>
       <Anchor
         affix={false}
         direction="horizontal"

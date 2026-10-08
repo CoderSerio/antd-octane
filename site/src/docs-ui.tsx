@@ -1,7 +1,9 @@
+import { Button } from "antd-octane";
 import type { OctaneNode } from "octane";
-import { useEffect, useState } from "octane";
+import { useEffect, useRef, useState } from "octane";
 import { upstreamSlug } from "./component-coverage";
 import { Icon } from "./icons";
+import { Loading } from "./Loading";
 
 function Highlight({ source }: { source: string }) {
   const parts = source.split(
@@ -56,9 +58,9 @@ export function Code({
                   ? "HTML"
                   : "TSX"}
       </span>
-      <button
+      <Button
         className="copy-button"
-        type="button"
+        type="text"
         onClick={async () => {
           try {
             await navigator.clipboard.writeText(source);
@@ -70,7 +72,7 @@ export function Code({
         }}
       >
         {failed ? "请手动复制" : copied ? "已复制 ✓" : "复制代码"}
-      </button>
+      </Button>
       <pre>
         <code>
           <Highlight source={source} />
@@ -96,10 +98,28 @@ export function Demo({
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [failed, setFailed] = useState(false);
-  const load = async () => {
-    const value = text ?? (await source()).default;
-    setText(value);
-    return value;
+  const pending = useRef<Promise<string> | null>(null);
+  const mounted = useRef(true);
+  useEffect(
+    () => () => {
+      mounted.current = false;
+    },
+    [],
+  );
+  const load = () => {
+    if (text !== null) return Promise.resolve(text);
+    if (!pending.current) {
+      setFailed(false);
+      pending.current = source()
+        .then((module) => {
+          if (mounted.current) setText(module.default);
+          return module.default;
+        })
+        .finally(() => {
+          pending.current = null;
+        });
+    }
+    return pending.current;
   };
   return (
     <section className="demo-card" id={id} tabIndex={-1}>
@@ -117,8 +137,8 @@ export function Demo({
         <p>{description}</p>
       </div>
       <div className="demo-actions">
-        <button
-          type="button"
+        <Button
+          type="text"
           title={copied ? "已复制" : "复制示例代码"}
           aria-label={`复制${title}代码`}
           onClick={async () => {
@@ -133,9 +153,9 @@ export function Demo({
           }}
         >
           <Icon name={copied ? "check" : "copy"} />
-        </button>
-        <button
-          type="button"
+        </Button>
+        <Button
+          type="text"
           title={open ? "收起代码" : "显示代码"}
           aria-label={`${open ? "收起" : "查看"}${title}代码`}
           aria-expanded={open}
@@ -145,19 +165,28 @@ export function Demo({
           }}
         >
           <Icon name="code" />
-        </button>
+        </Button>
       </div>
       {open && (
         <div className="demo-code">
           {failed && (
             <p role="status">
-              加载或复制失败，可手动复制代码，或刷新页面重试。
+              {text !== null ? (
+                "复制失败，请手动复制代码。"
+              ) : (
+                <>
+                  代码加载失败，请重新加载页面后再查看。
+                  <Button size="small" onClick={() => window.location.reload()}>
+                    重新加载页面
+                  </Button>
+                </>
+              )}
             </p>
           )}
           {text !== null ? (
             <Code source={text} />
           ) : !failed ? (
-            <p role="status">正在加载代码…</p>
+            <Loading code />
           ) : null}
         </div>
       )}

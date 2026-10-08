@@ -5,6 +5,7 @@ import type { PopupContainer } from "../config-provider/context";
 export interface PickerLocale {
   locale?: string;
   placeholder?: string;
+  rangePlaceholder?: [string, string];
   clear?: string;
   today?: string;
   ok?: string;
@@ -56,4 +57,30 @@ export interface TimePickerProps extends Omit<DatePickerProps, "disabledDate"> {
   minuteStep?: number;
   secondStep?: number;
   disabledTime?: (date: Dayjs) => DisabledTimes;
+}
+
+export type DateRange = [Dayjs | null, Dayjs | null];
+export interface RangePickerProps
+  extends Omit<
+    DatePickerProps,
+    | "value"
+    | "defaultValue"
+    | "onChange"
+    | "disabledDate"
+    | "disabled"
+    | "placeholder"
+  > {
+  value?: DateRange | null;
+  defaultValue?: DateRange | null;
+  onChange?: (value: DateRange | null, dateStrings: [string, string]) => void;
+  onCalendarChange?: (
+    value: DateRange,
+    dateStrings: [string, string],
+    info: { range: "start" | "end" },
+  ) => void;
+  disabled?: boolean | [boolean, boolean];
+  disabledDate?: (date: Dayjs, info: { type: "date"; from?: Dayjs }) => boolean;
+  allowEmpty?: [boolean, boolean];
+  needConfirm?: boolean;
+  placeholder?: [string, string];
 }

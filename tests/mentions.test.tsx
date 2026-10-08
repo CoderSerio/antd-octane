@@ -317,3 +317,34 @@ it("honors custom locale text and explicit notFoundContent, including null", asy
   await type("@missing");
   expect(document.querySelector(".ant-mentions-empty")?.textContent).toBe("");
 });
+
+it("keeps a containing Popover open when choosing a portalled mention", async () => {
+  const { Popover } = await import("../packages/antd-octane/src/popover");
+  const openChange = vi.fn();
+  await render(
+    <Popover
+      defaultOpen
+      trigger="click"
+      onOpenChange={openChange}
+      content={<Mentions options={options} />}
+    >
+      <button type="button">Open editor</button>
+    </Popover>,
+  );
+  const input = document.querySelector<HTMLTextAreaElement>("textarea");
+  if (!input) throw Error("Missing nested editor");
+  await act(() => {
+    input.value = "@a";
+    input.setSelectionRange(2, 2);
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+  });
+  const option = document.querySelector<HTMLElement>('[role="option"]');
+  if (!option) throw Error("Missing mention option");
+  await act(async () => {
+    option.dispatchEvent(new PointerEvent("pointerdown", { bubbles: true }));
+    await new Promise((done) => setTimeout(done, 30));
+  });
+  expect(openChange.mock.calls.some(([open]) => open === false)).toBe(false);
+  await act(() => option.click());
+  expect(input.value).toBe("@alice ");
+});

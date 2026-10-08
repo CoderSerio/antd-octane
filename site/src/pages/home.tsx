@@ -104,16 +104,21 @@ export default function Home({ section }: { section?: string }) {
           />
           <fieldset className="home-swatches" aria-label="展示品牌色">
             {colors.map((c) => (
-              <button
+              <Button
                 key={c.value}
-                type="button"
+                type="text"
                 aria-label={c.name}
                 aria-pressed={color === c.value}
-                style={{ "--swatch": c.value }}
+                style={{
+                  borderColor: color === c.value ? c.value : "transparent",
+                }}
                 onClick={() => setColor(c.value)}
               >
-                <span />
-              </button>
+                <span
+                  className="home-swatch-fill"
+                  style={{ background: c.value }}
+                />
+              </Button>
             ))}
           </fieldset>
         </div>

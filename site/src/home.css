@@ -175,13 +175,10 @@
     cursor: pointer;
     padding: 4px;
   }
-  .home-swatches button[aria-pressed="true"] {
-    border-color: var(--swatch);
-  }
-  .home-swatches :where(span) {
+  .home-swatches .home-swatch-fill {
+    display: block;
     width: 20px;
     height: 20px;
-    background: var(--swatch);
     border-radius: 50%;
   }
   .home-demo-board {

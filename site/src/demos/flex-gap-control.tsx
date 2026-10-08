@@ -1,22 +1,23 @@
-import { Button, Flex } from "antd-octane";
+import { Button, Flex, Slider } from "antd-octane";
 import { useState } from "octane";
 
 export function GapControlDemo() {
   const [gap, setGap] = useState(16);
   return (
     <Flex vertical gap="middle" style={{ width: "100%" }}>
-      <label>
-        自定义 gap：{gap}px
-        <input
-          type="range"
+      <div style={{ width: "100%" }}>
+        <div>自定义 gap：{gap}px</div>
+        <Slider
+          aria-label="自定义 gap"
           min={0}
           max={40}
+          step={1}
           value={gap}
-          onInput={(event) =>
-            setGap(Number((event.target as HTMLInputElement).value))
-          }
+          onChange={(value) => {
+            if (typeof value === "number") setGap(value);
+          }}
         />
-      </label>
+      </div>
       <Flex gap={gap} wrap>
         <Button type="primary">Primary</Button>
         <Button>Default</Button>

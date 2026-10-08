@@ -1,35 +1,39 @@
-import { Button, Switch, theme } from "antd-octane";
+import { Button, Form, Input, Slider, Switch, theme } from "antd-octane";
+import { useEffect } from "octane";
 import type { ShellProps } from "./App";
-export function ThemePanel(p: ShellProps) {
+export function ThemePanel(p: ShellProps & { onClose: () => void }) {
   const { token } = theme.useToken();
+  const [form] = Form.useForm();
+  const values = {
+    primary: p.primary,
+    radius: p.radius,
+    dark: p.dark,
+    compact: p.compact,
+  };
+  useEffect(() => {
+    form.setFieldsValue(values);
+  }, [form, p.primary, p.radius, p.dark, p.compact]);
   return (
-    <div className="theme-panel">
-      {" "}
-      <div className="panel-heading">
-        <span className="spark">✦</span>
-        <h2 id="theme-title">主题实验室</h2>
-        <button
-          type="button"
-          className="close-panel"
-          aria-label="关闭主题实验室"
-          onClick={() =>
-            (
-              document.getElementById("theme-dialog") as HTMLDialogElement
-            ).close()
-          }
-        >
-          ×
-        </button>
-      </div>
+    <Form
+      form={form}
+      initialValues={values}
+      layout="vertical"
+      className="theme-panel"
+      style={{ color: token.colorText }}
+      onValuesChange={(changed) => {
+        if (typeof changed.primary === "string") p.setPrimary(changed.primary);
+        if (typeof changed.radius === "number") p.setRadius(changed.radius);
+        if (typeof changed.dark === "boolean") p.setDark(changed.dark);
+        if (typeof changed.compact === "boolean") p.setCompact(changed.compact);
+      }}
+    >
       <p>调整配置，实时预览组件。</p>
-      <label className="control-title" htmlFor="primary-color">
-        品牌色 <code>{p.primary}</code>
-      </label>
+      <p className="control-title">品牌色预设</p>
       <div className="swatches">
         {["#1677ff", "#722ed1", "#13a8a8", "#389e0d", "#eb2f96"].map(
           (color) => (
-            <button
-              type="button"
+            <Button
+              type="text"
               key={color}
               aria-label={`主色 ${color}`}
               aria-pressed={p.primary === color}
@@ -37,40 +41,36 @@ export function ThemePanel(p: ShellProps) {
               onClick={() => p.setPrimary(color)}
             >
               {p.primary === color ? "✓" : ""}
-            </button>
+            </Button>
           ),
         )}
-        <input
-          id="primary-color"
-          aria-label="自定义品牌色"
-          type="color"
-          value={p.primary}
-          onInput={(event) =>
-            p.setPrimary((event.currentTarget as HTMLInputElement).value)
-          }
-        />
       </div>
-      <label className="control-title" htmlFor="radius">
-        圆角 <code>{p.radius}px</code>
-      </label>
-      <input
-        id="radius"
-        type="range"
-        min="0"
-        max="20"
-        value={p.radius}
-        onInput={(event) =>
-          p.setRadius(Number((event.currentTarget as HTMLInputElement).value))
+      <Form.Item
+        name="primary"
+        label={
+          <>
+            自定义品牌色 <code>{p.primary}</code>
+          </>
         }
-      />
-      <div className="check-control">
-        <label htmlFor="site-dark">暗色模式</label>
-        <Switch id="site-dark" checked={p.dark} onChange={p.setDark} />
-      </div>
-      <div className="check-control">
-        <label htmlFor="site-compact">紧凑模式</label>
-        <Switch id="site-compact" checked={p.compact} onChange={p.setCompact} />
-      </div>
+      >
+        <Input id="primary-color" type="color" aria-label="自定义品牌色" />
+      </Form.Item>
+      <Form.Item
+        name="radius"
+        label={
+          <>
+            圆角 <code>{p.radius}px</code>
+          </>
+        }
+      >
+        <Slider id="radius" aria-label="圆角" min={0} max={20} />
+      </Form.Item>
+      <Form.Item name="dark" label="暗色模式" valuePropName="checked">
+        <Switch id="site-dark" aria-label="暗色模式" />
+      </Form.Item>
+      <Form.Item name="compact" label="紧凑模式" valuePropName="checked">
+        <Switch id="site-compact" aria-label="紧凑模式" />
+      </Form.Item>
       <div className="token-preview">
         <span>派生 Token</span>
         <div>
@@ -97,18 +97,14 @@ export function ThemePanel(p: ShellProps) {
       >
         重置主题
       </Button>
-      <button
+      <Button
         className="panel-link"
-        type="button"
-        onClick={() => {
-          (
-            document.getElementById("theme-dialog") as HTMLDialogElement
-          ).close();
-          window.location.hash = "theme";
-        }}
+        type="text"
+        href="#theme"
+        onClick={p.onClose}
       >
         了解主题迁移 →
-      </button>
-    </div>
+      </Button>
+    </Form>
   );
 }
