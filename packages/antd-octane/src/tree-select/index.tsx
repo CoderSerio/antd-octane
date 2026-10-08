@@ -44,7 +44,8 @@ export function TreeSelect(props: TreeSelectProps) {
   const [inner, setInner] = useState<
     TreeSelectValue | TreeSelectValue[] | null
   >(props.defaultValue ?? (props.multiple ? [] : null));
-  const value = props.value !== undefined ? props.value : inner;
+  const controlled = "value" in props;
+  const value = controlled ? props.value : inner;
   const selected = Array.isArray(value) ? value : value == null ? [] : [value];
   const labels = new Map<TreeSelectValue, OctaneNode>();
   const fields = {
@@ -78,10 +79,10 @@ export function TreeSelect(props: TreeSelectProps) {
   const tree = convert(props.treeData ?? []);
   const change = (keys: TreeSelectValue[]) => {
     if (props.multiple) {
-      if (props.value === undefined) setInner(keys);
+      if (!controlled) setInner(keys);
       props.onChange?.(keys);
     } else {
-      if (props.value === undefined) setInner(keys[0] ?? null);
+      if (!controlled) setInner(keys[0] ?? null);
       props.onChange?.(keys[0]);
     }
   };

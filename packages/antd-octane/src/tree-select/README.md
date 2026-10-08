@@ -22,3 +22,6 @@ onTreeExpand。多选是独立节点选择，不包含父子复选联动。
 getPopupContainer、ref.focus()/blur()。当前触发器/弹层复用 Select 基础样式
 Token；未对齐 TreeSelect 专属 component token、prefixCls、全部视觉或无障碍细节。
 卸载时移除 portal、ResizeObserver 和外部事件监听。
+
+只要传入 `value` 属性就按受控模式处理，包括显式 `value={undefined}`（空值）；
+省略该属性才使用内部状态与 defaultValue。Cascader 的空值显示为空路径。

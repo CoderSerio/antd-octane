@@ -36,7 +36,10 @@ interface Node {
 }
 export function Cascader(props: CascaderProps) {
   const [inner, setInner] = useState(props.defaultValue ?? []);
-  const value = props.value ?? inner;
+  const controlled = "value" in props;
+  const currentValue = controlled ? props.value : inner;
+  // Form.Item uses an empty-string sentinel for an unset field. Paths are arrays.
+  const value = Array.isArray(currentValue) ? currentValue : [];
   const [active, setActive] = useState<CascaderValue[] | null>(null);
   const fields = {
     value: "value",
@@ -84,7 +87,7 @@ export function Cascader(props: CascaderProps) {
       : String(node.value);
   const change = (path: Node[]) => {
     const next = path.map((node) => node.value);
-    if (props.value === undefined) setInner(next);
+    if (!controlled) setInner(next);
     props.onChange?.(
       next,
       path.map((node) => node.raw),

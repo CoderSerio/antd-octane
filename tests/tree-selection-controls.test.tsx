@@ -280,3 +280,85 @@ it("multiple search preserves selections hidden by the filter", async () => {
   );
   expect(change).toHaveBeenLastCalledWith(["a"]);
 });
+
+it("explicit undefined controls TreeSelect even when a default or old inner value exists", async () => {
+  const change = vi.fn();
+  await render(
+    <TreeSelect
+      treeData={tree}
+      defaultValue="p"
+      value={undefined}
+      onChange={change}
+    />,
+  );
+  expect(host.querySelector("input")?.value).toBe("");
+  await render(<TreeSelect treeData={tree} defaultValue="p" />);
+  expect(host.querySelector("input")?.value).toBe("Parent");
+  await render(<TreeSelect treeData={tree} defaultValue="p" value="a" />);
+  expect(host.querySelector("input")?.value).toBe("Apple");
+  await render(
+    <TreeSelect treeData={tree} defaultValue="p" value={undefined} />,
+  );
+  expect(host.querySelector("input")?.value).toBe("");
+});
+it("TreeSelect controlled clear stays empty instead of restoring its default", async () => {
+  const { useState } = await import("octane");
+  function Scene() {
+    const [value, setValue] = useState<string | number | undefined>("a");
+    return (
+      <TreeSelect
+        treeData={tree}
+        defaultValue="p"
+        value={value}
+        onChange={setValue}
+        allowClear
+      />
+    );
+  }
+  await render(<Scene />);
+  await click(host.querySelector('button[aria-label="Clear selection"]'));
+  expect(host.querySelector("input")?.value).toBe("");
+});
+it("Cascader explicit undefined resets a prior uncontrolled path and stays controlled", async () => {
+  const change = vi.fn();
+  await render(<Cascader options={options} defaultValue={["p", "a"]} />);
+  expect(host.querySelector("input")?.value).toBe("Parent / Apple");
+  await render(
+    <Cascader
+      options={options}
+      defaultValue={["p", "a"]}
+      value={undefined}
+      onChange={change}
+    />,
+  );
+  expect(host.querySelector("input")?.value).toBe("");
+  await click(host.querySelector("input"));
+  await click(button("Parent ›"));
+  await click(button("Apple"));
+  expect(change).toHaveBeenLastCalledWith(
+    ["p", "a"],
+    [options[0], options[0].children[0]],
+  );
+  expect(host.querySelector("input")?.value).toBe("");
+});
+it("an unset Form Cascader field renders empty and accepts a first selection", async () => {
+  const { Form } = await import("../packages/antd-octane/src/form");
+  let form: import("../packages/antd-octane/src/form").FormInstance | undefined;
+  function Scene() {
+    const [instance] = Form.useForm();
+    form = instance;
+    return (
+      <Form form={instance}>
+        <Form.Item name="path">
+          <Cascader options={options} />
+        </Form.Item>
+      </Form>
+    );
+  }
+  await render(<Scene />);
+  expect(host.querySelector("input")?.value).toBe("");
+  await click(host.querySelector("input"));
+  await click(button("Parent ›"));
+  await click(button("Apple"));
+  expect(form?.getFieldValue("path")).toEqual(["p", "a"]);
+});

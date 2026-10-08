@@ -20,3 +20,6 @@ Right 展开下一列，Left 返回上列；Enter 选择，Escape 返回输入�
 支持 size/status、ConfigProvider disabled/size/direction、基础主题 Token、
 getPopupContainer 与 ref.focus()/blur()。触发器/弹层复用 Select 基础样式 Token，
 未声称 Cascader 专属 token 或完整视觉/无障碍兼容。
+
+只要传入 `value` 属性就按受控模式处理，包括显式 `value={undefined}`（空值）；
+省略该属性才使用内部状态与 defaultValue。Cascader 的空值显示为空路径。
