@@ -243,3 +243,46 @@ it("external transparent-to-cleared updates discard stale draft and validation",
   expect(input("Color value").value).toBe("");
   expect(input("Color value").getAttribute("aria-invalid")).toBeNull();
 });
+it("editing a cleared color starts opaque but preserves deliberate transparency", async () => {
+  const change = vi.fn();
+  await render(<ColorPicker value={null} open onChange={change} />);
+  await act(() => {
+    input("Brightness").value = "50";
+    input("Brightness").dispatchEvent(new Event("input", { bubbles: true }));
+  });
+  expect(change.mock.lastCall?.[0].toRgb().a).toBe(1);
+  await render(<ColorPicker value="#00000000" open onChange={change} />);
+  await act(() => {
+    input("Brightness").value = "50";
+    input("Brightness").dispatchEvent(new Event("input", { bubbles: true }));
+  });
+  expect(change.mock.lastCall?.[0].toRgb().a).toBe(0);
+  await render(<ColorPicker value={null} open onChange={change} />);
+  const panel = document.querySelector<HTMLElement>(
+    ".ant-color-picker-saturation",
+  );
+  if (!panel) throw Error("Missing color panel");
+  vi.spyOn(panel, "getBoundingClientRect").mockReturnValue({
+    x: 0,
+    y: 0,
+    left: 0,
+    top: 0,
+    right: 100,
+    bottom: 100,
+    width: 100,
+    height: 100,
+    toJSON: () => ({}),
+  });
+  await act(() =>
+    panel.dispatchEvent(
+      new PointerEvent("pointerdown", {
+        pointerId: 1,
+        button: 0,
+        clientX: 50,
+        clientY: 30,
+        bubbles: true,
+      }),
+    ),
+  );
+  expect(change.mock.lastCall?.[0].toRgb().a).toBe(1);
+});

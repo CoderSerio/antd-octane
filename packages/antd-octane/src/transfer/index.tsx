@@ -155,7 +155,7 @@ export function Transfer<T extends TransferItem>({
             disabled={disabled}
             onInput={(event) => {
               const value = event.currentTarget.value;
-              setQueries({ ...queries, [direction]: value });
+              setQueries((previous) => ({ ...previous, [direction]: value }));
               onSearch?.(direction, value);
             }}
           />

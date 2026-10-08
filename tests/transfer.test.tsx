@@ -127,3 +127,21 @@ it("search/select-all affect only visible enabled rows and inherit disabled", as
   expect(checkbox("Alice").disabled).toBe(true);
   expect(button("Move right").disabled).toBe(true);
 });
+it("preserves both search queries when input changes are batched", async () => {
+  await render(<Transfer showSearch dataSource={data} targetKeys={["b"]} />);
+  const left = host.querySelector<HTMLInputElement>(
+    '[aria-label="Search left"]',
+  );
+  const right = host.querySelector<HTMLInputElement>(
+    '[aria-label="Search right"]',
+  );
+  if (!left || !right) throw Error("Missing search fields");
+  await act(() => {
+    left.value = "Alice";
+    left.dispatchEvent(new Event("input", { bubbles: true }));
+    right.value = "Bob";
+    right.dispatchEvent(new Event("input", { bubbles: true }));
+  });
+  expect(left.value).toBe("Alice");
+  expect(right.value).toBe("Bob");
+});

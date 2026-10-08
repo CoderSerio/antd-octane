@@ -199,7 +199,7 @@ export function ColorPicker(props: ColorPickerProps) {
           const target = event.currentTarget as HTMLElement;
           const rect = target.getBoundingClientRect();
           const id = event.pointerId;
-          const start = { ...hsv };
+          const start = { ...hsv, a: color.cleared ? 1 : hsv.a };
           const update = (e: PointerEvent) => {
             if (e.pointerId !== id || !rect.width || !rect.height) return;
             change(
@@ -264,6 +264,7 @@ export function ColorPicker(props: ColorPickerProps) {
               change(
                 new Color({
                   ...hsv,
+                  a: color.cleared && key !== "a" ? 1 : hsv.a,
                   [key]:
                     Number((event.target as HTMLInputElement).value) / scale,
                 }),
