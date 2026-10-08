@@ -131,6 +131,13 @@ export type {
 } from "./carousel";
 export { Carousel } from "./carousel";
 export type {
+  CascaderOption,
+  CascaderProps,
+  CascaderRef,
+  CascaderValue,
+} from "./cascader";
+export { Cascader } from "./cascader";
+export type {
   CheckboxChangeEvent,
   CheckboxGroupProps,
   CheckboxOption,
@@ -461,6 +468,13 @@ export type {
   TreeStyle,
 } from "./tree";
 export { DirectoryTree, Tree, TreeNode } from "./tree";
+export type {
+  TreeSelectNode,
+  TreeSelectProps,
+  TreeSelectRef,
+  TreeSelectValue,
+} from "./tree-select";
+export { TreeSelect } from "./tree-select";
 export type {
   CopyConfig,
   EditConfig,

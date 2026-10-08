@@ -1,0 +1,95 @@
+@layer antd {
+  .ao-hierarchy-picker {
+    position: relative;
+    display: inline-flex;
+    min-width: 160px;
+    max-width: 100%;
+    height: var(--ao-hierarchy-height);
+    box-sizing: border-box;
+    color: var(--ao-hierarchy-color);
+    border: 1px solid var(--ao-hierarchy-border);
+    border-radius: var(--ao-hierarchy-radius);
+    background: var(--ao-hierarchy-bg);
+  }
+  .ao-hierarchy-picker:focus-within {
+    outline: 2px solid var(--ao-hierarchy-primary);
+    outline-offset: 1px;
+  }
+  .ao-hierarchy-picker > input {
+    width: 100%;
+    min-width: 0;
+    padding: 0 30px 0 11px;
+    color: inherit;
+    font: inherit;
+    border: 0;
+    outline: 0;
+    background: transparent;
+  }
+  .ao-hierarchy-value {
+    position: absolute;
+    inset: 0 30px 0 11px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .ao-hierarchy-clear {
+    position: absolute;
+    inset-inline-end: 4px;
+    top: 0;
+    height: 100%;
+    border: 0;
+    color: inherit;
+    background: transparent;
+    cursor: pointer;
+  }
+  .ao-hierarchy-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .ao-hierarchy-popup {
+    box-sizing: border-box;
+    max-width: calc(100vw - 16px);
+    max-height: min(320px, 70vh);
+    overflow: auto;
+    padding: 4px;
+    color: var(--ao-hierarchy-color);
+    background: var(--ao-hierarchy-bg);
+    border: 1px solid var(--ao-hierarchy-border);
+    border-radius: var(--ao-hierarchy-radius);
+    box-shadow: 0 6px 16px rgb(0 0 0 / 12%);
+  }
+  .ao-cascader-columns {
+    display: flex;
+    overflow: auto;
+  }
+  .ao-cascader-column {
+    min-width: 140px;
+    max-height: 280px;
+    overflow: auto;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  .ao-cascader-option {
+    display: block;
+    width: 100%;
+    padding: 6px 10px;
+    border: 0;
+    color: inherit;
+    background: transparent;
+    text-align: start;
+    font: inherit;
+    cursor: pointer;
+  }
+  .ao-cascader-option:hover,
+  .ao-cascader-option:focus-visible,
+  .ao-cascader-option[aria-pressed="true"] {
+    background: var(--ao-hierarchy-selected);
+  }
+  .ao-cascader-option:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
