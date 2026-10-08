@@ -1,6 +1,6 @@
 # Select for forms (development source)
 
-The changes on this branch are unreleased. The published package may not yet include option groups, `loading`, or `optionFilterProp`. Import Select through the package root after a release includes them.
+Option groups, `loading`, and `optionFilterProp` are supported from 0.1.0-alpha.8. Import Select through the package root.
 
 ## Grouped options and values
 
