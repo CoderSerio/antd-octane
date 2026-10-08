@@ -1,6 +1,7 @@
 @import "./color-picker/color-picker.css";
 @import "./hierarchy-picker.css";
 @import "./date-picker.css";
+@import "./upload/upload.css";
 @import "./transfer/transfer.css";
 
 @import "./tour.css";

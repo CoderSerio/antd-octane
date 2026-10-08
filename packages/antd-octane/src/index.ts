@@ -498,5 +498,12 @@ export type {
   TypographyProps,
 } from "./typography";
 export { Typography } from "./typography";
+export type {
+  UploadFile,
+  UploadProps,
+  UploadRequest,
+  UploadRequestOptions,
+} from "./upload";
+export { Upload } from "./upload";
 export type { WatermarkProps } from "./watermark";
 export { Watermark } from "./watermark";
