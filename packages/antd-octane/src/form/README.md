@@ -1,6 +1,6 @@
 # Form 源码支持范围
 
-本页描述 alpha.8 的支持范围；嵌套 NamePath、dependencies 和字段级操作从此版本起提供。
+嵌套 NamePath、dependencies 和字段级操作从 alpha.8 起提供。下述 `Form.Item.initialValue` / `hidden` 是尚未发布的源码能力。
 
 `name`、`getFieldValue`、`setFieldValue` 接受 `string | number | (string | number)[]`。字符串 `"user.name"` 是完整的字面键，嵌套字段写作 `["user", "name"]`。数字路径段在缺少容器时创建数组；字符串数字段创建对象键。数字路径段（包括顶层数字字段）必须是 0 到 4294967294 的整数。已有数组仅接受数字索引或其规范字符串形式（如 `"0"`），不接受 `"length"`、`"01"` 等附加属性；普通对象仍可使用这些字符串键。空路径、非字符串/数字路径段、越界/非整数索引，以及 `__proto__`、`constructor`、`prototype` 路径段不受支持，会抛出错误。
 
@@ -17,6 +17,8 @@ form.resetFields([["user", "email"]]);
 ```
 
 - `initialValues` 在挂载/更换 Form 实例时建立初始快照，之后改 prop 不会重新初始化。使用 `setFieldsValue` 更新数据；`resetFields` 回到原快照。
+- `Form.Item.initialValue` 为未设置的字段提供默认值；Form `initialValues` 优先（`null` 也属于已设置值）。已编辑或实例方法写入的值不会被字段挂载覆盖。更新 Item 默认值不会覆盖当前值，显式 `resetFields` 使用已注册字段的最新默认值；重置父路径同时恢复后代默认值。与 AntD 5 一样，同名多个 Item 同时提供默认值不受支持：请将该默认值提升到 Form `initialValues`。这些字段仍独立注册校验，卸载一个不会注销其它同名字段。
+- `Form.Item.hidden` 隐藏整个字段布局和控件，字段仍收集数据、参与校验/提交/重置。提交失败时跳过隐藏控件，将焦点交给下一个可聚焦的错误字段。
 - `setFieldsValue` 递归合并普通对象，数组整体替换；`setFieldValue` 精确替换一个路径。读取结果与写入数据的普通对象/数组会复制，避免修改调用方数据。Dayjs、File 等类实例保留身份；数据须无循环引用。
 - `validateFields(names?)` 校验指定路径及其已注册后代；成功返回所选数据子树（省略参数返回所有值）。错误中的 `name` 保留注册时的字符串/数字/数组形状。局部校验保留其它字段的错误。
 - `resetFields(names?)` 恢复所选子树并清理关联错误，省略参数恢复全部。它不会重新挂载控件或触发 `onValuesChange`。不存在的初始字段恢复为 `undefined`。

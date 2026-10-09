@@ -37,4 +37,23 @@ Use `loading` while fetching and `notFoundContent` for request-specific content.
 
 The existing popup portal, provider `getPopupContainer`, direction, size, disabled context, status, and Select theme tokens apply to grouped options too. `ref.focus()` and `ref.blur()` target the combobox. Escape and Tab close it; the dropdown retains input focus when an option or group heading is clicked.
 
-This version does not implement `labelInValue`, tags, arbitrary field mappings, nested groups, virtual scrolling, custom option rendering, or upstream's full generic option API. Unsupported features are not accepted in the public type. Large remote result sets should be limited by the application.
+This version does not implement `labelInValue`, tags, nested groups, virtual scrolling, custom option rendering, or upstream's full generic option API. Unsupported features are not accepted in the public type. Large remote result sets should be limited by the application.
+
+## Custom field names (unpublished source)
+
+`fieldNames` maps `value`, `label`, `options`, and `groupLabel`. Unspecified keys retain their defaults; `groupLabel` falls back to the mapped label key. One level of groups is supported. Mapped values must be strings or numbers and retain their types, including numeric zero. Standard `disabled`, `title`, and group `key` fields remain unchanged.
+
+```tsx
+const options = [{ heading: "Engineering", members: [{ id: 0, name: "Ada", team: "Web" }] }];
+<Select
+  fieldNames={{ value: "id", label: "name", options: "members", groupLabel: "heading" }}
+  options={options}
+  onChange={(value, option) => console.log(value, option?.team)}
+/>
+```
+
+Selection/deselection callbacks and custom filter predicates receive the original leaf object, retaining identity and business fields. JSX infers the leaf callback type from the mapped options key; explicit props annotations use `MappedSelectProps<OptionItem, typeof fieldNames>` with a `const` field-name object. As with the existing Select, callbacks for a selected value absent from the current options use a fallback object; custom fields cannot be recovered in that case.
+
+Default search still matches the displayed label or group label. An explicit `optionFilterProp` reads that exact key from the original object (including `label`, `value`, and `title`); it is not remapped. For example `optionFilterProp="name"` searches the business name. A custom filter still receives only leaves, not group objects.
+
+Focused regressions are in `tests/select-field-names.test.tsx`; `tests/browser/consumer-form-select.html` exercises the source Form/Select integration. These unpublished APIs are not yet available from the site's alpha.8 package.

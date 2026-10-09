@@ -86,13 +86,187 @@ export interface MultipleSelectProps extends SelectCommonProps {
 }
 export type SelectComponentProps = SelectProps | MultipleSelectProps;
 
+export interface SelectFieldNames {
+  label?: string;
+  value?: string;
+  options?: string;
+  groupLabel?: string;
+}
+type MappedLeaf<Option, Fields extends SelectFieldNames> =
+  Option extends Record<
+    Fields["options"] extends string ? Fields["options"] : "options",
+    (infer Child)[]
+  >
+    ? Child extends object
+      ? Child
+      : never
+    : Option;
+type MappedCommonProps<
+  Option extends object,
+  Fields extends SelectFieldNames,
+> = Omit<
+  SelectCommonProps,
+  "options" | "onSelect" | "filterOption" | "optionFilterProp"
+> & {
+  fieldNames: Fields;
+  options?: Option[];
+  optionFilterProp?: string;
+  filterOption?:
+    | boolean
+    | ((input: string, option: MappedLeaf<Option, Fields>) => boolean);
+  onSelect?: (value: SelectValue, option: MappedLeaf<Option, Fields>) => void;
+};
+export type MappedSelectProps<
+  Option extends object,
+  Fields extends SelectFieldNames,
+> = MappedCommonProps<Option, Fields> &
+  (
+    | {
+        mode?: undefined;
+        value?: SelectValue | null;
+        defaultValue?: SelectValue | null;
+        onChange?: (
+          value: SelectValue | undefined,
+          option?: MappedLeaf<Option, Fields>,
+        ) => void;
+      }
+    | {
+        mode: "multiple";
+        value?: SelectValue[];
+        defaultValue?: SelectValue[];
+        onChange?: (
+          values: SelectValue[],
+          options: MappedLeaf<Option, Fields>[],
+        ) => void;
+        onDeselect?: (
+          value: SelectValue,
+          option: MappedLeaf<Option, Fields>,
+        ) => void;
+      }
+  );
+
+export function Select<
+  Option extends object,
+  const Fields extends SelectFieldNames,
+>(props: MappedSelectProps<Option, Fields>): OctaneNode;
+export function Select(props: SelectComponentProps): OctaneNode;
+export function Select(inputProps: unknown): OctaneNode {
+  const props = inputProps as
+    | SelectComponentProps
+    | MappedSelectProps<object, SelectFieldNames>;
+  if (!("fieldNames" in props)) return <SelectControl {...props} />;
+  const fields = {
+    label: props.fieldNames.label ?? "label",
+    value: props.fieldNames.value ?? "value",
+    options: props.fieldNames.options ?? "options",
+  };
+  const groupLabel = props.fieldNames.groupLabel ?? fields.label;
+  const originals = new Map<SelectOptionItem, object>();
+  const leaf = (raw: object): SelectOption => {
+    const record = raw as Record<string, unknown>;
+    const value = record[fields.value];
+    if (typeof value !== "string" && typeof value !== "number")
+      throw new Error("Select: mapped option value must be a string or number");
+    const option: SelectOption = {
+      value,
+      label: record[fields.label] as OctaneNode,
+      disabled: record.disabled === true,
+      title: typeof record.title === "string" ? record.title : undefined,
+    };
+    originals.set(option, raw);
+    return option;
+  };
+  const options: SelectOptionItem[] = (props.options ?? []).map((raw) => {
+    const record = raw as Record<string, unknown>;
+    const children = record[fields.options];
+    if (!Array.isArray(children)) return leaf(raw);
+    const group: SelectOptionGroup = {
+      label: record[groupLabel] as OctaneNode,
+      key:
+        typeof record.key === "string" || typeof record.key === "number"
+          ? record.key
+          : undefined,
+      options: children.map((child) => {
+        if (
+          !child ||
+          typeof child !== "object" ||
+          Array.isArray((child as Record<string, unknown>)[fields.options])
+        )
+          throw new Error(
+            "Select: fieldNames supports one level of option groups",
+          );
+        return leaf(child);
+      }),
+    };
+    originals.set(group, raw);
+    return group;
+  });
+  const original = (option: SelectOption): object =>
+    originals.get(option) ?? {
+      [fields.value]: option.value,
+      [fields.label]: option.label,
+    };
+  const predicate = props.filterOption;
+  const filterProp = props.optionFilterProp;
+  const filterOption =
+    typeof predicate === "function"
+      ? (query: string, option: SelectOption) =>
+          predicate(query, original(option))
+      : predicate;
+  const common: SelectControlProps = {
+    ...props,
+    options,
+    filterOption,
+    optionFilterProp: undefined,
+    optionSearchText: filterProp
+      ? (option) =>
+          String(
+            (originals.get(option) as Record<string, unknown> | undefined)?.[
+              filterProp
+            ] ?? "",
+          )
+      : undefined,
+    onSelect: (value: SelectValue, option: SelectOption) =>
+      props.onSelect?.(value, original(option)),
+  };
+  return props.mode === "multiple" ? (
+    <SelectControl
+      {...common}
+      mode="multiple"
+      value={props.value}
+      defaultValue={props.defaultValue}
+      onChange={(values, selected) =>
+        props.onChange?.(values, selected.map(original))
+      }
+      onDeselect={(value, option) =>
+        props.onDeselect?.(value, original(option))
+      }
+    />
+  ) : (
+    <SelectControl
+      {...common}
+      mode={undefined}
+      value={props.value}
+      defaultValue={props.defaultValue}
+      onChange={(value, option) =>
+        props.onChange?.(value, option ? original(option) : undefined)
+      }
+    />
+  );
+}
+
 function optionText(option: SelectOption) {
   return typeof option.label === "string" || typeof option.label === "number"
     ? String(option.label)
     : String(option.value);
 }
 
-export function Select(props: SelectComponentProps) {
+type SelectControlProps = SelectCommonProps & {
+  optionSearchText?: (option: SelectOptionItem) => string;
+};
+function SelectControl(
+  props: SelectComponentProps & Pick<SelectControlProps, "optionSearchText">,
+) {
   const config = useConfig();
   const warning = devUseWarning("Select");
   warning.deprecated(
@@ -160,7 +334,8 @@ export function Select(props: SelectComponentProps) {
       return props.filterOption(search, option);
     const prop = props.optionFilterProp ?? "label";
     const text =
-      prop === "label" ? optionText(option) : String(option[prop] ?? "");
+      props.optionSearchText?.(option) ??
+      (prop === "label" ? optionText(option) : String(option[prop] ?? ""));
     return text.toLocaleLowerCase().includes(search.toLocaleLowerCase());
   };
   const filteredEntries = entries.flatMap((entry): SelectOptionItem[] => {
@@ -171,8 +346,10 @@ export function Select(props: SelectComponentProps) {
       searchEnabled &&
       typeof props.filterOption !== "function" &&
       (props.optionFilterProp ?? "label") === "label" &&
-      (typeof entry.label === "string" || typeof entry.label === "number") &&
-      String(entry.label)
+      (props.optionSearchText !== undefined ||
+        typeof entry.label === "string" ||
+        typeof entry.label === "number") &&
+      (props.optionSearchText?.(entry) ?? String(entry.label))
         .toLocaleLowerCase()
         .includes(search.toLocaleLowerCase());
     const children = groupMatches
