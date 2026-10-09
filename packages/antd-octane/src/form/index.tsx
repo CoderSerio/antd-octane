@@ -60,8 +60,15 @@ interface FormStore extends FormInstance {
     name: NamePath,
     rules: FormRule[],
     dependencies: NamePath[],
+    initialValue: unknown,
+    token: object,
   ) => () => void;
-  setRules: (name: NamePath, rules: FormRule[]) => void;
+  setRules: (
+    name: NamePath,
+    rules: FormRule[],
+    token: object,
+    initialValue: unknown,
+  ) => void;
   setFieldValue: (name: NamePath, value: unknown) => FormValues;
 }
 
@@ -262,6 +269,45 @@ function createFormStore(initialValues: FormValues = {}): FormStore {
     string,
     { name: NamePath; rules: FormRule[]; dependencies: NamePath[] }
   >();
+  const registrations = new Map<
+    string,
+    Map<
+      object,
+      {
+        name: NamePath;
+        rules: FormRule[];
+        dependencies: NamePath[];
+        initialValue: unknown;
+      }
+    >
+  >();
+  const refreshField = (key: string) => {
+    const entries = [...(registrations.get(key)?.values() ?? [])];
+    if (!entries.length) {
+      fields.delete(key);
+      return;
+    }
+    fields.set(key, {
+      name: entries[0].name,
+      rules: entries.flatMap((entry) => entry.rules),
+      dependencies: entries.flatMap((entry) => entry.dependencies),
+    });
+  };
+  const initialSnapshot = () => {
+    let values = copy(initial);
+    for (const entries of registrations.values()) {
+      const defaults = [...entries.values()].filter(
+        (entry) => entry.initialValue !== undefined,
+      );
+      // As in Ant Design, competing Item defaults for one name are unsupported.
+      if (
+        defaults.length === 1 &&
+        getAt(values, defaults[0].name) === undefined
+      )
+        values = setAt(values, defaults[0].name, defaults[0].initialValue);
+    }
+    return values;
+  };
   let revision = 0,
     validationRun = 0;
   const runs = new Map<string, number>();
@@ -315,36 +361,57 @@ function createFormStore(initialValues: FormValues = {}): FormStore {
       validationRun++;
       for (const key of fields.keys()) invalidate(key);
       initial = copy(values);
-      update({ values: copy(values), errors: {} });
+      update({ values: initialSnapshot(), errors: {} });
     },
-    register(name, rules, dependencies) {
+    register(name, rules, dependencies, initialValue, token) {
       const key = keyOf(name);
       validationRun++;
       invalidate(key);
-      fields.set(key, {
+      const entries = registrations.get(key) ?? new Map();
+      entries.set(token, {
         name: copy(name),
         rules: rules.map((rule) => ({ ...rule })),
         dependencies: copy(dependencies),
+        initialValue: copy(initialValue),
       });
+      registrations.set(key, entries);
+      refreshField(key);
+      if (
+        getAt(state.values, name) === undefined &&
+        initialValue !== undefined &&
+        [...entries.values()].filter(
+          (entry) => entry.initialValue !== undefined,
+        ).length === 1
+      ) {
+        revision++;
+        update({
+          ...state,
+          values: setAt(state.values, name, getAt(initialSnapshot(), name)),
+        });
+      }
       return () => {
-        fields.delete(key);
+        entries.delete(token);
+        if (!entries.size) registrations.delete(key);
+        refreshField(key);
         invalidate(key);
-        if (state.errors[key]) {
+        if (!entries.size && state.errors[key]) {
           const errors = { ...state.errors };
           delete errors[key];
           update({ ...state, errors });
         }
       };
     },
-    setRules(name, rules) {
+    setRules(name, rules, token, initialValue) {
       const key = keyOf(name),
-        field = fields.get(key);
+        field = registrations.get(key)?.get(token);
       if (!field) return;
       if (!sameRules(field.rules, rules)) {
         validationRun++;
         invalidate(key);
       }
       field.rules = rules.map((rule) => ({ ...rule }));
+      field.initialValue = copy(initialValue);
+      refreshField(key);
     },
     getFieldValue: (name) => copy(getAt(state.values, name)),
     getFieldsValue: () => copy(state.values),
@@ -358,10 +425,11 @@ function createFormStore(initialValues: FormValues = {}): FormStore {
     resetFields(names) {
       revision++;
       validationRun++;
-      let values = names ? state.values : copy(initial);
+      const defaults = initialSnapshot();
+      let values = names ? state.values : defaults;
       const errors = names ? { ...state.errors } : {};
       for (const name of names ?? [])
-        values = setAt(values, name, getAt(initial, name));
+        values = setAt(values, name, getAt(defaults, name));
       for (const [key, field] of fields) {
         // Reset also invalidates dependency validators; it does not start new validation.
         if (
@@ -518,13 +586,16 @@ function FormRoot(props: FormProps) {
                   .validateFields()
                   .then(props.onFinish, (error: FormValidationError) => {
                     props.onFinishFailed?.(error);
-                    const first = error.errorFields[0]?.name;
-                    if (first !== undefined && !error.outOfDate)
-                      document
-                        .getElementById(
-                          fieldIds.get(keyOf(first)) ?? `${id}-${first}`,
-                        )
-                        ?.focus();
+                    if (!error.outOfDate)
+                      for (const field of error.errorFields) {
+                        const element = document.getElementById(
+                          fieldIds.get(keyOf(field.name)) ??
+                            `${id}-${field.name}`,
+                        );
+                        if (!element || element.closest("[hidden]")) continue;
+                        element.focus();
+                        if (document.activeElement === element) break;
+                      }
                   });
               }}
               onReset={(event) => {
@@ -548,6 +619,8 @@ export interface FormItemProps {
   colon?: boolean;
   name?: NamePath;
   dependencies?: NamePath[];
+  initialValue?: unknown;
+  hidden?: boolean;
   label?: OctaneNode;
   rules?: FormRule[];
   required?: boolean;
@@ -575,6 +648,9 @@ const emptySnapshot: Snapshot = { values: {}, errors: {} };
 const noopSubscribe = () => () => {};
 const getEmptySnapshot = () => emptySnapshot;
 function FormItem(props: FormItemProps) {
+  const [registration] = useState(() => ({}));
+  const initialValue = useRef(props.initialValue);
+  initialValue.current = props.initialValue;
   const context = useContext(FormContext);
   const config = useConfig();
   const prefixCls = config.getPrefixCls("form", props.prefixCls);
@@ -605,11 +681,18 @@ function FormItem(props: FormItemProps) {
   const required = props.required ?? rules.some((rule) => rule.required);
   useEffect(() => {
     if (name !== undefined)
-      return context?.store.register(name, rules, dependencies);
+      return context?.store.register(
+        name,
+        rules,
+        dependencies,
+        initialValue.current,
+        registration,
+      );
   }, [context?.store, name, dependencies]);
   useEffect(() => {
-    if (name !== undefined) context?.store.setRules(name, rules);
-  }, [context?.store, name, rules]);
+    if (name !== undefined)
+      context?.store.setRules(name, rules, registration, props.initialValue);
+  }, [context?.store, name, rules, props.initialValue]);
   const child = props.children;
   const valuePropName = props.valuePropName ?? "value";
   const descriptor = isValidElement(child)
@@ -694,6 +777,7 @@ function FormItem(props: FormItemProps) {
   return (
     <div
       ref={itemRef}
+      hidden={props.hidden}
       className={[
         cls("-item"),
         cls(`-item-${layout}`),
@@ -702,7 +786,11 @@ function FormItem(props: FormItemProps) {
         props.className,
         props.rootClassName,
       ]}
-      style={{ ...formStyle, ...props.style }}
+      style={{
+        ...formStyle,
+        ...props.style,
+        ...(props.hidden ? { display: "none" } : {}),
+      }}
     >
       <div className={cls("-item-row")}>
         {props.label && (

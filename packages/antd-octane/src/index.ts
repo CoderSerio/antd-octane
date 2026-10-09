@@ -331,8 +331,10 @@ export type {
 } from "./segmented";
 export { Segmented } from "./segmented";
 export type {
+  MappedSelectProps,
   MultipleSelectProps,
   SelectComponentProps,
+  SelectFieldNames,
   SelectOption,
   SelectOptionGroup,
   SelectOptionItem,
