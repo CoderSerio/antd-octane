@@ -379,7 +379,9 @@ function createFormStore(initialValues: FormValues = {}): FormStore {
       if (
         getAt(state.values, name) === undefined &&
         initialValue !== undefined &&
-        entries.size === 1
+        [...entries.values()].filter(
+          (entry) => entry.initialValue !== undefined,
+        ).length === 1
       ) {
         revision++;
         update({

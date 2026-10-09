@@ -172,16 +172,23 @@ export default defineConfig({
     ],
     { cwd: directory, stdio: "inherit" },
   );
-  const stop = () => server.kill("SIGINT");
+  let shutdownRequested = false;
+  const stop = () => {
+    shutdownRequested = true;
+    server.kill("SIGINT");
+  };
   process.on("SIGINT", stop);
   process.on("SIGTERM", stop);
   await new Promise((resolve, reject) => {
     server.on("error", reject);
-    server.on("exit", (code) =>
-      code && code !== 130
-        ? reject(new Error(`Vite exited ${code}`))
-        : resolve(),
-    );
+    server.on("exit", (code, signal) => {
+      if (
+        shutdownRequested &&
+        (code === 0 || code === 130 || signal === "SIGINT")
+      )
+        resolve();
+      else reject(new Error(`Vite exited unexpectedly: ${signal ?? code}`));
+    });
   });
 } finally {
   server?.kill("SIGINT");

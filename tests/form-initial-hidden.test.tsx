@@ -82,6 +82,38 @@ it.each([
   expect(change).toHaveBeenCalledTimes(external ? 0 : 1);
 });
 
+it.each([
+  false,
+  true,
+])("a duplicate name with one Item default initializes consistently (external form=%s)", async (external) => {
+  function App() {
+    const [form] = Form.useForm();
+    return (
+      <Form form={external ? form : undefined}>
+        <Form.Item name="role">
+          <Input id="without-default" />
+        </Form.Item>
+        <Form.Item name="role" initialValue="Reader">
+          <Input id="with-default" />
+        </Form.Item>
+        <button type="reset">Reset</button>
+      </Form>
+    );
+  }
+  await render(<App />);
+  for (const input of container.querySelectorAll<HTMLInputElement>("input"))
+    expect(input.value).toBe("Reader");
+  await act(() => {
+    const input = container.querySelector<HTMLInputElement>("#without-default");
+    if (!input) throw new Error("Missing role input");
+    input.value = "Edited";
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+  });
+  await act(() => container.querySelector("button")?.click());
+  for (const input of container.querySelectorAll<HTMLInputElement>("input"))
+    expect(input.value).toBe("Reader");
+});
+
 it("dynamic fields preserve existing edits and reset uses only registered defaults", async () => {
   let form!: FormInstance;
   let toggle!: (visible: boolean) => void;
