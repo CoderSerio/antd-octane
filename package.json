@@ -20,7 +20,8 @@
     "pack:check": "node scripts/pack-check.mjs",
     "start:check": "node scripts/start-guide-check.mjs",
     "dev:compare": "vite --config tests/browser/vite.config.ts",
-    "tailwind:check": "pnpm build:lib && node scripts/tailwind-check.mjs"
+    "tailwind:check": "pnpm build:lib && node scripts/tailwind-check.mjs",
+    "dev:consumer": "node scripts/dev-consumer.mjs"
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.8",

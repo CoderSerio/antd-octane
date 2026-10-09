@@ -28,6 +28,22 @@ Vite 需要启用 `octane/compiler/vite` 导出的 `octane()` 插件；TypeScrip
 
 本版本提供 `antd-octane/icons` 命名图标入口，例如 `ClockCircleOutlined`、`MinusOutlined`、`PlusOutlined`、`UserOutlined` 和 `AntDesignOutlined`；这些入口从 `0.1.0-alpha.8` 起提供。它是 Octane 原生适配集合，不是 React `@ant-design/icons` 的完整替代包。
 
+## Vite 集成（源码，尚未发布）
+
+下一版本的源码新增 `antd-octane/vite`，集中维护日期依赖预构建配置。**alpha.8 尚无此入口**；使用已发布 alpha.8 时继续采用下一节配置。该集成验证于 Vite 8，不替代 Octane 编译器：
+
+```ts
+import { defineConfig } from "vite";
+import { octane } from "octane/compiler/vite";
+import { antdOctane } from "antd-octane/vite";
+
+export default defineConfig({
+  plugins: [octane(), antdOctane()],
+});
+```
+
+`antdOctane()` 仅为开发服务器添加组件库嵌套 CommonJS 依赖的预构建入口，保留应用已有的 `optimizeDeps` 设置；不改变生产构建、组件 API 或 Day.js 导入路径。无需再手动维护下面的七项 `include`。更新配置后使用 `vite --force` 清理旧预构建结果。应用直接使用 Day.js 时仍应显式安装 `dayjs@1.11.23`，并按需导入 `dayjs/locale/fr` 等语言包，让应用值和组件共享相同的 Day.js 实例。
+
 ## Vite 配置（alpha.8）
 
 alpha.8 的日期组件需要以下开发依赖预构建配置；从 alpha.7 升级时也请同步更新。验证环境为 Node.js ≥ 22.22.2、Octane 0.4.3、Vite 8.3.3 和 TypeScript 5.9.3。新项目在 `package.json` 中设置 `"type": "module"`，`vite.config.ts` 使用：

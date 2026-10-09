@@ -120,3 +120,33 @@ Open `/tests/browser/form-custom-id.html`. Click the Email label and verify the
 custom-ID input receives focus. Submit empty: the same input must receive focus
 and reference the visible error text. Enter an email and submit again; the
 status should show the saved value. This fixture uses workspace source.
+
+## Packed cold development startup
+
+`pnpm dev:consumer` packs the current source into a fresh temporary application,
+installs it without workspace aliases, checks its TSX types and TSX/TSRX production
+builds, then starts Vite on port 5197 with an empty optimizer cache. Its config uses
+`octane()` plus `antdOctane()` from `antd-octane/vite`. Run the browser check while
+the server is alive:
+
+```bash
+playwright-cli --session cold-dev open http://127.0.0.1:5197/button.html
+playwright-cli --session cold-dev run-code "$(node --input-type=module -e 'import verify from "./tests/browser/verify-cold-dev.mjs"; process.stdout.write(verify.toString())')"
+```
+
+The check exercises a Button click, TSX and TSRX DatePicker strict parsing and panel
+selection, Calendar selection, and a French Day.js locale loaded by the application.
+Expect `errors: []`. Also run `PORT=5196 pnpm dev:consumer --button-only` and click
+its Button: this separate cold instance excludes the date pages from discovery,
+so their direct Day.js imports cannot mask the original barrel-import defect.
+Use `PORT=5199 pnpm dev:consumer --button-only --without-integration` to reproduce
+the original cold-start failure: production builds pass but the Button dev page fails
+with a CommonJS module export error. `KEEP_CONSUMER=1` retains the temporary application
+for inspection. Stop the server when finished. This check covers development startup
+and these date interactions, not SSR or all supported browsers.
+
+In `--button-only` mode, inspect only `button.html`; date pages intentionally are not
+optimizer entries in that instance. Use the default instance for date checks so its
+application locale imports are discovered normally. Deliberately omitting a locale
+entry from scanning and introducing it later can cause Vite to re-optimize dependencies;
+this integration does not implement a replacement optimizer or locale loader.

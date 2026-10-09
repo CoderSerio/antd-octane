@@ -24,10 +24,15 @@
     "./style": {
       "types": "./src/style/index.tsx",
       "import": "./src/style/index.tsx"
+    },
+    "./vite": {
+      "types": "./src/vite.d.mts",
+      "import": "./src/vite.mjs"
     }
   },
   "peerDependencies": {
-    "octane": "0.4.3"
+    "octane": "0.4.3",
+    "vite": "^8.0.16"
   },
   "dependencies": {
     "@ant-design/colors": "^7.2.1",
@@ -49,5 +54,10 @@
     "access": "public",
     "registry": "https://registry.npmjs.org/",
     "tag": "alpha"
+  },
+  "peerDependenciesMeta": {
+    "vite": {
+      "optional": true
+    }
   }
 }

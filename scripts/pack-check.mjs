@@ -505,19 +505,9 @@ createRoot(document.getElementById('root')!).render(Page, {});
     join(directory, "vite.config.ts"),
     `import { defineConfig } from 'vite';
 import { octane } from 'octane/compiler/vite';
+import { antdOctane } from 'antd-octane/vite';
 export default defineConfig({
-  plugins: [octane()],
-  optimizeDeps: {
-    include: [
-      'antd-octane > dayjs',
-      'antd-octane > dayjs/plugin/advancedFormat',
-      'antd-octane > dayjs/plugin/customParseFormat',
-      'antd-octane > dayjs/plugin/localeData',
-      'antd-octane > dayjs/plugin/weekday',
-      'antd-octane > dayjs/plugin/weekOfYear',
-      'antd-octane > dayjs/plugin/weekYear',
-    ],
-  },
+  plugins: [octane(), antdOctane()],
   build: { target: 'es2022', rollupOptions: { input: { main: 'index.html', tsrx: 'tsrx.html' } } },
 });`,
   );
