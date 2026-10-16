@@ -72,8 +72,8 @@ importers:
   site:
     dependencies:
       antd-octane:
-        specifier: 0.1.0-alpha.8
-        version: 0.1.0-alpha.8(octane@0.4.3(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@5.9.3)(vite@8.3.1(@types/node@22.20.4)))
+        specifier: 0.1.0-beta.0
+        version: 0.1.0-beta.0(octane@0.4.3(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@5.9.3)(vite@8.3.1(@types/node@22.20.4)))(vite@8.3.1(@types/node@22.20.4))
       dayjs:
         specifier: 1.11.23
         version: 1.11.23
@@ -771,10 +771,14 @@ packages:
   alien-signals@3.2.0:
     resolution: {integrity: sha512-5J9+NpCLHgic4xnZtI8SznvNagwJsZSvRFsAwoLlLw+Edaqa4upCiOC19P8Vx2DqmEvqK2qJBMtI8+9eXOEb/A==}
 
-  antd-octane@0.1.0-alpha.8:
-    resolution: {integrity: sha512-sFyIXltw5z2G/Dahf5fqndi6GVFeHBvxRTzUtdRK86QK3q/fVQioa5YW4bXTJoORB2+Gzup+80klep5546i2Tg==}
+  antd-octane@0.1.0-beta.0:
+    resolution: {integrity: sha512-Ys92+5TWa8AtXJ9tV+jc56q3ZroB/YWrgLTCIcwYweYEsgBgIMeB0km83vIzt5mVq+oGYT0e71JGKi5nKHIa7Q==}
     peerDependencies:
       octane: 0.4.3
+      vite: ^8.0.16
+    peerDependenciesMeta:
+      vite:
+        optional: true
 
   antd@5.29.3:
     resolution: {integrity: sha512-3DdbGCa9tWAJGcCJ6rzR8EJFsv2CtyEbkVabZE14pfgUHfCicWCj0/QzQVLDYg8CPfQk9BH7fHCoTXHTy7MP/A==}
@@ -1944,13 +1948,15 @@ snapshots:
 
   alien-signals@3.2.0: {}
 
-  antd-octane@0.1.0-alpha.8(octane@0.4.3(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@5.9.3)(vite@8.3.1(@types/node@22.20.4))):
+  antd-octane@0.1.0-beta.0(octane@0.4.3(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@5.9.3)(vite@8.3.1(@types/node@22.20.4)))(vite@8.3.1(@types/node@22.20.4)):
     dependencies:
       '@ant-design/colors': 7.2.1
       '@ant-design/fast-color': 2.0.6
       csstype: 3.2.3
       dayjs: 1.11.23
       octane: 0.4.3(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@5.9.3)(vite@8.3.1(@types/node@22.20.4))
+    optionalDependencies:
+      vite: 8.3.1(@types/node@22.20.4)
 
   antd@5.29.3(react-dom@19.3.0(react@19.3.0))(react@19.3.0):
     dependencies:

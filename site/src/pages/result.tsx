@@ -7,7 +7,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Result <span>结果</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">在流程结束后说明结果，并给用户清晰的下一步操作。</p>
       <DocMeta name="Result" />

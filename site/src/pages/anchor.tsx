@@ -11,7 +11,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Anchor <span>锚点</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">通过页内链接定位内容，并随滚动高亮当前章节。</p>
       <DocMeta name="Anchor" />

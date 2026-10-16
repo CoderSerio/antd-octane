@@ -11,7 +11,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Steps <span>步骤条</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">
         引导用户按顺序完成任务，也可直接切换允许访问的步骤。

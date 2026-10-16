@@ -6,7 +6,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         QRCode <span>二维码</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">将文本编码为可扫描的二维码，支持 Canvas 与 SVG。</p>
       <DocMeta name="QRCode" />

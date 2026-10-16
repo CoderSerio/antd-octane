@@ -6,7 +6,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Statistic <span>统计数值</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">突出展示数量、金额或其他关键指标。</p>
       <DocMeta name="Statistic" />

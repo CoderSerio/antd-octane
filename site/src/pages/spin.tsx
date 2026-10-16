@@ -9,7 +9,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Spin <span>加载中</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">内容正在异步加载时，提供明确的等待反馈。</p>
       <DocMeta name="Spin" />

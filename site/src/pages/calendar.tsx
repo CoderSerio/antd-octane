@@ -6,7 +6,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Calendar <span>日历</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">在页面中显示月或年日历，以 Dayjs 管理日期。</p>
       <DocMeta name="Calendar" />

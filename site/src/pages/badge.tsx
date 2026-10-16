@@ -6,7 +6,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Badge <span>徽标数</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">在图标或头像旁标记数量，也可以单独展示状态。</p>
       <DocMeta name="Badge" />

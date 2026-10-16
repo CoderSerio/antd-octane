@@ -6,7 +6,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Card <span>卡片</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">将相关信息和操作组合在一个容器内。</p>
       <DocMeta name="Card" />

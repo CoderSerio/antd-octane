@@ -14,7 +14,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Pagination <span>分页</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">在大量数据中按页浏览，并调整每页显示数量。</p>
       <DocMeta name="Pagination" />

@@ -11,7 +11,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Grid <span>栅格</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">通过 24 栅格系统组织内容，支持响应式断点和间距。</p>
       <DocMeta name="Grid" />

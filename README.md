@@ -6,13 +6,13 @@
 
 <p>面向 Octane 的 Ant Design 风格组件库。组件由 Octane 原生实现，设计与 API 以 Ant Design 5 为参考。</p>
 
-[![CI][ci-image]][ci-url] [![npm alpha][npm-image]][npm-url] [![MIT][license-image]](LICENSE)
+[![CI][ci-image]][ci-url] [![npm beta][npm-image]][npm-url] [![MIT][license-image]](LICENSE)
 
 [在线文档](https://coderserio.github.io/antd-octane/) · [快速开始](https://coderserio.github.io/antd-octane/#start) · [组件与兼容范围](https://coderserio.github.io/antd-octane/#components/coverage) · [贡献指南](CONTRIBUTE.md) · [更新日志](CHANGELOG.md)
 
 </div>
 
-> **Alpha 预览版。** 已提供的组件可能只覆盖上游 API 的一部分，API 也可能调整。
+> **Beta 预览版。** 已提供的组件可能只覆盖上游 API 的一部分，API 也可能调整。
 > 本项目由社区独立维护，不属于 Ant Design、Octane 官方项目。
 
 ## 项目定位
@@ -27,7 +27,7 @@ Octane 的语法与构建方式请以 [Octane 官方文档](https://octanejs.dev
 > 新建项目与构建配置请按[完整快速开始](https://coderserio.github.io/antd-octane/#start)操作。
 
 ```bash
-pnpm add antd-octane@alpha octane@0.4.3
+pnpm add antd-octane@beta octane@0.4.3
 ```
 
 ```tsx
@@ -56,12 +56,12 @@ export function App() {
 每个组件页和[兼容与迁移](https://coderserio.github.io/antd-octane/#compatibility)说明具体支持范围。
 Octane 支持 SSR；本库尚未完成全部组件及客户端 hydration 验证。跨浏览器与辅助技术兼容也仍需验证。
 
-文档站固定使用已发布的 `0.1.0-alpha.8`。Calendar、Table、Tree、Util，
+文档站固定使用已发布的 `0.1.0-beta.0`。Calendar、Table、Tree、Util，
 以及 Cascader、ColorPicker、DatePicker、Mentions、TimePicker、Transfer、TreeSelect、Upload
-均有组件页面和可运行示例。Form 提供嵌套字段与局部操作；Select 提供分组、加载标记和过滤字段。
+均有组件页面和可运行示例。Form 提供嵌套字段与局部操作；Select 提供标签录入、带标签的值、自定义字段映射、分组和搜索。
 每页注明支持边界，组件目录覆盖不代表完整 API、视觉、无障碍或 SSR 对齐。
 
-Vite 开发模式需在 `optimizeDeps.include` 显式配置 Day.js 核心与六个插件，即使只从包根导入 Button。
+Vite 使用 `antd-octane/vite` 导出的 `antdOctane()` 插件配置 Day.js 预构建，与 Octane 编译插件一起启用。
 完整配置见[开始使用](https://coderserio.github.io/antd-octane/#start)和[包 README](packages/antd-octane/README.md)。
 
 ## 开发与贡献
@@ -87,6 +87,6 @@ Vite 开发模式需在 `optimizeDeps.include` 显式配置 Day.js 核心与六�
 
 [ci-image]: https://github.com/CoderSerio/antd-octane/actions/workflows/ci.yml/badge.svg?branch=main
 [ci-url]: https://github.com/CoderSerio/antd-octane/actions/workflows/ci.yml
-[npm-image]: https://img.shields.io/npm/v/antd-octane/alpha.svg?style=flat-square
+[npm-image]: https://img.shields.io/npm/v/antd-octane/beta.svg?style=flat-square
 [npm-url]: https://www.npmjs.com/package/antd-octane
 [license-image]: https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square

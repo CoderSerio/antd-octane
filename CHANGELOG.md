@@ -2,13 +2,13 @@
 
 此文件记录 `antd-octane` 的版本变化；标注「待发布」的条目尚不可从 npm 安装。组件支持范围与限制见[兼容与迁移](site/src/pages/compatibility.tsx)。
 
-## 0.1.0-beta.0 — 待发布
+## 0.1.0-beta.0 — 2026-10-17
 
 - Select 新增 tags 模式和 labelInValue，支持标签录入、分隔符输入、带标签的值回显，以及 Form 收集与重置；保留单选、多选和 fieldNames 的原始选项回调。
 - 收录此前源码中的 Vite 集成入口 `antd-octane/vite`、Select 自定义字段映射，以及 Form.Item 的 initialValue / hidden，减少常见业务表单的接入配置。
 - Beta 仍以 Ant Design 5.29.3 的已声明 API 子集为范围；Form.List、useWatch、Select 虚拟列表与完整 SSR/hydration 验证尚未提供。
 - 保留 Octane 0.4.3 基线。Linux musl 原生 parser 的上游修复尚未接入此依赖组合，不在本次 Beta 的已验证范围内。
-- 计划使用 npm `beta` 标签；发布并验证 registry 后再更新文档站。当前公开站点仍使用 alpha.8。
+- 使用 npm `beta` 标签发布；文档站升级至经 registry 独立安装验证的 beta.0，补充标签录入与 Form 示例。
 
 ## 0.1.0-alpha.8 — 2026-10-08
 

@@ -14,7 +14,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Typography <span>排版</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">组织标题、段落和文本，支持复制、编辑及展开。</p>
       <DocMeta name="Typography" />

@@ -6,6 +6,7 @@ import { SelectFilterEmptyDemo } from "../demos/select-filter-empty";
 import { GroupedDemo } from "../demos/select-groups";
 import { ControlledMultipleDemo, MultipleDemo } from "../demos/select-multiple";
 import { SelectSizesStatusDemo } from "../demos/select-sizes-status";
+import { LabeledTagsFormDemo, TagsDemo } from "../demos/select-tags";
 import { ApiTable, Code, Demo, DocMeta, usePageAnchor } from "../docs-ui";
 
 export default function Page({ section }: { section?: string }) {
@@ -14,7 +15,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Select <span>选择器</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">
         从有限选项中选择一个或多个值，也可以先输入文本过滤。
@@ -95,6 +96,22 @@ export default function Page({ section }: { section?: string }) {
           <ControlledMultipleDemo />
         </Demo>
         <Demo
+          id="tags"
+          title="标签录入"
+          description="输入新标签后按 Enter，或用逗号、分号分隔；失焦提交当前文本，Escape 取消。"
+          source={() => import("../demos/select-tags.tsx?raw")}
+        >
+          <TagsDemo />
+        </Demo>
+        <Demo
+          id="labeled-tags"
+          title="带标签值与表单"
+          description="labelInValue 收集 value/label 对象；Form.Item 初值、提交与重置使用同一份结构。"
+          source={() => import("../demos/select-tags.tsx?raw")}
+        >
+          <LabeledTagsFormDemo />
+        </Demo>
+        <Demo
           id="groups"
           title="分组选项与加载标记"
           description="组名参与默认标签搜索，键盘跳过组标题和禁用项。"
@@ -126,11 +143,24 @@ export default function Page({ section }: { section?: string }) {
             "label | value | title",
             "label",
           ],
-          ["mode", "选择模式；省略为单选", "multiple", "—"],
+          ["mode", "选择模式；省略为单选", "multiple | tags", "—"],
+          [
+            "labelInValue",
+            "值与选择回调使用 { value, label } 对象",
+            "boolean",
+            "false",
+          ],
+          ["tokenSeparators", "tags 模式的输入分隔符", "string[]", "—"],
+          [
+            "fieldNames",
+            "映射 value、label、options、groupLabel 字段",
+            "SelectFieldNames",
+            "—",
+          ],
           [
             "value / defaultValue",
             "受控值 / 初始值",
-            "SelectValue | null / SelectValue[]（多选）",
+            "SelectValue / LabeledSelectValue；多选与 tags 使用数组",
             "—",
           ],
           [
@@ -216,15 +246,21 @@ type MultipleChange = (values: SelectValue[], options: SelectOption[]) => void;`
         支持范围
       </h2>
       <p>
-        支持单选与多选。方向键移动、Enter 切换选项、Escape
+        支持单选、多选、tags 与 labelInValue。方向键移动、Enter 切换选项、Escape
         关闭；禁用选项不可选或移除。非搜索模式 Home / End
         跳到首尾，搜索模式保留文本光标行为。多选搜索为空时 Backspace
         移除最后一个可移除项。搜索默认按文本标签过滤，非文本标签按 value
         过滤，也匹配分组标题。分组标题不可选，键盘跳过分组和禁用项。 自定义
         filterOption 只接收叶选项，组名不会绕过自定义过滤。 尚未实现
-        tags、labelInValue、嵌套分组、虚拟列表、自定义选项渲染和完整上游样式。
-        带搜索时可用 searchValue/onSearch 控制搜索文本；这与已选中的 value
-        是两份独立状态。
+        嵌套分组、虚拟列表、自定义选项渲染和完整上游样式。 带搜索时可用
+        searchValue/onSearch 控制搜索文本；这与已选中的 value 是两份独立状态。
+      </p>
+      <p>
+        tags 模式接受新文本，tokenSeparators 仅在此模式生效；失焦提交文本，
+        Escape 取消输入。禁用选项不可添加或移除。labelInValue 使用
+        {" { value, label } "}对象，远程选项尚未加载时可先提供 label 回显。
+        fieldNames 映射业务字段，选项回调保留原对象及自定义字段；
+        新建标签使用生成的选项对象。数字与字符串值分别去重。
       </p>
       <p>
         联动选项由应用负责同步：改变 options 不会自动清空已有

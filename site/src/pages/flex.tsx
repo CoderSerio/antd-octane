@@ -10,7 +10,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Flex <span>弹性布局</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">
         无需额外子元素包装，控制行列方向、对齐、换行和间距。

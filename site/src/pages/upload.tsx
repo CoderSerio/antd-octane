@@ -7,7 +7,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Upload <span>上传</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">管理文件选择、列表和可取消的上传请求。</p>
       <DocMeta name="Upload" />

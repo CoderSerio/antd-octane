@@ -6,7 +6,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Tree <span>树形控件</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">用稳定的节点 key 管理层级数据、选择和父子勾选。</p>
       <DocMeta name="Tree" />

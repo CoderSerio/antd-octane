@@ -6,7 +6,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Carousel <span>走马灯</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">将多个内容面板组织为可切换的幻灯片。</p>
       <DocMeta name="Carousel" />

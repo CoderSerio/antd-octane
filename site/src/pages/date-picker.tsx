@@ -6,7 +6,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         DatePicker <span>日期选择</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">
         选择一个日期或一个日期范围。应用直接安装 dayjs；值使用

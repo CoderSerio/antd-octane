@@ -8,7 +8,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Drawer <span>抽屉</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">从页面边缘展开额外内容，完成操作后回到原任务。</p>
       <DocMeta name="Drawer" />

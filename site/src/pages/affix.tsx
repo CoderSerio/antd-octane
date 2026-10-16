@@ -7,7 +7,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Affix <span>固钉</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">滚动时将操作保持在视口或指定容器边缘。</p>
       <DocMeta name="Affix" />

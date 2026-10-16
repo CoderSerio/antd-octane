@@ -6,7 +6,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Segmented <span>分段控制器</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">在一组互斥选项之间快速切换。</p>
       <DocMeta name="Segmented" />

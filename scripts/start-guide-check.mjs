@@ -70,7 +70,7 @@ for (const { language, source: command } of snippets) {
     const [, name, version] = match;
     // The guide permits pinning releases. Match the version the public site consumes.
     target[name] =
-      name === "antd-octane" && version === "alpha"
+      name === "antd-octane" && ["alpha", "beta"].includes(version)
         ? site.dependencies[name]
         : version;
   }

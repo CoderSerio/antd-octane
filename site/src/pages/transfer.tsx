@@ -7,7 +7,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Transfer <span>穿梭框</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">通过左右列表分配一组已有条目。</p>
       <DocMeta name="Transfer" />

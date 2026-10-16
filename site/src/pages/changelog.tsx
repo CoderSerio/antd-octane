@@ -7,7 +7,7 @@ export default function ChangelogPage({ section }: { section?: string }) {
     <>
       <div className="eyebrow">GUIDE / CHANGELOG</div>
       <h1>更新日志</h1>
-      <p className="lead">这里记录已发布到 npm 的 alpha 版本。</p>
+      <p className="lead">这里记录已发布到 npm 的预览版本。</p>
       <p>
         文档站当前安装 <code>antd-octane@{siteVersion}</code>。完整记录见{" "}
         <a
@@ -22,6 +22,19 @@ export default function ChangelogPage({ section }: { section?: string }) {
         </a>
         。
       </p>
+      <h2 id="beta-0" tabIndex={-1}>
+        0.1.0-beta.0 · 2026-10-17
+      </h2>
+      <p>
+        Select 新增 tags 标签录入、tokenSeparators、labelInValue 与 fieldNames，
+        支持带标签的值回显及 Form 收集、重置。Form.Item 支持 initialValue 和
+        hidden。 新增 antd-octane/vite 集成入口，简化 Day.js 开发预构建配置。
+      </p>
+      <p>
+        使用 npm beta 标签安装。Beta 仍为 API 子集预览；Form.List、useWatch、
+        Select 虚拟列表与完整 SSR 验证尚未提供。Octane 保持 0.4.3， Linux musl
+        原生 parser 的依赖适配留待后续更新。
+      </p>
       <h2 id="alpha-8" tabIndex={-1}>
         0.1.0-alpha.8 · 2026-10-08
       </h2>
@@ -34,7 +47,7 @@ export default function ChangelogPage({ section }: { section?: string }) {
       </p>
       <p>
         修复 Table 自定义选择标签、Spin 进度环与页面加载反馈居中；补齐 Vite
-        开发模式的七项 Day.js 预构建入口。本站固定安装已发布的
+        开发模式的七项 Day.js 预构建入口。当时站点升级至已发布的
         alpha.8，新增组件页、独立示例与主题颜色选择器， 并同步
         Modal、App、消息通知、Progress 等已实现能力及其限制。
       </p>

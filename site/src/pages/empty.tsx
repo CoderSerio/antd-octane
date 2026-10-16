@@ -6,7 +6,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Empty <span>空状态</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">在没有数据时说明当前状态，并提供下一步操作。</p>
       <DocMeta name="Empty" />
