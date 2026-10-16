@@ -1,6 +1,6 @@
 {
   "name": "antd-octane",
-  "version": "0.1.0-alpha.8",
+  "version": "0.1.0-beta.0",
   "type": "module",
   "license": "MIT",
   "files": [
@@ -53,7 +53,7 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/",
-    "tag": "alpha"
+    "tag": "beta"
   },
   "peerDependenciesMeta": {
     "vite": {

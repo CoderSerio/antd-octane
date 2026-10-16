@@ -335,6 +335,7 @@ createRoot(document.getElementById('root')!).render(
     <Input.Group {...groupProps}><Input defaultValue="Grouped" /><Input disabled value="disabled" /></Input.Group>
     <Select options={[{value:'first',label:'First'},{value:'second',label:'Second'}]} defaultValue="first" showSearch onChange={(value) => void value} />
     <Select {...multipleProps} />
+    <Select mode="tags" labelInValue defaultValue={[{value:'owner',label:'Owner'}]} onChange={(values) => values[0]?.value.toString()} />
     <Space.Compact size="small"><Space.Addon>https://</Space.Addon><Input /><Button>Go</Button></Space.Compact>
     <AutoComplete options={[{value:'Octane'}]} onChange={(text) => void text} onSelect={(text,option) => void option.value} />
     <Mentions options={[{value:'alice'}]} defaultValue="Packed @a" onChange={(text) => void text} />
@@ -430,6 +431,7 @@ function Page() @{
     <Checkbox checked={checked$.get()} onChange={(event) => checked$.set(event.target.checked)}>checkable</Checkbox>
     <Radio checked={checked$.get()} onChange={(event) => checked$.set(event.target.checked)}>radio choice</Radio>
     <InputNumber value={number$.get()} onChange={(next) => number$.set(next ?? 0)} />
+    <Select id="signal-labeled-tags" mode="tags" labelInValue value={[{value:selected$.get(),label:selected$.get()}]} />
     <Select id="signal-select" options={[{value:'first',label:'First'},{value:'second',label:'Second'}]} value={selected$.get()} onChange={(next) => selected$.set(String(next ?? ''))} />
     <section id="signal-multiple"><Select mode="multiple" id="signal-multiple-input" options={[{value:'first',label:'First'},{value:'second',label:'Second'}]} value={selectedMany$.get()} onChange={(next) => selectedMany$.set(next)} allowClear /></section>
     <Rate value={number$.get()} onChange={(next) => number$.set(next)} />
@@ -566,6 +568,7 @@ try {
   if (!win.document.querySelector('.ant-checkbox input')?.checked) throw new Error('TSRX Signal-driven Checkbox did not update');
   if (!win.document.querySelector('.ant-radio input')?.checked) throw new Error('TSRX Signal-driven Radio did not update');
   if (win.document.querySelector('.ant-input-number-input')?.value !== '3') throw new Error('TSRX Signal-driven InputNumber did not update');
+  if (win.document.querySelector('#signal-labeled-tags')?.closest('.ant-select')?.querySelector('.ant-select-selection-item-content')?.textContent !== 'second') throw new Error('TSRX Signal-driven labeled tags did not update');
   if (win.document.querySelector('#signal-select')?.value !== 'Second') throw new Error('TSRX Signal-driven Select did not update');
   if (win.document.querySelector('.ant-rate')?.getAttribute('aria-valuenow') !== '3') throw new Error('TSRX Signal-driven Rate did not update');
   if (win.document.querySelector('.ant-slider [role="slider"]')?.getAttribute('aria-valuenow') !== '3') throw new Error('TSRX Signal-driven Slider did not update');
