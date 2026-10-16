@@ -150,3 +150,12 @@ optimizer entries in that instance. Use the default instance for date checks so 
 application locale imports are discovered normally. Deliberately omitting a locale
 entry from scanning and introducing it later can cause Vite to re-optimize dependencies;
 this integration does not implement a replacement optimizer or locale loader.
+
+### Tags and labeled Select values
+
+Open `/tests/browser/select-tags-compare.html`, then repeat with `?renderer=antd`.
+Enter a new owner, paste comma/semicolon-separated owners, remove a selected value,
+clear, and reset. Compare the value/label objects in the output. Check keyboard
+selection, blur/Tab commit, IME composition and disabled options. Repeat with
+`&dark&compact` and a narrow viewport. This fixture uses source; it does not
+advertise the additions as published APIs.

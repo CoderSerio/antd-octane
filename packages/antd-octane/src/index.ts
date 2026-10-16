@@ -331,6 +331,8 @@ export type {
 } from "./segmented";
 export { Segmented } from "./segmented";
 export type {
+  LabeledSelectProps,
+  LabeledSelectValue,
   MappedSelectProps,
   MultipleSelectProps,
   SelectComponentProps,

@@ -29,10 +29,8 @@ export const multiple = (
   />
 );
 export const labeled = (
-  // @ts-expect-error Labeled value objects are not implemented.
   <Select labelInValue value={{ value: "alice", label: "Alice" }} />
 );
-// @ts-expect-error Tags creation is not implemented.
 export const tags = <Select mode="tags" />;
 // @ts-expect-error Only the supported option fields can be searched.
 export const field = <Select optionFilterProp="children" />;
@@ -71,3 +69,32 @@ export const mappedMultiple = (
     }}
   />
 );
+
+export const labeledTags = (
+  <Select
+    mode="tags"
+    labelInValue
+    value={[{ value: "alice", label: "Alice" }]}
+    onChange={(values, options) => {
+      values[0].value.toString();
+      options[0].value.toString();
+    }}
+  />
+);
+export const mappedLabeled = (
+  <Select
+    labelInValue
+    fieldNames={{ value: "id", label: "name" }}
+    options={[{ id: 0, name: "Ada", team: "web" }]}
+    onChange={(value, option) => {
+      value?.label;
+      option?.team.toUpperCase();
+    }}
+  />
+);
+// @ts-expect-error labelInValue requires value objects.
+export const invalidLabeled = <Select labelInValue value="alice" />;
+// @ts-expect-error tags requires an array.
+export const invalidTags = <Select mode="tags" value="alice" />;
+// @ts-expect-error objects require labelInValue.
+export const invalidRaw = <Select value={{ value: "alice", label: "Alice" }} />;

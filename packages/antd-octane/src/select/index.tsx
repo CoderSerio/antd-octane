@@ -44,7 +44,6 @@ interface SelectCommonProps {
   optionFilterProp?: "label" | "value" | "title";
   prefixCls?: string;
   rootClassName?: string;
-  onSelect?: (value: SelectValue, option: SelectOption) => void;
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
@@ -71,20 +70,48 @@ interface SelectCommonProps {
   style?: CSSProperties;
   ref?: Ref<SelectRef>;
 }
-export interface SelectProps extends SelectCommonProps {
-  mode?: undefined;
-  value?: SelectValue | null;
-  defaultValue?: SelectValue | null;
-  onChange?: (value: SelectValue | undefined, option?: SelectOption) => void;
+export interface LabeledSelectValue {
+  value: SelectValue;
+  label?: OctaneNode;
 }
-export interface MultipleSelectProps extends SelectCommonProps {
-  mode: "multiple";
-  value?: SelectValue[];
-  defaultValue?: SelectValue[];
-  onChange?: (values: SelectValue[], options: SelectOption[]) => void;
-  onDeselect?: (value: SelectValue, option: SelectOption) => void;
-}
-export type SelectComponentProps = SelectProps | MultipleSelectProps;
+type SelectionProps<Value, Option> = {
+  onSelect?: (value: Value, option: Option) => void;
+} & (
+  | {
+      mode?: undefined;
+      value?: Value | null;
+      defaultValue?: Value | null;
+      onChange?: (value: Value | undefined, option?: Option) => void;
+    }
+  | ((
+      | { mode: "multiple"; tokenSeparators?: never }
+      | { mode: "tags"; tokenSeparators?: string[] }
+    ) & {
+      value?: Value[];
+      defaultValue?: Value[];
+      onChange?: (values: Value[], options: Option[]) => void;
+      onDeselect?: (value: Value, option: Option) => void;
+    })
+);
+type ValueProps<Option> =
+  | ({ labelInValue?: false } & SelectionProps<SelectValue, Option>)
+  | ({ labelInValue: true } & SelectionProps<LabeledSelectValue, Option>);
+export type SelectProps = SelectCommonProps & {
+  labelInValue?: false;
+} & Extract<SelectionProps<SelectValue, SelectOption>, { mode?: undefined }>;
+export type MultipleSelectProps = SelectCommonProps & {
+  labelInValue?: false;
+} & Extract<
+    SelectionProps<SelectValue, SelectOption>,
+    { mode: "multiple" | "tags" }
+  >;
+export type LabeledSelectProps = SelectCommonProps & {
+  labelInValue: true;
+} & SelectionProps<LabeledSelectValue, SelectOption>;
+export type SelectComponentProps =
+  | SelectProps
+  | MultipleSelectProps
+  | LabeledSelectProps;
 
 export interface SelectFieldNames {
   label?: string;
@@ -101,49 +128,42 @@ type MappedLeaf<Option, Fields extends SelectFieldNames> =
       ? Child
       : never
     : Option;
-type MappedCommonProps<
+export type MappedSelectProps<
   Option extends object,
   Fields extends SelectFieldNames,
-> = Omit<
-  SelectCommonProps,
-  "options" | "onSelect" | "filterOption" | "optionFilterProp"
-> & {
+> = Omit<SelectCommonProps, "options" | "filterOption" | "optionFilterProp"> & {
   fieldNames: Fields;
   options?: Option[];
   optionFilterProp?: string;
   filterOption?:
     | boolean
     | ((input: string, option: MappedLeaf<Option, Fields>) => boolean);
-  onSelect?: (value: SelectValue, option: MappedLeaf<Option, Fields>) => void;
+} & ValueProps<MappedLeaf<Option, Fields>>;
+
+// The public discriminated unions keep callers' values and callbacks precise.
+// Normalize both field mappings and labeled values at this boundary; the control
+// only handles primitive keys and always returns the caller's original option.
+type FacadeValue = SelectValue | LabeledSelectValue;
+type FacadeProps = Omit<
+  SelectCommonProps,
+  "options" | "filterOption" | "optionFilterProp"
+> & {
+  fieldNames?: SelectFieldNames;
+  options?: object[];
+  filterOption?: boolean | ((input: string, option: object) => boolean);
+  optionFilterProp?: string;
+  mode?: "multiple" | "tags";
+  tokenSeparators?: string[];
+  labelInValue?: boolean;
+  value?: FacadeValue | FacadeValue[] | null;
+  defaultValue?: FacadeValue | FacadeValue[] | null;
+  onChange?: (
+    value: FacadeValue | FacadeValue[] | undefined,
+    options?: object | object[],
+  ) => void;
+  onSelect?: (value: FacadeValue, option: object) => void;
+  onDeselect?: (value: FacadeValue, option: object) => void;
 };
-export type MappedSelectProps<
-  Option extends object,
-  Fields extends SelectFieldNames,
-> = MappedCommonProps<Option, Fields> &
-  (
-    | {
-        mode?: undefined;
-        value?: SelectValue | null;
-        defaultValue?: SelectValue | null;
-        onChange?: (
-          value: SelectValue | undefined,
-          option?: MappedLeaf<Option, Fields>,
-        ) => void;
-      }
-    | {
-        mode: "multiple";
-        value?: SelectValue[];
-        defaultValue?: SelectValue[];
-        onChange?: (
-          values: SelectValue[],
-          options: MappedLeaf<Option, Fields>[],
-        ) => void;
-        onDeselect?: (
-          value: SelectValue,
-          option: MappedLeaf<Option, Fields>,
-        ) => void;
-      }
-  );
 
 export function Select<
   Option extends object,
@@ -151,16 +171,25 @@ export function Select<
 >(props: MappedSelectProps<Option, Fields>): OctaneNode;
 export function Select(props: SelectComponentProps): OctaneNode;
 export function Select(inputProps: unknown): OctaneNode {
-  const props = inputProps as
-    | SelectComponentProps
-    | MappedSelectProps<object, SelectFieldNames>;
-  if (!("fieldNames" in props)) return <SelectControl {...props} />;
+  const props = inputProps as FacadeProps;
+  const [innerValue, setInnerValue] = useState(
+    props.defaultValue ?? (props.mode ? [] : null),
+  );
+  const value = props.value !== undefined ? props.value : innerValue;
+  const values = value == null ? [] : Array.isArray(value) ? value : [value];
+  const keyOf = (item: FacadeValue): SelectValue =>
+    typeof item === "object" ? item.value : item;
+  const labels = new Map<SelectValue, OctaneNode>();
+  for (const item of values) {
+    if (typeof item === "object" && item.label !== undefined)
+      labels.set(item.value, item.label);
+  }
   const fields = {
-    label: props.fieldNames.label ?? "label",
-    value: props.fieldNames.value ?? "value",
-    options: props.fieldNames.options ?? "options",
+    label: props.fieldNames?.label ?? "label",
+    value: props.fieldNames?.value ?? "value",
+    options: props.fieldNames?.options ?? "options",
   };
-  const groupLabel = props.fieldNames.groupLabel ?? fields.label;
+  const groupLabel = props.fieldNames?.groupLabel ?? fields.label;
   const originals = new Map<SelectOptionItem, object>();
   const leaf = (raw: object): SelectOption => {
     const record = raw as Record<string, unknown>;
@@ -202,7 +231,10 @@ export function Select(inputProps: unknown): OctaneNode {
     return group;
   });
   const original = (option: SelectOption): object =>
-    originals.get(option) ?? {
+    originals.get(option) ??
+    [...originals].find(
+      ([entry]) => "value" in entry && entry.value === option.value,
+    )?.[1] ?? {
       [fields.value]: option.value,
       [fields.label]: option.label,
     };
@@ -213,44 +245,64 @@ export function Select(inputProps: unknown): OctaneNode {
       ? (query: string, option: SelectOption) =>
           predicate(query, original(option))
       : predicate;
+  const labeled = (key: SelectValue, option: SelectOption): FacadeValue =>
+    props.labelInValue
+      ? { value: key, label: labels.get(key) ?? option.label ?? key }
+      : key;
+  const change = (
+    next: SelectValue | SelectValue[] | undefined,
+    selected?: SelectOption | SelectOption[],
+  ) => {
+    const output = Array.isArray(next)
+      ? next.map((key, index) =>
+          labeled(key, (selected as SelectOption[])[index]),
+        )
+      : next === undefined
+        ? undefined
+        : labeled(next, selected as SelectOption);
+    if (props.value === undefined) setInnerValue(output ?? null);
+    if (selected === undefined) props.onChange?.(output);
+    else
+      props.onChange?.(
+        output,
+        Array.isArray(selected) ? selected.map(original) : original(selected),
+      );
+  };
   const common: SelectControlProps = {
     ...props,
     options,
+    displayLabels: labels,
     filterOption,
     optionFilterProp: undefined,
     optionSearchText: filterProp
       ? (option) =>
           String(
-            (originals.get(option) as Record<string, unknown> | undefined)?.[
+            (original(option as SelectOption) as Record<string, unknown>)[
               filterProp
             ] ?? "",
           )
       : undefined,
-    onSelect: (value: SelectValue, option: SelectOption) =>
-      props.onSelect?.(value, original(option)),
+    onSelect: (key, option) =>
+      props.onSelect?.(labeled(key, option), original(option)),
   };
-  return props.mode === "multiple" ? (
+  return props.mode ? (
     <SelectControl
       {...common}
-      mode="multiple"
-      value={props.value}
-      defaultValue={props.defaultValue}
-      onChange={(values, selected) =>
-        props.onChange?.(values, selected.map(original))
-      }
-      onDeselect={(value, option) =>
-        props.onDeselect?.(value, original(option))
+      {...(props.mode === "tags"
+        ? { mode: "tags" as const, tokenSeparators: props.tokenSeparators }
+        : { mode: "multiple" as const })}
+      value={values.map(keyOf)}
+      onChange={change}
+      onDeselect={(key: SelectValue, option: SelectOption) =>
+        props.onDeselect?.(labeled(key, option), original(option))
       }
     />
   ) : (
     <SelectControl
       {...common}
       mode={undefined}
-      value={props.value}
-      defaultValue={props.defaultValue}
-      onChange={(value, option) =>
-        props.onChange?.(value, option ? original(option) : undefined)
-      }
+      value={value == null ? null : keyOf(value as FacadeValue)}
+      onChange={change}
     />
   );
 }
@@ -262,10 +314,13 @@ function optionText(option: SelectOption) {
 }
 
 type SelectControlProps = SelectCommonProps & {
+  onSelect?: (value: SelectValue, option: SelectOption) => void;
+  displayLabels?: ReadonlyMap<SelectValue, OctaneNode>;
   optionSearchText?: (option: SelectOptionItem) => string;
 };
 function SelectControl(
-  props: SelectComponentProps & Pick<SelectControlProps, "optionSearchText">,
+  props: (SelectProps | MultipleSelectProps) &
+    Pick<SelectControlProps, "optionSearchText" | "displayLabels">,
 ) {
   const config = useConfig();
   const warning = devUseWarning("Select");
@@ -296,7 +351,7 @@ function SelectControl(
   const popup = useRef<HTMLDivElement | null>(null);
   const [innerValue, setInnerValue] = useState<
     SelectValue | SelectValue[] | null
-  >(props.defaultValue ?? (props.mode === "multiple" ? [] : null));
+  >(props.defaultValue ?? (props.mode !== undefined ? [] : null));
   const [innerOpen, setInnerOpen] = useState(props.defaultOpen ?? false);
   const [innerSearch, setInnerSearch] = useState("");
   const [active, setActive] = useState<SelectValue | null>(null);
@@ -308,7 +363,7 @@ function SelectControl(
   } | null>(null);
   const disabled = props.disabled ?? config.componentDisabled ?? false;
   const size = props.size ?? config.componentSize ?? "middle";
-  const multiple = props.mode === "multiple";
+  const multiple = props.mode !== undefined;
   const showSearch = props.showSearch ?? multiple;
   const value = props.value !== undefined ? props.value : innerValue;
   const singleValue = Array.isArray(value) ? null : value;
@@ -321,12 +376,23 @@ function SelectControl(
       : [singleValue];
   const open = !disabled && (props.open ?? innerOpen);
   const search = props.searchValue ?? innerSearch;
-  const selected = options.find((option) => option.value === singleValue);
-  const optionFor = (selectedValue: SelectValue) =>
-    options.find((option) => option.value === selectedValue) ?? {
-      value: selectedValue,
-      label: String(selectedValue),
-    };
+  const cachedOptions = useRef(new Map<SelectValue, SelectOption>());
+  const optionFor = (selectedValue: SelectValue): SelectOption => {
+    const option = options.find((item) => item.value === selectedValue) ??
+      cachedOptions.current.get(selectedValue) ?? {
+        value: selectedValue,
+        label: String(selectedValue),
+      };
+    return props.displayLabels?.has(selectedValue)
+      ? { ...option, label: props.displayLabels.get(selectedValue) }
+      : option;
+  };
+  useLayoutEffect(() => {
+    cachedOptions.current = new Map(
+      selectedValues.map((key) => [key, optionFor(key)]),
+    );
+  });
+  const selected = singleValue == null ? undefined : optionFor(singleValue);
   const searchEnabled = showSearch && search && props.filterOption !== false;
   const matches = (option: SelectOption) => {
     if (!searchEnabled) return true;
@@ -357,6 +423,22 @@ function SelectControl(
       : entry.options.filter(matches);
     return children.length ? [{ ...entry, options: children }] : [];
   });
+  if (props.mode === "tags") {
+    for (const key of selectedValues) {
+      if (
+        !options.some((option) => option.value === key) &&
+        matches(optionFor(key))
+      )
+        filteredEntries.push(optionFor(key));
+    }
+    if (
+      search &&
+      ![...options, ...selectedValues.map(optionFor)].some(
+        (option) => option.value === search,
+      )
+    )
+      filteredEntries.unshift({ value: search, label: search });
+  }
   const filtered = filteredEntries.flatMap((entry) =>
     "options" in entry ? entry.options : [entry],
   );
@@ -395,14 +477,17 @@ function SelectControl(
   };
   const select = (option: SelectOption) => {
     if (disabled || option.disabled) return;
-    if (props.mode === "multiple") {
+    if (props.mode !== undefined) {
       setActive(option.value);
       const removing = selectedValues.includes(option.value);
       const next = removing
         ? selectedValues.filter((item) => item !== option.value)
         : [...selectedValues, option.value];
       if (props.value === undefined) setInnerValue(next);
-      props.onChange?.(next, next.map(optionFor));
+      props.onChange?.(
+        next,
+        next.map((key) => (key === option.value ? option : optionFor(key))),
+      );
       if (removing) props.onDeselect?.(option.value, option);
       else props.onSelect?.(option.value, option);
       if (props.searchValue === undefined) setInnerSearch("");
@@ -416,8 +501,40 @@ function SelectControl(
     }
     input.current?.focus();
   };
+  const commitTags = (texts: string[]) => {
+    if (props.mode !== "tags" || disabled) return;
+    const additions = [...new Set(texts)].filter(
+      (text) =>
+        text &&
+        !selectedValues.includes(text) &&
+        !options.some((option) => option.value === text && option.disabled),
+    );
+    if (additions.length) {
+      const next = [...selectedValues, ...additions];
+      if (props.value === undefined) setInnerValue(next);
+      props.onChange?.(next, next.map(optionFor));
+      for (const text of additions) props.onSelect?.(text, optionFor(text));
+    }
+    if (props.searchValue === undefined) setInnerSearch("");
+  };
+  const editSearch = (text: string) => {
+    if (
+      props.mode === "tags" &&
+      !composing.current &&
+      props.tokenSeparators?.some(
+        (separator) => separator && text.includes(separator),
+      )
+    ) {
+      let parts = [text];
+      for (const separator of props.tokenSeparators)
+        if (separator) parts = parts.flatMap((part) => part.split(separator));
+      commitTags(parts);
+      changeSearch("");
+    } else changeSearch(text);
+    changeOpen(true);
+  };
   const remove = (selectedValue: SelectValue) => {
-    if (props.mode !== "multiple" || disabled) return;
+    if (props.mode === undefined || disabled) return;
     const option = optionFor(selectedValue);
     if (option.disabled) return;
     const next = selectedValues.filter((item) => item !== selectedValue);
@@ -504,8 +621,10 @@ function SelectControl(
       if (
         !trigger.contains(event.target as Node) &&
         !list.contains(event.target as Node)
-      )
+      ) {
+        if (!composing.current && search) commitTags([search]);
         changeOpen(false);
+      }
     };
     document.addEventListener("pointerdown", outside);
     window.addEventListener("resize", update);
@@ -526,6 +645,8 @@ function SelectControl(
     open,
     target,
     filtered.length,
+    search,
+    value,
     getPopupContainer,
     config.direction,
     popupOverflow,
@@ -718,13 +839,23 @@ function SelectControl(
       onCompositionStart={() => {
         composing.current = true;
       }}
-      onCompositionEnd={() => {
+      onCompositionEnd={(event) => {
         composing.current = false;
+        editSearch(event.currentTarget.value);
+      }}
+      onBlur={(event) => {
+        const next = event.relatedTarget as Node | null;
+        if (
+          next &&
+          (host.current?.contains(next) || popup.current?.contains(next))
+        )
+          return;
+        if (!composing.current && search) commitTags([search]);
+        changeOpen(false);
       }}
       onInput={(event) => {
         if (!showSearch) return;
-        changeSearch(event.currentTarget.value);
-        changeOpen(true);
+        editSearch(event.currentTarget.value);
       }}
       onKeyDown={(event) => {
         if (
@@ -747,6 +878,7 @@ function SelectControl(
           event.stopPropagation();
           changeOpen(false);
         } else if (event.key === "Tab") {
+          if (search) commitTags([search]);
           changeOpen(false);
         } else if (event.key === "ArrowDown" || event.key === "ArrowUp") {
           event.preventDefault();
@@ -889,7 +1021,7 @@ function SelectControl(
           onMouseDown={(event) => event.preventDefault()}
           onClick={(event) => {
             event.stopPropagation();
-            if (props.mode === "multiple") {
+            if (props.mode !== undefined) {
               if (props.value === undefined) setInnerValue([]);
               props.onChange?.([], []);
               if (props.searchValue === undefined) setInnerSearch("");

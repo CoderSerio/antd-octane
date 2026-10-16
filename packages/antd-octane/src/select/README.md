@@ -37,7 +37,7 @@ Use `loading` while fetching and `notFoundContent` for request-specific content.
 
 The existing popup portal, provider `getPopupContainer`, direction, size, disabled context, status, and Select theme tokens apply to grouped options too. `ref.focus()` and `ref.blur()` target the combobox. Escape and Tab close it; the dropdown retains input focus when an option or group heading is clicked.
 
-This version does not implement `labelInValue`, tags, nested groups, virtual scrolling, custom option rendering, or upstream's full generic option API. Unsupported features are not accepted in the public type. Large remote result sets should be limited by the application.
+This version does not implement nested groups, virtual scrolling, custom option rendering, or upstream's full generic option API. Unsupported features are not accepted in the public type. Large remote result sets should be limited by the application.
 
 ## Custom field names (unpublished source)
 
@@ -57,3 +57,21 @@ Selection/deselection callbacks and custom filter predicates receive the origina
 Default search still matches the displayed label or group label. An explicit `optionFilterProp` reads that exact key from the original object (including `label`, `value`, and `title`); it is not remapped. For example `optionFilterProp="name"` searches the business name. A custom filter still receives only leaves, not group objects.
 
 Focused regressions are in `tests/select-field-names.test.tsx`; `tests/browser/consumer-form-select.html` exercises the source Form/Select integration. These unpublished APIs are not yet available from the site's alpha.8 package.
+
+## Tags and labeled values (unpublished source)
+
+`mode="tags"` accepts new text as well as existing options. Enter selects the highlighted option; leaving the input commits its text, while Escape discards it. `tokenSeparators` splits pasted or typed text in tags mode. Duplicate values are ignored; disabled options cannot be added or removed. Numeric and string keys remain distinct. Composition input is not committed until composition ends.
+
+With `labelInValue`, values and selection callbacks use `{ value, label }` objects. Single clear emits `undefined`; multiple/tags clear emits `[]`. The second callback argument retains the original option, including custom fields mapped by `fieldNames`. New tags have generated option fields. Supply a label to display a remote value before its option is loaded. Both controlled values and Form.Item collection/reset are supported.
+
+```tsx
+<Select
+  mode="tags"
+  labelInValue
+  tokenSeparators={[",", ";"]}
+  defaultValue={[{ value: "ada", label: "Ada" }]}
+  onChange={(owners) => console.log(owners)}
+/>
+```
+
+These additions do not add virtual scrolling, custom tag rendering, or the complete upstream option API. `tokenSeparators` currently applies only to tags mode.
