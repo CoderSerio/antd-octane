@@ -7,7 +7,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         TimePicker <span>时间选择器</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">以 Dayjs 值选择单个 24 小时时间。</p>
       <DocMeta name="TimePicker" />

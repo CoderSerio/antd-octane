@@ -9,7 +9,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Breadcrumb <span>面包屑</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">显示当前页面在信息层级中的位置。</p>
       <DocMeta name="Breadcrumb" />

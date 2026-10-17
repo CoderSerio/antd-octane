@@ -7,7 +7,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         ColorPicker <span>颜色选择器</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">选择、编辑并序列化纯色。</p>
       <DocMeta name="ColorPicker" />

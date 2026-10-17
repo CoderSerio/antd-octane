@@ -6,7 +6,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Image <span>图片</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">显示图片，并在可访问的预览层中放大查看。</p>
       <DocMeta name="Image" />

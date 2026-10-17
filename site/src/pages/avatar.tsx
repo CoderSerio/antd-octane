@@ -6,7 +6,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Avatar <span>头像</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">展示图片、字符或图标形式的用户标识。</p>
       <DocMeta name="Avatar" />

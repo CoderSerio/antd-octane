@@ -6,7 +6,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Tag <span>标签</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">用于标记、分类和轻量筛选。</p>
       <DocMeta name="Tag" />

@@ -6,7 +6,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Util <span>类型工具</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">
         从 Octane 组件提取 props、单个属性和 ref 实例类型，减少重复声明。

@@ -28,7 +28,7 @@ export default function ForAgents({ section }: { section?: string }) {
       </h2>
       <p>
         本库原生运行于 Octane 0.4.3，Ant Design 5.29.3 是开发对照基线。 不使用
-        React 包装，不承诺全部 API 或内部 DOM 兼容。本库已通过 npm alpha
+        React 包装，不承诺全部 API 或内部 DOM 兼容。本库已通过 npm beta
         标签发布；安装前请查询当前版本。
       </p>
       <h2 id="context" tabIndex={-1}>
@@ -39,7 +39,7 @@ export default function ForAgents({ section }: { section?: string }) {
           <code>{`请使用 antd-octane 当前构建实现此界面。
 先读取本站快速开始、兼容与迁移，以及所需组件页面的 API 和支持范围。
 这是 Octane 0.4.3 原生组件库，Hooks 与 JSX 来自 octane。
-安装 antd-octane@alpha 和 octane@0.4.3，显式导入 antd-octane/style.css；配置 Octane Vite 插件。
+安装 antd-octane@beta 和 octane@0.4.3，显式导入 antd-octane/style.css；配置 octane() 与 antd-octane/vite 的 antdOctane() 插件。
 以当前包导出和 TypeScript 声明为准，不从 React antd 推断未实现的 API。
 不支持的能力请明确指出，交付前执行类型检查、生产构建和浏览器验证。`}</code>
         </pre>

@@ -6,7 +6,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Tooltip <span>文字提示</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">提供简短的补充说明；需要操作按钮时使用 Popover。</p>
       <DocMeta name="Tooltip" />

@@ -10,7 +10,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Menu <span>导航菜单</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">提供明确的导航层级，支持单选、多选和受控展开。</p>
       <DocMeta name="Menu" />

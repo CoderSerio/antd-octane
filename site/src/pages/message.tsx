@@ -8,7 +8,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Message <span>全局提示</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">用简短反馈说明操作结果，避免打断当前流程。</p>
       <DocMeta name="message" />

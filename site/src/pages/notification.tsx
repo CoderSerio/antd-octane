@@ -8,7 +8,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Notification <span>通知提醒框</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">展示需要更多解释的系统事件，提供可选的后续操作。</p>
       <DocMeta name="notification" />

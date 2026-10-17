@@ -17,7 +17,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Space <span>间距</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">
         为一组行内组件提供一致的间距，也支持纵向排列与分隔符。

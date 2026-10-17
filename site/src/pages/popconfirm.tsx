@@ -8,7 +8,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Popconfirm <span>气泡确认框</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">在操作附近询问确认，支持同步和异步操作。</p>
       <DocMeta name="Popconfirm" />

@@ -1,6 +1,6 @@
 # 贡献指南
 
-感谢你愿意改进 Ant Design for Octane。文档、可复现的错误、行为测试、组件能力和无障碍改进都欢迎提交。本项目仍处于 Alpha 阶段；开始前请阅读 [README](README.md)、[组件覆盖清单](https://coderserio.github.io/antd-octane/#components/coverage)与[兼容说明](https://coderserio.github.io/antd-octane/#compatibility)，避免把“已有组件入口”理解为“上游 API 已全部实现”。
+感谢你愿意改进 Ant Design for Octane。文档、可复现的错误、行为测试、组件能力和无障碍改进都欢迎提交。本项目仍处于 Beta 阶段；开始前请阅读 [README](README.md)、[组件覆盖清单](https://coderserio.github.io/antd-octane/#components/coverage)与[兼容说明](https://coderserio.github.io/antd-octane/#compatibility)，避免把“已有组件入口”理解为“上游 API 已全部实现”。
 
 ## 选择任务
 
@@ -57,7 +57,7 @@ PR 指向 `main`，标题采用 Conventional Commits 格式，如 `feat(select):
 
 ## 发布
 
-版本号、[更新日志](CHANGELOG.md)和发布配置通过 `release/<description>` 分支提交 PR。Alpha 包使用 npm `alpha` 标签；发布前确认打包内容、安装命令和公开文档一致，发布后核对 dist-tag，并从 registry 在独立项目中安装验证。站点依赖只能在 npm 版本实际可安装后升级。
+版本号、[更新日志](CHANGELOG.md)和发布配置通过 `release/<description>` 分支提交 PR。预发布包使用对应的 npm 标签：Alpha 用 `alpha`，Beta 用 `beta`；发布前确认打包内容、安装命令和公开文档一致，发布后核对 dist-tag，并从 registry 在独立项目中安装验证。站点依赖只能在 npm 版本实际可安装后升级。
 
 ## 编程 Agent
 

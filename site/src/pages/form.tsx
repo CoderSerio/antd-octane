@@ -15,7 +15,7 @@ export default function FormPage({ section }: { section?: string }) {
     <>
       <h1>
         Form <span>表单</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">收集字段与嵌套数据，在提交时校验并反馈错误。</p>
       <DocMeta name="Form" />
@@ -144,6 +144,18 @@ export default function FormPage({ section }: { section?: string }) {
             "字段路径与标签；字符串中的点不表示嵌套",
             "NamePath / OctaneNode",
             "—",
+          ],
+          [
+            "Form.Item.initialValue",
+            "字段初值；Form.initialValues 优先，重置时恢复",
+            "unknown",
+            "—",
+          ],
+          [
+            "Form.Item.hidden",
+            "隐藏字段 UI，仍收集值和校验",
+            "boolean",
+            "false",
           ],
           [
             "Form.Item.dependencies",

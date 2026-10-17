@@ -1,4 +1,4 @@
-# Select for forms (development source)
+# Select for forms
 
 Option groups, `loading`, and `optionFilterProp` are supported from 0.1.0-alpha.8. Import Select through the package root.
 
@@ -39,7 +39,7 @@ The existing popup portal, provider `getPopupContainer`, direction, size, disabl
 
 This version does not implement nested groups, virtual scrolling, custom option rendering, or upstream's full generic option API. Unsupported features are not accepted in the public type. Large remote result sets should be limited by the application.
 
-## Custom field names (unpublished source)
+## Custom field names (since 0.1.0-beta.0)
 
 `fieldNames` maps `value`, `label`, `options`, and `groupLabel`. Unspecified keys retain their defaults; `groupLabel` falls back to the mapped label key. One level of groups is supported. Mapped values must be strings or numbers and retain their types, including numeric zero. Standard `disabled`, `title`, and group `key` fields remain unchanged.
 
@@ -56,9 +56,9 @@ Selection/deselection callbacks and custom filter predicates receive the origina
 
 Default search still matches the displayed label or group label. An explicit `optionFilterProp` reads that exact key from the original object (including `label`, `value`, and `title`); it is not remapped. For example `optionFilterProp="name"` searches the business name. A custom filter still receives only leaves, not group objects.
 
-Focused regressions are in `tests/select-field-names.test.tsx`; `tests/browser/consumer-form-select.html` exercises the source Form/Select integration. These unpublished APIs are not yet available from the site's alpha.8 package.
+Focused regressions are in `tests/select-field-names.test.tsx`; `tests/browser/consumer-form-select.html` exercises the source Form/Select integration. These APIs are available from 0.1.0-beta.0.
 
-## Tags and labeled values (unpublished source)
+## Tags and labeled values (since 0.1.0-beta.0)
 
 `mode="tags"` accepts new text as well as existing options. Enter selects the highlighted option; leaving the input commits its text, while Escape discards it. `tokenSeparators` splits pasted or typed text in tags mode. Duplicate values are ignored; disabled options cannot be added or removed. Numeric and string keys remain distinct. Composition input is not committed until composition ends.
 

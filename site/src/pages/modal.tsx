@@ -8,7 +8,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Modal <span>对话框</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">在当前任务之上展示重要信息，并要求用户作出决定。</p>
       <DocMeta name="Modal" />

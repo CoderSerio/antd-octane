@@ -6,7 +6,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Tour <span>漫游式引导</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">通过逐步高亮页面中的操作，帮助用户了解产品。</p>
       <DocMeta name="Tour" />

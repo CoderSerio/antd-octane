@@ -6,7 +6,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Tabs <span>标签页</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">在相关内容之间切换，保留各页的输入状态。</p>
       <DocMeta name="Tabs" />

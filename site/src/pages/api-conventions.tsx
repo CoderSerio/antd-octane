@@ -13,7 +13,7 @@ export default function ApiConventions({ section }: { section?: string }) {
       <p>
         TSX 与 TSRX 使用同一套组件 API。TSRX 的模板语法不要求另一套组件实现。
         已发布包从 alpha.1 起验证 Space、Splitter 和 Carousel 等子节点组件在
-        TSRX 中可用。安装前请确认 npm alpha 标签指向的版本。
+        TSRX 中可用。安装前请确认 npm beta 标签指向的版本。
       </p>
       <p>
         受控属性接收普通值。使用 Signal 时，在消费组件的渲染区域调用

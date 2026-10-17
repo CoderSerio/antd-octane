@@ -6,7 +6,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Table <span>表格</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">
         使用稳定行键展示记录，并将排序、分页和选择接入业务状态。

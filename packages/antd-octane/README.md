@@ -2,11 +2,11 @@
 
 面向 [Octane](https://github.com/octanejs/octane) 的原生组件库，沿用 Ant Design 熟悉的组件 API、交互与主题配置。独立社区项目，不代表 Ant Design 或 Octane 官方。
 
-## Beta 发布候选
+## Beta 预览版
 
-本说明对应 **0.1.0-beta.0**，目前待发布。需要 Octane **0.4.3** 和 Node.js ≥ **22.22.2**；组件以源码分发，由应用的 Octane 编译器构建 TSX 或 TSRX。运行时不依赖 React。
+本说明对应 **0.1.0-beta.0**。需要 Octane **0.4.3** 和 Node.js ≥ **22.22.2**；组件以源码分发，由应用的 Octane 编译器构建 TSX 或 TSRX。运行时不依赖 React。
 
-发布后使用以下命令安装；可先用 `npm view antd-octane dist-tags` 核对 registry。公开文档站在发布验证完成前仍使用 alpha.8，不提前展示新组件能力。
+使用以下命令安装；可用 `npm view antd-octane dist-tags.beta` 核对当前 Beta 版本。
 
 ```bash
 npm install antd-octane@beta octane@0.4.3
@@ -30,7 +30,7 @@ Vite 需要启用 `octane/compiler/vite` 导出的 `octane()` 插件；TypeScrip
 
 ## Vite 集成
 
-此发布候选包含 `antd-octane/vite`，集中维护日期依赖预构建配置。新项目在 `package.json` 中设置 `"type": "module"`，`vite.config.ts` 使用：
+本版本包含 `antd-octane/vite`，集中维护日期依赖预构建配置。新项目在 `package.json` 中设置 `"type": "module"`，`vite.config.ts` 使用：
 
 ```ts
 import { defineConfig } from "vite";
@@ -40,7 +40,7 @@ import { antdOctane } from "antd-octane/vite";
 export default defineConfig({ plugins: [octane(), antdOctane()] });
 ```
 
-直接导入 Day.js 的应用还应安装 `dayjs@1.11.23`。alpha.8 用户仍按公开起步指南配置显式 `optimizeDeps.include`，该版本不含集成入口。
+直接导入 Day.js 的应用还应安装 `dayjs@1.11.23`。alpha.8 不含该集成入口；升级至 beta.0 后可用此插件替代原来的显式 `optimizeDeps.include` 配置。
 
 `optimizeDeps` 作用于开发模式；生产构建通过不代表首次开发页面能够加载。修改配置后执行 `pnpm exec vite --force`，确认页面和按钮交互正常，再运行 `pnpm exec tsc --noEmit` 与 `pnpm exec vite build`。省略预构建配置可能导致开发页面白屏，并报告 Day.js 模块没有 `default` 导出。
 
@@ -73,4 +73,4 @@ import { Button, Form, Input } from "antd-octane";
 
 ## Linux musl 构建
 
-当前 Octane 0.4.3 固定的 parser 在 musl 环境存在原生模块加载问题。上游修复见 [tsrx-org/oxc#204](https://github.com/tsrx-org/oxc/pull/204)，本发布候选尚未升级该依赖组合。使用 Alpine 构建的应用应保留已有经验证的临时方案，等待后续兼容更新。
+当前 Octane 0.4.3 固定的 parser 在 musl 环境存在原生模块加载问题。上游修复见 [tsrx-org/oxc#204](https://github.com/tsrx-org/oxc/pull/204)，本版本尚未升级该依赖组合。使用 Alpine 构建的应用应保留已有经验证的临时方案，等待后续兼容更新。

@@ -7,7 +7,7 @@ export function CopyableDemo() {
       <Typography.Paragraph copyable>这段内容可直接复制。</Typography.Paragraph>
       <Typography.Paragraph
         copyable={{
-          text: "pnpm add antd-octane@alpha",
+          text: "pnpm add antd-octane@beta",
           onCopy: () => setCopies(copies + 1),
         }}
       >

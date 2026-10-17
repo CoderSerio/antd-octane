@@ -11,7 +11,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Dropdown <span>下拉菜单</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">将次要操作收纳到菜单中，支持点击、悬停和右键触发。</p>
       <DocMeta name="Dropdown" />

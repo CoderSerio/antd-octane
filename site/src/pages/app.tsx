@@ -7,7 +7,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         App <span>包裹组件</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">集中提供主题一致的消息与通知实例。</p>
       <DocMeta name="App" />

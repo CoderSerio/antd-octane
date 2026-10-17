@@ -6,7 +6,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Collapse <span>折叠面板</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">分组收纳内容，支持多个面板或手风琴模式。</p>
       <DocMeta name="Collapse" />

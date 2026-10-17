@@ -37,7 +37,7 @@ export default function Home({ section }: { section?: string }) {
       <section className="home-hero">
         <div className="home-container">
           <a className="home-release" href="#compatibility">
-            <span /> 0.1 Alpha · 探索中的原生组件库{" "}
+            <span /> 0.1 Beta · 探索中的原生组件库{" "}
             <span aria-hidden="true">↗</span>
           </a>
           <h1>
@@ -270,7 +270,7 @@ export default function Home({ section }: { section?: string }) {
           </a>
         </nav>
         <p className="home-alpha-note">
-          当前为 Alpha。已提供数量不代表完整 API
+          当前为 Beta。已提供数量不代表完整 API
           兼容，使用前请查阅各组件的支持范围。
         </p>
       </footer>

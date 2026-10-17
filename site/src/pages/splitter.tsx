@@ -10,7 +10,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Splitter <span>分隔面板</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">通过拖拽或键盘，为不同内容区域分配空间。</p>
       <DocMeta name="Splitter" />
