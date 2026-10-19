@@ -8,7 +8,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Progress <span>进度条</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">
         展示任务的完成比例；只有完成量可计算时才使用百分比。

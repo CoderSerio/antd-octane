@@ -9,7 +9,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Layout <span>布局</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">组合页头、侧栏、内容和页脚，搭建应用页面。</p>
       <DocMeta name="Layout" />

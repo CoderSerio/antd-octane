@@ -84,7 +84,7 @@ export default function Compatibility({ section }: { section?: string }) {
           ],
           [
             "Select",
-            "单选/多选、一层分组、loading 与过滤字段；不含 tags、labelInValue、嵌套分组、虚拟列表",
+            "单选/多选、tags、labelInValue、fieldNames、一层分组与搜索；不含嵌套分组、虚拟列表",
             "基础实现",
           ],
           ["Radio", "单选、选择组、按钮样式与键盘", "基础实现"],
@@ -220,7 +220,7 @@ export function ProfileForm() {
         兼容。Input.OTP、自定义计数和 variant 仍未提供。
         日期与时间选择只提供文档列出的子集。Form
         当前支持嵌套字段、直接依赖和异步规则，动态列表仍待实现；Select
-        已支持单选与多选，标签模式、labelInValue 和虚拟列表仍待实现。
+        已支持单选、多选、标签模式和 labelInValue，虚拟列表仍待实现。
       </p>
       <p>
         Spin 支持数值与模拟自动进度，fullscreen 尚未接入共享 portal；Progress

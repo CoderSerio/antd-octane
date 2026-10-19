@@ -6,7 +6,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Descriptions <span>描述列表</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">以标签和值展示一组只读信息。</p>
       <DocMeta name="Descriptions" />

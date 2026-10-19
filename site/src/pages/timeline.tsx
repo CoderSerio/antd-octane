@@ -6,7 +6,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Timeline <span>时间轴</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">按时间或流程顺序展示事件记录。</p>
       <DocMeta name="Timeline" />

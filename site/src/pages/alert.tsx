@@ -8,7 +8,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Alert <span>警告提示</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">在页面内显示需要用户关注的提示信息。</p>
       <DocMeta name="Alert" />

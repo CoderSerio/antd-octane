@@ -7,7 +7,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         TreeSelect <span>树选择</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">在层级目录中选择独立节点。</p>
       <DocMeta name="TreeSelect" />

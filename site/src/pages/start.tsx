@@ -30,10 +30,10 @@ export default function StartPage({ section }: { section?: string }) {
         的案例组织；具体能力以本站组件页为准。
       </p>
       <div className="notice">
-        <strong>Alpha 开发预览</strong>
+        <strong>Beta 开发预览</strong>
         <p>
-          当前为 alpha 阶段，API 可能调整。以下示例使用 Node.js ≥
-          22.22.2、Octane 0.4.3、Vite 8 和 TypeScript 5.9。 Ant Design 5.29.3
+          当前为 beta 阶段，API 可能调整。以下示例使用 Node.js ≥ 22.22.2、Octane
+          0.4.3、Vite 8 和 TypeScript 5.9。 Ant Design 5.29.3
           是组件对照基线，消费项目无需安装 React 或 antd。
         </p>
       </div>
@@ -41,14 +41,14 @@ export default function StartPage({ section }: { section?: string }) {
         安装组件库
       </h2>
       <p>在已有 Octane 项目中执行：</p>
-      <Code language="bash" source="pnpm add antd-octane@alpha octane@0.4.3" />
+      <Code language="bash" source="pnpm add antd-octane@beta octane@0.4.3" />
       <p>
-        npm 默认 latest 标签仍指向旧版 0.1.0-alpha.0；省略 @alpha
+        npm 默认 latest 标签仍指向旧版 0.1.0-alpha.0；省略 @beta
         会安装该旧版，可能缺少本站示例的 API。请保留标签或固定所需的已发布版本。
       </p>
       <p>
-        需要固定版本时，先用 npm view antd-octane dist-tags.alpha
-        查看当前发布版本，再将 antd-octane@alpha
+        需要固定版本时，先用 npm view antd-octane dist-tags.beta
+        查看当前发布版本，再将 antd-octane@beta
         替换为对应版本号。新建项目可先创建空目录，执行 pnpm init， 在
         package.json 中设置 <code>{'"type": "module"'}</code>，
         再安装上述依赖和以下开发工具，以 ESM 方式加载 Vite 配置。
@@ -61,15 +61,14 @@ export default function StartPage({ section }: { section?: string }) {
       <Code
         language="ts"
         source={
-          'import { defineConfig } from "vite";\nimport { octane } from "octane/compiler/vite";\n\nexport default defineConfig({\n  plugins: [octane()],\n  optimizeDeps: {\n    include: [\n      "antd-octane > dayjs",\n      "antd-octane > dayjs/plugin/advancedFormat",\n      "antd-octane > dayjs/plugin/customParseFormat",\n      "antd-octane > dayjs/plugin/localeData",\n      "antd-octane > dayjs/plugin/weekday",\n      "antd-octane > dayjs/plugin/weekOfYear",\n      "antd-octane > dayjs/plugin/weekYear",\n    ],\n  },\n});'
+          'import { defineConfig } from "vite";\nimport { octane } from "octane/compiler/vite";\nimport { antdOctane } from "antd-octane/vite";\n\nexport default defineConfig({\n  plugins: [octane(), antdOctane()],\n});'
         }
       />
       <p>
-        请完整保留这七项预构建入口。组件包发布原始 TSX，由 Octane 编译； Day.js
-        核心和插件需要 Vite 在开发模式转换为 ESM，即使只从包根导入 Button
-        也需要配置。 修改后使用 <code>pnpm exec vite --force</code>{" "}
-        重启。生产构建通过不代表开发服务器首次加载正常。 直接导入 dayjs
-        的应用还应执行 <code>pnpm add dayjs@1.11.23</code>。
+        antdOctane() 为 Day.js 核心和插件配置预构建，组件源码由 octane()
+        编译。修改配置后使用 <code>pnpm exec vite --force</code>{" "}
+        重启并验证页面交互。 直接导入 dayjs 的应用还应执行{" "}
+        <code>pnpm add dayjs@1.11.23</code>。 生产构建通过不能代替开发模式检查。
       </p>
       <p>创建 tsconfig.json；已有项目请合并以下配置：</p>
       <Code
@@ -131,8 +130,8 @@ export default function StartPage({ section }: { section?: string }) {
       </h2>
       <ul className="prose-list">
         <li>
-          <strong>开发页面白屏或 Day.js 没有 default 导出：</strong>核对上面七项
-          optimizeDeps.include，保留显式入口，不用 dayjs/plugin/* 通配代替。
+          <strong>开发页面白屏或 Day.js 没有 default 导出：</strong>检查是否启用
+          antdOctane()，并确认安装的 antd-octane 至少为 0.1.0-beta.0。
           修改后执行 pnpm exec vite --force，并重新打开开发页面验证按钮交互。
         </li>
         <li>

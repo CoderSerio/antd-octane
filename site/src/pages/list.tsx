@@ -6,7 +6,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         List <span>列表</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">按条目展示内容，支持元信息、操作和响应式网格。</p>
       <DocMeta name="List" />

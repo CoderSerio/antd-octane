@@ -115,7 +115,7 @@ export default function ButtonPage({ section }: { section?: string }) {
     <>
       <h1>
         Button <span>按钮</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">按钮用于触发一个即时操作。</p>
       <DocMeta name="Button" />
@@ -209,7 +209,7 @@ export default function ButtonPage({ section }: { section?: string }) {
         <h2 id="api" tabIndex={-1}>
           API
         </h2>
-        <span>当前 alpha 支持范围</span>
+        <span>当前 beta 支持范围</span>
       </div>
       <ApiTable rows={apiRows} />
       <h2 id="refs" tabIndex={-1}>

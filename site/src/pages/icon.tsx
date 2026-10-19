@@ -6,7 +6,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Icon <span>图标</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">渲染 SVG 图标描述与自定义图形。</p>
       <DocMeta name="Icon" />

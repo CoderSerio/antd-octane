@@ -10,7 +10,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Divider <span>分割线</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">分隔内容或行内操作，支持带文字的水平分割线。</p>
       <DocMeta name="Divider" />

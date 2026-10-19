@@ -6,7 +6,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Popover <span>气泡卡片</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">展示更多说明或轻量操作，保留当前页面上下文。</p>
       <DocMeta name="Popover" />

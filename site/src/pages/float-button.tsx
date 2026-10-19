@@ -10,7 +10,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         FloatButton <span>悬浮按钮</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">在页面固定位置提供便捷操作和返回顶部入口。</p>
       <DocMeta name="FloatButton" />

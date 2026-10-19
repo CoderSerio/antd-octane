@@ -35,4 +35,4 @@ Tests and a few browser comparisons establish only the checked behavior; do not 
 
 Follow [CONTRIBUTE.md](CONTRIBUTE.md) for semantic branches, conventional PR titles and review. Target `main` via PR; do not push or force-push directly to `main`. Resolve review threads and pass `check` and `conventions` before merge. Keep PR descriptions short and focused on the final behavior.
 
-Use a `release/<description>` branch for version, changelog and publishing configuration. Alpha uses the npm `alpha` tag. Verify registry availability and a clean install before changing the site to consume a new version. Never describe unpublished source APIs as available from npm.
+Use a `release/<description>` branch for version, changelog and publishing configuration. Alpha uses the npm `alpha` tag; Beta uses `beta`. Verify registry availability and a clean install before changing the site to consume a new version. Never describe unpublished source APIs as available from npm.

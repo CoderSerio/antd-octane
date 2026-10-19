@@ -7,7 +7,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Skeleton <span>骨架屏</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">首次加载时展示内容结构，减少等待过程中的布局突变。</p>
       <DocMeta name="Skeleton" />

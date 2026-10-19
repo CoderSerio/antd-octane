@@ -574,6 +574,7 @@ export const toc: Record<string, [string, string][]> = {
     ["build", "仓库构建与验证"],
   ],
   changelog: [
+    ["beta-0", "0.1.0-beta.0"],
     ["alpha-8", "0.1.0-alpha.8"],
     ["alpha-7", "0.1.0-alpha.7"],
     ["alpha-6", "0.1.0-alpha.6"],
@@ -912,6 +913,8 @@ toc.select = [
   ["filter-empty", "自定义过滤与空结果"],
   ["multiple", "多选与搜索"],
   ["controlled-multiple", "受控多选与移除回调"],
+  ["tags", "标签录入"],
+  ["labeled-tags", "带标签值与表单"],
   ["controlled-open", "受控展开与选中回调"],
   ["sizes-status", "尺寸与校验状态"],
   ["coordinated", "省市联动"],

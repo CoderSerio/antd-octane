@@ -7,7 +7,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Mentions <span>提及</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">在多行文本的光标位置插入成员或标签。</p>
       <DocMeta name="Mentions" />

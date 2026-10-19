@@ -7,7 +7,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Cascader <span>级联选择</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">用一条层级路径选择地区或目录。</p>
       <DocMeta name="Cascader" />

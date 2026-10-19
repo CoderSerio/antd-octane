@@ -7,7 +7,7 @@ export default function Page({ section }: { section?: string }) {
     <>
       <h1>
         Watermark <span>水印</span>
-        <small>Alpha</small>
+        <small>Beta</small>
       </h1>
       <p className="lead">为内容区叠加重复文字或图片，标记用途与来源。</p>
       <DocMeta name="Watermark" />
